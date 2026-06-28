@@ -60,7 +60,7 @@ window.MathJax = {
 <li><b>3.</b> <a href="#forces">Constraint forces and Lagrange multipliers</a></li>
 <li><b>4.</b> <a href="#reaction">Joint reaction force: why a hinge carries far more than body weight</a></li>
 <li><b>5.</b> <a href="#contact">From reaction force to contact pressure</a></li>
-<li class="pending"><b>6.</b> Stability versus mobility <em>(to come)</em></li>
+<li><b>6.</b> <a href="#stability">Stability versus mobility</a></li>
 <li class="pending"><b>7.</b> Computational lab — the constrained two-link limb <em>(to come)</em></li>
 <li class="pending"><b>8.</b> What the model captures and misses <em>(to come)</em></li>
 <li class="pending"><b>9.</b> Diagnostic questions and problems <em>(to come)</em></li>
@@ -824,7 +824,148 @@ The pressure profile is $p(r)=p_0\sqrt{1-(r/a)^2}$, and the peak exceeds the mea
 <figcaption>Fixed joint force $R$, shrinking contact. As the half-width $a$ falls from 20&nbsp;mm to 7&nbsp;mm, the peak pressure climbs from $\approx2$&nbsp;MPa to $\approx17$&nbsp;MPa — past the cartilage-damage line. Because $p_0\propto 1/a^2$, the last millimetres of lost contact hurt the most: the quantitative heart of the osteoarthritis spiral.</figcaption>
 </figure>
 
-<p>The chain of this module is now complete: a joint's freedoms (<a class="secref" href="#config">§1</a>–<a class="secref" href="#taxonomy">§2</a>) determine its constraints, the constraints carry a force (<a class="secref" href="#forces">§3</a>), the force is amplified into a joint reaction (<a class="secref" href="#reaction">§4</a>), and that reaction becomes the contact pressure (§5) that the living tissue must survive. <span class="secref">§6</span> returns to the mobility-versus-stability trade-off with these forces in hand; Module&nbsp;4 takes the contact pressure into the biphasic mechanics of cartilage itself.</p>
+<p>The chain of this module is now complete: a joint's freedoms (<a class="secref" href="#config">§1</a>–<a class="secref" href="#taxonomy">§2</a>) determine its constraints, the constraints carry a force (<a class="secref" href="#forces">§3</a>), the force is amplified into a joint reaction (<a class="secref" href="#reaction">§4</a>), and that reaction becomes the contact pressure (§5) that the living tissue must survive. <a class="secref" href="#stability">§6</a> returns to the mobility-versus-stability trade-off with these forces in hand; Module&nbsp;4 takes the contact pressure into the biphasic mechanics of cartilage itself.</p>
+
+<hr>
+
+<!-- §6 -->
+<h2 id="stability">6. Stability versus mobility</h2>
+
+<p>We opened this module (<a class="secref" href="#origin">§0</a>) with a puzzle: the hip and the shoulder are both 3-DOF ball-and-socket joints — identical on the constraint ledger of <a class="secref" href="#taxonomy">§2</a> — yet the shoulder dislocates routinely and the hip almost never. The degree-of-freedom count cannot explain it. The answer, now that we can compute joint forces (<a class="secref" href="#forces">§3</a>–<a class="secref" href="#contact">§5</a>), is that stability is not about <em>how many</em> freedoms a joint has but about <em>how stiffly</em> it resists leaving the ones it forbids — and that stiffness is set by the shape of the socket.</p>
+
+<div class="def"><b>Definition 6.1 (stability, dislocation).</b> A joint is <em>stable</em> if, after a small displacement, internal forces restore it to its seated position. <em>Dislocation</em> is the failure of that restoration: the head (the ball) rides out of the socket entirely. Stability is therefore quantitative — it is the size of the destabilizing force the joint can resist before the head escapes.</div>
+
+<h3>6.1 Dislocation as climbing the rim</h3>
+
+<p>Model a ball-and-socket as a sphere held in a spherical cup. The joint reaction (<a class="secref" href="#reaction">§4</a>) presses the head into the cup with a <em>compressive force</em> $N$ directed along the socket axis. A <em>destabilizing force</em> $F_t$ acts sideways, trying to slide the head out.</p>
+
+<p>The head can only leave by riding up the cup wall to its <em>rim</em>. Let $\beta$ be the <em>coverage angle</em> — the angle from the load axis to the rim, i.e. how far the socket wraps around the head. The head stays seated as long as the <em>resultant</em> of $N$ and $F_t$ still points into the cup, that is, while it tilts by less than $\beta$. The resultant tilts by $\varphi=\arctan(F_t/N)$, so dislocation begins when $\varphi=\beta$:</p>
+
+<div class="thm"><b>Stability ratio.</b> The sideways force needed to dislocate a ball-and-socket, and the dimensionless <em>stability ratio</em> $S$ (the clinically measured "glenohumeral stability ratio"), are
+$$\boxed{\;F_{\text{dislocate}} = N\tan\beta,\qquad S \equiv \frac{F_{\text{dislocate}}}{N}=\tan\beta.\;}\tag{6.1}$$
+Stability scales with the socket's compressive load $N$ and with the tangent of its coverage angle $\beta$. A deeper socket (larger $\beta$) resists a proportionally larger destabilizing force.</div>
+
+<figure><svg class="setupfig" viewBox="0 0 460 200" width="100%" role="img" aria-label="Left: the hip, a deep socket wrapping more than half the femoral head, with a wide stability cone. Right: the shoulder, a shallow socket cradling only the bottom of the humeral head, with a narrow stability cone.">
+  <defs>
+    <marker id="s6n" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
+  </defs>
+  <line x1="230" y1="20" x2="230" y2="186" stroke="#eee" stroke-width="1"/>
+  <!-- HIP deep -->
+  <text x="120" y="26" font-size="12" text-anchor="middle" font-weight="bold">Hip — deep socket</text>
+  <circle cx="120" cy="86" r="26" fill="#e8ddc6" stroke="#b9a47e" stroke-width="1.6"/>
+  <!-- deep cup (wraps high) -->
+  <path d="M95,68 Q120,150 145,68" fill="none" stroke="#c9b79a" stroke-width="7" stroke-linecap="round"/>
+  <!-- cone rim lines at +/-55 deg -->
+  <line x1="120" y1="86" x2="70.9" y2="120.4" stroke="#999" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="120" y1="86" x2="169.1" y2="120.4" stroke="#999" stroke-width="1" stroke-dasharray="3 2"/>
+  <!-- compressive force N into socket -->
+  <line x1="120" y1="60" x2="120" y2="120" stroke="#7a1f1f" stroke-width="2.4" marker-end="url(#s6n)"/>
+  <text x="126" y="74" font-size="11" fill="#7a1f1f" font-style="italic">N</text>
+  <text x="120" y="166" font-size="11" text-anchor="middle">β ≈ 55° · S = tan β ≈ 1.4</text>
+  <text x="120" y="182" font-size="9.5" text-anchor="middle" fill="#777">stable, limited range</text>
+  <!-- SHOULDER shallow -->
+  <text x="345" y="26" font-size="12" text-anchor="middle" font-weight="bold">Shoulder — shallow socket</text>
+  <circle cx="345" cy="86" r="26" fill="#e8ddc6" stroke="#b9a47e" stroke-width="1.6"/>
+  <path d="M331,108 Q345,124 359,108" fill="none" stroke="#c9b79a" stroke-width="7" stroke-linecap="round"/>
+  <line x1="345" y1="86" x2="322.5" y2="141.6" stroke="#999" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="345" y1="86" x2="367.5" y2="141.6" stroke="#999" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="345" y1="60" x2="345" y2="120" stroke="#7a1f1f" stroke-width="2.4" marker-end="url(#s6n)"/>
+  <text x="351" y="74" font-size="11" fill="#7a1f1f" font-style="italic">N</text>
+  <text x="345" y="166" font-size="11" text-anchor="middle">β ≈ 22° · S = tan β ≈ 0.4</text>
+  <text x="345" y="182" font-size="9.5" text-anchor="middle" fill="#777">mobile, easily dislocated</text>
+</svg><figcaption><b>Same 3 DOF, different depth.</b> The hip's acetabulum wraps past the equator of the femoral head (large coverage $\beta$, wide stability cone); the shoulder's glenoid cradles only the base of the humeral head (small $\beta$). By (6.1) the hip resists $\sim1.4\times$ its compressive load before dislocating, the shoulder only $\sim0.4\times$.</figcaption></figure>
+
+<h3>6.2 The trade-off: coverage buys stability, costs range</h3>
+
+<p>Equation (6.1) makes the hip–shoulder difference quantitative: with coverage angles of $\beta\approx55^\circ$ (hip) and $\beta\approx22^\circ$ (shoulder), the stability ratios are $S=\tan55^\circ\approx1.4$ versus $S=\tan22^\circ\approx0.4$ — the hip is about $3.5\times$ harder to dislocate per unit of compressive load, before any soft tissue is counted.</p>
+
+<p>But coverage is not free. The deeper the socket, the sooner the bony neck of the head strikes the rim and stops the motion. Stability and mobility pull in opposite directions along the single dial $\beta$:</p>
+
+<figure>
+<svg viewBox="0 0 480 300" width="100%" style="max-width:520px" role="img" aria-label="Plot versus socket coverage angle: the stability ratio rises as tangent beta while a normalized mobility measure falls; the shoulder sits at low coverage (high mobility, low stability) and the hip at high coverage (low mobility, high stability).">
+  <line x1="60" y1="30" x2="60" y2="250" stroke="#333" stroke-width="1.4"/>
+  <line x1="450" y1="30" x2="450" y2="250" stroke="#333" stroke-width="1.4"/>
+  <line x1="60" y1="250" x2="450" y2="250" stroke="#333" stroke-width="1.4"/>
+  <!-- left axis ticks: S 0..3 -->
+  <g font-size="10" fill="#7a1f1f" text-anchor="end">
+    <text x="52" y="254">0</text><text x="52" y="180.7">1</text><text x="52" y="107.3">2</text><text x="52" y="34">3</text>
+  </g>
+  <!-- right axis ticks: mobility 0..1 -->
+  <g font-size="10" fill="#1f5f7a" text-anchor="start">
+    <text x="456" y="254">0</text><text x="456" y="144">0.5</text><text x="456" y="34">1</text>
+  </g>
+  <!-- x ticks -->
+  <g font-size="10" fill="#555" text-anchor="middle">
+    <text x="60" y="266">10°</text><text x="157.5" y="266">25°</text><text x="255" y="266">40°</text><text x="352.5" y="266">55°</text><text x="450" y="266">70°</text>
+  </g>
+  <!-- vertical markers -->
+  <line x1="138" y1="30" x2="138" y2="250" stroke="#ddd" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="138" y="44" font-size="10" fill="#555" text-anchor="middle">shoulder</text>
+  <line x1="352.5" y1="30" x2="352.5" y2="250" stroke="#ddd" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="352.5" y="44" font-size="10" fill="#555" text-anchor="middle">hip</text>
+  <!-- stability S=tan(beta) (red) -->
+  <polyline fill="none" stroke="#7a1f1f" stroke-width="2.6" points="60.0,237.1 86.0,231.7 112.0,226.2 138.0,220.4 164.0,214.2 190.0,207.7 216.0,200.5 242.0,192.7 268.0,184.0 294.0,174.1 320.0,162.6 346.0,149.1 372.0,132.6 398.0,112.1 424.0,85.3 450.0,48.5"/>
+  <text x="300" y="150" font-size="10.5" fill="#7a1f1f">stability  S = tan β</text>
+  <!-- mobility (blue dashed) -->
+  <polyline fill="none" stroke="#1f5f7a" stroke-width="2.2" stroke-dasharray="6 3" points="60.0,30.0 86.0,41.0 112.0,52.0 138.0,63.0 164.0,74.0 190.0,85.0 216.0,96.0 242.0,107.0 268.0,118.0 294.0,129.0 320.0,140.0 346.0,151.0 372.0,162.0 398.0,173.0 424.0,184.0 450.0,195.0"/>
+  <text x="208" y="74" font-size="10.5" fill="#1f5f7a">mobility (range of motion)</text>
+  <!-- markers -->
+  <circle cx="138" cy="220.4" r="4" fill="#7a1f1f"/><circle cx="352.5" cy="149.1" r="4" fill="#7a1f1f"/>
+  <text x="255" y="285" font-size="12" fill="#333" text-anchor="middle">socket coverage angle  β</text>
+  <text x="18" y="140" font-size="11" fill="#7a1f1f" text-anchor="middle" transform="rotate(-90 18 140)">stability ratio  S</text>
+  <text x="474" y="150" font-size="11" fill="#1f5f7a" text-anchor="middle" transform="rotate(90 474 150)">mobility (normalized)</text>
+</svg>
+<figcaption>The mobility–stability trade-off along socket coverage $\beta$ (computed). Stability $S=\tan\beta$ (red) rises; mobility (blue dashed, a normalized range-of-motion proxy) falls. The shoulder lives at the mobile, unstable end; the hip at the stable, restricted end. There is no socket depth that maximizes both — evolution placed each joint where its job demands.</figcaption>
+</figure>
+
+<h3>6.3 Active stabilization: the shoulder's bargain</h3>
+
+<p>A stability ratio of $0.4$ sounds alarmingly low — yet most shoulders never dislocate. The shoulder buys back stability not with bone but with <em>active</em> and soft-tissue mechanisms, all of which act through (6.1):</p>
+
+<ul>
+<li><b>Concavity compression.</b> The <em>rotator cuff</em> muscles pull the humeral head into the glenoid, raising the compressive force $N$. Since $F_{\text{dislocate}}=N\tan\beta$, a larger $N$ raises the dislocating threshold even when $\beta$ is small — stability on demand, at the cost of constant muscular effort.</li>
+<li><b>The labrum.</b> A fibrocartilage rim around the glenoid deepens the socket, increasing the effective $\beta$ (and the contact area of <a class="secref" href="#contact">§5</a>). A torn labrum measurably lowers $S$.</li>
+<li><b>Capsule and ligaments.</b> At the end of range these passive tissues snap taut and provide a final, steep restoring force — nonlinear springs we model in Module&nbsp;6.</li>
+</ul>
+
+<p>The cost of relying on active stabilization is fragility when it fails: rotator-cuff fatigue, a labral tear, or a sudden load that outpaces the muscles' reaction time lets the resultant tilt past the rim. The animation shows that moment — as a growing sideways force tilts the joint resultant, the head stays seated while the resultant is within the rim cone and pops out the instant it crosses $\beta$.</p>
+
+<figure>
+<svg viewBox="0 0 300 200" width="100%" style="max-width:300px" role="img" aria-label="Animation: in a shallow socket, a tilting joint-force resultant stays within the stability cone and the head stays green and seated, then crosses the rim angle and the head turns red and slides out.">
+  <defs>
+    <marker id="s6a" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#1a1a1a"/></marker>
+  </defs>
+  <!-- stability cone (rim half-angle 25 deg), shaded -->
+  <path d="M150,75 L126.8,124.8 L173.2,124.8 Z" fill="#2a7d2a" fill-opacity="0.10"/>
+  <line x1="150" y1="75" x2="126.8" y2="124.8" stroke="#999" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="150" y1="75" x2="173.2" y2="124.8" stroke="#999" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="150" y="140" font-size="9" fill="#777" text-anchor="middle">rim cone (±β)</text>
+  <!-- shallow socket cup -->
+  <path d="M132,112 Q150,128 168,112" fill="none" stroke="#c9b79a" stroke-width="6" stroke-linecap="round"/>
+  <!-- resultant arrow, rotating about (150,75) -->
+  <line x1="150" y1="75" x2="150" y2="132" stroke="#1a1a1a" stroke-width="2.4" marker-end="url(#s6a)">
+    <animateTransform attributeName="transform" type="rotate" dur="4.5s" repeatCount="indefinite"
+      keyTimes="0.00;0.05;0.10;0.15;0.20;0.25;0.30;0.35;0.40;0.45;0.50;0.55;0.60;0.65;0.70;0.75;0.80;0.85;0.90;0.95;1.00"
+      values="0 150 75;5.48 150 75;10.82 150 75;15.89 150 75;20.57 150 75;24.75 150 75;28.32 150 75;31.19 150 75;33.29 150 75;34.57 150 75;35 150 75;34.57 150 75;33.29 150 75;31.19 150 75;28.32 150 75;24.75 150 75;20.57 150 75;15.89 150 75;10.82 150 75;5.48 150 75;0 150 75"/>
+  </line>
+  <!-- head: cx shifts out and fill flips when beyond rim -->
+  <circle cy="75" r="22" cx="150" fill="#2a7d2a" fill-opacity="0.85" stroke="#1a1a1a" stroke-width="1.4">
+    <animate attributeName="cx" dur="4.5s" repeatCount="indefinite"
+      keyTimes="0.00;0.05;0.10;0.15;0.20;0.25;0.30;0.35;0.40;0.45;0.50;0.55;0.60;0.65;0.70;0.75;0.80;0.85;0.90;0.95;1.00"
+      values="150.00;150.00;150.00;150.00;150.00;150.00;161.94;172.27;179.83;184.45;186.00;184.45;179.83;172.27;161.94;150.00;150.00;150.00;150.00;150.00;150.00"/>
+    <animate attributeName="fill" dur="4.5s" repeatCount="indefinite" calcMode="discrete"
+      keyTimes="0.00;0.05;0.10;0.15;0.20;0.25;0.30;0.35;0.40;0.45;0.50;0.55;0.60;0.65;0.70;0.75;0.80;0.85;0.90;0.95;1.00"
+      values="#2a7d2a;#2a7d2a;#2a7d2a;#2a7d2a;#2a7d2a;#2a7d2a;#a11111;#a11111;#a11111;#a11111;#a11111;#a11111;#a11111;#a11111;#a11111;#2a7d2a;#2a7d2a;#2a7d2a;#2a7d2a;#2a7d2a;#2a7d2a"/>
+  </circle>
+  <text x="150" y="22" font-size="10" fill="#555" text-anchor="middle">resultant tilts →</text>
+  <text x="150" y="194" font-size="9.5" fill="#555" text-anchor="middle">green = seated · red = beyond rim → dislocates</text>
+</svg>
+<figcaption>Stability as a cone. The head (ball) stays seated and green while the joint-force resultant points within the rim cone (half-angle $\beta$); once a large enough sideways force tilts the resultant past $\beta$, the head leaves the socket (red). A deep socket has a wide cone and tolerates a far larger tilt — the geometric content of $S=\tan\beta$.</figcaption>
+</figure>
+
+<h3>6.4 Closing the ledger</h3>
+
+<p>This resolves the §0 puzzle quantitatively. Mobility is counted in degrees of freedom (<a class="secref" href="#config">§1</a>); stability is measured in the force a joint resists before dislocating, $F_{\text{dislocate}}=N\tan\beta$. They are independent axes, and a joint's anatomy places it deliberately: the weight-bearing hip maximizes $\beta$ for security, the exploratory shoulder minimizes it for reach and pays the difference with muscle. With the joint's freedoms, forces, pressures, and stability now all in hand, <span class="secref">§7</span> assembles them into a working simulation that computes a limb's own constraint forces from scratch.</p>
 
 </body>
 </html>
