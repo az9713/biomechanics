@@ -57,7 +57,7 @@ window.MathJax = {
 <li><b>0.</b> <a href="#origin">Motivation — why the knee bends one way and the shoulder dislocates</a></li>
 <li><b>1.</b> <a href="#config">Configuration space and degrees of freedom</a></li>
 <li><b>2.</b> <a href="#taxonomy">A taxonomy of joints by degrees of freedom</a></li>
-<li class="pending"><b>3.</b> Constraint forces and Lagrange multipliers <em>(to come)</em></li>
+<li><b>3.</b> <a href="#forces">Constraint forces and Lagrange multipliers</a></li>
 <li class="pending"><b>4.</b> Joint reaction force: why a hinge carries far more than body weight <em>(to come)</em></li>
 <li class="pending"><b>5.</b> From reaction force to contact pressure <em>(to come)</em></li>
 <li class="pending"><b>6.</b> Stability versus mobility <em>(to come)</em></li>
@@ -359,6 +359,200 @@ For a mechanism with loops, use the Grübler–Kutzbach count $M=6(N-1)-\sum_i(6
 <div class="keyresult"><b>Real joints are idealizations.</b> "1 DOF" is a modeling choice, justified by the dominant motion. The knee is not a true hinge: as it extends it also rolls, glides a few millimetres, and rotates axially (the "screw-home"). We adopt the idealized constraints here because they capture the freedoms that carry the load; <span class="secref">§7</span> shows what the idealization costs.</div>
 
 <p>Each constraint in the table — every "$6-f$" — is a freedom the joint must actively prevent. Preventing it takes force. <span class="secref">§3</span> computes that force.</p>
+
+<hr>
+
+<!-- §3 -->
+<h2 id="forces">3. Constraint forces and Lagrange multipliers</h2>
+
+<p>A joint earns its degrees of freedom by <em>forbidding</em> the others, and forbidding a motion takes a force. This section derives that force from first principles. The result is one of the most useful facts in mechanics: every holonomic constraint carries along a number — its <em>Lagrange multiplier</em> — and that number <em>is</em> the constraint force. For a joint, it is the joint reaction.</p>
+
+<p>We build the result in three steps: first the <em>direction</em> a constraint force must point (<a class="secref" href="#forces">virtual work</a>), then the full <em>equations of motion</em> of a constrained body, then how to <em>solve</em> them for the multiplier. We then watch λ turn into a real, measurable tension in a swinging pendulum.</p>
+
+<h3>3.1 What direction must a constraint force point?</h3>
+
+<p>A holonomic constraint $g(q)=0$ confines the system to a surface in configuration space — the <em>constraint surface</em>. Any motion the system is allowed to make stays on that surface, so its velocity $\dot q$ is <em>tangent</em> to it.</p>
+
+<p>The role of the constraint force is to prevent the system from leaving the surface — and nothing more. It does no work on motions that stay on the surface. This is <em>d'Alembert's principle</em>: constraint forces do no virtual work on any virtual displacement $\delta q$ consistent with the constraints.</p>
+
+<p>A force that does no work along every tangent direction must be <em>perpendicular</em> to the surface. The directions perpendicular to $g(q)=0$ are spanned by the gradient rows of the <em>constraint Jacobian</em> $J_c=\partial g/\partial q$. Hence the constraint force has the form $J_c^{\mathsf T}\lambda$ for some vector $\lambda$ — one number per constraint.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 460 200" width="100%" role="img" aria-label="A curved constraint surface with a point on it; the allowed velocity is tangent to the surface while the constraint force points perpendicular to it, along the gradient of g.">
+  <defs>
+    <marker id="f1t" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
+    <marker id="f1n" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
+  </defs>
+  <!-- constraint surface (curve) -->
+  <path d="M40,150 C140,150 150,70 250,70 C340,70 360,120 420,110" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+  <text x="48" y="168" font-size="11" fill="#1a1a1a" font-style="italic">constraint surface  g(q)=0</text>
+  <!-- point P -->
+  <circle cx="250" cy="70" r="4.5" fill="#1a1a1a"/>
+  <text x="254" y="64" font-size="12">P</text>
+  <!-- tangent (allowed velocity) -->
+  <line x1="250" y1="70" x2="350" y2="70" stroke="#2a7d2a" stroke-width="2.4" marker-end="url(#f1t)"/>
+  <text x="300" y="86" font-size="11" fill="#2a7d2a" font-style="italic">allowed velocity  q̇  (tangent)</text>
+  <!-- normal (constraint force) -->
+  <line x1="250" y1="70" x2="250" y2="18" stroke="#7a1f1f" stroke-width="2.4" marker-end="url(#f1n)"/>
+  <text x="256" y="30" font-size="11" fill="#7a1f1f" font-style="italic">constraint force  Jᵀλ  (normal)</text>
+  <!-- right-angle tick -->
+  <path d="M262,70 L262,58 L274,58" fill="none" stroke="#999" stroke-width="1"/>
+</svg><figcaption><b>A constraint force is normal to the constraint surface.</b> The system may move only tangent to $g(q)=0$ (green); the constraint force (red) is perpendicular, so it never does work on allowed motion. Perpendicular means "along the gradient" — i.e. of the form $J_c^{\mathsf T}\lambda$.</figcaption></figure>
+
+<h3>3.2 The equations of motion of a constrained body</h3>
+
+<p>Start from the unconstrained dynamics. For generalized coordinates $q$, Lagrangian mechanics (<a class="secref" href="module01.html#origin">Module&nbsp;1</a>) gives the Euler–Lagrange equations, which for a mechanical system always take the matrix form</p>
+
+$$M(q)\,\ddot q + c(q,\dot q) = Q,\tag{3.1}$$
+
+<p>where $M(q)$ is the (symmetric, positive-definite) <em>mass matrix</em>, $c(q,\dot q)$ collects the Coriolis, centrifugal and gravitational terms, and $Q$ is the generalized applied force (muscle torques, external loads).</p>
+
+<p>Now add the constraints. By <a class="secref" href="#forces">§3.1</a> the constraint contributes the generalized force $J_c^{\mathsf T}\lambda$, so the constrained system obeys:</p>
+
+<div class="thm"><b>Theorem 3.1 (constrained equations of motion).</b> A mechanical system with mass matrix $M(q)$, bias term $c(q,\dot q)$, applied force $Q$, and holonomic constraints $g(q)=0$ evolves by
+$$\boxed{\;M(q)\,\ddot q + c(q,\dot q) = Q + J_c^{\mathsf T}\lambda,\qquad g(q)=0,\;}\tag{3.2}$$
+where $J_c=\partial g/\partial q$ is the constraint Jacobian and $\lambda$ are the Lagrange multipliers. The term $J_c^{\mathsf T}\lambda$ is the generalized constraint (joint reaction) force.</div>
+
+<p>The symbols, gathered:</p>
+
+<table>
+<tr><th>Symbol</th><th>Meaning</th><th>Size</th></tr>
+<tr><td>$q,\ \dot q,\ \ddot q$</td><td>generalized coordinates, velocity, acceleration</td><td>$n$</td></tr>
+<tr><td>$M(q)$</td><td>mass / inertia matrix (symmetric, positive-definite)</td><td>$n\times n$</td></tr>
+<tr><td>$c(q,\dot q)$</td><td>Coriolis, centrifugal and gravity terms</td><td>$n$</td></tr>
+<tr><td>$Q$</td><td>generalized applied force (muscles, external loads)</td><td>$n$</td></tr>
+<tr><td>$g(q)=0$</td><td>holonomic constraints</td><td>$m$</td></tr>
+<tr><td>$J_c=\partial g/\partial q$</td><td>constraint Jacobian</td><td>$m\times n$</td></tr>
+<tr><td>$\lambda$</td><td>Lagrange multipliers — the constraint-force intensities</td><td>$m$</td></tr>
+<tr><td>$J_c^{\mathsf T}\lambda$</td><td>generalized constraint (joint reaction) force</td><td>$n$</td></tr>
+</table>
+
+<h3>3.3 Solving for the multiplier</h3>
+
+<p>Equation (3.2) has $n+m$ unknowns ($\ddot q$ and $\lambda$) but only $n$ dynamical equations. The missing $m$ equations come from the constraint itself: differentiate $g(q)=0$ twice in time. Once gives $J_c\dot q=0$; again gives the <em>acceleration-level</em> constraint</p>
+
+$$J_c\,\ddot q + \dot J_c\,\dot q = 0.\tag{3.3}$$
+
+<p>Equations (3.2) and (3.3) together are a single linear system in $(\ddot q,\lambda)$ — the classic <em>saddle-point</em> (KKT) form:</p>
+
+$$\begin{bmatrix} M & J_c^{\mathsf T}\\[2pt] J_c & 0\end{bmatrix}\begin{bmatrix}\ddot q\\[2pt] -\lambda\end{bmatrix}=\begin{bmatrix}Q-c\\[2pt] -\dot J_c\,\dot q\end{bmatrix}.\tag{3.4}$$
+
+<p>Eliminating $\ddot q$ (solve the top block, substitute into the bottom) gives the multiplier in closed form:</p>
+
+<div class="thm"><b>Proposition 3.2 (the multiplier).</b>
+$$\boxed{\;\lambda = -\bigl(J_c M^{-1} J_c^{\mathsf T}\bigr)^{-1}\bigl(J_c M^{-1}(Q-c)+\dot J_c\,\dot q\bigr).\;}\tag{3.5}$$
+The matrix $J_c M^{-1} J_c^{\mathsf T}$ is invertible whenever the constraints are independent (full-rank $J_c$). The physical constraint force is then $J_c^{\mathsf T}\lambda$.</div>
+
+<p>Two readings of (3.5). The $\dot J_c\dot q$ term is the force needed to keep the body curving along the constraint — the centripetal part. The $J_c M^{-1}(Q-c)$ term is the part of the applied and inertial forces that would push the body <em>off</em> the surface, which the constraint must cancel.</p>
+
+<h3>3.4 Worked example: the multiplier <em>is</em> the string tension</h3>
+
+<p>Nothing makes "λ is the constraint force" concrete like a case where we already know the answer. Take a plane pendulum: a bob of mass $m$ on a massless rod of length $L$, free to swing. We deliberately keep <em>redundant</em> Cartesian coordinates $q=(x,y)$ (with $y$ measured downward) and impose the rod as a constraint, rather than collapsing to the single angle $\theta$.</p>
+
+<p>The constraint is "stay at distance $L$ from the pivot," written conveniently as</p>
+
+$$g(x,y)=\tfrac12\,(x^2+y^2-L^2)=0,\qquad J_c=\partial g/\partial q=(x,\;y).\tag{3.6}$$
+
+<figure><svg class="setupfig" viewBox="0 0 460 240" width="100%" role="img" aria-label="A pendulum: pivot at top, rod to a bob at angle theta from vertical, on a dashed circle of radius L. Gravity m g points down, tension T points up the rod toward the pivot, and the constraint gradient points radially outward.">
+  <defs>
+    <marker id="f2T" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
+    <marker id="f2g" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#1f5f7a"/></marker>
+    <marker id="f2n" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#999"/></marker>
+  </defs>
+  <!-- constraint circle -->
+  <circle cx="200" cy="40" r="130" fill="none" stroke="#bbb" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <!-- pivot -->
+  <line x1="170" y1="40" x2="230" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+  <circle cx="200" cy="40" r="3.5" fill="#1a1a1a"/>
+  <!-- vertical reference -->
+  <line x1="200" y1="40" x2="200" y2="190" stroke="#999" stroke-width="1" stroke-dasharray="3 3"/>
+  <!-- rod to bob: theta=38deg, L=130 -> bob (200+80, 40+102) approx -->
+  <line x1="200" y1="40" x2="280" y2="142" stroke="#555" stroke-width="2.6"/>
+  <circle cx="280" cy="142" r="9" fill="#7a1f1f"/>
+  <text x="232" y="96" font-size="12" fill="#555" font-style="italic">L</text>
+  <!-- angle arc -->
+  <path d="M200,80 A40,40 0 0 1 226,70" fill="none" stroke="#999" stroke-width="1.2"/>
+  <text x="206" y="78" font-size="12" fill="#555" font-style="italic">θ</text>
+  <!-- tension up the rod -->
+  <line x1="280" y1="142" x2="231" y2="79" stroke="#7a1f1f" stroke-width="2.6" marker-end="url(#f2T)"/>
+  <text x="246" y="120" font-size="12" fill="#7a1f1f" font-style="italic">T</text>
+  <!-- gravity down -->
+  <line x1="280" y1="142" x2="280" y2="200" stroke="#1f5f7a" stroke-width="2.6" marker-end="url(#f2g)"/>
+  <text x="286" y="184" font-size="12" fill="#1f5f7a" font-style="italic">m g</text>
+  <!-- gradient radially outward -->
+  <line x1="280" y1="142" x2="320" y2="193" stroke="#999" stroke-width="1.8" marker-end="url(#f2n)" stroke-dasharray="3 2"/>
+  <text x="320" y="188" font-size="11" fill="#999" font-style="italic">∇g</text>
+</svg><figcaption><b>Pendulum as a constrained body.</b> The bob is pinned to the dashed circle $g=0$. The constraint gradient $\nabla g=(x,y)$ points radially outward; the constraint force $J_c^{\mathsf T}\lambda=\lambda(x,y)$ is therefore radial — exactly the line of the rod. We will find that its magnitude is the tension $T$.</figcaption></figure>
+
+<p>The applied force is gravity, $Q=(0,\,mg)$ (downward, i.e. $+y$), and the mass matrix is just $M=mI$. Theorem 3.1 gives the two scalar equations of motion</p>
+
+$$m\ddot x = \lambda x,\qquad m\ddot y = mg + \lambda y.\tag{3.7}$$
+
+<p>The constraint force is $\lambda\nabla g=\lambda(x,y)$ — radial, as the figure shows. Now solve for $\lambda$ using (3.3). Differentiating $g$ twice:</p>
+
+$$x\dot x + y\dot y = 0,\qquad x\ddot x + y\ddot y + \dot x^2+\dot y^2 = 0.\tag{3.8}$$
+
+<p>Substitute $\ddot x=\lambda x/m$ and $\ddot y = g+\lambda y/m$ from (3.7), and write $v^2=\dot x^2+\dot y^2$ for the speed:</p>
+
+$$x\Bigl(\frac{\lambda x}{m}\Bigr) + y\Bigl(g+\frac{\lambda y}{m}\Bigr) + v^2 = 0
+\;\;\Longrightarrow\;\;
+\frac{\lambda}{m}(x^2+y^2) + g\,y + v^2 = 0.$$
+
+<p>On the circle $x^2+y^2=L^2$, so</p>
+
+$$\lambda = -\,\frac{m\,(g\,y + v^2)}{L^2}.\tag{3.9}$$
+
+<p>Finally substitute the geometry $y=L\cos\theta$ (bob below pivot) and $v^2=L^2\dot\theta^2$, and read off the magnitude of the radial constraint force, $T=|\lambda|\,\lVert\nabla g\rVert = |\lambda|\,L$:</p>
+
+<div class="keyresult"><b>Result.</b> The Lagrange multiplier yields exactly the elementary string tension —
+$$\boxed{\;T = m g\cos\theta + m L\dot\theta^{2}\;}\tag{3.10}$$
+gravity's component along the rod plus the centripetal term. Releasing from rest at $\theta_0$ and using energy conservation ($v^2=2gL(\cos\theta-\cos\theta_0)$) gives the compact form $T=mg\,(3\cos\theta-2\cos\theta_0)$.</div>
+
+<p>So the abstract multiplier $\lambda$ is not bookkeeping — it is the force you would measure with a gauge on the rod. The animation below traces it: the red arrow is the tension $T$, growing to its maximum $2mg$ at the bottom of the swing (where it must both support the weight and supply centripetal force) and shrinking to $\tfrac12 mg$ at the turning points.</p>
+
+<figure>
+<svg viewBox="0 0 460 215" width="100%" style="max-width:440px" role="img" aria-label="Animation of a swinging pendulum; a red tension arrow along the rod grows longest at the bottom of the swing and shortest at the extremes, while a blue gravity arrow stays constant.">
+  <defs>
+    <marker id="p3T" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
+    <marker id="p3g" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#1f5f7a"/></marker>
+  </defs>
+  <circle cx="230" cy="42" r="120" fill="none" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/>
+  <line x1="205" y1="42" x2="255" y2="42" stroke="#1a1a1a" stroke-width="3"/>
+  <circle cx="230" cy="42" r="3.5" fill="#1a1a1a"/>
+  <!-- rod -->
+  <line x1="230" y1="42" x2="333.92" y2="102" stroke="#555" stroke-width="2.4">
+    <animate attributeName="x2" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="333.92;332.39;327.46;318.28;303.85;283.69;258.42;230.08;201.74;176.44;156.25;141.79;132.58;127.63;126.08;127.59;132.50;141.66;156.05;176.18;201.43;229.75;258.11;283.43;303.66;318.14;327.38;332.35;333.92"/>
+    <animate attributeName="y2" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="102.00;104.58;112.01;123.29;136.58;149.32;158.59;162.00;158.62;149.38;136.66;123.36;112.07;104.61;102.00;104.55;111.96;123.21;136.50;149.25;158.55;162.00;158.66;149.45;136.74;123.43;112.12;104.64;102.00"/>
+  </line>
+  <!-- gravity arrow (constant length, follows bob) -->
+  <line x1="333.92" y1="102" x2="333.92" y2="124" stroke="#1f5f7a" stroke-width="2.4" marker-end="url(#p3g)">
+    <animate attributeName="x1" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="333.92;332.39;327.46;318.28;303.85;283.69;258.42;230.08;201.74;176.44;156.25;141.79;132.58;127.63;126.08;127.59;132.50;141.66;156.05;176.18;201.43;229.75;258.11;283.43;303.66;318.14;327.38;332.35;333.92"/>
+    <animate attributeName="x2" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="333.92;332.39;327.46;318.28;303.85;283.69;258.42;230.08;201.74;176.44;156.25;141.79;132.58;127.63;126.08;127.59;132.50;141.66;156.05;176.18;201.43;229.75;258.11;283.43;303.66;318.14;327.38;332.35;333.92"/>
+    <animate attributeName="y1" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="102.00;104.58;112.01;123.29;136.58;149.32;158.59;162.00;158.62;149.38;136.66;123.36;112.07;104.61;102.00;104.55;111.96;123.21;136.50;149.25;158.55;162.00;158.66;149.45;136.74;123.43;112.12;104.64;102.00"/>
+    <animate attributeName="y2" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="124.00;126.58;134.01;145.29;158.58;171.32;180.59;184.00;180.62;171.38;158.66;145.36;134.07;126.61;124.00;126.55;133.96;145.21;158.50;171.25;180.55;184.00;180.66;171.45;158.74;145.43;134.12;126.64;124.00"/>
+  </line>
+  <!-- tension arrow (length proportional to T, points up the rod) -->
+  <line x1="333.92" y1="102" x2="323.10" y2="95.75" stroke="#7a1f1f" stroke-width="3" marker-end="url(#p3T)">
+    <animate attributeName="x1" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="333.92;332.39;327.46;318.28;303.85;283.69;258.42;230.08;201.74;176.44;156.25;141.79;132.58;127.63;126.08;127.59;132.50;141.66;156.05;176.18;201.43;229.75;258.11;283.43;303.66;318.14;327.38;332.35;333.92"/>
+    <animate attributeName="y1" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="102.00;104.58;112.01;123.29;136.58;149.32;158.59;162.00;158.62;149.38;136.66;123.36;112.07;104.61;102.00;104.55;111.96;123.21;136.50;149.25;158.55;162.00;158.66;149.45;136.74;123.43;112.12;104.64;102.00"/>
+    <animate attributeName="x2" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="323.10;320.35;312.22;299.29;282.86;264.86;247.08;230.05;213.02;195.24;177.24;160.79;147.84;139.69;136.90;139.62;147.72;160.62;177.04;195.03;212.82;229.86;246.88;264.66;282.66;299.12;312.10;320.28;323.10"/>
+    <animate attributeName="y2" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="95.75;97.22;101.07;105.81;109.69;111.69;112.08;112.00;112.08;111.70;109.71;105.83;101.10;97.24;95.75;97.21;101.04;105.78;109.68;111.68;112.08;112.00;112.08;111.70;109.73;105.86;101.12;97.25;95.75"/>
+  </line>
+  <!-- bob -->
+  <circle cx="333.92" cy="102" r="9" fill="#7a1f1f">
+    <animate attributeName="cx" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="333.92;332.39;327.46;318.28;303.85;283.69;258.42;230.08;201.74;176.44;156.25;141.79;132.58;127.63;126.08;127.59;132.50;141.66;156.05;176.18;201.43;229.75;258.11;283.43;303.66;318.14;327.38;332.35;333.92"/>
+    <animate attributeName="cy" dur="3.4s" repeatCount="indefinite" keyTimes="0.00;0.04;0.07;0.11;0.14;0.18;0.21;0.25;0.29;0.32;0.36;0.39;0.43;0.46;0.50;0.54;0.57;0.61;0.64;0.68;0.71;0.75;0.79;0.82;0.86;0.89;0.93;0.96;1.00" values="102.00;104.58;112.01;123.29;136.58;149.32;158.59;162.00;158.62;149.38;136.66;123.36;112.07;104.61;102.00;104.55;111.96;123.21;136.50;149.25;158.55;162.00;158.66;149.45;136.74;123.43;112.12;104.64;102.00"/>
+  </circle>
+  <text x="20" y="200" font-size="11" fill="#7a1f1f">red = tension T (=|λ|L)</text>
+  <text x="250" y="200" font-size="11" fill="#1f5f7a">blue = gravity m g (constant)</text>
+</svg>
+<figcaption>The multiplier in motion. Tension $T=mg(3\cos\theta-2\cos\theta_0)$ peaks at $2mg$ at the bottom and drops to $\tfrac12 mg$ at the extremes (released from $\theta_0=60^\circ$); gravity is constant. The same calculation, applied to a limb, gives the joint reaction of <span class="secref">§4</span>.</figcaption>
+</figure>
+
+<h3>3.5 Why multipliers, when angles would do?</h3>
+
+<p>A pendulum has one degree of freedom; we could have used the single coordinate $\theta$ and never written a constraint. That route gives the motion $\ddot\theta=-(g/L)\sin\theta$ directly — but it makes the rod tension <em>vanish from the equations entirely</em>. Reduced coordinates buy simplicity at the price of hiding exactly the force we care about.</p>
+
+<p>The multiplier method keeps the redundant coordinates and the constraint, and pays us back with $\lambda$ — the force the joint must carry. For the body this is decisive: a clinician cares about the load on the hip cartilage, not the hip angle. The next section turns this machinery on a real limb and extracts the <em>joint reaction force</em>, which we will find is several times body weight.</p>
 
 </body>
 </html>
