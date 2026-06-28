@@ -56,7 +56,7 @@ window.MathJax = {
 <ul>
 <li><b>0.</b> <a href="#origin">Motivation — why the knee bends one way and the shoulder dislocates</a></li>
 <li><b>1.</b> <a href="#config">Configuration space and degrees of freedom</a></li>
-<li class="pending"><b>2.</b> A taxonomy of joints by degrees of freedom <em>(to come)</em></li>
+<li><b>2.</b> <a href="#taxonomy">A taxonomy of joints by degrees of freedom</a></li>
 <li class="pending"><b>3.</b> Constraint forces and Lagrange multipliers <em>(to come)</em></li>
 <li class="pending"><b>4.</b> Joint reaction force: why a hinge carries far more than body weight <em>(to come)</em></li>
 <li class="pending"><b>5.</b> From reaction force to contact pressure <em>(to come)</em></li>
@@ -251,6 +251,114 @@ $$\boxed{\,f = n - m\,}\tag{1.1}$$
 <p class="small"><b>Aside.</b> Constraints on <em>velocities</em> that cannot be integrated into a relation among coordinates — e.g. a wheel rolling without slipping — are <em>nonholonomic</em>; they restrict motion without reducing $f$. We meet them only in passing; joints in this module are holonomic.</p>
 
 <p>This single count is the spine of the module: classify every joint by how many freedoms it keeps (<span class="secref">§2</span>), then compute the force each removed freedom costs (<span class="secref">§3</span>).</p>
+
+<hr>
+
+<!-- §2 -->
+<h2 id="taxonomy">2. A taxonomy of joints by degrees of freedom</h2>
+
+<p>Two bodies meeting freely share six relative freedoms (<a class="secref" href="#config">§1</a>). A synovial joint of mobility $f$ removes $6-f$ of them by keeping its surfaces congruent. Every such joint falls into one of six classical types.</p>
+
+<p>Here are all six, drawn as archetypes and ordered by increasing mobility:</p>
+
+<figure><svg class="setupfig" viewBox="0 0 460 350" width="100%" role="img" aria-label="A grid of the six synovial joint types: hinge and pivot each one DOF, condyloid and saddle each two DOF, ball-and-socket three DOF, and plane a gliding joint.">
+  <defs>
+    <marker id="j2g" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0,0 L6.5,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
+    <marker id="j2gd" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto-start-reverse"><path d="M0,0 L6.5,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
+    <marker id="j2bd" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6 Z" fill="#1f5f7a"/></marker>
+  </defs>
+  <g stroke="#eee" stroke-width="1"><line x1="158" y1="34" x2="158" y2="338"/><line x1="303" y1="34" x2="303" y2="338"/><line x1="20" y1="186" x2="440" y2="186"/></g>
+
+  <!-- HINGE -->
+  <text x="88" y="50" font-size="12" text-anchor="middle" font-weight="bold">Hinge</text>
+  <line x1="88" y1="64" x2="88" y2="98" stroke="#c9b79a" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="88" cy="101" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="1.6"/>
+  <line x1="88" y1="101" x2="120" y2="134" stroke="#c9b79a" stroke-width="8" stroke-linecap="round"/>
+  <line x1="88" y1="101" x2="88" y2="136" stroke="#c9b79a" stroke-width="2.5" stroke-dasharray="4 3" opacity="0.5"/>
+  <path d="M113,124 A40,40 0 0 1 93,136" fill="none" stroke="#2a7d2a" stroke-width="1.7" marker-end="url(#j2g)"/>
+  <text x="88" y="158" font-size="11" text-anchor="middle" fill="#2a7d2a" font-weight="bold">1 DOF</text>
+  <text x="88" y="173" font-size="9.5" text-anchor="middle" fill="#777">elbow · finger</text>
+
+  <!-- PIVOT -->
+  <text x="230" y="50" font-size="12" text-anchor="middle" font-weight="bold">Pivot</text>
+  <line x1="230" y1="62" x2="230" y2="128" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
+  <line x1="204" y1="110" x2="256" y2="110" stroke="#c9b79a" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="230" cy="110" r="4" fill="#fff" stroke="#1a1a1a" stroke-width="1.6"/>
+  <path d="M214,78 A18,8 0 1 1 247,75" fill="none" stroke="#2a7d2a" stroke-width="1.7" marker-end="url(#j2g)"/>
+  <text x="230" y="158" font-size="11" text-anchor="middle" fill="#2a7d2a" font-weight="bold">1 DOF</text>
+  <text x="230" y="173" font-size="9.5" text-anchor="middle" fill="#777">neck (C1–C2)</text>
+
+  <!-- CONDYLOID -->
+  <text x="375" y="50" font-size="12" text-anchor="middle" font-weight="bold">Condyloid</text>
+  <path d="M353,108 A24,15 0 0 0 397,108" fill="none" stroke="#c9b79a" stroke-width="7" stroke-linecap="round"/>
+  <ellipse cx="375" cy="96" rx="18" ry="12" fill="#e8ddc6" stroke="#b9a47e" stroke-width="1.6"/>
+  <line x1="350" y1="96" x2="400" y2="96" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#j2gd)" marker-end="url(#j2gd)"/>
+  <line x1="375" y1="74" x2="375" y2="118" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#j2gd)" marker-end="url(#j2gd)"/>
+  <text x="375" y="158" font-size="11" text-anchor="middle" fill="#2a7d2a" font-weight="bold">2 DOF</text>
+  <text x="375" y="173" font-size="9.5" text-anchor="middle" fill="#777">wrist · knuckle</text>
+
+  <!-- SADDLE -->
+  <text x="88" y="205" font-size="12" text-anchor="middle" font-weight="bold">Saddle</text>
+  <path d="M62,262 Q88,284 114,262" fill="none" stroke="#c9b79a" stroke-width="8" stroke-linecap="round"/>
+  <path d="M88,230 Q66,252 88,274" fill="none" stroke="#9c8a66" stroke-width="8" stroke-linecap="round"/>
+  <line x1="64" y1="246" x2="112" y2="246" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#j2gd)" marker-end="url(#j2gd)"/>
+  <line x1="122" y1="238" x2="122" y2="282" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#j2gd)" marker-end="url(#j2gd)"/>
+  <text x="88" y="312" font-size="11" text-anchor="middle" fill="#2a7d2a" font-weight="bold">2 DOF</text>
+  <text x="88" y="327" font-size="9.5" text-anchor="middle" fill="#777">thumb base</text>
+
+  <!-- BALL AND SOCKET -->
+  <text x="230" y="205" font-size="12" text-anchor="middle" font-weight="bold">Ball &amp; socket</text>
+  <path d="M205,232 A26,26 0 0 0 205,274" fill="none" stroke="#c9b79a" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="232" cy="253" r="17" fill="#e8ddc6" stroke="#b9a47e" stroke-width="1.6"/>
+  <path d="M210,240 A30,30 0 0 1 256,236" fill="none" stroke="#2a7d2a" stroke-width="1.6" marker-end="url(#j2g)"/>
+  <path d="M261,236 A30,30 0 0 1 268,272" fill="none" stroke="#2a7d2a" stroke-width="1.6" marker-end="url(#j2g)"/>
+  <path d="M224,280 A10,7 0 1 1 240,278" fill="none" stroke="#2a7d2a" stroke-width="1.6" marker-end="url(#j2g)"/>
+  <text x="230" y="312" font-size="11" text-anchor="middle" fill="#2a7d2a" font-weight="bold">3 DOF</text>
+  <text x="230" y="327" font-size="9.5" text-anchor="middle" fill="#777">hip · shoulder</text>
+
+  <!-- PLANE -->
+  <text x="375" y="205" font-size="12" text-anchor="middle" font-weight="bold">Plane (gliding)</text>
+  <rect x="347" y="250" width="56" height="6" rx="2" fill="#c9b79a" stroke="#b9a47e" stroke-width="1"/>
+  <rect x="351" y="262" width="56" height="6" rx="2" fill="#d3c5a6" stroke="#b9a47e" stroke-width="1"/>
+  <line x1="350" y1="240" x2="404" y2="240" stroke="#1f5f7a" stroke-width="1.6" marker-start="url(#j2bd)" marker-end="url(#j2bd)"/>
+  <text x="375" y="312" font-size="11" text-anchor="middle" fill="#1f5f7a" font-weight="bold">glide</text>
+  <text x="375" y="327" font-size="9.5" text-anchor="middle" fill="#777">wrist bones · facets</text>
+</svg><figcaption><b>The six joint archetypes.</b> Green arrows are rotational freedoms, blue are translational. Mobility climbs left-to-right, top-to-bottom: 1 DOF (hinge, pivot) → 2 DOF (condyloid, saddle) → 3 DOF (ball &amp; socket); the plane joint is the odd one out, permitting small <em>sliding</em> rather than rotation.</figcaption></figure>
+
+<p>The same six as a reference, with the idealized kinematic pair each approximates:</p>
+
+<table>
+<tr><th>Type</th><th>Allowed motion</th><th>DOF $f$</th><th>Constraints $6-f$</th><th>Ideal pair</th><th>Examples</th></tr>
+<tr><td>Hinge (ginglymus)</td><td>flexion–extension</td><td>1</td><td>5</td><td>revolute</td><td>elbow, interphalangeal, ankle†</td></tr>
+<tr><td>Pivot (trochoid)</td><td>axial rotation</td><td>1</td><td>5</td><td>revolute (axial)</td><td>atlanto-axial (C1–C2), proximal radio-ulnar</td></tr>
+<tr><td>Condyloid / ellipsoid</td><td>flex–ext + ab–adduction</td><td>2</td><td>4</td><td>ellipsoid</td><td>wrist (radiocarpal), knuckle (MCP)</td></tr>
+<tr><td>Saddle</td><td>flex–ext + ab–adduction</td><td>2</td><td>4</td><td>saddle</td><td>thumb carpometacarpal</td></tr>
+<tr><td>Ball-and-socket</td><td>rotation about 3 axes</td><td>3</td><td>3</td><td>spherical</td><td>hip, shoulder</td></tr>
+<tr><td>Plane (gliding)</td><td>small sliding translation</td><td>≈2*</td><td>≈4</td><td>planar</td><td>intercarpal, facet (zygapophyseal)</td></tr>
+</table>
+<p class="small">† the ankle (talocrural) axis is oblique, so its single "hinge" axis is tilted. * gliding joints are translational and permit only small, ligament-limited motion; the kinematic planar pair is formally 3 DOF.</p>
+
+<h3>Why exactly these? Kinematic pairs</h3>
+
+<p>Each type is a way two surfaces can stay in contact while sliding — a <em>lower kinematic pair</em>. A cylindrical surface on a matching groove gives a single rotation (revolute → hinge); a sphere in a socket gives three (spherical → ball-and-socket).</p>
+
+<p>Bone shape <em>is</em> the constraint: the trochlea of the humerus is a spool that admits one axis; the femoral head is a sphere that admits three. Anatomy and kinematics are the same statement.</p>
+
+<h3>Counting a limb: the mobility formula</h3>
+
+<p>For an open chain (no loops), the freedoms simply add — the end-effector's DOF is the sum of the joint mobilities:</p>
+
+<div class="thm"><b>Mobility of a serial chain.</b>
+$$\boxed{\,f_{\text{end}}=\sum_i f_i\,}\tag{2.1}$$
+For a mechanism with loops, use the Grübler–Kutzbach count $M=6(N-1)-\sum_i(6-f_i)$, where $N$ counts all bodies including ground.</div>
+
+<p><b>The arm.</b> Shoulder (3) + elbow (1) + forearm pronation (1) + wrist (2) $= 7$ DOF for the hand.</p>
+
+<p>Placing the hand at a chosen position <em>and</em> orientation needs only 6. The arm has one to spare — it is <em>kinematically redundant</em>, which is why you can keep your hand flat on a table and still swing your elbow. We exploit this in <span class="secref">§6</span> and Module&nbsp;11.</p>
+
+<div class="keyresult"><b>Real joints are idealizations.</b> "1 DOF" is a modeling choice, justified by the dominant motion. The knee is not a true hinge: as it extends it also rolls, glides a few millimetres, and rotates axially (the "screw-home"). We adopt the idealized constraints here because they capture the freedoms that carry the load; <span class="secref">§7</span> shows what the idealization costs.</div>
+
+<p>Each constraint in the table — every "$6-f$" — is a freedom the joint must actively prevent. Preventing it takes force. <span class="secref">§3</span> computes that force.</p>
 
 </body>
 </html>
