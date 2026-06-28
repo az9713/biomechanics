@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 3 — Joints as Constrained Mechanical Interfaces</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], tags: 'ams' },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js" async></script>
+<style>
+  :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ max-width: 52rem; margin: 2.5rem auto; padding: 0 1.25rem 6rem;
+        font: 16px/1.65 Georgia, 'Times New Roman', serif; color:var(--fg); }
+  h1{ font-size: 1.95rem; line-height:1.2; margin:.2rem 0 .2rem; }
+  h2{ font-size:1.35rem; margin:2.4rem 0 .6rem; border-bottom:2px solid var(--accent); padding-bottom:.2rem; }
+  h3{ font-size:1.08rem; margin:1.6rem 0 .4rem; color:var(--accent); }
+  .sub{ color:var(--muted); font-style:italic; margin-top:0; }
+  code{ font-family: ui-monospace,'SFMono-Regular',Consolas,monospace; font-size:.92em; background:#f3f1ec; padding:.05rem .25rem; border-radius:3px;}
+  pre{ background:#f3f1ec; padding:.8rem 1rem; border-radius:5px; overflow:auto; font-size:.84rem; line-height:1.45; }
+  pre code{ background:none; padding:0; }
+  .thm,.def,.lem,.prop{ background:var(--box); border-left:4px solid var(--accent); padding:.6rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0; }
+  .thm b,.def b,.lem b,.prop b{ color:var(--accent); }
+  .proof{ border-left:2px solid var(--rule); padding-left:.9rem; margin:.8rem 0 1.2rem; color:#222; }
+  .proof::before{ content:"Proof."; font-style:italic; font-weight:bold; margin-right:.4rem; }
+  .qed{ float:right; }
+  table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.92rem; }
+  th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; }
+  th{ background:var(--box); }
+  figure{ margin:1.5rem 0; text-align:center; }
+  figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; }
+  .proof figure,.thm figure{ margin:.2rem auto .7rem; max-width:460px; background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.4rem; }
+  .setupfig{ display:block; }
+  .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; }
+  .secref:hover{ border-bottom:1px solid var(--accent); }
+  .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; }
+  .toc ul{ list-style:none; padding-left:.3rem; margin:.3rem 0; } .toc a{ color:var(--accent); text-decoration:none; }
+  .toc .pending{ color:#999; }
+  .small{ font-size:.88rem; color:var(--muted); }
+  hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; }
+  .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; }
+  .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+</style>
+</head>
+<body>
+
+<h1>Joints as Constrained Mechanical Interfaces</h1>
+<p class="sub">Module 3: how bony surfaces, ligaments, and contact turn a free-floating skeleton into a machine with exactly the degrees of freedom each task needs — and what force the constraint itself must carry.</p>
+
+<div class="toc">
+<b>Contents</b>
+<ul>
+<li><b>0.</b> <a href="#origin">Motivation — why the knee bends one way and the shoulder dislocates</a></li>
+<li class="pending"><b>1.</b> Configuration space and degrees of freedom <em>(to come)</em></li>
+<li class="pending"><b>2.</b> A taxonomy of joints by degrees of freedom <em>(to come)</em></li>
+<li class="pending"><b>3.</b> Constraint forces and Lagrange multipliers <em>(to come)</em></li>
+<li class="pending"><b>4.</b> Joint reaction force: why a hinge carries far more than body weight <em>(to come)</em></li>
+<li class="pending"><b>5.</b> From reaction force to contact pressure <em>(to come)</em></li>
+<li class="pending"><b>6.</b> Stability versus mobility <em>(to come)</em></li>
+<li class="pending"><b>7.</b> Computational lab — the constrained two-link limb <em>(to come)</em></li>
+<li class="pending"><b>8.</b> What the model captures and misses <em>(to come)</em></li>
+<li class="pending"><b>9.</b> Diagnostic questions and problems <em>(to come)</em></li>
+<li class="pending">Appendix — parameters <em>(to come)</em></li>
+</ul>
+</div>
+
+<hr>
+
+<!-- §0 -->
+<h2 id="origin">0. Motivation — why the knee bends one way and the shoulder dislocates</h2>
+
+<p>Sit down and watch your knee: it swings the shin forward and back through a wide arc, but try to twist the shin sideways or slide it left and right relative to the thigh and almost nothing happens. The knee behaves, to good approximation, as a <em>one-axis hinge</em> — and it does so while transmitting forces several times body weight every step. Now roll your shoulder: the hand can reach overhead, behind your back, across your chest, in almost any direction. The shoulder is the body's most mobile joint. It is also, by a wide margin, the most frequently <em>dislocated</em>. The same freedom that lets the arm explore space is the freedom for the joint to come apart.</p>
+
+<p>This is the central trade-off of Module 3, and it is not anatomy trivia — it is a statement about <strong>constraints</strong>. A rigid body floating in space has six independent ways to move (three translations, three rotations). A joint is a device that <em>removes</em> some of those freedoms by physical contact: matching bony surfaces, taut ligaments, and the pressure of cartilage on cartilage. Each freedom removed is a <em>constraint</em>; the freedoms that remain are the joint's <em>degrees of freedom</em>. The knee removes five and keeps one; the shoulder removes only three and keeps three. Mobility and stability are the two sides of that ledger, and you cannot increase one without spending the other.</p>
+
+<p>But a constraint is not free. To hold the shin from sliding sideways, the knee's surfaces and ligaments must actively <em>push and pull</em> — and the size of that hidden force is exactly what determines whether cartilage wears smoothly for eighty years or grinds into osteoarthritis. So this module answers three quantitative questions:</p>
+
+<ul>
+<li><b>How many ways can a joint move?</b> We count degrees of freedom precisely, as the dimension of configuration space minus the number of independent constraints (<span class="secref">§1</span>), and classify every major joint by that number (<span class="secref">§2</span>).</li>
+<li><b>What force does the constraint carry?</b> We write the equations of motion of a constrained body and show that each constraint comes with a <em>Lagrange multiplier</em> $\lambda$ that <em>is</em> the constraint force (<span class="secref">§3</span>). Applied to a real limb, this reveals that the joint reaction force is several times body weight even in quiet standing (<span class="secref">§4</span>), and turning that force into a contact pressure (<span class="secref">§5</span>) sets up the cartilage mechanics of Module 4.</li>
+<li><b>Why trade mobility for stability at all?</b> We quantify the trade-off and see why evolution built a deep, congruent socket at the hip (which almost never dislocates) and a shallow, mobile one at the shoulder (<span class="secref">§6</span>) — then build a working simulation of a constrained limb that computes its own joint forces (<span class="secref">§7</span>).</li>
+</ul>
+
+<p>The mathematical engine throughout is <em>constrained dynamics</em>: the same Newton–Euler and Lagrangian mechanics from <a class="secref" href="module01.html#origin">Module&nbsp;1</a>, now augmented with constraint equations and the multipliers that enforce them. The loads we feed in are the muscle and joint torques of Module&nbsp;1; the contact pressures we get out are the inputs to Module&nbsp;4. Joints are where the skeleton's freedom is rationed — and where its forces are concentrated.</p>
+
+<p class="small">Builds on <a class="secref" href="module01.html#main">Module&nbsp;1</a> (forces, torques, free-body diagrams) and <a class="secref" href="module02.html#origin">Module&nbsp;2</a> (the loads bones and joints must carry).</p>
+
+</body>
+</html>

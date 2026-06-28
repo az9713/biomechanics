@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 1 — Mechanical Foundations of Human Biomechanics</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], tags: 'ams' },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js" async></script>
+<style>
+  :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ max-width: 52rem; margin: 2.5rem auto; padding: 0 1.25rem 6rem;
+        font: 16px/1.65 Georgia, 'Times New Roman', serif; color:var(--fg); }
+  h1{ font-size: 1.95rem; line-height:1.2; margin:.2rem 0 .2rem; }
+  h2{ font-size:1.35rem; margin:2.4rem 0 .6rem; border-bottom:2px solid var(--accent); padding-bottom:.2rem; }
+  h3{ font-size:1.08rem; margin:1.6rem 0 .4rem; color:var(--accent); }
+  .sub{ color:var(--muted); font-style:italic; margin-top:0; }
+  code{ font-family: ui-monospace,'SFMono-Regular',Consolas,monospace; font-size:.92em; background:#f3f1ec; padding:.05rem .25rem; border-radius:3px;}
+  pre{ background:#f3f1ec; padding:.8rem 1rem; border-radius:5px; overflow:auto; font-size:.84rem; line-height:1.45; }
+  pre code{ background:none; padding:0; }
+  .thm,.def,.lem,.prop{ background:var(--box); border-left:4px solid var(--accent); padding:.6rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0; }
+  .thm b,.def b,.lem b,.prop b{ color:var(--accent); }
+  .proof{ border-left:2px solid var(--rule); padding-left:.9rem; margin:.8rem 0 1.2rem; color:#222; }
+  .proof::before{ content:"Proof."; font-style:italic; font-weight:bold; margin-right:.4rem; }
+  .qed{ float:right; }
+  table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.92rem; }
+  th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; }
+  th{ background:var(--box); }
+  figure{ margin:1.5rem 0; text-align:center; }
+  figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; }
+  .proof figure,.thm figure{ margin:.2rem auto .7rem; max-width:460px; background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.4rem; }
+  .setupfig{ display:block; }
+  .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; }
+  .secref:hover{ border-bottom:1px solid var(--accent); }
+  .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; }
+  .toc ul{ list-style:none; padding-left:.3rem; margin:.3rem 0; } .toc a{ color:var(--accent); text-decoration:none; }
+  .small{ font-size:.88rem; color:var(--muted); }
+  hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; }
+  .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; }
+  .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+</style>
+</head>
+<body>
+
+<h1>The Human Body as a Controlled Mechanical–Biological System</h1>
+<p class="sub">A quantitative course. Module 1: the statics of holding, lifting, and leaning — from a free-body diagram to the force inside a muscle.</p>
+
+<div class="toc">
+<b>Contents</b>
+<ul>
+<li><a href="#syllabus">Course map — all 17 modules</a></li>
+<li><b>0.</b> <a href="#origin">Motivation — why a coffee cup gets heavy</a></li>
+<li><b>1.</b> <a href="#setup">Definitions, notation, and the governing law</a></li>
+<li><b>2.</b> <a href="#moment">The moment of a force</a></li>
+<li><b>3.</b> <a href="#equil">Static equilibrium of a body segment</a></li>
+<li><b>4.</b> <a href="#main">Main result — joint torque to hold a load</a></li>
+<li><b>5.</b> <a href="#muscle">From joint torque to muscle force: mechanical disadvantage</a></li>
+<li><b>6.</b> <a href="#general">The same law at shoulder, hip, knee, ankle, and low back</a></li>
+<li><b>7.</b> <a href="#worked">Worked numerical example</a></li>
+<li><b>8.</b> <a href="#lab">Computational lab and sensitivity analysis</a></li>
+<li><b>9.</b> <a href="#captures">What the model captures and misses</a></li>
+<li><b>10.</b> <a href="#problems">Diagnostic questions and problems</a></li>
+<li><a href="#appendix">Appendix — anthropometric parameters</a></li>
+</ul>
+</div>
+
+<hr>
+
+<h2 id="syllabus">Course map — all 17 modules</h2>
+<p>The course is built bottom-up: each module reuses the mechanics of the one before it. Module 1 (this document) supplies the statics that every later module assumes.</p>
+<table>
+<tr><th>#</th><th>Title</th><th>Central daily-life question</th><th>Central mathematical tools</th><th>Relevant biology / chemistry / physiology</th><th>Simulation lab</th><th>Daily-life application</th></tr>
+<tr><td>1</td><td>Mechanical foundations of biomechanics</td><td>How hard must a muscle pull to hold a weight?</td><td>Vectors, statics, moments, free-body diagrams, dimensional analysis</td><td>Lever anatomy, muscle moment arms</td><td>Joint torque vs. joint angle</td><td>Holding a bag; leaning forward</td></tr>
+<tr><td>2</td><td>Bones as hierarchical composite structures</td><td>Why don't bones snap under daily loads?</td><td>Beam theory $\sigma=My/I$, torsion, fatigue &amp; fracture, scaling laws</td><td>Hydroxyapatite/collagen, mineralization, remodeling (Wolff's law)</td><td>Femur bending stress; remodeling ODE; fall-impact fracture</td><td>Falls; osteoporosis</td></tr>
+<tr><td>3</td><td>Joints as constrained interfaces</td><td>What sets how a joint can and cannot move?</td><td>Degrees of freedom, constraint equations, Lagrange multipliers</td><td>Cartilage contact, synovial fluid</td><td>Constrained two-link limb</td><td>Knee, hip, shoulder mobility</td></tr>
+<tr><td>4</td><td>Cartilage &amp; joint-contact biophysics</td><td>How does cartilage spread load without wearing out?</td><td>Biphasic/poroelasticity, Hertz contact, lubrication theory</td><td>Proteoglycan osmotic swelling, interstitial fluid pressurization</td><td>Stress relaxation; friction vs. speed</td><td>Osteoarthritis</td></tr>
+<tr><td>5</td><td>Muscles as chemo-electro-mechanical actuators</td><td>How does a nerve signal become joint torque?</td><td>Hill model, activation ODE, force–length–velocity</td><td>Crossbridge cycling, $\mathrm{Ca^{2+}}$ dynamics, motor-unit recruitment</td><td>Activation $\to$ torque; fatigue</td><td>Lifting; push-off</td></tr>
+<tr><td>6</td><td>Tendons, ligaments, fascia, elastic energy</td><td>Where does jumping energy come from?</td><td>Nonlinear springs, viscoelasticity (Kelvin–Voigt, SLS), hysteresis</td><td>Collagen-fiber recruitment, tendon adaptation</td><td>Tendon recoil; energy return</td><td>Running economy</td></tr>
+<tr><td>7</td><td>Standing, posture, load bearing</td><td>Why don't we topple while standing still?</td><td>Inverted pendulum, linearization, PD + delayed feedback control</td><td>Muscle spindles, proprioception, co-contraction</td><td>Quiet standing with perturbations</td><td>Balance; postural sway</td></tr>
+<tr><td>8</td><td>Walking biomechanics</td><td>Why is walking so metabolically cheap?</td><td>Compass gait, inverted-pendulum walking, Froude number, inverse dynamics</td><td>Central pattern generators, energy minimization</td><td>COM arc; ankle/knee/hip torques</td><td>Gait; walking speed</td></tr>
+<tr><td>9</td><td>Running and jumping</td><td>What limits jump height and landing safety?</td><td>Spring-loaded inverted pendulum, impulse–momentum</td><td>Stretch-shortening cycle, Achilles tendon</td><td>Vertical jump; landing impact</td><td>Sport; injury risk</td></tr>
+<tr><td>10</td><td>Balance, perturbation, sensorimotor control</td><td>Why do we fall more as we age?</td><td>State-space models, delayed feedback, stochastic noise, Kalman intuition</td><td>Vestibular input, reflex delay, sensor noise</td><td>Recovery from a push; aging sensitivity</td><td>Fall risk</td></tr>
+<tr><td>11</td><td>Reaching, gripping, manipulation</td><td>How much grip force to hold a cup?</td><td>Two-link arm, Jacobian, $\tau=J^{\mathsf T}F$, friction cones</td><td>Tactile sensing, grasp mechanics</td><td>Reaching IK; grip force</td><td>Daily manipulation</td></tr>
+<tr><td>12</td><td>Whole-body coordination &amp; motor control</td><td>How does the brain pick one of infinite solutions?</td><td>Optimal control, minimum-jerk, LQR, impedance, MPC</td><td>Motor synergies, internal models</td><td>Minimum-jerk reach; impedance contact</td><td>Smooth movement</td></tr>
+<tr><td>13</td><td>Daily-life movement case studies</td><td>What forces actually occur during chores?</td><td>Applied statics + dynamics across many tasks</td><td>Task-specific physiology</td><td>Sit-to-stand; stairs; floor lift</td><td>Everyday tasks</td></tr>
+<tr><td>14</td><td>Aging, injury, degeneration, adaptation</td><td>How close to the failure limit do we live?</td><td>Strength-reserve ratios, fracture energy, sensitivity analysis</td><td>Sarcopenia, osteoporosis, osteoarthritis</td><td>Fall-risk sensitivity; fracture threshold</td><td>Aging; prevention</td></tr>
+<tr><td>15</td><td>Measurement, estimation, inverse dynamics</td><td>How do we measure invisible joint loads?</td><td>Filtering, finite differences, inverse dynamics, uncertainty</td><td>EMG, motion capture, IMUs</td><td>Kinematics $\to$ torque pipeline</td><td>Clinical gait analysis</td></tr>
+<tr><td>16</td><td>Continuum &amp; finite-element-style tissue models</td><td>How does stress distribute inside a tissue?</td><td>Stress/strain tensors, constitutive laws, FE intuition</td><td>Bone, tendon, cartilage as continua</td><td>1-D bar / beam FE toy model</td><td>Tissue mechanics</td></tr>
+<tr><td>17</td><td>Capstone modeling projects</td><td>Can I model a real movement end-to-end?</td><td>Integration of all tools above</td><td>Integration</td><td>Choose from 15 projects</td><td>Research-grade modeling</td></tr>
+</table>
+
+<hr>
+
+<!-- <a class="secref" href="#origin">§0</a> -->
+<h2 id="origin">0. Motivation — why a coffee cup gets heavy</h2>
+<p>Hold a half-litre coffee cup against your chest and you can stand there indefinitely. Now extend your arm straight out and hold the <em>same</em> cup horizontally: within a minute your shoulder burns. The cup did not gain mass. Gravity did not strengthen. What changed is purely geometric — the <em>distance</em> from your shoulder to the cup — and that distance enters the mechanics through a quantity called the <strong>moment</strong> (torque).</p>
+<p>This module makes that intuition exact. We will derive, from Newton's laws, the formula for the torque a joint must supply to hold a load, show it scales with the cup's distance and with $\cos\theta$ as you lower the arm, and then convert that joint torque into the much larger force inside the muscle — the price of the body's lever geometry. By the end you can put a number on every "hold," "lean," and "lift" in daily life, and every later module (bone stress, muscle activation, balance, gait) is built on this same free-body bookkeeping.</p>
+
+<!-- <a class="secref" href="#setup">§1</a> -->
+<h2 id="setup">1. Definitions, notation, and the governing law</h2>
+<p>We work in SI units throughout: length in metres (m), mass in kilograms (kg), force in newtons (N $=\mathrm{kg\,m\,s^{-2}}$), torque in newton-metres (N·m). Define every term at first use.</p>
+
+<div class="def"><b>Definition 1.1 (scalar, vector).</b> A <em>scalar</em> is a single number with units (e.g. mass $m$). A <em>vector</em> is a quantity with both magnitude and direction, written $\mathbf{v}$, with magnitude $\lVert\mathbf{v}\rVert$. In the sagittal plane (the side-view plane that splits the body into left and right) a vector has two components, $\mathbf{v}=(v_x,v_y)$.</div>
+
+<div class="def"><b>Definition 1.2 (force, weight, gravitational field).</b> A <em>force</em> $\mathbf{F}$ (N) is a push or pull; by Newton's second law it changes a body's momentum. The <em>gravitational field</em> near Earth's surface is $g=9.81\ \mathrm{m\,s^{-2}}$ pointing down. The <em>weight</em> of a mass $m$ is the force $\mathbf{W}=m\mathbf{g}$, with magnitude $W=mg$, directed downward.</div>
+
+<div class="def"><b>Definition 1.3 (line of action, position vector).</b> The <em>line of action</em> of a force is the infinite straight line through the point where the force is applied, parallel to the force. The <em>position vector</em> $\mathbf{r}$ of a point, relative to a chosen reference point $O$, is the displacement from $O$ to that point.</div>
+
+<div class="def"><b>Definition 1.4 (center of mass).</b> The <em>center of mass</em> (COM) of a body is the mass-weighted average position, $\mathbf{r}_{\text{COM}}=\frac{1}{M}\sum_i m_i\mathbf{r}_i$ (or the integral $\frac{1}{M}\int \mathbf{r}\,dm$). For computing gravitational moments, the entire weight of a segment may be replaced by a single force $W=mg$ acting downward through its COM. This replacement is exact for a uniform field and is the workhorse of the whole module.</div>
+
+<div class="def"><b>Definition 1.5 (free-body diagram).</b> A <em>free-body diagram</em> (FBD) isolates one body, replaces everything it touches by the force/torque that contact exerts, and shows the body's own weight at its COM. Every analysis below starts by drawing (in text) the FBD.</div>
+
+<p>The governing law for this module is the static specialization of Newton's laws.</p>
+<div class="thm"><b>Law 1 (static equilibrium).</b> A rigid body is in static equilibrium (no linear and no angular acceleration) if and only if the net force and the net moment about <em>any</em> point vanish:
+$$\boxed{\;\sum_i \mathbf{F}_i = \mathbf{0}, \qquad \sum_i \mathbf{M}_i = \mathbf{0}.\;}\tag{1.1}$$
+The moment $\mathbf{M}_i$ of force $\mathbf{F}_i$ is defined in <a class="secref" href="#moment">§2</a>.</div>
+
+<!-- <a class="secref" href="#moment">§2</a> -->
+<h2 id="moment">2. The moment of a force</h2>
+<p>With force and position defined in <a class="secref" href="#setup">§1</a>, we now define the quantity that makes the extended arm hard to hold.</p>
+
+<div class="def"><b>Definition 2.1 (moment / torque, moment arm).</b> The <em>moment</em> (torque) of a force $\mathbf{F}$ applied at a point with position $\mathbf{r}$ relative to reference $O$ is the cross product
+$$\mathbf{M}=\mathbf{r}\times\mathbf{F},\qquad \text{magnitude}\quad M=\lVert\mathbf{r}\rVert\,\lVert\mathbf{F}\rVert\sin\varphi,\tag{2.1}$$
+where $\varphi$ is the angle between $\mathbf{r}$ and $\mathbf{F}$. The <em>moment arm</em> $d=\lVert\mathbf{r}\rVert\sin\varphi$ is the perpendicular distance from $O$ to the force's line of action, so
+$$\boxed{\,M = d\,\lVert\mathbf{F}\rVert\,}\tag{2.2}$$
+— "moment $=$ moment arm $\times$ force." In the sagittal plane $\mathbf{M}$ points out of the plane and reduces to the signed scalar $M=x F_y - y F_x$.</div>
+
+<figure><svg class="setupfig" viewBox="0 0 440 200" width="100%" role="img" aria-label="A force F applied at point P; the moment arm d is the perpendicular distance from pivot O to the line of action of F.">
+  <defs>
+    <marker id="m2arrow" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
+    <marker id="m2arrowr" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
+  </defs>
+  <!-- pivot O -->
+  <circle cx="70" cy="150" r="4" fill="#1a1a1a"/>
+  <text x="52" y="168" font-size="13" fill="#1a1a1a">O</text>
+  <!-- position vector r to P -->
+  <line x1="70" y1="150" x2="300" y2="70" stroke="#7a1f1f" stroke-width="2.2" marker-end="url(#m2arrowr)"/>
+  <text x="170" y="100" font-size="13" fill="#7a1f1f" font-style="italic">r</text>
+  <circle cx="300" cy="70" r="3.5" fill="#1a1a1a"/>
+  <text x="306" y="66" font-size="13">P</text>
+  <!-- force F at P (pointing down-right) -->
+  <line x1="300" y1="70" x2="300" y2="160" stroke="#2a7d2a" stroke-width="2.6" marker-end="url(#m2arrow)"/>
+  <text x="306" y="130" font-size="13" fill="#2a7d2a" font-style="italic">F</text>
+  <!-- line of action (dashed, vertical through P) -->
+  <line x1="300" y1="40" x2="300" y2="185" stroke="#2a7d2a" stroke-width="1" stroke-dasharray="4 3" opacity="0.7"/>
+  <!-- moment arm d: perpendicular from O to line of action = horizontal here -->
+  <line x1="70" y1="150" x2="300" y2="150" stroke="#1f5f7a" stroke-width="1.6" stroke-dasharray="2 2"/>
+  <text x="160" y="145" font-size="13" fill="#1f5f7a" font-style="italic">d (moment arm)</text>
+  <!-- right-angle tick at P on line of action -->
+  <path d="M292,150 L292,142 L300,142" fill="none" stroke="#1f5f7a" stroke-width="1"/>
+</svg><figcaption><b>Setup for (2.2).</b> A downward force $\mathbf{F}$ acts at $P$, position $\mathbf{r}$ from pivot $O$. Its line of action (dashed green) is vertical; the moment arm $d$ (blue) is the perpendicular distance from $O$ to that line. The moment about $O$ is $M=d\lVert\mathbf F\rVert$ — only the perpendicular distance matters, not the full length of $\mathbf r$.</figcaption></figure>
+
+<p>The key consequence, used everywhere below: for a downward weight, the moment arm is simply the <em>horizontal</em> distance from the pivot to the weight's line of action. Move the weight farther out horizontally and the moment grows in direct proportion.</p>
+
+<!-- <a class="secref" href="#equil">§3</a> -->
+<h2 id="equil">3. Static equilibrium of a body segment</h2>
+<p>We model a limb segment as a <em>rigid link</em>: a rigid body hinged at a joint. Combining Law 1 with the moment definition (2.2), and taking moments about the joint axis (a convenient choice, because the unknown joint contact force passes through that axis and so contributes zero moment), gives a single scalar equation that determines the muscle's required moment.</p>
+
+<div class="prop"><b>Proposition 3.1 (moment balance about a joint).</b> For a segment hinged at joint $O$, in static equilibrium, the net muscle moment $\tau$ about $O$ balances the moments of all gravitational and external loads:
+$$\tau \;=\; \sum_k W_k\,d_k,\tag{3.1}$$
+where $W_k=m_k g$ is the weight of the $k$-th mass (segment or external load) and $d_k$ is its horizontal moment arm from $O$.</div>
+<div class="proof">
+Isolate the segment (Definition 1.5). The forces on it are: the joint contact force $\mathbf{J}$ at $O$; each weight $\mathbf{W}_k=m_k\mathbf g$ acting downward through its COM (Definition 1.4); and the net muscle force, whose moment about $O$ we call $\tau$. Apply the moment equation of Law 1, $\sum \mathbf M=\mathbf 0$, taking moments about $O$. The joint force has zero moment arm ($\mathbf r=\mathbf 0$ at $O$), so $\mathbf J$ drops out. Each weight is downward, so by (2.2) its moment magnitude is $W_k d_k$ with $d_k$ the horizontal distance from $O$, and all gravitational moments share the same rotational sense (they pull the segment down). Balancing the muscle moment against them gives $\tau-\sum_k W_k d_k=0$, i.e. (3.1). <span class="qed">∎</span>
+</div>
+
+<!-- <a class="secref" href="#main">§4</a> -->
+<h2 id="main">4. Main result — joint torque to hold a load</h2>
+<p>We now apply Proposition 3.1 to the motivating task: the forearm held out, an object in the hand. This is the elbow version of "holding the coffee cup," and the result generalizes verbatim to every joint in <a class="secref" href="#general">§6</a>.</p>
+
+<div class="def"><b>Definition 4.1 (model parameters).</b> Let $m_s$ be the mass of the forearm-plus-hand segment, with COM a distance $r_s$ from the elbow axis; let $m_L$ be the mass of the held load, gripped a distance $r_L$ from the elbow. Let $\theta$ be the angle of the forearm <em>below the horizontal</em> ($\theta=0$: forearm horizontal; $\theta=90^\circ$: forearm hanging straight down).</div>
+
+<div class="thm"><b>Theorem 4.2 (required joint torque).</b> The muscle moment the elbow must supply to hold the segment and load statically at angle $\theta$ is
+$$\boxed{\;\tau(\theta)\;=\;g\cos\theta\,\bigl(m_s r_s + m_L r_L\bigr).\;}\tag{4.1}$$
+It is maximal when the forearm is horizontal ($\theta=0$) and zero when the forearm hangs vertically ($\theta=90^\circ$).</div>
+<div class="proof">
+<figure><svg class="setupfig" viewBox="0 0 440 210" width="100%" role="img" aria-label="Free-body diagram of the horizontal forearm: elbow pivot at left, segment weight and load weight pointing down, muscle force pointing up close to the elbow.">
+  <defs>
+    <marker id="p4dn" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
+    <marker id="p4up" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
+  </defs>
+  <!-- forearm beam, horizontal -->
+  <line x1="60" y1="80" x2="400" y2="80" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/>
+  <!-- elbow pivot -->
+  <circle cx="60" cy="80" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+  <text x="40" y="76" font-size="13">O</text>
+  <text x="30" y="96" font-size="11" fill="#555">elbow</text>
+  <!-- segment COM weight (down) at r_s -->
+  <line x1="160" y1="80" x2="160" y2="135" stroke="#2a7d2a" stroke-width="2.4" marker-end="url(#p4dn)"/>
+  <text x="120" y="150" font-size="12" fill="#2a7d2a">W_s = m_s g</text>
+  <circle cx="160" cy="80" r="3" fill="#2a7d2a"/>
+  <!-- load weight (down, larger) at r_L -->
+  <line x1="395" y1="80" x2="395" y2="175" stroke="#2a7d2a" stroke-width="2.8" marker-end="url(#p4dn)"/>
+  <text x="352" y="192" font-size="12" fill="#2a7d2a">W_L = m_L g</text>
+  <circle cx="395" cy="80" r="3" fill="#2a7d2a"/>
+  <!-- muscle force (up) close to elbow at d_m -->
+  <line x1="95" y1="80" x2="95" y2="22" stroke="#7a1f1f" stroke-width="3" marker-end="url(#p4up)"/>
+  <text x="100" y="30" font-size="12" fill="#7a1f1f">F_m (muscle)</text>
+  <!-- moment-arm dimension lines -->
+  <line x1="60" y1="80" x2="60" y2="118" stroke="#999" stroke-width="1"/>
+  <line x1="160" y1="80" x2="160" y2="118" stroke="#999" stroke-width="1"/>
+  <line x1="60" y1="115" x2="160" y2="115" stroke="#1f5f7a" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <text x="95" y="112" font-size="11" fill="#1f5f7a">r_s</text>
+  <line x1="395" y1="80" x2="395" y2="158" stroke="#999" stroke-width="1"/>
+  <line x1="60" y1="155" x2="395" y2="155" stroke="#1f5f7a" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <text x="220" y="152" font-size="11" fill="#1f5f7a">r_L</text>
+</svg><figcaption><b>Free-body diagram (horizontal case, $\theta=0$).</b> The forearm is isolated at the elbow $O$. Two weights pull down (segment $W_s$ at $r_s$, load $W_L$ at $r_L$); the muscle force $F_m$ pulls up at a short moment arm. The joint contact force at $O$ is omitted because it contributes no moment about $O$.</figcaption></figure>
+
+By Proposition 3.1, taking moments about the elbow, the two downward weights are $W_s=m_sg$ and $W_L=m_Lg$. When the forearm makes angle $\theta$ below horizontal, a point at distance $r$ along the forearm sits a horizontal distance $r\cos\theta$ from the elbow (the projection onto the horizontal). Hence the moment arms are $d_s=r_s\cos\theta$ and $d_L=r_L\cos\theta$. Substituting into (3.1):
+$$\tau(\theta)=W_s d_s + W_L d_L = m_s g\,(r_s\cos\theta)+m_L g\,(r_L\cos\theta).$$
+Factor out $g\cos\theta$ to obtain (4.1). At $\theta=0$, $\cos\theta=1$ (maximum); at $\theta=90^\circ$, $\cos\theta=0$, so $\tau=0$ — a hanging arm needs no holding torque. <span class="qed">∎</span>
+</div>
+
+<p>The $\cos\theta$ factor is exactly the everyday effect from <a class="secref" href="#origin">§0</a>: the load is hardest to hold when the limb is horizontal and costs nothing when it hangs straight down. The animation traces the shrinking moment arm $d_L=r_L\cos\theta$ as the forearm lowers.</p>
+
+<figure>
+<svg viewBox="0 0 440 230" width="100%" style="max-width:440px" role="img" aria-label="Animation: the forearm rotates from horizontal toward vertical about the elbow; the horizontal moment arm of the load shrinks as cosine of the angle, and the required torque shrinks with it.">
+  <defs>
+    <marker id="a4dn" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
+  </defs>
+  <!-- baseline horizontal through pivot -->
+  <line x1="60" y1="60" x2="420" y2="60" stroke="#ccc" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="360" y="54" font-size="10" fill="#aaa">horizontal</text>
+  <!-- pivot -->
+  <circle cx="60" cy="60" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="2.2"/>
+  <text x="40" y="56" font-size="11">elbow</text>
+  <!-- rotating arm group about (60,60) -->
+  <g>
+    <line x1="60" y1="60" x2="360" y2="60" stroke="#1a1a1a" stroke-width="4.5" stroke-linecap="round"/>
+    <circle cx="360" cy="60" r="6" fill="#7a1f1f"/>
+    <animateTransform attributeName="transform" type="rotate"
+      values="0 60 60;9.375 60 60;18.75 60 60;28.125 60 60;37.5 60 60;46.875 60 60;56.25 60 60;65.625 60 60;75 60 60;65.625 60 60;56.25 60 60;46.875 60 60;37.5 60 60;28.125 60 60;18.75 60 60;9.375 60 60;0 60 60"
+      keyTimes="0;0.0625;0.125;0.1875;0.25;0.3125;0.375;0.4375;0.5;0.5625;0.625;0.6875;0.75;0.8125;0.875;0.9375;1"
+      dur="7s" repeatCount="indefinite"/>
+  </g>
+  <!-- gravity arrow that follows the hand (translate group) -->
+  <g>
+    <line x1="0" y1="0" x2="0" y2="40" stroke="#2a7d2a" stroke-width="2.6" marker-end="url(#a4dn)"/>
+    <animateTransform attributeName="transform" type="translate"
+      values="360,60;356,109;344,156;325,201;298,242;265,279;227,310;184,333;138,350;184,333;227,310;265,279;298,242;325,201;344,156;356,109;360,60"
+      keyTimes="0;0.0625;0.125;0.1875;0.25;0.3125;0.375;0.4375;0.5;0.5625;0.625;0.6875;0.75;0.8125;0.875;0.9375;1"
+      dur="7s" repeatCount="indefinite"/>
+  </g>
+  <!-- moment-arm bar: horizontal from pivot to under the hand, length = r_L cos(theta) -->
+  <line y1="60" x1="60" y2="60" x2="360" stroke="#1f5f7a" stroke-width="2.4">
+    <animate attributeName="x2"
+      values="360;355.98;344.07;324.57;298;264.99;226.68;183.93;137.64;183.93;226.68;264.99;298;324.57;344.07;355.98;360"
+      keyTimes="0;0.0625;0.125;0.1875;0.25;0.3125;0.375;0.4375;0.5;0.5625;0.625;0.6875;0.75;0.8125;0.875;0.9375;1"
+      dur="7s" repeatCount="indefinite"/>
+  </line>
+  <text x="120" y="50" font-size="11" fill="#1f5f7a" font-style="italic">moment arm d = r·cosθ</text>
+</svg>
+<figcaption>The forearm (black) swings from horizontal toward vertical about the elbow. Gravity on the load (green) always points straight down; the blue bar is its horizontal moment arm $d=r_L\cos\theta$, which collapses to zero as the arm reaches vertical. Required torque $\tau=W_L\,d$ shrinks in lock-step — the geometric heart of (4.1).</figcaption>
+</figure>
+
+<!-- <a class="secref" href="#muscle">§5</a> -->
+<h2 id="muscle">5. From joint torque to muscle force: mechanical disadvantage</h2>
+<p>Theorem 4.2 gives the <em>torque</em> a joint must supply. But muscles produce <em>force</em>, and they attach close to the joint — at a small <em>muscle moment arm</em> $d_m$ (typically a few centimetres). Re-using (2.2) for the muscle's own moment, $\tau=F_m\,d_m$, gives the internal force.</p>
+
+<div class="prop"><b>Proposition 5.1 (muscle force).</b> A muscle with moment arm $d_m$ about the joint must generate force
+$$F_m=\frac{\tau}{d_m}.\tag{5.1}$$
+Because $d_m\ (\sim 0.03\ \mathrm m)$ is far smaller than the load's moment arm $r_L\ (\sim 0.35\ \mathrm m)$, $F_m$ is many times the load weight: the body trades force for range of motion and speed.</div>
+
+<figure><svg class="setupfig" viewBox="0 0 440 160" width="100%" role="img" aria-label="Lever view: muscle inserts a short distance d_m from the joint, the load hangs at a long distance r_L; the muscle force is much larger than the load.">
+  <defs>
+    <marker id="m5up" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
+    <marker id="m5dn" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
+  </defs>
+  <line x1="50" y1="80" x2="410" y2="80" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="50" cy="80" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+  <text x="34" y="76" font-size="12">O</text>
+  <!-- short muscle moment arm -->
+  <line x1="80" y1="80" x2="80" y2="20" stroke="#7a1f1f" stroke-width="4" marker-end="url(#m5up)"/>
+  <text x="86" y="30" font-size="12" fill="#7a1f1f">F_m (large)</text>
+  <line x1="50" y1="110" x2="80" y2="110" stroke="#1f5f7a" stroke-width="1.4" stroke-dasharray="3 2"/>
+  <text x="52" y="124" font-size="10" fill="#1f5f7a">d_m ≈ 3 cm</text>
+  <!-- long load arm -->
+  <line x1="400" y1="80" x2="400" y2="140" stroke="#2a7d2a" stroke-width="2.6" marker-end="url(#m5dn)"/>
+  <text x="360" y="156" font-size="12" fill="#2a7d2a">W_L (small)</text>
+  <line x1="50" y1="100" x2="400" y2="100" stroke="#1f5f7a" stroke-width="1.4" stroke-dasharray="3 2"/>
+  <text x="210" y="97" font-size="10" fill="#1f5f7a">r_L ≈ 35 cm</text>
+</svg><figcaption><b>Mechanical disadvantage.</b> The flexor inserts at $d_m\approx3$ cm; the load hangs at $r_L\approx35$ cm. Torque balance $F_m d_m = W_L r_L$ forces $F_m\approx (r_L/d_m)\,W_L\approx 12\times$ the load weight. Human limbs are built as <em>third-class levers</em>: they sacrifice force to gain hand speed and reach.</figcaption></figure>
+
+<!-- <a class="secref" href="#general">§6</a> -->
+<h2 id="general">6. The same law at shoulder, hip, knee, ankle, and low back</h2>
+<p>Equation (4.1) is not about the elbow specifically — it is Proposition 3.1 with a $\cos\theta$ projection. The recipe is identical at every joint: list the masses distal to the joint, multiply each weight by its horizontal moment arm, sum. Only the segments and distances change.</p>
+<table>
+<tr><th>Joint</th><th>Task</th><th>Masses creating the moment</th><th>Torque (about the joint)</th><th>Order of magnitude</th></tr>
+<tr><td>Elbow</td><td>Hold load, forearm horizontal</td><td>Forearm+hand; load</td><td>$g\cos\theta(m_s r_s+m_L r_L)$</td><td>$10$–$40$ N·m</td></tr>
+<tr><td>Shoulder</td><td>Arm abducted, load in hand</td><td>Whole upper limb; load (arm of $\sim0.3$–$0.6$ m)</td><td>$g\cos\theta(m_{\text{arm}} r_{\text{arm}}+m_L r_L)$</td><td>$20$–$70$ N·m</td></tr>
+<tr><td>Hip</td><td>Lean trunk forward; single-leg stance</td><td>Head-arms-trunk mass above hip; body weight offset from hip</td><td>$g\,m_{\text{HAT}}\,d_{\text{HAT}}$</td><td>$50$–$150$ N·m</td></tr>
+<tr><td>Knee</td><td>Half-squat; load on shank</td><td>Body above knee; horizontal offset of COM from knee</td><td>$g\,m_{\text{above}}\,d_{\perp}$</td><td>$30$–$150$ N·m</td></tr>
+<tr><td>Ankle</td><td>Quiet standing; rise on toes</td><td>Whole body; COM offset ahead of ankle</td><td>$g\,M_{\text{body}}\,d_{\text{COM}}$</td><td>$10$–$120$ N·m</td></tr>
+<tr><td>Low back (L5/S1)</td><td>Bend and lift a box</td><td>Trunk+head+arms; held load at long horizontal arm</td><td>$g\cos\theta(m_{\text{trunk}} r_t+m_L r_L)$</td><td>$100$–$400$ N·m</td></tr>
+</table>
+<p>The low back is the cautionary case: $r_L$ for a box held away from the spine can exceed $0.4$ m, and the erector-spinae moment arm is only $\sim 0.05$ m, so by (5.1) the spinal compressive force during a careless lift reaches several thousand newtons — the quantitative reason "lift with your legs, keep the load close" is mechanics, not folklore. Module 2 turns these forces into bone stresses; Module 5 turns muscle force back into chemistry.</p>
+
+<!-- <a class="secref" href="#worked">§7</a> -->
+<h2 id="worked">7. Worked numerical example</h2>
+<p>Take a $70\ \mathrm{kg}$ adult holding a $m_L=5\ \mathrm{kg}$ object (a full grocery bag) with the forearm horizontal ($\theta=0$). Anthropometric values (Appendix): forearm+hand mass $m_s=0.022\times70=1.54\ \mathrm{kg}$, segment COM at $r_s=0.116\ \mathrm m$, grip at $r_L=0.35\ \mathrm m$, flexor moment arm $d_m=0.03\ \mathrm m$, $g=9.81\ \mathrm{m\,s^{-2}}$.</p>
+<p>Required elbow torque from (4.1) with $\cos 0=1$:
+$$\tau = 9.81\,(1.54\times0.116 + 5\times0.35)=9.81\,(0.1786+1.75)=9.81\times1.9286 \approx 18.9\ \mathrm{N\,m}.$$
+Muscle force from (5.1):
+$$F_m=\frac{\tau}{d_m}=\frac{18.9}{0.03}\approx 631\ \mathrm N \approx 64\ \mathrm{kgf}.$$
+</p>
+<div class="keyresult"><b>Interpretation.</b> Holding a 5 kg bag (weight $\approx 49$ N) at arm's length, the biceps/brachialis must pull with $\approx 630$ N — about <strong>13 times</strong> the bag's weight, and roughly the force of hanging a 64 kg mass from the tendon. The "heaviness" you feel is this internal amplification, set by the lever ratio $r_L/d_m\approx 12$, not by the bag itself.</div>
+
+<!-- <a class="secref" href="#lab">§8</a> -->
+<h2 id="lab">8. Computational lab and sensitivity analysis</h2>
+<p><b>Physical question:</b> how does the required joint torque vary with forearm angle $\theta$ and load $m_L$? <b>Model:</b> Theorem 4.2. <b>Parameters:</b> as in <a class="secref" href="#worked">§7</a>. The script below evaluates (4.1) over $\theta\in[0,90^\circ]$ for four loads and reports the worst case and the implied muscle force.</p>
+<pre><code>import numpy as np
+import matplotlib.pyplot as plt
+
+g, m_s, r_s, r_L, d_m = 9.81, 0.022*70.0, 0.116, 0.35, 0.03   # SI units
+
+def tau(theta, m_L):          # Eq. (4.1): required joint torque
+    return g*np.cos(theta)*(m_s*r_s + m_L*r_L)
+
+theta = np.linspace(0, np.pi/2, 200)
+for m_L in [0, 2, 5, 10]:
+    plt.plot(np.degrees(theta), tau(theta, m_L), label=f"{m_L} kg")
+plt.xlabel("forearm angle below horizontal  theta  (deg)")
+plt.ylabel("required elbow torque  tau  (N*m)")
+plt.legend(); plt.grid(alpha=0.3); plt.tight_layout(); plt.savefig("m1_torque.png")
+
+for m_L in [0, 2, 5, 10]:                      # worst case (horizontal)
+    t0 = tau(0.0, m_L)
+    print(f"load {m_L:>2} kg -> tau = {t0:5.2f} N*m,  F_muscle = {t0/d_m:6.0f} N")</code></pre>
+<p>Output (computed):</p>
+<table>
+<tr><th>Load $m_L$ (kg)</th><th>$\tau$ at $\theta=0$ (N·m)</th><th>Muscle force $F_m=\tau/d_m$ (N)</th><th>as multiple of load weight</th></tr>
+<tr><td>0</td><td>1.75</td><td>58</td><td>— (segment only)</td></tr>
+<tr><td>2</td><td>8.62</td><td>287</td><td>14.6×</td></tr>
+<tr><td>5</td><td>18.92</td><td>631</td><td>12.9×</td></tr>
+<tr><td>10</td><td>36.09</td><td>1203</td><td>12.3×</td></tr>
+</table>
+
+<figure>
+<svg viewBox="0 0 480 300" width="100%" style="max-width:520px" role="img" aria-label="Plot of required elbow torque versus forearm angle for loads of 0, 2, 5, and 10 kg; all curves follow a cosine and fall to zero at 90 degrees.">
+  <!-- axes -->
+  <line x1="60" y1="30" x2="60" y2="250" stroke="#333" stroke-width="1.4"/>
+  <line x1="60" y1="250" x2="450" y2="250" stroke="#333" stroke-width="1.4"/>
+  <!-- y ticks 0,10,20,30,40 -->
+  <g font-size="10" fill="#555" text-anchor="end">
+    <line x1="56" y1="250" x2="60" y2="250" stroke="#333"/><text x="52" y="254">0</text>
+    <line x1="56" y1="195" x2="60" y2="195" stroke="#333"/><text x="52" y="199">10</text>
+    <line x1="56" y1="140" x2="60" y2="140" stroke="#333"/><text x="52" y="144">20</text>
+    <line x1="56" y1="85"  x2="60" y2="85"  stroke="#333"/><text x="52" y="89">30</text>
+    <line x1="56" y1="30"  x2="60" y2="30"  stroke="#333"/><text x="52" y="34">40</text>
+  </g>
+  <!-- x ticks 0,30,45,60,90 -->
+  <g font-size="10" fill="#555" text-anchor="middle">
+    <line x1="60"  y1="250" x2="60"  y2="254" stroke="#333"/><text x="60" y="266">0</text>
+    <line x1="190" y1="250" x2="190" y2="254" stroke="#333"/><text x="190" y="266">30</text>
+    <line x1="255" y1="250" x2="255" y2="254" stroke="#333"/><text x="255" y="266">45</text>
+    <line x1="320" y1="250" x2="320" y2="254" stroke="#333"/><text x="320" y="266">60</text>
+    <line x1="450" y1="250" x2="450" y2="254" stroke="#333"/><text x="450" y="266">90</text>
+  </g>
+  <!-- gridlines -->
+  <g stroke="#eee" stroke-width="1">
+    <line x1="60" y1="195" x2="450" y2="195"/><line x1="60" y1="140" x2="450" y2="140"/>
+    <line x1="60" y1="85" x2="450" y2="85"/><line x1="60" y1="30" x2="450" y2="30"/>
+  </g>
+  <!-- curves (computed coordinates) -->
+  <polyline fill="none" stroke="#999" stroke-width="2" points="60.0,240.4 86.0,240.4 112.0,240.6 138.0,240.8 164.0,241.2 190.0,241.7 216.0,242.2 242.0,242.8 268.0,243.6 294.0,244.3 320.0,245.2 346.0,246.1 372.0,247.0 398.0,248.0 424.0,249.0 450.0,250.0"/>
+  <polyline fill="none" stroke="#1f5f7a" stroke-width="2" points="60.0,202.6 86.0,202.9 112.0,203.6 138.0,204.9 164.0,206.7 190.0,208.9 216.0,211.6 242.0,214.8 268.0,218.3 294.0,222.1 320.0,226.3 346.0,230.7 372.0,235.4 398.0,240.1 424.0,245.0 450.0,250.0"/>
+  <polyline fill="none" stroke="#2a7d2a" stroke-width="2.4" points="60.0,145.9 86.0,146.5 112.0,148.2 138.0,151.0 164.0,154.9 190.0,159.9 216.0,165.8 242.0,172.7 268.0,180.4 294.0,188.8 320.0,198.0 346.0,207.7 372.0,217.8 398.0,228.4 424.0,239.1 450.0,250.0"/>
+  <polyline fill="none" stroke="#7a1f1f" stroke-width="2.4" points="60.0,51.5 86.0,52.6 112.0,55.9 138.0,61.2 164.0,68.7 190.0,78.1 216.0,89.4 242.0,102.5 268.0,117.2 294.0,133.3 320.0,150.8 346.0,169.3 372.0,188.7 398.0,208.7 424.0,229.3 450.0,250.0"/>
+  <!-- axis labels -->
+  <text x="255" y="285" font-size="12" fill="#333" text-anchor="middle">forearm angle below horizontal  θ  (deg)</text>
+  <text x="16" y="140" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90 16 140)">required torque  τ  (N·m)</text>
+  <!-- legend -->
+  <g font-size="11">
+    <rect x="350" y="40" width="92" height="74" fill="#fff" stroke="#ddd"/>
+    <line x1="356" y1="54" x2="376" y2="54" stroke="#999" stroke-width="2"/><text x="380" y="58">0 kg</text>
+    <line x1="356" y1="70" x2="376" y2="70" stroke="#1f5f7a" stroke-width="2"/><text x="380" y="74">2 kg</text>
+    <line x1="356" y1="86" x2="376" y2="86" stroke="#2a7d2a" stroke-width="2.4"/><text x="380" y="90">5 kg</text>
+    <line x1="356" y1="102" x2="376" y2="102" stroke="#7a1f1f" stroke-width="2.4"/><text x="380" y="106">10 kg</text>
+  </g>
+</svg>
+<figcaption>Required elbow torque $\tau(\theta)$ from (4.1), drawn from the script's computed values. Every curve is a cosine in $\theta$, peaking at the horizontal ($\theta=0$) and vanishing at the vertical ($\theta=90^\circ$); the spacing between curves is set by $m_L r_L$, the load's contribution.</figcaption>
+</figure>
+
+<h3>Sensitivity analysis</h3>
+<p>From (4.1), $\partial\tau/\partial m_L = g r_L\cos\theta$ and $\partial\tau/\partial r_L = g m_L\cos\theta$. At $\theta=0$ with the <a class="secref" href="#worked">§7</a> numbers, $\partial\tau/\partial m_L = 9.81\times0.35\approx 3.4\ \mathrm{N\,m\,kg^{-1}}$ (each extra kg adds 3.4 N·m), while $\partial\tau/\partial r_L = 9.81\times5\approx 49\ \mathrm{N\,m\,m^{-1}}$ — moving the 5 kg load out by just 10 cm adds $\sim 4.9$ N·m, the same as adding $\sim1.5$ kg at the original distance. <em>Distance dominates.</em> This is why carrying a load close to the body is mechanically cheaper than reducing its mass, and it foreshadows the lifting-posture analysis in Modules 13–14.</p>
+
+<div class="qbox"><b>Extension challenge.</b> Replace the rigid horizontal forearm with the full upper limb at the shoulder, adding the upper-arm segment as a second mass. Re-derive $\tau(\theta)$, then study how sensitive the result is to the anthropometric COM fractions (vary $r_s$ by $\pm15\%$). Which assumption — segment mass, COM location, or grip distance — most affects the predicted shoulder torque?</div>
+
+<!-- <a class="secref" href="#captures">§9</a> -->
+<h2 id="captures">9. What the model captures and misses</h2>
+<p><b>Captures:</b> the gravitational moment of every static "hold/lean/lift"; the dominant role of horizontal distance; the $\cos\theta$ angle dependence; the force-amplifying lever geometry that sets muscle and joint loads; correct orders of magnitude with no fitting.</p>
+<p><b>Misses (and where the course repairs each):</b></p>
+<table>
+<tr><th>Simplification</th><th>What it ignores</th><th>Addressed in</th></tr>
+<tr><td>Static only ($\sum\mathbf M=0$)</td><td>Inertial/acceleration torques during motion</td><td>Modules 2–3, 8–9 (dynamics)</td></tr>
+<tr><td>Single net "muscle moment"</td><td>Antagonist co-contraction; many muscles share the load</td><td>Modules 5, 12</td></tr>
+<tr><td>Constant muscle moment arm $d_m$</td><td>$d_m$ varies with joint angle</td><td>Module 5</td></tr>
+<tr><td>Muscle force unlimited</td><td>Force–length–velocity limits, fatigue</td><td>Modules 5, 14</td></tr>
+<tr><td>Joint contact force dropped</td><td>Real joint/bone compressive loads</td><td>Modules 2, 4</td></tr>
+<tr><td>Planar, rigid links</td><td>3-D geometry, tissue deformation</td><td>Modules 11, 16</td></tr>
+</table>
+<p><b>How to validate experimentally:</b> measure elbow angle with a phone video or IMU, hold known masses, and either (i) record flexor EMG (force proxy, calibrate against a load cell) or (ii) on a dynamometer measure the external torque directly. Predicted $\tau(\theta)\propto\cos\theta$ and the linear dependence on $m_L$ are directly testable; Module 15 builds the full measurement-to-torque pipeline.</p>
+
+<!-- <a class="secref" href="#problems">§10</a> -->
+<h2 id="problems">10. Diagnostic questions and problems</h2>
+<h3>Five diagnostic questions</h3>
+<ol>
+<li>Why does the joint contact force at $O$ disappear from the moment balance in <a class="secref" href="#equil">§3</a>, and what would change if you took moments about a different point?</li>
+<li>Holding the same object, why is the required torque larger at the shoulder than at the elbow?</li>
+<li>The required torque falls as $\cos\theta$, yet many people find the arm "hardest" partway down, not exactly horizontal. Name one effect (from <a class="secref" href="#captures">§9</a>) the static model omits that could explain this.</li>
+<li>If a child's limb segments are half the length of an adult's but geometrically similar, how do the load moment arm and the required torque scale?</li>
+<li>Why does the muscle force exceed the load weight by roughly $r_L/d_m$, and what does the body gain in exchange for that cost?</li>
+</ol>
+<h3>Three problems</h3>
+<p><b>(a) Conceptual.</b> Two people hold identical 4 kg dumbbells: one with the arm horizontal, one with the elbow bent so the forearm points $60^\circ$ below horizontal. Without computing, rank their elbow torques and their biceps forces, and explain using (4.1) and (5.1).</p>
+<p><b>(b) Derivational.</b> Generalize Theorem 4.2 to a load held not at the hand but at a horizontal offset $a$ <em>beyond</em> the fingertips along the same line (e.g. a long-handled tool). Derive $\tau(\theta)$ and show explicitly how the extra reach $a$ enters. Then derive $\partial\tau/\partial a$ and interpret it.</p>
+<p><b>(c) Computational.</b> Modify the <a class="secref" href="#lab">§8</a> script to plot muscle force $F_m(\theta)$ for a 5 kg load using an angle-dependent moment arm $d_m(\theta)=0.03 + 0.01\sin\theta$ (m). Compare against the constant-$d_m$ prediction and report the angle of peak muscle force. Does the peak still occur at $\theta=0$?</p>
+
+<hr>
+
+<!-- Appendix -->
+<h2 id="appendix">Appendix — anthropometric parameters</h2>
+<p>Segment masses and COM locations used above follow standard regression fractions of total body mass $M$ and segment length $\ell$ (Winter, <em>Biomechanics and Motor Control of Human Movement</em>). Values for a $70\ \mathrm{kg}$ adult:</p>
+<table>
+<tr><th>Quantity</th><th>Symbol</th><th>Fraction</th><th>Value (70 kg adult)</th></tr>
+<tr><td>Forearm+hand mass</td><td>$m_s$</td><td>$0.022\,M$</td><td>$1.54\ \mathrm{kg}$</td></tr>
+<tr><td>Forearm+hand COM from elbow</td><td>$r_s$</td><td>$\approx 0.43\,\ell_{\text{fa}}$</td><td>$0.116\ \mathrm m$</td></tr>
+<tr><td>Grip distance from elbow</td><td>$r_L$</td><td>—</td><td>$0.35\ \mathrm m$</td></tr>
+<tr><td>Elbow flexor moment arm</td><td>$d_m$</td><td>—</td><td>$0.03\ \mathrm m$</td></tr>
+<tr><td>Gravitational field</td><td>$g$</td><td>—</td><td>$9.81\ \mathrm{m\,s^{-2}}$</td></tr>
+</table>
+<p class="small">These regression values carry $\sim10$–$15\%$ inter-individual scatter; the <a class="secref" href="#lab">§8</a> extension challenge probes that uncertainty. Next: <b>Module 2 — Bones as hierarchical load-bearing composite structures</b>, which converts the joint and muscle forces derived here into internal bone stresses and a fracture criterion.</p>
+
+</body>
+</html>
