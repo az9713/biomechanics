@@ -59,7 +59,7 @@ window.MathJax = {
 <li><b>2.</b> <a href="#taxonomy">A taxonomy of joints by degrees of freedom</a></li>
 <li><b>3.</b> <a href="#forces">Constraint forces and Lagrange multipliers</a></li>
 <li><b>4.</b> <a href="#reaction">Joint reaction force: why a hinge carries far more than body weight</a></li>
-<li class="pending"><b>5.</b> From reaction force to contact pressure <em>(to come)</em></li>
+<li><b>5.</b> <a href="#contact">From reaction force to contact pressure</a></li>
 <li class="pending"><b>6.</b> Stability versus mobility <em>(to come)</em></li>
 <li class="pending"><b>7.</b> Computational lab — the constrained two-link limb <em>(to come)</em></li>
 <li class="pending"><b>8.</b> What the model captures and misses <em>(to come)</em></li>
@@ -707,6 +707,124 @@ With $W_s=\tfrac56 W$, abductor arm $a\approx5\ \mathrm{cm}$, and weight arm $b\
 <h3>4.4 Where this leads</h3>
 
 <p>The joint reaction force is the input to everything downstream. Spread it over the cartilage contact area and it becomes a <em>contact pressure</em> — the subject of <span class="secref">§5</span>, and the quantity that governs whether cartilage survives or degenerates into osteoarthritis (Module&nbsp;4). Fed into the femur as an axial-plus-bending load, it sets the bone stresses of Module&nbsp;2. The hidden multiplier of §3 is, quite literally, the load of a lifetime.</p>
+
+<hr>
+
+<!-- §5 -->
+<h2 id="contact">5. From reaction force to contact pressure</h2>
+
+<p>A bone does not feel a force; it feels a <em>pressure</em> — force spread over the area that actually touches. The joint reaction $R$ of <a class="secref" href="#reaction">§4</a> is delivered through a patch of <em>cartilage</em> (the smooth, load-bearing tissue capping the bone ends), and what governs whether that cartilage survives is not $R$ itself but $R$ divided by the contact area. This section makes that division precise, and shows that the body's two design choices — large, well-matched contact areas and a deliberately <em>soft</em> cartilage layer — are what keep the pressure survivable.</p>
+
+<h3>5.1 Mean contact pressure</h3>
+
+<div class="def"><b>Definition 5.1 (contact pressure).</b> <em>Pressure</em> $p$ is force per unit area normal to a surface, in pascals ($\mathrm{Pa}=\mathrm{N\,m^{-2}}$; here we work in $\mathrm{MPa}=10^6$ Pa). If a joint reaction $R$ is shared over a contact area $A_c$, the <em>mean contact pressure</em> is
+$$\boxed{\;\bar p = \frac{R}{A_c}.\;}\tag{5.1}$$
+</div>
+
+<p>The single most important word here is <em>congruent</em>: a joint whose surfaces match closely (like a ball seated in a snug socket) spreads load over a large $A_c$ and so runs at low pressure; an <em>incongruent</em> joint — surfaces that meet over a small patch — concentrates the same $R$ into a high pressure.</p>
+
+<div class="keyresult"><b>Worked number (hip).</b> The single-leg-stance reaction was $R\approx 2.5\,W\approx 1715\ \mathrm N$ (<a class="secref" href="#reaction">§4</a>). The hip's loaded cartilage contact area is roughly $A_c\approx 10\ \mathrm{cm^2}=1.0\times10^{-3}\ \mathrm m^2$, so
+$$\bar p = \frac{1715}{1.0\times10^{-3}} \approx 1.7\ \mathrm{MPa}.$$
+A couple of atmospheres' worth of pressure, carried for a lifetime — comfortably below the level that damages cartilage, precisely because the hip is so congruent.</p></div>
+
+<h3>5.2 Pressure is not uniform: Hertz contact</h3>
+
+<p>Equation (5.1) gives the <em>average</em>. But two curved elastic bodies pressed together do not share load evenly: the pressure is highest at the centre of contact and falls to zero at the edge. The classical solution is <em>Hertz contact theory</em>, which we state for the case that matters here — a convex bone end (a near-sphere) bearing on its mating surface.</p>
+
+<div class="def"><b>Definition 5.2 (effective radius and modulus).</b> Two contacting bodies of radii $R_1,R_2$ and elastic properties $(E_1,\nu_1),(E_2,\nu_2)$ behave like a single equivalent contact with
+$$\frac{1}{R_{\text{eff}}}=\frac{1}{R_1}\pm\frac{1}{R_2},\qquad
+\frac{1}{E^*}=\frac{1-\nu_1^2}{E_1}+\frac{1-\nu_2^2}{E_2},$$
+where the sign is $-$ for a ball in a concave socket. Here $E$ is Young's modulus (<a class="secref" href="module02.html#setup">Module&nbsp;2</a>) and $\nu$ is <em>Poisson's ratio</em> — the fraction by which a material narrows sideways when stretched (near $0.5$ for nearly-incompressible cartilage). $R_{\text{eff}}$ measures how sharply curved the contact is; $E^*$ is the <em>effective modulus</em>, the combined stiffness of the pair.</div>
+
+<div class="thm"><b>Hertz contact (sphere).</b> A normal force $F$ pressed through such a contact produces a circular patch of radius $a$ carrying a dome-shaped pressure that peaks at $p_0$ in the centre:
+$$\boxed{\;a=\Bigl(\tfrac{3FR_{\text{eff}}}{4E^*}\Bigr)^{1/3},\qquad
+p_0=\frac{3F}{2\pi a^2}=\Bigl(\tfrac{6F\,{E^*}^{2}}{\pi^3 R_{\text{eff}}^{2}}\Bigr)^{1/3}.\;}\tag{5.2}$$
+The pressure profile is $p(r)=p_0\sqrt{1-(r/a)^2}$, and the peak exceeds the mean by exactly $\tfrac32$.</div>
+
+<figure><svg class="setupfig" viewBox="0 0 460 200" width="100%" role="img" aria-label="Two pressure domes: a congruent joint spreads the load over a wide patch with a low peak pressure; an incongruent joint concentrates it into a narrow patch with a tall peak.">
+  <defs>
+    <marker id="c5r" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
+  </defs>
+  <!-- baseline (bone surface) -->
+  <line x1="40" y1="150" x2="230" y2="150" stroke="#1a1a1a" stroke-width="1.6"/>
+  <line x1="250" y1="150" x2="430" y2="150" stroke="#1a1a1a" stroke-width="1.6"/>
+  <!-- congruent dome -->
+  <path d="M70.0,150.0 L77.2,135.0 L84.4,129.4 L91.5,125.5 L98.7,122.5 L105.9,120.3 L113.1,118.6 L120.3,117.4 L127.4,116.6 L134.6,116.1 L141.8,116.0 L149.0,116.3 L156.2,116.9 L163.3,117.9 L170.5,119.4 L177.7,121.3 L184.9,123.9 L192.1,127.3 L199.2,131.9 L206.4,139.3 L210.0,150.0" fill="#7a1f1f" fill-opacity="0.18" stroke="#7a1f1f" stroke-width="1.6"/>
+  <line x1="140" y1="150" x2="140" y2="108" stroke="#7a1f1f" stroke-width="2.4" marker-end="url(#c5r)"/>
+  <text x="140" y="170" font-size="11" text-anchor="middle" font-weight="bold">congruent</text>
+  <text x="140" y="184" font-size="9.5" text-anchor="middle" fill="#777">wide patch · low p₀</text>
+  <text x="214" y="146" font-size="10" fill="#7a1f1f">2a</text>
+  <!-- incongruent dome -->
+  <path d="M306.0,150.0 L309.5,110.3 L313.0,95.4 L316.5,85.1 L319.9,77.3 L323.4,71.4 L326.9,66.9 L330.4,63.7 L333.9,61.5 L337.4,60.3 L340.9,60.0 L344.4,60.7 L347.8,62.4 L351.3,65.1 L354.8,69.0 L358.3,74.2 L361.8,80.9 L365.3,89.8 L368.8,102.0 L374.0,150.0" fill="#7a1f1f" fill-opacity="0.30" stroke="#7a1f1f" stroke-width="1.6"/>
+  <line x1="340" y1="150" x2="340" y2="52" stroke="#7a1f1f" stroke-width="2.4" marker-end="url(#c5r)"/>
+  <text x="340" y="170" font-size="11" text-anchor="middle" font-weight="bold">incongruent</text>
+  <text x="340" y="184" font-size="9.5" text-anchor="middle" fill="#777">narrow patch · high p₀</text>
+  <text x="300" y="58" font-size="10" fill="#7a1f1f">p₀</text>
+</svg><figcaption><b>Same force, different pressure.</b> The Hertz dome $p(r)=p_0\sqrt{1-(r/a)^2}$ for a congruent contact (left: wide $a$, low peak) and an incongruent one (right: narrow $a$, tall peak). Both carry the same $R$ — the area under each dome is equal — so shrinking the contact drives the peak up.</figcaption></figure>
+
+<h3>5.3 Why cartilage is soft on purpose</h3>
+
+<p>Look at how $E^*$ combines the two surfaces: $1/E^*$ <em>adds</em> the compliances, so the <em>softer</em> material dominates. Cartilage ($E\approx 10\ \mathrm{MPa}$) is about $1700$ times more compliant than bone ($E\approx 17\ \mathrm{GPa}$), so a cartilage-on-cartilage contact has $E^*\approx 6\ \mathrm{MPa}$ against $\approx 9\ \mathrm{GPa}$ for bone-on-bone.</p>
+
+<p>By (5.2), $p_0\propto {E^*}^{2/3}$: a softer contact spreads load and lowers the peak. Running the same joint force through both:</p>
+
+<figure>
+<svg viewBox="0 0 480 300" width="100%" style="max-width:520px" role="img" aria-label="Log-log plot of Hertz peak contact pressure versus effective modulus; pressure rises as the two-thirds power, with cartilage near 2 MPa well below the cartilage-damage band and bone-on-bone near 300 MPa far above it.">
+  <line x1="60" y1="30" x2="60" y2="250" stroke="#333" stroke-width="1.4"/>
+  <line x1="60" y1="250" x2="450" y2="250" stroke="#333" stroke-width="1.4"/>
+  <!-- damage band 15-25 MPa -->
+  <rect x="60" y="118.1" width="390" height="12.2" fill="#c00" fill-opacity="0.12"/>
+  <text x="446" y="115" font-size="9.5" fill="#c00" text-anchor="end">cartilage damage ≈15–25 MPa</text>
+  <g font-size="10" fill="#555" text-anchor="end">
+    <text x="52" y="254">0.1</text><text x="52" y="199">1</text><text x="52" y="144">10</text><text x="52" y="89">100</text><text x="52" y="34">1000</text>
+  </g>
+  <g font-size="10" fill="#555" text-anchor="middle">
+    <text x="60" y="266">1 MPa</text><text x="216" y="266">100</text><text x="294" y="266">1 GPa</text><text x="372" y="266">10</text><text x="450" y="266">100</text>
+  </g>
+  <g stroke="#eee" stroke-width="1"><line x1="60" y1="195" x2="450" y2="195"/><line x1="60" y1="140" x2="450" y2="140"/><line x1="60" y1="85" x2="450" y2="85"/></g>
+  <!-- p0 vs E* curve -->
+  <polyline fill="none" stroke="#1f5f7a" stroke-width="2.4" points="60.0,202.9 73.2,196.7 86.4,190.5 99.7,184.3 112.9,178.1 126.1,171.9 139.3,165.7 152.5,159.4 165.8,153.2 179.0,147.0 192.2,140.8 205.4,134.6 218.6,128.4 231.9,122.2 245.1,115.9 258.3,109.7 271.5,103.5 284.7,97.3 298.0,91.1 311.2,84.9 324.4,78.6 337.6,72.4 350.8,66.2 364.1,60.0 377.3,53.8 390.5,47.6 403.7,41.4 416.9,35.1 430.2,28.9 450.0,19.6"/>
+  <!-- cartilage marker -->
+  <circle cx="122.2" cy="173.7" r="4.5" fill="#2a7d2a"/>
+  <text x="128" y="178" font-size="10" fill="#2a7d2a">cartilage: p₀ ≈ 2.4 MPa</text>
+  <!-- bone marker -->
+  <circle cx="369.7" cy="57.4" r="4.5" fill="#7a1f1f"/>
+  <text x="364" y="53" font-size="10" fill="#7a1f1f" text-anchor="end">bone-on-bone: p₀ ≈ 320 MPa</text>
+  <text x="255" y="285" font-size="12" fill="#333" text-anchor="middle">effective modulus  E*  (log scale)</text>
+  <text x="16" y="140" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90 16 140)">peak pressure  p₀  (MPa, log)</text>
+</svg>
+<figcaption>Hertz peak pressure vs. effective modulus (computed, $R_{\text{eff}}=30$&nbsp;mm, $F=1715$&nbsp;N). Because $p_0\propto {E^*}^{2/3}$, the soft cartilage contact sits at $\approx2.4$&nbsp;MPa — safely below the damage band — while a hypothetical bone-on-bone contact would reach $\approx320$&nbsp;MPa, $\sim130\times$ higher and instantly destructive. Cartilage's compliance is not a weakness; it is the pressure-reducing feature.</figcaption>
+</figure>
+
+<p>This is only half of cartilage's trick. Because it is also <em>porous and fluid-filled</em>, much of the load is briefly carried by pressurized interstitial water rather than the solid matrix, lowering the stress on the collagen still further — the biphasic behaviour we develop quantitatively in Module&nbsp;4.</p>
+
+<h3>5.4 Failure: when the contact shrinks</h3>
+
+<p>Read (5.2) the other way and you have the mechanics of joint degeneration. Anything that <em>shrinks the contact area</em> — a shallow dysplastic socket, a torn meniscus, an incongruence left by a mal-healed fracture, or early cartilage thinning — raises the peak pressure, because for a fixed force $p_0=3F/(2\pi a^2)\propto 1/a^2$.</p>
+
+<p>Higher pressure damages and thins the cartilage, which shrinks the effective contact further, which raises the pressure again: a feedback loop that is one mechanical route into <em>osteoarthritis</em>. The animation shows the runaway — as the contact patch narrows, the pressure dome climbs past the damage threshold.</p>
+
+<figure>
+<svg viewBox="0 0 460 210" width="100%" style="max-width:440px" role="img" aria-label="Animation: as the contact patch narrows, the pressure dome grows taller as one over area squared, rising past the cartilage damage threshold line.">
+  <!-- pressure dome (ellipse, bottom half masked) -->
+  <ellipse cx="230" cy="165" rx="80" ry="10.24" fill="#7a1f1f" fill-opacity="0.30" stroke="#7a1f1f" stroke-width="1.4">
+    <animate attributeName="rx" dur="5s" repeatCount="indefinite" keyTimes="0.00;0.05;0.10;0.15;0.20;0.25;0.30;0.35;0.40;0.45;0.50;0.55;0.60;0.65;0.70;0.75;0.80;0.85;0.90;0.95;1.00" values="80.00;78.73;75.03;69.28;62.03;54.00;45.97;38.72;32.97;29.27;28.00;29.27;32.97;38.72;45.97;54.00;62.03;69.28;75.03;78.73;80.00"/>
+    <animate attributeName="ry" dur="5s" repeatCount="indefinite" keyTimes="0.00;0.05;0.10;0.15;0.20;0.25;0.30;0.35;0.40;0.45;0.50;0.55;0.60;0.65;0.70;0.75;0.80;0.85;0.90;0.95;1.00" values="10.24;10.57;11.64;13.65;17.02;22.47;31.00;43.70;60.28;76.45;83.56;76.45;60.28;43.70;31.00;22.47;17.02;13.65;11.64;10.57;10.24"/>
+  </ellipse>
+  <!-- mask the bottom half of the ellipse -->
+  <rect x="20" y="166" width="420" height="44" fill="#fff"/>
+  <!-- baseline -->
+  <line x1="70" y1="165" x2="390" y2="165" stroke="#1a1a1a" stroke-width="1.6"/>
+  <text x="230" y="182" font-size="10" fill="#777" text-anchor="middle">contact patch (narrows →)</text>
+  <!-- damage threshold at p0=15 MPa -> y=165-5*15=90 -->
+  <line x1="70" y1="90" x2="390" y2="90" stroke="#c00" stroke-width="1.2" stroke-dasharray="6 3"/>
+  <text x="388" y="86" font-size="10" fill="#c00" text-anchor="end">cartilage damage ≈15 MPa</text>
+  <text x="74" y="30" font-size="11" fill="#7a1f1f">peak pressure  p₀ = 3F / (2πa²) ∝ 1/a²</text>
+</svg>
+<figcaption>Fixed joint force $R$, shrinking contact. As the half-width $a$ falls from 20&nbsp;mm to 7&nbsp;mm, the peak pressure climbs from $\approx2$&nbsp;MPa to $\approx17$&nbsp;MPa — past the cartilage-damage line. Because $p_0\propto 1/a^2$, the last millimetres of lost contact hurt the most: the quantitative heart of the osteoarthritis spiral.</figcaption>
+</figure>
+
+<p>The chain of this module is now complete: a joint's freedoms (<a class="secref" href="#config">§1</a>–<a class="secref" href="#taxonomy">§2</a>) determine its constraints, the constraints carry a force (<a class="secref" href="#forces">§3</a>), the force is amplified into a joint reaction (<a class="secref" href="#reaction">§4</a>), and that reaction becomes the contact pressure (§5) that the living tissue must survive. <span class="secref">§6</span> returns to the mobility-versus-stability trade-off with these forces in hand; Module&nbsp;4 takes the contact pressure into the biphasic mechanics of cartilage itself.</p>
 
 </body>
 </html>
