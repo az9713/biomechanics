@@ -75,7 +75,58 @@ window.MathJax = {
 
 <p>Sit down and watch your knee: it swings the shin forward and back through a wide arc, but try to twist the shin sideways or slide it left and right relative to the thigh and almost nothing happens. The knee behaves, to good approximation, as a <em>one-axis hinge</em> — and it does so while transmitting forces several times body weight every step. Now roll your shoulder: the hand can reach overhead, behind your back, across your chest, in almost any direction. The shoulder is the body's most mobile joint. It is also, by a wide margin, the most frequently <em>dislocated</em>. The same freedom that lets the arm explore space is the freedom for the joint to come apart.</p>
 
+<figure><svg class="setupfig" viewBox="0 0 460 226" width="100%" role="img" aria-label="The knee as a one-axis hinge with a single flexion-extension freedom, beside the shoulder as a ball-and-socket joint with three rotational freedoms.">
+  <defs>
+    <marker id="o1arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2a7d2a"/></marker>
+    <marker id="o3arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7a1f1f"/></marker>
+  </defs>
+  <line x1="230" y1="18" x2="230" y2="208" stroke="#eee" stroke-width="1"/>
+  <!-- KNEE -->
+  <text x="115" y="26" font-size="12.5" text-anchor="middle" font-weight="bold" fill="#1a1a1a">Knee — hinge</text>
+  <line x1="115" y1="44" x2="115" y2="106" stroke="#c9b79a" stroke-width="12" stroke-linecap="round"/>
+  <text x="130" y="76" font-size="10" fill="#999">femur</text>
+  <circle cx="115" cy="110" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+  <line x1="115" y1="110" x2="158" y2="188" stroke="#c9b79a" stroke-width="11" stroke-linecap="round"/>
+  <line x1="115" y1="110" x2="115" y2="192" stroke="#c9b79a" stroke-width="3" stroke-dasharray="5 4" opacity="0.55"/>
+  <text x="162" y="200" font-size="10" fill="#999">tibia</text>
+  <path d="M150,176 A50,50 0 0 1 120,192" fill="none" stroke="#2a7d2a" stroke-width="2" marker-end="url(#o1arr)"/>
+  <text x="143" y="140" font-size="11" fill="#2a7d2a" font-style="italic">flex / extend</text>
+  <text x="115" y="222" font-size="11" text-anchor="middle" fill="#555">1 rotational DOF · highly stable</text>
+  <!-- SHOULDER -->
+  <text x="347" y="26" font-size="12.5" text-anchor="middle" font-weight="bold" fill="#1a1a1a">Shoulder — ball &amp; socket</text>
+  <path d="M322,68 A28,28 0 0 0 322,116" fill="none" stroke="#c9b79a" stroke-width="10" stroke-linecap="round"/>
+  <text x="300" y="62" font-size="10" fill="#999" text-anchor="end">socket</text>
+  <circle cx="347" cy="92" r="19" fill="#e8ddc6" stroke="#b9a47e" stroke-width="2"/>
+  <line x1="360" y1="104" x2="398" y2="184" stroke="#c9b79a" stroke-width="11" stroke-linecap="round"/>
+  <text x="402" y="172" font-size="10" fill="#999">humerus</text>
+  <path d="M318,80 A40,40 0 0 1 376,76" fill="none" stroke="#7a1f1f" stroke-width="1.8" marker-end="url(#o3arr)"/>
+  <path d="M388,72 A42,42 0 0 1 396,116" fill="none" stroke="#7a1f1f" stroke-width="1.8" marker-end="url(#o3arr)"/>
+  <path d="M360,150 A12,9 0 1 1 374,148" fill="none" stroke="#7a1f1f" stroke-width="1.8" marker-end="url(#o3arr)"/>
+  <text x="347" y="222" font-size="11" text-anchor="middle" fill="#555">3 rotational DOF · easily dislocated</text>
+</svg><figcaption><b>The two extremes.</b> The knee keeps a single freedom (flexion–extension) and locks out the other five — stable but restricted. The shoulder keeps three rotational freedoms — versatile but the least stable major joint. Every joint sits somewhere on this ledger; <span class="secref">§1</span> makes "number of freedoms" precise.</figcaption></figure>
+
 <p>This is the central trade-off of Module 3, and it is not anatomy trivia — it is a statement about <strong>constraints</strong>. A rigid body floating in space has six independent ways to move (three translations, three rotations). A joint is a device that <em>removes</em> some of those freedoms by physical contact: matching bony surfaces, taut ligaments, and the pressure of cartilage on cartilage. Each freedom removed is a <em>constraint</em>; the freedoms that remain are the joint's <em>degrees of freedom</em>. The knee removes five and keeps one; the shoulder removes only three and keeps three. Mobility and stability are the two sides of that ledger, and you cannot increase one without spending the other.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 460 210" width="100%" role="img" aria-label="Stacked bars for shoulder, hip, knee, and elbow. Each total is six unit freedoms, split into degrees of freedom kept for mobility and constraints removed for stability.">
+  <text x="230" y="20" font-size="11.5" text-anchor="middle" fill="#1a1a1a">Each joint starts from 6 freedoms: kept (mobility) + removed (stability) = 6</text>
+  <g font-size="9" fill="#999" text-anchor="middle">
+    <text x="120" y="40">0</text><text x="170" y="40">1</text><text x="220" y="40">2</text><text x="270" y="40">3</text><text x="320" y="40">4</text><text x="370" y="40">5</text><text x="420" y="40">6</text>
+  </g>
+  <text x="112" y="62" font-size="11" text-anchor="end">shoulder</text>
+  <rect x="120" y="50" width="150" height="16" fill="#7a1f1f" fill-opacity="0.8"/>
+  <rect x="270" y="50" width="150" height="16" fill="#cfc7b8"/>
+  <text x="112" y="92" font-size="11" text-anchor="end">hip</text>
+  <rect x="120" y="80" width="150" height="16" fill="#7a1f1f" fill-opacity="0.8"/>
+  <rect x="270" y="80" width="150" height="16" fill="#cfc7b8"/>
+  <text x="112" y="122" font-size="11" text-anchor="end">knee</text>
+  <rect x="120" y="110" width="50" height="16" fill="#7a1f1f" fill-opacity="0.8"/>
+  <rect x="170" y="110" width="250" height="16" fill="#cfc7b8"/>
+  <text x="112" y="152" font-size="11" text-anchor="end">elbow</text>
+  <rect x="120" y="140" width="50" height="16" fill="#7a1f1f" fill-opacity="0.8"/>
+  <rect x="170" y="140" width="250" height="16" fill="#cfc7b8"/>
+  <rect x="120" y="178" width="13" height="13" fill="#7a1f1f" fill-opacity="0.8"/><text x="138" y="189" font-size="10.5">DOF kept (mobility)</text>
+  <rect x="285" y="178" width="13" height="13" fill="#cfc7b8"/><text x="303" y="189" font-size="10.5">constraints (stability)</text>
+</svg><figcaption><b>The constraint ledger.</b> Every bar totals six. Spend freedoms on mobility (red) and fewer remain as constraints (grey), and vice-versa. Hip and shoulder keep the same three rotational DOF, yet the hip rarely dislocates: same ledger, but its deep socket makes each constraint <em>stiffer</em> (<span class="secref">§6</span>).</figcaption></figure>
 
 <p>But a constraint is not free. To hold the shin from sliding sideways, the knee's surfaces and ligaments must actively <em>push and pull</em> — and the size of that hidden force is exactly what determines whether cartilage wears smoothly for eighty years or grinds into osteoarthritis. So this module answers three quantitative questions:</p>
 
