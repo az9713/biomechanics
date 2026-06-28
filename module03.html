@@ -58,7 +58,7 @@ window.MathJax = {
 <li><b>1.</b> <a href="#config">Configuration space and degrees of freedom</a></li>
 <li><b>2.</b> <a href="#taxonomy">A taxonomy of joints by degrees of freedom</a></li>
 <li><b>3.</b> <a href="#forces">Constraint forces and Lagrange multipliers</a></li>
-<li class="pending"><b>4.</b> Joint reaction force: why a hinge carries far more than body weight <em>(to come)</em></li>
+<li><b>4.</b> <a href="#reaction">Joint reaction force: why a hinge carries far more than body weight</a></li>
 <li class="pending"><b>5.</b> From reaction force to contact pressure <em>(to come)</em></li>
 <li class="pending"><b>6.</b> Stability versus mobility <em>(to come)</em></li>
 <li class="pending"><b>7.</b> Computational lab — the constrained two-link limb <em>(to come)</em></li>
@@ -553,6 +553,160 @@ gravity's component along the rod plus the centripetal term. Releasing from rest
 <p>A pendulum has one degree of freedom; we could have used the single coordinate $\theta$ and never written a constraint. That route gives the motion $\ddot\theta=-(g/L)\sin\theta$ directly — but it makes the rod tension <em>vanish from the equations entirely</em>. Reduced coordinates buy simplicity at the price of hiding exactly the force we care about.</p>
 
 <p>The multiplier method keeps the redundant coordinates and the constraint, and pays us back with $\lambda$ — the force the joint must carry. For the body this is decisive: a clinician cares about the load on the hip cartilage, not the hip angle. The next section turns this machinery on a real limb and extracts the <em>joint reaction force</em>, which we will find is several times body weight.</p>
+
+<hr>
+
+<!-- §4 -->
+<h2 id="reaction">4. Joint reaction force: why a hinge carries far more than body weight</h2>
+
+<p>The constraint force $J_c^{\mathsf T}\lambda$ of <a class="secref" href="#forces">§3</a> has a concrete name in the body: the <em>joint reaction force</em> (JRF), the force pressed across the cartilage surfaces where two bones meet. It is the load that cartilage must distribute, that wears it out, and that an implant must survive.</p>
+
+<p>The central — and at first surprising — fact is that the JRF is set mostly by <em>muscle</em>, not by the external load. Muscles attach close to joints, on short moment arms, so to produce a given joint torque they must pull <em>hard</em> (the mechanical disadvantage of <a class="secref" href="module01.html#muscle">Module&nbsp;1, §5</a>). That large muscle force presses the joint surfaces together. The hand may hold a light cup, yet the joints carry a multiple of it.</p>
+
+<h3>4.1 Warm-up: the elbow</h3>
+
+<p>Recall the Module&nbsp;1 example: a 70&nbsp;kg adult holds a 5&nbsp;kg load with the forearm horizontal, and the elbow flexors must pull with $F_m\approx 630\ \mathrm N$ on a 3&nbsp;cm moment arm. What does the elbow joint itself carry?</p>
+
+<p>Take the forearm as a free body. Three vertical forces act: the muscle pulls up ($F_m$), the segment-plus-load weight pulls down ($W=W_{\text{seg}}+W_{\text{load}}\approx 15+49=64\ \mathrm N$), and the humerus pushes on the forearm at the joint with reaction $R$. Vertical balance gives</p>
+
+$$R = F_m - W \approx 630 - 64 \approx 566\ \mathrm N.$$
+
+<p>So the elbow is compressed by $\approx 0.8$ times body weight while merely holding a grocery bag — and almost all of it (566 of the 630&nbsp;N) is the muscle's doing, not the bag's. The load contributes 49&nbsp;N; the joint carries twelve times that.</p>
+
+<h3>4.2 The hip in single-leg stance</h3>
+
+<p>The effect is largest at the hip, and it happens every step: during walking you spend much of the cycle balanced on one leg. To hold the pelvis level on a single support, the <em>hip abductor</em> muscles (gluteus medius and minimus) must generate a large force — and that force, plus body weight, bears down on the femoral head.</p>
+
+<p>Model the frontal plane at the instant of single-leg stance. The femoral head is the pivot $O$. Everything above the hip — body weight minus the swinging leg, $W_s\approx\tfrac{5}{6}\,W$ — acts at the body's center of mass, a horizontal distance $b$ to the <em>medial</em> side of $O$. The abductors act at the greater trochanter, a distance $a$ to the <em>lateral</em> side.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 460 230" width="100%" role="img" aria-label="Frontal-plane free body of single-leg stance: a pelvis beam pivoting at the femoral head O, with supported body weight acting downward at distance b medial, abductor force downward at distance a lateral, the femur descending from O, and the hip reaction R pushing up at O.">
+  <defs>
+    <marker id="h4w" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#1f5f7a"/></marker>
+    <marker id="h4m" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
+    <marker id="h4r" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
+  </defs>
+  <!-- pelvis beam -->
+  <line x1="120" y1="100" x2="335" y2="100" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/>
+  <!-- femoral head pivot O -->
+  <circle cx="250" cy="100" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+  <text x="250" y="92" font-size="11" text-anchor="middle">O</text>
+  <!-- femur down to foot -->
+  <line x1="250" y1="106" x2="250" y2="205" stroke="#c9b79a" stroke-width="10" stroke-linecap="round"/>
+  <text x="258" y="160" font-size="10" fill="#999">femur</text>
+  <!-- supported body weight (medial) -->
+  <circle cx="135" cy="100" r="3" fill="#1f5f7a"/>
+  <line x1="135" y1="100" x2="135" y2="165" stroke="#1f5f7a" stroke-width="2.6" marker-end="url(#h4w)"/>
+  <text x="100" y="150" font-size="12" fill="#1f5f7a" font-style="italic">W_s</text>
+  <text x="92" y="120" font-size="9" fill="#1f5f7a">COM</text>
+  <!-- abductor force (lateral) -->
+  <circle cx="315" cy="100" r="3" fill="#2a7d2a"/>
+  <line x1="315" y1="100" x2="315" y2="150" stroke="#2a7d2a" stroke-width="2.6" marker-end="url(#h4m)"/>
+  <text x="322" y="138" font-size="12" fill="#2a7d2a" font-style="italic">F_ab</text>
+  <text x="300" y="120" font-size="9" fill="#2a7d2a">trochanter</text>
+  <!-- hip reaction up -->
+  <line x1="250" y1="100" x2="250" y2="40" stroke="#7a1f1f" stroke-width="2.8" marker-end="url(#h4r)"/>
+  <text x="256" y="54" font-size="12" fill="#7a1f1f" font-style="italic">R (hip reaction)</text>
+  <!-- distance brackets -->
+  <line x1="135" y1="118" x2="250" y2="118" stroke="#1f5f7a" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="188" y="115" font-size="11" fill="#1f5f7a" font-style="italic">b</text>
+  <line x1="250" y1="118" x2="315" y2="118" stroke="#2a7d2a" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="280" y="115" font-size="11" fill="#2a7d2a" font-style="italic">a</text>
+</svg><figcaption><b>Single-leg-stance free body (frontal plane).</b> The pelvis pivots on the femoral head $O$. Supported weight $W_s$ pulls down a distance $b$ medial; the abductors $F_{ab}$ pull down a distance $a$ lateral; the femoral head pushes up with reaction $R$. Because $a$ (≈5&nbsp;cm) is much shorter than $b$ (≈10&nbsp;cm), the abductors must pull harder than body weight — and $R$ adds the two.</figcaption></figure>
+
+<p>Two equilibrium equations finish it. Treating the forces as vertical (a standard simplification), moments about $O$ give the abductor force, and vertical force balance gives the reaction:</p>
+
+$$F_{ab}\,a = W_s\,b \;\Longrightarrow\; F_{ab}=W_s\frac{b}{a},\qquad
+R = W_s + F_{ab}.$$
+
+<div class="thm"><b>Hip joint reaction (single-leg stance).</b>
+$$\boxed{\;R = W_s\Bigl(1+\frac{b}{a}\Bigr).\;}\tag{4.1}$$
+With $W_s=\tfrac56 W$, abductor arm $a\approx5\ \mathrm{cm}$, and weight arm $b\approx10\ \mathrm{cm}$: $R = \tfrac56 W\,(1+2)=2.5\,W$ — two-and-a-half times body weight, standing on one leg.</div>
+
+<p>The lever ratio $b/a$ is the whole story. Because the abductors work at half the body-weight lever, they must pull at twice body weight, and the femoral head carries their pull <em>plus</em> the weight itself. Gait raises this further — the dynamic terms of <a class="secref" href="#forces">§3</a> add inertial load, pushing peak hip JRF to roughly $3$–$5\,W$ while walking and running.</p>
+
+<figure>
+<svg viewBox="0 0 480 300" width="100%" style="max-width:520px" role="img" aria-label="Plot of hip joint reaction force and abductor force, in units of body weight, versus the horizontal center-of-mass offset b; the reaction rises from about 0.8 to 2.8 body weights as b grows from 0 to 12 centimetres.">
+  <line x1="60" y1="30" x2="60" y2="250" stroke="#333" stroke-width="1.4"/>
+  <line x1="60" y1="250" x2="450" y2="250" stroke="#333" stroke-width="1.4"/>
+  <g font-size="10" fill="#555" text-anchor="end">
+    <text x="52" y="254">0</text><text x="52" y="191">1</text><text x="52" y="128">2</text><text x="52" y="65">3</text>
+  </g>
+  <g font-size="10" fill="#555" text-anchor="middle">
+    <text x="60" y="266">0</text><text x="157.5" y="266">3</text><text x="255" y="266">6</text><text x="352.5" y="266">9</text><text x="450" y="266">12</text>
+  </g>
+  <g stroke="#eee" stroke-width="1"><line x1="60" y1="187.1" x2="450" y2="187.1"/><line x1="60" y1="124.3" x2="450" y2="124.3"/><line x1="60" y1="61.4" x2="450" y2="61.4"/></g>
+  <!-- W_s constant line -->
+  <line x1="60" y1="197.2" x2="450" y2="197.2" stroke="#1f5f7a" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="446" y="193" font-size="10" fill="#1f5f7a" text-anchor="end">W_s ≈ 0.84 BW (supported weight)</text>
+  <!-- abductor force (green) -->
+  <polyline fill="none" stroke="#2a7d2a" stroke-width="2.2" points="60.0,250.0 100.6,236.8 141.2,223.6 181.9,210.4 222.5,197.2 263.1,184.0 303.8,170.8 344.4,157.6 385.0,144.4 425.6,131.2 450.0,123.3"/>
+  <!-- hip reaction (red) -->
+  <polyline fill="none" stroke="#7a1f1f" stroke-width="2.6" points="60.0,197.2 100.6,184.0 141.2,170.8 181.9,157.6 222.5,144.4 263.1,131.2 303.8,118.0 344.4,104.8 385.0,91.6 425.6,78.4 450.0,70.5"/>
+  <!-- marked points -->
+  <circle cx="385" cy="91.6" r="4" fill="#7a1f1f"/>
+  <text x="381" y="84" font-size="10" fill="#7a1f1f" text-anchor="end">upright: R ≈ 2.5 BW</text>
+  <circle cx="157.5" cy="165.5" r="4" fill="#7a1f1f"/>
+  <text x="163" y="162" font-size="10" fill="#7a1f1f">lean: R ≈ 1.3 BW</text>
+  <text x="255" y="285" font-size="12" fill="#333" text-anchor="middle">center-of-mass offset  b  (cm)</text>
+  <text x="16" y="140" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90 16 140)">force  (× body weight)</text>
+  <g font-size="11">
+    <rect x="80" y="40" width="120" height="40" fill="#fff" stroke="#ddd"/>
+    <line x1="88" y1="54" x2="108" y2="54" stroke="#7a1f1f" stroke-width="2.6"/><text x="112" y="58">hip reaction R</text>
+    <line x1="88" y1="70" x2="108" y2="70" stroke="#2a7d2a" stroke-width="2.2"/><text x="112" y="74">abductor F_ab</text>
+  </g>
+</svg>
+<figcaption>Hip reaction and abductor force vs. the COM offset $b$ (computed from (4.1), $a=5$&nbsp;cm). Both rise steeply with $b$: the farther the body's weight sits from the hip, the harder the abductors pull and the more the joint carries. The two marked points are the key to the next result.</figcaption>
+</figure>
+
+<h3>4.3 The clinical payoff: lean over the sore hip</h3>
+
+<p>Equation (4.1) says the JRF is governed by $b$, the distance from the hip to the body's center of mass. So <em>move the center of mass over the hip</em> — lean your trunk toward the stance side — and $b$ collapses, taking $F_{ab}$ and $R$ down with it.</p>
+
+<p>This is exactly what people with a painful or weak hip do, often without being taught: they lurch the trunk over the affected leg at each step (a <em>compensated Trendelenburg gait</em>). It is not a quirk; it is (4.1) solved for comfort.</p>
+
+<figure>
+<svg viewBox="0 0 300 250" width="100%" style="max-width:300px" role="img" aria-label="Animation of a figure standing on one leg and leaning its trunk over the stance hip; as it leans, the red hip-load arrow at the hip shrinks markedly.">
+  <defs>
+    <marker id="a4r" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
+  </defs>
+  <line x1="40" y1="235" x2="260" y2="235" stroke="#ccc" stroke-width="1.5"/>
+  <!-- stance leg -->
+  <line x1="150" y1="150" x2="150" y2="235" stroke="#c9b79a" stroke-width="9" stroke-linecap="round"/>
+  <!-- pelvis -->
+  <line x1="128" y1="150" x2="172" y2="150" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/>
+  <!-- hip joint -->
+  <circle cx="150" cy="150" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- trunk -->
+  <line x1="150" y1="150" x2="150" y2="45" stroke="#1a1a1a" stroke-width="6" stroke-linecap="round">
+    <animate attributeName="x2" dur="5s" repeatCount="indefinite" keyTimes="0.00;0.04;0.08;0.12;0.17;0.21;0.25;0.29;0.33;0.38;0.42;0.46;0.50;0.54;0.58;0.62;0.67;0.71;0.75;0.79;0.83;0.88;0.92;0.96;1.00" values="150.00;150.62;152.45;155.37;159.15;163.54;168.23;172.88;177.18;180.82;183.60;185.32;185.91;185.32;183.60;180.82;177.18;172.88;168.23;163.54;159.15;155.37;152.45;150.62;150.00"/>
+    <animate attributeName="y2" dur="5s" repeatCount="indefinite" keyTimes="0.00;0.04;0.08;0.12;0.17;0.21;0.25;0.29;0.33;0.38;0.42;0.46;0.50;0.54;0.58;0.62;0.67;0.71;0.75;0.79;0.83;0.88;0.92;0.96;1.00" values="45.00;45.00;45.03;45.14;45.40;45.88;46.60;47.52;48.58;49.63;50.52;51.12;51.33;51.12;50.52;49.63;48.58;47.52;46.60;45.88;45.40;45.14;45.03;45.00;45.00"/>
+  </line>
+  <!-- head -->
+  <circle cx="150" cy="38" r="11" fill="#e8ddc6" stroke="#b9a47e" stroke-width="2">
+    <animate attributeName="cx" dur="5s" repeatCount="indefinite" keyTimes="0.00;0.04;0.08;0.12;0.17;0.21;0.25;0.29;0.33;0.38;0.42;0.46;0.50;0.54;0.58;0.62;0.67;0.71;0.75;0.79;0.83;0.88;0.92;0.96;1.00" values="150.00;150.62;152.45;155.37;159.15;163.54;168.23;172.88;177.18;180.82;183.60;185.32;185.91;185.32;183.60;180.82;177.18;172.88;168.23;163.54;159.15;155.37;152.45;150.62;150.00"/>
+    <animate attributeName="cy" dur="5s" repeatCount="indefinite" keyTimes="0.00;0.04;0.08;0.12;0.17;0.21;0.25;0.29;0.33;0.38;0.42;0.46;0.50;0.54;0.58;0.62;0.67;0.71;0.75;0.79;0.83;0.88;0.92;0.96;1.00" values="38.00;38.00;38.03;38.14;38.40;38.88;39.60;40.52;41.58;42.63;43.52;44.12;44.33;44.12;43.52;42.63;41.58;40.52;39.60;38.88;38.40;38.14;38.03;38.00;38.00"/>
+  </circle>
+  <!-- COM dot -->
+  <circle cx="150" cy="92" r="4" fill="#1f5f7a">
+    <animate attributeName="cx" dur="5s" repeatCount="indefinite" keyTimes="0.00;0.04;0.08;0.12;0.17;0.21;0.25;0.29;0.33;0.38;0.42;0.46;0.50;0.54;0.58;0.62;0.67;0.71;0.75;0.79;0.83;0.88;0.92;0.96;1.00" values="150.00;150.34;151.35;152.95;155.03;157.45;160.03;162.59;164.95;166.95;168.48;169.43;169.75;169.43;168.48;166.95;164.95;162.59;160.03;157.45;155.03;152.95;151.35;150.34;150.00"/>
+    <animate attributeName="cy" dur="5s" repeatCount="indefinite" keyTimes="0.00;0.04;0.08;0.12;0.17;0.21;0.25;0.29;0.33;0.38;0.42;0.46;0.50;0.54;0.58;0.62;0.67;0.71;0.75;0.79;0.83;0.88;0.92;0.96;1.00" values="92.25;92.25;92.27;92.33;92.47;92.73;93.13;93.64;94.22;94.79;95.29;95.62;95.73;95.62;95.29;94.79;94.22;93.64;93.13;92.73;92.47;92.33;92.27;92.25;92.25"/>
+  </circle>
+  <text x="158" y="90" font-size="9" fill="#1f5f7a">COM</text>
+  <!-- hip load arrow (shrinks as lean grows) -->
+  <line x1="150" y1="150" x2="150" y2="210.48" stroke="#7a1f1f" stroke-width="4" marker-end="url(#a4r)">
+    <animate attributeName="y2" dur="5s" repeatCount="indefinite" keyTimes="0.00;0.04;0.08;0.12;0.17;0.21;0.25;0.29;0.33;0.38;0.42;0.46;0.50;0.54;0.58;0.62;0.67;0.71;0.75;0.79;0.83;0.88;0.92;0.96;1.00" values="210.48;209.88;208.12;205.33;201.69;197.48;192.98;188.51;184.39;180.89;178.23;176.57;176.00;176.57;178.23;180.89;184.39;188.51;192.98;197.48;201.69;205.33;208.12;209.88;210.48"/>
+  </line>
+  <text x="156" y="230" font-size="10" fill="#7a1f1f">hip load R</text>
+  <text x="150" y="18" font-size="10" fill="#555" text-anchor="middle">lean over the stance hip →</text>
+</svg>
+<figcaption>Leaning the trunk over the stance hip slides the center of mass (blue) toward the femoral head, shrinking $b$. By (4.1) the hip load $R$ (red arrow) falls from $\approx2.5\,W$ upright to $\approx1.1\,W$ at full lean — a more-than-twofold unloading, achieved with no change in body weight.</figcaption>
+</figure>
+
+<div class="keyresult"><b>Why a cane in the opposite hand helps.</b> A cane held on the <em>sound</em> side adds an upward support force on a long lever about the painful hip, contributing its own large counter-moment. Combined with a slight lean, it can cut hip JRF by a further $\sim$1 body weight — which is why the simplest aids produce outsized relief. The same arithmetic, run forward, also explains why carrying a load on the <em>same</em> side as a painful hip reduces its abductor demand, while carrying it on the opposite side worsens it.</div>
+
+<h3>4.4 Where this leads</h3>
+
+<p>The joint reaction force is the input to everything downstream. Spread it over the cartilage contact area and it becomes a <em>contact pressure</em> — the subject of <span class="secref">§5</span>, and the quantity that governs whether cartilage survives or degenerates into osteoarthritis (Module&nbsp;4). Fed into the femur as an axial-plus-bending load, it sets the bone stresses of Module&nbsp;2. The hidden multiplier of §3 is, quite literally, the load of a lifetime.</p>
 
 </body>
 </html>
