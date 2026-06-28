@@ -257,7 +257,7 @@ $$\boxed{\,f = n - m\,}\tag{1.1}$$
 <!-- §2 -->
 <h2 id="taxonomy">2. A taxonomy of joints by degrees of freedom</h2>
 
-<p>Two bodies meeting freely share six relative freedoms (<a class="secref" href="#config">§1</a>). A synovial joint of mobility $f$ removes $6-f$ of them by keeping its surfaces congruent. Every such joint falls into one of six classical types.</p>
+<p>Two bodies meeting freely share six relative freedoms (<a class="secref" href="#config">§1</a>). A <em>synovial joint</em> — a freely movable joint where two cartilage-capped bones meet inside a fluid-filled capsule — of mobility $f$ removes $6-f$ of them by keeping its surfaces congruent. Every such joint falls into one of six classical types.</p>
 
 <p>Here are all six, drawn as archetypes and ordered by increasing mobility:</p>
 
@@ -342,11 +342,11 @@ $$\boxed{\,f = n - m\,}\tag{1.1}$$
 
 <p>Each type is a way two surfaces can stay in contact while sliding — a <em>lower kinematic pair</em>. A cylindrical surface on a matching groove gives a single rotation (revolute → hinge); a sphere in a socket gives three (spherical → ball-and-socket).</p>
 
-<p>Bone shape <em>is</em> the constraint: the trochlea of the humerus is a spool that admits one axis; the femoral head is a sphere that admits three. Anatomy and kinematics are the same statement.</p>
+<p>Bone shape <em>is</em> the constraint: the <em>trochlea</em> of the humerus (the spool-shaped lower end of the upper-arm bone) admits one axis; the <em>femoral head</em> (the ball atop the thigh bone) is a sphere that admits three. Anatomy and kinematics are the same statement.</p>
 
 <h3>Counting a limb: the mobility formula</h3>
 
-<p>For an open chain (no loops), the freedoms simply add — the end-effector's DOF is the sum of the joint mobilities:</p>
+<p>For an open chain (no loops), the freedoms simply add — the DOF of the <em>end-effector</em> (the free tip of the chain, e.g. the hand) is the sum of the joint mobilities:</p>
 
 <div class="thm"><b>Mobility of a serial chain.</b>
 $$\boxed{\,f_{\text{end}}=\sum_i f_i\,}\tag{2.1}$$
@@ -483,7 +483,7 @@ $$g(x,y)=\tfrac12\,(x^2+y^2-L^2)=0,\qquad J_c=\partial g/\partial q=(x,\;y).\tag
   <text x="320" y="188" font-size="11" fill="#999" font-style="italic">∇g</text>
 </svg><figcaption><b>Pendulum as a constrained body.</b> The bob is pinned to the dashed circle $g=0$. The constraint gradient $\nabla g=(x,y)$ points radially outward; the constraint force $J_c^{\mathsf T}\lambda=\lambda(x,y)$ is therefore radial — exactly the line of the rod. We will find that its magnitude is the tension $T$.</figcaption></figure>
 
-<p>The applied force is gravity, $Q=(0,\,mg)$ (downward, i.e. $+y$), and the mass matrix is just $M=mI$. Theorem 3.1 gives the two scalar equations of motion</p>
+<p>The applied force is gravity, $Q=(0,\,mg)$, where $g$ here is the gravitational acceleration (distinct from the constraint function $g(q)$, which always appears with its argument) and the force points downward, i.e. along $+y$. The mass matrix is just $M=mI$, with $I$ the $2\times2$ identity. Theorem 3.1 gives the two scalar equations of motion</p>
 
 $$m\ddot x = \lambda x,\qquad m\ddot y = mg + \lambda y.\tag{3.7}$$
 
@@ -567,17 +567,17 @@ gravity's component along the rod plus the centripetal term. Releasing from rest
 
 <p>Recall the Module&nbsp;1 example: a 70&nbsp;kg adult holds a 5&nbsp;kg load with the forearm horizontal, and the elbow flexors must pull with $F_m\approx 630\ \mathrm N$ on a 3&nbsp;cm moment arm. What does the elbow joint itself carry?</p>
 
-<p>Take the forearm as a free body. Three vertical forces act: the muscle pulls up ($F_m$), the segment-plus-load weight pulls down ($W=W_{\text{seg}}+W_{\text{load}}\approx 15+49=64\ \mathrm N$), and the humerus pushes on the forearm at the joint with reaction $R$. Vertical balance gives</p>
+<p>Take the forearm as a free body. Three vertical forces act on it. The muscle pulls up with $F_m$. The combined weight pulls down, $W_{\text{tot}}=W_{\text{seg}}+W_{\text{load}}$, where $W_{\text{seg}}\approx 15\ \mathrm N$ is the weight of the forearm-plus-hand segment and $W_{\text{load}}=m_{\text{load}}\,g = 5\times 9.81\approx 49\ \mathrm N$ is the weight of the held 5&nbsp;kg load (both carried over from <a class="secref" href="module01.html#worked">Module&nbsp;1</a>), so $W_{\text{tot}}\approx 64\ \mathrm N$. Finally the humerus (the upper-arm bone) pushes on the forearm at the joint with the reaction $R$ we are after. Vertical balance gives</p>
 
-$$R = F_m - W \approx 630 - 64 \approx 566\ \mathrm N.$$
+$$R = F_m - W_{\text{tot}} \approx 630 - 64 \approx 566\ \mathrm N.$$
 
 <p>So the elbow is compressed by $\approx 0.8$ times body weight while merely holding a grocery bag — and almost all of it (566 of the 630&nbsp;N) is the muscle's doing, not the bag's. The load contributes 49&nbsp;N; the joint carries twelve times that.</p>
 
 <h3>4.2 The hip in single-leg stance</h3>
 
-<p>The effect is largest at the hip, and it happens every step: during walking you spend much of the cycle balanced on one leg. To hold the pelvis level on a single support, the <em>hip abductor</em> muscles (gluteus medius and minimus) must generate a large force — and that force, plus body weight, bears down on the femoral head.</p>
+<p>The effect is largest at the hip, and it happens every step: during walking you spend much of the cycle balanced on one leg. To hold the pelvis level on a single support, the <em>hip abductor</em> muscles (gluteus medius and minimus — the muscles on the outer hip that pull the thigh away from the body's midline) must generate a large force, and that force, plus body weight, bears down on the femoral head.</p>
 
-<p>Model the frontal plane at the instant of single-leg stance. The femoral head is the pivot $O$. Everything above the hip — body weight minus the swinging leg, $W_s\approx\tfrac{5}{6}\,W$ — acts at the body's center of mass, a horizontal distance $b$ to the <em>medial</em> side of $O$. The abductors act at the greater trochanter, a distance $a$ to the <em>lateral</em> side.</p>
+<p>Model the <em>frontal plane</em> (the head-on plane dividing the body into front and back halves) at the instant of single-leg stance. The <em>femoral head</em> — the ball at the top of the thigh bone — is the pivot $O$. Everything above the hip, namely the body weight $W$ less the swinging leg, $W_s\approx\tfrac{5}{6}\,W$, acts at the body's center of mass a horizontal distance $b$ to the <em>medial</em> side of $O$ (toward the body's midline). The abductors act at the <em>greater trochanter</em> (the bony bump on the outer thigh) a distance $a$ to the <em>lateral</em> side (away from the midline).</p>
 
 <figure><svg class="setupfig" viewBox="0 0 460 230" width="100%" role="img" aria-label="Frontal-plane free body of single-leg stance: a pelvis beam pivoting at the femoral head O, with supported body weight acting downward at distance b medial, abductor force downward at distance a lateral, the femur descending from O, and the hip reaction R pushing up at O.">
   <defs>
