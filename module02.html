@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 2 — Bones as Hierarchical Load-Bearing Structures</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], tags: 'ams' },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js" async></script>
+<style>
+  :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ max-width: 52rem; margin: 2.5rem auto; padding: 0 1.25rem 6rem;
+        font: 16px/1.65 Georgia, 'Times New Roman', serif; color:var(--fg); }
+  h1{ font-size: 1.95rem; line-height:1.2; margin:.2rem 0 .2rem; }
+  h2{ font-size:1.35rem; margin:2.4rem 0 .6rem; border-bottom:2px solid var(--accent); padding-bottom:.2rem; }
+  h3{ font-size:1.08rem; margin:1.6rem 0 .4rem; color:var(--accent); }
+  .sub{ color:var(--muted); font-style:italic; margin-top:0; }
+  code{ font-family: ui-monospace,'SFMono-Regular',Consolas,monospace; font-size:.92em; background:#f3f1ec; padding:.05rem .25rem; border-radius:3px;}
+  pre{ background:#f3f1ec; padding:.8rem 1rem; border-radius:5px; overflow:auto; font-size:.84rem; line-height:1.45; }
+  pre code{ background:none; padding:0; }
+  .thm,.def,.lem,.prop{ background:var(--box); border-left:4px solid var(--accent); padding:.6rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0; }
+  .thm b,.def b,.lem b,.prop b{ color:var(--accent); }
+  .proof{ border-left:2px solid var(--rule); padding-left:.9rem; margin:.8rem 0 1.2rem; color:#222; }
+  .proof::before{ content:"Proof."; font-style:italic; font-weight:bold; margin-right:.4rem; }
+  .qed{ float:right; }
+  table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.92rem; }
+  th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; }
+  th{ background:var(--box); }
+  figure{ margin:1.5rem 0; text-align:center; }
+  figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; }
+  .proof figure,.thm figure{ margin:.2rem auto .7rem; max-width:460px; background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.4rem; }
+  .setupfig{ display:block; }
+  .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; }
+  .secref:hover{ border-bottom:1px solid var(--accent); }
+  .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; }
+  .toc ul{ list-style:none; padding-left:.3rem; margin:.3rem 0; } .toc a{ color:var(--accent); text-decoration:none; }
+  .small{ font-size:.88rem; color:var(--muted); }
+  hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; }
+  .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; }
+  .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+</style>
+</head>
+<body>
+
+<h1>Bones as Hierarchical Load-Bearing Structures</h1>
+<p class="sub">Module 2: from a hollow beam and the formula $\sigma=My/I$ to fracture in a fall and the living feedback loop that tunes bone to its loads.</p>
+
+<div class="toc">
+<b>Contents</b>
+<ul>
+<li><b>0.</b> <a href="#origin">Motivation — a femur that carries tonnes yet snaps in a fall</a></li>
+<li><b>1.</b> <a href="#setup">Stress, strain, and the elastic law</a></li>
+<li><b>2.</b> <a href="#axial">Axial loading: why compression is almost free</a></li>
+<li><b>3.</b> <a href="#bending">Bending: the dominant danger, and why bone is hollow</a></li>
+<li><b>4.</b> <a href="#torsion">Torsion</a></li>
+<li><b>5.</b> <a href="#composite">Where $E$ comes from: the mineral–collagen composite</a></li>
+<li><b>6.</b> <a href="#failure">Failure: yield, fatigue, fracture, and the falling body</a></li>
+<li><b>7.</b> <a href="#adapt">Adaptation: Wolff's law as a strain feedback loop</a></li>
+<li><b>8.</b> <a href="#lab">Computational lab: the remodeling ODE</a></li>
+<li><b>9.</b> <a href="#captures">What the model captures and misses</a></li>
+<li><b>10.</b> <a href="#problems">Diagnostic questions and problems</a></li>
+<li><a href="#appendix">Appendix — parameters</a></li>
+</ul>
+</div>
+
+<hr>
+
+<!-- <a class="secref" href="#origin">§0</a> -->
+<h2 id="origin">0. Motivation — a femur that carries tonnes yet snaps in a fall</h2>
+<p>The same femur routinely survives gait forces of several times body weight, millions of cycles per year, with a large margin to spare — yet in an elderly person a sideways fall from standing height can break it. Two puzzles sit here. First: how does a tube of bone carry such loads without yielding? Second: why does the safe everyday bone become fragile, and why does the fracture appear in <em>bending/impact</em> rather than in the much larger <em>compression</em> of standing?</p>
+<p>The answers are the content of this module. We take the muscle and joint forces derived in <a class="secref" href="module01.html#main">Module&nbsp;1</a> as the loads, run them through beam theory to get internal <em>stress</em>, compare against bone's strength to get a <em>safety factor</em>, and then let the bone <em>respond</em>: the remodeling feedback that builds bone where strain is high and removes it where strain is low. That feedback, run forward in time, explains both training-induced strengthening and the bone loss of disuse and aging that sets up the fall-fracture in the first place.</p>
+
+<!-- <a class="secref" href="#setup">§1</a> -->
+<h2 id="setup">1. Stress, strain, and the elastic law</h2>
+<p>SI units throughout: stress in pascals (Pa $=\mathrm{N\,m^{-2}}$; bone strengths run to $10^8\ \mathrm{Pa}=100\ \mathrm{MPa}$), strain dimensionless (often quoted in microstrain, $1\ \mu\varepsilon=10^{-6}$).</p>
+
+<div class="def"><b>Definition 1.1 (stress).</b> <em>Stress</em> $\sigma$ is internal force per unit area on a surface inside the material, $\sigma=F/A$ for a force $F$ normal to area $A$. Normal stress is <em>tensile</em> (pulling apart, $\sigma\gt 0$) or <em>compressive</em> ($\sigma\lt 0$); a force parallel to the surface gives <em>shear</em> stress $\tau$.</div>
+
+<div class="def"><b>Definition 1.2 (strain).</b> <em>Strain</em> $\varepsilon$ is fractional deformation: for a bar of length $L$ stretched by $\Delta L$, $\varepsilon=\Delta L/L$. It is dimensionless.</div>
+
+<div class="def"><b>Definition 1.3 (Young's modulus, Hooke's law).</b> In the small-strain elastic regime, stress is proportional to strain:
+$$\sigma = E\,\varepsilon,\tag{1.1}$$
+where $E$ (Pa) is <em>Young's modulus</em>, the material's axial stiffness. For cortical (dense, outer) bone $E\approx 17\ \mathrm{GPa}$ along the long axis; trabecular (spongy, internal) bone is far softer, $E\approx 0.1$–$2\ \mathrm{GPa}$. Bone is <em>anisotropic</em> ($E$ depends on direction) and <em>heterogeneous</em> ($E$ varies with position); we use an effective longitudinal value and revisit its origin in <a class="secref" href="#composite">§5</a>.</div>
+
+<p>With (1.1) as the constitutive law, the rest of the module is bookkeeping of where in a loaded bone $\sigma$ is largest, and how that compares with the stress bone can bear.</p>
+
+<!-- <a class="secref" href="#axial">§2</a> -->
+<h2 id="axial">2. Axial loading: why compression is almost free</h2>
+<p>Model the femoral midshaft as a hollow circular tube (the medullary canal is the hole), outer radius $R$, inner radius $r$, cross-sectional area $A=\pi(R^2-r^2)$. Under a purely axial compressive force $F$ (Definition 1.1):
+$$\sigma_\text{axial}=\frac{F}{A},\qquad \varepsilon=\frac{\sigma}{E}.\tag{2.1}$$
+</p>
+<div class="keyresult"><b>Worked number.</b> Single-leg stance loads the femur to roughly $2.5\times$ body weight including hip-muscle force (from <a class="secref" href="module01.html#general">Module&nbsp;1, §6</a>): $F\approx 2.5\times70\times9.81\approx 1715\ \mathrm N$. With $R=14\ \mathrm{mm}$, $r=7\ \mathrm{mm}$, $A=4.62\times10^{-4}\ \mathrm m^2$, so $\sigma_\text{axial}=1715/4.62\times10^{-4}\approx 3.7\ \mathrm{MPa}$. Against a compressive strength $\sim170\ \mathrm{MPa}$ that is a safety factor of $\sim45$. Pure compression is not what breaks bones.</div>
+
+<!-- <a class="secref" href="#bending">§3</a> -->
+<h2 id="bending">3. Bending: the dominant danger, and why bone is hollow</h2>
+<p>Body weight rarely acts exactly along the bone axis; offsets create a <em>bending moment</em> $M$ (the joint torques of Module&nbsp;1, now applied to the shaft). Bending, not compression, produces the largest stresses. We derive the Euler–Bernoulli result.</p>
+
+<div class="def"><b>Definition 3.1 (neutral axis, second moment of area).</b> Under pure bending the cross-section rotates about a line through its centroid — the <em>neutral axis</em> — where strain is zero. The <em>second moment of area</em> about that axis is $I=\int_A y^2\,dA$, with $y$ the distance from the neutral axis. $I$ (units $\mathrm m^4$) measures how far material sits from the axis. The <em>section modulus</em> is $Z=I/c$, where $c$ is the distance to the outermost fibre.</div>
+
+<div class="thm"><b>Theorem 3.2 (Euler–Bernoulli bending stress).</b> For a beam in pure bending with moment $M$, the axial stress varies linearly across the section:
+$$\boxed{\;\sigma(y)=\frac{M\,y}{I},\qquad \sigma_\max=\frac{M\,c}{I}=\frac{M}{Z}.\;}\tag{3.1}$$
+</div>
+<div class="proof">
+<figure><svg class="setupfig" viewBox="0 0 460 210" width="100%" role="img" aria-label="Left: a beam segment bending so plane sections rotate, fibres above the neutral axis shorten and below lengthen. Right: hollow circular cross-section with outer radius R, inner r, neutral axis through the centre, distance y to a fibre.">
+  <defs>
+    <marker id="b3ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7a1f1f"/></marker>
+  </defs>
+  <!-- bending side view -->
+  <path d="M30,40 Q130,20 230,40" fill="none" stroke="#bbb" stroke-width="1" stroke-dasharray="3 2"/>
+  <path d="M30,105 Q130,105 230,105" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+  <path d="M30,40 Q130,20 230,40 L230,170 Q130,150 30,170 Z" fill="#7a1f1f" fill-opacity="0.07" stroke="#7a1f1f" stroke-width="1.2"/>
+  <path d="M30,170 Q130,150 230,170" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="60" y="34" font-size="10" fill="#1f5f7a">top fibres shorten (compression)</text>
+  <text x="66" y="188" font-size="10" fill="#2a7d2a">bottom fibres lengthen (tension)</text>
+  <text x="150" y="101" font-size="10" fill="#1a1a1a" font-style="italic">neutral axis (ε=0)</text>
+  <!-- cross section -->
+  <circle cx="360" cy="105" r="55" fill="#e8e2d6" stroke="#1a1a1a" stroke-width="1.6"/>
+  <circle cx="360" cy="105" r="27" fill="#fff" stroke="#1a1a1a" stroke-width="1.2"/>
+  <line x1="295" y1="105" x2="425" y2="105" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="360" y1="105" x2="360" y2="50" stroke="#7a1f1f" stroke-width="1.6" marker-end="url(#b3ar)"/>
+  <text x="365" y="70" font-size="11" fill="#7a1f1f" font-style="italic">y</text>
+  <text x="408" y="118" font-size="11" font-style="italic">N.A.</text>
+  <text x="360" y="175" font-size="10" text-anchor="middle">R (outer), r (inner)</text>
+</svg><figcaption><b>Setup for (3.1).</b> Plane sections stay plane and rotate, so fibre strain is proportional to distance $y$ from the neutral axis; the linear stress then sums to the applied moment $M$. The hollow section keeps material at large $y$, where it counts.</figcaption></figure>
+Assume plane cross-sections remain plane and rotate by curvature $\kappa$. A fibre at distance $y$ from the neutral axis then has strain $\varepsilon(y)=\kappa y$ (geometry of rotation). By Hooke's law (1.1), $\sigma(y)=E\kappa y$ — linear in $y$. The internal stresses must reproduce the applied moment about the neutral axis:
+$$M=\int_A y\,\sigma(y)\,dA = E\kappa\int_A y^2\,dA = E\kappa\,I,$$
+using Definition 3.1. Hence $E\kappa=M/I$, and substituting back into $\sigma=E\kappa y$ gives $\sigma(y)=My/I$. The extreme fibre at $y=c$ carries $\sigma_\max=Mc/I=M/Z$. <span class="qed">∎</span>
+</div>
+
+<p>For the hollow circular section, $I=\tfrac{\pi}{4}(R^4-r^4)$ and $c=R$. Because $I$ weights area by $y^2$, moving material outward (hollowing the centre, which sits near the neutral axis where it does little) buys bending strength per unit mass.</p>
+<div class="prop"><b>Proposition 3.3 (hollow beats solid).</b> A hollow tube and a solid rod of the <em>same cross-sectional area</em> (hence same mass per length) have section moduli in ratio $Z_\text{hollow}/Z_\text{solid}\approx 1.44$ for the femoral proportions $R/r=2$. The hollow bone is $\sim44\%$ stronger in bending at no extra mass — the engineering reason long bones are tubes.</div>
+
+<figure>
+<svg viewBox="0 0 480 300" width="100%" style="max-width:520px" role="img" aria-label="Maximum bending stress versus applied moment for a hollow femur and a solid rod of equal mass; the solid rod reaches the yield line at a much smaller moment.">
+  <line x1="60" y1="30" x2="60" y2="250" stroke="#333" stroke-width="1.4"/>
+  <line x1="60" y1="250" x2="450" y2="250" stroke="#333" stroke-width="1.4"/>
+  <g font-size="10" fill="#555" text-anchor="end">
+    <text x="52" y="254">0</text><text x="52" y="210">50</text><text x="52" y="166">100</text>
+    <text x="52" y="122">150</text><text x="52" y="78">200</text><text x="52" y="34">250</text>
+  </g>
+  <g font-size="10" fill="#555" text-anchor="middle">
+    <text x="60" y="266">0</text><text x="190" y="266">100</text><text x="320" y="266">200</text><text x="450" y="266">300</text>
+  </g>
+  <g stroke="#eee" stroke-width="1"><line x1="60" y1="206" x2="450" y2="206"/><line x1="60" y1="162" x2="450" y2="162"/><line x1="60" y1="118" x2="450" y2="118"/><line x1="60" y1="74" x2="450" y2="74"/></g>
+  <!-- yield line 130 MPa -->
+  <line x1="60" y1="135.6" x2="450" y2="135.6" stroke="#c00" stroke-width="1.2" stroke-dasharray="6 3"/>
+  <text x="430" y="131" font-size="10" fill="#c00" text-anchor="end">yield ≈130 MPa</text>
+  <!-- hollow (green) -->
+  <polyline fill="none" stroke="#2a7d2a" stroke-width="2.4" points="60.0,250.0 86.0,241.3 112.0,232.6 138.0,223.9 164.0,215.2 190.0,206.4 216.0,197.7 242.0,189.0 268.0,180.3 294.0,171.6 320.0,162.9 346.0,154.2 372.0,145.5 398.0,136.8 424.0,128.0 450.0,119.3"/>
+  <!-- solid (red) -->
+  <polyline fill="none" stroke="#7a1f1f" stroke-width="2.4" points="60.0,250.0 86.0,237.4 112.0,224.9 138.0,212.3 164.0,199.7 190.0,187.1 216.0,174.6 242.0,162.0 268.0,149.4 294.0,136.8 320.0,124.3 346.0,111.7 372.0,99.1 398.0,86.5 424.0,74.0 450.0,61.4"/>
+  <text x="255" y="285" font-size="12" fill="#333" text-anchor="middle">bending moment  M  (N·m)</text>
+  <text x="16" y="140" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90 16 140)">max stress  σ  (MPa)</text>
+  <g font-size="11">
+    <rect x="84" y="40" width="150" height="40" fill="#fff" stroke="#ddd"/>
+    <line x1="92" y1="54" x2="112" y2="54" stroke="#2a7d2a" stroke-width="2.4"/><text x="116" y="58">hollow femur</text>
+    <line x1="92" y1="70" x2="112" y2="70" stroke="#7a1f1f" stroke-width="2.4"/><text x="116" y="74">solid, equal mass</text>
+  </g>
+</svg>
+<figcaption>Peak bending stress vs. moment (computed). The equal-mass solid rod crosses the yield line near $M\approx185$ N·m; the hollow femur not until $M\approx265$ N·m. At a typical vigorous bending moment $M\approx200$ N·m the femur sits at $\sigma\approx99$ MPa — a safety factor of only $\sim1.3$, far tighter than the $\sim45$ of compression.</figcaption>
+</figure>
+
+<p>The animation shows the mechanism behind (3.1): as the beam curves, fibres far from the neutral axis stretch or compress most, so they carry the most stress.</p>
+<figure>
+<svg viewBox="0 0 440 180" width="100%" style="max-width:440px" role="img" aria-label="A straight beam bends downward and back; coloured fibres above the centreline compress and below stretch, while the centre fibre stays unchanged.">
+  <!-- neutral fibre -->
+  <path fill="none" stroke="#1a1a1a" stroke-width="1.6" d="M30,90 Q220,90 410,90">
+    <animate attributeName="d" dur="4s" repeatCount="indefinite"
+      values="M30,90 Q220,90 410,90; M30,90 Q220,150 410,90; M30,90 Q220,90 410,90"/>
+  </path>
+  <!-- top fibre (compression, red) -->
+  <path fill="none" stroke="#7a1f1f" stroke-width="2.4" d="M30,60 Q220,60 410,60">
+    <animate attributeName="d" dur="4s" repeatCount="indefinite"
+      values="M30,60 Q220,60 410,60; M30,60 Q220,128 410,60; M30,60 Q220,60 410,60"/>
+  </path>
+  <!-- bottom fibre (tension, green) -->
+  <path fill="none" stroke="#2a7d2a" stroke-width="2.4" d="M30,120 Q220,120 410,120">
+    <animate attributeName="d" dur="4s" repeatCount="indefinite"
+      values="M30,120 Q220,120 410,120; M30,120 Q220,172 410,120; M30,120 Q220,120 410,120"/>
+  </path>
+  <text x="30" y="52" font-size="10" fill="#7a1f1f">top fibre — compression (σ &lt; 0)</text>
+  <text x="30" y="145" font-size="10" fill="#2a7d2a">bottom fibre — tension (σ &gt; 0)</text>
+  <text x="300" y="84" font-size="10" fill="#1a1a1a" font-style="italic">neutral axis</text>
+</svg>
+<figcaption>Pure-bending kinematics: the outer fibres deform most, the neutral fibre not at all — so stress grows linearly with distance $y$ from the axis, exactly $\sigma=My/I$.</figcaption>
+</figure>
+
+<!-- <a class="secref" href="#torsion">§4</a> -->
+<h2 id="torsion">4. Torsion</h2>
+<p>Twisting a long bone (a planted foot while the body rotates) applies a torque $T$ about its axis, producing shear stress that, like bending, grows with radius:
+$$\tau(\rho)=\frac{T\rho}{J},\qquad \tau_\max=\frac{T R}{J},\qquad J=\frac{\pi}{2}(R^4-r^4),\tag{4.1}$$
+where $\rho$ is distance from the axis and $J$ is the <em>polar second moment of area</em> ($J=2I$ for a circle). Spiral fractures — the classic skiing or contact-sport injury — are torsional failures: the crack follows the surface of maximum tensile stress, which lies at $45^\circ$ to the axis under pure shear.</p>
+
+<!-- <a class="secref" href="#composite">§5</a> -->
+<h2 id="composite">5. Where $E$ comes from: the mineral–collagen composite</h2>
+<p>The modulus $E\approx17\ \mathrm{GPa}$ used above is not fundamental — it emerges from bone's two-phase nanostructure. <em>Type-I collagen</em> fibrils (compliant, $E\sim1$ GPa, but tough) are reinforced by plate-shaped crystals of <em>hydroxyapatite</em>, $\mathrm{Ca_{10}(PO_4)_6(OH)_2}$ (stiff, $E\sim100$ GPa, but brittle). The result is a classic stiff-filler/ductile-matrix composite: its modulus lies between the two, near a volume-fraction average, while its <em>toughness</em> exceeds either phase because cracks are deflected and bridged at interfaces.</p>
+<table>
+<tr><th>Phase</th><th>Role</th><th>Mechanical contribution</th></tr>
+<tr><td>Hydroxyapatite mineral ($\sim$50% vol)</td><td>Stiff reinforcement</td><td>Raises $E$ and compressive strength; brittle alone</td></tr>
+<tr><td>Type-I collagen ($\sim$40% vol)</td><td>Ductile matrix</td><td>Tensile toughness, energy absorption, crack bridging</td></tr>
+<tr><td>Water / non-collagenous proteins</td><td>Interface, sacrificial bonds</td><td>Viscoelasticity, damage tolerance</td></tr>
+</table>
+<p><b>Mineralization</b> is the controlled deposition of hydroxyapatite within the collagen scaffold; too little (osteomalacia, rickets) lowers $E$ and strength, too much (some treatments) raises stiffness but embrittles. Anisotropy ($E$ largest along the loaded axis) is itself an adaptation — the structural echo of the feedback loop in <a class="secref" href="#adapt">§7</a>.</p>
+
+<!-- <a class="secref" href="#failure">§6</a> -->
+<h2 id="failure">6. Failure: yield, fatigue, fracture, and the falling body</h2>
+<p>Three failure routes matter for daily life.</p>
+<p><b>(i) Monotonic overload.</b> If $\sigma_\max$ from (3.1) exceeds the yield/ultimate strength $\sigma_Y\ (\sim120$–$150$ MPa in tension), the bone yields then breaks. The <em>safety factor</em> is $n=\sigma_Y/\sigma_\max$; <a class="secref" href="#bending">§3</a> showed $n\sim1.3$ in vigorous bending — bone runs a deliberately lean margin, trading mass for mobility.</p>
+<p><b>(ii) Stress concentration &amp; fatigue.</b> A geometric notch (a screw hole, a cortical defect) raises local stress by a factor $K_t$, $\sigma_\text{local}=K_t\,\sigma_\text{nominal}$. Repeated loading drives <em>fatigue</em>: microcracks nucleate and grow, captured empirically by an S–N (stress vs. cycles-to-failure) curve $N_f\propto(\Delta\sigma)^{-m}$ with $m\approx5$–$8$ for bone. Living bone normally repairs this microdamage (<a class="secref" href="#adapt">§7</a>); a stress fracture is fatigue outpacing repair.</p>
+<p><b>(iii) Fracture mechanics.</b> A crack of length $a$ fails when the stress intensity $K=Y\sigma\sqrt{\pi a}$ reaches the toughness $K_{Ic}\ (\sim2$–$6\ \mathrm{MPa\sqrt m}$ for bone), so the tolerable flaw size shrinks as load rises.</p>
+
+<h3>A fall-impact fracture model</h3>
+<p>Why a fall, not standing, breaks the hip: a sideways fall delivers a large force over a few centimetres of soft-tissue compression. Model the impact as energy capture by an effective spring (soft tissue + pelvis) of stiffness $k$. Effective mass $m_\text{eff}$ falling a height $h$ arrives with energy $E=m_\text{eff}gh$; equating to spring energy $\tfrac12 k x^2$ and using $F=kx$ gives the peak force
+$$\boxed{\;F_\text{peak}=\sqrt{2\,k\,m_\text{eff}\,g\,h}\;}\tag{6.1}$$
+</p>
+<div class="keyresult"><b>Worked number.</b> $m_\text{eff}=28\ \mathrm{kg}$ (effective fraction of body in a sideways fall), $h=0.5\ \mathrm m$, $k=5\times10^{4}\ \mathrm{N\,m^{-1}}$: $E=137\ \mathrm J$, $F_\text{peak}\approx3.7\ \mathrm{kN}$. A healthy proximal femur tolerates $\sim4\ \mathrm{kN}$ (survives); an osteoporotic one $\sim2\ \mathrm{kN}$ (fractures). The same fall is safe or catastrophic depending on a strength the body itself sets over years (<a class="secref" href="#adapt">§7</a>).</div>
+
+<figure>
+<svg viewBox="0 0 440 210" width="100%" style="max-width:440px" role="img" aria-label="Bar chart: fall impact force about 3.7 kilonewtons compared with healthy hip strength 4 kN and osteoporotic hip strength 2 kN.">
+  <line x1="60" y1="20" x2="60" y2="170" stroke="#333" stroke-width="1.4"/>
+  <line x1="60" y1="170" x2="420" y2="170" stroke="#333" stroke-width="1.4"/>
+  <g font-size="10" fill="#555" text-anchor="end">
+    <text x="54" y="174">0</text><text x="54" y="135">1</text><text x="54" y="100">2</text><text x="54" y="65">3</text><text x="54" y="30">4</text>
+  </g>
+  <text x="20" y="100" font-size="11" fill="#333" text-anchor="middle" transform="rotate(-90 20 100)">force (kN)</text>
+  <!-- impact bar 3.7 -->
+  <rect x="100" y="40.5" width="70" height="129.5" fill="#7a1f1f" fill-opacity="0.8"/>
+  <text x="135" y="186" font-size="10" text-anchor="middle">fall impact</text>
+  <text x="135" y="35" font-size="10" text-anchor="middle">3.7</text>
+  <!-- healthy 4 -->
+  <rect x="200" y="30" width="70" height="140" fill="#2a7d2a" fill-opacity="0.75"/>
+  <text x="235" y="186" font-size="10" text-anchor="middle">healthy hip</text>
+  <text x="235" y="24" font-size="10" text-anchor="middle">4.0</text>
+  <!-- osteoporotic 2 -->
+  <rect x="300" y="100" width="70" height="70" fill="#c08a00" fill-opacity="0.8"/>
+  <text x="335" y="186" font-size="10" text-anchor="middle">osteoporotic</text>
+  <text x="335" y="94" font-size="10" text-anchor="middle">2.0</text>
+  <!-- impact reference dashed line -->
+  <line x1="60" y1="40.5" x2="420" y2="40.5" stroke="#7a1f1f" stroke-width="1" stroke-dasharray="5 3" opacity="0.6"/>
+</svg>
+<figcaption>The fall force (6.1) exceeds the osteoporotic strength but not the healthy one — fracture risk is the crossing of a load that barely changes with age against a strength that falls steeply with it.</figcaption>
+</figure>
+
+<!-- <a class="secref" href="#adapt">§7</a> -->
+<h2 id="adapt">7. Adaptation: Wolff's law as a strain feedback loop</h2>
+<p>"Wolff's law" — bone adapts to the loads it carries — becomes quantitative as the <em>mechanostat</em> (Frost): bone tissue senses its own peak strain and adds or removes material to keep that strain in a target band. The mechanism is cellular:</p>
+<ul>
+<li><b>Osteocytes</b> — the sensor network buried in the matrix — detect strain-driven flow of interstitial fluid through the lacunar–canalicular system and convert it to chemical signals (mechanotransduction).</li>
+<li>High strain <b>suppresses sclerostin</b>, releasing the brake on osteoblasts $\to$ bone <b>formation</b>. Low strain (disuse) raises the RANKL/OPG ratio, activating osteoclasts $\to$ bone <b>resorption</b>.</li>
+<li>Between the two thresholds lies a <b>"lazy zone"</b> where formation and resorption balance and net mass is steady.</li>
+</ul>
+
+<figure><svg class="setupfig" viewBox="0 0 460 200" width="100%" role="img" aria-label="Mechanostat curve: remodeling rate versus strain. Resorption below the lower threshold, flat lazy zone in the middle, formation above the upper threshold.">
+  <line x1="40" y1="100" x2="440" y2="100" stroke="#333" stroke-width="1.2"/>
+  <line x1="240" y1="20" x2="240" y2="180" stroke="#ccc" stroke-width="1"/>
+  <text x="430" y="115" font-size="11" fill="#333" text-anchor="end">strain ε</text>
+  <text x="248" y="32" font-size="10" fill="#555">remodeling rate dZ/dt</text>
+  <!-- resorption branch (negative) left -->
+  <line x1="60" y1="155" x2="160" y2="100" stroke="#c08a00" stroke-width="2.4"/>
+  <!-- lazy zone flat -->
+  <line x1="160" y1="100" x2="300" y2="100" stroke="#1a1a1a" stroke-width="3"/>
+  <!-- formation branch right -->
+  <line x1="300" y1="100" x2="410" y2="40" stroke="#2a7d2a" stroke-width="2.4"/>
+  <text x="80" y="172" font-size="10" fill="#c08a00">resorption (disuse)</text>
+  <text x="195" y="118" font-size="10" fill="#1a1a1a">lazy zone</text>
+  <text x="330" y="60" font-size="10" fill="#2a7d2a">formation (overload)</text>
+  <line x1="160" y1="100" x2="160" y2="112" stroke="#555"/><text x="150" y="126" font-size="9">ε_lo</text>
+  <line x1="300" y1="100" x2="300" y2="112" stroke="#555"/><text x="292" y="126" font-size="9">ε_hi</text>
+</svg><figcaption><b>The mechanostat.</b> Net remodeling rate as a function of peak strain: negative (bone lost) below $\varepsilon_\text{lo}$, zero in the lazy zone, positive (bone gained) above $\varepsilon_\text{hi}$. This is the feedback law we integrate next.</figcaption></figure>
+
+<div class="thm"><b>Model 7.1 (remodeling ODE).</b> Let the section modulus $Z$ stand for "how much bone, well placed" (it sets bending strength via (3.1)). Peak strain under habitual moment $M$ is $\varepsilon(Z)=M/(Z\,E)$. The mechanostat gives
+$$\frac{dZ}{dt}=
+\begin{cases}
+k\,Z\,\bigl(\varepsilon-\varepsilon_\text{hi}\bigr), & \varepsilon\gt \varepsilon_\text{hi}\ \text{(formation)}\\[2pt]
+0, & \varepsilon_\text{lo}\le\varepsilon\le\varepsilon_\text{hi}\ \text{(lazy zone)}\\[2pt]
+k\,Z\,\bigl(\varepsilon-\varepsilon_\text{lo}\bigr), & \varepsilon\lt \varepsilon_\text{lo}\ \text{(resorption)}
+\end{cases}\tag{7.1}$$
+At equilibrium the bone grows or shrinks until strain re-enters the band: $Z_\text{eq}=M/(E\,\varepsilon_\text{hi})$ after a load increase, $Z_\text{eq}=M/(E\,\varepsilon_\text{lo})$ after disuse. <em>The bone chases a target strain, not a target size.</em></div>
+
+<!-- <a class="secref" href="#lab">§8</a> -->
+<h2 id="lab">8. Computational lab: the remodeling ODE</h2>
+<p><b>Physical question:</b> how does a bone's strength evolve when habitual load changes? <b>Biological question:</b> can one feedback law produce both training gains and disuse loss? <b>Model:</b> integrate (7.1) from the healthy $Z$ for three activity levels (habitual, $+60\%$ load, $-60\%$ disuse). Parameters in the Appendix.</p>
+<pre><code>import numpy as np
+import matplotlib.pyplot as plt
+
+R, r = 0.014, 0.007
+I_h = np.pi*(R**4 - r**4)/4;  Z0 = I_h/R          # initial section modulus
+E = 17e9;  eps_lo, eps_hi = 1000e-6, 1500e-6      # lazy-zone strain band
+k = 80.0                                          # remodeling gain (1/strain/day)
+M_ref = 1250e-6 * Z0 * E                          # habitual moment -> mid-band strain
+
+def rate(Z, M):
+    e = M/(Z*E)
+    if e > eps_hi: return k*Z*(e - eps_hi)        # formation
+    if e < eps_lo: return k*Z*(e - eps_lo)        # resorption (negative)
+    return 0.0
+
+def simulate(scale, days=400, dt=1.0):
+    Z = Z0; out = []
+    for _ in range(days+1):
+        out.append(Z); Z = max(Z + rate(Z, scale*M_ref)*dt, 1e-8)
+    return np.array(out)
+
+t = np.arange(401)
+for scale, lab in [(1.6,"+60% load"), (1.0,"habitual"), (0.4,"disuse -60%")]:
+    plt.plot(t, 100*simulate(scale)/Z0, label=lab)
+plt.xlabel("time (days)"); plt.ylabel("section modulus (% of initial)")
+plt.legend(); plt.grid(alpha=0.3); plt.tight_layout(); plt.savefig("m2_remodel.png")</code></pre>
+<p>Output (computed): increased load drives a $+33\%$ gain, disuse a $-50\%$ loss, habitual load is a stable equilibrium — all from the single law (7.1).</p>
+
+<figure>
+<svg viewBox="0 0 480 300" width="100%" style="max-width:520px" role="img" aria-label="Section modulus over 400 days for three load levels: increased load rises and plateaus at 133 percent, habitual stays at 100 percent, disuse falls to 50 percent.">
+  <line x1="60" y1="30" x2="60" y2="250" stroke="#333" stroke-width="1.4"/>
+  <line x1="60" y1="250" x2="450" y2="250" stroke="#333" stroke-width="1.4"/>
+  <g font-size="10" fill="#555" text-anchor="end">
+    <text x="52" y="254">40</text><text x="52" y="214">60</text><text x="52" y="174">80</text>
+    <text x="52" y="134">100</text><text x="52" y="94">120</text><text x="52" y="54">140</text>
+  </g>
+  <g font-size="10" fill="#555" text-anchor="middle">
+    <text x="60" y="266">0</text><text x="157.5" y="266">100</text><text x="255" y="266">200</text><text x="352.5" y="266">300</text><text x="450" y="266">400</text>
+  </g>
+  <g stroke="#eee" stroke-width="1"><line x1="60" y1="210" x2="450" y2="210"/><line x1="60" y1="170" x2="450" y2="170"/><line x1="60" y1="130" x2="450" y2="130"/><line x1="60" y1="90" x2="450" y2="90"/><line x1="60" y1="50" x2="450" y2="50"/></g>
+  <!-- 100% reference -->
+  <line x1="60" y1="130" x2="450" y2="130" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+  <!-- up (green) -->
+  <polyline fill="none" stroke="#2a7d2a" stroke-width="2.4" points="60.0,130.0 67.8,87.3 75.6,72.0 83.4,66.4 91.2,64.4 99.0,63.7 106.8,63.5 114.6,63.4 122.4,63.4 130.2,63.3 138.0,63.3 200.4,63.3 294.0,63.3 372.0,63.3 450.0,63.3"/>
+  <!-- norm (black) -->
+  <polyline fill="none" stroke="#1a1a1a" stroke-width="2.2" points="60.0,130.0 157.5,130.0 255.0,130.0 352.5,130.0 450.0,130.0"/>
+  <!-- down (amber) -->
+  <polyline fill="none" stroke="#c08a00" stroke-width="2.4" points="60.0,130.0 67.8,178.7 75.6,203.7 83.4,216.5 91.2,223.1 99.0,226.4 106.8,228.2 114.6,229.1 122.4,229.5 130.2,229.8 138.0,229.9 200.4,230.0 294.0,230.0 372.0,230.0 450.0,230.0"/>
+  <text x="255" y="285" font-size="12" fill="#333" text-anchor="middle">time (days)</text>
+  <text x="16" y="140" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90 16 140)">section modulus (% initial)</text>
+  <g font-size="11">
+    <rect x="330" y="150" width="116" height="56" fill="#fff" stroke="#ddd"/>
+    <line x1="338" y1="164" x2="358" y2="164" stroke="#2a7d2a" stroke-width="2.4"/><text x="362" y="168">+60% load</text>
+    <line x1="338" y1="180" x2="358" y2="180" stroke="#1a1a1a" stroke-width="2.2"/><text x="362" y="184">habitual</text>
+    <line x1="338" y1="196" x2="358" y2="196" stroke="#c08a00" stroke-width="2.4"/><text x="362" y="200">disuse −60%</text>
+  </g>
+</svg>
+<figcaption>Integration of the remodeling ODE (7.1), computed values. Each trajectory settles when peak strain re-enters the lazy zone; the equilibria $Z_\text{eq}=M/(E\varepsilon_\text{hi,lo})$ are reached in $\sim$100–150 days, the real timescale of bone turnover.</figcaption>
+</figure>
+
+<h3>Sensitivity analysis</h3>
+<p>The equilibrium $Z_\text{eq}=M/(E\varepsilon^*)$ is inversely proportional to the strain setpoint $\varepsilon^*$ and proportional to load $M$: a $10\%$ rise in habitual load yields a $10\%$ stronger bone at steady state, while a drugs/aging-driven rise in the setpoint $\varepsilon^*$ (the bone "tolerating" more strain before building) lowers $Z_\text{eq}$ — a mechanism for age-related fragility independent of load. The <em>gain</em> $k$ sets only the speed of approach, not the destination: doubling $k$ halves the adaptation time but leaves $Z_\text{eq}$ unchanged.</p>
+
+<div class="qbox"><b>Extension challenge.</b> Couple this module to <a class="secref" href="#failure">§6</a>: drive the bone with a daily load <em>and</em> a slow age-related rise in $\varepsilon^*$, track $Z(t)$ to age 80, then at each age compute the fall force (6.1) against the strength implied by $Z$. At what age does the safety factor cross 1? Which intervention — more load (raising $M$) or lowering $\varepsilon^*$ — buys more years?</div>
+
+<!-- <a class="secref" href="#captures">§9</a> -->
+<h2 id="captures">9. What the model captures and misses</h2>
+<p><b>Captures:</b> correct stress magnitudes and the compression-vs-bending asymmetry; the structural logic of hollow bones; a lean safety factor; one feedback law reproducing both training gains and disuse loss; the qualitative fall-fracture crossover with age.</p>
+<table>
+<tr><th>Simplification</th><th>What it ignores</th><th>Addressed in</th></tr>
+<tr><td>Linear elastic, isotropic $E$</td><td>Anisotropy, viscoelasticity, post-yield ductility</td><td>Module 16 (continuum/FE)</td></tr>
+<tr><td>Idealized hollow circular tube</td><td>Real curved, tapered, non-circular geometry</td><td>Module 16</td></tr>
+<tr><td>Single scalar $Z$ for "bone"</td><td>Cortical vs trabecular, geometry vs density, mineralization</td><td><a class="secref" href="#composite">§5</a>; Module 14</td></tr>
+<tr><td>Static/quasi-static loads</td><td>Dynamic impact wave, strain rate effects</td><td>Module 9 (impact)</td></tr>
+<tr><td>Deterministic mechanostat</td><td>Hormones (estrogen, PTH), drugs, biological noise, repair lag</td><td>Module 14</td></tr>
+</table>
+<p><b>How to validate:</b> strain-gauge or finite-element estimates of $\sigma$ from CT-measured geometry; DXA/pQCT to track section modulus over a training or bed-rest study (spaceflight and limb-immobilization data match the disuse branch); mechanical testing of cadaveric femora for the fall-force threshold (6.1).</p>
+
+<!-- <a class="secref" href="#problems">§10</a> -->
+<h2 id="problems">10. Diagnostic questions and problems</h2>
+<h3>Five diagnostic questions</h3>
+<ol>
+<li>Why is the safety factor against compression ($\sim45$) so much larger than against bending ($\sim1.3$), and what does that imply about which loads bones are "designed" for?</li>
+<li>Two bones have equal mass per length; one is a solid rod, one a tube. Explain via $I=\int y^2dA$ why the tube is stronger in bending but identical in pure axial loading.</li>
+<li>In the mechanostat, why does a bone reach a steady <em>size</em> even though the feedback is on <em>strain</em>? What sets the final size?</li>
+<li>Why does a fall fracture the hip while standing — a far longer-lasting load — does not? Use (6.1) and the energy/force distinction.</li>
+<li>Astronauts lose bone in microgravity despite exercising. Which model parameter changes, and why does exercise only partly compensate?</li>
+</ol>
+<h3>Three problems</h3>
+<p><b>(a) Conceptual.</b> A runner increases weekly mileage abruptly and develops a tibial stress fracture, yet the same total load applied gradually would have <em>strengthened</em> the bone. Explain using the fatigue (<a class="secref" href="#failure">§6</a> ii) and remodeling (<a class="secref" href="#adapt">§7</a>) timescales why <em>rate</em> of load increase, not just magnitude, governs the outcome.</p>
+<p><b>(b) Derivational.</b> Starting from $\sigma=My/I$ and Hooke's law, derive the beam curvature–moment relation $\kappa=M/(EI)$ and hence the bending stiffness $EI$. Then show that for two geometrically similar bones scaled by length factor $\lambda$, $EI$ scales as $\lambda^4$ while the bending moment from body weight scales as $\lambda^4$ too — and discuss what this says about geometric scaling of animals.</p>
+<p><b>(c) Computational.</b> Extend the <a class="secref" href="#lab">§8</a> code so that $M$ ramps linearly over the first 50 days (gradual training) instead of stepping. Compare the peak transient strain against the abrupt-step case and relate it to stress-fracture risk. Then add a slow drift $\varepsilon^*(t)=\varepsilon^*_0(1+0.004\,t_\text{yr})$ and report $Z$ at 30 years.</p>
+
+<hr>
+
+<h2 id="appendix">Appendix — parameters</h2>
+<table>
+<tr><th>Quantity</th><th>Symbol</th><th>Value</th><th>Source / note</th></tr>
+<tr><td>Femoral outer radius</td><td>$R$</td><td>$0.014\ \mathrm m$</td><td>midshaft, adult</td></tr>
+<tr><td>Femoral inner radius (canal)</td><td>$r$</td><td>$0.007\ \mathrm m$</td><td>$R/r=2$</td></tr>
+<tr><td>Cortical Young's modulus</td><td>$E$</td><td>$17\ \mathrm{GPa}$</td><td>longitudinal</td></tr>
+<tr><td>Tensile yield strength</td><td>$\sigma_Y$</td><td>$\sim120$–$150\ \mathrm{MPa}$</td><td>cortical bone</td></tr>
+<tr><td>Fracture toughness</td><td>$K_{Ic}$</td><td>$2$–$6\ \mathrm{MPa\sqrt m}$</td><td>—</td></tr>
+<tr><td>Mechanostat strain band</td><td>$\varepsilon_\text{lo},\varepsilon_\text{hi}$</td><td>$1000,1500\ \mu\varepsilon$</td><td>Frost mechanostat</td></tr>
+<tr><td>Remodeling gain</td><td>$k$</td><td>$80\ \mathrm{(strain\cdot day)^{-1}}$</td><td>toy value; sets speed only</td></tr>
+<tr><td>Fall effective mass / height / stiffness</td><td>$m_\text{eff},h,k$</td><td>$28\ \mathrm{kg},0.5\ \mathrm m,5\times10^4\ \mathrm{N/m}$</td><td>sideways fall</td></tr>
+</table>
+<p class="small">Builds on <a class="secref" href="module01.html#main">Module&nbsp;1</a> (joint and muscle forces $\to$ bone loads). Next: <b>Module 3 — Joints as constrained mechanical interfaces</b>, where these loads meet the contact surfaces that carry them.</p>
+
+</body>
+</html>
