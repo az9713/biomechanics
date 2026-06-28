@@ -283,11 +283,11 @@ Because $d_m\ (\sim 0.03\ \mathrm m)$ is far smaller than the load's moment arm 
   <text x="360" y="156" font-size="12" fill="#2a7d2a">W_L (small)</text>
   <line x1="50" y1="100" x2="400" y2="100" stroke="#1f5f7a" stroke-width="1.4" stroke-dasharray="3 2"/>
   <text x="210" y="97" font-size="10" fill="#1f5f7a">r_L ≈ 35 cm</text>
-</svg><figcaption><b>Mechanical disadvantage.</b> The flexor inserts at $d_m\approx3$ cm; the load hangs at $r_L\approx35$ cm. Torque balance $F_m d_m = W_L r_L$ forces $F_m\approx (r_L/d_m)\,W_L\approx 12\times$ the load weight. Human limbs are built as <em>third-class levers</em>: they sacrifice force to gain hand speed and reach.</figcaption></figure>
+</svg><figcaption><b>Mechanical disadvantage.</b> The flexor (the muscle that bends the joint) inserts at $d_m\approx3$ cm; the load hangs at $r_L\approx35$ cm. Torque balance $F_m d_m = W_L r_L$ forces $F_m\approx (r_L/d_m)\,W_L\approx 12\times$ the load weight. Human limbs are built as <em>third-class levers</em> — the muscle's effort is applied between the joint (pivot) and the load — so they sacrifice force to gain hand speed and reach.</figcaption></figure>
 
 <!-- <a class="secref" href="#general">§6</a> -->
 <h2 id="general">6. The same law at shoulder, hip, knee, ankle, and low back</h2>
-<p>Equation (4.1) is not about the elbow specifically — it is Proposition 3.1 with a $\cos\theta$ projection. The recipe is identical at every joint: list the masses distal to the joint, multiply each weight by its horizontal moment arm, sum. Only the segments and distances change.</p>
+<p>Equation (4.1) is not about the elbow specifically — it is Proposition 3.1 with a $\cos\theta$ projection. The recipe is identical at every joint: list the masses distal to (farther out along the limb than) the joint, multiply each weight by its horizontal moment arm, sum. Only the segments and distances change.</p>
 <table>
 <tr><th>Joint</th><th>Task</th><th>Masses creating the moment</th><th>Torque (about the joint)</th><th>Order of magnitude</th></tr>
 <tr><td>Elbow</td><td>Hold load, forearm horizontal</td><td>Forearm+hand; load</td><td>$g\cos\theta(m_s r_s+m_L r_L)$</td><td>$10$–$40$ N·m</td></tr>
@@ -295,9 +295,9 @@ Because $d_m\ (\sim 0.03\ \mathrm m)$ is far smaller than the load's moment arm 
 <tr><td>Hip</td><td>Lean trunk forward; single-leg stance</td><td>Head-arms-trunk mass above hip; body weight offset from hip</td><td>$g\,m_{\text{HAT}}\,d_{\text{HAT}}$</td><td>$50$–$150$ N·m</td></tr>
 <tr><td>Knee</td><td>Half-squat; load on shank</td><td>Body above knee; horizontal offset of COM from knee</td><td>$g\,m_{\text{above}}\,d_{\perp}$</td><td>$30$–$150$ N·m</td></tr>
 <tr><td>Ankle</td><td>Quiet standing; rise on toes</td><td>Whole body; COM offset ahead of ankle</td><td>$g\,M_{\text{body}}\,d_{\text{COM}}$</td><td>$10$–$120$ N·m</td></tr>
-<tr><td>Low back (L5/S1)</td><td>Bend and lift a box</td><td>Trunk+head+arms; held load at long horizontal arm</td><td>$g\cos\theta(m_{\text{trunk}} r_t+m_L r_L)$</td><td>$100$–$400$ N·m</td></tr>
+<tr><td>Low back (L5/S1, the lumbar–sacral joint)</td><td>Bend and lift a box</td><td>Trunk+head+arms; held load at long horizontal arm</td><td>$g\cos\theta(m_{\text{trunk}} r_t+m_L r_L)$</td><td>$100$–$400$ N·m</td></tr>
 </table>
-<p>The low back is the cautionary case: $r_L$ for a box held away from the spine can exceed $0.4$ m, and the erector-spinae moment arm is only $\sim 0.05$ m, so by (5.1) the spinal compressive force during a careless lift reaches several thousand newtons — the quantitative reason "lift with your legs, keep the load close" is mechanics, not folklore. Module 2 turns these forces into bone stresses; Module 5 turns muscle force back into chemistry.</p>
+<p>The low back is the cautionary case: $r_L$ for a box held away from the spine can exceed $0.4$ m, and the erector-spinae (the muscles running vertically alongside the spine) moment arm is only $\sim 0.05$ m, so by (5.1) the spinal compressive force during a careless lift reaches several thousand newtons — the quantitative reason "lift with your legs, keep the load close" is mechanics, not folklore. Module 2 turns these forces into bone stresses; Module 5 turns muscle force back into chemistry.</p>
 
 <!-- <a class="secref" href="#worked">§7</a> -->
 <h2 id="worked">7. Worked numerical example</h2>
@@ -403,7 +403,7 @@ for m_L in [0, 2, 5, 10]:                      # worst case (horizontal)
 <tr><td>Joint contact force dropped</td><td>Real joint/bone compressive loads</td><td>Modules 2, 4</td></tr>
 <tr><td>Planar, rigid links</td><td>3-D geometry, tissue deformation</td><td>Modules 11, 16</td></tr>
 </table>
-<p><b>How to validate experimentally:</b> measure elbow angle with a phone video or IMU, hold known masses, and either (i) record flexor EMG (force proxy, calibrate against a load cell) or (ii) on a dynamometer measure the external torque directly. Predicted $\tau(\theta)\propto\cos\theta$ and the linear dependence on $m_L$ are directly testable; Module 15 builds the full measurement-to-torque pipeline.</p>
+<p><b>How to validate experimentally:</b> measure elbow angle with a phone video or IMU (inertial measurement unit — a small accelerometer-and-gyroscope sensor), hold known masses, and either (i) record flexor EMG (electromyography — the muscle's electrical activity, a force proxy calibrated against a load cell) or (ii) on a dynamometer (a force/torque-measuring device) measure the external torque directly. Predicted $\tau(\theta)\propto\cos\theta$ and the linear dependence on $m_L$ are directly testable; Module 15 builds the full measurement-to-torque pipeline.</p>
 
 <!-- <a class="secref" href="#problems">§10</a> -->
 <h2 id="problems">10. Diagnostic questions and problems</h2>

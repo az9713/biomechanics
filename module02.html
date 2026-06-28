@@ -215,10 +215,10 @@ where $\rho$ is distance from the axis and $J$ is the <em>polar second moment of
 <p><b>(iii) Fracture mechanics.</b> A crack of length $a$ fails when the stress intensity $K=Y\sigma\sqrt{\pi a}$ reaches the toughness $K_{Ic}\ (\sim2$–$6\ \mathrm{MPa\sqrt m}$ for bone), so the tolerable flaw size shrinks as load rises.</p>
 
 <h3>A fall-impact fracture model</h3>
-<p>Why a fall, not standing, breaks the hip: a sideways fall delivers a large force over a few centimetres of soft-tissue compression. Model the impact as energy capture by an effective spring (soft tissue + pelvis) of stiffness $k$. Effective mass $m_\text{eff}$ falling a height $h$ arrives with energy $E=m_\text{eff}gh$; equating to spring energy $\tfrac12 k x^2$ and using $F=kx$ gives the peak force
-$$\boxed{\;F_\text{peak}=\sqrt{2\,k\,m_\text{eff}\,g\,h}\;}\tag{6.1}$$
+<p>Why a fall, not standing, breaks the hip: a sideways fall delivers a large force over a few centimetres of soft-tissue compression. Model the impact as energy capture by an effective spring (soft tissue + pelvis) of stiffness $k_s$ (the subscript $s$ keeps it distinct from the remodeling gain $k$ of <a class="secref" href="#adapt">§7</a>; the symbol $E$ stays reserved for Young's modulus). An effective mass $m_\text{eff}$ falling a height $h$ arrives with kinetic energy $m_\text{eff}\,g\,h$; equating this to the spring's stored energy $\tfrac12 k_s x^2$ and using $F=k_s x$ gives the peak force
+$$\boxed{\;F_\text{peak}=\sqrt{2\,k_s\,m_\text{eff}\,g\,h}\;}\tag{6.1}$$
 </p>
-<div class="keyresult"><b>Worked number.</b> $m_\text{eff}=28\ \mathrm{kg}$ (effective fraction of body in a sideways fall), $h=0.5\ \mathrm m$, $k=5\times10^{4}\ \mathrm{N\,m^{-1}}$: $E=137\ \mathrm J$, $F_\text{peak}\approx3.7\ \mathrm{kN}$. A healthy proximal femur tolerates $\sim4\ \mathrm{kN}$ (survives); an osteoporotic one $\sim2\ \mathrm{kN}$ (fractures). The same fall is safe or catastrophic depending on a strength the body itself sets over years (<a class="secref" href="#adapt">§7</a>).</div>
+<div class="keyresult"><b>Worked number.</b> $m_\text{eff}=28\ \mathrm{kg}$ (effective fraction of body in a sideways fall), $h=0.5\ \mathrm m$, $k_s=5\times10^{4}\ \mathrm{N\,m^{-1}}$: the impact energy is $\approx137\ \mathrm J$ and $F_\text{peak}\approx3.7\ \mathrm{kN}$. A healthy proximal femur tolerates $\sim4\ \mathrm{kN}$ (survives); an osteoporotic one $\sim2\ \mathrm{kN}$ (fractures). The same fall is safe or catastrophic depending on a strength the body itself sets over years (<a class="secref" href="#adapt">§7</a>).</div>
 
 <figure>
 <svg viewBox="0 0 440 210" width="100%" style="max-width:440px" role="img" aria-label="Bar chart: fall impact force about 3.7 kilonewtons compared with healthy hip strength 4 kN and osteoporotic hip strength 2 kN.">
@@ -390,7 +390,7 @@ plt.legend(); plt.grid(alpha=0.3); plt.tight_layout(); plt.savefig("m2_remodel.p
 <tr><td>Fracture toughness</td><td>$K_{Ic}$</td><td>$2$–$6\ \mathrm{MPa\sqrt m}$</td><td>—</td></tr>
 <tr><td>Mechanostat strain band</td><td>$\varepsilon_\text{lo},\varepsilon_\text{hi}$</td><td>$1000,1500\ \mu\varepsilon$</td><td>Frost mechanostat</td></tr>
 <tr><td>Remodeling gain</td><td>$k$</td><td>$80\ \mathrm{(strain\cdot day)^{-1}}$</td><td>toy value; sets speed only</td></tr>
-<tr><td>Fall effective mass / height / stiffness</td><td>$m_\text{eff},h,k$</td><td>$28\ \mathrm{kg},0.5\ \mathrm m,5\times10^4\ \mathrm{N/m}$</td><td>sideways fall</td></tr>
+<tr><td>Fall effective mass / height / stiffness</td><td>$m_\text{eff},h,k_s$</td><td>$28\ \mathrm{kg},0.5\ \mathrm m,5\times10^4\ \mathrm{N/m}$</td><td>sideways fall</td></tr>
 </table>
 <p class="small">Builds on <a class="secref" href="module01.html#main">Module&nbsp;1</a> (joint and muscle forces $\to$ bone loads). Next: <b>Module 3 — Joints as constrained mechanical interfaces</b>, where these loads meet the contact surfaces that carry them.</p>
 
