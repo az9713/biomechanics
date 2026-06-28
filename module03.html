@@ -201,27 +201,30 @@ window.MathJax = {
 
 <p>A single rigid body, free in 3-D space, has <b>6</b> DOF: three translations and three rotations. Confined to a plane, only three survive — two translations and one rotation.</p>
 
-<figure><svg class="setupfig" viewBox="0 0 460 168" width="100%" role="img" aria-label="Left: a rigid body with three double-headed translation arrows along x, y, z. Right: the same body with three rotational arcs. Six degrees of freedom in total.">
+<figure><svg class="setupfig" viewBox="0 0 460 240" width="100%" role="img" aria-label="A shaded three-dimensional box in cabinet projection with three double-headed translation arrows along the x, y and z axes and three curved arrows showing rotation about each axis: six degrees of freedom.">
   <defs>
     <marker id="d1t" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6 Z" fill="#1f5f7a"/></marker>
-    <marker id="d1r" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2a7d2a"/></marker>
+    <marker id="d1r" markerWidth="9" markerHeight="9" refX="6" refY="3.2" orient="auto"><path d="M0,0 L6.5,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
   </defs>
-  <line x1="230" y1="18" x2="230" y2="150" stroke="#eee" stroke-width="1"/>
-  <text x="120" y="22" font-size="11.5" text-anchor="middle" font-weight="bold">3 translations</text>
-  <rect x="104" y="78" width="44" height="30" rx="4" fill="#e8e2d6" stroke="#b9a47e"/>
-  <line x1="68" y1="93" x2="184" y2="93" stroke="#1f5f7a" stroke-width="1.8" marker-start="url(#d1t)" marker-end="url(#d1t)"/>
-  <line x1="126" y1="48" x2="126" y2="138" stroke="#1f5f7a" stroke-width="1.8" marker-start="url(#d1t)" marker-end="url(#d1t)"/>
-  <line x1="162" y1="122" x2="90" y2="64" stroke="#1f5f7a" stroke-width="1.8" marker-start="url(#d1t)" marker-end="url(#d1t)"/>
-  <text x="188" y="97" font-size="10" fill="#1f5f7a" font-style="italic">x</text>
-  <text x="120" y="46" font-size="10" fill="#1f5f7a" font-style="italic">y</text>
-  <text x="82" y="64" font-size="10" fill="#1f5f7a" font-style="italic">z</text>
-  <text x="345" y="22" font-size="11.5" text-anchor="middle" font-weight="bold">3 rotations</text>
-  <rect x="324" y="78" width="44" height="30" rx="4" fill="#e8e2d6" stroke="#b9a47e"/>
-  <path d="M302,92 A44,17 0 1 1 390,92" fill="none" stroke="#2a7d2a" stroke-width="1.7" marker-end="url(#d1r)"/>
-  <path d="M346,54 A17,40 0 1 1 346,132" fill="none" stroke="#2a7d2a" stroke-width="1.7" marker-end="url(#d1r)"/>
-  <path d="M320,116 A27,27 0 1 1 373,112" fill="none" stroke="#2a7d2a" stroke-width="1.7" marker-end="url(#d1r)"/>
-  <text x="345" y="150" font-size="10" fill="#2a7d2a" text-anchor="middle" font-style="italic">roll · pitch · yaw</text>
-</svg><figcaption><b>The six freedoms of a free rigid body</b>: three translations $(x,y,z)$ and three rotations. A joint exists to take some of these away.</figcaption></figure>
+  <!-- hidden edges (dashed) -->
+  <path d="M168,158 L212,128 M212,128 L212,68 M212,128 L296,128" fill="none" stroke="#9c8a66" stroke-dasharray="4 3" stroke-width="1" opacity="0.6"/>
+  <!-- cuboid faces, graded tone for depth -->
+  <path d="M168,98 L252,98 L296,68 L212,68 Z" fill="#f2ecdd" stroke="#9c8a66" stroke-width="1.4" stroke-linejoin="round"/>
+  <path d="M252,98 L252,158 L296,128 L296,68 Z" fill="#d3c5a6" stroke="#9c8a66" stroke-width="1.4" stroke-linejoin="round"/>
+  <path d="M168,98 L252,98 L252,158 L168,158 Z" fill="#e8ddc6" stroke="#9c8a66" stroke-width="1.4" stroke-linejoin="round"/>
+  <!-- translation arrows along the three axes -->
+  <line x1="150" y1="208" x2="334" y2="208" stroke="#1f5f7a" stroke-width="1.9" marker-start="url(#d1t)" marker-end="url(#d1t)"/>
+  <text x="340" y="212" font-size="11" fill="#1f5f7a" font-style="italic">x</text>
+  <line x1="116" y1="182" x2="116" y2="40" stroke="#1f5f7a" stroke-width="1.9" marker-start="url(#d1t)" marker-end="url(#d1t)"/>
+  <text x="110" y="40" font-size="11" fill="#1f5f7a" font-style="italic" text-anchor="end">y</text>
+  <line x1="300" y1="160" x2="384" y2="103" stroke="#1f5f7a" stroke-width="1.9" marker-start="url(#d1t)" marker-end="url(#d1t)"/>
+  <text x="388" y="102" font-size="11" fill="#1f5f7a" font-style="italic">z</text>
+  <!-- rotation arrows about each axis -->
+  <path d="M198,74 A34,11 0 1 1 260,69" fill="none" stroke="#2a7d2a" stroke-width="1.7" marker-end="url(#d1r)"/>
+  <path d="M320,88 A13,25 0 1 1 333,116" fill="none" stroke="#2a7d2a" stroke-width="1.7" marker-end="url(#d1r)"/>
+  <g transform="rotate(-33 252,126)"><path d="M227,126 A25,11 0 1 1 277,122" fill="none" stroke="#2a7d2a" stroke-width="1.7" marker-end="url(#d1r)"/></g>
+  <text x="230" y="234" font-size="10.5" fill="#555" text-anchor="middle"><tspan fill="#1f5f7a">straight = translate</tspan>  ·  <tspan fill="#2a7d2a">curved = rotate</tspan></text>
+</svg><figcaption><b>The six freedoms of a free rigid body.</b> It can <span style="color:#1f5f7a">slide</span> along three axes $(x,y,z)$ and <span style="color:#2a7d2a">rotate</span> about each — three translations + three rotations = 6 DOF. In a 2-D (planar) world only three survive: two translations and one rotation. A joint exists to remove some of these.</figcaption></figure>
 
 <p>Counting DOF for a few familiar systems:</p>
 
