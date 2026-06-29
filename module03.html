@@ -69,7 +69,7 @@ window.MathJax = {
 <li><b>5.</b> <a href="#contact">From reaction force to contact pressure</a></li>
 <li><b>6.</b> <a href="#stability">Stability versus mobility</a></li>
 <li><b>7.</b> <a href="#lab">Computational lab — the constrained two-link limb</a></li>
-<li class="pending"><b>8.</b> What the model captures and misses <em>(to come)</em></li>
+<li><b>8.</b> <a href="#model">What the model captures and misses</a></li>
 <li class="pending"><b>9.</b> Diagnostic questions and problems <em>(to come)</em></li>
 <li class="pending">Appendix — parameters <em>(to come)</em></li>
 </ul>
@@ -1416,6 +1416,189 @@ for step in range(40000):
 </div>
 
 <div class="keyresult"><b>What this lab establishes.</b> The abstract apparatus of <a class="secref" href="#forces">§3</a> is a working algorithm: stack the coordinates, write the constraints, build $M$ and $J_c$, and solve one linear system <a class="secref" href="#forces">(3.4)</a> per time step to read off every joint reaction in a moving limb at once. Joint-angle coordinates would have hidden these forces; redundant Cartesian coordinates expose them as the multipliers. The same forty lines scale from this two-link toy to a full musculoskeletal model — what changes between here and a research-grade simulation is the realism of $M$, $g(q)$, and the constraints, which is the subject of <span class="secref">§8</span>.</div>
+
+<hr>
+
+<h2 id="model">8. What the model captures — and what it leaves out</h2>
+
+<p>The lab of <a class="secref" href="#lab">§7</a> closed by naming the three things a research-grade model would make more realistic: the inertia $M$, the bias term $g(q)$ (gravity and, eventually, muscle), and the constraints themselves. This section turns that remark into a systematic audit. Every model trades fidelity for insight; the discipline is to know <em>exactly</em> which corners were cut, and where each one is later squared off.</p>
+
+<h3 id="model-captures">8.1 What it gets right</h3>
+
+<p>The rigid-constraint picture is not a toy — it is the correct level of description for the skeleton <em>as a mechanism</em>, and it earns several quantitative wins:</p>
+
+<ul>
+<li><b>The freedom count is exact.</b> Degrees of freedom $=$ coordinates $-$ independent constraints (<a class="secref" href="#config">§1</a>) is not an approximation; it is a theorem of configuration space. The mobility ledger of <a class="secref" href="#taxonomy">§2</a> classifies every joint correctly.</li>
+<li><b>Constraint forces are real and directed.</b> The multiplier $\lambda$ is not bookkeeping — <a class="secref" href="#forces">§3.4</a> showed it <em>is</em> the measured rod tension, and <a class="secref" href="#lab">§7</a> recovered each joint reaction as a force along its bone. The model predicts both the size and the line of action.</li>
+<li><b>Muscle dominates the load — and the magnitudes check out.</b> The lever amplification of <a class="secref" href="#reaction">§4</a> predicts a hip reaction of a few times body weight in single-leg stance. This is directly testable: instrumented hip implants that radio out their own load (<em>in-vivo telemetry</em> — measurement from inside the living body) report peak contact forces of roughly $2$–$3\,W$ in walking, squarely in the predicted band.</li>
+<li><b>Dynamics raise the load predictably.</b> The inertial terms of <a class="secref" href="#forces">§3</a> made the shoulder reaction in <a class="secref" href="#lab">§7</a> nearly triple over a swing; the same terms explain why measured joint forces climb with gait speed.</li>
+</ul>
+
+<div class="keyresult"><b>Reality check.</b> A static hand calculation (<a class="secref" href="#reaction">§4</a>) gave a hip reaction $\approx2.5\,W$; in-vivo telemetry gives $\approx2.3$–$2.9\,W$ in level walking. A model built from nothing but rigid bones, ideal constraints, and lever arms lands within tens of percent of the living joint — strong evidence the <em>load path</em> is captured even when the materials are idealized.</div>
+
+<h3 id="model-misses">8.2 What it leaves out</h3>
+
+<p>The idealizations fall into three families. None is fatal; each is the doorway to a later module.</p>
+
+<p><b>(a) The bodies are not rigid.</b> We treated bones as rigid and joints as exact distance constraints. Real bones <em>flex</em> and store elastic strain energy — the beam mechanics of <a class="secref" href="module02.html#setup">Module&nbsp;2</a>. Tendons and ligaments are not rigid rods at all but <em>compliant springs</em> that stretch several percent under load; modeling them as hard constraints discards the energy they store and return (the basis of efficient running), taken up in Module&nbsp;6.</p>
+
+<p><b>(b) The constraints are not ideal.</b> Three separate idealizations hide here, and the contrast below makes them concrete:</p>
+
+<figure><svg viewBox="0 0 470 230" width="100%" style="max-width:460px" role="img" aria-label="Left: an ideal hinge — two rigid bars meeting at a single fixed frictionless pin, with one clean rotation arrow. Right: a real knee — a rounded femoral condyle that both rolls and glides on the tibial plateau, a deformable cartilage layer between them, and a compliant ligament drawn as a spring.">
+  <defs>
+    <radialGradient id="m8con" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#fcf8ef"/><stop offset="0.6" stop-color="#e8dabb"/><stop offset="1" stop-color="#c2ae84"/></radialGradient>
+    <marker id="m8r" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2a7d2a"/></marker>
+    <marker id="m8b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1f5f7a"/></marker>
+  </defs>
+  <!-- divider -->
+  <line x1="232" y1="30" x2="232" y2="210" stroke="#eee" stroke-width="1"/>
+  <text x="116" y="26" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold">Ideal hinge (our model)</text>
+  <text x="352" y="26" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold">Real knee</text>
+  <!-- LEFT: ideal hinge -->
+  <line x1="116" y1="52" x2="116" y2="120" stroke="#666" stroke-width="6" stroke-linecap="round"/>
+  <line x1="116" y1="120" x2="170" y2="172" stroke="#666" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="116" cy="120" r="6" fill="#1a1a1a"/>
+  <path d="M150,92 A44 44 0 0 1 158 132" fill="none" stroke="#7a1f1f" stroke-width="2" marker-end="url(#m8b)"/>
+  <text x="116" y="200" font-size="11" fill="#555" text-anchor="middle" font-style="italic">one fixed, frictionless axis</text>
+  <!-- RIGHT: real knee -->
+  <!-- femur shaft -->
+  <line x1="352" y1="44" x2="352" y2="84" stroke="#9c8760" stroke-width="11" stroke-linecap="round"/>
+  <!-- condyle -->
+  <circle cx="352" cy="100" r="30" fill="url(#m8con)" stroke="#b09a6e" stroke-width="0.8"/>
+  <!-- cartilage layer -->
+  <rect x="312" y="150" width="92" height="6" rx="3" fill="#bcd2e8" opacity="0.85"/>
+  <!-- tibial plateau -->
+  <line x1="305" y1="160" x2="415" y2="160" stroke="#9c8760" stroke-width="8" stroke-linecap="round"/>
+  <line x1="352" y1="160" x2="352" y2="200" stroke="#9c8760" stroke-width="11" stroke-linecap="round"/>
+  <!-- roll + glide arrows -->
+  <path d="M338,80 A22 22 0 0 1 374 80" fill="none" stroke="#2a7d2a" stroke-width="2" marker-end="url(#m8r)"/>
+  <text x="380" y="80" font-size="10" fill="#2a7d2a">roll</text>
+  <line x1="334" y1="146" x2="372" y2="146" stroke="#1f5f7a" stroke-width="2" marker-end="url(#m8b)"/>
+  <text x="338" y="140" font-size="10" fill="#1f5f7a">+ glide</text>
+  <!-- ligament spring -->
+  <polyline points="330,78 318,92 332,104 318,118 332,132 320,150" fill="none" stroke="#7a1f1f" stroke-width="1.8"/>
+  <text x="278" y="112" font-size="10" fill="#7a1f1f">ligament</text>
+  <text x="408" y="150" font-size="10" fill="#3a6ea5" text-anchor="end">cartilage</text>
+  <text x="352" y="216" font-size="11" fill="#555" text-anchor="middle" font-style="italic">migrating axis, compliant, lubricated</text>
+</svg>
+<figcaption>The central idealization, made concrete. Our hinge has one fixed, frictionless axis and rigid surfaces. A real knee <em>rolls and glides</em> (so its instantaneous axis migrates — the "screw-home" of <a class="secref" href="#taxonomy">§2</a>), is held by <em>compliant</em> ligaments that allow a little laxity, and rides on a <em>deformable, lubricated</em> cartilage layer rather than a hard pivot.</figcaption>
+</figure>
+
+<ul>
+<li><b>Bilateral &rarr; unilateral.</b> A distance constraint resists motion in <em>both</em> directions; a real joint surface can only <em>push</em>, never pull (cartilage carries compression, not tension), and a foot can leave the floor. This is the $\lambda_3\ge0$ condition flagged in the <a class="secref" href="#lab-extend">§7.7</a> challenge — a one-sided constraint, the language of contact mechanics (Module&nbsp;4) and of stance-vs-swing in gait (Module&nbsp;8).</li>
+<li><b>Frictionless &rarr; lubricated.</b> We assumed no tangential force at the constraint. Synovial joints have a remarkably low but nonzero friction coefficient ($\mu\approx0.005$), the product of a rich fluid-film and biphasic lubrication mechanism — the subject of Module&nbsp;4.</li>
+<li><b>Fixed axis &rarr; migrating, compliant axis.</b> The ideal "hinge" of <a class="secref" href="#taxonomy">§2</a> has a single fixed rotation axis; the knee's axis moves as it rolls and glides (a <em>non-holonomic</em>, rolling character — a constraint on velocities, not just positions), and ligament laxity lets the bones shift slightly off the nominal path.</li>
+</ul>
+
+<p><b>(c) The interface is not a point, and the inertia is not lumped.</b> Two final simplifications:</p>
+
+<ul>
+<li><b>Contact.</b> <a class="secref" href="#contact">§5</a> summarized the interface with a mean pressure and an elastic (Hertz) peak. Cartilage is <em>biphasic</em> (a solid collagen matrix soaked in fluid) and <em>viscoelastic</em> (its response depends on rate and load history — it creeps), and the contact area itself changes with joint angle. The time-dependent story is Module&nbsp;4.</li>
+<li><b>Inertia and actuation.</b> <a class="secref" href="#lab">§7</a> lumped each segment's mass into a point at a joint, giving a constant $M$; real segments have distributed mass, a center of mass <em>between</em> the joints, and rotational inertia (anthropometric data feed the inverse dynamics of Module&nbsp;8). And our limb had no muscle model: real muscle has force–length–velocity properties, activation dynamics, and <em>pennation</em> (fibers angled to the tendon), and the body has more muscles than degrees of freedom — a <em>kinematic redundancy</em> resolved only by optimization (Modules&nbsp;5&nbsp;and&nbsp;7). Everything here was also strictly <em>planar</em>; three-dimensional joints need the spatial Jacobians of Module&nbsp;11.</li>
+</ul>
+
+<h3 id="model-repaid">8.3 Where each idealization is repaid</h3>
+
+<p>Throughout Module&nbsp;3 we have taken out a series of small <em>loans against realism</em>. To lay the mechanism bare we borrowed a simplification we knew was not literally true — a rigid bone, a frictionless surface, a point mass — on the understanding that the missing physics would be restored later. An idealization is <b>repaid</b> when a subsequent module hands that physics back: it reintroduces the real behaviour and, crucially, builds the refinement <em>on top of</em> the answer computed here, taking the joint reaction $\lambda$ as its starting input rather than recomputing it. Solving the skeleton's mechanics is never thrown away — it becomes the boundary condition for the tissues. The nine repayments at a glance, then one by one:</p>
+
+<figure><svg viewBox="0 0 480 318" width="100%" style="max-width:470px" role="img" aria-label="A 3-by-3 grid of before-and-after sketches. In each cell a grey idealization on the left turns, via an arrow, into a green realistic version on the right: a rigid bar becomes a bent bone; a rigid link becomes a spring; a two-headed arrow becomes a one-sided contact that can lift off; a frictionless block gains a friction arrow; a fixed pin becomes a migrating axis; a point load becomes a spread pressure field; a point mass becomes a distributed blob; a bare bone gains a red muscle; flat 2-D axes become 3-D axes.">
+  <defs>
+    <marker id="m83a" markerWidth="7" markerHeight="7" refX="5" refY="2.6" orient="auto"><path d="M0,0 L5,2.6 L0,5.2 Z" fill="#999"/></marker>
+    <marker id="m83g" markerWidth="7" markerHeight="7" refX="5" refY="2.6" orient="auto"><path d="M0,0 L5,2.6 L0,5.2 Z" fill="#2a7d2a"/></marker>
+    <marker id="m83hd" markerWidth="7" markerHeight="7" refX="5" refY="2.6" orient="auto-start-reverse"><path d="M0,0 L5,2.6 L0,5.2 Z" fill="#999"/></marker>
+  </defs>
+  <g stroke="#eee" stroke-width="1">
+    <line x1="160" y1="8" x2="160" y2="308"/><line x1="320" y1="8" x2="320" y2="308"/>
+    <line x1="8" y1="106" x2="472" y2="106"/><line x1="8" y1="208" x2="472" y2="208"/>
+  </g>
+  <!-- between-cell arrows -->
+  <g>
+    <line x1="54" y1="54" x2="96" y2="54" stroke="#999" stroke-width="1.4" marker-end="url(#m83a)"/>
+    <line x1="214" y1="54" x2="256" y2="54" stroke="#999" stroke-width="1.4" marker-end="url(#m83a)"/>
+    <line x1="374" y1="54" x2="416" y2="54" stroke="#999" stroke-width="1.4" marker-end="url(#m83a)"/>
+    <line x1="54" y1="156" x2="96" y2="156" stroke="#999" stroke-width="1.4" marker-end="url(#m83a)"/>
+    <line x1="214" y1="156" x2="256" y2="156" stroke="#999" stroke-width="1.4" marker-end="url(#m83a)"/>
+    <line x1="374" y1="156" x2="416" y2="156" stroke="#999" stroke-width="1.4" marker-end="url(#m83a)"/>
+    <line x1="54" y1="258" x2="96" y2="258" stroke="#999" stroke-width="1.4" marker-end="url(#m83a)"/>
+    <line x1="214" y1="258" x2="256" y2="258" stroke="#999" stroke-width="1.4" marker-end="url(#m83a)"/>
+    <line x1="374" y1="258" x2="416" y2="258" stroke="#999" stroke-width="1.4" marker-end="url(#m83a)"/>
+  </g>
+  <!-- 1 rigid -> bent bone -->
+  <rect x="27" y="34" width="10" height="40" rx="5" fill="#999"/>
+  <path d="M114,35 Q127,54 114,73" fill="none" stroke="#2a7d2a" stroke-width="9" stroke-linecap="round"/>
+  <text x="80" y="92" font-size="11" fill="#444" text-anchor="middle">bone flexes</text>
+  <!-- 2 rigid link -> spring -->
+  <rect x="187" y="34" width="10" height="40" rx="5" fill="#999"/>
+  <polyline points="274,34 266,42 282,50 266,58 282,66 274,74" fill="none" stroke="#2a7d2a" stroke-width="2.4"/>
+  <text x="240" y="92" font-size="11" fill="#444" text-anchor="middle">tendon = spring</text>
+  <!-- 3 bilateral -> unilateral lift-off -->
+  <line x1="352" y1="38" x2="352" y2="70" stroke="#999" stroke-width="2" marker-start="url(#m83hd)" marker-end="url(#m83hd)"/>
+  <line x1="404" y1="72" x2="436" y2="72" stroke="#2a7d2a" stroke-width="2"/>
+  <rect x="412" y="44" width="16" height="10" rx="1.5" fill="#2a7d2a" fill-opacity="0.45"/>
+  <line x1="420" y1="64" x2="420" y2="52" stroke="#2a7d2a" stroke-width="1.6" marker-end="url(#m83g)"/>
+  <text x="400" y="92" font-size="11" fill="#444" text-anchor="middle">push only (&#955;&#8805;0)</text>
+  <!-- 4 frictionless -> friction -->
+  <line x1="12" y1="158" x2="52" y2="158" stroke="#999" stroke-width="1.5"/>
+  <rect x="22" y="146" width="20" height="12" fill="#999"/>
+  <line x1="98" y1="158" x2="138" y2="158" stroke="#2a7d2a" stroke-width="1.5"/>
+  <rect x="108" y="146" width="20" height="12" fill="#2a7d2a" fill-opacity="0.55"/>
+  <line x1="118" y1="152" x2="136" y2="152" stroke="#2a7d2a" stroke-width="1.6" marker-end="url(#m83g)"/>
+  <text x="80" y="194" font-size="11" fill="#444" text-anchor="middle">friction &#956;</text>
+  <!-- 5 fixed pin -> migrating axis -->
+  <line x1="184" y1="150" x2="200" y2="150" stroke="#999" stroke-width="2"/>
+  <circle cx="192" cy="156" r="4" fill="#999"/>
+  <path d="M266,164 Q279,146 292,158" fill="none" stroke="#2a7d2a" stroke-width="1.4" stroke-dasharray="3 3"/>
+  <circle cx="266" cy="164" r="2.4" fill="#2a7d2a"/><circle cx="279" cy="151" r="2.4" fill="#2a7d2a"/><circle cx="292" cy="158" r="2.4" fill="#2a7d2a"/>
+  <text x="240" y="194" font-size="11" fill="#444" text-anchor="middle">axis migrates</text>
+  <!-- 6 point load -> pressure field -->
+  <line x1="342" y1="158" x2="362" y2="158" stroke="#999" stroke-width="1.5"/>
+  <line x1="352" y1="138" x2="352" y2="156" stroke="#999" stroke-width="2" marker-end="url(#m83a)"/>
+  <line x1="402" y1="158" x2="438" y2="158" stroke="#2a7d2a" stroke-width="1.5"/>
+  <line x1="406" y1="150" x2="406" y2="156" stroke="#2a7d2a" stroke-width="1.5" marker-end="url(#m83g)"/>
+  <line x1="414" y1="146" x2="414" y2="156" stroke="#2a7d2a" stroke-width="1.5" marker-end="url(#m83g)"/>
+  <line x1="422" y1="144" x2="422" y2="156" stroke="#2a7d2a" stroke-width="1.5" marker-end="url(#m83g)"/>
+  <line x1="430" y1="146" x2="430" y2="156" stroke="#2a7d2a" stroke-width="1.5" marker-end="url(#m83g)"/>
+  <text x="400" y="194" font-size="11" fill="#444" text-anchor="middle">pressure field</text>
+  <!-- 7 point mass -> distributed -->
+  <circle cx="32" cy="258" r="5" fill="#999"/>
+  <ellipse cx="118" cy="258" rx="22" ry="12" fill="#2a7d2a" fill-opacity="0.28" stroke="#2a7d2a" stroke-width="1"/>
+  <line x1="113" y1="258" x2="123" y2="258" stroke="#2a7d2a" stroke-width="1.2"/><line x1="118" y1="253" x2="118" y2="263" stroke="#2a7d2a" stroke-width="1.2"/>
+  <text x="80" y="296" font-size="11" fill="#444" text-anchor="middle">distributed mass</text>
+  <!-- 8 bare bone -> muscle -->
+  <rect x="187" y="238" width="10" height="40" rx="5" fill="#999"/>
+  <rect x="276" y="238" width="9" height="40" rx="4" fill="#9c8760"/>
+  <ellipse cx="268" cy="258" rx="8" ry="17" fill="#7a1f1f" fill-opacity="0.55"/>
+  <text x="240" y="296" font-size="11" fill="#444" text-anchor="middle">muscle adds Q</text>
+  <!-- 9 2D axes -> 3D axes -->
+  <line x1="344" y1="268" x2="366" y2="268" stroke="#999" stroke-width="1.6" marker-end="url(#m83a)"/>
+  <line x1="344" y1="268" x2="344" y2="246" stroke="#999" stroke-width="1.6" marker-end="url(#m83a)"/>
+  <line x1="410" y1="270" x2="432" y2="270" stroke="#2a7d2a" stroke-width="1.6" marker-end="url(#m83g)"/>
+  <line x1="410" y1="270" x2="410" y2="248" stroke="#2a7d2a" stroke-width="1.6" marker-end="url(#m83g)"/>
+  <line x1="410" y1="270" x2="396" y2="282" stroke="#2a7d2a" stroke-width="1.6" marker-end="url(#m83g)"/>
+  <text x="400" y="296" font-size="11" fill="#444" text-anchor="middle">3-D joints</text>
+</svg>
+<figcaption>The nine loans and their repayments. In each cell the <span style="color:#777">grey</span> idealization we used collapses, via the arrow, into the <span style="color:#2a7d2a">green</span> real behaviour a later module restores — a rigid bar becomes a bending bone, a hard link becomes a spring, a two-sided constraint becomes a contact that can lift off, and so on. The paragraphs below walk each one.</figcaption>
+</figure>
+
+<p><b>Rigid bones</b> &mdash; borrowed across <a class="secref" href="#forces">§3</a>–<a class="secref" href="#lab">§7</a>; repaid in <a class="secref" href="module02.html#setup">Module&nbsp;2</a> (already built). <em>Repaying it</em> means letting the bar bend: Module&nbsp;2 feeds this section's joint reaction $\lambda$ straight into the beam law $\sigma=My/I$, turning the rigid rod back into a bone that flexes, stores strain energy, and can fracture.</p>
+
+<p><b>Ligaments and tendons as rigid constraints</b> &mdash; borrowed in <a class="secref" href="#forces">§3</a> and <a class="secref" href="#stability">§6</a>; repaid in Module&nbsp;6. A hard constraint stores no energy; <em>repaying it</em> replaces each with a nonlinear spring, so the elastic energy a stretched tendon stores and returns — the mechanism behind efficient running — reappears in the model.</p>
+
+<p><b>Bilateral (two-sided) constraints</b> &mdash; borrowed in <a class="secref" href="#forces">§3</a> and <a class="secref" href="#lab">§7</a>; repaid in Module&nbsp;4 and Module&nbsp;8. <em>Repaying it</em> turns the equality $g(q)=0$ into the inequality $\lambda \ge 0$ — a contact can push but not pull — so surfaces are allowed to separate: a foot lifts off the ground in the swing phase, a joint momentarily unloads.</p>
+
+<p><b>Frictionless surfaces</b> &mdash; borrowed in <a class="secref" href="#forces">§3</a> and <a class="secref" href="#lab">§7</a>; repaid in Module&nbsp;4. <em>Repaying it</em> adds a tangential-force law and the biphasic lubrication model, restoring the small but real joint friction ($\mu\approx0.005$) we had set to zero.</p>
+
+<p><b>Ideal joint pairs with a fixed axis</b> &mdash; borrowed in <a class="secref" href="#taxonomy">§2</a> and <a class="secref" href="#stability">§6</a>; repaid in Module&nbsp;6. <em>Repaying it</em> swaps the single fixed hinge for rolling-and-gliding kinematics, letting the instantaneous axis migrate (the knee's "screw-home") and allowing a little ligament laxity off the nominal path.</p>
+
+<p><b>Elastic, point/Hertz contact</b> &mdash; borrowed in <a class="secref" href="#contact">§5</a>; repaid in Module&nbsp;4. <em>Repaying it</em> spreads $\lambda$ over a biphasic, viscoelastic contact whose pressure field evolves in time (cartilage creeps) and whose area changes with joint angle, in place of a single mean or peak pressure.</p>
+
+<p><b>Inertia lumped into point masses</b> &mdash; borrowed in <a class="secref" href="#lab">§7</a>; repaid in Module&nbsp;8. <em>Repaying it</em> replaces the point masses with measured segment mass, a centre of mass <em>between</em> the joints, and rotational inertia — the anthropometric data that fill in the true $M(q)$ for inverse dynamics.</p>
+
+<p><b>Ideal or absent muscle</b> &mdash; borrowed in <a class="secref" href="#reaction">§4</a> and <a class="secref" href="#lab">§7</a>; repaid in Modules&nbsp;5 and 7. <em>Repaying it</em> supplies the applied force $Q$ the rigid model left blank: a Hill-type muscle with force–length–velocity behaviour, activation dynamics, and pennation, plus an optimization to choose among more muscles than there are degrees of freedom.</p>
+
+<p><b>Planar, two-dimensional motion</b> &mdash; borrowed in every section; repaid in Module&nbsp;11. <em>Repaying it</em> generalizes the constraint Jacobian $J_c$ to three dimensions (spatial Jacobians), so genuinely 3-D joints — the ball-and-socket hip and shoulder, the out-of-plane knee — can be handled.</p>
+
+<div class="keyresult"><b>The altitude is right; the materials come next.</b> Notice the pattern in the list above: nearly every refinement is a property of the <em>interface materials</em> — cartilage, ligament, muscle — not of the rigid-body bookkeeping. That is the deliberate division of labor of this course. Module&nbsp;3 fixes the <em>mechanism</em>: how many freedoms a joint has, what force the constraint must carry, and how that force scales with load and motion. The modules that follow soften the idealized interfaces one at a time — but each of them takes the joint reaction computed here as its input. The multiplier $\lambda$ is where the skeleton ends and the tissues begin.</div>
 
 <script>
 function copyCode(btn){
