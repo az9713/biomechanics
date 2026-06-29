@@ -338,6 +338,109 @@ $$\boxed{\,f = n - m\,}\tag{1.1}$$
 </table>
 <p class="small">† the ankle (talocrural) axis is oblique, so its single "hinge" axis is tilted. * gliding joints are translational and permit only small, ligament-limited motion; the kinematic planar pair is formally 3 DOF.</p>
 
+<p>Those example names are easier to grasp on the body itself. The map below locates each joint from the table and colours it by its number of degrees of freedom:</p>
+
+<figure><svg class="setupfig" viewBox="0 0 480 500" width="100%" role="img" aria-label="A simplified front-view skeleton with the example joints from the table marked and colour-coded by degrees of freedom: neck atlanto-axial pivot, shoulder and hip ball-and-socket, elbow knee and ankle hinges, proximal radio-ulnar pivot, wrist condyloid, and spinal facet gliding joints.">
+  <!-- body schematic -->
+  <g stroke="#c9b79a" stroke-linecap="round" fill="none">
+    <circle cx="232" cy="40" r="18" fill="#e8ddc6" stroke="#b9a47e" stroke-width="2"/>
+    <line x1="232" y1="58" x2="232" y2="80" stroke-width="7"/>
+    <line x1="232" y1="80" x2="232" y2="246" stroke-width="9"/>
+    <line x1="200" y1="98" x2="270" y2="98" stroke-width="5"/>
+    <polyline points="200,98 176,168 162,238" stroke-width="7"/>
+    <polyline points="270,98 294,168 308,238" stroke-width="7"/>
+    <line x1="205" y1="248" x2="265" y2="248" stroke-width="9"/>
+    <polyline points="205,250 202,360 200,452" stroke-width="9"/>
+    <polyline points="265,250 268,360 270,452" stroke-width="9"/>
+    <line x1="190" y1="452" x2="208" y2="452" stroke-width="6"/>
+    <line x1="262" y1="452" x2="280" y2="452" stroke-width="6"/>
+  </g>
+  <!-- LEFT-side leaders + labels (right-aligned at x=150) -->
+  <g stroke="#ccc" stroke-width="1">
+    <line x1="152" y1="66" x2="232" y2="66"/>
+    <line x1="152" y1="100" x2="200" y2="98"/>
+    <line x1="152" y1="158" x2="176" y2="168"/>
+    <line x1="152" y1="192" x2="186" y2="184"/>
+    <line x1="152" y1="240" x2="162" y2="238"/>
+  </g>
+  <g font-size="10" text-anchor="end" fill="#333">
+    <text x="148" y="63">atlanto-axial (C1–C2)</text><text x="148" y="75" fill="#7a1f1f">pivot · 1 DOF</text>
+    <text x="148" y="100">shoulder</text><text x="148" y="112" fill="#1f5f7a">ball &amp; socket · 3 DOF</text>
+    <text x="148" y="155">elbow</text><text x="148" y="167" fill="#7a1f1f">hinge · 1 DOF</text>
+    <text x="148" y="192">prox. radio-ulnar</text><text x="148" y="204" fill="#7a1f1f">pivot · 1 DOF</text>
+    <text x="148" y="240">wrist (radiocarpal)</text><text x="148" y="252" fill="#2a7d2a">condyloid · 2 DOF</text>
+  </g>
+  <!-- RIGHT-side leaders + labels (left-aligned at x=320) -->
+  <g stroke="#ccc" stroke-width="1">
+    <line x1="232" y1="150" x2="318" y2="150"/>
+    <line x1="265" y1="254" x2="318" y2="258"/>
+    <line x1="268" y1="360" x2="318" y2="360"/>
+    <line x1="270" y1="452" x2="318" y2="450"/>
+  </g>
+  <g font-size="10" text-anchor="start" fill="#333">
+    <text x="322" y="147">spinal facets</text><text x="322" y="159" fill="#c08a00">(zygapophyseal) · plane · glide</text>
+    <text x="322" y="255">hip</text><text x="322" y="267" fill="#1f5f7a">ball &amp; socket · 3 DOF</text>
+    <text x="322" y="357">knee</text><text x="322" y="369" fill="#7a1f1f">hinge · 1 DOF</text>
+    <text x="322" y="449">ankle</text><text x="322" y="461" fill="#7a1f1f">hinge · 1 DOF</text>
+  </g>
+  <!-- joint markers (colour = DOF) -->
+  <g stroke="#fff" stroke-width="1.2">
+    <circle cx="232" cy="66" r="5" fill="#7a1f1f"/>
+    <circle cx="200" cy="98" r="5" fill="#1f5f7a"/>
+    <circle cx="176" cy="168" r="5" fill="#7a1f1f"/>
+    <circle cx="186" cy="184" r="5" fill="#7a1f1f"/>
+    <circle cx="162" cy="238" r="5" fill="#2a7d2a"/>
+    <circle cx="232" cy="150" r="5" fill="#c08a00"/>
+    <circle cx="265" cy="254" r="5" fill="#1f5f7a"/>
+    <circle cx="268" cy="360" r="5" fill="#7a1f1f"/>
+    <circle cx="270" cy="452" r="5" fill="#7a1f1f"/>
+  </g>
+  <!-- legend -->
+  <g font-size="10" fill="#333">
+    <text x="40" y="476" font-weight="bold">colour = degrees of freedom:</text>
+    <circle cx="210" cy="472" r="5" fill="#7a1f1f"/><text x="219" y="476">1 (hinge/pivot)</text>
+    <circle cx="300" cy="472" r="5" fill="#2a7d2a"/><text x="309" y="476">2</text>
+    <circle cx="322" cy="472" r="5" fill="#1f5f7a"/><text x="331" y="476">3</text>
+    <circle cx="350" cy="472" r="5" fill="#c08a00"/><text x="359" y="476">gliding</text>
+  </g>
+</svg><figcaption><b>A map of the table.</b> Every example joint, placed on the body and coloured by its degrees of freedom. The two weight-bearing 3-DOF joints (hip, shoulder) sit at the limb roots; the 1-DOF hinges (elbow, knee, ankle, fingers) do the large simple sweeps; the small 2-DOF and gliding joints cluster in the wrist and spine where fine, multi-directional adjustment is needed.</figcaption></figure>
+
+<p>The hand and wrist alone pack four of the six types into a few centimetres — which is why so many of the unfamiliar names come from there:</p>
+
+<figure><svg class="setupfig" viewBox="0 0 460 250" width="100%" role="img" aria-label="An enlarged hand showing four joint types: the carpal bones (intercarpal, gliding), the thumb base (carpometacarpal, saddle), the knuckle (metacarpophalangeal, condyloid), and the finger joint (interphalangeal, hinge).">
+  <!-- hand schematic -->
+  <g stroke="#b9a47e" fill="#e8ddc6" stroke-width="1.6">
+    <rect x="150" y="170" width="46" height="30" rx="4"/>            <!-- carpals -->
+    <rect x="154" y="110" width="38" height="62" rx="6"/>           <!-- palm -->
+    <rect x="160" y="58" width="14" height="54" rx="6"/>            <!-- proximal finger -->
+    <rect x="160" y="20" width="14" height="40" rx="6"/>            <!-- distal finger -->
+  </g>
+  <!-- thumb -->
+  <g stroke="#b9a47e" fill="#e8ddc6" stroke-width="1.6">
+    <rect x="110" y="150" width="40" height="14" rx="6" transform="rotate(-28 150 157)"/>
+  </g>
+  <!-- markers -->
+  <g stroke="#fff" stroke-width="1.2">
+    <circle cx="173" cy="183" r="5.5" fill="#c08a00"/>     <!-- intercarpal -->
+    <circle cx="150" cy="150" r="5.5" fill="#2a7d2a"/>     <!-- CMC thumb -->
+    <circle cx="167" cy="112" r="5.5" fill="#2a7d2a"/>     <!-- MCP knuckle -->
+    <circle cx="167" cy="60" r="5.5" fill="#7a1f1f"/>      <!-- IP -->
+  </g>
+  <!-- leaders + labels -->
+  <g stroke="#ccc" stroke-width="1">
+    <line x1="178" y1="183" x2="250" y2="195"/>
+    <line x1="150" y1="150" x2="250" y2="150"/>
+    <line x1="172" y1="112" x2="250" y2="105"/>
+    <line x1="172" y1="60" x2="250" y2="55"/>
+  </g>
+  <g font-size="11" text-anchor="start" fill="#333">
+    <text x="254" y="52">finger joint (interphalangeal)</text><text x="254" y="66" fill="#7a1f1f">hinge · 1 DOF</text>
+    <text x="254" y="102">knuckle (metacarpophalangeal, MCP)</text><text x="254" y="116" fill="#2a7d2a">condyloid · 2 DOF</text>
+    <text x="254" y="147">thumb base (carpometacarpal, CMC)</text><text x="254" y="161" fill="#2a7d2a">saddle · 2 DOF</text>
+    <text x="254" y="192">wrist bones (intercarpal)</text><text x="254" y="206" fill="#c08a00">plane · gliding</text>
+  </g>
+</svg><figcaption><b>Four joint types in one hand.</b> The thumb's saddle joint is what makes opposition (touching thumb to fingertips) possible; the condyloid knuckles let fingers spread as well as curl; the hinge finger joints curl only; and the gliding carpal joints let the wrist fine-tune its shape. The same names in the table, now placed.</figcaption></figure>
+
 <h3>Why exactly these? Kinematic pairs</h3>
 
 <p>Each type is a way two surfaces can stay in contact while sliding — a <em>lower kinematic pair</em>. A cylindrical surface on a matching groove gives a single rotation (revolute → hinge); a sphere in a socket gives three (spherical → ball-and-socket).</p>
