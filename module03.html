@@ -51,6 +51,12 @@ window.MathJax = {
   .copybtn:hover{ color:var(--accent); border-color:var(--accent); }
   .copybtn.copied{ color:#2a7d2a; border-color:#2a7d2a; }
   .copybtn svg{ width:13px; height:13px; }
+  details.sol{ margin:.55rem 0 .1rem; }
+  details.sol > summary{ cursor:pointer; color:#2a7d2a; font-weight:bold; font-size:.92rem; list-style:none; }
+  details.sol > summary::before{ content:"\25B8\00a0"; }
+  details.sol[open] > summary::before{ content:"\25BE\00a0"; }
+  details.sol > div{ margin:.45rem 0 .2rem; padding-left:.3rem; border-left:2px solid #cfe3cf; }
+  ol.diag > li{ margin:.6rem 0; }
 </style>
 </head>
 <body>
@@ -70,7 +76,7 @@ window.MathJax = {
 <li><b>6.</b> <a href="#stability">Stability versus mobility</a></li>
 <li><b>7.</b> <a href="#lab">Computational lab — the constrained two-link limb</a></li>
 <li><b>8.</b> <a href="#model">What the model captures and misses</a></li>
-<li class="pending"><b>9.</b> Diagnostic questions and problems <em>(to come)</em></li>
+<li><b>9.</b> <a href="#problems">Diagnostics and problems</a></li>
 <li class="pending">Appendix — parameters <em>(to come)</em></li>
 </ul>
 </div>
@@ -1599,6 +1605,118 @@ for step in range(40000):
 <p><b>Planar, two-dimensional motion</b> &mdash; borrowed in every section; repaid in Module&nbsp;11. <em>Repaying it</em> generalizes the constraint Jacobian $J_c$ to three dimensions (spatial Jacobians), so genuinely 3-D joints — the ball-and-socket hip and shoulder, the out-of-plane knee — can be handled.</p>
 
 <div class="keyresult"><b>The altitude is right; the materials come next.</b> Notice the pattern in the list above: nearly every refinement is a property of the <em>interface materials</em> — cartilage, ligament, muscle — not of the rigid-body bookkeeping. That is the deliberate division of labor of this course. Module&nbsp;3 fixes the <em>mechanism</em>: how many freedoms a joint has, what force the constraint must carry, and how that force scales with load and motion. The modules that follow soften the idealized interfaces one at a time — but each of them takes the joint reaction computed here as its input. The multiplier $\lambda$ is where the skeleton ends and the tissues begin.</div>
+
+<hr>
+
+<h2 id="problems">9. Diagnostics and problems</h2>
+
+<p>A module is learned when you can use it without rereading it. The five diagnostics below are quick conceptual checks — try each before revealing its answer. The three problems that follow are graded in difficulty and in kind: one to reason with (conceptual), one to derive (derivational), and one to compute (computational). Together they exercise the whole spine, from the degree-of-freedom count of <a class="secref" href="#config">§1</a> to the constrained dynamics of <a class="secref" href="#lab">§7</a>.</p>
+
+<h3 id="diagnostics">9.1 Diagnostic questions</h3>
+
+<ol class="diag">
+<li><b>Counting freedoms.</b> A planar limb of three rigid links is pinned at the shoulder, with the hand free. How many degrees of freedom does it have? If the hand is then pinned to a fixed point in the plane, how many remain?
+<details class="sol"><summary>Answer</summary><div>Three links pinned in series have one angle each: $3$ DOF (a triple pendulum). Pinning the hand to a fixed point fixes its two Cartesian coordinates — two holonomic constraints — leaving $3-2=1$ DOF. The arm can still flex its elbow while the hand stays put: the <em>kinematic redundancy</em> of <a class="secref" href="#taxonomy">§2</a>. (See <a class="secref" href="#config">§1</a>.)</div></details></li>
+
+<li><b>Why so large?</b> A patient holds a $2\ \mathrm{kg}$ book; the reaction force at the elbow joint is many times $2\ \mathrm{kg}$-force. Why?
+<details class="sol"><summary>Answer</summary><div>Muscles attach close to the joint, on a short moment arm. To balance the book's torque about the elbow, the biceps must pull with a force much larger than the book's weight (the mechanical disadvantage of <a class="secref" href="module01.html#muscle">Module&nbsp;1</a>), and that large muscle force presses the joint surfaces together. The joint reaction is set by the <em>muscle</em>, not the load (<a class="secref" href="#reaction">§4</a>).</div></details></li>
+
+<li><b>Where does the load go?</b> In the lab of <a class="secref" href="#lab">§7</a>, a weight held in the hand raised the surface contact force but left both joint reactions unchanged. State the principle behind this.
+<details class="sol"><summary>Answer</summary><div>A constraint can supply force only along its own gradient direction (its normal). The hand rail resists <em>vertical</em> motion, so its reaction points vertically; a vertically-held load is exactly aligned with it and is therefore carried entirely by the contact $\lambda_3$, never reaching the bones. Load paths are set by the geometry of the constraints, not the size of the load.</div></details></li>
+
+<li><b>The vanishing tension.</b> Writing the pendulum of <a class="secref" href="#forces">§3.4</a> in the single angle $\theta$ gives its motion directly — but the rod tension disappears from the equations. Why?
+<details class="sol"><summary>Answer</summary><div>The angle $\theta$ already moves <em>along</em> the constraint surface, so there is no constraint left to enforce and no multiplier to carry its force: reduced coordinates project the tension out. Keeping redundant Cartesian coordinates plus the explicit constraint is what makes the multiplier — and hence the joint reaction — visible. This is exactly why <a class="secref" href="#lab">§7</a> used Cartesian coordinates (<a class="secref" href="#forces">§3.5</a>).</div></details></li>
+
+<li><b>Same freedoms, different fates.</b> The hip and the shoulder both have three rotational degrees of freedom. Why does the shoulder dislocate far more often?
+<details class="sol"><summary>Answer</summary><div>Degrees of freedom measure mobility, not stability. The hip's deep socket gives a large rim angle $\beta$ and so a high stability ratio $S=\tan\beta$ — a large sideways force is needed to climb the rim. The shoulder's shallow socket gives a small $\beta$, a low $S$, and easy dislocation; it buys its range of motion by spending stability (<a class="secref" href="#stability">§6</a>).</div></details></li>
+</ol>
+
+<h3 id="exercises">9.2 Problems</h3>
+
+<div class="qbox"><b>Problem 1 — conceptual (load paths and the constraint normal).</b>
+<p>The figure contrasts two ways to brace the limb's hand: on a horizontal rail (as in <a class="secref" href="#lab">§7</a>) and against a vertical wall.</p>
+<figure><svg viewBox="0 0 470 210" width="100%" style="max-width:450px" role="img" aria-label="Two panels. Left: a limb whose hand rests on a horizontal rail; a downward load arrow at the hand is met by an equal upward contact arrow from the rail, and the shoulder arrow is small. Right: a limb whose hand presses a vertical wall; the same downward load arrow at the hand is met only by a small horizontal wall arrow, and the shoulder reaction arrow is large.">
+  <defs>
+    <marker id="p9L" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7a1f1f"/></marker>
+    <marker id="p9G" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2a7d2a"/></marker>
+  </defs>
+  <text x="118" y="22" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold">hand on horizontal rail</text>
+  <text x="352" y="22" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold">hand on vertical wall</text>
+  <!-- LEFT panel -->
+  <line x1="40" y1="40" x2="96" y2="40" stroke="#1a1a1a" stroke-width="2"/>
+  <line x1="40" y1="150" x2="210" y2="150" stroke="#1a1a1a" stroke-width="2.5"/>
+  <g stroke="#aaa" stroke-width="1"><line x1="46" y1="150" x2="38" y2="158"/><line x1="66" y1="150" x2="58" y2="158"/><line x1="86" y1="150" x2="78" y2="158"/><line x1="106" y1="150" x2="98" y2="158"/><line x1="126" y1="150" x2="118" y2="158"/><line x1="146" y1="150" x2="138" y2="158"/><line x1="166" y1="150" x2="158" y2="158"/><line x1="186" y1="150" x2="178" y2="158"/></g>
+  <line x1="68" y1="40" x2="118" y2="96" stroke="#666" stroke-width="5" stroke-linecap="round"/>
+  <line x1="118" y1="96" x2="160" y2="150" stroke="#666" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="68" cy="40" r="4" fill="#1a1a1a"/><circle cx="118" cy="96" r="6" fill="#444"/><circle cx="160" cy="150" r="6" fill="#444"/>
+  <!-- load down, contact up (equal) -->
+  <line x1="160" y1="150" x2="160" y2="190" stroke="#7a1f1f" stroke-width="3" marker-end="url(#p9L)"/>
+  <line x1="160" y1="150" x2="160" y2="110" stroke="#2a7d2a" stroke-width="3" marker-end="url(#p9G)"/>
+  <!-- small shoulder reaction -->
+  <line x1="68" y1="40" x2="80" y2="54" stroke="#7a1f1f" stroke-width="2" marker-end="url(#p9L)"/>
+  <text x="166" y="184" font-size="10" fill="#7a1f1f">load</text>
+  <text x="166" y="116" font-size="10" fill="#2a7d2a">rail</text>
+  <text x="118" y="178" font-size="10.5" fill="#555" text-anchor="middle" font-style="italic">load → surface</text>
+  <!-- RIGHT panel -->
+  <line x1="300" y1="40" x2="356" y2="40" stroke="#1a1a1a" stroke-width="2"/>
+  <line x1="400" y1="40" x2="400" y2="180" stroke="#1a1a1a" stroke-width="2.5"/>
+  <g stroke="#aaa" stroke-width="1"><line x1="400" y1="46" x2="408" y2="38"/><line x1="400" y1="66" x2="408" y2="58"/><line x1="400" y1="86" x2="408" y2="78"/><line x1="400" y1="106" x2="408" y2="98"/><line x1="400" y1="126" x2="408" y2="118"/><line x1="400" y1="146" x2="408" y2="138"/><line x1="400" y1="166" x2="408" y2="158"/></g>
+  <line x1="328" y1="40" x2="360" y2="98" stroke="#666" stroke-width="5" stroke-linecap="round"/>
+  <line x1="360" y1="98" x2="400" y2="140" stroke="#666" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="328" cy="40" r="4" fill="#1a1a1a"/><circle cx="360" cy="98" r="6" fill="#444"/><circle cx="400" cy="140" r="6" fill="#444"/>
+  <!-- load down, wall reaction horizontal (small) -->
+  <line x1="400" y1="140" x2="400" y2="180" stroke="#7a1f1f" stroke-width="3" marker-end="url(#p9L)"/>
+  <line x1="400" y1="140" x2="378" y2="140" stroke="#2a7d2a" stroke-width="2.4" marker-end="url(#p9G)"/>
+  <!-- large shoulder reaction -->
+  <line x1="328" y1="40" x2="352" y2="68" stroke="#7a1f1f" stroke-width="3.4" marker-end="url(#p9L)"/>
+  <text x="406" y="172" font-size="10" fill="#7a1f1f">load</text>
+  <text x="360" y="134" font-size="10" fill="#2a7d2a" text-anchor="end">wall</text>
+  <text x="352" y="190" font-size="10.5" fill="#555" text-anchor="middle" font-style="italic">load → joints</text>
+</svg>
+<figcaption>Two braces, two load paths. The rail reacts vertically (left), so it swallows a vertical hand-load; the wall reacts horizontally (right), so a vertical load is left for the bones to carry up to the shoulder.</figcaption>
+</figure>
+<p>(a) Explain, using the idea that a constraint supplies force only along its normal, why the vertical load on the <em>rail</em> leaves the shoulder reaction unchanged. (b) The rail's reaction is purely vertical; what becomes of the component of any applied hand-load that points <em>along</em> the rail? (c) Predict whether a vertical load reaches the shoulder when the hand instead presses on the <em>vertical wall</em>.</p>
+<details class="sol"><summary>Show solution</summary><div>
+<p><b>(a)</b> The rail constraint is $g_3=y_2-y_h$, with gradient $\partial g_3/\partial q=(0,0,0,1)$ — a purely vertical direction. Its multiplier therefore produces a purely vertical force at the hand. A vertically-held weight is exactly parallel to this, so the rail can balance it entirely on its own; nothing is left to route through the bones, and the joint reactions $R_s,R_e$ are unchanged.</p>
+<p><b>(b)</b> The component of a hand-load <em>along</em> the rail (horizontal) is perpendicular to the rail's normal, so the constraint cannot carry it at all. That component is left to the limb's inertia: it accelerates the one remaining degree of freedom. This is precisely why the passive limb in <a class="secref" href="#lab">§7</a> moved at all — gravity's along-rail component drove the swing.</p>
+<p><b>(c)</b> Yes. The wall's normal is <em>horizontal</em>, so its reaction can only oppose horizontal motion. A vertical load is perpendicular to that normal, so the wall cannot carry it; the load must be reacted by the shoulder pin, routed there through the bones — and the joint reactions rise with it. The computational problem below confirms the rail case numerically.</p>
+</div></details>
+</div>
+
+<div class="qbox"><b>Problem 2 — derivational (the static multiplier, and a sanity check).</b>
+<p>Starting from the multiplier formula of <a class="secref" href="#forces">§3</a>,
+$$\lambda = -\bigl(J_c M^{-1} J_c^{\mathsf T}\bigr)^{-1}\bigl(J_c M^{-1}(Q-c)+\dot J_c\,\dot q\bigr),$$
+specialise it to an <em>instant of rest</em> ($\dot q=0$) in Cartesian coordinates (where $c=0$ and gravity sits in $Q$). Then apply the result to a single mass $m$ on a rigid rod of length $L$, hanging straight down, and show the pivot reaction equals the weight.</p>
+<details class="sol"><summary>Show solution</summary><div>
+<p>With $\dot q=0$, the term $\dot J_c\dot q$ vanishes, and with $c=0$ the formula collapses to</p>
+$$\boxed{\;\lambda = -\bigl(J_c M^{-1} J_c^{\mathsf T}\bigr)^{-1} J_c M^{-1} Q.\;}$$
+<p>For the pendulum, take $q=(x,y)$ with $y$ up, $M=mI_2$, gravity $Q=(0,-mg)$, and the rod constraint $g=\tfrac12(x^2+y^2-L^2)$, so $J_c=(x,\,y)$. Then $M^{-1}=\tfrac1m I_2$ and</p>
+$$J_c M^{-1} J_c^{\mathsf T}=\frac{x^2+y^2}{m}=\frac{L^2}{m},\qquad J_c M^{-1} Q=\frac{1}{m}(x\cdot 0 + y\cdot(-mg))=-yg.$$
+<p>Hanging straight down means $x=0,\ y=-L$, so $J_c M^{-1}Q=Lg$ and</p>
+$$\lambda=-\frac{m}{L^2}\,(Lg)=-\frac{mg}{L}\quad\Rightarrow\quad |\lambda|\,L = mg.$$
+<p>The joint-reaction rule $R=|\lambda|L$ of <a class="secref" href="#lab-assemble">§7.2</a> then gives a pivot reaction of exactly $mg$ — the pivot carries the full weight, as it must. (Numerically, $m=1\ \mathrm{kg},\,L=0.3\ \mathrm m$ gives $|\lambda|L=9.81\ \mathrm N=mg$ to machine precision.)</p>
+</div></details>
+</div>
+
+<div class="qbox"><b>Problem 3 — computational (verify the load path).</b>
+<p>Take the runnable code of <a class="secref" href="#lab-code">§7.4</a>. Add a held mass $m_L$ in the hand by changing only the applied-force line, so the hand's downward weight becomes $(m_2+m_L)g$:</p>
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>mL = 5.0                                   # held hand mass (kg)
+Q  = np.array([0, -m1*g, 0, -(m2+mL)*g])   # the only change from §7.4
+</code></pre></div>
+<p>Run it for $m_L=0,\ 5,\ 10\ \mathrm{kg}$. Predict, then check: how does the peak contact force change, and how does the peak shoulder reaction change?</p>
+<details class="sol"><summary>Show solution</summary><div>
+<p>The contact force rises by <em>exactly</em> the added weight $m_L g$, while the shoulder and elbow reactions do not move at all:</p>
+<table>
+<tr><th>held mass $m_L$</th><th>peak contact $\lambda_3$</th><th>increase</th><th>peak shoulder $R_s$</th></tr>
+<tr><td>$0\ \mathrm{kg}$</td><td>$22.3\ \mathrm N$</td><td>—</td><td>$32.6\ \mathrm N$</td></tr>
+<tr><td>$5\ \mathrm{kg}$</td><td>$71.4\ \mathrm N$</td><td>$+49.1\ \mathrm N=5g$</td><td>$32.6\ \mathrm N$</td></tr>
+<tr><td>$10\ \mathrm{kg}$</td><td>$120.4\ \mathrm N$</td><td>$+98.1\ \mathrm N=10g$</td><td>$32.6\ \mathrm N$</td></tr>
+</table>
+<p>This is Problem&nbsp;1(a) made quantitative: the held weight is vertical, parallel to the rail's reaction direction, so the contact absorbs precisely $m_L g$ and the joints never feel it. The motion itself is also unchanged — the trajectory does not depend on $m_L$, only the contact force does. <b>Going further:</b> swap the rail for a wall (constraint <code>x2 - xw</code>, Jacobian row <code>[0,0,1,0]</code>) and the same held weight now drives the shoulder reaction up instead — Problem&nbsp;1(c).</p>
+</div></details>
+</div>
+
+<p class="small">Parameters and constants used throughout the module are collected in the <span class="secref">Appendix</span>.</p>
 
 <script>
 function copyCode(btn){
