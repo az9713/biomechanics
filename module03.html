@@ -44,6 +44,13 @@ window.MathJax = {
   hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; }
   .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; }
   .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+  .codewrap{ position:relative; }
+  .copybtn{ position:absolute; top:.5rem; right:.5rem; display:inline-flex; align-items:center; gap:.3rem;
+    font:600 .72rem/1 ui-monospace,Consolas,monospace; color:var(--muted);
+    background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.32rem .5rem; cursor:pointer; }
+  .copybtn:hover{ color:var(--accent); border-color:var(--accent); }
+  .copybtn.copied{ color:#2a7d2a; border-color:#2a7d2a; }
+  .copybtn svg{ width:13px; height:13px; }
 </style>
 </head>
 <body>
@@ -61,7 +68,7 @@ window.MathJax = {
 <li><b>4.</b> <a href="#reaction">Joint reaction force: why a hinge carries far more than body weight</a></li>
 <li><b>5.</b> <a href="#contact">From reaction force to contact pressure</a></li>
 <li><b>6.</b> <a href="#stability">Stability versus mobility</a></li>
-<li class="pending"><b>7.</b> Computational lab — the constrained two-link limb <em>(to come)</em></li>
+<li><b>7.</b> <a href="#lab">Computational lab — the constrained two-link limb</a></li>
 <li class="pending"><b>8.</b> What the model captures and misses <em>(to come)</em></li>
 <li class="pending"><b>9.</b> Diagnostic questions and problems <em>(to come)</em></li>
 <li class="pending">Appendix — parameters <em>(to come)</em></li>
@@ -1152,6 +1159,284 @@ Stability scales with the socket's compressive load $N$ and with the tangent of 
 <h3>6.4 Closing the ledger</h3>
 
 <p>This resolves the §0 puzzle quantitatively. Mobility is counted in degrees of freedom (<a class="secref" href="#config">§1</a>); stability is measured in the force a joint resists before dislocating, $F_{\text{dislocate}}=N\tan\beta$. They are independent axes, and a joint's anatomy places it deliberately: the weight-bearing hip maximizes $\beta$ for security, the exploratory shoulder minimizes it for reach and pays the difference with muscle. With the joint's freedoms, forces, pressures, and stability now all in hand, <span class="secref">§7</span> assembles them into a working simulation that computes a limb's own constraint forces from scratch.</p>
+
+<hr>
+
+<h2 id="lab">7. Computational lab — the constrained two-link limb</h2>
+
+<p>Everything so far has been built by hand, one posture at a time. The elbow in <a class="secref" href="#reaction">§4</a> took a paragraph of algebra for a <em>single</em> pose. Real limbs move, and the joint reaction changes every instant of that motion — the dynamic terms of <a class="secref" href="#forces">§3</a> that a static snapshot cannot see. This section turns the machinery loose: we assemble $M$, $J_c$, and $g(q)$ for a whole limb and let the computer solve the KKT system <a class="secref" href="#forces">(3.4)</a> at every step of a real swing, reading off the joint forces as they evolve.</p>
+
+<p>The model is the direct two-link sequel to the pendulum of <a class="secref" href="#forces">§3.4</a>. There we kept <em>redundant Cartesian coordinates</em> on purpose, so the multiplier would <em>be</em> the rod tension; <a class="secref" href="#forces">§3.5</a> warned that collapsing to joint angles would hide exactly that force. We heed the warning here: instead of the two joint angles, we track the Cartesian positions of the limb's two masses, impose each bone as a length constraint, and recover one multiplier per bone — the joint reactions themselves.</p>
+
+<h3 id="lab-model">7.1 The model in redundant Cartesian coordinates</h3>
+
+<p>Picture a planar limb pinned at its proximal joint (call it the shoulder) at the origin, with two rigid bones of length $L_1$ (upper arm) and $L_2$ (forearm). We lump the segment masses into two point masses: $m_1$ at the elbow and $m_2$ at the hand. The distal tip (the hand) is confined to a <em>frictionless horizontal rail</em> a height $y_h$ below the pin — a hand sliding in a smooth groove, or a foot resting on frictionless ice. The limb is otherwise passive (no muscle torque) and falls under gravity $g$.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 470 250" width="100%" role="img" aria-label="A two-link limb: shoulder pinned at top left on hatched ground, upper-arm bone L1 down to the elbow mass m1, forearm bone L2 to the hand mass m2 resting on a hatched horizontal rail. Gravity arrows point down from each mass. Constraint-force arrows: lambda-1 along the upper arm at the shoulder, lambda-2 along the forearm at the elbow, lambda-3 vertical up at the hand.">
+  <defs>
+    <marker id="l7sG" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#1f5f7a"/></marker>
+    <marker id="l7sL" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
+  </defs>
+  <!-- shoulder ground hatch -->
+  <line x1="180" y1="40" x2="280" y2="40" stroke="#1a1a1a" stroke-width="2.5"/>
+  <g stroke="#888" stroke-width="1">
+    <line x1="186" y1="40" x2="176" y2="30"/><line x1="200" y1="40" x2="190" y2="30"/><line x1="214" y1="40" x2="204" y2="30"/><line x1="228" y1="40" x2="218" y2="30"/><line x1="242" y1="40" x2="232" y2="30"/><line x1="256" y1="40" x2="246" y2="30"/><line x1="270" y1="40" x2="260" y2="30"/>
+  </g>
+  <!-- rail hatch (below) -->
+  <line x1="120" y1="184" x2="420" y2="184" stroke="#1a1a1a" stroke-width="2.5"/>
+  <g stroke="#888" stroke-width="1">
+    <line x1="126" y1="184" x2="116" y2="194"/><line x1="146" y1="184" x2="136" y2="194"/><line x1="166" y1="184" x2="156" y2="194"/><line x1="186" y1="184" x2="176" y2="194"/><line x1="206" y1="184" x2="196" y2="194"/><line x1="226" y1="184" x2="216" y2="194"/><line x1="246" y1="184" x2="236" y2="194"/><line x1="266" y1="184" x2="256" y2="194"/><line x1="286" y1="184" x2="276" y2="194"/><line x1="306" y1="184" x2="296" y2="194"/><line x1="326" y1="184" x2="316" y2="194"/><line x1="346" y1="184" x2="336" y2="194"/><line x1="366" y1="184" x2="356" y2="194"/><line x1="386" y1="184" x2="376" y2="194"/><line x1="406" y1="184" x2="396" y2="194"/>
+  </g>
+  <!-- bones -->
+  <line x1="230" y1="40" x2="287.9" y2="108.9" stroke="#555" stroke-width="5" stroke-linecap="round"/>
+  <line x1="287.9" y1="108.9" x2="337.5" y2="184" stroke="#555" stroke-width="5" stroke-linecap="round"/>
+  <!-- joints / masses -->
+  <circle cx="230" cy="40" r="4.5" fill="#1a1a1a"/>
+  <circle cx="287.9" cy="108.9" r="8" fill="#444"/>
+  <circle cx="337.5" cy="184" r="8" fill="#444"/>
+  <text x="208" y="33" font-size="12" fill="#1a1a1a">shoulder (0,0)</text>
+  <text x="298" y="104" font-size="12" fill="#1a1a1a">m&#8321; (x&#8321;,y&#8321;)</text>
+  <text x="350" y="171" font-size="12" fill="#1a1a1a">m&#8322; (x&#8322;,y&#8322;)</text>
+  <text x="258" y="62" font-size="13" fill="#555" font-style="italic">L&#8321;</text>
+  <text x="318" y="152" font-size="13" fill="#555" font-style="italic">L&#8322;</text>
+  <text x="126" y="179" font-size="11" fill="#888" font-style="italic">rail: y = y&#8341;</text>
+  <!-- gravity (on m1; both masses fall, see caption) -->
+  <line x1="287.9" y1="118" x2="287.9" y2="142" stroke="#1f5f7a" stroke-width="2" marker-end="url(#l7sG)"/>
+  <text x="292" y="138" font-size="12" fill="#1f5f7a" font-style="italic">g</text>
+  <!-- constraint forces -->
+  <line x1="230" y1="40" x2="268.6" y2="85.9" stroke="#7a1f1f" stroke-width="2.6" marker-end="url(#l7sL)"/>
+  <text x="198" y="68" font-size="13" fill="#7a1f1f">&#955;&#8321;</text>
+  <line x1="287.9" y1="108.9" x2="320.9" y2="158.9" stroke="#7a1f1f" stroke-width="2.6" marker-end="url(#l7sL)"/>
+  <text x="250" y="150" font-size="13" fill="#7a1f1f">&#955;&#8322;</text>
+  <line x1="337.5" y1="184" x2="337.5" y2="150" stroke="#7a1f1f" stroke-width="2.6" marker-end="url(#l7sL)"/>
+  <text x="344" y="148" font-size="13" fill="#7a1f1f">&#955;&#8323; (rail)</text>
+</svg>
+<figcaption>The constrained two-link limb. Four Cartesian coordinates $q=(x_1,y_1,x_2,y_2)$; three constraints (two rigid bones, $g_1,g_2$, plus the rail, $g_3$). Each multiplier is a real force: $\lambda_1$ and $\lambda_2$ act <em>along</em> the bones (the joint reactions), $\lambda_3$ acts vertically at the hand (the surface contact force).</figcaption>
+</figure>
+
+<p>The coordinates and constraints, written out. We stack the two mass positions into one vector $q=(x_1,y_1,x_2,y_2)$ — four numbers ($n=4$). Each rigid bone fixes a distance, and the rail fixes the hand's height, giving three holonomic constraints ($m=3$):</p>
+
+$$g_1=\tfrac12\!\left(x_1^2+y_1^2-L_1^2\right),\quad g_2=\tfrac12\!\left((x_2-x_1)^2+(y_2-y_1)^2-L_2^2\right),\quad g_3=y_2-y_h,\tag{7.1}$$
+
+<p>each required to vanish, $g(q)=0$. The degrees-of-freedom count of <a class="secref" href="#config">§1</a> gives $n-m=4-3=1$: the limb keeps a single freedom — it can only swing, with the hand sliding along the rail. (One freedom means the motion is <em>integrable</em>, not chaotic, so the force curves below are clean and repeatable.) Here $g_1,g_2,g_3$ are the constraint functions of <a class="secref" href="#forces">§3</a>; the scalar $g$ without a subscript remains the gravitational acceleration.</p>
+
+<h3 id="lab-assemble">7.2 Assembling the pieces</h3>
+
+<p>Cartesian coordinates buy a striking simplification: because kinetic energy is just $\tfrac12 m_1\lVert\dot p_1\rVert^2+\tfrac12 m_2\lVert\dot p_2\rVert^2$ with $p_1,p_2$ the mass positions, the <b>mass matrix is constant and diagonal</b> —</p>
+
+$$\boxed{\,M=\operatorname{diag}(m_1,\,m_1,\,m_2,\,m_2),\qquad c(q,\dot q)=0.\,}\tag{7.2}$$
+
+<p>There are no Coriolis or centrifugal terms at all. This is the flip side of the trade-off in <a class="secref" href="#forces">§3.5</a>: joint-angle coordinates give a small $2\times2$ mass matrix but a messy velocity-dependent $c$ and a hidden reaction force; Cartesian coordinates give a trivial constant $M$ and $c=0$, and push <em>all</em> the configuration-dependence into the constraint Jacobian — where the forces we want are waiting. Gravity enters as the applied force $Q$ (the only entries are the downward weights):</p>
+
+$$Q=(0,\,-m_1g,\,0,\,-m_2g).\tag{7.3}$$
+
+<p>Differentiating (7.1), the constraint Jacobian $J_c=\partial g/\partial q$ is the $3\times4$ matrix</p>
+
+$$J_c=\begin{bmatrix} x_1 & y_1 & 0 & 0\\[2pt] -(x_2-x_1) & -(y_2-y_1) & x_2-x_1 & y_2-y_1\\[2pt] 0 & 0 & 0 & 1\end{bmatrix},\tag{7.4}$$
+
+<p>and $\dot J_c$ is the same matrix with every coordinate replaced by its velocity (and the constant bottom row going to zero). Row 1 points along bone 1, row 2 along bone 2, row 3 straight up — each constraint resists motion in exactly its own direction, which is why each multiplier comes out as a force along that line.</p>
+
+<div class="def"><b>Reading the multipliers as joint forces.</b> The constraint force on a mass is $J_c^{\mathsf T}\lambda$ <a class="secref" href="#forces">(§3.2)</a>. For bone&nbsp;1, the gradient $\partial g_1/\partial p_1=(x_1,y_1)$ has length $\lVert(x_1,y_1)\rVert=L_1$, so the force it carries has magnitude
+$$R_s=\lvert\lambda_1\rvert\,L_1\quad(\text{shoulder reaction}),\qquad R_e=\lvert\lambda_2\rvert\,L_2\quad(\text{elbow reaction}),\tag{7.5}$$
+each directed along its bone, while $\lambda_3$ is the vertical surface contact force. <b>Sanity check:</b> for a single mass $m$ hanging at rest on a rod of length $L$, equilibrium forces $\lvert\lambda\rvert L=mg$ — the pivot carries exactly the weight, as it must. The same formula, run dynamically over a whole limb, is the joint reaction force of <a class="secref" href="#reaction">§4</a>.</div>
+
+<h3 id="lab-solve">7.3 Solving for the forces</h3>
+
+<p>At each instant we know $q$ and $\dot q$, so we know $M$, $Q$, $J_c$, and $\dot J_c$. The KKT system <a class="secref" href="#forces">(3.4)</a> is then a $7\times7$ linear system in the seven unknowns $(\ddot q,\lambda)$ — four accelerations and three multipliers:</p>
+
+$$\begin{bmatrix} M & J_c^{\mathsf T}\\ J_c & 0\end{bmatrix}\begin{bmatrix}\ddot q\\ -\lambda\end{bmatrix}=\begin{bmatrix}Q\\ -\dot J_c\,\dot q\end{bmatrix}.\tag{7.6}$$
+
+<p>One solve returns the accelerations (which we integrate forward in time) <em>and</em> the three forces, all at once. In exact arithmetic the constraints stay satisfied; in floating point they slowly drift, so we add a small <em>Baumgarte</em> correction — replacing the right-hand side $-\dot J_c\dot q$ with $-\dot J_c\dot q-2\alpha\,J_c\dot q-\beta^2 g$ — which gently pulls any drift back to zero (we use $\alpha=\beta=40$). With it, the constraints hold to under a micrometre over the whole swing.</p>
+
+<h3 id="lab-code">7.4 The code</h3>
+
+<p>The entire lab is about forty lines of NumPy. It builds $M$, $J_c$, $\dot J_c$ exactly as above, assembles (7.6) with <code>np.block</code>, solves it, and steps forward with semi-implicit Euler. It is fully runnable as written.</p>
+
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+# --- parameters (SI units) ---
+L1, L2 = 0.30, 0.30           # bone lengths (m)
+m1, m2 = 2.0, 1.5             # point masses at elbow, hand (kg)
+g,  yh = 9.81, -0.48          # gravity (m/s^2), rail height below shoulder (m)
+a,  b  = 40.0, 40.0           # Baumgarte constraint-stabilisation gains
+
+M = np.diag([m1, m1, m2, m2])         # mass matrix: CONSTANT in Cartesian coords
+Q = np.array([0, -m1*g, 0, -m2*g])    # gravity = generalised applied force
+
+def constraints(q):                    # g(q): two bone lengths + hand-on-rail
+    x1, y1, x2, y2 = q
+    return np.array([0.5*(x1*x1 + y1*y1 - L1*L1),
+                     0.5*((x2-x1)**2 + (y2-y1)**2 - L2*L2),
+                     y2 - yh])
+
+def Jc(q):                             # constraint Jacobian dg/dq  (3 x 4)
+    x1, y1, x2, y2 = q
+    return np.array([[ x1, y1, 0., 0.],
+                     [-(x2-x1), -(y2-y1), x2-x1, y2-y1],
+                     [ 0., 0., 0., 1.]])
+
+def dJc(q, dq):                        # time derivative of Jc
+    dx1, dy1, dx2, dy2 = dq
+    return np.array([[ dx1, dy1, 0., 0.],
+                     [-(dx2-dx1), -(dy2-dy1), dx2-dx1, dy2-dy1],
+                     [ 0., 0., 0., 0.]])
+
+q  = np.array([0.193, -0.230, 0.358, -0.48])   # released from rest, hand on rail
+dq = np.zeros(4);  dt = 5e-5
+for step in range(40000):
+    J, dJ, gv = Jc(q), dJc(q, dq), constraints(q)
+    A   = np.block([[M, J.T], [J, np.zeros((3, 3))]])         # 7x7 KKT matrix
+    rhs = np.concatenate([Q, -(dJ@dq) - 2*a*(J@dq) - b*b*gv]) # eq. (7.6) + Baumgarte
+    sol = np.linalg.solve(A, rhs)
+    ddq, lam = sol[:4], -sol[4:]
+    Rs, Re, Nc = abs(lam[0])*L1, abs(lam[1])*L2, lam[2]       # the three forces (N)
+    dq = dq + dt*ddq;  q = q + dt*dq                          # semi-implicit Euler
+</code></pre></div>
+
+<h3 id="lab-results">7.5 Results — the multiplier in motion</h3>
+
+<p>Released from rest with the hand out at $x\approx0.36\ \mathrm m$, the limb swings inward, the hand sliding along the rail, and swings back: a single clean oscillation. The limb's own weight is $W_L=(m_1+m_2)g=34.3\ \mathrm N$. The plot tracks all three forces, in units of $W_L$, against the hand's position over half a swing.</p>
+
+<figure><svg viewBox="0 0 470 252" width="100%" style="max-width:460px" role="img" aria-label="Plot of three forces versus hand position over one half-swing. The shoulder reaction rises from about 0.34 to a peak near 0.95 limb-weights and falls back; the surface contact force runs around 0.2 to 0.65; the elbow reaction stays lowest, below about 0.34 limb-weights.">
+  <!-- axes -->
+  <line x1="60" y1="30" x2="60" y2="210" stroke="#1a1a1a" stroke-width="1.2"/>
+  <line x1="60" y1="210" x2="430" y2="210" stroke="#1a1a1a" stroke-width="1.2"/>
+  <!-- y ticks/grid -->
+  <g font-size="10" fill="#555" text-anchor="end">
+    <line x1="56" y1="210" x2="60" y2="210" stroke="#1a1a1a"/><text x="53" y="213">0</text>
+    <line x1="56" y1="165" x2="430" y2="165" stroke="#eee"/><text x="53" y="168">0.25</text>
+    <line x1="56" y1="120" x2="430" y2="120" stroke="#eee"/><text x="53" y="123">0.5</text>
+    <line x1="56" y1="75" x2="430" y2="75" stroke="#eee"/><text x="53" y="78">0.75</text>
+    <line x1="56" y1="30" x2="430" y2="30" stroke="#eee"/><text x="53" y="33">1.0</text>
+  </g>
+  <!-- x ticks -->
+  <g font-size="10" fill="#555" text-anchor="middle">
+    <line x1="104" y1="210" x2="104" y2="214" stroke="#1a1a1a"/><text x="104" y="226">0.0</text>
+    <line x1="192" y1="210" x2="192" y2="214" stroke="#1a1a1a"/><text x="192" y="226">0.1</text>
+    <line x1="280" y1="210" x2="280" y2="214" stroke="#1a1a1a"/><text x="280" y="226">0.2</text>
+    <line x1="368" y1="210" x2="368" y2="214" stroke="#1a1a1a"/><text x="368" y="226">0.3</text>
+  </g>
+  <text x="245" y="244" font-size="11" fill="#1a1a1a" text-anchor="middle">hand position x along the rail (m)</text>
+  <text x="16" y="120" font-size="11" fill="#1a1a1a" text-anchor="middle" transform="rotate(-90 16 120)">force / limb weight W&#8343;</text>
+  <!-- shoulder reaction Rs -->
+  <polyline fill="none" stroke="#7a1f1f" stroke-width="2.4" points="419.8,149.0 419.8,147.1 420.1,141.5 420.4,132.5 420.7,120.8 421.0,107.2 421.2,92.9 421.1,78.9 420.5,66.3 419.6,55.9 418.0,48.1 415.8,42.9 413.0,40.0 409.4,39.1 405.2,39.6 400.4,41.2 394.9,43.5 388.9,46.3 382.2,49.3 375.1,52.4 367.6,55.5 359.6,58.6 351.3,61.6 342.7,64.6 333.8,67.5 324.6,70.3 315.3,73.0 305.9,75.8 296.4,78.4 286.7,81.1 277.1,83.7 267.4,86.4 257.8,89.0 248.2,91.7 238.7,94.3 229.3,97.0 220.1,99.7 211.0,102.3 202.1,105.0 193.4,107.6 184.9,110.2 176.6,112.8 168.6,115.3 160.8,117.8 153.3,120.2 146.2,122.5 139.3,124.8 132.8,126.9 126.6,129.0 120.8,130.9 115.3,132.7 110.2,134.5 105.4,136.1 101.1,137.6 97.1,138.9 93.6,140.1 90.4,141.2 87.7,142.1 85.3,143.0 83.4,143.6 81.9,144.1 80.9,144.5 80.2,144.7 80.0,144.8"/>
+  <!-- contact Nc -->
+  <polyline fill="none" stroke="#2a7d2a" stroke-width="2.2" stroke-dasharray="5 3" points="419.8,117.9 419.8,119.3 420.1,123.3 420.4,129.6 420.7,137.6 421.0,146.5 421.2,155.4 421.1,163.4 420.5,169.9 419.6,174.4 418.0,176.8 415.8,177.4 413.0,176.5 409.4,174.5 405.2,171.7 400.4,168.6 394.9,165.3 388.9,162.0 382.2,158.8 375.1,155.7 367.6,152.8 359.6,150.2 351.3,147.7 342.7,145.4 333.8,143.3 324.6,141.3 315.3,139.5 305.9,137.7 296.4,136.1 286.7,134.5 277.1,133.0 267.4,131.5 257.8,130.1 248.2,128.7 238.7,127.3 229.3,126.0 220.1,124.6 211.0,123.2 202.1,121.8 193.4,120.4 184.9,118.9 176.6,117.5 168.6,116.0 160.8,114.5 153.3,113.0 146.2,111.5 139.3,109.9 132.8,108.4 126.6,106.9 120.8,105.4 115.3,104.0 110.2,102.6 105.4,101.2 101.1,99.9 97.1,98.7 93.6,97.6 90.4,96.5 87.7,95.6 85.3,94.8 83.4,94.2 81.9,93.7 80.9,93.3 80.2,93.0 80.0,93.0"/>
+  <!-- elbow reaction Re -->
+  <polyline fill="none" stroke="#1f5f7a" stroke-width="2.2" points="419.8,192.1 419.8,193.8 420.1,198.5 420.4,206.1 420.7,204.2 421.0,193.2 421.2,181.9 421.1,171.3 420.5,162.4 419.6,155.7 418.0,151.4 415.8,149.4 413.0,149.4 409.4,151.0 405.2,153.7 400.4,157.2 394.9,161.2 388.9,165.4 382.2,169.6 375.1,173.9 367.6,178.0 359.6,181.9 351.3,185.7 342.7,189.3 333.8,192.7 324.6,195.9 315.3,199.0 305.9,201.9 296.4,204.6 286.7,207.3 277.1,209.8 267.4,207.9 257.8,205.6 248.2,203.4 238.7,201.3 229.3,199.3 220.1,197.3 211.0,195.4 202.1,193.5 193.4,191.7 184.9,189.8 176.6,188.1 168.6,186.3 160.8,184.6 153.3,182.8 146.2,181.1 139.3,179.5 132.8,177.8 126.6,176.2 120.8,174.7 115.3,173.2 110.2,171.7 105.4,170.3 101.1,169.0 97.1,167.8 93.6,166.7 90.4,165.7 87.7,164.8 85.3,164.0 83.4,163.3 81.9,162.8 80.9,162.5 80.2,162.2 80.0,162.2"/>
+  <!-- legend -->
+  <g font-size="11">
+    <line x1="250" y1="44" x2="274" y2="44" stroke="#7a1f1f" stroke-width="2.4"/><text x="278" y="47" fill="#7a1f1f">shoulder R&#8347;</text>
+    <line x1="250" y1="60" x2="274" y2="60" stroke="#2a7d2a" stroke-width="2.2" stroke-dasharray="5 3"/><text x="278" y="63" fill="#2a7d2a">contact &#955;&#8323;</text>
+    <line x1="250" y1="76" x2="274" y2="76" stroke="#1f5f7a" stroke-width="2.2"/><text x="278" y="79" fill="#1f5f7a">elbow R&#8337;</text>
+  </g>
+</svg>
+<figcaption><b>Plot B — the joint forces over one half-swing</b> (computed by the code above). The shoulder reaction (red) climbs from $0.34\,W_L$ at the release point to a peak of $0.95\,W_L$ as the limb accelerates, then eases off — nearly a threefold swing driven purely by motion. The proximal joint (shoulder) always carries more than the distal one (elbow, blue): the upper joint supports more of the limb. The surface (green, dashed) carries the rest.</figcaption>
+</figure>
+
+<p>Two facts jump out, and both echo earlier sections:</p>
+
+<ul>
+<li><b>Dynamics dominate.</b> At the two turning points the limb is momentarily at rest, and the shoulder reaction is a modest $0.34\,W_L$ — the static value. In between, the inertial terms of the moving limb nearly <em>triple</em> it to $0.95\,W_L$. This is exactly the effect <a class="secref" href="#reaction">§4</a> flagged when it noted that gait pushes the peak hip reaction to $3$–$5\,W$: a static snapshot systematically under-reads what a moving joint carries.</li>
+<li><b>Proximal joints carry more.</b> The shoulder reaction $R_s$ runs roughly three times the elbow reaction $R_e$ throughout — the proximal joint supports both segments plus the dynamics of the whole limb, the distal joint only its own segment. The same ranking explains why hips and knees wear out before finger joints.</li>
+</ul>
+
+<p>The animation makes the multiplier visible the way <a class="secref" href="#forces">§3.4</a> did for the pendulum: the red arrow at the shoulder is $R_s$, the blue arrow at the elbow is $R_e$, each drawn to scale. Watch both swell as the limb sweeps through the middle of its motion and shrink to almost nothing at the extremes.</p>
+
+<figure><svg viewBox="0 0 460 232" width="100%" style="max-width:440px" role="img" aria-label="Animation of the two-link limb swinging with its hand sliding along a horizontal rail. Red and blue force arrows at the shoulder and elbow grow as the limb sweeps through mid-motion and shrink at the turning points.">
+  <defs>
+    <marker id="l7aS" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7a1f1f"/></marker>
+    <marker id="l7aE" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1f5f7a"/></marker>
+  </defs>
+  <!-- shoulder ground -->
+  <line x1="195" y1="40" x2="265" y2="40" stroke="#1a1a1a" stroke-width="2.5"/>
+  <!-- rail -->
+  <line x1="150" y1="184" x2="390" y2="184" stroke="#1a1a1a" stroke-width="2.5"/>
+  <g stroke="#aaa" stroke-width="1">
+    <line x1="156" y1="184" x2="148" y2="192"/><line x1="176" y1="184" x2="168" y2="192"/><line x1="196" y1="184" x2="188" y2="192"/><line x1="216" y1="184" x2="208" y2="192"/><line x1="236" y1="184" x2="228" y2="192"/><line x1="256" y1="184" x2="248" y2="192"/><line x1="276" y1="184" x2="268" y2="192"/><line x1="296" y1="184" x2="288" y2="192"/><line x1="316" y1="184" x2="308" y2="192"/><line x1="336" y1="184" x2="328" y2="192"/><line x1="356" y1="184" x2="348" y2="192"/><line x1="376" y1="184" x2="368" y2="192"/>
+  </g>
+  <!-- bone 1 -->
+  <line x1="230" y1="40" x2="287.9" y2="108.9" stroke="#666" stroke-width="5" stroke-linecap="round">
+    <animate attributeName="x2" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="287.9;284.9;275.9;260.8;244.0;225.7;209.9;195.9;185.9;179.0;174.4;172.4;172.4;174.3;178.6;185.4;195.2;209.0;224.7;242.9;259.8;275.1;284.5;287.9"/>
+    <animate attributeName="y2" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="108.9;111.3;117.4;124.6;128.9;129.9;127.7;123.3;118.5;114.1;110.8;109.2;109.1;110.7;113.9;118.2;123.0;127.5;129.8;129.1;124.9;117.9;111.6;108.9"/>
+  </line>
+  <!-- bone 2 -->
+  <line x1="287.9" y1="108.9" x2="337.5" y2="184" stroke="#666" stroke-width="5" stroke-linecap="round">
+    <animate attributeName="x1" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="287.9;284.9;275.9;260.8;244.0;225.7;209.9;195.9;185.9;179.0;174.4;172.4;172.4;174.3;178.6;185.4;195.2;209.0;224.7;242.9;259.8;275.1;284.5;287.9"/>
+    <animate attributeName="y1" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="108.9;111.3;117.4;124.6;128.9;129.9;127.7;123.3;118.5;114.1;110.8;109.2;109.1;110.7;113.9;118.2;123.0;127.5;129.8;129.1;124.9;117.9;111.6;108.9"/>
+    <animate attributeName="x2" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="337.5;338.0;336.4;328.4;315.2;297.7;280.2;262.4;247.6;235.7;226.8;222.5;222.3;226.4;235.1;246.8;261.4;279.1;296.6;314.2;327.7;336.2;338.0;337.5"/>
+  </line>
+  <!-- shoulder reaction arrow -->
+  <line x1="230" y1="40" x2="241.2" y2="53.4" stroke="#7a1f1f" stroke-width="3" marker-end="url(#l7aS)">
+    <animate attributeName="x2" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="241.2;248.8;254.2;246.2;236.6;228.2;222.4;218.7;217.3;217.2;217.6;217.9;218.0;217.6;217.2;217.3;218.6;222.1;227.8;236.1;245.6;254.0;249.5;241.2"/>
+    <animate attributeName="y2" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="53.4;64.4;80.8;84.5;82.2;78.1;73.2;67.6;62.6;58.6;55.8;54.5;54.4;55.7;58.4;62.3;67.2;72.9;77.8;82.0;84.5;81.4;65.6;53.4"/>
+  </line>
+  <!-- elbow reaction arrow -->
+  <line x1="287.9" y1="108.9" x2="290.7" y2="113.2" stroke="#1f5f7a" stroke-width="3" marker-end="url(#l7aE)">
+    <animate attributeName="x1" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="287.9;284.9;275.9;260.8;244.0;225.7;209.9;195.9;185.9;179.0;174.4;172.4;172.4;174.3;178.6;185.4;195.2;209.0;224.7;242.9;259.8;275.1;284.5;287.9"/>
+    <animate attributeName="y1" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="108.9;111.3;117.4;124.6;128.9;129.9;127.7;123.3;118.5;114.1;110.8;109.2;109.1;110.7;113.9;118.2;123.0;127.5;129.8;129.1;124.9;117.9;111.6;108.9"/>
+    <animate attributeName="x2" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="290.7;288.4;287.5;271.0;249.8;227.3;211.2;199.5;191.1;185.4;181.6;179.9;179.9;181.5;185.0;190.7;198.9;210.5;226.1;248.4;269.7;286.9;288.7;290.7"/>
+    <animate attributeName="y2" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="113.2;116.1;130.2;133.6;133.4;131.1;128.7;126.6;124.0;122.0;120.8;120.4;120.4;120.8;121.9;123.9;126.4;128.7;130.9;133.3;133.5;130.6;117.2;113.2"/>
+  </line>
+  <!-- shoulder pin -->
+  <circle cx="230" cy="40" r="4.5" fill="#1a1a1a"/>
+  <!-- elbow -->
+  <circle cx="287.9" cy="108.9" r="7" fill="#444">
+    <animate attributeName="cx" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="287.9;284.9;275.9;260.8;244.0;225.7;209.9;195.9;185.9;179.0;174.4;172.4;172.4;174.3;178.6;185.4;195.2;209.0;224.7;242.9;259.8;275.1;284.5;287.9"/>
+    <animate attributeName="cy" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="108.9;111.3;117.4;124.6;128.9;129.9;127.7;123.3;118.5;114.1;110.8;109.2;109.1;110.7;113.9;118.2;123.0;127.5;129.8;129.1;124.9;117.9;111.6;108.9"/>
+  </circle>
+  <!-- hand -->
+  <circle cx="337.5" cy="184" r="7" fill="#444">
+    <animate attributeName="cx" dur="4s" repeatCount="indefinite" keyTimes="0;0.043;0.087;0.130;0.174;0.217;0.261;0.304;0.348;0.391;0.435;0.478;0.522;0.565;0.609;0.652;0.696;0.739;0.783;0.826;0.870;0.913;0.957;1" values="337.5;338.0;336.4;328.4;315.2;297.7;280.2;262.4;247.6;235.7;226.8;222.5;222.3;226.4;235.1;246.8;261.4;279.1;296.6;314.2;327.7;336.2;338.0;337.5"/>
+  </circle>
+  <text x="150" y="36" font-size="11" fill="#7a1f1f">red = shoulder reaction R&#8347;</text>
+  <text x="150" y="220" font-size="11" fill="#1f5f7a">blue = elbow reaction R&#8337; &#160;&#160; (arrows to scale)</text>
+</svg>
+<figcaption>The limb swings through its single allowed degree of freedom; the hand slides along the rail. The constraint forces — invisible in joint-angle coordinates — are here computed and drawn directly from the multipliers, growing and shrinking with the motion just as the pendulum's tension did in <a class="secref" href="#forces">§3.4</a>.</figcaption>
+</figure>
+
+<h3 id="lab-sensitivity">7.6 Sensitivity — what moves the forces</h3>
+
+<p>A model earns its keep by answering "what if?" questions. Three knobs, three lessons:</p>
+
+<table>
+<tr><th>Knob</th><th>What we change</th><th>Effect on the forces</th></tr>
+<tr><td><b>Overall scale</b></td><td>multiply <em>all</em> masses by $k$</td><td>every force scales by exactly $k$; the motion is <em>identical</em>. Peak $R_s$: $16.3\to32.6\to65.2\ \mathrm N$ for $k=\tfrac12,1,2$.</td></tr>
+<tr><td><b>Held load</b></td><td>add a weight $m_L$ in the hand</td><td>the <em>vertical</em> load routes straight into the rail: contact rises $22\to120\ \mathrm N$ as $m_L$ goes $0\to10\ \mathrm{kg}$, while $R_s$ <em>does not move</em>.</td></tr>
+<tr><td><b>Geometry</b></td><td>lengthen the forearm $L_2$</td><td>weak: peak $R_s$ shifts only $31.7\to33.3\ \mathrm N$ as $L_2$ goes $0.2\to0.4\ \mathrm m$. Here the reactions are set by weight and dynamics, not segment length.</td></tr>
+</table>
+
+<p>The first row is Galileo's observation in disguise: under gravity alone the acceleration is mass-independent, so doubling every mass doubles every force while leaving the trajectory untouched — the joint reaction is <em>linear</em> in the load it carries. The second row is a genuine lesson about <em>load paths</em>: a constraint only carries force along its own direction. The rail resists vertical motion, so a vertical hand-load is swallowed by the surface and never reaches the joints — push the hand <em>sideways</em> instead, against a direction the bones must resist, and the same load would drive the joint reactions up. Which structure carries a load depends entirely on the geometry of the constraints, not just the size of the load.</p>
+
+<h3 id="lab-extend">7.7 Extension challenge</h3>
+
+<div class="qbox">
+<p><b>Make the limb active.</b> The lab above is passive — no muscle. The joint reactions stayed near the limb's own weight precisely because nothing was pulling hard on a short lever, the mechanism <a class="secref" href="#reaction">§4</a> identified for reactions far above body weight. Add a muscle torque $\tau$ at the elbow by appending the generalized force it produces to $Q$ (a torque $\tau$ between the bones contributes $\pm\tau$ to the angular balance — equivalently, equal-and-opposite force couples at the elbow and hand perpendicular to bone&nbsp;2). Re-run and confirm that holding the limb against gravity drives $R_s$ well past $W_L$ — reproducing §4's amplification from the general machinery.</p>
+<p><b>Further:</b> (1) replace the frictionless rail with a one-sided floor that can only <em>push</em> ($\lambda_3\ge0$) and detect lift-off (when the solver returns $\lambda_3\lt0$, the foot leaves the ground). (2) Add a third link and a second loop constraint (a closed kinematic chain, as in <a class="secref" href="#config">§1</a>) and watch the KKT system grow — the method is unchanged; only the matrix sizes change. (3) Feed the computed $R_s$ into the contact-pressure formula of <a class="secref" href="#contact">§5</a> to estimate the peak cartilage pressure over the swing.</p>
+</div>
+
+<div class="keyresult"><b>What this lab establishes.</b> The abstract apparatus of <a class="secref" href="#forces">§3</a> is a working algorithm: stack the coordinates, write the constraints, build $M$ and $J_c$, and solve one linear system <a class="secref" href="#forces">(3.4)</a> per time step to read off every joint reaction in a moving limb at once. Joint-angle coordinates would have hidden these forces; redundant Cartesian coordinates expose them as the multipliers. The same forty lines scale from this two-link toy to a full musculoskeletal model — what changes between here and a research-grade simulation is the realism of $M$, $g(q)$, and the constraints, which is the subject of <span class="secref">§8</span>.</div>
+
+<script>
+function copyCode(btn){
+  var code = btn.parentElement.querySelector('code');
+  if(!code) return;
+  var text = code.textContent;
+  var done = function(){
+    var label = btn.querySelector('span'), prev = label.textContent;
+    btn.classList.add('copied'); label.textContent = 'Copied!';
+    setTimeout(function(){ btn.classList.remove('copied'); label.textContent = prev; }, 1500);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done, function(){});
+  } else {            // fallback for non-secure contexts
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+</script>
 
 </body>
 </html>
