@@ -277,63 +277,56 @@ $$\boxed{\,f = n - m\,}\tag{1.1}$$
     <marker id="j2g" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0,0 L6.5,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
     <marker id="j2gd" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto-start-reverse"><path d="M0,0 L6.5,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
     <marker id="j2bd" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6 Z" fill="#1f5f7a"/></marker>
+    <linearGradient id="cylJ" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a08b63"/><stop offset="0.42" stop-color="#f8f2e5"/><stop offset="0.62" stop-color="#e6d9bc"/><stop offset="1" stop-color="#9c8760"/></linearGradient>
+    <radialGradient id="sphJ" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#fcf8ef"/><stop offset="0.6" stop-color="#e8dabb"/><stop offset="1" stop-color="#c2ae84"/></radialGradient>
+    <filter id="shJ" x="-15%" y="-15%" width="130%" height="130%"><feDropShadow dx="1.5" dy="2.5" stdDeviation="2" flood-color="#000" flood-opacity="0.22"/></filter>
   </defs>
   <g stroke="#eee" stroke-width="1"><line x1="158" y1="34" x2="158" y2="338"/><line x1="303" y1="34" x2="303" y2="338"/><line x1="20" y1="186" x2="440" y2="186"/></g>
-
-  <!-- HINGE -->
-  <text x="88" y="50" font-size="12" text-anchor="middle" font-weight="bold">Hinge</text>
-  <line x1="88" y1="64" x2="88" y2="98" stroke="#c9b79a" stroke-width="9" stroke-linecap="round"/>
-  <circle cx="88" cy="101" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="1.6"/>
-  <line x1="88" y1="101" x2="120" y2="134" stroke="#c9b79a" stroke-width="8" stroke-linecap="round"/>
-  <line x1="88" y1="101" x2="88" y2="136" stroke="#c9b79a" stroke-width="2.5" stroke-dasharray="4 3" opacity="0.5"/>
+  <!-- guides -->
+  <line x1="230" y1="62" x2="230" y2="128" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
+  <line x1="88" y1="101" x2="88" y2="136" stroke="#c9b79a" stroke-width="2.5" stroke-dasharray="4 3" opacity="0.45"/>
+  <!-- shaded bones for all six icons -->
+  <g filter="url(#shJ)" stroke="#a8916a" stroke-width="0.7" stroke-linejoin="round">
+    <rect x="70.3" y="76.5" width="35.4" height="9.0" rx="4.5" fill="url(#cylJ)" transform="rotate(90.0 88.0 81.0)"/>
+    <rect x="80.4" y="113.5" width="47.2" height="8.0" rx="4.0" fill="url(#cylJ)" transform="rotate(45.9 104.0 117.5)"/>
+    <circle cx="88" cy="100" r="6" fill="url(#sphJ)"/>
+    <rect x="203.3" y="105.5" width="53.4" height="9.0" rx="4.5" fill="url(#cylJ)"/>
+    <circle cx="230" cy="110" r="5" fill="url(#sphJ)"/>
+    <path d="M353,109 A24,15 0 0 0 397,109" fill="none" stroke="#cdbb94" stroke-width="7" stroke-linecap="round"/>
+    <ellipse cx="375" cy="96" rx="18" ry="12" fill="url(#sphJ)"/>
+    <rect x="63.0" y="257.5" width="50.0" height="13.0" rx="6.5" fill="url(#cylJ)"/>
+    <rect x="67.0" y="257.5" width="42.0" height="13.0" rx="6.5" fill="url(#cylJ)" transform="rotate(90.0 88.0 264.0)"/>
+    <path d="M205,232 A26,26 0 0 0 205,274" fill="none" stroke="#cdbb94" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="232" cy="253" r="17" fill="url(#sphJ)"/>
+    <rect x="347" y="249" width="56" height="7" rx="3" fill="url(#cylJ)"/>
+    <rect x="351" y="262" width="56" height="7" rx="3" fill="url(#cylJ)"/>
+  </g>
+  <!-- arrows -->
   <path d="M113,124 A40,40 0 0 1 93,136" fill="none" stroke="#2a7d2a" stroke-width="1.7" marker-end="url(#j2g)"/>
-  <text x="88" y="158" font-size="11" text-anchor="middle" fill="#2a7d2a" font-weight="bold">1 DOF</text>
-  <text x="88" y="173" font-size="9.5" text-anchor="middle" fill="#777">elbow · finger</text>
-
-  <!-- PIVOT -->
-  <text x="230" y="50" font-size="12" text-anchor="middle" font-weight="bold">Pivot</text>
-  <line x1="230" y1="62" x2="230" y2="128" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
-  <line x1="204" y1="110" x2="256" y2="110" stroke="#c9b79a" stroke-width="8" stroke-linecap="round"/>
-  <circle cx="230" cy="110" r="4" fill="#fff" stroke="#1a1a1a" stroke-width="1.6"/>
   <path d="M214,78 A18,8 0 1 1 247,75" fill="none" stroke="#2a7d2a" stroke-width="1.7" marker-end="url(#j2g)"/>
-  <text x="230" y="158" font-size="11" text-anchor="middle" fill="#2a7d2a" font-weight="bold">1 DOF</text>
-  <text x="230" y="173" font-size="9.5" text-anchor="middle" fill="#777">neck (C1–C2)</text>
-
-  <!-- CONDYLOID -->
-  <text x="375" y="50" font-size="12" text-anchor="middle" font-weight="bold">Condyloid</text>
-  <path d="M353,108 A24,15 0 0 0 397,108" fill="none" stroke="#c9b79a" stroke-width="7" stroke-linecap="round"/>
-  <ellipse cx="375" cy="96" rx="18" ry="12" fill="#e8ddc6" stroke="#b9a47e" stroke-width="1.6"/>
   <line x1="350" y1="96" x2="400" y2="96" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#j2gd)" marker-end="url(#j2gd)"/>
   <line x1="375" y1="74" x2="375" y2="118" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#j2gd)" marker-end="url(#j2gd)"/>
-  <text x="375" y="158" font-size="11" text-anchor="middle" fill="#2a7d2a" font-weight="bold">2 DOF</text>
-  <text x="375" y="173" font-size="9.5" text-anchor="middle" fill="#777">wrist · knuckle</text>
-
-  <!-- SADDLE -->
-  <text x="88" y="205" font-size="12" text-anchor="middle" font-weight="bold">Saddle</text>
-  <path d="M62,262 Q88,284 114,262" fill="none" stroke="#c9b79a" stroke-width="8" stroke-linecap="round"/>
-  <path d="M88,230 Q66,252 88,274" fill="none" stroke="#9c8a66" stroke-width="8" stroke-linecap="round"/>
-  <line x1="64" y1="246" x2="112" y2="246" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#j2gd)" marker-end="url(#j2gd)"/>
-  <line x1="122" y1="238" x2="122" y2="282" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#j2gd)" marker-end="url(#j2gd)"/>
-  <text x="88" y="312" font-size="11" text-anchor="middle" fill="#2a7d2a" font-weight="bold">2 DOF</text>
-  <text x="88" y="327" font-size="9.5" text-anchor="middle" fill="#777">thumb base</text>
-
-  <!-- BALL AND SOCKET -->
-  <text x="230" y="205" font-size="12" text-anchor="middle" font-weight="bold">Ball &amp; socket</text>
-  <path d="M205,232 A26,26 0 0 0 205,274" fill="none" stroke="#c9b79a" stroke-width="9" stroke-linecap="round"/>
-  <circle cx="232" cy="253" r="17" fill="#e8ddc6" stroke="#b9a47e" stroke-width="1.6"/>
+  <line x1="60" y1="248" x2="116" y2="248" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#j2gd)" marker-end="url(#j2gd)"/>
+  <line x1="124" y1="240" x2="124" y2="288" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#j2gd)" marker-end="url(#j2gd)"/>
   <path d="M210,240 A30,30 0 0 1 256,236" fill="none" stroke="#2a7d2a" stroke-width="1.6" marker-end="url(#j2g)"/>
   <path d="M261,236 A30,30 0 0 1 268,272" fill="none" stroke="#2a7d2a" stroke-width="1.6" marker-end="url(#j2g)"/>
   <path d="M224,280 A10,7 0 1 1 240,278" fill="none" stroke="#2a7d2a" stroke-width="1.6" marker-end="url(#j2g)"/>
-  <text x="230" y="312" font-size="11" text-anchor="middle" fill="#2a7d2a" font-weight="bold">3 DOF</text>
-  <text x="230" y="327" font-size="9.5" text-anchor="middle" fill="#777">hip · shoulder</text>
-
-  <!-- PLANE -->
-  <text x="375" y="205" font-size="12" text-anchor="middle" font-weight="bold">Plane (gliding)</text>
-  <rect x="347" y="250" width="56" height="6" rx="2" fill="#c9b79a" stroke="#b9a47e" stroke-width="1"/>
-  <rect x="351" y="262" width="56" height="6" rx="2" fill="#d3c5a6" stroke="#b9a47e" stroke-width="1"/>
-  <line x1="350" y1="240" x2="404" y2="240" stroke="#1f5f7a" stroke-width="1.6" marker-start="url(#j2bd)" marker-end="url(#j2bd)"/>
-  <text x="375" y="312" font-size="11" text-anchor="middle" fill="#1f5f7a" font-weight="bold">glide</text>
-  <text x="375" y="327" font-size="9.5" text-anchor="middle" fill="#777">wrist bones · facets</text>
+  <line x1="350" y1="239" x2="404" y2="239" stroke="#1f5f7a" stroke-width="1.6" marker-start="url(#j2bd)" marker-end="url(#j2bd)"/>
+  <!-- titles + labels -->
+  <g text-anchor="middle">
+    <text x="88" y="50" font-size="12" font-weight="bold">Hinge</text>
+    <text x="88" y="158" font-size="11" fill="#2a7d2a" font-weight="bold">1 DOF</text><text x="88" y="173" font-size="9.5" fill="#777">elbow · finger</text>
+    <text x="230" y="50" font-size="12" font-weight="bold">Pivot</text>
+    <text x="230" y="158" font-size="11" fill="#2a7d2a" font-weight="bold">1 DOF</text><text x="230" y="173" font-size="9.5" fill="#777">neck (C1–C2)</text>
+    <text x="375" y="50" font-size="12" font-weight="bold">Condyloid</text>
+    <text x="375" y="158" font-size="11" fill="#2a7d2a" font-weight="bold">2 DOF</text><text x="375" y="173" font-size="9.5" fill="#777">wrist · knuckle</text>
+    <text x="88" y="205" font-size="12" font-weight="bold">Saddle</text>
+    <text x="88" y="312" font-size="11" fill="#2a7d2a" font-weight="bold">2 DOF</text><text x="88" y="327" font-size="9.5" fill="#777">thumb base</text>
+    <text x="230" y="205" font-size="12" font-weight="bold">Ball &amp; socket</text>
+    <text x="230" y="312" font-size="11" fill="#2a7d2a" font-weight="bold">3 DOF</text><text x="230" y="327" font-size="9.5" fill="#777">hip · shoulder</text>
+    <text x="375" y="205" font-size="12" font-weight="bold">Plane (gliding)</text>
+    <text x="375" y="312" font-size="11" fill="#1f5f7a" font-weight="bold">glide</text><text x="375" y="327" font-size="9.5" fill="#777">wrist bones · facets</text>
+  </g>
 </svg><figcaption><b>The six joint archetypes.</b> Green arrows are rotational freedoms, blue are translational. Mobility climbs left-to-right, top-to-bottom: 1 DOF (hinge, pivot) → 2 DOF (condyloid, saddle) → 3 DOF (ball &amp; socket); the plane joint is the odd one out, permitting small <em>sliding</em> rather than rotation.</figcaption></figure>
 
 <p>The same six as a reference, with the idealized kinematic pair each approximates:</p>
@@ -352,19 +345,65 @@ $$\boxed{\,f = n - m\,}\tag{1.1}$$
 <p>Those example names are easier to grasp on the body itself. The map below locates each joint from the table and colours it by its number of degrees of freedom:</p>
 
 <figure><svg class="setupfig" viewBox="0 0 480 500" width="100%" role="img" aria-label="A simplified front-view skeleton with the example joints from the table marked and colour-coded by degrees of freedom: neck atlanto-axial pivot, shoulder and hip ball-and-socket, elbow knee and ankle hinges, proximal radio-ulnar pivot, wrist condyloid, and spinal facet gliding joints.">
-  <!-- body schematic -->
-  <g stroke="#c9b79a" stroke-linecap="round" fill="none">
-    <circle cx="232" cy="40" r="18" fill="#e8ddc6" stroke="#b9a47e" stroke-width="2"/>
-    <line x1="232" y1="58" x2="232" y2="80" stroke-width="7"/>
-    <line x1="232" y1="80" x2="232" y2="246" stroke-width="9"/>
-    <line x1="200" y1="98" x2="270" y2="98" stroke-width="5"/>
-    <polyline points="200,98 176,168 162,238" stroke-width="7"/>
-    <polyline points="270,98 294,168 308,238" stroke-width="7"/>
-    <line x1="205" y1="248" x2="265" y2="248" stroke-width="9"/>
-    <polyline points="205,250 202,360 200,452" stroke-width="9"/>
-    <polyline points="265,250 268,360 270,452" stroke-width="9"/>
-    <line x1="190" y1="452" x2="208" y2="452" stroke-width="6"/>
-    <line x1="262" y1="452" x2="280" y2="452" stroke-width="6"/>
+  <!-- tier-2 skeleton -->
+  <defs>
+    <linearGradient id="cylB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a08b63"/><stop offset="0.42" stop-color="#f8f2e5"/><stop offset="0.62" stop-color="#e6d9bc"/><stop offset="1" stop-color="#9c8760"/></linearGradient>
+    <radialGradient id="sphB" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#fcf8ef"/><stop offset="0.6" stop-color="#e8dabb"/><stop offset="1" stop-color="#c2ae84"/></radialGradient>
+    <filter id="shB" x="-20%" y="-10%" width="140%" height="120%"><feDropShadow dx="2" dy="3" stdDeviation="2.5" flood-color="#000" flood-opacity="0.2"/></filter>
+  </defs>
+  <!-- ribcage (light, behind) -->
+  <g fill="none" stroke="#cdbb94" stroke-width="2.4" stroke-linecap="round" opacity="0.85">
+    <path d="M229,106 Q186,114 192,136"/><path d="M229,121 Q181,131 189,156"/><path d="M229,136 Q184,150 194,174"/><path d="M229,151 Q190,167 202,190"/>
+    <path d="M235,106 Q278,114 272,136"/><path d="M235,121 Q283,131 275,156"/><path d="M235,136 Q280,150 270,174"/><path d="M235,151 Q274,167 262,190"/>
+  </g>
+  <g filter="url(#shB)" stroke="#a8916a" stroke-width="0.6" stroke-linejoin="round">
+    <!-- skull -->
+    <ellipse cx="232" cy="40" rx="18" ry="22" fill="url(#sphB)"/>
+    <ellipse cx="232" cy="59" rx="9" ry="7" fill="url(#sphB)"/>
+    <!-- spine -->
+    <rect x="226.5" y="55.0" width="11.0" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="226.3" y="70.0" width="11.4" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="226.1" y="85.0" width="11.8" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="225.9" y="100.0" width="12.2" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="225.7" y="115.0" width="12.6" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="225.5" y="130.0" width="13.0" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="225.3" y="145.0" width="13.4" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="225.1" y="160.0" width="13.8" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="224.9" y="175.0" width="14.2" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="224.7" y="190.0" width="14.6" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="224.5" y="205.0" width="15.0" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="224.3" y="220.0" width="15.4" height="9" rx="3" fill="url(#cylB)"/>
+    <rect x="224.1" y="235.0" width="15.8" height="9" rx="3" fill="url(#cylB)"/>
+    <!-- pelvis -->
+    <path d="M198,244 Q232,236 266,244 Q274,260 256,268 Q232,274 208,268 Q190,260 198,244 Z" fill="url(#cylB)"/>
+    <!-- clavicles + arms -->
+    <rect x="199.3" y="91.5" width="33.4" height="7.0" rx="3.5" fill="url(#cylB)" transform="rotate(169.4 216.0 95.0)"/>
+    <rect x="231.3" y="91.5" width="39.3" height="7.0" rx="3.5" fill="url(#cylB)" transform="rotate(9.0 251.0 95.0)"/>
+    <rect x="150.3" y="127.5" width="75.3" height="11.0" rx="5.5" fill="url(#cylB)" transform="rotate(108.9 188.0 133.0)"/>
+    <rect x="244.3" y="127.5" width="75.3" height="11.0" rx="5.5" fill="url(#cylB)" transform="rotate(71.1 282.0 133.0)"/>
+    <rect x="132.7" y="198.5" width="70.7" height="7.0" rx="3.5" fill="url(#cylB)" transform="rotate(103.2 168.0 202.0)"/>
+    <rect x="138.9" y="201.0" width="70.1" height="6.0" rx="3.0" fill="url(#cylB)" transform="rotate(101.6 174.0 204.0)"/>
+    <rect x="266.7" y="198.5" width="70.7" height="7.0" rx="3.5" fill="url(#cylB)" transform="rotate(76.8 302.0 202.0)"/>
+    <rect x="260.9" y="201.0" width="70.1" height="6.0" rx="3.0" fill="url(#cylB)" transform="rotate(78.4 296.0 204.0)"/>
+    <!-- legs -->
+    <rect x="151.2" y="301.5" width="105.6" height="13.0" rx="6.5" fill="url(#cylB)" transform="rotate(92.2 204.0 308.0)"/>
+    <rect x="213.2" y="301.5" width="105.6" height="13.0" rx="6.5" fill="url(#cylB)" transform="rotate(87.8 266.0 308.0)"/>
+    <rect x="154.8" y="401.0" width="92.3" height="11.0" rx="5.5" fill="url(#cylB)" transform="rotate(91.3 201.0 406.5)"/>
+    <rect x="164.2" y="404.0" width="87.6" height="5.0" rx="2.5" fill="url(#cylB)" transform="rotate(91.3 208.0 406.5)"/>
+    <rect x="222.8" y="401.0" width="92.3" height="11.0" rx="5.5" fill="url(#cylB)" transform="rotate(88.7 269.0 406.5)"/>
+    <rect x="218.2" y="404.0" width="87.6" height="5.0" rx="2.5" fill="url(#cylB)" transform="rotate(88.7 262.0 406.5)"/>
+    <!-- hands -->
+    <circle cx="161" cy="241" r="5" fill="url(#sphB)"/>
+    <rect x="149" y="246" width="5" height="18" rx="2.5" fill="url(#cylB)" transform="rotate(20 151 255)"/>
+    <rect x="158" y="247" width="5" height="20" rx="2.5" fill="url(#cylB)" transform="rotate(5 160 257)"/>
+    <rect x="166" y="246" width="5" height="18" rx="2.5" fill="url(#cylB)" transform="rotate(-12 168 255)"/>
+    <circle cx="309" cy="241" r="5" fill="url(#sphB)"/>
+    <rect x="316" y="246" width="5" height="18" rx="2.5" fill="url(#cylB)" transform="rotate(-20 319 255)"/>
+    <rect x="307" y="247" width="5" height="20" rx="2.5" fill="url(#cylB)" transform="rotate(-5 310 257)"/>
+    <rect x="299" y="246" width="5" height="18" rx="2.5" fill="url(#cylB)" transform="rotate(12 302 255)"/>
+    <!-- feet -->
+    <ellipse cx="201" cy="456" rx="6" ry="5" fill="url(#sphB)"/><rect x="176" y="458" width="26" height="6" rx="3" fill="url(#cylB)"/>
+    <ellipse cx="269" cy="456" rx="6" ry="5" fill="url(#sphB)"/><rect x="268" y="458" width="26" height="6" rx="3" fill="url(#cylB)"/>
   </g>
   <!-- LEFT-side leaders + labels (right-aligned at x=150) -->
   <g stroke="#ccc" stroke-width="1">
