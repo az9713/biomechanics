@@ -72,7 +72,7 @@ window.MathJax = {
 <li><b>2.</b> <a href="#donnan">Osmotic (Donnan) swelling pressure</a></li>
 <li><b>3.</b> <a href="#biphasic">The biphasic model and the consolidation equation</a></li>
 <li><b>4.</b> <a href="#fluidload">Interstitial fluid pressurization and load sharing</a></li>
-<li><b>5.</b> <span class="pending">Computational lab 1 — stress relaxation and creep</span></li>
+<li><b>5.</b> <a href="#relaxlab">Computational lab 1 — stress relaxation and creep</a></li>
 <li><b>6.</b> <span class="pending">Contact: from joint reaction to a pressure field</span></li>
 <li><b>7.</b> <span class="pending">Computational lab 2 — lubrication and the Stribeck curve</span></li>
 <li><b>8.</b> <span class="pending">Degeneration and osteoarthritis mechanics</span></li>
@@ -148,7 +148,7 @@ window.MathJax = {
 
 <ul>
 <li><b>What the tissue is made of</b> — collagen, proteoglycans, water, and the fixed electric charge that makes cartilage swell (<span class="secref"><a class="secref" href="#composite">§1</a></span>–<span class="secref"><a class="secref" href="#donnan">§2</a></span>).</li>
-<li><b>How a charged, fluid-filled sponge responds to load</b> — the biphasic / poroelastic model, a diffusion equation for the squeezing-out of water, and the fluid–solid load sharing it predicts (<span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref">§5</span>).</li>
+<li><b>How a charged, fluid-filled sponge responds to load</b> — the biphasic / poroelastic model, a diffusion equation for the squeezing-out of water, and the fluid–solid load sharing it predicts (<span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#relaxlab">§5</a></span>).</li>
 <li><b>What that means at the joint</b> — turning Module&nbsp;3's single reaction force into a real contact-pressure field (<span class="secref">§6</span>), explaining the friction (<span class="secref">§7</span>), and diagnosing the failure (<span class="secref">§8</span>).</li>
 </ul>
 
@@ -245,7 +245,7 @@ The tissue is <b>saturated</b> — pores hold only fluid, no gas — so the volu
 $$\varphi^s+\varphi^w=1,\qquad \text{with typically }\varphi^w\approx0.75\text{–}0.80.$$
 "Incompressible constituents" does <em>not</em> mean the tissue cannot change volume: it shrinks precisely by the volume of fluid that flows out. That single bookkeeping fact becomes the governing equation in <span class="secref"><a class="secref" href="#biphasic">§3</a></span>.</div>
 
-<p>A caution before we build on it. This lumped, single-property matrix is <em>homogeneous</em> and <em>isotropic</em>, whereas the figure above shows cartilage is neither: the collagen weave, water content, and fixed charge all vary with depth (the superficial, middle, and deep zones) and have a built-in fibre direction. The toy model we develop in <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref">§5</span> deliberately ignores that, because the depth-averaged version already captures the headline physics — fluid pressurisation and load sharing — with one tractable equation. The depth-dependence and anisotropy are real and matter for where cartilage actually fails; we reintroduce them qualitatively in <span class="secref">§6</span> and <span class="secref">§8</span>, and defer the full continuum treatment to Module&nbsp;16. With the cast of characters and the idealisation fixed, the first thing to compute is the one effect the dry models entirely missed: the swelling pressure that the fixed charge $c_F$ creates. That is <span class="secref"><a class="secref" href="#donnan">§2</a></span>.</p>
+<p>A caution before we build on it. This lumped, single-property matrix is <em>homogeneous</em> and <em>isotropic</em>, whereas the figure above shows cartilage is neither: the collagen weave, water content, and fixed charge all vary with depth (the superficial, middle, and deep zones) and have a built-in fibre direction. The toy model we develop in <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#relaxlab">§5</a></span> deliberately ignores that, because the depth-averaged version already captures the headline physics — fluid pressurisation and load sharing — with one tractable equation. The depth-dependence and anisotropy are real and matter for where cartilage actually fails; we reintroduce them qualitatively in <span class="secref">§6</span> and <span class="secref">§8</span>, and defer the full continuum treatment to Module&nbsp;16. With the cast of characters and the idealisation fixed, the first thing to compute is the one effect the dry models entirely missed: the swelling pressure that the fixed charge $c_F$ creates. That is <span class="secref"><a class="secref" href="#donnan">§2</a></span>.</p>
 
 <hr>
 
@@ -557,7 +557,7 @@ $$\boxed{\;\tau\sim\frac{h^2}{D}=\frac{h^2}{H_A k}\;}$$
 </tbody>
 </table>
 
-<p>The number is decisive: the gel time is thousands of seconds — hours — while a footstep lasts about a second. (Solving the equation exactly, the slowest relaxation mode decays in $(4/\pi^2)\,h^2/D\approx2.7\times10^3\ \mathrm s\approx45\ \mathrm{min}$; same order, same conclusion.) During the second that you stand on a joint, almost no fluid escapes: the tissue never gets near its gel time, the pressure of the first instant barely relaxes, and the <em>fluid</em> carries the load. That mismatch — load time $\ll\tau$ — is precisely why cartilage survives, and it is the subject of <span class="secref"><a class="secref" href="#fluidload">§4</a></span>. Over the same diffusion equation run forward to $t\sim\tau$, we instead get stress relaxation and creep, simulated in <span class="secref">§5</span>.</p>
+<p>The number is decisive: the gel time is thousands of seconds — hours — while a footstep lasts about a second. (Solving the equation exactly, the slowest relaxation mode decays in $(4/\pi^2)\,h^2/D\approx2.7\times10^3\ \mathrm s\approx45\ \mathrm{min}$; same order, same conclusion.) During the second that you stand on a joint, almost no fluid escapes: the tissue never gets near its gel time, the pressure of the first instant barely relaxes, and the <em>fluid</em> carries the load. That mismatch — load time $\ll\tau$ — is precisely why cartilage survives, and it is the subject of <span class="secref"><a class="secref" href="#fluidload">§4</a></span>. Over the same diffusion equation run forward to $t\sim\tau$, we instead get stress relaxation and creep, simulated in <span class="secref"><a class="secref" href="#relaxlab">§5</a></span>.</p>
 
 <hr>
 
@@ -665,7 +665,170 @@ $$F(1\ \mathrm s)=0.986.$$
 
 <p>Loading and recovery together keep $F$ high indefinitely. This is not just theory: direct measurements with pressure transducers in loaded cartilage find interstitial fluid sustaining <b>$85$–$95\%$</b> of the load through normal cyclic activity — an independent check on the picture equation&nbsp;(1) draws.</p>
 
-<p>Hold the load instead of releasing it — drive the same diffusion equation all the way to $t\sim\tau$ — and the fluid support bleeds away while the solid takes over: at fixed strain the tissue's stress <em>relaxes</em>, at fixed load it <em>creeps</em>. That is the experiment <span class="secref">§5</span> simulates directly from the <a class="secref" href="#biphasic">§3</a> equation. And because the fluid carries the load with almost no shear resistance, the same pressurization is the key to cartilage's astonishingly low friction (<span class="secref">§7</span>). Lose it — through proteoglycan loss and rising permeability — and the solid is no longer shielded: the degeneration spiral of <span class="secref">§8</span>.</p>
+<p>Hold the load instead of releasing it — drive the same diffusion equation all the way to $t\sim\tau$ — and the fluid support bleeds away while the solid takes over: at fixed strain the tissue's stress <em>relaxes</em>, at fixed load it <em>creeps</em>. That is the experiment <span class="secref"><a class="secref" href="#relaxlab">§5</a></span> simulates directly from the <a class="secref" href="#biphasic">§3</a> equation. And because the fluid carries the load with almost no shear resistance, the same pressurization is the key to cartilage's astonishingly low friction (<span class="secref">§7</span>). Lose it — through proteoglycan loss and rising permeability — and the solid is no longer shielded: the degeneration spiral of <span class="secref">§8</span>.</p>
+
+<hr>
+
+<!-- <a class="secref" href="#relaxlab">§5</a> -->
+<h2 id="relaxlab">5. Computational lab 1 — stress relaxation and creep</h2>
+
+<p><a class="secref" href="#biphasic">§3</a> wrote the governing equation; <a class="secref" href="#fluidload">§4</a> read off its two endpoints — fluid carries everything at $t=0$, the solid carries everything as $t\to\infty$. This section fills in everything between, by solving the equation <em>numerically</em> and watching it produce a quantity you can measure on a bench: the <b>stress-relaxation</b> curve. It is the module's first computational lab — the <a class="secref" href="#biphasic">§3</a> diffusion equation, finite-differenced and run forward in time.</p>
+
+<h3>The experiment</h3>
+
+<p>In a stress-relaxation test you impose a deformation and watch the force decay. In confined compression (the <a class="secref" href="#biphasic">§3</a> chamber): ramp the porous platen down to a fixed compressive strain $\varepsilon_0$ over a short time $t_0$, then <b>hold it there</b> and record the reaction stress $\sigma(t)$. Here $\varepsilon_0$ is the held engineering strain (platen displacement ÷ thickness $h$) and $t_0$ the ramp duration.</p>
+
+<p>The boundary conditions are exactly <a class="secref" href="#biphasic">§3</a>'s — fixed impermeable base ($u=0$ at $z=0$), drained platen ($p=0$ at $z=h$) — except that we now <em>prescribe</em> the platen's displacement. Because the platen drains ($p=0$ there), the measured total stress is</p>
+$$\sigma(t)=H_A\,\frac{\partial u}{\partial z}\bigg|_{z=h}, \tag{1}$$
+<p>the aggregate modulus times the surface strain. Physically the curve will do this: the fast ramp pressurizes the fluid (it cannot escape in $t_0\ll\tau$), so the tissue resists stiffly and the stress <em>spikes</em>; holding the strain, the fluid slowly exudes, the pressure carrying the load decays, and the stress <em>relaxes</em> to whatever the drained matrix alone supports, $\sigma_\infty=H_A\varepsilon_0$. The fall takes the gel time $\tau$ of <a class="secref" href="#biphasic">§3</a>.</p>
+
+<h3>The numerical method</h3>
+
+<p>To compute the whole curve, discretize <a class="secref" href="#biphasic">§3</a>'s equation $\partial u/\partial t=D\,\partial^2u/\partial z^2$ (with $D=H_Ak$). Split $[0,h]$ into $N$ intervals of width $\Delta z=h/N$, step time by $\Delta t$, and replace the derivatives by differences — the second space derivative by the symmetric three-point stencil $(u_{i-1}-2u_i+u_{i+1})/\Delta z^2$, the time derivative forward. The result is an <b>explicit</b> update for each interior node $i$:</p>
+$$u_i^{\,n+1}=u_i^{\,n}+r\big(u_{i-1}^{\,n}-2u_i^{\,n}+u_{i+1}^{\,n}\big),\qquad r\equiv\frac{D\,\Delta t}{\Delta z^{2}}. \tag{2}$$
+
+<figure><svg class="setupfig" viewBox="0 0 470 168" width="100%" role="img" aria-label="Finite-difference grid for the cartilage layer: nodes from the fixed base to the driven platen, with the three-point stencil that updates an interior node from its two neighbours.">
+<line x1="44" y1="72" x2="424" y2="72" stroke="#ccc" stroke-width="1"/>
+<g fill="#9a9a9a"><circle cx="82" cy="72" r="4"/><circle cx="120" cy="72" r="4"/><circle cx="158" cy="72" r="4"/><circle cx="310" cy="72" r="4"/><circle cx="348" cy="72" r="4"/><circle cx="386" cy="72" r="4"/></g>
+<circle cx="196" cy="72" r="5" fill="#2a7d2a"/><circle cx="234" cy="72" r="5.5" fill="#2a7d2a"/><circle cx="272" cy="72" r="5" fill="#2a7d2a"/>
+<circle cx="44" cy="72" r="5" fill="#7a1f1f"/><circle cx="424" cy="72" r="5" fill="#2a6ca8"/>
+<g font-size="9" fill="#2a7d2a" text-anchor="middle"><text x="196" y="62">i&#8722;1</text><text x="234" y="62">i</text><text x="272" y="62">i+1</text></g>
+<line x1="196" y1="86" x2="234" y2="115" stroke="#bbb" stroke-width="1"/><line x1="272" y1="86" x2="234" y2="115" stroke="#bbb" stroke-width="1"/><line x1="234" y1="80" x2="234" y2="113" stroke="#2a7d2a" stroke-width="1.2" marker-end="url(#a_grn)"/>
+<circle cx="234" cy="120" r="5.5" fill="#2a7d2a" opacity="0.55"/>
+<text x="246" y="123" font-size="9" fill="#2a7d2a" text-anchor="start">u<tspan baseline-shift="sub" font-size="7">i</tspan> at next step</text>
+<line x1="196" y1="58" x2="234" y2="58" stroke="#555" stroke-width="0.8"/><line x1="196" y1="55" x2="196" y2="61" stroke="#555" stroke-width="0.8"/><line x1="234" y1="55" x2="234" y2="61" stroke="#555" stroke-width="0.8"/><text x="215" y="51" font-size="9" fill="#555" text-anchor="middle">&#916;z</text>
+<g text-anchor="middle"><text x="44" y="90" font-size="9" fill="#7a1f1f">u&#8320; = 0</text><text x="44" y="101" font-size="8" fill="#7a1f1f">base, z=0</text><text x="424" y="90" font-size="9" fill="#2a6ca8">u_N = U(t)</text><text x="424" y="101" font-size="8" fill="#2a6ca8">platen, z=h</text></g>
+<text x="234" y="150" font-size="9.5" fill="#444" text-anchor="middle">explicit three-point stencil: each interior node steps from its two neighbours</text>
+</svg><figcaption><b>The grid.</b> The layer becomes $N{+}1$ nodes. The base node is pinned ($u_0=0$); the platen node is driven by the ramp ($u_N=U(t)$); every interior node updates from its neighbours by&nbsp;(2). The dimensionless <b>stability number</b> $r$ must satisfy $r\le\tfrac12$ — push $\Delta t$ above that and the scheme blows up (errors grow each step instead of diffusing away).</figcaption></figure>
+
+<p>That is the entire solver. In Python:</p>
+
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+# ---- material + geometry (healthy cartilage) ----
+h   = 2e-3        # layer thickness            [m]
+HA  = 0.6e6       # aggregate modulus          [Pa]
+k   = 1e-15       # hydraulic permeability     [m^4/(N s)]
+D   = HA * k      # consolidation diffusivity  [m^2/s]   (the <a class="secref" href="#biphasic">§3</a> result)
+
+# ---- loading: ramp to a held strain, then hold (confined compression) ----
+eps0 = 0.10       # held compressive strain    [-]
+t0   = 200.0      # ramp duration              [s]
+tmax = 20000.0    # total simulated time       [s]
+
+# ---- finite-difference grid ----
+N  = 50                      # number of intervals
+dz = h / N
+dt = 0.4 * dz**2 / D         # time step -> stability number r = 0.4
+r  = D * dt / dz**2
+assert r &lt;= 0.5, "explicit scheme unstable: need r &lt;= 1/2"
+
+u  = np.zeros(N + 1)         # solid displacement u(z); u(z,0) = 0
+Uh = eps0 * h                # final platen displacement
+t_hist, sig_hist = [], []
+
+for n in range(int(tmax / dt) + 1):
+    t = n * dt
+    u[0] = 0.0                    # impermeable fixed base : u = 0
+    u[N] = Uh * min(t / t0, 1.0)  # porous platen : prescribed displacement (ramp, then hold)
+    # reaction stress = HA * surface strain  (pore pressure = 0 at the drained platen)
+    sigma = HA * (3*u[N] - 4*u[N-1] + u[N-2]) / (2*dz)
+    t_hist.append(t); sig_hist.append(sigma)
+    # explicit update of every interior node -- the discretized <a class="secref" href="#biphasic">§3</a> PDE
+    u[1:N] += r * (u[2:N+1] - 2*u[1:N] + u[0:N-1])
+
+sig = np.array(sig_hist)
+print("equilibrium sigma_inf = HA*eps0 =", HA*eps0, "Pa")   # 60000 Pa = 0.06 MPa
+print("peak / equilibrium ratio        =", sig.max() / (HA*eps0))
+print("gel time  tau = h^2 / D         =", h**2 / D, "s")</code></pre></div>
+
+<table>
+<thead><tr><th>Quantity</th><th>Symbol</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>layer thickness</td><td>$h$</td><td>$2\ \mathrm{mm}$</td></tr>
+<tr><td>aggregate modulus</td><td>$H_A$</td><td>$0.6\ \mathrm{MPa}$</td></tr>
+<tr><td>permeability</td><td>$k$</td><td>$1\times10^{-15}\ \mathrm{m^4/(N\,s)}$</td></tr>
+<tr><td>diffusivity</td><td>$D=H_Ak$</td><td>$6\times10^{-10}\ \mathrm{m^2/s}$</td></tr>
+<tr><td>gel time</td><td>$\tau=h^2/D$</td><td>$6.7\times10^{3}\ \mathrm s\approx1.9\ \mathrm h$</td></tr>
+<tr><td>held strain</td><td>$\varepsilon_0$</td><td>$0.10$</td></tr>
+<tr><td>ramp time</td><td>$t_0$</td><td>$200\ \mathrm s$</td></tr>
+<tr><td>grid intervals</td><td>$N$</td><td>$50$ ($\Delta z=40\ \mathrm{\mu m}$)</td></tr>
+<tr><td>time step / stability</td><td>$\Delta t,\;r$</td><td>$\approx1.1\ \mathrm s,\;r=0.4\le\tfrac12$</td></tr>
+<tr><td>equilibrium stress</td><td>$\sigma_\infty=H_A\varepsilon_0$</td><td>$0.060\ \mathrm{MPa}$</td></tr>
+<tr><td>peak stress</td><td>$\sigma_{\rm peak}$</td><td>$\approx6.5\,\sigma_\infty\approx0.39\ \mathrm{MPa}$</td></tr>
+</tbody>
+</table>
+
+<h3>The result</h3>
+
+<p>Running it gives the curve below: the held strain on top, the relaxing stress beneath.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 470 290" width="100%" role="img" aria-label="Two-panel result: the top panel shows strain ramped to a held value; the bottom panel shows the reaction stress rising to a peak of about 6.5 times the equilibrium then relaxing to the equilibrium over the gel time.">
+<text x="74" y="46" font-size="9.5" fill="#2a6ca8" text-anchor="end">&#949;/&#949;<tspan baseline-shift="sub" font-size="7">0</tspan></text>
+<text x="74" y="73" font-size="8.5" fill="#999" text-anchor="end">0</text>
+<text x="74" y="43" font-size="8.5" fill="#999" text-anchor="end">1</text>
+<line x1="78" y1="40" x2="432" y2="40" stroke="#eee" stroke-width="1"/>
+<line x1="78" y1="70" x2="432" y2="70" stroke="#333" stroke-width="1"/>
+<polyline points="78.0,68.5 99.8,67.4 119.5,65.6 139.3,62.6 159.1,57.6 170.9,53.2 180.8,48.2 188.7,43.2 192.7,40.3 194.7,40.0 255.0,40.0 343.5,40.0 432.0,40.0" fill="none" stroke="#2a6ca8" stroke-width="2"/>
+<text x="120" y="55" font-size="8.5" fill="#2a6ca8" text-anchor="middle">ramp</text>
+<text x="320" y="36" font-size="8.5" fill="#2a6ca8" text-anchor="middle">strain held constant</text>
+<g font-size="9" fill="#555" text-anchor="end"><text x="74" y="253">0</text><text x="74" y="208">2</text><text x="74" y="162">4</text><text x="74" y="117">6</text></g>
+<line x1="78" y1="227.4" x2="432" y2="227.4" stroke="#9a6a20" stroke-width="1" stroke-dasharray="5 3"/>
+<text x="430" y="223" font-size="9" fill="#9a6a20" text-anchor="end">&#963;<tspan baseline-shift="sub" font-size="7">&#8734;</tspan> = H<tspan baseline-shift="sub" font-size="7">A</tspan>&#949;<tspan baseline-shift="sub" font-size="7">0</tspan> = 0.06 MPa</text>
+<line x1="78" y1="204.9" x2="432" y2="204.9" stroke="#f3f3f3" stroke-width="1"/>
+<line x1="78" y1="159.7" x2="432" y2="159.7" stroke="#f3f3f3" stroke-width="1"/>
+<line x1="78" y1="114.6" x2="432" y2="114.6" stroke="#f3f3f3" stroke-width="1"/>
+<polyline points="78.0,218.2 95.8,209.5 113.6,198.5 131.4,184.7 149.2,167.5 165.0,148.4 178.9,128.2 190.7,107.8 192.7,104.1 194.7,128.7 200.6,155.7 208.5,173.4 216.4,185.0 224.3,193.8 232.3,200.8 240.2,206.6 248.1,211.5 256.0,215.7 263.9,219.2 271.8,222.1 279.7,224.3 287.6,225.8 295.5,226.7 303.5,227.1 311.4,227.3 319.3,227.4 335.1,227.4 360.8,227.4 400.4,227.4 432.0,227.4" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
+<circle cx="192.7" cy="104.1" r="3.6" fill="#7a1f1f"/>
+<text x="198" y="100" font-size="9" fill="#7a1f1f" text-anchor="start">peak &#8776; 6.5 &#963;<tspan baseline-shift="sub" font-size="7">&#8734;</tspan></text>
+<text x="198" y="111" font-size="8.5" fill="#7a1f1f" text-anchor="start">(fluid pressurized, <a class="secref" href="#fluidload">§4</a>)</text>
+<line x1="327.9" y1="250" x2="327.9" y2="120" stroke="#555" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="332" y="128" font-size="9" fill="#555" text-anchor="start">&#964; &#8776; 1.9 h</text>
+<text x="290" y="214" font-size="8.5" fill="#9a6a20" text-anchor="middle" font-style="italic">relaxes to the drained matrix</text>
+<line x1="78" y1="92" x2="78" y2="250" stroke="#333" stroke-width="1.4"/>
+<line x1="78" y1="250" x2="432" y2="250" stroke="#333" stroke-width="1.4"/>
+<g font-size="9" fill="#555" text-anchor="middle"><text x="78" y="264">10 s</text><text x="166.5" y="264">100 s</text><text x="255" y="264">10&#179; s</text><text x="343.5" y="264">10&#8308; s</text><text x="432" y="264">10&#8309; s</text></g>
+<text x="255" y="280" font-size="10.5" fill="#333" text-anchor="middle">time  (log scale)</text>
+<text x="20" y="171" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 20 171)">stress  &#963; / &#963;<tspan baseline-shift="sub" font-size="8">&#8734;</tspan></text>
+</svg><figcaption><b>Computed stress relaxation.</b> The platen is ramped to $\varepsilon_0=0.10$ and held (top). The stress (bottom) spikes to $\approx6.5\,\sigma_\infty$ at the end of the ramp — the transient fluid pressurization of <a class="secref" href="#fluidload">§4</a>, the tissue resisting as a pressurized solid — then relaxes over the gel time to $\sigma_\infty=H_A\varepsilon_0=0.06\ \mathrm{MPa}$, the stiffness of the <em>drained</em> matrix alone. The strain never changes; only the load-sharing does.</figcaption></figure>
+
+<p><b>Two independent checks</b> that the simulation is right, not merely plausible — the kind of validation a model owes you:</p>
+<ul>
+<li>the equilibrium the curve settles to equals $H_A\varepsilon_0$ <em>exactly</em> — the finite-difference scheme returns the drained modulus we put in;</li>
+<li>the relaxation timescale matches the closed-form gel time $\tau=h^2/(H_Ak)=6.7\times10^3\ \mathrm s$ from <a class="secref" href="#biphasic">§3</a>, with no fitting parameter.</li>
+</ul>
+<p>The peak, by contrast, is <em>not</em> a fixed material number: it scales as $\sigma_{\rm peak}/\sigma_\infty\sim h/\sqrt{D\,t_0}$ — ramp faster (smaller $t_0$) and the fluid is trapped harder, so the spike is taller. The equilibrium is the material; the peak is the loading rate.</p>
+
+<h3>Sensitivity: what sets the relaxation time</h3>
+
+<p><a class="secref" href="#biphasic">§3</a> claimed $\tau\propto h^2/(H_Ak)$. Test it directly: rerun for three thicknesses (scaling the ramp with each $\tau$ so the peaks coincide). The curves are the <em>same shape shifted along the log-time axis</em>, and the shift is exactly $h^2$ — double the thickness, quadruple the relaxation time.</p>
+
+<figure><svg class="setupfig" viewBox="0 62 470 216" width="100%" role="img" aria-label="Sensitivity: three stress-relaxation curves for layer thicknesses 1, 2, and 3 mm; the relaxation shifts to later times in proportion to thickness squared.">
+<text x="255" y="80" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">Relaxation time &#964; &#8733; h&#178; / (H<tspan baseline-shift="sub" font-size="8">A</tspan>k)</text>
+<g font-size="9" fill="#555" text-anchor="end"><text x="74" y="253">0</text><text x="74" y="208">2</text><text x="74" y="162">4</text><text x="74" y="117">6</text></g>
+<line x1="78" y1="227.4" x2="432" y2="227.4" stroke="#9a6a20" stroke-width="0.9" stroke-dasharray="5 3"/>
+<text x="430" y="223" font-size="8.5" fill="#9a6a20" text-anchor="end">&#963;<tspan baseline-shift="sub" font-size="7">&#8734;</tspan></text>
+<polyline points="78.0,184.8 95.8,167.6 113.6,145.9 131.4,118.6 139.3,104.3 141.3,127.8 149.2,160.8 159.1,179.5 169.0,191.7 178.9,200.7 188.7,207.9 198.6,213.6 208.5,218.4 218.4,222.1 228.3,224.7 238.2,226.3 250.1,227.1 263.9,227.4 290.0,227.4 432.0,227.4" fill="none" stroke="#2a6ca8" stroke-width="2"/>
+<polyline points="78.0,218.2 95.8,209.5 113.6,198.5 131.4,184.7 149.2,167.5 165.0,148.4 178.9,128.2 190.7,107.8 192.7,104.1 194.7,128.7 208.5,173.4 224.3,193.8 240.2,206.6 256.0,215.7 271.8,222.1 287.6,225.8 303.5,227.1 319.3,227.4 343.0,227.4 432.0,227.4" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
+<polyline points="78.0,229.6 105.7,219.7 133.4,205.8 159.1,187.7 180.8,166.9 198.6,145.1 212.5,124.2 222.4,106.9 224.3,106.2 226.3,132.3 240.2,174.2 256.0,194.3 271.8,206.9 287.6,215.9 303.5,222.3 319.3,225.8 335.1,227.2 350.9,227.4 380.6,227.4 432.0,227.4" fill="none" stroke="#2a7d2a" stroke-width="2"/>
+<g stroke-width="0" font-size="9"><circle cx="350" cy="120" r="0"/></g>
+<g><line x1="338" y1="116" x2="356" y2="116" stroke="#2a6ca8" stroke-width="2.4"/><text x="360" y="119" font-size="9" fill="#333">h = 1 mm (&#964; &#8776; 28 min)</text>
+<line x1="338" y1="132" x2="356" y2="132" stroke="#7a1f1f" stroke-width="2.4"/><text x="360" y="135" font-size="9" fill="#333">h = 2 mm (1.9 h)</text>
+<line x1="338" y1="148" x2="356" y2="148" stroke="#2a7d2a" stroke-width="2.4"/><text x="360" y="151" font-size="9" fill="#333">h = 3 mm (4.2 h)</text></g>
+<line x1="78" y1="92" x2="78" y2="250" stroke="#333" stroke-width="1.4"/>
+<line x1="78" y1="250" x2="432" y2="250" stroke="#333" stroke-width="1.4"/>
+<g font-size="9" fill="#555" text-anchor="middle"><text x="78" y="264">10 s</text><text x="166.5" y="264">100 s</text><text x="255" y="264">10&#179; s</text><text x="343.5" y="264">10&#8308; s</text><text x="432" y="264">10&#8309; s</text></g>
+<text x="255" y="278" font-size="10.5" fill="#333" text-anchor="middle">time  (log scale)</text>
+<text x="20" y="171" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 20 171)">stress  &#963; / &#963;<tspan baseline-shift="sub" font-size="8">&#8734;</tspan></text>
+</svg><figcaption><b>Thickness sensitivity.</b> Same material, three thicknesses; the relaxation simply slides right as $h^2$ (the curves are scaled to share a peak). A thin layer drains in minutes, a thick one in hours. The same lever runs <em>backwards</em> in degeneration (<span class="secref">§8</span>): as proteoglycan is lost and permeability $k$ rises, $\tau$ falls, fluid drains faster, and the matrix is left to carry more — the loss of <a class="secref" href="#fluidload">§4</a>'s shielding.</figcaption></figure>
+
+<h3>Creep — the same physics, flipped</h3>
+
+<p>Hold a constant <em>load</em> $\sigma_0$ instead of a constant strain and the very same equation gives <b>creep</b>: the strain climbs from its small undrained value to the drained equilibrium $\varepsilon_\infty=\sigma_0/H_A$ over the same gel time $\tau$. (In the code, prescribe the platen force and integrate the surface velocity, rather than prescribing displacement.) Relaxation and creep are one phenomenon — fluid leaving a loaded gel — read under two boundary conditions.</p>
+
+<p><b>Extend it.</b> (a) Replace the ramp with cyclic loading at gait frequency ($\sim1\ \mathrm{Hz}$) and watch the fluid never fully drain — <a class="secref" href="#fluidload">§4</a>'s sustained support, now emerging from your own simulation. (b) Add <a class="secref" href="#donnan">§2</a>'s osmotic pre-stress as a baseline and see the equilibrium shift. (c) Make $k$ fall as the matrix compacts (strain-dependent permeability) and watch the relaxation turn asymmetric.</p>
+
+<p>The lab has turned <a class="secref" href="#biphasic">§3</a>'s equation into a measurable curve and confirmed its timescale from first principles. Next we leave the confined chamber for real joint geometry — a curved, loaded contact — where the same biphasic physics flattens and spreads the Hertzian pressure of <span class="secref">§6</span>.</p>
 
 <hr>
 
