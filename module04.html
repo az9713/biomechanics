@@ -71,7 +71,7 @@ window.MathJax = {
 <li><b>1.</b> <a href="#composite">Cartilage as a hydrated, charged, porous composite</a></li>
 <li><b>2.</b> <a href="#donnan">Osmotic (Donnan) swelling pressure</a></li>
 <li><b>3.</b> <a href="#biphasic">The biphasic model and the consolidation equation</a></li>
-<li><b>4.</b> <span class="pending">Interstitial fluid pressurization and load sharing</span></li>
+<li><b>4.</b> <a href="#fluidload">Interstitial fluid pressurization and load sharing</a></li>
 <li><b>5.</b> <span class="pending">Computational lab 1 — stress relaxation and creep</span></li>
 <li><b>6.</b> <span class="pending">Contact: from joint reaction to a pressure field</span></li>
 <li><b>7.</b> <span class="pending">Computational lab 2 — lubrication and the Stribeck curve</span></li>
@@ -144,7 +144,7 @@ window.MathJax = {
 
 <p>The resolution, which this module develops quantitatively, is a single change of viewpoint. The dry-solid mechanics of Modules&nbsp;1–3 ask "how does a stiff body share a load through its cross-section?" — the right question for a bone (<a class="secref" href="module02.html#setup">Module&nbsp;2</a>), the wrong question for cartilage. <b>Cartilage is not a solid at all. It is a sponge.</b> More precisely, it is a <em>biphasic</em> material: a porous, electrically charged solid scaffold (collagen and proteoglycan) swollen with water that can flow through it. When you step, the load is not borne by the soft scaffold squashing like rubber — it is borne, almost entirely and almost instantly, by the <em>pressure of the trapped water</em>, which cannot escape the fine pores fast enough to matter on the timescale of a footstep. The scaffold rides along, barely stressed. Over minutes of standing the water slowly weeps out and the scaffold gradually takes up the load; lie down and it re-imbibes overnight (you are measurably taller in the morning). This is <b>interstitial fluid pressurization</b>, and it is the headline idea of the module.</p>
 
-<p>That one mechanism organizes everything that follows. It explains the <em>stiffness</em> (water is nearly incompressible, so a sealed sponge is stiff even though its scaffold is soft — <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref">§4</span>); it explains the <em>low friction</em> (if the fluid carries the load, the solid-on-solid contact that generates friction carries almost nothing — <span class="secref">§7</span>); and it explains <em>failure</em> (anything that lets the water leak out faster — torn scaffold, lost charge, higher permeability — dumps the load onto the soft solid, which then wears, a runaway we trace in <span class="secref">§8</span> as the mechanics of <b>osteoarthritis</b>). To get there we need three layers of physics, each built on the last:</p>
+<p>That one mechanism organizes everything that follows. It explains the <em>stiffness</em> (water is nearly incompressible, so a sealed sponge is stiff even though its scaffold is soft — <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#fluidload">§4</a></span>); it explains the <em>low friction</em> (if the fluid carries the load, the solid-on-solid contact that generates friction carries almost nothing — <span class="secref">§7</span>); and it explains <em>failure</em> (anything that lets the water leak out faster — torn scaffold, lost charge, higher permeability — dumps the load onto the soft solid, which then wears, a runaway we trace in <span class="secref">§8</span> as the mechanics of <b>osteoarthritis</b>). To get there we need three layers of physics, each built on the last:</p>
 
 <ul>
 <li><b>What the tissue is made of</b> — collagen, proteoglycans, water, and the fixed electric charge that makes cartilage swell (<span class="secref"><a class="secref" href="#composite">§1</a></span>–<span class="secref"><a class="secref" href="#donnan">§2</a></span>).</li>
@@ -225,7 +225,7 @@ window.MathJax = {
 <tr><th>Constituent</th><th>Fraction (wet weight)</th><th>Mechanical role in this module</th></tr>
 <tr><td>Collagen network</td><td>$\approx15$–$22\%$</td><td>Carries <b>tension</b>; restrains swelling and resists shear; little use in compression (<span class="secref"><a class="secref" href="#donnan">§2</a></span>, <span class="secref">§6</span>).</td></tr>
 <tr><td>Proteoglycan (aggrecan)</td><td>$\approx4$–$7\%$</td><td>Its fixed charge $c_F$ drives <b>osmotic swelling</b>, pre-stressing the matrix and resisting compression (<span class="secref"><a class="secref" href="#donnan">§2</a></span>).</td></tr>
-<tr><td>Water + mobile ions</td><td>$\approx65$–$80\%$</td><td><b>Pressurises</b> under load and carries almost all the stress on short timescales; also the lubricant (<span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref">§4</span>, <span class="secref">§7</span>).</td></tr>
+<tr><td>Water + mobile ions</td><td>$\approx65$–$80\%$</td><td><b>Pressurises</b> under load and carries almost all the stress on short timescales; also the lubricant (<span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#fluidload">§4</a></span>, <span class="secref">§7</span>).</td></tr>
 <tr><td>Chondrocytes</td><td>$\lt 10\%$ by volume</td><td>Synthesise and maintain the matrix; <b>not load-bearing</b>.</td></tr>
 </table>
 
@@ -466,7 +466,7 @@ $$\sigma=\sigma_E-p,\qquad \sigma_E=H_A\,\frac{\partial u}{\partial z}, \tag{4}$
 <text x="300" y="74" font-size="15" fill="#333">&#963; = &#963;<tspan baseline-shift="sub" font-size="10">E</tspan> &#8722; p</text>
 <text x="300" y="98" font-size="9" fill="#777">load shared:</text>
 <text x="300" y="110" font-size="9" fill="#777">spring + fluid</text>
-</svg><figcaption><b>Effective-stress partition.</b> The platen's total stress $\sigma$ splits between the solid matrix (a spring of stiffness $H_A$, carrying $\sigma_E=H_A\varepsilon$) and the interstitial fluid (carrying pore pressure $p$): $\sigma=\sigma_E-p$. <em>Which</em> phase carries how much depends on time — the heart of <span class="secref">§4</span>.</figcaption></figure>
+</svg><figcaption><b>Effective-stress partition.</b> The platen's total stress $\sigma$ splits between the solid matrix (a spring of stiffness $H_A$, carrying $\sigma_E=H_A\varepsilon$) and the interstitial fluid (carrying pore pressure $p$): $\sigma=\sigma_E-p$. <em>Which</em> phase carries how much depends on time — the heart of <span class="secref"><a class="secref" href="#fluidload">§4</a></span>.</figcaption></figure>
 
 <p>The chamber is loaded slowly compared with any stress-wave transit, so the mixture is in quasi-static equilibrium: with no body force, the total stress has no gradient, $\partial\sigma/\partial z=0$ — $\sigma$ is uniform in $z$ (it equals the applied $\sigma_0$). Differentiating (4) and using that uniformity,</p>
 $$0=\frac{\partial\sigma}{\partial z}=H_A\,\frac{\partial^2 u}{\partial z^2}-\frac{\partial p}{\partial z}\;\;\Longrightarrow\;\; \frac{\partial p}{\partial z}=H_A\,\frac{\partial^2 u}{\partial z^2}. \tag{5}$$
@@ -557,7 +557,115 @@ $$\boxed{\;\tau\sim\frac{h^2}{D}=\frac{h^2}{H_A k}\;}$$
 </tbody>
 </table>
 
-<p>The number is decisive: the gel time is thousands of seconds — hours — while a footstep lasts about a second. (Solving the equation exactly, the slowest relaxation mode decays in $(4/\pi^2)\,h^2/D\approx2.7\times10^3\ \mathrm s\approx45\ \mathrm{min}$; same order, same conclusion.) During the second that you stand on a joint, almost no fluid escapes: the tissue never gets near its gel time, the pressure of the first instant barely relaxes, and the <em>fluid</em> carries the load. That mismatch — load time $\ll\tau$ — is precisely why cartilage survives, and it is the subject of <span class="secref">§4</span>. Over the same diffusion equation run forward to $t\sim\tau$, we instead get stress relaxation and creep, simulated in <span class="secref">§5</span>.</p>
+<p>The number is decisive: the gel time is thousands of seconds — hours — while a footstep lasts about a second. (Solving the equation exactly, the slowest relaxation mode decays in $(4/\pi^2)\,h^2/D\approx2.7\times10^3\ \mathrm s\approx45\ \mathrm{min}$; same order, same conclusion.) During the second that you stand on a joint, almost no fluid escapes: the tissue never gets near its gel time, the pressure of the first instant barely relaxes, and the <em>fluid</em> carries the load. That mismatch — load time $\ll\tau$ — is precisely why cartilage survives, and it is the subject of <span class="secref"><a class="secref" href="#fluidload">§4</a></span>. Over the same diffusion equation run forward to $t\sim\tau$, we instead get stress relaxation and creep, simulated in <span class="secref">§5</span>.</p>
+
+<hr>
+
+<!-- <a class="secref" href="#fluidload">§4</a> -->
+<h2 id="fluidload">4. Interstitial fluid pressurization and load sharing</h2>
+
+<p>Section&nbsp;3 ended on a number with teeth: the gel time $\tau\approx1.9\ \mathrm h$, thousands of times longer than a footstep. This section spends that mismatch on the mechanism that lets cartilage survive — and finally answers <a class="secref" href="#origin">§0</a>'s paradox, how a $2\ \mathrm{mm}$ layer of soft tissue carries $\approx1.7\ \mathrm{MPa}$ millions of times a year for decades. The short answer: when load arrives faster than the tissue can drain, the <em>fluid</em> carries it, not the solid.</p>
+
+<h3>Load sharing, instant by instant</h3>
+
+<p>Return to the effective-stress partition of <a class="secref" href="#biphasic">§3</a>, written now in compression-positive form to make "share of the load" read naturally. Let $\sigma_0\gt0$ be the applied compressive stress; let $p\ge0$ be the pore pressure and $\sigma_E\ge0$ the solid effective stress. At every cross-section of the loaded column the two phases split the load between them:</p>
+$$\sigma_0=\sigma_E+p,\qquad\text{so}\qquad \underbrace{\frac{\sigma_E}{\sigma_0}}_{\text{solid's share}}+\underbrace{\frac{p}{\sigma_0}}_{\text{fluid's share}}=1.$$
+<p>The question of the section is simply: <em>which phase carries how much, and when?</em> Average the fluid's share over the depth to get one number for the whole tissue.</p>
+
+<div class="def"><b>Fluid load support fraction.</b> The depth-averaged fraction of the applied load borne by interstitial fluid pressurization,
+$$F(t)=\frac{\langle p\rangle}{\sigma_0}=\frac{1}{\sigma_0\,h}\int_0^h p(z,t)\,\mathrm dz,$$
+with $\langle p\rangle$ the average pore pressure. $F=1$ means the fluid carries everything; $F=0$ means the solid does.</div>
+
+<h3>Computing $F(t)$ from the consolidation solution</h3>
+
+<p><a class="secref" href="#biphasic">§3</a> already solved for $p(z,t)$ (the Terzaghi series). Averaging that series over the depth term by term — each cosine integrates to $\int_0^1\cos(\lambda_n Z)\,\mathrm dZ=(-1)^n/\lambda_n$ — collapses every spatial factor and leaves a pure function of the dimensionless time $T=Dt/h^2$:</p>
+$$F(T)=\sum_{n=0}^{\infty}\frac{2}{\lambda_n^{2}}\,e^{-\lambda_n^{2}T},\qquad \lambda_n=\tfrac{(2n+1)\pi}{2}. \tag{1}$$
+<p>At the instant of loading ($T=0$) every exponential is $1$, and the coefficients sum to exactly one — $\sum_n 2/\lambda_n^2=\tfrac{8}{\pi^2}\sum_n(2n+1)^{-2}=\tfrac{8}{\pi^2}\cdot\tfrac{\pi^2}{8}=1$:</p>
+
+<div class="thm"><b>Undrained limit.</b> $\displaystyle F(0)=1.$ At the first instant the interstitial fluid carries the <em>entire</em> applied load. (The matrix cannot change volume with no fluid yet displaced, so its strain — and hence its effective stress — is still zero.)</div>
+
+<p>Thereafter every mode decays; the slowest, $n=0$, sets the rate $e^{-(\pi^2/4)T}$, so $F$ falls to $1/e$ at $t\approx0.32\,h^2/D\approx36\ \mathrm{min}$ and to nearly nothing by $t\sim\tau$. The curve below is equation&nbsp;(1) evaluated with the <a class="secref" href="#biphasic">§3</a> parameters.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 470 268" width="100%" role="img" aria-label="Computed fluid load support fraction versus time on a logarithmic time axis: it starts at one, stays near one through the timescale of a footstep, then decays through one over e at about 36 minutes to nearly zero by the gel time of about two hours.">
+<rect x="80" y="36" width="175" height="196" fill="#eef7ee"/>
+<line x1="80" y1="85" x2="430" y2="85" stroke="#f0f0f0" stroke-width="1"/>
+<line x1="80" y1="134" x2="430" y2="134" stroke="#f0f0f0" stroke-width="1"/>
+<line x1="80" y1="183" x2="430" y2="183" stroke="#f0f0f0" stroke-width="1"/>
+<text x="167" y="31" font-size="9" fill="#2a7d2a" text-anchor="middle">steps &amp; gait &#8212; F &#8819; 0.9</text>
+<polyline points="80.0,36.9 90.6,37.1 101.1,37.3 111.7,37.6 122.2,38.0 132.8,38.4 143.3,39.0 153.9,39.7 164.4,40.5 175.0,41.6 185.5,42.9 196.1,44.5 206.6,46.4 217.2,48.8 227.7,51.8 238.3,55.5 248.8,60.0 259.4,65.5 269.9,72.4 280.5,80.8 291.1,91.2 301.6,104.0 312.2,119.7 322.7,138.9 333.3,161.5 343.8,185.7 354.4,207.5 364.9,222.7 375.5,229.8 386.0,231.8 396.6,232.0 407.1,232.0 417.7,232.0 428.2,232.0 430.0,232.0" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
+<line x1="80" y1="36" x2="80" y2="232" stroke="#333" stroke-width="1.4"/>
+<line x1="80" y1="232" x2="430" y2="232" stroke="#333" stroke-width="1.4"/>
+<g font-size="9" fill="#555"><text x="74" y="235" text-anchor="end">0</text><text x="74" y="186" text-anchor="end">0.25</text><text x="74" y="137" text-anchor="end">0.5</text><text x="74" y="88" text-anchor="end">0.75</text><text x="74" y="39" text-anchor="end">1.0</text></g>
+<g font-size="9" fill="#555" text-anchor="middle"><text x="80" y="246">0.1 s</text><text x="138.3" y="246">1 s</text><text x="196.7" y="246">10 s</text><text x="255" y="246">100 s</text><text x="313.3" y="246">10&#179; s</text><text x="371.7" y="246">10&#8308; s</text><text x="430" y="246">10&#8309; s</text></g>
+<line x1="138.3" y1="232" x2="138.3" y2="40" stroke="#2a6ca8" stroke-width="1" stroke-dasharray="3 2"/>
+<circle cx="138.3" cy="38.7" r="3.6" fill="#2a6ca8"/>
+<text x="144" y="54" font-size="9.5" fill="#2a6ca8" text-anchor="start">footstep (1 s):</text>
+<text x="144" y="65" font-size="9.5" fill="#2a6ca8" text-anchor="start" font-weight="bold">F = 0.99</text>
+<line x1="361.4" y1="232" x2="361.4" y2="74" stroke="#555" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="357" y="70" font-size="9.5" fill="#555" text-anchor="end">gel time &#964; &#8776; 1.9 h</text>
+<circle cx="332.5" cy="159.9" r="3" fill="#555"/>
+<line x1="332.5" y1="159.9" x2="300" y2="150" stroke="#999" stroke-width="0.8"/>
+<text x="297" y="148" font-size="9" fill="#555" text-anchor="end">F = 1/e (&#8776; 36 min)</text>
+<text x="426" y="210" font-size="9.5" fill="#6b5a36" text-anchor="end" font-style="italic">solid matrix carries the load</text>
+<text x="255" y="262" font-size="10.5" fill="#333" text-anchor="middle">time under load  (log scale)</text>
+<text x="20" y="134" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 20 134)">fluid load support  F = &#10216;p&#10217; / &#963;<tspan baseline-shift="sub" font-size="8">0</tspan></text>
+</svg><figcaption><b>Computed fluid load support.</b> Equation&nbsp;(1) for healthy cartilage ($D=H_Ak=6\times10^{-10}\ \mathrm{m^2/s}$, $h=2\ \mathrm{mm}$). The fluid carries essentially the whole load for everything up to the timescale of a footstep, then hands it to the solid matrix over the gel time. The green band marks physiological loading (steps and gait), where $F\gtrsim0.9$.</figcaption></figure>
+
+<h3>Why this saves the joint</h3>
+
+<p>Now put the two timescales side by side. A footstep loads the joint for $t_{\rm load}\sim1\ \mathrm s$; in units of the gel time that is $T=t_{\rm load}/\tau\sim1.5\times10^{-4}$ — negligible. The fluid has no time to leave, so equation&nbsp;(1) gives</p>
+$$F(1\ \mathrm s)=0.986.$$
+<p>During the second you stand on a joint, interstitial fluid carries $\approx99\%$ of the load and the solid matrix feels $\approx1\%$.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 440 214" width="86%" role="img" aria-label="Stacked bars showing the share of load carried by interstitial fluid versus solid matrix at three durations of loading: at a footstep the fluid carries almost all; at forty-five minutes the split is about thirty to seventy; after hours the solid carries all.">
+<text x="220" y="16" font-size="12" fill="#333" text-anchor="middle" font-weight="bold">Who carries the load?</text>
+<line x1="60" y1="176" x2="392" y2="176" stroke="#333" stroke-width="1.2"/>
+<rect x="70" y="47.8" width="60" height="128.2" fill="#2a6ca8"/>
+<rect x="70" y="46" width="60" height="1.8" fill="#9a6a20"/>
+<text x="100" y="120" font-size="11" fill="#fff" text-anchor="middle" font-weight="bold">99%</text>
+<text x="100" y="42" font-size="9" fill="#6b5a36" text-anchor="middle">1%</text>
+<text x="100" y="192" font-size="9.5" fill="#333" text-anchor="middle">footstep (1 s)</text>
+<rect x="190" y="137.3" width="60" height="38.7" fill="#2a6ca8"/>
+<rect x="190" y="46" width="60" height="91.3" fill="#9a6a20"/>
+<text x="220" y="160" font-size="11" fill="#fff" text-anchor="middle" font-weight="bold">30%</text>
+<text x="220" y="96" font-size="11" fill="#fff" text-anchor="middle" font-weight="bold">70%</text>
+<text x="220" y="192" font-size="9.5" fill="#333" text-anchor="middle">45 min</text>
+<rect x="310" y="46" width="60" height="130" fill="#9a6a20"/>
+<text x="340" y="115" font-size="11" fill="#fff" text-anchor="middle" font-weight="bold">100%</text>
+<text x="340" y="192" font-size="9.5" fill="#333" text-anchor="middle">hours (drained)</text>
+<rect x="70" y="201" width="11" height="9" fill="#2a6ca8"/><text x="85" y="209" font-size="8.7" fill="#333">interstitial fluid (pressure p)</text>
+<rect x="250" y="201" width="11" height="9" fill="#9a6a20"/><text x="265" y="209" font-size="8.7" fill="#333">solid matrix (&#963;<tspan baseline-shift="sub" font-size="6.5">E</tspan>)</text>
+</svg><figcaption><b>The handoff.</b> The fluid's share of the load (blue) versus the solid matrix's (brown), at three durations. On the timescale of use the load is almost entirely fluid-borne; only if the load is held for tens of minutes does the matrix take over.</figcaption></figure>
+
+<p>That is the whole trick. The soft solid skeleton — collagen and proteoglycan — <em>never has to bear the peak stress</em>; the pressurized fluid does. And a pressurized fluid has no surfaces to abrade and no fibres to fatigue, so the matrix is shielded. This is the resolution of <a class="secref" href="#origin">§0</a>'s impossible bearing: cartilage carries stresses its solid phase could not survive because, on the timescale of use, it is not the solid phase that carries them.</p>
+
+<h3>How it stays charged: cyclic re-imbibition</h3>
+
+<p>One objection remains. A footstep is brief, but we take $\sim10^4$ of them a day — wouldn't the fluid drain over so many cycles? It does not, and <a class="secref" href="#donnan">§2</a> is the reason. Between steps the joint unloads, and the osmotic swelling pressure of the fixed charges pulls fluid <em>back in</em>. Each cycle re-pressurizes the tissue faster than slow drainage depletes it, so the fluid support is continually recharged.</p>
+
+<figure><svg viewBox="0 0 340 252" width="62%" role="img" aria-label="Animation: a cartilage plug under a suddenly applied and held load; interstitial fluid is pressurized and carries the load, then slowly exudes through the porous platen as the platen settles and the solid matrix takes over, looping to show recharge each gait cycle.">
+<rect x="120" y="70" width="13" height="140" fill="#bcbcbc" stroke="#8a8a8a" stroke-width="0.8"/>
+<rect x="207" y="70" width="13" height="140" fill="#bcbcbc" stroke="#8a8a8a" stroke-width="0.8"/>
+<rect x="120" y="210" width="100" height="11" fill="#bcbcbc" stroke="#8a8a8a" stroke-width="0.8"/>
+<rect x="133" y="92" width="74" height="118" fill="url(#b_cart)"/>
+<rect x="133" y="92" width="74" height="118" fill="#2a6ca8"><animate attributeName="opacity" values="0.49;0.49;0.48;0.46;0.40;0.29;0.08;0" keyTimes="0;0.12;0.25;0.4;0.55;0.7;0.85;1" dur="6s" repeatCount="indefinite"/></rect>
+<line x1="133" y1="74" x2="207" y2="74" stroke="#888" stroke-width="0.8" stroke-dasharray="3 2"/>
+<g>
+<rect x="133" y="74" width="74" height="18" fill="#d7dbe0" stroke="#9aa3ad" stroke-width="0.9"/>
+<g fill="#ffffff" stroke="#94a3ad" stroke-width="0.6"><circle cx="148" cy="83" r="2.3"/><circle cx="170" cy="83" r="2.3"/><circle cx="192" cy="83" r="2.3"/></g>
+<animateTransform attributeName="transform" type="translate" values="0 0;0 0.2;0 0.7;0 1.6;0 3.5;0 7.5;0 15;0 18" keyTimes="0;0.12;0.25;0.4;0.55;0.7;0.85;1" dur="6s" repeatCount="indefinite"/>
+</g>
+<line x1="170" y1="34" x2="170" y2="72" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
+<text x="170" y="28" font-size="9.5" fill="#7a1f1f" text-anchor="middle">load (held)</text>
+<g stroke="#2a6ca8" stroke-width="2.2" marker-end="url(#a_blu)"><line x1="150" y1="70" x2="144" y2="50"><animate attributeName="opacity" values="0.9;0.9;0.85;0.72;0.5;0.28;0.07;0" keyTimes="0;0.12;0.25;0.4;0.55;0.7;0.85;1" dur="6s" repeatCount="indefinite"/></line><line x1="190" y1="70" x2="196" y2="50"><animate attributeName="opacity" values="0.9;0.9;0.85;0.72;0.5;0.28;0.07;0" keyTimes="0;0.12;0.25;0.4;0.55;0.7;0.85;1" dur="6s" repeatCount="indefinite"/></line></g>
+<text x="218" y="52" font-size="8.5" fill="#2a6ca8">fluid out</text>
+<text x="170" y="238" font-size="10" fill="#2a6ca8" text-anchor="middle">t = 0:  fluid carries the load<animate attributeName="opacity" values="1;1;1;0.6;0.2;0;0;0" keyTimes="0;0.12;0.25;0.4;0.55;0.7;0.85;1" dur="6s" repeatCount="indefinite"/></text>
+<text x="170" y="238" font-size="10" fill="#9a6a20" text-anchor="middle">t ~ &#964;:  matrix carries the load<animate attributeName="opacity" values="0;0;0;0.4;0.8;1;1;1" keyTimes="0;0.12;0.25;0.4;0.55;0.7;0.85;1" dur="6s" repeatCount="indefinite"/></text>
+</svg><figcaption><b>Fluid pressurization under a held load</b> (the <a class="secref" href="#biphasic">§3</a> consolidation equation, animated). The fluid starts pressurized (blue) and carries the load, then exudes through the platen (arrows) as the platen settles, until the matrix carries it and the pressure is gone. Read the loop as the gait cycle: on unloading, the osmotic pressure of <a class="secref" href="#donnan">§2</a> re-imbibes fluid and re-pressurizes the tissue — so in walking the support never runs down.</figcaption></figure>
+
+<p>Loading and recovery together keep $F$ high indefinitely. This is not just theory: direct measurements with pressure transducers in loaded cartilage find interstitial fluid sustaining <b>$85$–$95\%$</b> of the load through normal cyclic activity — an independent check on the picture equation&nbsp;(1) draws.</p>
+
+<p>Hold the load instead of releasing it — drive the same diffusion equation all the way to $t\sim\tau$ — and the fluid support bleeds away while the solid takes over: at fixed strain the tissue's stress <em>relaxes</em>, at fixed load it <em>creeps</em>. That is the experiment <span class="secref">§5</span> simulates directly from the <a class="secref" href="#biphasic">§3</a> equation. And because the fluid carries the load with almost no shear resistance, the same pressurization is the key to cartilage's astonishingly low friction (<span class="secref">§7</span>). Lose it — through proteoglycan loss and rising permeability — and the solid is no longer shielded: the degeneration spiral of <span class="secref">§8</span>.</p>
 
 <hr>
 
