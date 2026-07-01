@@ -1,0 +1,2 @@
+# Claude Code — personal, per-project local settings (never commit)
+.claude/settings.local.json

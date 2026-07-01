@@ -27,8 +27,8 @@ duplicate content that already lives in the files referenced below — open them
   `scripts/*.py` (hardening tools), `references/*.md`, `assets/template.html`.
 
 ## Next task
-- **Module 5** (muscle actuators / tendons — see `prompt.txt` Course Structure +
-  the `index.html` syllabus) is **not started**. Draw its §-by-§ plan from
+- **Module 5 — Muscles as Chemo-Electro-Mechanical Actuators** (see `prompt.txt`
+  "### Module 5" + the `index.html` syllabus) is **not started**. Draw its §-by-§ plan from
   `prompt.txt` + Module 4's forward-references (the `<span class="secref">Module N</span>`
   and `§N` promissory notes), exactly as was done for Modules 3 and 4. Then build
   section-by-section.
