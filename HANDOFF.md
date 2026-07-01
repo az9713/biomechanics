@@ -6,9 +6,19 @@ duplicate content that already lives in the files referenced below — open them
 
 ## Current state (as of latest push)
 - **Modules 1–4 are COMPLETE and live** at https://az9713.github.io/biomechanics/ .
-  Module 4 (Cartilage / Synovial Fluid / Joint Contact Biophysics) finished this
-  round: §0–§9 (with the full **30-problem §9**: C1–C10 / D1–D10 / K1–K10) + the
-  **Appendix** (notation + parameter tables). No `(in progress)` marker remains.
+  Module 4 (Cartilage / Synovial Fluid / Joint Contact Biophysics): §0–§9 (with the
+  full **30-problem §9**: C1–C10 / D1–D10 / K1–K10) + the **Appendix**. No
+  `(in progress)` marker remains.
+- **Module 5 (Muscles as Chemo-Electro-Mechanical Actuators) — IN PROGRESS.**
+  - Plan **written and approved**: `module05-plan.md` (the §-by-§ spine). Decisions
+    locked with the user: **§0–§10 + Appendix** (labs get their own §9,
+    captures/misses + problems §10) and the **full 30-problem set** (C1–C10 /
+    D1–D10 / K1–K10 + 5 diagnostics) in §10.
+  - **§0 (motivation) is COMPLETE and live** (`module05.html`, last commit
+    `e3b5682`): Tier-2 shaded-arm hero figure + the neural-drive→activation→force→
+    torque pipeline schematic; repays Module 1's "muscle force given" and Module 3's
+    blank applied force $Q$. All hardening checks pass. Linked from `index.html`
+    (marked *(in progress)*) and `README.md`.
 - Everything is committed and pushed to `main` (public repo
   https://github.com/az9713/biomechanics). Working tree is clean apart from
   untracked `.ignore/` and `prompt.txt`.
@@ -27,12 +37,15 @@ duplicate content that already lives in the files referenced below — open them
   `scripts/*.py` (hardening tools), `references/*.md`, `assets/template.html`.
 
 ## Next task
-- **Module 5 — Muscles as Chemo-Electro-Mechanical Actuators** (see `prompt.txt`
-  "### Module 5" + the `index.html` syllabus) is **not started**. Draw its §-by-§ plan from
-  `prompt.txt` + Module 4's forward-references (the `<span class="secref">Module N</span>`
-  and `§N` promissory notes), exactly as was done for Modules 3 and 4. Then build
-  section-by-section.
-- If the user asks for something else, that takes precedence over starting Module 5.
+- **Module 5 §1 — Muscle architecture: the force-producing hierarchy** (fascicles,
+  pennation angle $\theta_p$, PCSA, specific tension $\sigma$ → $F_{\max}=\sigma\cdot
+  \mathrm{PCSA}$; along-tendon projection $\cos\theta_p$). See `module05-plan.md`
+  "§1" for the full scope. Build section-by-section per the plan (§2 length–tension,
+  §3 ECC/calcium, … §7 the boxed Hill model, §8 torque, §9 labs, §10 problems).
+- **§1 is the first figure-heavy section** — per the style-sign-off rule, build/preview
+  **one representative Tier-2 figure (the muscle hierarchy: whole muscle → fascicle →
+  fiber → sarcomere) and get it approved** before drawing the rest.
+- If the user asks for something else, that takes precedence over continuing Module 5.
 
 ## How to work (the essentials — full detail in `CLAUDE.md`)
 - **Invoke the `rigorous-explainer` skill** at the start; follow its SKILL.md build loop.
