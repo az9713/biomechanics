@@ -74,7 +74,7 @@ window.MathJax = {
 <li><b>4.</b> <a href="#fluidload">Interstitial fluid pressurization and load sharing</a></li>
 <li><b>5.</b> <a href="#relaxlab">Computational lab 1 — stress relaxation and creep</a></li>
 <li><b>6.</b> <a href="#contact">Contact: from joint reaction to a pressure field</a></li>
-<li><b>7.</b> <span class="pending">Computational lab 2 — lubrication and the Stribeck curve</span></li>
+<li><b>7.</b> <a href="#lubrication">Computational lab 2 — lubrication and the Stribeck curve</a></li>
 <li><b>8.</b> <span class="pending">Degeneration and osteoarthritis mechanics</span></li>
 <li><b>9.</b> <span class="pending">What the model captures and misses; diagnostics and problems</span></li>
 <li><span class="pending">Appendix — notation and parameters</span></li>
@@ -144,12 +144,12 @@ window.MathJax = {
 
 <p>The resolution, which this module develops quantitatively, is a single change of viewpoint. The dry-solid mechanics of Modules&nbsp;1–3 ask "how does a stiff body share a load through its cross-section?" — the right question for a bone (<a class="secref" href="module02.html#setup">Module&nbsp;2</a>), the wrong question for cartilage. <b>Cartilage is not a solid at all. It is a sponge.</b> More precisely, it is a <em>biphasic</em> material: a porous, electrically charged solid scaffold (collagen and proteoglycan) swollen with water that can flow through it. When you step, the load is not borne by the soft scaffold squashing like rubber — it is borne, almost entirely and almost instantly, by the <em>pressure of the trapped water</em>, which cannot escape the fine pores fast enough to matter on the timescale of a footstep. The scaffold rides along, barely stressed. Over minutes of standing the water slowly weeps out and the scaffold gradually takes up the load; lie down and it re-imbibes overnight (you are measurably taller in the morning). This is <b>interstitial fluid pressurization</b>, and it is the headline idea of the module.</p>
 
-<p>That one mechanism organizes everything that follows. It explains the <em>stiffness</em> (water is nearly incompressible, so a sealed sponge is stiff even though its scaffold is soft — <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#fluidload">§4</a></span>); it explains the <em>low friction</em> (if the fluid carries the load, the solid-on-solid contact that generates friction carries almost nothing — <span class="secref">§7</span>); and it explains <em>failure</em> (anything that lets the water leak out faster — torn scaffold, lost charge, higher permeability — dumps the load onto the soft solid, which then wears, a runaway we trace in <span class="secref">§8</span> as the mechanics of <b>osteoarthritis</b>). To get there we need three layers of physics, each built on the last:</p>
+<p>That one mechanism organizes everything that follows. It explains the <em>stiffness</em> (water is nearly incompressible, so a sealed sponge is stiff even though its scaffold is soft — <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#fluidload">§4</a></span>); it explains the <em>low friction</em> (if the fluid carries the load, the solid-on-solid contact that generates friction carries almost nothing — <span class="secref"><a class="secref" href="#lubrication">§7</a></span>); and it explains <em>failure</em> (anything that lets the water leak out faster — torn scaffold, lost charge, higher permeability — dumps the load onto the soft solid, which then wears, a runaway we trace in <span class="secref">§8</span> as the mechanics of <b>osteoarthritis</b>). To get there we need three layers of physics, each built on the last:</p>
 
 <ul>
 <li><b>What the tissue is made of</b> — collagen, proteoglycans, water, and the fixed electric charge that makes cartilage swell (<span class="secref"><a class="secref" href="#composite">§1</a></span>–<span class="secref"><a class="secref" href="#donnan">§2</a></span>).</li>
 <li><b>How a charged, fluid-filled sponge responds to load</b> — the biphasic / poroelastic model, a diffusion equation for the squeezing-out of water, and the fluid–solid load sharing it predicts (<span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#relaxlab">§5</a></span>).</li>
-<li><b>What that means at the joint</b> — turning Module&nbsp;3's single reaction force into a real contact-pressure field (<span class="secref"><a class="secref" href="#contact">§6</a></span>), explaining the friction (<span class="secref">§7</span>), and diagnosing the failure (<span class="secref">§8</span>).</li>
+<li><b>What that means at the joint</b> — turning Module&nbsp;3's single reaction force into a real contact-pressure field (<span class="secref"><a class="secref" href="#contact">§6</a></span>), explaining the friction (<span class="secref"><a class="secref" href="#lubrication">§7</a></span>), and diagnosing the failure (<span class="secref">§8</span>).</li>
 </ul>
 
 <p>By the end you will be able to take the lone number $R\approx1715\ \mathrm N$ that Module&nbsp;3 handed us and predict, from tissue properties, how the pressure is distributed across the contact, how it is split between fluid and solid, how it relaxes over time, why the joint is so slippery, and what tips that whole balance into degeneration. We begin with the material itself.</p>
@@ -225,7 +225,7 @@ window.MathJax = {
 <tr><th>Constituent</th><th>Fraction (wet weight)</th><th>Mechanical role in this module</th></tr>
 <tr><td>Collagen network</td><td>$\approx15$–$22\%$</td><td>Carries <b>tension</b>; restrains swelling and resists shear; little use in compression (<span class="secref"><a class="secref" href="#donnan">§2</a></span>, <span class="secref"><a class="secref" href="#contact">§6</a></span>).</td></tr>
 <tr><td>Proteoglycan (aggrecan)</td><td>$\approx4$–$7\%$</td><td>Its fixed charge $c_F$ drives <b>osmotic swelling</b>, pre-stressing the matrix and resisting compression (<span class="secref"><a class="secref" href="#donnan">§2</a></span>).</td></tr>
-<tr><td>Water + mobile ions</td><td>$\approx65$–$80\%$</td><td><b>Pressurises</b> under load and carries almost all the stress on short timescales; also the lubricant (<span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#fluidload">§4</a></span>, <span class="secref">§7</span>).</td></tr>
+<tr><td>Water + mobile ions</td><td>$\approx65$–$80\%$</td><td><b>Pressurises</b> under load and carries almost all the stress on short timescales; also the lubricant (<span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#fluidload">§4</a></span>, <span class="secref"><a class="secref" href="#lubrication">§7</a></span>).</td></tr>
 <tr><td>Chondrocytes</td><td>$\lt 10\%$ by volume</td><td>Synthesise and maintain the matrix; <b>not load-bearing</b>.</td></tr>
 </table>
 
@@ -665,7 +665,7 @@ $$F(1\ \mathrm s)=0.986.$$
 
 <p>Loading and recovery together keep $F$ high indefinitely. This is not just theory: direct measurements with pressure transducers in loaded cartilage find interstitial fluid sustaining <b>$85$–$95\%$</b> of the load through normal cyclic activity — an independent check on the picture equation&nbsp;(1) draws.</p>
 
-<p>Hold the load instead of releasing it — drive the same diffusion equation all the way to $t\sim\tau$ — and the fluid support bleeds away while the solid takes over: at fixed strain the tissue's stress <em>relaxes</em>, at fixed load it <em>creeps</em>. That is the experiment <span class="secref"><a class="secref" href="#relaxlab">§5</a></span> simulates directly from the <a class="secref" href="#biphasic">§3</a> equation. And because the fluid carries the load with almost no shear resistance, the same pressurization is the key to cartilage's astonishingly low friction (<span class="secref">§7</span>). Lose it — through proteoglycan loss and rising permeability — and the solid is no longer shielded: the degeneration spiral of <span class="secref">§8</span>.</p>
+<p>Hold the load instead of releasing it — drive the same diffusion equation all the way to $t\sim\tau$ — and the fluid support bleeds away while the solid takes over: at fixed strain the tissue's stress <em>relaxes</em>, at fixed load it <em>creeps</em>. That is the experiment <span class="secref"><a class="secref" href="#relaxlab">§5</a></span> simulates directly from the <a class="secref" href="#biphasic">§3</a> equation. And because the fluid carries the load with almost no shear resistance, the same pressurization is the key to cartilage's astonishingly low friction (<span class="secref"><a class="secref" href="#lubrication">§7</a></span>). Lose it — through proteoglycan loss and rising permeability — and the solid is no longer shielded: the degeneration spiral of <span class="secref">§8</span>.</p>
 
 <hr>
 
@@ -909,7 +909,132 @@ $$a=\Big(\frac{3FR_{\rm eff}}{4E^{*}}\Big)^{1/3},\qquad p(r)=p_0\sqrt{1-\frac{r^
 
 <p>So the refinement runs the safe way. Stop at dry Hertz and the true peak ($2.5\ \mathrm{MPa}$) is half again Module&nbsp;3's mean; add the thin layer and the fluid and that peak is pulled back down and spread out — the very fluid-pressurization shielding of <a class="secref" href="#fluidload">§4</a>, now expressed in the geometry of a loaded joint. It is also why articular contact is so forgiving of <em>incongruence</em>: whatever peak the geometry tries to raise, the fluid and the thin layer smear out.</p>
 
-<p>The one thing this pressure field still lacks is <em>motion</em> — sliding one surface across the other under all this pressure. That is friction and lubrication, and cartilage's is lower than ice. Why, in <span class="secref">§7</span>.</p>
+<p>The one thing this pressure field still lacks is <em>motion</em> — sliding one surface across the other under all this pressure. That is friction and lubrication, and cartilage's is lower than ice. Why, in <span class="secref"><a class="secref" href="#lubrication">§7</a></span>.</p>
+
+<hr>
+
+<!-- <a class="secref" href="#lubrication">§7</a> -->
+<h2 id="lubrication">7. Computational lab 2 — lubrication and the Stribeck curve</h2>
+
+<p><a class="secref" href="#contact">§6</a> pressed the surfaces together; now <em>slide</em> them. Cartilage's friction coefficient is $\mu\approx0.005$–$0.02$ — below ice on ice. Under the $\approx1715\ \mathrm N$ joint reaction that is a friction force of only $\sim10\ \mathrm N$. How? This lab builds the answer in two steps: the classical lubrication picture (which, it turns out, cannot explain it), then the biphasic mechanism (which does).</p>
+
+<h3>Classical lubrication and the Stribeck number</h3>
+
+<p>The <b>friction coefficient</b> is $\mu=(\text{tangential force})/(\text{normal load})$. Classical lubrication of <em>any</em> bearing — a hip, a crankshaft — is organised by one dimensionless group, the <b>Stribeck number</b> (or Hersey number)</p>
+$$S=\frac{\eta\,U}{W},$$
+<p>viscosity $\eta$ times sliding speed $U$ over load $W$. Sweep $S$ and $\mu$ traces the <b>Stribeck curve</b> through three regimes: <b>boundary</b> (low $S$ — slow or heavily loaded), <b>mixed</b>, and <b>fluid-film</b> (high $S$ — fast or lightly loaded).</p>
+
+<figure><svg class="setupfig" viewBox="0 0 470 176" width="100%" role="img" aria-label="Four lubrication regimes between a sliding surface and cartilage: boundary (adsorbed molecular layers bear the load), mixed (part film part contact), fluid-film (a full fluid layer separates the surfaces), and biphasic (interstitial fluid pressurization carries the load).">
+<g font-size="10" font-weight="bold" fill="#333" text-anchor="middle"><text x="61" y="16">Boundary</text><text x="177" y="16">Mixed</text><text x="293" y="16">Fluid-film</text><text x="409" y="16">Biphasic</text></g>
+<line x1="30" y1="28" x2="92" y2="28" stroke="#555" stroke-width="1" marker-end="url(#a_grn)"/><text x="20" y="31" font-size="8" fill="#555" text-anchor="end">U</text>
+<!-- panel 1 boundary -->
+<rect x="14" y="34" width="94" height="8" fill="#a89a86"/>
+<rect x="14" y="92" width="94" height="11" fill="url(#b_cart)"/>
+<g fill="#a89a86"><path d="M34,42 l6,0 l-3,7 Z"/><path d="M58,42 l6,0 l-3,7 Z"/><path d="M82,42 l6,0 l-3,7 Z"/></g>
+<g stroke="#7d3c98" stroke-width="1.4"><line x1="37" y1="49" x2="37" y2="92"/><line x1="61" y1="49" x2="61" y2="92"/><line x1="85" y1="49" x2="85" y2="92"/></g>
+<text x="61" y="120" font-size="9" fill="#333" text-anchor="middle">&#956; &#8776; 0.15</text><text x="61" y="132" font-size="7.5" fill="#777" text-anchor="middle">adsorbed layers</text>
+<!-- panel 2 mixed -->
+<rect x="130" y="34" width="94" height="8" fill="#a89a86"/>
+<rect x="130" y="92" width="94" height="11" fill="url(#b_cart)"/>
+<path d="M174,42 l6,0 l-3,7 Z" fill="#a89a86"/><line x1="177" y1="49" x2="177" y2="92" stroke="#7d3c98" stroke-width="1.4"/>
+<g fill="#cfeaf5" opacity="0.9"><ellipse cx="150" cy="70" rx="14" ry="16"/><ellipse cx="205" cy="70" rx="14" ry="16"/></g>
+<text x="177" y="120" font-size="9" fill="#333" text-anchor="middle">&#956; falls</text><text x="177" y="132" font-size="7.5" fill="#777" text-anchor="middle">film + contact</text>
+<!-- panel 3 fluid-film -->
+<rect x="246" y="34" width="94" height="8" fill="#a89a86"/>
+<rect x="246" y="92" width="94" height="11" fill="url(#b_cart)"/>
+<rect x="246" y="54" width="94" height="38" fill="#bfe3f2"/>
+<g stroke="#2a6ca8" stroke-width="1.2" marker-end="url(#a_blu)"><line x1="262" y1="73" x2="300" y2="73"/></g>
+<text x="293" y="120" font-size="9" fill="#333" text-anchor="middle">&#956; &#8733; &#951;U/W</text><text x="293" y="132" font-size="7.5" fill="#777" text-anchor="middle">full fluid film</text>
+<!-- panel 4 biphasic -->
+<rect x="362" y="34" width="94" height="8" fill="#a89a86"/>
+<rect x="362" y="92" width="94" height="11" fill="url(#b_cart)"/>
+<g fill="#7fb6d8" opacity="0.6"><circle cx="375" cy="98" r="1.4"/><circle cx="395" cy="99" r="1.4"/><circle cx="415" cy="98" r="1.4"/><circle cx="440" cy="99" r="1.4"/><circle cx="385" cy="101" r="1.4"/><circle cx="425" cy="101" r="1.4"/></g>
+<g stroke="#2a6ca8" stroke-width="1.8" marker-end="url(#a_blu)"><line x1="380" y1="92" x2="380" y2="46"/><line x1="409" y1="92" x2="409" y2="46"/><line x1="438" y1="92" x2="438" y2="46"/></g>
+<text x="409" y="120" font-size="9" fill="#333" text-anchor="middle">&#956; &#8776; 0.005</text><text x="409" y="132" font-size="7.5" fill="#2a6ca8" text-anchor="middle">fluid carries load (<a class="secref" href="#fluidload">§4</a>)</text>
+</svg><figcaption><b>Lubrication regimes.</b> A surface slides (speed $U$) over cartilage. <em>Boundary</em>: surfaces nearly touch; adsorbed molecular layers (lubricin, hyaluronic acid) bear the load. <em>Mixed</em>: patches of film and contact. <em>Fluid-film</em>: a full fluid layer separates the surfaces, and friction is viscous drag. <em>Biphasic</em>: the interstitial fluid inside the porous cartilage is pressurized (<a class="secref" href="#fluidload">§4</a>) and carries the load, so almost no stress reaches the solid contact — the dominant mode in real joints.</figcaption></figure>
+
+<p>A compact model captures the first three: $\mu(S)=\mu_{\rm bl}/\big(1+(S/S_0)^2\big)+\alpha S$ — a <b>boundary term</b> $\mu_{\rm bl}$ that rules when slow/heavy, plus a <b>hydrodynamic term</b> $\alpha S$ that rules when fast/light. Compute it:</p>
+
+<figure><svg class="setupfig" viewBox="0 0 470 278" width="100%" role="img" aria-label="Computed Stribeck curve: friction stays near 0.15 at low Stribeck number (boundary regime), dips to about 0.03 in the mixed regime, then rises again as a fluid film builds; a joint spends much of its time at low Stribeck number where classical friction would be high.">
+<rect x="78" y="40" width="212" height="192" fill="#faf3f3"/>
+<rect x="395" y="40" width="37" height="192" fill="#eef7fb"/>
+<text x="184" y="54" font-size="9" fill="#a05a5a" text-anchor="middle">boundary (slow / heavy)</text>
+<text x="343" y="54" font-size="9" fill="#7a6a4a" text-anchor="middle">mixed</text>
+<text x="413" y="54" font-size="8.5" fill="#2a6ca8" text-anchor="middle" transform="rotate(-90 413 120)">fluid-film</text>
+<line x1="78" y1="125.3" x2="432" y2="125.3" stroke="#f0f0f0" stroke-width="1"/>
+<line x1="78" y1="178.7" x2="432" y2="178.7" stroke="#f0f0f0" stroke-width="1"/>
+<polyline points="78.0,72.0 137.2,72.0 180.0,72.0 219.6,71.9 246.1,72.1 267.4,72.8 284.0,75.1 297.0,79.7 307.7,87.3 316.0,96.9 322.9,108.5 329.0,120.3 334.9,133.7 340.8,147.9 346.8,161.6 352.7,173.8 358.6,183.7 364.5,190.9 370.4,195.4 376.4,197.4 378.7,197.5 384.6,196.3 390.6,193.0 396.5,187.7 402.4,180.4 408.3,170.9 414.2,158.9 420.2,144.0 426.1,125.8 432.0,103.6" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
+<circle cx="378.7" cy="197.5" r="3.4" fill="#7a1f1f"/><text x="378.7" y="210" font-size="8.5" fill="#7a1f1f" text-anchor="middle">min &#8776; 0.03</text>
+<text x="150" y="66" font-size="9" fill="#a05a5a" text-anchor="middle">&#956; &#8776; 0.15 (boundary plateau)</text>
+<line x1="78" y1="40" x2="78" y2="232" stroke="#333" stroke-width="1.4"/>
+<line x1="78" y1="232" x2="432" y2="232" stroke="#333" stroke-width="1.4"/>
+<g font-size="9" fill="#555" text-anchor="end"><text x="72" y="235">0</text><text x="72" y="182">0.05</text><text x="72" y="128">0.10</text><text x="72" y="75">0.15</text></g>
+<g font-size="9" fill="#555" text-anchor="middle"><text x="78" y="246">10&#8315;&#8308;</text><text x="148.8" y="246">10&#8315;&#179;</text><text x="219.6" y="246">10&#8315;&#178;</text><text x="290.4" y="246">10&#8315;&#185;</text><text x="361.2" y="246">1</text><text x="432" y="246">10</text></g>
+<text x="255" y="262" font-size="10.5" fill="#333" text-anchor="middle">Stribeck number  S = &#951;U/W  (log scale)</text>
+<text x="22" y="136" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 22 136)">friction  &#956;</text>
+</svg><figcaption><b>The Stribeck curve (computed).</b> Friction is high ($\mu\approx0.15$) at low $S$ — no film, load on the boundary layers — dips to $\approx0.03$ as a film builds, then rises with viscous drag at high $S$. A bearing wants to run in the valley. <b>The problem:</b> a joint spends much of its time at <em>low</em> $S$ — standing, slow loading, every heel-strike — exactly where classical friction should be $\sim0.15$, thirty times what cartilage actually shows. Fluid-film lubrication alone cannot keep it slippery.</figcaption></figure>
+
+<h3>The biphasic resolution</h3>
+
+<p>What carries the load when there is no film is the <em>interstitial fluid of <a class="secref" href="#fluidload">§4</a></em>. Friction acts on solid–solid contact; but the fluid pressurization carries a fraction $F$ of the load, leaving only $(1-F)$ on the solid. So the effective friction coefficient is the intrinsic (drained) solid friction $\mu_{\rm eq}$ scaled by the solid's share of the load:</p>
+$$\boxed{\;\mu_{\rm eff}(t)=\mu_{\rm eq}\,\big(1-F(t)\big)\;}$$
+<p>with $F(t)$ the fluid load support fraction of <a class="secref" href="#fluidload">§4</a>. When the fluid is pressurized ($F\approx0.99$ during a footstep), $\mu_{\rm eff}\approx0.15\times0.01\approx0.002$ — the measured value — and it needs <em>no sliding speed at all</em>. Cartilage is slippery not because a film floats the surfaces, but because the fluid inside it carries the load. Both curves come from one short program:</p>
+
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+# ---------- (1) classical Stribeck curve  mu(S) ----------
+mu_bl, S0, alpha = 0.15, 0.5, 0.012      # boundary level, transition, film slope
+S  = np.logspace(-4, 1, 300)             # Stribeck number  S = eta*U/W
+mu = mu_bl/(1 + (S/S0)**2) + alpha*S     # boundary term + hydrodynamic term
+print("min mu =", round(mu.min(), 3), "at S =", round(S[mu.argmin()], 2))
+
+# ---------- (2) biphasic friction  mu_eff = mu_eq (1 - F) ----------
+h, HA, k = 2e-3, 0.6e6, 1e-15
+D   = HA*k;  tau = h**2/D                 # gel time (<a class="secref" href="#biphasic">§3</a>)  ~ 6667 s
+mu_eq = 0.15                              # intrinsic (drained) solid friction
+
+def F(t, N=1500):                         # fluid load support fraction (<a class="secref" href="#fluidload">§4</a>)
+    T   = D*t/h**2
+    lam = (2*np.arange(N) + 1)*np.pi/2
+    return np.sum(2/lam**2 * np.exp(-lam**2 * T))
+
+for t in [1, 60, 3600, 20000]:
+    print(f"t={t:6d}s  F={F(t):.3f}  mu_eff={mu_eq*(1-F(t)):.4f}")
+# t=1s -> mu_eff ~ 0.002 (footstep);  t=20000s -> ~0.15 (fully drained)</code></pre></div>
+
+<table>
+<thead><tr><th>Quantity</th><th>Symbol</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>friction coefficient (measured)</td><td>$\mu$</td><td>$0.005$–$0.02$ (below ice)</td></tr>
+<tr><td>friction force at $R=1715\ \mathrm N$</td><td>$\mu R$</td><td>$\sim10\ \mathrm N$</td></tr>
+<tr><td>Stribeck number</td><td>$S=\eta U/W$</td><td>dimensionless</td></tr>
+<tr><td>boundary / intrinsic friction</td><td>$\mu_{\rm bl},\;\mu_{\rm eq}$</td><td>$\approx0.15$</td></tr>
+<tr><td>synovial viscosity</td><td>$\eta$</td><td>$0.01$–$1\ \mathrm{Pa\,s}$ (shear-thinning)</td></tr>
+<tr><td>fluid load support</td><td>$F(t)$</td><td><a class="secref" href="#fluidload">§4</a> ($\to1$ under fast load)</td></tr>
+<tr><td>biphasic friction</td><td>$\mu_{\rm eff}=\mu_{\rm eq}(1-F)$</td><td>$0.002$ fresh $\to0.15$ drained</td></tr>
+</tbody>
+</table>
+
+<figure><svg class="setupfig" viewBox="0 0 470 268" width="100%" role="img" aria-label="Computed biphasic friction versus loading time: friction is tiny while the interstitial fluid is pressurized and climbs toward the intrinsic solid value as the fluid drains over the gel time.">
+<rect x="78" y="40" width="284.6" height="192" fill="#eef7ee"/>
+<line x1="78" y1="72" x2="432" y2="72" stroke="#9a6a20" stroke-width="1" stroke-dasharray="5 3"/>
+<text x="428" y="68" font-size="9" fill="#9a6a20" text-anchor="end">&#956;<tspan baseline-shift="sub" font-size="7">eq</tspan> &#8776; 0.15 (drained solid)</text>
+<polyline points="78.0,231.3 100.3,230.9 122.5,230.3 144.8,229.4 167.1,228.0 189.3,225.9 211.6,222.5 233.8,217.4 256.1,209.4 278.4,197.1 300.6,178.1 314.0,162.1 322.9,148.9 331.8,133.8 340.7,117.4 349.6,101.3 358.5,87.8 367.4,78.6 376.3,73.9 385.2,72.3 394.2,72.0 412.0,72.0 432.0,72.0" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
+<circle cx="137.0" cy="229.8" r="3.6" fill="#2a7d2a"/><text x="143" y="233" font-size="9" fill="#2a7d2a" text-anchor="start">footstep: &#956; &#8776; 0.002</text>
+<line x1="362.6" y1="232" x2="362.6" y2="90" stroke="#555" stroke-width="1" stroke-dasharray="3 2"/><text x="366" y="98" font-size="9" fill="#555" text-anchor="start">gel time &#964;</text>
+<text x="160" y="200" font-size="9" fill="#2a7d2a" text-anchor="middle">fluid pressurized &#8594; slippery</text>
+<line x1="300" y1="150" x2="345" y2="110" stroke="#555" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#a_red)"/><text x="300" y="160" font-size="9" fill="#7a1f1f" text-anchor="middle" font-style="italic">fluid drains &#8594; friction rises</text>
+<line x1="78" y1="40" x2="78" y2="232" stroke="#333" stroke-width="1.4"/>
+<line x1="78" y1="232" x2="432" y2="232" stroke="#333" stroke-width="1.4"/>
+<g font-size="9" fill="#555" text-anchor="end"><text x="72" y="235">0</text><text x="72" y="182">0.05</text><text x="72" y="128">0.10</text><text x="72" y="75">0.15</text></g>
+<g font-size="9" fill="#555" text-anchor="middle"><text x="78" y="246">0.1 s</text><text x="137" y="246">1 s</text><text x="196" y="246">10 s</text><text x="255" y="246">100 s</text><text x="314" y="246">10&#179; s</text><text x="373" y="246">10&#8308; s</text><text x="432" y="246">10&#8309; s</text></g>
+<text x="255" y="262" font-size="10.5" fill="#333" text-anchor="middle">time under static load  (log scale)</text>
+<text x="22" y="136" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 22 136)">friction  &#956;<tspan baseline-shift="sub" font-size="8">eff</tspan></text>
+</svg><figcaption><b>Friction is a readout of fluid support.</b> $\mu_{\rm eff}=\mu_{\rm eq}(1-F)$ with $F(t)$ from <a class="secref" href="#fluidload">§4</a>. Freshly loaded, the fluid carries the load and friction is $\approx0.002$; held under static load, the fluid drains over the gel time $\tau$ and friction climbs $\sim30\times$ toward the intrinsic $\mu_{\rm eq}\approx0.15$. This is measured: static-loaded cartilage grows steadily less slippery over tens of minutes (Forster–Fisher; McCutchen's "weeping bearing").</figcaption></figure>
+
+<p>Two supporting players finish the picture. <b>Synovial fluid is shear-thinning</b> (non-Newtonian): its hyaluronic-acid chains make it viscous at low shear and thin at high shear, tuning the fluid-film regime and cushioning impact. And the adsorbed <b>lubricin / hyaluronic-acid</b> layers set the boundary value $\mu_{\rm eq}$ — the backstop that matters most precisely when fluid support has failed.</p>
+
+<p>So cartilage's sub-ice friction is not classical lubrication at all — it is the <a class="secref" href="#fluidload">§4</a> fluid pressurization, read tangentially. And that makes friction a live gauge of fluid load support: as the biphasic machinery degrades — fluid draining faster, $F$ falling — friction rises, and rising friction abrades the surface, which degrades it further. That self-feeding failure is the subject of <span class="secref">§8</span>.</p>
 
 <hr>
 
