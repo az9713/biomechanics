@@ -24,6 +24,7 @@ window.MathJax = {
   pre{ background:#f3f1ec; padding:.8rem 1rem; border-radius:5px; overflow:auto; font-size:.84rem; line-height:1.45; }
   pre code{ background:none; padding:0; }
   .thm,.def,.lem,.prop{ background:var(--box); border-left:4px solid var(--accent); padding:.6rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0; }
+  .prob{ border-left:3px solid #cdbfa0; padding:.35rem .85rem; margin:1.1rem 0; background:#fbfaf6; border-radius:0 4px 4px 0; }
   .thm b,.def b,.lem b,.prop b{ color:var(--accent); }
   .proof{ border-left:2px solid var(--rule); padding-left:.9rem; margin:.8rem 0 1.2rem; color:#222; }
   .proof::before{ content:"Proof."; font-style:italic; font-weight:bold; margin-right:.4rem; }
@@ -79,7 +80,7 @@ window.MathJax = {
 <li><b>6.</b> <a href="#contact">Contact: from joint reaction to a pressure field</a></li>
 <li><b>7.</b> <a href="#lubrication">Computational lab 2 — lubrication and the Stribeck curve</a></li>
 <li><b>8.</b> <a href="#degeneration">Degeneration and osteoarthritis mechanics</a></li>
-<li><b>9.</b> <span class="pending">What the model captures and misses; diagnostics and problems</span></li>
+<li><b>9.</b> <a href="#synthesis">What the model captures and misses; diagnostics and problems</a></li>
 <li><span class="pending">Appendix — notation and parameters</span></li>
 </ul>
 </div>
@@ -1142,7 +1143,923 @@ for t in [1, 60, 3600, 20000]:
 
 <p>Why doesn't a healthy joint spiral like this on its own? Because the loop has a <b>gain</b>. Each pass multiplies the damage by some factor $g$. Healthy cartilage keeps $g\lt1$: its fluid-support margin is enormous ($F\approx0.99$ leaves vast headroom before the solid is overloaded), and chondrocytes slowly repair the matrix, so a perturbation <em>damps</em> out. Degeneration raises $g$ toward and past $1$ — and a loop with $g\gt1$ runs away. That is why osteoarthritis has a <b>tipping point</b>: below it the joint self-corrects, above it the same physics that protected the tissue now destroys it, marching to bone-on-bone. It is also why intervention works best <em>early</em>, while $g$ is still under one and the fluid-support margin can still be defended.</p>
 
-<p>The biological triggers — ageing, obesity (which raises the load $W$ and hence the peak), acute injury, genetics — enter through <span class="secref">Module&nbsp;14</span>. Mechanically, though, the lesson of this module is now complete: <b>cartilage survives because the interstitial fluid carries the load, and it fails when it can no longer do so.</b> What this biphasic picture captures, and what it still leaves out — full three-dimensional contact, collagen anisotropy, finite deformation, the living chondrocyte — is the accounting of <span class="secref">§9</span>.</p>
+<p>The biological triggers — ageing, obesity (which raises the load $W$ and hence the peak), acute injury, genetics — enter through <span class="secref">Module&nbsp;14</span>. Mechanically, though, the lesson of this module is now complete: <b>cartilage survives because the interstitial fluid carries the load, and it fails when it can no longer do so.</b> What this biphasic picture captures, and what it still leaves out — full three-dimensional contact, collagen anisotropy, finite deformation, the living chondrocyte — is the accounting of <span class="secref"><a class="secref" href="#synthesis">§9</a></span>.</p>
+
+<hr>
+
+<!-- <a class="secref" href="#synthesis">§9</a> -->
+<h2 id="synthesis">9. What the model captures and misses; diagnostics and problems</h2>
+
+<p>Eight sections built one object — a charged, fluid-filled porous solid — and watched it account for a joint's whole mechanical life. Before the notation table (<span class="secref">Appendix</span>), an honest reckoning: what this model earns, what it cannot, and a short set of problems to test whether it is yours.</p>
+
+<h3>What the model captures</h3>
+
+<p>Almost everything in this module radiates from the single governing equation of <a class="secref" href="#biphasic">§3</a>. One idea — load carried by fluid pressure in a low-permeability charged gel, draining on a timescale $\tau=h^2/(H_Ak)$ — produced, in turn, every phenomenon around it:</p>
+
+<figure><svg class="setupfig" viewBox="0 0 470 300" width="100%" role="img" aria-label="Hub diagram: a charged, fluid-filled porous solid governed by the consolidation equation at the centre, with arrows radiating out to the six phenomena it explains — resting swelling pressure, fluid load support, stress relaxation and creep, flattened contact pressure, low friction, and osteoarthritis as loss of fluid support.">
+<g stroke="#2a6ca8" stroke-width="1.8" fill="none" marker-end="url(#a_blu)">
+<line x1="235" y1="112" x2="235" y2="54"/>
+<line x1="298" y1="126" x2="333" y2="97"/>
+<line x1="298" y1="174" x2="333" y2="203"/>
+<line x1="235" y1="188" x2="235" y2="246"/>
+<line x1="172" y1="174" x2="137" y2="203"/>
+<line x1="172" y1="126" x2="137" y2="97"/>
+</g>
+<ellipse cx="235" cy="150" rx="94" ry="42" fill="#eef4f8" stroke="#2a6ca8" stroke-width="1.4"/>
+<g text-anchor="middle"><text x="235" y="142" font-size="10.5" fill="#2a6ca8" font-weight="bold">a charged, fluid-filled</text><text x="235" y="155" font-size="10.5" fill="#2a6ca8" font-weight="bold">porous solid</text><text x="235" y="170" font-size="9" fill="#555">&#8706;u/&#8706;t = H<tspan baseline-shift="sub" font-size="7">A</tspan>k &#8706;&#178;u/&#8706;z&#178;  (<a class="secref" href="#biphasic">§3</a>)</text></g>
+<g fill="#f7f7f7" stroke="#999" stroke-width="1"><rect x="177" y="12" width="116" height="40" rx="6"/><rect x="335" y="76" width="124" height="40" rx="6"/><rect x="335" y="184" width="124" height="40" rx="6"/><rect x="177" y="248" width="116" height="40" rx="6"/><rect x="11" y="184" width="124" height="40" rx="6"/><rect x="11" y="76" width="124" height="40" rx="6"/></g>
+<g font-size="9.5" fill="#333" text-anchor="middle">
+<text x="235" y="28">resting swelling</text><text x="235" y="41">pre-stress &#960;  (<a class="secref" href="#donnan">§2</a>)</text>
+<text x="397" y="92">fluid carries the</text><text x="397" y="105">load, F &#8594; 1  (<a class="secref" href="#fluidload">§4</a>)</text>
+<text x="397" y="200">stress relaxation</text><text x="397" y="213">&amp; creep  (<a class="secref" href="#relaxlab">§5</a>)</text>
+<text x="235" y="264">flattened contact</text><text x="235" y="277">pressure  (<a class="secref" href="#contact">§6</a>)</text>
+<text x="73" y="200">sub-ice friction</text><text x="73" y="213">&#956; = &#956;<tspan baseline-shift="sub" font-size="7">eq</tspan>(1&#8722;F)  (<a class="secref" href="#lubrication">§7</a>)</text>
+<text x="73" y="92">osteoarthritis =</text><text x="73" y="105">loss of support (<a class="secref" href="#degeneration">§8</a>)</text>
+</g>
+</svg><figcaption><b>One idea, six phenomena.</b> The resting swelling pre-stress (<a class="secref" href="#donnan">§2</a>), the time-dependent fluid load support (<a class="secref" href="#fluidload">§4</a>), stress relaxation and creep (<a class="secref" href="#relaxlab">§5</a>), the flattened contact pressure (<a class="secref" href="#contact">§6</a>), the sub-ice friction (<a class="secref" href="#lubrication">§7</a>), and the osteoarthritis cascade (<a class="secref" href="#degeneration">§8</a>) are not six separate theories — they are one biphasic model viewed from six sides.</p></figcaption></figure>
+
+<h3>What it leaves out — and where it is repaid</h3>
+
+<p>The power of the model is its economy, and its economy is a set of deliberate simplifications. None is free; each is a promissory note to a later module.</p>
+
+<table>
+<thead><tr><th>Left out</th><th>Why it is fair here</th><th>Repaid in</th></tr></thead>
+<tbody>
+<tr><td>3-D, finite-strain contact (we used 1-D confined compression, small strain)</td><td>1-D isolates the drainage physics cleanly and gets $\tau$ and $F$ right to order of magnitude</td><td><span class="secref">Module&nbsp;16</span> (continuum / FE)</td></tr>
+<tr><td>collagen anisotropy — the depth-varying Benninghoff arcades (<a class="secref" href="#composite">§1</a>)</td><td>an isotropic solid captures the bulk load-sharing and swelling</td><td><span class="secref">Module&nbsp;16</span></td></tr>
+<tr><td>strain-dependent permeability $k(\varepsilon)$ and nonlinear stiffness</td><td>constant $k,\,H_A$ give the correct timescale and support fraction</td><td><span class="secref">Module&nbsp;16</span></td></tr>
+<tr><td>intrinsic viscoelasticity of the solid matrix</td><td>on the gel-time scale, <em>flow</em>-dependent time-dependence dominates</td><td><span class="secref">Module&nbsp;16</span></td></tr>
+<tr><td>full electrokinetics — streaming potentials, the coupled <em>triphasic</em> theory</td><td>the static Donnan balance (<a class="secref" href="#donnan">§2</a>) already delivers the swelling pre-stress</td><td><span class="secref">Module&nbsp;16</span> (triphasic)</td></tr>
+<tr><td>the living chondrocyte — mechanotransduction, active remodelling</td><td>mechanics sets the very loads and pressures the cells sense</td><td><span class="secref">Module&nbsp;14</span> (aging / OA biology)</td></tr>
+</tbody>
+</table>
+
+<p>The through-line: this module is the <em>mechanics</em> of the joint interface. It hands the stress, pressure, and flow fields to the continuum machinery of <span class="secref">Module&nbsp;16</span> and the aging biology of <span class="secref">Module&nbsp;14</span>, which cash the notes.</p>
+
+<h3>Diagnostics</h3>
+
+<p>Five quick checks. Answer before opening each.</p>
+
+<ol>
+<li>At the instant a load is applied, what fraction does the interstitial fluid carry, and why?
+<details class="sol"><summary>answer</summary><div>Essentially all of it: $F(0)=1$. With no fluid yet displaced, the incompressible, saturated mixture cannot change volume, so the strain — and hence the solid effective stress $\sigma_E=H_A\varepsilon$ — is zero. The fluid carries the whole load (<a class="secref" href="#fluidload">§4</a>).</div></details></li>
+<li>Why is cartilage slippery even at <em>zero</em> sliding speed (standing still)?
+<details class="sol"><summary>answer</summary><div>Because friction acts only on the solid-borne share $(1-F)$ of the load: $\mu_{\rm eff}=\mu_{\rm eq}(1-F)$. The fluid pressurisation carries the load regardless of speed, so $\mu$ is low with no hydrodynamic film needed (<a class="secref" href="#lubrication">§7</a>) — unlike a classical bearing, which needs speed to build a film.</div></details></li>
+<li>A joint is loaded for $1\ \mathrm s$ (a step), and separately held for $2\ \mathrm h$. Which load is borne by fluid, which by solid?
+<details class="sol"><summary>answer</summary><div>$1\ \mathrm s\ll\tau$ ⇒ fluid ($F\approx1$); $2\ \mathrm h\gtrsim\tau$ ⇒ solid ($F\to0$). The divider is the gel time $\tau\sim h^2/(H_Ak)\sim10^3$–$10^4\ \mathrm s$ (<a class="secref" href="#biphasic">§3</a>).</div></details></li>
+<li>Two plugs of the same tissue, thicknesses $h$ and $2h$. Ratio of their gel times?
+<details class="sol"><summary>answer</summary><div>$\tau\propto h^2$, so the thicker plug relaxes $4\times$ slower.</div></details></li>
+<li>Why does the dry-elastic Hertz calculation <em>overestimate</em> the true contact peak?
+<details class="sol"><summary>answer</summary><div>Real cartilage is a thin layer ($a\gg h$) bonded to bone, and the interstitial fluid pressurisation is broad, not peaked — both flatten and spread the pressure below the Hertz cap (<a class="secref" href="#contact">§6</a>).</div></details></li>
+</ol>
+
+<h3>Problems</h3>
+
+<p>Thirty problems — ten to reason with, ten to derive, ten to compute — each isolating one idea from the module's spine. Work each out before opening the solution; the computational solutions carry Python-verified numbers.</p>
+
+<h3 id="conceptual">Conceptual problems</h3>
+<p>Ten problems to reason with — each isolates one idea from the module's spine. Work out the reasoning before opening the solution.</p>
+
+<div class="qbox"><b>C1 &mdash; undrained vs. drained — one tissue, two stiffnesses.</b> <span class="small"><em>Probes: undrained vs. drained response; the gel time (<a class="secref" href="#biphasic">§3</a>).</em></span>
+<p>Press a cartilage sample with your thumb for a second and it feels firm as hard rubber. Rest a heavy book on the same spot and, over an afternoon, it slowly sinks and stays dented until you lift the book. Same tissue, opposite behaviour. Explain, and name the timescale that separates the two regimes.</p>
+<figure><svg class="setupfig" viewBox="0 0 460 250" width="100%" role="img" aria-label="Two panels of a cartilage layer on bone. Left: a thumb presses for about one second; the layer barely dents and feels firm; fluid has no time to leave; undrained, F near 1. Right: a heavy book rests for an afternoon; the layer slowly sinks and stays dented; fluid escapes sideways; drained, F goes to zero.">
+<!-- divider -->
+<line x1="230" y1="20" x2="230" y2="230" stroke="#e2e2e2" stroke-width="1"/>
+<!-- ===== LEFT: thumb, ~1 s, undrained ===== -->
+<text x="115" y="30" font-size="12" fill="#333" text-anchor="middle" font-weight="bold">thumb &#183; ~1 s</text>
+<!-- bone base -->
+<rect x="30" y="170" width="170" height="34" rx="10" fill="url(#b_bone)" filter="url(#b_sh)"/>
+<text x="115" y="192" font-size="9.5" fill="#6b5a37" text-anchor="middle" class="onfill">bone</text>
+<!-- cartilage layer (nearly flat top) -->
+<path d="M30,170 L30,140 Q115,131 200,140 L200,170 Z" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="1"/>
+<text x="70" y="158" font-size="9" fill="#2a6ca8" text-anchor="middle">cartilage</text>
+<!-- thumb -->
+<ellipse cx="115" cy="112" rx="17" ry="24" fill="url(#b_sph)" filter="url(#b_sh)"/>
+<text x="115" y="100" font-size="9" fill="#7a5b3a" text-anchor="middle" class="onfill">thumb</text>
+<!-- short load arrow -->
+<line x1="115" y1="74" x2="115" y2="94" stroke="#7a1f1f" stroke-width="2.6" marker-end="url(#a_red)"/>
+<text x="205" y="150" font-size="10.5" fill="#7a1f1f" text-anchor="end">firm</text>
+<text x="115" y="224" font-size="10.5" fill="#333" text-anchor="middle">undrained &#183; F &#8776; 1</text>
+<!-- ===== RIGHT: book, an afternoon, drained ===== -->
+<text x="345" y="30" font-size="12" fill="#333" text-anchor="middle" font-weight="bold">book &#183; an afternoon</text>
+<rect x="260" y="170" width="170" height="34" rx="10" fill="url(#b_bone)" filter="url(#b_sh)"/>
+<text x="345" y="192" font-size="9.5" fill="#6b5a37" text-anchor="middle" class="onfill">bone</text>
+<!-- dented cartilage (top dips in the middle) -->
+<path d="M260,170 L260,142 Q290,140 305,150 Q345,163 385,150 Q400,140 430,142 L430,170 Z" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="1"/>
+<!-- book -->
+<rect x="298" y="120" width="94" height="22" rx="2" fill="#c9a36a" stroke="#9c8760" stroke-width="1" filter="url(#b_sh)"/>
+<rect x="298" y="120" width="94" height="6" rx="2" fill="#d9b985"/>
+<text x="345" y="135" font-size="9" fill="#fff" text-anchor="middle" class="onfill">book</text>
+<!-- load arrow (heavier: thicker shaft, same slim head) -->
+<line x1="345" y1="86" x2="345" y2="115" stroke="#7a1f1f" stroke-width="4" marker-end="url(#a_red)"/>
+<!-- fluid escaping sideways -->
+<line x1="300" y1="160" x2="272" y2="160" stroke="#2a6ca8" stroke-width="2" marker-end="url(#a_blu)"/>
+<line x1="390" y1="160" x2="418" y2="160" stroke="#2a6ca8" stroke-width="2" marker-end="url(#a_blu)"/>
+<text x="345" y="162" font-size="8.5" fill="#2a6ca8" text-anchor="middle">fluid out</text>
+<text x="345" y="224" font-size="10.5" fill="#333" text-anchor="middle">drained &#183; F &#8594; 0</text>
+</svg><figcaption><b>One tissue, two stiffnesses.</b> A ~1&nbsp;s thumb-press outruns the drainage: the trapped fluid cannot leave, the mixture barely changes volume, and cartilage feels rigid (undrained, <i>F</i>&#8776;1). Under a book for an afternoon the fluid slowly exudes; only the soft drained matrix is left, so the layer sinks and stays dented (drained, <i>F</i>&#8594;0). The divider is the gel time &#964;.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>Undrained</b> (loading time $\ll\tau$): the fluid has no time to leave, and an incompressible mixture with trapped fluid barely changes volume — it resists almost rigidly. The thumb-press ($\sim1\ \mathrm s$) is undrained, so the tissue feels firm.</p><p><b>Drained</b> (loading time $\gg\tau$): held long enough, the fluid slowly exudes; once it is gone, only the soft drained matrix (aggregate modulus $H_A\sim0.6\ \mathrm{MPa}$) resists, so the tissue creeps down and stays dented. The afternoon under a book is drained. (It recovers when unloaded because the osmotic swelling pressure of <a class="secref" href="#donnan">§2</a> re-imbibes the fluid.)</p><p>The separating timescale is the <b>gel time</b> $\tau\sim h^2/(H_Ak)\sim10^3$–$10^4\ \mathrm s$ (minutes to hours). Firm below it, soft above it — one material, two stiffnesses, set by whether you outrun the drainage.</p></div></details></div>
+
+<div class="qbox"><b>C2 &mdash; why cartilage swells at rest.</b> <span class="small"><em>Probes: fixed charge, Donnan osmosis, and the resting swelling pre-stress (<a class="secref" href="#donnan">§2</a>).</em></span>
+<p>A freshly excised plug of cartilage, floated in saline, visibly swells; cut a slit in it and the slit gapes open. What in the tissue's composition drives this, and why does it matter mechanically <em>before</em> any external load is applied?</p>
+<figure><svg class="setupfig" viewBox="0 0 0 0 440 240" width="100%" role="img" aria-label="Cartilage matrix carrying fixed negative charges on proteoglycans draws in water and mobile sodium ions osmotically; the resulting swelling pressure is held in check by the collagen network tension.">
+<rect x="46" y="54" width="250" height="150" rx="14" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="1.3"/>
+<use href="#b_brush" transform="translate(96,150) scale(1.1)"/>
+<use href="#b_brush" transform="translate(160,150) scale(1.1)"/>
+<use href="#b_brush" transform="translate(224,150) scale(1.1)"/>
+<g font-size="9" fill="#c0392b" text-anchor="middle"><text x="120" y="120" class="onfill">Na⁺</text><text x="190" y="126" class="onfill">Na⁺</text><text x="250" y="118" class="onfill">Na⁺</text></g>
+<text x="171" y="72" font-size="10.5" fill="#2a6ca8" text-anchor="middle">cartilage matrix</text>
+<text x="171" y="196" font-size="8.5" fill="#7d3c98" text-anchor="middle">fixed − charges on proteoglycans</text>
+<!-- water drawn in -->
+<line x1="18" y1="100" x2="44" y2="100" stroke="#2a6ca8" stroke-width="2.2" marker-end="url(#a_blu)"/>
+<line x1="18" y1="150" x2="44" y2="150" stroke="#2a6ca8" stroke-width="2.2" marker-end="url(#a_blu)"/>
+<text x="12" y="128" font-size="9" fill="#2a6ca8" text-anchor="middle">water</text>
+<!-- swelling pressure out, collagen holds it -->
+<line x1="171" y1="52" x2="171" y2="26" stroke="#7a1f1f" stroke-width="2.8" marker-end="url(#a_red)"/>
+<path d="M60,50 Q171,34 282,50" fill="none" stroke="#5b7a29" stroke-width="2" stroke-dasharray="5 3"/>
+<text x="171" y="20" font-size="10" fill="#7a1f1f" text-anchor="middle">swelling π</text>
+<text x="330" y="120" font-size="9.5" fill="#333" text-anchor="start">fixed − charge</text>
+<text x="330" y="134" font-size="9.5" fill="#333" text-anchor="start">→ osmotic uptake</text>
+<text x="330" y="148" font-size="9.5" fill="#333" text-anchor="start">→ pre-stress π</text>
+<text x="330" y="162" font-size="9.5" fill="#333" text-anchor="start">held by collagen</text>
+<text x="352" y="46" font-size="8.5" fill="#5b7a29" text-anchor="middle">collagen net</text>
+</svg><figcaption><b>Charge makes pre-stress.</b> Fixed negative charges on the proteoglycans draw in mobile counter-ions and, osmotically, water; the matrix swells until the collagen network's tension balances the Donnan swelling pressure &#960;. Unloaded, the tissue already sits pre-stressed.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>Proteoglycans carry a dense <b>fixed negative charge</b> $c_F$. To keep electroneutrality, mobile counter-ions (mainly $\mathrm{Na^+}$) are held inside at higher concentration than the surrounding bath; that excess ion concentration raises the interstitial osmotic pressure — the <b>Donnan swelling pressure</b> $\pi$ (<a class="secref" href="#donnan">§2</a>). Water follows osmotically and the solid matrix swells until the collagen network's tension balances $\pi$.</p><p>So even with no external load the tissue is <b>pre-stressed</b>: collagen in tension, gel in compression at $\pi\approx0.16\ \mathrm{MPa}$. Mechanically this pre-stress stiffens the surface, resists the very first increment of load, and re-imbibes fluid after unloading (the recovery in C1 and C10). Lose the charge — as in degeneration — and the pre-stress, the surface stiffness, and the recovery all fall together (<a class="secref" href="#degeneration">§8</a>).</p></div></details></div>
+
+<div class="qbox"><b>C3 &mdash; who carries the first instant of load.</b> <span class="small"><em>Probes: incompressibility of the saturated mixture; why $\sigma_E=0$ at $t=0$ (<a class="secref" href="#fluidload">§4</a>).</em></span>
+<p>The moment you step — before any fluid has moved — what fraction of the load does the interstitial fluid carry, and why must it be exactly that fraction, <em>independent</em> of how stiff the solid matrix is?</p>
+<figure><svg class="setupfig" viewBox="0 0 0 0 440 240" width="100%" role="img" aria-label="A sealed water-filled chamber under a piston: because the saturated mixture cannot change volume the instant it is loaded, the load is carried entirely by a jump in fluid pressure, not by the solid skeleton.">
+<text x="110" y="26" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">t = 0 (undrained)</text>
+<text x="330" y="26" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">t ≫ τ (drained)</text>
+<!-- left: sealed, pressure jumps -->
+<rect x="66" y="70" width="88" height="120" fill="#dcf1f8" stroke="#7fb8cf" stroke-width="1.2"/>
+<rect x="60" y="58" width="100" height="14" rx="2" fill="#c9a36a" stroke="#9c8760"/>
+<line x1="110" y1="34" x2="110" y2="56" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
+<text x="110" y="132" font-size="10" fill="#2a6ca8" text-anchor="middle" class="onfill">p ↑ (all load)</text>
+<text x="110" y="150" font-size="9" fill="#2a6ca8" text-anchor="middle" class="onfill">no outflow</text>
+<text x="110" y="206" font-size="10" fill="#333" text-anchor="middle">F = 1</text>
+<!-- right: drained, fluid gone, solid bears -->
+<rect x="286" y="86" width="88" height="104" fill="#e9e0cd" stroke="#b8a67e" stroke-width="1.2"/>
+<rect x="280" y="74" width="100" height="14" rx="2" fill="#c9a36a" stroke="#9c8760"/>
+<line x1="330" y1="50" x2="330" y2="72" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
+<line x1="286" y1="150" x2="262" y2="150" stroke="#2a6ca8" stroke-width="2" marker-end="url(#a_blu)"/>
+<line x1="374" y1="150" x2="398" y2="150" stroke="#2a6ca8" stroke-width="2" marker-end="url(#a_blu)"/>
+<text x="330" y="130" font-size="9" fill="#7a5b3a" text-anchor="middle" class="onfill">solid bears</text>
+<text x="330" y="206" font-size="10" fill="#333" text-anchor="middle">F → 0</text>
+</svg><figcaption><b>Fluid carries all of it at $t=0$.</b> With no fluid yet displaced, the saturated mixture cannot change volume, so the strain — and the solid effective stress $\sigma_E=H_A\varepsilon$ — is zero whatever $H_A$ is. The load is balanced by a jump in pore pressure.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>All of it: $F(0)=1$. The tissue is fully saturated and both phases are nearly incompressible, so the only way to change volume is to expel fluid — which takes time. In the first instant no fluid has left, so the volumetric strain is zero, so the solid strain is zero, so the effective stress $\sigma_E=H_A\varepsilon=0$ — the solid carries nothing, <em>regardless of</em> $H_A$.</p><p>The applied traction is balanced entirely by a jump in interstitial pressure $p$. This is why cartilage feels rigid on impact even though its drained modulus is soft (C1): stiffness on the timescale of a footstep is set by fluid incompressibility, not by the matrix.</p></div></details></div>
+
+<div class="qbox"><b>C4 &mdash; slippery standing still.</b> <span class="small"><em>Probes: that biphasic lubrication needs no sliding speed, unlike a fluid-film bearing (<a class="secref" href="#lubrication">§7</a>).</em></span>
+<p>A journal bearing is only slippery once it spins fast enough to float on an oil film; at rest it is metal-on-metal and stiff to start. Cartilage is slippery even when you have been standing still. Explain the difference.</p>
+<figure><svg class="setupfig" viewBox="0 0 0 0 450 240" width="100%" role="img" aria-label="A fluid-film bearing needs sliding speed to build a load-bearing film, so it is high-friction at rest; cartilage is already pressurised by trapped interstitial fluid, so it is low-friction even at zero speed.">
+<text x="112" y="24" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">fluid-film bearing</text>
+<text x="338" y="24" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">cartilage (biphasic)</text>
+<!-- bearing: at v=0 metal-metal -->
+<rect x="44" y="120" width="140" height="20" fill="#b9b2a3" stroke="#8a8474"/>
+<rect x="70" y="92" width="88" height="26" rx="3" fill="#cfc7b6" stroke="#8a8474"/>
+<line x1="114" y1="60" x2="114" y2="88" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
+<text x="114" y="112" font-size="9" fill="#5a5142" text-anchor="middle" class="onfill">contact</text>
+<text x="114" y="164" font-size="9.5" fill="#b03a2e" text-anchor="middle">v = 0 → high μ</text>
+<text x="114" y="180" font-size="8.5" fill="#555" text-anchor="middle">(no film without speed)</text>
+<!-- cartilage: pressurised at rest -->
+<rect x="270" y="120" width="140" height="20" rx="7" fill="url(#b_bone)"/>
+<rect x="270" y="104" width="140" height="16" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="0.8"/>
+<rect x="296" y="76" width="88" height="26" rx="3" fill="#cfc7b6" stroke="#8a8474"/>
+<line x1="340" y1="44" x2="340" y2="72" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
+<g font-size="10" fill="#2a6ca8" text-anchor="middle"><text x="312" y="116" class="onfill">↑</text><text x="330" y="116" class="onfill">↑</text><text x="348" y="116" class="onfill">↑</text><text x="366" y="116" class="onfill">↑</text></g>
+<text x="340" y="164" font-size="9.5" fill="#2a6ca8" text-anchor="middle">v = 0 → low μ</text>
+<text x="340" y="180" font-size="8.5" fill="#555" text-anchor="middle">(fluid already pressurised, F≈1)</text>
+</svg><figcaption><b>Pre-charged, not speed-charged.</b> A hydrodynamic bearing must entrain oil into a wedge to build its film, so at $v=0$ there is none. Cartilage's load-bearing pressure is the interstitial pressurisation, present whenever the tissue is freshly loaded — so $\mu_{\mathrm{eff}}=\mu_{\mathrm{eq}}(1-F)\approx0$ at rest.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>In a hydrodynamic bearing the load-bearing film is <em>generated by motion</em>: oil entrained into a converging wedge builds the pressure, so at $v=0$ there is no film and friction is high. Cartilage does not rely on entrainment. Its load-bearing pressure is the interstitial fluid pressurisation, which exists whenever the tissue is freshly loaded ($F\approx1$), speed or no speed.</p><p>Friction acts only on the solid-borne fraction: $\mu_{\mathrm{eff}}=\mu_{\mathrm{eq}}(1-F)$ (<a class="secref" href="#lubrication">§7</a>). With $F\approx1$ at rest, $\mu_{\mathrm{eff}}\approx0$. Only if you stand long enough for the fluid to drain ($F\to0$, minutes–hours, C1) does $\mu$ climb toward the intrinsic $\mu_{\mathrm{eq}}$. Cartilage is a <em>pre-charged</em> pressurised bearing, not a speed-dependent one.</p></div></details></div>
+
+<div class="qbox"><b>C5 &mdash; why the dry calculation is too harsh.</b> <span class="small"><em>Probes: why a thin bonded layer and broad fluid pressurisation flatten the peak below the dry-Hertz cap (<a class="secref" href="#contact">§6</a>).</em></span>
+<p>A dry-elastic (Hertz) contact calculation for the hip gives a peak pressure $p_0\approx2.5\ \mathrm{MPa}$. The real cartilage peak is lower and broader. Give two <em>independent</em> reasons the dry calculation overestimates the true peak.</p>
+<figure><svg class="setupfig" viewBox="0 0 450 290" width="100%" role="img" aria-label="Two contact-pressure profiles carrying the same hip load: the peaked dry-Hertz profile at 2.5 megapascal and the broader flattened biphasic profile at about 2 megapascal.">
+<line x1="60" y1="40" x2="60" y2="225" stroke="#333" stroke-width="1.4"/>
+<line x1="60" y1="225" x2="415" y2="225" stroke="#333" stroke-width="1.4"/>
+<polyline points="110.0,225.0 111.3,202.8 112.6,193.7 113.9,186.8 115.2,181.0 116.4,176.0 117.7,171.4 119.0,167.3 120.3,163.4 121.6,159.9 122.9,156.5 124.1,153.4 125.4,150.4 126.7,147.6 128.0,144.9 129.3,142.3 130.5,139.8 131.8,137.4 133.1,135.1 134.4,132.9 135.7,130.8 136.9,128.7 138.2,126.7 139.5,124.8 140.8,122.9 142.1,121.1 143.3,119.4 144.6,117.7 145.9,116.0 147.2,114.4 148.5,112.9 149.8,111.4 151.0,109.9 152.3,108.4 153.6,107.0 154.9,105.7 156.2,104.4 157.4,103.1 158.7,101.8 160.0,100.6 161.3,99.4 162.6,98.3 163.8,97.1 165.1,96.0 166.4,94.9 167.7,93.9 169.0,92.9 170.2,91.9 171.5,90.9 172.8,90.0 174.1,89.1 175.4,88.2 176.7,87.3 177.9,86.5 179.2,85.7 180.5,84.9 181.8,84.1 183.1,83.3 184.3,82.6 185.6,81.9 186.9,81.2 188.2,80.5 189.5,79.9 190.7,79.2 192.0,78.6 193.3,78.0 194.6,77.5 195.9,76.9 197.1,76.4 198.4,75.9 199.7,75.4 201.0,74.9 202.3,74.4 203.6,74.0 204.8,73.5 206.1,73.1 207.4,72.7 208.7,72.4 210.0,72.0 211.2,71.7 212.5,71.3 213.8,71.0 215.1,70.8 216.4,70.5 217.6,70.2 218.9,70.0 220.2,69.8 221.5,69.6 222.8,69.4 224.0,69.2 225.3,69.0 226.6,68.9 227.9,68.8 229.2,68.6 230.5,68.5 231.7,68.5 233.0,68.4 234.3,68.4 235.6,68.3 236.9,68.3 238.1,68.3 239.4,68.3 240.7,68.4 242.0,68.4 243.3,68.5 244.5,68.5 245.8,68.6 247.1,68.8 248.4,68.9 249.7,69.0 251.0,69.2 252.2,69.4 253.5,69.6 254.8,69.8 256.1,70.0 257.4,70.2 258.6,70.5 259.9,70.8 261.2,71.0 262.5,71.3 263.8,71.7 265.0,72.0 266.3,72.4 267.6,72.7 268.9,73.1 270.2,73.5 271.4,74.0 272.7,74.4 274.0,74.9 275.3,75.4 276.6,75.9 277.9,76.4 279.1,76.9 280.4,77.5 281.7,78.0 283.0,78.6 284.3,79.2 285.5,79.9 286.8,80.5 288.1,81.2 289.4,81.9 290.7,82.6 291.9,83.3 293.2,84.1 294.5,84.9 295.8,85.7 297.1,86.5 298.3,87.3 299.6,88.2 300.9,89.1 302.2,90.0 303.5,90.9 304.8,91.9 306.0,92.9 307.3,93.9 308.6,94.9 309.9,96.0 311.2,97.1 312.4,98.3 313.7,99.4 315.0,100.6 316.3,101.8 317.6,103.1 318.8,104.4 320.1,105.7 321.4,107.0 322.7,108.4 324.0,109.9 325.2,111.4 326.5,112.9 327.8,114.4 329.1,116.0 330.4,117.7 331.7,119.4 332.9,121.1 334.2,122.9 335.5,124.8 336.8,126.7 338.1,128.7 339.3,130.8 340.6,132.9 341.9,135.1 343.2,137.4 344.5,139.8 345.7,142.3 347.0,144.9 348.3,147.6 349.6,150.4 350.9,153.4 352.1,156.5 353.4,159.9 354.7,163.4 356.0,167.3 357.3,171.4 358.6,176.0 359.8,181.0 361.1,186.8 362.4,193.7 363.7,202.8 365.0,225.0" fill="none" stroke="#b03a2e" stroke-width="2.6"/>
+<polyline points="87.1,225.0 88.6,222.5 90.1,220.1 91.6,217.7 93.1,215.3 94.7,212.9 96.2,210.6 97.7,208.3 99.2,206.0 100.7,203.7 102.2,201.5 103.7,199.2 105.2,197.0 106.8,194.9 108.3,192.7 109.8,190.6 111.3,188.5 112.8,186.5 114.3,184.4 115.8,182.4 117.3,180.4 118.8,178.4 120.4,176.5 121.9,174.6 123.4,172.7 124.9,170.8 126.4,169.0 127.9,167.1 129.4,165.4 130.9,163.6 132.4,161.8 134.0,160.1 135.5,158.4 137.0,156.8 138.5,155.1 140.0,153.5 141.5,151.9 143.0,150.3 144.5,148.8 146.1,147.3 147.6,145.8 149.1,144.3 150.6,142.9 152.1,141.4 153.6,140.0 155.1,138.7 156.6,137.3 158.1,136.0 159.7,134.7 161.2,133.4 162.7,132.2 164.2,131.0 165.7,129.8 167.2,128.6 168.7,127.5 170.2,126.3 171.7,125.2 173.3,124.2 174.8,123.1 176.3,122.1 177.8,121.1 179.3,120.1 180.8,119.2 182.3,118.3 183.8,117.4 185.4,116.5 186.9,115.6 188.4,114.8 189.9,114.0 191.4,113.3 192.9,112.5 194.4,111.8 195.9,111.1 197.4,110.4 199.0,109.8 200.5,109.1 202.0,108.5 203.5,108.0 205.0,107.4 206.5,106.9 208.0,106.4 209.5,105.9 211.0,105.5 212.6,105.1 214.1,104.7 215.6,104.3 217.1,103.9 218.6,103.6 220.1,103.3 221.6,103.0 223.1,102.8 224.7,102.6 226.2,102.4 227.7,102.2 229.2,102.0 230.7,101.9 232.2,101.8 233.7,101.7 235.2,101.7 236.7,101.7 238.3,101.7 239.8,101.7 241.3,101.7 242.8,101.8 244.3,101.9 245.8,102.0 247.3,102.2 248.8,102.4 250.3,102.6 251.9,102.8 253.4,103.0 254.9,103.3 256.4,103.6 257.9,103.9 259.4,104.3 260.9,104.7 262.4,105.1 264.0,105.5 265.5,105.9 267.0,106.4 268.5,106.9 270.0,107.4 271.5,108.0 273.0,108.5 274.5,109.1 276.0,109.8 277.6,110.4 279.1,111.1 280.6,111.8 282.1,112.5 283.6,113.3 285.1,114.0 286.6,114.8 288.1,115.6 289.6,116.5 291.2,117.4 292.7,118.3 294.2,119.2 295.7,120.1 297.2,121.1 298.7,122.1 300.2,123.1 301.7,124.2 303.3,125.2 304.8,126.3 306.3,127.5 307.8,128.6 309.3,129.8 310.8,131.0 312.3,132.2 313.8,133.4 315.3,134.7 316.9,136.0 318.4,137.3 319.9,138.7 321.4,140.0 322.9,141.4 324.4,142.9 325.9,144.3 327.4,145.8 328.9,147.3 330.5,148.8 332.0,150.3 333.5,151.9 335.0,153.5 336.5,155.1 338.0,156.8 339.5,158.4 341.0,160.1 342.6,161.8 344.1,163.6 345.6,165.4 347.1,167.1 348.6,169.0 350.1,170.8 351.6,172.7 353.1,174.6 354.6,176.5 356.2,178.4 357.7,180.4 359.2,182.4 360.7,184.4 362.2,186.5 363.7,188.5 365.2,190.6 366.7,192.7 368.2,194.9 369.8,197.0 371.3,199.2 372.8,201.5 374.3,203.7 375.8,206.0 377.3,208.3 378.8,210.6 380.3,212.9 381.9,215.3 383.4,217.7 384.9,220.1 386.4,222.5 387.9,225.0" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<text x="95.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">-20</text>
+<text x="166.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">-10</text>
+<text x="237.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
+<text x="308.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">10</text>
+<text x="379.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">20</text>
+<text x="55.0" y="228.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
+<text x="55.0" y="166.3" font-size="8.5" fill="#333" text-anchor="end">1</text>
+<text x="55.0" y="104.7" font-size="8.5" fill="#333" text-anchor="end">2</text>
+<text x="55.0" y="43.0" font-size="8.5" fill="#333" text-anchor="end">3</text>
+<text x="237.0" y="258.0" font-size="10" fill="#333" text-anchor="middle">radius  r  (mm)</text>
+<text x="24.0" y="132.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 24.0 132.0)">pressure (MPa)</text>
+<text x="237.5" y="62.3" font-size="9.5" fill="#b03a2e" text-anchor="middle">dry Hertz  p₀=2.5 MPa</text>
+<text x="400.8" y="80.1" font-size="9.5" fill="#2a6ca8" text-anchor="end">biphasic (flattened)</text>
+<text x="131.0" y="64.7" font-size="8.5" fill="#555" text-anchor="middle">same load ∫p·2πr dr</text>
+</svg><figcaption><b>Same load, two profiles.</b> The peaked dry-Hertz dome ($p_0\approx2.5\ \mathrm{MPa}$) and the broader biphasic profile ($\approx2.0\ \mathrm{MPa}$) carry the identical hip load $\int p\,\mathrm dA=R$; the thin bonded layer and the plateau-like fluid pressurisation spread it wider and lower the peak.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>(1) Geometry — a thin bonded layer.</b> Hertz assumes two elastic half-spaces free to bulge. Cartilage is a thin layer ($a\gg h$) firmly bonded to stiff subchondral bone, which cannot bulge sideways as a half-space would; the confinement spreads the contact wider and lowers the peak.</p><p><b>(2) Biphasic pressurisation.</b> On the loading timescale the load is carried by interstitial pressure, which is a broad, plateau-like field, not a sharp Hertzian dome.</p><p>Both effects redistribute the <em>same</em> total load ($\int p\,2\pi r\,\mathrm dr=R$) over a larger area, so the peak drops (here $\approx2.5\to\approx2.0\ \mathrm{MPa}$) while the mean is essentially unchanged. The figure overlays the two profiles carrying the identical load.</p></div></details></div>
+
+<div class="qbox"><b>C6 &mdash; one tissue, two moduli.</b> <span class="small"><em>Probes: the composite origin of cartilage's very different tensile and compressive stiffness (<a class="secref" href="#composite">§1</a>).</em></span>
+<p>Cartilage is roughly $20\times$ stiffer in tension than in compression. What microstructural feature accounts for each, and why does the asymmetry make sense for a bearing surface?</p>
+<figure><svg class="setupfig" viewBox="0 0 0 0 440 230" width="100%" role="img" aria-label="Cartilage is a composite: stiff collagen fibres resist tension while the swollen proteoglycan gel resists compression, so the tissue is far stiffer in tension than in compression.">
+<rect x="50" y="60" width="150" height="110" rx="8" fill="#eef7ea" stroke="#bcd8b0"/>
+<g stroke="#2a7d2a" stroke-width="2.4"><line x1="62" y1="82" x2="188" y2="82"/><line x1="62" y1="104" x2="188" y2="104"/><line x1="62" y1="126" x2="188" y2="126"/><line x1="62" y1="148" x2="188" y2="148"/></g>
+<line x1="44" y1="115" x2="20" y2="115" stroke="#7a1f1f" stroke-width="2.6" marker-end="url(#a_red)"/>
+<line x1="206" y1="115" x2="230" y2="115" stroke="#7a1f1f" stroke-width="2.6" marker-end="url(#a_red)"/>
+<text x="125" y="52" font-size="10" fill="#2a7d2a" text-anchor="middle">collagen fibres — tension</text>
+<text x="125" y="188" font-size="9.5" fill="#333" text-anchor="middle">stiff: E_tens ≈ 12 MPa</text>
+<!-- compression side -->
+<rect x="260" y="60" width="130" height="110" rx="8" fill="url(#b_cart)" stroke="#8fc7dc"/>
+<use href="#b_brush" transform="translate(300,120) scale(0.9)"/>
+<use href="#b_brush" transform="translate(350,120) scale(0.9)"/>
+<line x1="325" y1="34" x2="325" y2="58" stroke="#7a1f1f" stroke-width="3.4" marker-end="url(#a_red)"/>
+<text x="325" y="52" font-size="10" fill="#2a6ca8" text-anchor="middle" class="onfill">compression</text>
+<text x="325" y="188" font-size="9.5" fill="#333" text-anchor="middle">soft: H_A ≈ 0.6 MPa</text>
+<text x="220" y="214" font-size="9.5" fill="#7a1f1f" text-anchor="middle">tension stiffness ≫ compression stiffness (≈ 20×)</text>
+</svg><figcaption><b>Fibres pull, gel squishes.</b> Tension is carried by the stiff collagen network ($E_{\mathrm{tens}}\sim12\ \mathrm{MPa}$); compression by the soft proteoglycan gel and its swelling ($H_A\sim0.6\ \mathrm{MPa}$). Soft to squeeze, stiff to stretch.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>Tension</b> is resisted by the <b>collagen fibril network</b> — stiff, high-tensile-modulus fibres ($E_{\mathrm{tens}}\sim10$–$15\ \mathrm{MPa}$) that carry pull like the cords in a tyre. <b>Compression</b> is resisted by the <b>proteoglycan gel</b> and its Donnan swelling — a soft, drained aggregate modulus $H_A\sim0.6\ \mathrm{MPa}$. Fibres buckle under compression but pull taut under tension, so the tissue is soft to squeeze but stiff to stretch.</p><p>For a bearing this is ideal: the soft compressive response lets the surfaces <em>conform</em> and spread contact (lowering peak pressure, C5), while the stiff tensile skin resists the hoop and tensile stresses that a conforming, pressurised layer generates — holding the tissue together under the very loads its softness invites.</p></div></details></div>
+
+<div class="qbox"><b>C7 &mdash; relaxation versus creep.</b> <span class="small"><em>Probes: that stress-relaxation (fixed strain) and creep (fixed load) are the same biphasic physics under two boundary conditions (<a class="secref" href="#relaxlab">§5</a>).</em></span>
+<p>Compress a plug to a fixed depth and hold: the force you must apply slowly falls. Instead hang a fixed weight on it: the plug slowly sinks. Are these two different material behaviours? Explain both with one mechanism.</p>
+<figure><svg class="setupfig" viewBox="0 0 460 250" width="100%" role="img" aria-label="Left: under fixed strain the stress relaxes from an undrained peak. Right: under fixed load the strain creeps up to its drained value. Same tissue, two experiments.">
+<line x1="58" y1="40" x2="58" y2="200" stroke="#333" stroke-width="1.4"/>
+<line x1="58" y1="200" x2="225" y2="200" stroke="#333" stroke-width="1.4"/>
+<polyline points="58.0,68.5 59.2,76.1 60.3,79.9 61.4,82.8 62.5,85.2 63.6,87.4 64.8,89.4 65.9,91.2 67.0,92.8 68.1,94.4 69.2,95.8 70.4,97.1 71.5,98.4 72.6,99.6 73.7,100.7 74.8,101.7 76.0,102.7 77.1,103.6 78.2,104.4 79.3,105.2 80.5,105.9 81.6,106.6 82.7,107.2 83.8,107.9 84.9,108.4 86.1,108.9 87.2,109.4 88.3,109.9 89.4,110.3 90.5,110.7 91.7,111.1 92.8,111.5 93.9,111.8 95.0,112.1 96.1,112.4 97.3,112.7 98.4,112.9 99.5,113.2 100.6,113.4 101.7,113.6 102.9,113.8 104.0,114.0 105.1,114.2 106.2,114.3 107.3,114.5 108.5,114.6 109.6,114.7 110.7,114.9 111.8,115.0 112.9,115.1 114.1,115.2 115.2,115.3 116.3,115.4 117.4,115.5 118.6,115.5 119.7,115.6 120.8,115.7 121.9,115.7 123.0,115.8 124.2,115.9 125.3,115.9 126.4,116.0 127.5,116.0 128.6,116.0 129.8,116.1 130.9,116.1 132.0,116.2 133.1,116.2 134.2,116.2 135.4,116.2 136.5,116.3 137.6,116.3 138.7,116.3 139.8,116.3 141.0,116.4 142.1,116.4 143.2,116.4 144.3,116.4 145.4,116.4 146.6,116.5 147.7,116.5 148.8,116.5 149.9,116.5 151.0,116.5 152.2,116.5 153.3,116.5 154.4,116.5 155.5,116.5 156.6,116.5 157.8,116.6 158.9,116.6 160.0,116.6 161.1,116.6 162.3,116.6 163.4,116.6 164.5,116.6 165.6,116.6 166.7,116.6 167.9,116.6 169.0,116.6 170.1,116.6 171.2,116.6 172.3,116.6 173.5,116.6 174.6,116.6 175.7,116.6 176.8,116.6 177.9,116.6 179.1,116.6 180.2,116.6 181.3,116.6 182.4,116.6 183.5,116.6 184.7,116.6 185.8,116.6 186.9,116.6 188.0,116.6 189.1,116.6 190.3,116.7 191.4,116.7 192.5,116.7 193.6,116.7 194.7,116.7 195.9,116.7 197.0,116.7 198.1,116.7 199.2,116.7 200.3,116.7 201.5,116.7 202.6,116.7 203.7,116.7 204.8,116.7 206.0,116.7 207.1,116.7 208.2,116.7 209.3,116.7 210.4,116.7 211.6,116.7 212.7,116.7 213.8,116.7 214.9,116.7 216.0,116.7 217.2,116.7 218.3,116.7 219.4,116.7 220.5,116.7 221.6,116.7 222.8,116.7 223.9,116.7 225.0,116.7" fill="none" stroke="#b03a2e" stroke-width="2.6"/>
+<text x="58.0" y="214.0" font-size="8" fill="#333" text-anchor="middle">0</text>
+<text x="141.5" y="214.0" font-size="8" fill="#333" text-anchor="middle">2</text>
+<text x="225.0" y="214.0" font-size="8" fill="#333" text-anchor="middle">4</text>
+<text x="141.0" y="232.0" font-size="9" fill="#333" text-anchor="middle">t/τ</text>
+<text x="28.0" y="120.0" font-size="9" fill="#b03a2e" text-anchor="middle" transform="rotate(-90 28.0 120.0)">stress</text>
+<text x="141.5" y="53.3" font-size="9.5" fill="#b03a2e" text-anchor="middle">relaxation</text>
+<text x="141.5" y="80.0" font-size="8.5" fill="#555" text-anchor="middle">(fixed strain)</text>
+<line x1="258" y1="40" x2="258" y2="200" stroke="#333" stroke-width="1.4"/>
+<line x1="258" y1="200" x2="425" y2="200" stroke="#333" stroke-width="1.4"/>
+<polyline points="258.0,143.8 259.2,131.6 260.3,125.6 261.4,120.9 262.5,117.0 263.6,113.5 264.8,110.3 265.9,107.5 267.0,104.8 268.1,102.3 269.2,100.0 270.4,97.9 271.5,95.9 272.6,94.0 273.7,92.3 274.8,90.6 276.0,89.1 277.1,87.7 278.2,86.3 279.3,85.0 280.5,83.9 281.6,82.8 282.7,81.7 283.8,80.8 284.9,79.9 286.1,79.0 287.2,78.2 288.3,77.5 289.4,76.8 290.5,76.1 291.7,75.5 292.8,75.0 293.9,74.4 295.0,73.9 296.1,73.5 297.3,73.0 298.4,72.6 299.5,72.2 300.6,71.9 301.7,71.6 302.9,71.2 304.0,70.9 305.1,70.7 306.2,70.4 307.3,70.2 308.5,70.0 309.6,69.7 310.7,69.5 311.8,69.4 312.9,69.2 314.1,69.0 315.2,68.9 316.3,68.7 317.4,68.6 318.6,68.5 319.7,68.4 320.8,68.3 321.9,68.2 323.0,68.1 324.2,68.0 325.3,67.9 326.4,67.8 327.5,67.7 328.6,67.7 329.8,67.6 330.9,67.5 332.0,67.5 333.1,67.4 334.2,67.4 335.4,67.3 336.5,67.3 337.6,67.3 338.7,67.2 339.8,67.2 341.0,67.1 342.1,67.1 343.2,67.1 344.3,67.1 345.4,67.0 346.6,67.0 347.7,67.0 348.8,67.0 349.9,67.0 351.0,66.9 352.2,66.9 353.3,66.9 354.4,66.9 355.5,66.9 356.6,66.9 357.8,66.8 358.9,66.8 360.0,66.8 361.1,66.8 362.3,66.8 363.4,66.8 364.5,66.8 365.6,66.8 366.7,66.8 367.9,66.8 369.0,66.8 370.1,66.8 371.2,66.7 372.3,66.7 373.5,66.7 374.6,66.7 375.7,66.7 376.8,66.7 377.9,66.7 379.1,66.7 380.2,66.7 381.3,66.7 382.4,66.7 383.5,66.7 384.7,66.7 385.8,66.7 386.9,66.7 388.0,66.7 389.1,66.7 390.3,66.7 391.4,66.7 392.5,66.7 393.6,66.7 394.7,66.7 395.9,66.7 397.0,66.7 398.1,66.7 399.2,66.7 400.3,66.7 401.5,66.7 402.6,66.7 403.7,66.7 404.8,66.7 406.0,66.7 407.1,66.7 408.2,66.7 409.3,66.7 410.4,66.7 411.6,66.7 412.7,66.7 413.8,66.7 414.9,66.7 416.0,66.7 417.2,66.7 418.3,66.7 419.4,66.7 420.5,66.7 421.6,66.7 422.8,66.7 423.9,66.7 425.0,66.7" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<text x="258.0" y="214.0" font-size="8" fill="#333" text-anchor="middle">0</text>
+<text x="341.5" y="214.0" font-size="8" fill="#333" text-anchor="middle">2</text>
+<text x="425.0" y="214.0" font-size="8" fill="#333" text-anchor="middle">4</text>
+<text x="341.5" y="232.0" font-size="9" fill="#333" text-anchor="middle">t/τ</text>
+<text x="242.0" y="120.0" font-size="9" fill="#2a6ca8" text-anchor="middle">strain</text>
+<text x="341.5" y="53.3" font-size="9.5" fill="#2a6ca8" text-anchor="middle">creep</text>
+<text x="341.5" y="77.3" font-size="8.5" fill="#555" text-anchor="middle">(fixed load)</text>
+</svg><figcaption><b>One mechanism, two controls.</b> Under fixed strain the stress relaxes from an undrained peak to $\sigma_\infty=H_A\varepsilon$; under fixed load the strain creeps up to $\varepsilon_\infty=\sigma/H_A$. Same drainage over the same $\tau$ — relaxation is the stress transient, creep the strain transient.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>One mechanism, two controls. In both, the load is first carried by pressurised fluid ($F\approx1$) which then drains over $\tau$.</p><p><b>Fixed strain (relaxation):</b> the initial undrained stress is high because the incompressible mixture resists; as fluid leaves, the pressure decays and the stress relaxes toward the drained value $\sigma_\infty=H_A\varepsilon$.</p><p><b>Fixed load (creep):</b> the initial undrained strain is small (stiff); as fluid leaves, the plug deforms further until the drained matrix alone carries the load at $\varepsilon_\infty=\sigma/H_A$.</p><p>Same drainage, same $\tau$. Relaxation is the stress transient at fixed strain; creep is the strain transient at fixed stress. The figure shows the falling-stress and rising-strain curves side by side.</p></div></details></div>
+
+<div class="qbox"><b>C8 &mdash; the vicious cycle.</b> <span class="small"><em>Probes: osteoarthritis as a positive-feedback loss of fluid support, not a single failure (<a class="secref" href="#degeneration">§8</a>).</em></span>
+<p>Osteoarthritis is often called "wear and tear," as if the cartilage simply abrades away. Reframe it as a feedback loop, and identify what makes the loop self-amplifying.</p>
+<figure><svg class="setupfig" viewBox="0 0 0 0 460 250" width="100%" role="img" aria-label="The osteoarthritis cascade as a vicious cycle: rising permeability lowers fluid load support, which raises solid stress and friction, which abrades and softens the surface, which raises permeability again.">
+<g font-size="9.5" fill="#333" text-anchor="middle">
+<rect x="176" y="18" width="108" height="38" rx="6" fill="#fbeceb" stroke="#d9a7a3"/><text x="230" y="34">↑ permeability k</text><text x="230" y="48">(matrix damage)</text>
+<rect x="330" y="100" width="112" height="38" rx="6" fill="#fdf3e6" stroke="#e0c08a"/><text x="386" y="116">↓ fluid support</text><text x="386" y="130">F → solid bears</text>
+<rect x="176" y="196" width="108" height="38" rx="6" fill="#fbeceb" stroke="#d9a7a3"/><text x="230" y="212">surface wear,</text><text x="230" y="226">fibrillation</text>
+<rect x="18" y="100" width="112" height="38" rx="6" fill="#fdf3e6" stroke="#e0c08a"/><text x="74" y="116">↑ stress &amp; friction</text><text x="74" y="130">μ = μ_eq(1−F)</text>
+</g>
+<g fill="none" stroke="#b03a2e" stroke-width="2" marker-end="url(#a_mus)">
+<path d="M286,44 Q340,58 366,98"/>
+<path d="M368,140 Q320,186 286,200"/>
+<path d="M174,204 Q118,180 96,140"/>
+<path d="M92,98 Q140,52 174,42"/>
+</g>
+<text x="230" y="128" font-size="11" fill="#b03a2e" text-anchor="middle" font-weight="bold">vicious cycle</text>
+</svg><figcaption><b>Loss of support closes a loop.</b> Matrix damage raises permeability&nbsp;$k$ &#8594; fluid drains faster and $F$ sags &#8594; solid stress and friction $\mu_{\mathrm{eq}}(1-F)$ rise &#8594; the surface abrades &#8594; more damage, higher $k$. Each pass worsens the next.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>The primary mechanical event is <b>loss of fluid load support</b>. Matrix damage (charge loss, collagen disruption) raises the permeability $k$, which shortens the gel time $\tau=h^2/(H_Ak)$ and lets fluid drain faster; $F$ sags.</p><p>Lower $F$ means the solid matrix carries more stress and friction rises, $\mu_{\mathrm{eff}}=\mu_{\mathrm{eq}}(1-F)$. Higher stress and friction abrade and fibrillate the surface, which damages more matrix and raises $k$ further — closing the loop.</p><p>Each pass makes the next worse: a <b>positive feedback</b>, not a one-shot failure. The leverage point is anywhere that breaks the loop (restore charge and $\pi$, lower the load, restore $F$). "Wear" is the loop's output, not its cause.</p></div></details></div>
+
+<div class="qbox"><b>C9 &mdash; thin heals faster.</b> <span class="small"><em>Probes: the drainage-path scaling $\tau\propto h^2$ and its clinical reading (<a class="secref" href="#biphasic">§3</a>).</em></span>
+<p>Two cartilage samples of the same tissue, one $1\ \mathrm{mm}$ thick and one $2\ \mathrm{mm}$ thick, are loaded identically. Which reaches its drained (soft) state sooner, and by what factor? What does this say about where thick cartilage (e.g. the patella) sits on the load-timescale map?</p>
+<figure><svg class="setupfig" viewBox="0 0 0 0 440 240" width="100%" role="img" aria-label="Two plugs of the same cartilage, one twice as thick: the thicker plug's fluid must travel twice as far to drain, and since the gel time goes as the square of the drainage path, it relaxes four times slower.">
+<text x="120" y="26" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">thickness h</text>
+<text x="320" y="26" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">thickness 2h</text>
+<rect x="86" y="120" width="68" height="70" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="1.2"/>
+<rect x="82" y="112" width="76" height="8" fill="#bbb" stroke="#888"/>
+<line x1="120" y1="112" x2="120" y2="98" stroke="#2a6ca8" stroke-width="1.8" marker-end="url(#a_blu)"/>
+<line x1="66" y1="120" x2="66" y2="190" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#a_grn)" marker-end="url(#a_grn)"/>
+<text x="58" y="158" font-size="10" fill="#2a7d2a" text-anchor="end">h</text>
+<text x="120" y="210" font-size="10" fill="#333" text-anchor="middle">τ</text>
+<rect x="286" y="50" width="68" height="140" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="1.2"/>
+<rect x="282" y="42" width="76" height="8" fill="#bbb" stroke="#888"/>
+<line x1="320" y1="42" x2="320" y2="28" stroke="#2a6ca8" stroke-width="1.8" marker-end="url(#a_blu)"/>
+<line x1="266" y1="50" x2="266" y2="190" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#a_grn)" marker-end="url(#a_grn)"/>
+<text x="258" y="124" font-size="10" fill="#2a7d2a" text-anchor="end">2h</text>
+<text x="320" y="210" font-size="10" fill="#7a1f1f" text-anchor="middle">4τ</text>
+<text x="220" y="234" font-size="9.5" fill="#7a1f1f" text-anchor="middle">double the path → quadruple the time (τ ∝ h²)</text>
+</svg><figcaption><b>Path squared.</b> The gel time $\tau=h^2/D$ goes as the square of the drainage path, so the $2\ \mathrm{mm}$ plug relaxes $4\times$ slower than the $1\ \mathrm{mm}$ one — fluid must travel twice as far, and diffusion time grows as distance squared.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>The <b>thinner</b> one drains faster. Since $\tau=h^2/D$ scales as the square of the drainage path, halving $h$ cuts $\tau$ by $4$ (the $2\ \mathrm{mm}$ plug is $4\times$ slower). Physically, fluid in the thick plug must travel twice as far to reach a drained surface, and diffusion time goes as distance squared.</p><p>Clinically, thick cartilage keeps $F$ high over longer loading times — better sustained protection during prolonged stance — but relaxes and recovers more slowly, so it depends more on adequate unloaded recovery periods (C10). Thin, degenerate cartilage (small $h$, large $k$) has a tiny $\tau$ and loses fluid support within a step or two.</p></div></details></div>
+
+<div class="qbox"><b>C10 &mdash; why you are taller in the morning.</b> <span class="small"><em>Probes: reversible daily fluid loss and osmotic recovery; the swelling pressure as the reset (<a class="secref" href="#donnan">§2</a>, <a class="secref" href="#fluidload">§4</a>).</em></span>
+<p>People are measurably taller in the morning than at night (partly from spinal cartilage and discs). Explain the daily cycle, why it is normally reversible, and what would make it stop reversing.</p>
+<figure><svg class="setupfig" viewBox="0 0 0 0 460 230" width="100%" role="img" aria-label="Over a day of standing the cartilage slowly loses fluid and thins; unloaded overnight, the osmotic swelling pressure re-imbibes water and the layer recovers its full thickness by morning.">
+<g font-size="10.5" fill="#333" text-anchor="middle" font-weight="bold"><text x="80" y="24">morning</text><text x="230" y="24">after a day</text><text x="380" y="24">next morning</text></g>
+<!-- morning full -->
+<rect x="40" y="150" width="80" height="24" rx="9" fill="url(#b_bone)"/>
+<rect x="40" y="118" width="80" height="32" fill="url(#b_cart)" stroke="#8fc7dc"/>
+<text x="80" y="196" font-size="9" fill="#2a6ca8" text-anchor="middle">full thickness</text>
+<!-- after a day, thinner, fluid out -->
+<rect x="190" y="150" width="80" height="24" rx="9" fill="url(#b_bone)"/>
+<rect x="190" y="132" width="80" height="18" fill="url(#b_cart)" stroke="#8fc7dc"/>
+<line x1="230" y1="108" x2="230" y2="130" stroke="#7a1f1f" stroke-width="3.4" marker-end="url(#a_red)"/>
+<line x1="190" y1="141" x2="168" y2="141" stroke="#2a6ca8" stroke-width="1.8" marker-end="url(#a_blu)"/>
+<line x1="270" y1="141" x2="292" y2="141" stroke="#2a6ca8" stroke-width="1.8" marker-end="url(#a_blu)"/>
+<text x="230" y="196" font-size="9" fill="#7a1f1f" text-anchor="middle">thinned, fluid out</text>
+<!-- recovered, swelling back -->
+<rect x="340" y="150" width="80" height="24" rx="9" fill="url(#b_bone)"/>
+<rect x="340" y="118" width="80" height="32" fill="url(#b_cart)" stroke="#8fc7dc"/>
+<line x1="322" y1="134" x2="338" y2="134" stroke="#2a7d2a" stroke-width="1.8" marker-end="url(#a_grn)"/>
+<line x1="438" y1="134" x2="422" y2="134" stroke="#2a7d2a" stroke-width="1.8" marker-end="url(#a_grn)"/>
+<text x="380" y="196" font-size="9" fill="#2a7d2a" text-anchor="middle">π re-imbibes → recovered</text>
+<text x="230" y="218" font-size="9" fill="#555" text-anchor="middle">daily creep is reversible while the swelling pressure survives</text>
+</svg><figcaption><b>Load out, osmosis back.</b> A day of loading slowly exudes fluid and thins the tissue; unloaded overnight, the swelling pressure $\pi$ re-imbibes water and thickness recovers by morning. Reversible only while the fixed charge — the restoring $\pi$ — survives.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>Under a day of loading, cartilage and discs slowly exude fluid (drained creep, C1/C7) and thin — you lose height. Unloaded overnight, the Donnan swelling pressure $\pi$ (<a class="secref" href="#donnan">§2</a>) osmotically re-imbibes water and the tissue recovers thickness by morning.</p><p>The cycle is reversible <em>precisely because</em> the fixed-charge-driven $\pi$ survives the day; it is the restoring force. It stops reversing if the charge is lost (degeneration): with $\pi$ gone, exuded fluid is not drawn back, the tissue stays thin, $F$ cannot recover between loadings, and repeated cycles ratchet down (K9). Recovery, not just loading, is a physiological requirement.</p></div></details></div>
+
+<h3 id="derivational">Derivational problems</h3>
+<p>Ten derivations — show every step; the boxed line is the result to reach.</p>
+
+<div class="qbox"><b>D1 &mdash; one- versus two-sided drainage.</b> <span class="small"><em>Probes: eigenfunctions and boundary conditions; the drainage path (<a class="secref" href="#biphasic">§3</a>).</em></span>
+<p>The confined-compression gel time for a plug of thickness $h$ drained on <em>one</em> face (impermeable base) is $\tau_1=4h^2/(\pi^2D)$, $D=H_Ak$. Now make <em>both</em> faces permeable. Derive the new fundamental gel time and the factor by which it changes, and explain it physically.</p>
+<figure><svg class="setupfig" viewBox="0 0 460 250" width="100%" role="img" aria-label="Two confined cartilage plugs. Left: drained on the top face only, impermeable base; the fundamental pressure mode is a quarter-cosine peaking at the sealed base; drainage path equals the full thickness h. Right: drained on both faces; the fundamental mode is a half-sine peaking mid-depth; each half drains its own way so the path is h over two, giving a gel time four times shorter.">
+<text x="150" y="26" font-size="12" fill="#333" text-anchor="middle" font-weight="bold">one face drained</text>
+<text x="330" y="26" font-size="12" fill="#333" text-anchor="middle" font-weight="bold">both faces drained</text>
+<!-- ===== LEFT plug ===== -->
+<rect x="110" y="70" width="40" height="140" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="1.2"/>
+<!-- permeable top platen -->
+<rect x="106" y="60" width="48" height="8" fill="#bbb" stroke="#888" stroke-width="0.8"/>
+<line x1="118" y1="60" x2="118" y2="50" stroke="#2a6ca8" stroke-width="1.6" marker-end="url(#a_blu)"/>
+<line x1="130" y1="60" x2="130" y2="50" stroke="#2a6ca8" stroke-width="1.6" marker-end="url(#a_blu)"/>
+<line x1="142" y1="60" x2="142" y2="50" stroke="#2a6ca8" stroke-width="1.6" marker-end="url(#a_blu)"/>
+<!-- impermeable base (hatched) -->
+<rect x="106" y="210" width="48" height="7" fill="#7a1f1f"/>
+<g stroke="#7a1f1f" stroke-width="0.8">
+<line x1="108" y1="217" x2="113" y2="223"/><line x1="118" y1="217" x2="123" y2="223"/><line x1="128" y1="217" x2="133" y2="223"/><line x1="138" y1="217" x2="143" y2="223"/><line x1="148" y1="217" x2="153" y2="223"/></g>
+<text x="130" y="234" font-size="8.5" fill="#7a1f1f" text-anchor="middle">sealed base</text>
+<!-- pressure mode (quarter cosine) baseline at x=150 -->
+<line x1="150" y1="70" x2="150" y2="210" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2 2"/>
+<polyline points="196.0,210.0 196.0,207.6 195.9,205.3 195.9,202.9 195.7,200.5 195.6,198.1 195.4,195.8 195.2,193.4 195.0,191.0 194.7,188.6 194.4,186.3 194.0,183.9 193.7,181.5 193.3,179.2 192.8,176.8 192.4,174.4 191.9,172.0 191.4,169.7 190.8,167.3 190.2,164.9 189.6,162.5 189.0,160.2 188.3,157.8 187.6,155.4 186.9,153.1 186.2,150.7 185.4,148.3 184.6,145.9 183.8,143.6 183.0,141.2 182.1,138.8 181.2,136.4 180.3,134.1 179.4,131.7 178.4,129.3 177.4,126.9 176.4,124.6 175.4,122.2 174.4,119.8 173.4,117.5 172.3,115.1 171.2,112.7 170.1,110.3 169.0,108.0 167.9,105.6 166.8,103.2 165.6,100.8 164.4,98.5 163.3,96.1 162.1,93.7 160.9,91.4 159.7,89.0 158.5,86.6 157.3,84.2 156.1,81.9 154.9,79.5 153.7,77.1 152.4,74.7 151.2,72.4 150.0,70.0" fill="none" stroke="#b03a2e" stroke-width="2.4"/>
+<text x="196" y="205" font-size="9.5" fill="#b03a2e" text-anchor="start">p(z)</text>
+<!-- drainage path h -->
+<line x1="92" y1="70" x2="92" y2="210" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#a_grn)" marker-end="url(#a_grn)"/>
+<text x="86" y="144" font-size="10" fill="#2a7d2a" text-anchor="end">h</text>
+<text x="150" y="248" font-size="9.5" fill="#333" text-anchor="middle">&#964;&#8321; = 4h&#178;/&#960;&#178;D</text>
+<!-- ===== RIGHT plug ===== -->
+<rect x="290" y="70" width="40" height="140" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="1.2"/>
+<rect x="286" y="60" width="48" height="8" fill="#bbb" stroke="#888" stroke-width="0.8"/>
+<line x1="298" y1="60" x2="298" y2="50" stroke="#2a6ca8" stroke-width="1.6" marker-end="url(#a_blu)"/>
+<line x1="310" y1="60" x2="310" y2="50" stroke="#2a6ca8" stroke-width="1.6" marker-end="url(#a_blu)"/>
+<line x1="322" y1="60" x2="322" y2="50" stroke="#2a6ca8" stroke-width="1.6" marker-end="url(#a_blu)"/>
+<rect x="286" y="210" width="48" height="8" fill="#bbb" stroke="#888" stroke-width="0.8"/>
+<line x1="298" y1="218" x2="298" y2="228" stroke="#2a6ca8" stroke-width="1.6" marker-end="url(#a_blu)"/>
+<line x1="310" y1="218" x2="310" y2="228" stroke="#2a6ca8" stroke-width="1.6" marker-end="url(#a_blu)"/>
+<line x1="322" y1="218" x2="322" y2="228" stroke="#2a6ca8" stroke-width="1.6" marker-end="url(#a_blu)"/>
+<!-- mode half-sine baseline x=330 -->
+<line x1="330" y1="70" x2="330" y2="210" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2 2"/>
+<polyline points="330.0,210.0 332.4,207.6 334.9,205.3 337.3,202.9 339.7,200.5 342.1,198.1 344.4,195.8 346.8,193.4 349.0,191.0 351.2,188.6 353.4,186.3 355.4,183.9 357.4,181.5 359.4,179.2 361.2,176.8 363.0,174.4 364.6,172.0 366.2,169.7 367.6,167.3 369.0,164.9 370.2,162.5 371.4,160.2 372.4,157.8 373.3,155.4 374.0,153.1 374.7,150.7 375.2,148.3 375.6,145.9 375.9,143.6 376.0,141.2 376.0,138.8 375.9,136.4 375.6,134.1 375.2,131.7 374.7,129.3 374.0,126.9 373.3,124.6 372.4,122.2 371.4,119.8 370.2,117.5 369.0,115.1 367.6,112.7 366.2,110.3 364.6,108.0 363.0,105.6 361.2,103.2 359.4,100.8 357.4,98.5 355.4,96.1 353.4,93.7 351.2,91.4 349.0,89.0 346.8,86.6 344.4,84.2 342.1,81.9 339.7,79.5 337.3,77.1 334.9,74.7 332.4,72.4 330.0,70.0" fill="none" stroke="#b03a2e" stroke-width="2.4"/>
+<text x="380" y="145" font-size="9.5" fill="#b03a2e" text-anchor="start">p(z)</text>
+<!-- two half drainage paths -->
+<line x1="272" y1="70" x2="272" y2="140" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#a_grn)" marker-end="url(#a_grn)"/>
+<line x1="272" y1="140" x2="272" y2="210" stroke="#2a7d2a" stroke-width="1.6" marker-start="url(#a_grn)" marker-end="url(#a_grn)"/>
+<text x="266" y="110" font-size="10" fill="#2a7d2a" text-anchor="end">h/2</text>
+<text x="266" y="180" font-size="10" fill="#2a7d2a" text-anchor="end">h/2</text>
+<text x="330" y="248" font-size="9.5" fill="#333" text-anchor="middle">&#964;&#8322; = &#964;&#8321;/4</text>
+</svg><figcaption><b>Halve the path, quarter the time.</b> One-sided, fluid travels the full thickness $h$ to the single drain and the mode is a quarter-cosine peaking at the sealed base ($\lambda_1=\pi/2h$). Opening the second face halves the path to $h/2$, the mode is a half-sine ($\lambda_1=\pi/h$), and since $\tau\propto(\text{path})^2$ the gel time drops by four.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>The pressure obeys $\partial p/\partial t=D\,\partial^2p/\partial z^2$; the slowest (fundamental) relaxation mode sets the gel time, $\tau=1/(D\lambda_1^2)$, where $\lambda_1$ is the smallest eigenvalue admitted by the boundary conditions.</p><p><b>One-sided</b> (impermeable base $\partial p/\partial z=0$ at $z=0$, drained $p=0$ at $z=h$): admissible modes are $\cos(\lambda z)$ with $\lambda_n=(2n+1)\pi/2h$; the fundamental is $\lambda_1=\pi/2h$, giving $\tau_1=1/(D\lambda_1^2)=4h^2/(\pi^2D)$.</p><p><b>Two-sided</b> (drained at both $z=0$ and $z=h$): modes are $\sin(n\pi z/h)$ with $\lambda_n=n\pi/h$; the fundamental is $\lambda_1=\pi/h$, giving $\tau_2=1/(D\lambda_1^2)=h^2/(\pi^2D)$.</p><p>$$\frac{\tau_2}{\tau_1}=\frac{(\pi/2h)^2}{(\pi/h)^2}=\frac14.$$</p><p>Draining both faces makes the tissue relax <b>four times faster</b>. Physically, fluid now escapes from both surfaces, so the farthest any fluid must travel to a drain is halved ($h\to h/2$); since $\tau\propto(\text{drainage path})^2$, the time drops by $4$.</p></div></details></div>
+
+<div class="qbox"><b>D2 &mdash; derive the swelling pressure.</b> <span class="small"><em>Probes: Donnan equilibrium plus electroneutrality &#8594; the ideal osmotic swelling pressure (<a class="secref" href="#donnan">§2</a>).</em></span>
+<p>A charged tissue with fixed-charge density $c_F$ (per unit fluid volume) sits in a bath of monovalent salt at concentration $c_0$. Assuming ideal (dilute) solutions, derive the interstitial swelling pressure $\pi$, and evaluate it for $c_F=0.2\ \mathrm M$, $c_0=0.15\ \mathrm M$, $T=310\ \mathrm K$.</p>
+<figure><svg class="setupfig" viewBox="0 0 0 0 450 230" width="100%" role="img" aria-label="Two compartments across a membrane: the charged tissue with fixed charge and mobile ions on the left, the bath on the right; Donnan equilibrium and electroneutrality fix the ion excess that produces the swelling pressure.">
+<rect x="40" y="46" width="170" height="150" fill="#f2ecf7" stroke="#b89ccf" stroke-width="1.2"/>
+<rect x="240" y="46" width="150" height="150" fill="#eaf4f9" stroke="#8fc7dc" stroke-width="1.2"/>
+<line x1="215" y1="40" x2="215" y2="202" stroke="#777" stroke-width="2" stroke-dasharray="3 3"/>
+<text x="125" y="40" font-size="10" fill="#7d3c98" text-anchor="middle" font-weight="bold">tissue</text>
+<text x="315" y="40" font-size="10" fill="#2a6ca8" text-anchor="middle" font-weight="bold">bath</text>
+<text x="215" y="216" font-size="8.5" fill="#555" text-anchor="middle">semipermeable (ions pass, fixed charge cannot)</text>
+<g font-size="9.5" text-anchor="middle">
+<text x="90" y="78" fill="#c0392b">c_F⁻ (fixed)</text>
+<text x="90" y="112" fill="#333">c₊</text><text x="150" y="112" fill="#333">c₋</text>
+<text x="315" y="112" fill="#333">c₀ (both)</text>
+</g>
+<text x="125" y="150" font-size="9" fill="#7d3c98" text-anchor="middle">c₊ = c₋ + c_F</text>
+<text x="125" y="168" font-size="9" fill="#7d3c98" text-anchor="middle">c₊c₋ = c₀²</text>
+<text x="315" y="150" font-size="9" fill="#2a6ca8" text-anchor="middle">π = R_gT·Δc_ion</text>
+<line x1="405" y1="70" x2="405" y2="120" stroke="#7a1f1f" stroke-width="2.4" marker-end="url(#a_red)"/>
+<text x="420" y="98" font-size="9" fill="#7a1f1f" text-anchor="middle">π</text>
+</svg><figcaption><b>Two conditions fix the ion excess.</b> Electroneutrality ($c_+=c_-+c_F$) and Donnan equilibrium ($c_+c_-=c_0^2$) give the interior ion concentrations; the excess over the bath sets $\pi=R_gT[\sqrt{c_F^2+4c_0^2}-2c_0]$.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>Let the interstitial mobile cation and anion concentrations be $c_+,c_-$. Two conditions apply.</p><p><b>Electroneutrality</b> inside (the fixed charge is negative): $c_+=c_-+c_F$.</p><p><b>Donnan equilibrium</b> (salt chemical potential equal inside and out): $c_+c_-=c_0^2$.</p><p>Eliminate: $c_-(c_-+c_F)=c_0^2\Rightarrow c_-=\tfrac12(\sqrt{c_F^2+4c_0^2}-c_F)$ and $c_+=\tfrac12(\sqrt{c_F^2+4c_0^2}+c_F)$.</p><p>The osmotic (swelling) pressure is the van&nbsp;'t&nbsp;Hoff pressure of the <em>excess</em> total mobile-ion concentration inside relative to the bath:</p><p>$$\boxed{\;\pi=R_gT\big[(c_++c_-)-2c_0\big]=R_gT\big[\sqrt{c_F^2+4c_0^2}-2c_0\big].\;}$$</p><p><b>Numbers:</b> $\sqrt{0.2^2+4(0.15)^2}=\sqrt{0.13}=0.3606\ \mathrm M$; minus $0.30\ \mathrm M=0.0606\ \mathrm M=60.6\ \mathrm{mol/m^3}$. With $R_gT=8.314\times310=2577\ \mathrm{J/mol}$: $\pi=2577\times60.6\approx1.56\times10^5\ \mathrm{Pa}\approx0.16\ \mathrm{MPa}$.</p><p><b>Check</b> the limits: $\pi\to0$ as $c_F\to0$ (an uncharged gel does not swell), and $\pi\approx R_gT\,c_F^2/(2c_0)$ grows quadratically for $c_F\ll c_0$ — the rising curve of K2.</p></div></details></div>
+
+<div class="qbox"><b>D3 &mdash; derive the consolidation equation.</b> <span class="small"><em>Probes: mass balance + Darcy + linear elasticity &#8594; the governing diffusion PDE (<a class="secref" href="#biphasic">§3</a>).</em></span>
+<p>For 1-D confined compression along $z$, with solid displacement $u(z,t)$, derive the governing equation $\partial u/\partial t=H_Ak\,\partial^2u/\partial z^2$. State each assumption.</p>
+<figure><svg class="setupfig" viewBox="0 0 0 0 450 230" width="100%" role="img" aria-label="A control slab of thickness dz inside the cartilage: Darcy fluid flux enters the bottom and leaves the top, mass conservation relates the flux gradient to the rate of strain, and Darcy plus the elastic constitutive law close the diffusion equation.">
+<rect x="150" y="40" width="150" height="150" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="1.2"/>
+<rect x="150" y="104" width="150" height="30" fill="#bfe3ef" stroke="#5fa6c4" stroke-width="1.3"/>
+<text x="316" y="122" font-size="9" fill="#2a6ca8" text-anchor="start">dz</text>
+<line x1="225" y1="150" x2="225" y2="128" stroke="#2a6ca8" stroke-width="2.4" marker-end="url(#a_blu)"/>
+<line x1="225" y1="108" x2="225" y2="86" stroke="#2a6ca8" stroke-width="2.4" marker-end="url(#a_blu)"/>
+<text x="248" y="146" font-size="9" fill="#2a6ca8" text-anchor="start">q(z)</text>
+<text x="248" y="98" font-size="9" fill="#2a6ca8" text-anchor="start">q(z+dz)</text>
+<text x="225" y="32" font-size="9.5" fill="#333" text-anchor="middle">z</text>
+<line x1="130" y1="190" x2="130" y2="40" stroke="#333" stroke-width="1" marker-end="url(#a_grn)"/>
+<g font-size="9.5" fill="#333" text-anchor="start">
+<text x="326" y="60">mass:  ∂ε/∂t = −∂q/∂z</text>
+<text x="326" y="80">Darcy: q = −k ∂p/∂z</text>
+<text x="326" y="100">elastic: σ_E = H_A ε</text>
+<text x="326" y="126" fill="#7a1f1f">⇒ ∂u/∂t = H_A k ∂²u/∂z²</text>
+</g>
+</svg><figcaption><b>Four ingredients close it.</b> Kinematics $\varepsilon=\partial u/\partial z$, constant applied total stress ($H_A\,\partial\varepsilon/\partial t=\partial p/\partial t$), mixture continuity + Darcy ($\partial\varepsilon/\partial t=k\,\partial^2p/\partial z^2$) combine to $\partial u/\partial t=H_Ak\,\partial^2u/\partial z^2$.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>Take a slab $[z,z+\mathrm dz]$ and assume: incompressible solid and fluid, full saturation, small strain, constant $k$ and $H_A$, 1-D confined geometry, and linear (Darcy) flow.</p><p><b>(i) Kinematics.</b> Strain $\varepsilon=\partial u/\partial z$.</p><p><b>(ii) Effective stress at constant load.</b> Total stress $\sigma=\sigma_E-p$ with $\sigma_E=H_A\varepsilon$. Under a suddenly-applied <em>constant</em> total stress, $\partial\sigma/\partial t=0$, so $$H_A\,\frac{\partial\varepsilon}{\partial t}=\frac{\partial p}{\partial t}.\quad(\mathrm A)$$</p><p><b>(iii) Continuity + Darcy.</b> With incompressible constituents, the rate of volumetric strain equals the divergence of the relative fluid flux $q$; Darcy gives $q=-k\,\partial p/\partial z$, so $$\frac{\partial\varepsilon}{\partial t}=-\frac{\partial q}{\partial z}=k\,\frac{\partial^2p}{\partial z^2}.\quad(\mathrm B)$$</p><p><b>Combine.</b> Substituting (A) into (B), $\partial p/\partial t=H_Ak\,\partial^2p/\partial z^2$. Because $p$ and $u$ are linearly related through (A) and $\varepsilon=\partial u/\partial z$, the displacement obeys the same equation:</p><p>$$\boxed{\;\frac{\partial u}{\partial t}=H_Ak\,\frac{\partial^2u}{\partial z^2},\qquad D\equiv H_Ak.\;}$$</p><p>It is a diffusion equation; the diffusivity $D=H_Ak$ carries the whole consolidation timescale.</p></div></details></div>
+
+<div class="qbox"><b>D4 &mdash; short-time fluid support.</b> <span class="small"><em>Probes: the early-time square-root law from the diffusion similarity solution (<a class="secref" href="#fluidload">§4</a>).</em></span>
+<p>For $T=Dt/h^2\ll1$, show that the fluid load support behaves as $F\approx1-2\sqrt{T/\pi}$, and explain why the correction is $\sqrt T$ rather than linear in $T$.</p>
+<figure><svg class="setupfig" viewBox="0 0 450 280" width="100%" role="img" aria-label="Short-time fluid support versus root-T: the exact series and the straight line one minus two root T over pi coincide near the origin.">
+<line x1="64" y1="40" x2="64" y2="220" stroke="#333" stroke-width="1.4"/>
+<line x1="64" y1="220" x2="415" y2="220" stroke="#333" stroke-width="1.4"/>
+<polyline points="64.0,40.0 66.2,41.0 68.4,41.9 70.6,42.9 72.8,43.8 75.0,44.8 77.2,45.7 79.5,46.7 81.7,47.7 83.9,48.6 86.1,49.6 88.3,50.5 90.5,51.5 92.7,52.5 94.9,53.4 97.1,54.4 99.3,55.3 101.5,56.3 103.7,57.2 105.9,58.2 108.2,59.2 110.4,60.1 112.6,61.1 114.8,62.0 117.0,63.0 119.2,64.0 121.4,64.9 123.6,65.9 125.8,66.8 128.0,67.8 130.2,68.7 132.4,69.7 134.6,70.7 136.8,71.6 139.1,72.6 141.3,73.5 143.5,74.5 145.7,75.4 147.9,76.4 150.1,77.4 152.3,78.3 154.5,79.3 156.7,80.2 158.9,81.2 161.1,82.2 163.3,83.1 165.5,84.1 167.8,85.0 170.0,86.0 172.2,86.9 174.4,87.9 176.6,88.9 178.8,89.8 181.0,90.8 183.2,91.7 185.4,92.7 187.6,93.7 189.8,94.6 192.0,95.6 194.2,96.5 196.5,97.5 198.7,98.4 200.9,99.4 203.1,100.4 205.3,101.3 207.5,102.3 209.7,103.2 211.9,104.2 214.1,105.1 216.3,106.1 218.5,107.1 220.7,108.0 222.9,109.0 225.2,109.9 227.4,110.9 229.6,111.9 231.8,112.8 234.0,113.8 236.2,114.7 238.4,115.7 240.6,116.6 242.8,117.6 245.0,118.5 247.2,119.5 249.4,120.5 251.6,121.4 253.8,122.4 256.1,123.3 258.3,124.3 260.5,125.2 262.7,126.2 264.9,127.1 267.1,128.1 269.3,129.0 271.5,130.0 273.7,130.9 275.9,131.9 278.1,132.8 280.3,133.7 282.5,134.7 284.8,135.6 287.0,136.6 289.2,137.5 291.4,138.4 293.6,139.4 295.8,140.3 298.0,141.2 300.2,142.1 302.4,143.0 304.6,144.0 306.8,144.9 309.0,145.8 311.2,146.7 313.5,147.6 315.7,148.5 317.9,149.4 320.1,150.3 322.3,151.2 324.5,152.1 326.7,152.9 328.9,153.8 331.1,154.7 333.3,155.5 335.5,156.4 337.7,157.3 339.9,158.1 342.2,159.0 344.4,159.8 346.6,160.6 348.8,161.5 351.0,162.3 353.2,163.1 355.4,163.9 357.6,164.7 359.8,165.6 362.0,166.4 364.2,167.1 366.4,167.9 368.6,168.7 370.8,169.5 373.1,170.3 375.3,171.0 377.5,171.8 379.7,172.5 381.9,173.3 384.1,174.0 386.3,174.7 388.5,175.4 390.7,176.2 392.9,176.9 395.1,177.6 397.3,178.3 399.5,179.0 401.8,179.6 404.0,180.3 406.2,181.0 408.4,181.6 410.6,182.3 412.8,182.9 415.0,183.6" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<polyline points="64.0,40.0 66.2,41.0 68.4,41.9 70.6,42.9 72.8,43.8 75.0,44.8 77.2,45.7 79.5,46.7 81.7,47.7 83.9,48.6 86.1,49.6 88.3,50.5 90.5,51.5 92.7,52.5 94.9,53.4 97.1,54.4 99.3,55.3 101.5,56.3 103.7,57.2 105.9,58.2 108.2,59.2 110.4,60.1 112.6,61.1 114.8,62.0 117.0,63.0 119.2,64.0 121.4,64.9 123.6,65.9 125.8,66.8 128.0,67.8 130.2,68.7 132.4,69.7 134.6,70.7 136.8,71.6 139.1,72.6 141.3,73.5 143.5,74.5 145.7,75.4 147.9,76.4 150.1,77.4 152.3,78.3 154.5,79.3 156.7,80.2 158.9,81.2 161.1,82.2 163.3,83.1 165.5,84.1 167.8,85.0 170.0,86.0 172.2,86.9 174.4,87.9 176.6,88.9 178.8,89.8 181.0,90.8 183.2,91.7 185.4,92.7 187.6,93.7 189.8,94.6 192.0,95.6 194.2,96.5 196.5,97.5 198.7,98.4 200.9,99.4 203.1,100.4 205.3,101.3 207.5,102.3 209.7,103.2 211.9,104.2 214.1,105.1 216.3,106.1 218.5,107.1 220.7,108.0 222.9,109.0 225.2,109.9 227.4,110.9 229.6,111.9 231.8,112.8 234.0,113.8 236.2,114.7 238.4,115.7 240.6,116.6 242.8,117.6 245.0,118.6 247.2,119.5 249.4,120.5 251.6,121.4 253.8,122.4 256.1,123.4 258.3,124.3 260.5,125.3 262.7,126.2 264.9,127.2 267.1,128.1 269.3,129.1 271.5,130.1 273.7,131.0 275.9,132.0 278.1,132.9 280.3,133.9 282.5,134.8 284.8,135.8 287.0,136.8 289.2,137.7 291.4,138.7 293.6,139.6 295.8,140.6 298.0,141.6 300.2,142.5 302.4,143.5 304.6,144.4 306.8,145.4 309.0,146.3 311.2,147.3 313.5,148.3 315.7,149.2 317.9,150.2 320.1,151.1 322.3,152.1 324.5,153.1 326.7,154.0 328.9,155.0 331.1,155.9 333.3,156.9 335.5,157.8 337.7,158.8 339.9,159.8 342.2,160.7 344.4,161.7 346.6,162.6 348.8,163.6 351.0,164.5 353.2,165.5 355.4,166.5 357.6,167.4 359.8,168.4 362.0,169.3 364.2,170.3 366.4,171.3 368.6,172.2 370.8,173.2 373.1,174.1 375.3,175.1 377.5,176.0 379.7,177.0 381.9,178.0 384.1,178.9 386.3,179.9 388.5,180.8 390.7,181.8 392.9,182.8 395.1,183.7 397.3,184.7 399.5,185.6 401.8,186.6 404.0,187.5 406.2,188.5 408.4,189.5 410.6,190.4 412.8,191.4 415.0,192.3" fill="none" stroke="#b03a2e" stroke-width="2.2" stroke-dasharray="6 4"/>
+<text x="64.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
+<text x="134.2" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0.15</text>
+<text x="204.4" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0.3</text>
+<text x="274.6" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0.45</text>
+<text x="344.8" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0.6</text>
+<text x="415.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0.75</text>
+<text x="59.0" y="223.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
+<text x="59.0" y="133.0" font-size="8.5" fill="#333" text-anchor="end">0.5</text>
+<text x="59.0" y="43.0" font-size="8.5" fill="#333" text-anchor="end">1</text>
+<text x="237.0" y="252.0" font-size="10" fill="#333" text-anchor="middle">√T   (T = Dt/h²)</text>
+<text x="26.0" y="130.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 130.0)">fluid support F</text>
+<text x="298.0" y="121.0" font-size="9" fill="#2a6ca8" text-anchor="start">exact series</text>
+<text x="279.3" y="189.4" font-size="9" fill="#b03a2e" text-anchor="start">1 − 2√(T/π)</text>
+<line x1="120.2" y1="65.2" x2="157.6" y2="49.0" stroke="#555" stroke-width="0.7"/>
+<text x="157.6" y="45.4" font-size="8.5" fill="#555" text-anchor="start">agree at short time</text>
+</svg><figcaption><b>Diffusion signature.</b> Only a boundary layer of depth $\delta\sim\sqrt{Dt}$ has drained; the lost support is $\propto\delta/h=\sqrt T$. The half-space solution fixes the constant: $F=1-2\sqrt{T/\pi}$.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>At short time only a thin drained boundary layer near the permeable surface has formed; the rest of the plug is still fully pressurised. The diffusion penetration depth grows as $\delta\sim\sqrt{Dt}$ (the similarity solution of the half-space diffusion problem).</p><p>The lost support is proportional to the drained fraction $\delta/h\sim\sqrt{Dt}/h=\sqrt T$. Evaluating the half-space surface deficit gives the constant $2/\sqrt\pi$, so $$F\approx1-2\sqrt{T/\pi}.$$</p><p>The $\sqrt T$ (not $T$) is the fingerprint of diffusion: distance grows as the square root of time, so the drained layer — and the support deficit — grows as $\sqrt t$. The figure shows this line hugging the exact series near the origin and parting later.</p></div></details></div>
+
+<div class="qbox"><b>D5 &mdash; the eigenvalue series.</b> <span class="small"><em>Probes: separation of variables giving the mode set and the slowest-mode gel time (<a class="secref" href="#fluidload">§4</a>).</em></span>
+<p>For one-sided drainage (sealed base at $z=0$, drained at $z=h$), find the eigenfunctions and eigenvalues of the pressure diffusion problem, and hence the series $F(T)=\sum_n 2/\lambda_n^2\,e^{-\lambda_n^2T}$ and the gel time.</p>
+<figure><svg class="setupfig" viewBox="0 0 430 290" width="100%" role="img" aria-label="The first three cosine eigenmodes of the drainage problem; the slowest n equals zero mode peaks at the sealed base and sets the gel time.">
+<line x1="70" y1="58" x2="70" y2="232" stroke="#333" stroke-width="1.4"/>
+<line x1="70" y1="232" x2="360" y2="232" stroke="#333" stroke-width="1.4"/>
+<polyline points="70.0,87.0 72.4,87.0 74.9,87.0 77.3,87.0 79.7,87.1 82.2,87.1 84.6,87.2 87.1,87.2 89.5,87.3 91.9,87.4 94.4,87.5 96.8,87.6 99.2,87.7 101.7,87.9 104.1,88.0 106.6,88.1 109.0,88.3 111.4,88.5 113.9,88.6 116.3,88.8 118.7,89.0 121.2,89.2 123.6,89.4 126.1,89.7 128.5,89.9 130.9,90.1 133.4,90.4 135.8,90.6 138.2,90.9 140.7,91.2 143.1,91.5 145.5,91.8 148.0,92.1 150.4,92.4 152.9,92.7 155.3,93.1 157.7,93.4 160.2,93.8 162.6,94.1 165.0,94.5 167.5,94.9 169.9,95.3 172.4,95.7 174.8,96.1 177.2,96.5 179.7,96.9 182.1,97.4 184.5,97.8 187.0,98.3 189.4,98.7 191.8,99.2 194.3,99.7 196.7,100.1 199.2,100.6 201.6,101.1 204.0,101.6 206.5,102.1 208.9,102.7 211.3,103.2 213.8,103.7 216.2,104.3 218.7,104.8 221.1,105.4 223.5,105.9 226.0,106.5 228.4,107.1 230.8,107.7 233.3,108.2 235.7,108.8 238.2,109.4 240.6,110.0 243.0,110.7 245.5,111.3 247.9,111.9 250.3,112.5 252.8,113.2 255.2,113.8 257.6,114.5 260.1,115.1 262.5,115.8 265.0,116.4 267.4,117.1 269.8,117.8 272.3,118.5 274.7,119.1 277.1,119.8 279.6,120.5 282.0,121.2 284.5,121.9 286.9,122.6 289.3,123.3 291.8,124.0 294.2,124.8 296.6,125.5 299.1,126.2 301.5,126.9 303.9,127.7 306.4,128.4 308.8,129.1 311.3,129.9 313.7,130.6 316.1,131.3 318.6,132.1 321.0,132.8 323.4,133.6 325.9,134.3 328.3,135.1 330.8,135.9 333.2,136.6 335.6,137.4 338.1,138.1 340.5,138.9 342.9,139.6 345.4,140.4 347.8,141.2 350.3,141.9 352.7,142.7 355.1,143.5 357.6,144.2 360.0,145.0" fill="none" stroke="#b03a2e" stroke-width="2.3"/>
+<polyline points="70.0,87.0 72.4,87.0 74.9,87.2 77.3,87.4 79.7,87.7 82.2,88.1 84.6,88.6 87.1,89.2 89.5,89.9 91.9,90.6 94.4,91.5 96.8,92.4 99.2,93.4 101.7,94.5 104.1,95.7 106.6,96.9 109.0,98.3 111.4,99.7 113.9,101.1 116.3,102.7 118.7,104.3 121.2,105.9 123.6,107.7 126.1,109.4 128.5,111.3 130.9,113.2 133.4,115.1 135.8,117.1 138.2,119.1 140.7,121.2 143.1,123.3 145.5,125.5 148.0,127.7 150.4,129.9 152.9,132.1 155.3,134.3 157.7,136.6 160.2,138.9 162.6,141.2 165.0,143.5 167.5,145.8 169.9,148.1 172.4,150.4 174.8,152.6 177.2,154.9 179.7,157.2 182.1,159.4 184.5,161.6 187.0,163.8 189.4,166.0 191.8,168.1 194.3,170.2 196.7,172.2 199.2,174.2 201.6,176.2 204.0,178.1 206.5,180.0 208.9,181.8 211.3,183.5 213.8,185.2 216.2,186.8 218.7,188.4 221.1,189.9 223.5,191.3 226.0,192.6 228.4,193.9 230.8,195.1 233.3,196.2 235.7,197.3 238.2,198.2 240.6,199.1 243.0,199.9 245.5,200.6 247.9,201.2 250.3,201.7 252.8,202.1 255.2,202.5 257.6,202.8 260.1,202.9 262.5,203.0 265.0,203.0 267.4,202.9 269.8,202.7 272.3,202.4 274.7,202.0 277.1,201.5 279.6,201.0 282.0,200.3 284.5,199.6 286.9,198.8 289.3,197.9 291.8,196.9 294.2,195.9 296.6,194.7 299.1,193.5 301.5,192.2 303.9,190.8 306.4,189.4 308.8,187.9 311.3,186.3 313.7,184.6 316.1,182.9 318.6,181.2 321.0,179.3 323.4,177.5 325.9,175.5 328.3,173.6 330.8,171.5 333.2,169.5 335.6,167.4 338.1,165.2 340.5,163.1 342.9,160.9 345.4,158.7 347.8,156.4 350.3,154.1 352.7,151.9 355.1,149.6 357.6,147.3 360.0,145.0" fill="none" stroke="#2a6ca8" stroke-width="2.3"/>
+<polyline points="70.0,87.0 72.4,87.1 74.9,87.5 77.3,88.1 79.7,89.0 82.2,90.1 84.6,91.5 87.1,93.1 89.5,94.9 91.9,96.9 94.4,99.2 96.8,101.6 99.2,104.3 101.7,107.1 104.1,110.0 106.6,113.2 109.0,116.4 111.4,119.8 113.9,123.3 116.3,126.9 118.7,130.6 121.2,134.3 123.6,138.1 126.1,141.9 128.5,145.8 130.9,149.6 133.4,153.4 135.8,157.2 138.2,160.9 140.7,164.5 143.1,168.1 145.5,171.5 148.0,174.9 150.4,178.1 152.9,181.2 155.3,184.1 157.7,186.8 160.2,189.4 162.6,191.7 165.0,193.9 167.5,195.9 169.9,197.6 172.4,199.1 174.8,200.3 177.2,201.4 179.7,202.1 182.1,202.7 184.5,203.0 187.0,203.0 189.4,202.8 191.8,202.3 194.3,201.5 196.7,200.6 199.2,199.4 201.6,197.9 204.0,196.2 206.5,194.3 208.9,192.2 211.3,189.9 213.8,187.3 216.2,184.6 218.7,181.8 221.1,178.7 223.5,175.5 226.0,172.2 228.4,168.8 230.8,165.2 233.3,161.6 235.7,157.9 238.2,154.1 240.6,150.4 243.0,146.5 245.5,142.7 247.9,138.9 250.3,135.1 252.8,131.3 255.2,127.7 257.6,124.0 260.1,120.5 262.5,117.1 265.0,113.8 267.4,110.7 269.8,107.7 272.3,104.8 274.7,102.1 277.1,99.7 279.6,97.4 282.0,95.3 284.5,93.4 286.9,91.8 289.3,90.4 291.8,89.2 294.2,88.3 296.6,87.6 299.1,87.2 301.5,87.0 303.9,87.1 306.4,87.4 308.8,88.0 311.3,88.8 313.7,89.9 316.1,91.2 318.6,92.7 321.0,94.5 323.4,96.5 325.9,98.7 328.3,101.1 330.8,103.7 333.2,106.5 335.6,109.4 338.1,112.5 340.5,115.8 342.9,119.1 345.4,122.6 347.8,126.2 350.3,129.9 352.7,133.6 355.1,137.4 357.6,141.2 360.0,145.0" fill="none" stroke="#2a7d2a" stroke-width="2.3"/>
+<line x1="70" y1="145.0" x2="360" y2="145.0" stroke="#aaa" stroke-width="0.8"/>
+<text x="70.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
+<text x="215.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">0.5</text>
+<text x="360.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">1</text>
+<text x="65.0" y="206.0" font-size="8.5" fill="#333" text-anchor="end">-1</text>
+<text x="65.0" y="148.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
+<text x="65.0" y="90.0" font-size="8.5" fill="#333" text-anchor="end">1</text>
+<text x="215.0" y="262.0" font-size="9.5" fill="#333" text-anchor="middle">depth  z / h   (0 = sealed base, 1 = drained)</text>
+<text x="28.0" y="145.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 28.0 145.0)">mode shape</text>
+<line x1="86" y1="46" x2="102" y2="46" stroke="#b03a2e" stroke-width="2.3"/>
+<text x="106.0" y="49.0" font-size="8.5" fill="#b03a2e" text-anchor="start">n=0 (λ₀=π/2h)</text>
+<line x1="184" y1="46" x2="200" y2="46" stroke="#2a6ca8" stroke-width="2.3"/>
+<text x="204.0" y="49.0" font-size="8.5" fill="#2a6ca8" text-anchor="start">n=1</text>
+<line x1="234" y1="46" x2="250" y2="46" stroke="#2a7d2a" stroke-width="2.3"/>
+<text x="254.0" y="49.0" font-size="8.5" fill="#2a7d2a" text-anchor="start">n=2</text>
+</svg><figcaption><b>Cosine modes.</b> $Z=\cos(\mu z)$ with $\mu_n h=(2n+1)\pi/2$; the slowest ($n=0$, $\lambda_0=\pi/2$) gives $\tau=4h^2/(\pi^2D)$. The figure shows the first three modes.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>Separate $p=Z(z)\,e^{-D\mu^2t}$: then $Z''+\mu^2Z=0$. The boundary conditions select the modes:</p><p>$Z'(0)=0$ (no flux at the sealed base) $\Rightarrow Z=\cos(\mu z)$; $Z(h)=0$ (drained) $\Rightarrow \cos(\mu h)=0\Rightarrow \mu_nh=(2n+1)\tfrac\pi2$, i.e. $\lambda_n\equiv\mu_nh=(2n+1)\pi/2$, $n=0,1,2,\dots$</p><p>Expanding the uniform initial pressure in these modes and integrating over depth to get the load support gives the coefficients $2/\lambda_n^2$, so $$F(T)=\sum_n\frac{2}{\lambda_n^2}\,e^{-\lambda_n^2T},\qquad T=\frac{Dt}{h^2}.$$</p><p>Late in time the slowest mode dominates: $n=0$, $\lambda_0=\pi/2$, giving $\tau=1/(D\mu_0^2)=4h^2/(\pi^2D)$ — the gel time of D1. The figure plots the first three cosine modes; the flat $n=0$ mode (peak at the sealed base) is the long-lived one.</p></div></details></div>
+
+<div class="qbox"><b>D6 &mdash; why $\tau$ scales as $h^2$.</b> <span class="small"><em>Probes: nondimensionalising the PDE shows $\tau$ is a fixed value of $T=Dt/h^2$ (<a class="secref" href="#relaxlab">§5</a>).</em></span>
+<p>Without solving the series, show from the governing equation alone that the gel time must scale as $h^2/D$, and that changing $h$ only rescales the time axis.</p>
+<figure><svg class="setupfig" viewBox="0 0 460 280" width="100%" role="img" aria-label="Nondimensionalized relaxation: plotted against T = Dt over h squared every thickness falls on one master curve, so the gel time scales as h squared.">
+<line x1="64" y1="40" x2="64" y2="220" stroke="#333" stroke-width="1.4"/>
+<line x1="64" y1="220" x2="428" y2="220" stroke="#333" stroke-width="1.4"/>
+<polyline points="64.1,46.4 65.9,65.7 67.8,75.8 69.6,83.7 71.4,90.3 73.3,96.1 75.1,101.4 76.9,106.3 78.7,110.8 80.6,115.1 82.4,119.1 84.2,122.9 86.1,126.6 87.9,130.0 89.7,133.4 91.5,136.6 93.4,139.6 95.2,142.6 97.0,145.4 98.9,148.2 100.7,150.8 102.5,153.3 104.3,155.8 106.2,158.1 108.0,160.4 109.8,162.5 111.7,164.6 113.5,166.7 115.3,168.6 117.1,170.5 119.0,172.3 120.8,174.0 122.6,175.7 124.5,177.3 126.3,178.9 128.1,180.4 129.9,181.8 131.8,183.2 133.6,184.6 135.4,185.9 137.3,187.1 139.1,188.3 140.9,189.5 142.7,190.6 144.6,191.7 146.4,192.7 148.2,193.7 150.1,194.6 151.9,195.6 153.7,196.5 155.5,197.3 157.4,198.2 159.2,199.0 161.0,199.7 162.9,200.5 164.7,201.2 166.5,201.9 168.3,202.5 170.2,203.2 172.0,203.8 173.8,204.4 175.7,204.9 177.5,205.5 179.3,206.0 181.1,206.5 183.0,207.0 184.8,207.5 186.6,207.9 188.5,208.4 190.3,208.8 192.1,209.2 193.9,209.6 195.8,210.0 197.6,210.4 199.4,210.7 201.3,211.1 203.1,211.4 204.9,211.7 206.7,212.0 208.6,212.3 210.4,212.6 212.2,212.8 214.1,213.1 215.9,213.4 217.7,213.6 219.5,213.8 221.4,214.1 223.2,214.3 225.0,214.5 226.9,214.7 228.7,214.9 230.5,215.1 232.3,215.2 234.2,215.4 236.0,215.6 237.8,215.7 239.7,215.9 241.5,216.1 243.3,216.2 245.1,216.3 247.0,216.5 248.8,216.6 250.6,216.7 252.5,216.8 254.3,217.0 256.1,217.1 257.9,217.2 259.8,217.3 261.6,217.4 263.4,217.5 265.3,217.6 267.1,217.7 268.9,217.7 270.7,217.8 272.6,217.9 274.4,218.0 276.2,218.1 278.1,218.1 279.9,218.2 281.7,218.3 283.5,218.3 285.4,218.4 287.2,218.4 289.0,218.5 290.9,218.6 292.7,218.6 294.5,218.7 296.3,218.7 298.2,218.8 300.0,218.8 301.8,218.8 303.7,218.9 305.5,218.9 307.3,219.0 309.1,219.0 311.0,219.0 312.8,219.1 314.6,219.1 316.5,219.1 318.3,219.2 320.1,219.2 321.9,219.2 323.8,219.3 325.6,219.3 327.4,219.3 329.3,219.3 331.1,219.4 332.9,219.4 334.7,219.4 336.6,219.4 338.4,219.4 340.2,219.5 342.1,219.5 343.9,219.5 345.7,219.5 347.5,219.5 349.4,219.6 351.2,219.6 353.0,219.6 354.9,219.6 356.7,219.6 358.5,219.6 360.3,219.6 362.2,219.7 364.0,219.7 365.8,219.7 367.7,219.7 369.5,219.7 371.3,219.7 373.1,219.7 375.0,219.7 376.8,219.7 378.6,219.8 380.5,219.8 382.3,219.8 384.1,219.8 385.9,219.8 387.8,219.8 389.6,219.8 391.4,219.8 393.3,219.8 395.1,219.8 396.9,219.8 398.7,219.8 400.6,219.8 402.4,219.9 404.2,219.9 406.1,219.9 407.9,219.9 409.7,219.9 411.5,219.9 413.4,219.9 415.2,219.9 417.0,219.9 418.9,219.9 420.7,219.9 422.5,219.9 424.3,219.9 426.2,219.9 428.0,219.9" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<text x="64.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
+<text x="185.3" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">1</text>
+<text x="306.7" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">2</text>
+<text x="428.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">3</text>
+<text x="59.0" y="223.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
+<text x="59.0" y="133.0" font-size="8.5" fill="#333" text-anchor="end">0.5</text>
+<text x="59.0" y="43.0" font-size="8.5" fill="#333" text-anchor="end">1</text>
+<text x="246.0" y="252.0" font-size="10" fill="#333" text-anchor="middle">scaled time  T = Dt/h²</text>
+<text x="26.0" y="130.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 130.0)">fluid support F</text>
+<text x="233.9" y="112.0" font-size="9" fill="#333" text-anchor="start">all thicknesses collapse onto one curve in T</text>
+<text x="233.9" y="130.0" font-size="9" fill="#7a1f1f" text-anchor="start">⇒ τ (F=½) is a fixed T₀ ⇒ τ ∝ h²</text>
+</svg><figcaption><b>Scale it away.</b> With $\zeta=z/h$, $T=Dt/h^2$ the equation becomes $\partial u/\partial T=\partial^2u/\partial\zeta^2$ — parameter-free — so $F=\Phi(T)$ alone; a fixed $F$ is reached at a fixed $T_0$, hence $\tau=T_0h^2/D\propto h^2$.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>Nondimensionalise. Let $\zeta=z/h$ and $T=Dt/h^2$. Then $\partial u/\partial t=D\,\partial^2u/\partial z^2$ becomes $$\frac{\partial u}{\partial T}=\frac{\partial^2u}{\partial\zeta^2},$$ with <em>no parameters left</em> — $h$ and $D$ have vanished. So the entire relaxation history is a universal function of $T$ only, $F=\Phi(T)$.</p><p>The gel time is defined by some fixed fraction of relaxation (say $F=\tfrac12$), reached at a fixed $T=T_0$ (a pure number). Undoing the scaling, $t_{1/2}=T_0\,h^2/D$, i.e. $\tau\propto h^2/D$.</p><p>Doubling $h$ stretches the physical time axis by $4$ with the curve otherwise unchanged: every thickness collapses onto one master curve in $T$ (the figure) — the $\tau\propto h^2$ result, obtained without any series.</p></div></details></div>
+
+<div class="qbox"><b>D7 &mdash; the Hertz exponents.</b> <span class="small"><em>Probes: the sphere-on-plane scaling of contact radius and peak pressure with load and radius (<a class="secref" href="#contact">§6</a>).</em></span>
+<p>For a rigid sphere of effective radius $R$ pressed with force $N$ into an elastic half-space of reduced modulus $E^*$, derive the scalings $a\propto(NR/E^*)^{1/3}$ and $p_0\propto N/a^2$, and hence how $a$ and $p_0$ change if $R$ doubles at fixed $N$.</p>
+<figure><svg class="setupfig" viewBox="0 0 460 280" width="100%" role="img" aria-label="Hertz scaling at fixed load: contact radius grows slowly as the cube root of radius while peak pressure falls as the inverse cube root.">
+<line x1="64" y1="40" x2="64" y2="220" stroke="#333" stroke-width="1.4"/>
+<line x1="64" y1="220" x2="428" y2="220" stroke="#333" stroke-width="1.4"/>
+<polyline points="64.0,145.3 68.6,143.8 73.2,142.3 77.8,140.9 82.4,139.5 87.0,138.1 91.6,136.9 96.3,135.6 100.9,134.4 105.5,133.2 110.1,132.1 114.7,130.9 119.3,129.8 123.9,128.8 128.5,127.7 133.1,126.7 137.7,125.7 142.3,124.7 146.9,123.8 151.5,122.8 156.2,121.9 160.8,121.0 165.4,120.1 170.0,119.2 174.6,118.4 179.2,117.5 183.8,116.7 188.4,115.9 193.0,115.1 197.6,114.3 202.2,113.5 206.8,112.7 211.4,112.0 216.1,111.2 220.7,110.5 225.3,109.8 229.9,109.1 234.5,108.3 239.1,107.6 243.7,107.0 248.3,106.3 252.9,105.6 257.5,104.9 262.1,104.3 266.7,103.6 271.3,103.0 275.9,102.3 280.6,101.7 285.2,101.1 289.8,100.5 294.4,99.8 299.0,99.2 303.6,98.6 308.2,98.0 312.8,97.5 317.4,96.9 322.0,96.3 326.6,95.7 331.2,95.2 335.8,94.6 340.5,94.0 345.1,93.5 349.7,92.9 354.3,92.4 358.9,91.9 363.5,91.3 368.1,90.8 372.7,90.3 377.3,89.8 381.9,89.2 386.5,88.7 391.1,88.2 395.7,87.7 400.4,87.2 405.0,86.7 409.6,86.2 414.2,85.7 418.8,85.3 423.4,84.8 428.0,84.3" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<polyline points="64.0,61.4 68.6,67.8 73.2,73.6 77.8,78.8 82.4,83.6 87.0,88.0 91.6,92.1 96.3,95.8 100.9,99.3 105.5,102.6 110.1,105.7 114.7,108.5 119.3,111.2 123.9,113.7 128.5,116.1 133.1,118.4 137.7,120.5 142.3,122.6 146.9,124.5 151.5,126.3 156.2,128.1 160.8,129.8 165.4,131.4 170.0,132.9 174.6,134.4 179.2,135.8 183.8,137.1 188.4,138.4 193.0,139.7 197.6,140.9 202.2,142.0 206.8,143.1 211.4,144.2 216.1,145.2 220.7,146.2 225.3,147.2 229.9,148.2 234.5,149.1 239.1,149.9 243.7,150.8 248.3,151.6 252.9,152.4 257.5,153.2 262.1,154.0 266.7,154.7 271.3,155.4 275.9,156.1 280.6,156.8 285.2,157.5 289.8,158.1 294.4,158.7 299.0,159.4 303.6,160.0 308.2,160.5 312.8,161.1 317.4,161.7 322.0,162.2 326.6,162.7 331.2,163.3 335.8,163.8 340.5,164.3 345.1,164.7 349.7,165.2 354.3,165.7 358.9,166.1 363.5,166.6 368.1,167.0 372.7,167.4 377.3,167.9 381.9,168.3 386.5,168.7 391.1,169.1 395.7,169.5 400.4,169.8 405.0,170.2 409.6,170.6 414.2,170.9 418.8,171.3 423.4,171.6 428.0,172.0" fill="none" stroke="#b03a2e" stroke-width="2.4" stroke-dasharray="6 4"/>
+<text x="64.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">10</text>
+<text x="136.8" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">20</text>
+<text x="209.6" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">30</text>
+<text x="282.4" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">40</text>
+<text x="355.2" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">50</text>
+<text x="428.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">60</text>
+<text x="246.0" y="252.0" font-size="10" fill="#333" text-anchor="middle">effective radius  R (mm)</text>
+<text x="391.6" y="58.0" font-size="9" fill="#2a6ca8" text-anchor="end">a ∝ R^(1/3)</text>
+<text x="391.6" y="196.6" font-size="9" fill="#b03a2e" text-anchor="end">p₀ ∝ R^(−2/3)</text>
+<text x="26.0" y="130.0" font-size="9" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 130.0)">(normalized)</text>
+</svg><figcaption><b>Cube-root law.</b> $N\sim E^*a^3/R$ gives $a\propto(NR/E^*)^{1/3}$; then $p_0\propto N/a^2$. At fixed $N$: $a\propto R^{1/3}$ (up $\times1.26$) and $p_0\propto R^{-2/3}$ (down $\times0.63$) when $R$ doubles.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>Geometry.</b> For a sphere the interpenetration depth and contact radius satisfy $\delta\approx a^2/R$.</p><p><b>Elastic contact.</b> Force relates to modulus, radius and depth by $N\sim E^*a\,\delta\sim E^*a\,(a^2/R)=E^*a^3/R$. Solving, $$a\sim\Big(\frac{NR}{E^*}\Big)^{1/3}\propto N^{1/3}R^{1/3}.$$</p><p><b>Peak pressure.</b> $p_0=\dfrac{3N}{2\pi a^2}\propto\dfrac{N}{a^2}\propto N\,(NR/E^*)^{-2/3}=N^{1/3}(E^*)^{2/3}R^{-2/3}.$</p><p>At fixed load $N$: $a\propto R^{1/3}$ (doubling $R$ raises $a$ by $2^{1/3}\approx1.26$) and $p_0\propto R^{-2/3}$ (falls by $2^{-2/3}\approx0.63$). A more conforming (larger-$R$) joint spreads the contact and lowers the peak — the geometric half of why congruent joints protect cartilage. The figure plots both scalings.</p></div></details></div>
+
+<div class="qbox"><b>D8 &mdash; the friction law.</b> <span class="small"><em>Probes: deriving $\mu_{\mathrm{eff}}=\mu_{\mathrm{eq}}(1-F)$ from the load partition (<a class="secref" href="#lubrication">§7</a>).</em></span>
+<p>The normal load $N$ across a cartilage contact is shared between interstitial fluid pressure and solid–solid contact. Taking friction to act only on the solid-borne load with intrinsic coefficient $\mu_{\mathrm{eq}}$, derive the effective friction coefficient in terms of the fluid load fraction $F$.</p>
+<figure><svg class="setupfig" viewBox="0 0 0 0 450 220" width="100%" role="img" aria-label="The normal load splits into a fluid-pressure share F that carries no shear and a solid-contact share one minus F that alone transmits friction, so the effective friction coefficient is the intrinsic value scaled by one minus F.">
+<text x="225" y="26" font-size="10.5" fill="#333" text-anchor="middle">total normal load  N</text>
+<line x1="225" y1="32" x2="225" y2="58" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
+<!-- stacked bar: fluid share (F) + solid share (1-F) -->
+<rect x="90" y="70" width="270" height="30" fill="#cfeaf5" stroke="#5fa6c4"/>
+<rect x="90" y="70" width="230" height="30" fill="#bfe3ef"/>
+<line x1="320" y1="66" x2="320" y2="104" stroke="#333" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="205" y="90" font-size="9.5" fill="#2a6ca8" text-anchor="middle" class="onfill">fluid pressure — share F (no shear)</text>
+<text x="340" y="90" font-size="9" fill="#7a5b3a" text-anchor="middle" class="onfill">solid</text>
+<text x="340" y="115" font-size="8.5" fill="#333" text-anchor="middle">(1−F)</text>
+<!-- friction only on solid share -->
+<line x1="320" y1="128" x2="392" y2="128" stroke="#b03a2e" stroke-width="2.6" marker-end="url(#a_mus)"/>
+<text x="360" y="150" font-size="9" fill="#b03a2e" text-anchor="middle">friction acts here only</text>
+<text x="225" y="180" font-size="11" fill="#7a1f1f" text-anchor="middle">f = μ_eq · (1−F) · N   ⇒   μ_eff = μ_eq (1−F)</text>
+<text x="225" y="200" font-size="8.5" fill="#555" text-anchor="middle">F ≈ 1 (fresh load) → μ_eff ≈ 0; F → 0 (drained) → μ_eff → μ_eq</text>
+</svg><figcaption><b>Friction rides the solid share.</b> Fluid carries $FN$ (no shear); solid carries $(1-F)N$ and alone transmits friction $\mu_{\mathrm{eq}}(1-F)N$, so $\mu_{\mathrm{eff}}=\mu_{\mathrm{eq}}(1-F)$.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>Partition the normal load: fluid carries $N_f=FN$, solid contact carries $N_s=(1-F)N$.</p><p>Interstitial fluid pressure is essentially inviscid on this scale and transmits negligible shear, so the only frictional resistance comes from the solid contact: the tangential force is $f=\mu_{\mathrm{eq}}N_s=\mu_{\mathrm{eq}}(1-F)N$.</p><p>The measured (effective) coefficient is $$\boxed{\;\mu_{\mathrm{eff}}=\frac fN=\mu_{\mathrm{eq}}(1-F).\;}$$</p><p><b>Limits:</b> fresh load $F\to1\Rightarrow\mu_{\mathrm{eff}}\to0$ (the vanishing-friction pressurised regime); fully drained $F\to0\Rightarrow\mu_{\mathrm{eff}}\to\mu_{\mathrm{eq}}$ (the intrinsic solid-on-solid value, $\sim0.15$). Cartilage lives near the top limit because $F$ stays high for the duration of normal loading (D4), which is why measured $\mu\sim0.005$–$0.02$.</p></div></details></div>
+
+<div class="qbox"><b>D9 &mdash; the equilibrium creep strain.</b> <span class="small"><em>Probes: that the long-time drained strain is set by the aggregate modulus alone (<a class="secref" href="#relaxlab">§5</a>).</em></span>
+<p>A confined plug under a constant applied stress $\sigma$ creeps. Show that the final (drained) strain is $\varepsilon_\infty=\sigma/H_A$, independent of permeability, and say what $k$ <em>does</em> control.</p>
+<figure><svg class="setupfig" viewBox="0 0 450 280" width="100%" role="img" aria-label="Creep strain normalized by its equilibrium value climbs from the stiff undrained start to one, the drained limit sigma over H_A.">
+<line x1="64" y1="40" x2="64" y2="220" stroke="#333" stroke-width="1.4"/>
+<line x1="64" y1="220" x2="415" y2="220" stroke="#333" stroke-width="1.4"/>
+<polyline points="64.1,151.0 65.9,138.5 67.6,132.1 69.4,127.1 71.1,122.9 72.9,119.3 74.7,115.9 76.4,112.9 78.2,110.0 80.0,107.3 81.7,104.8 83.5,102.4 85.2,100.2 87.0,98.1 88.8,96.0 90.5,94.1 92.3,92.3 94.1,90.5 95.8,88.9 97.6,87.3 99.4,85.8 101.1,84.4 102.9,83.0 104.6,81.7 106.4,80.5 108.2,79.3 109.9,78.2 111.7,77.2 113.5,76.2 115.2,75.2 117.0,74.3 118.8,73.4 120.5,72.6 122.3,71.8 124.0,71.1 125.8,70.4 127.6,69.7 129.3,69.0 131.1,68.4 132.9,67.8 134.6,67.3 136.4,66.8 138.1,66.3 139.9,65.8 141.7,65.3 143.4,64.9 145.2,64.5 147.0,64.1 148.7,63.7 150.5,63.4 152.3,63.0 154.0,62.7 155.8,62.4 157.5,62.1 159.3,61.8 161.1,61.6 162.8,61.3 164.6,61.1 166.4,60.8 168.1,60.6 169.9,60.4 171.7,60.2 173.4,60.0 175.2,59.9 176.9,59.7 178.7,59.5 180.5,59.4 182.2,59.2 184.0,59.1 185.8,59.0 187.5,58.8 189.3,58.7 191.1,58.6 192.8,58.5 194.6,58.4 196.3,58.3 198.1,58.2 199.9,58.1 201.6,58.0 203.4,57.9 205.2,57.9 206.9,57.8 208.7,57.7 210.4,57.7 212.2,57.6 214.0,57.5 215.7,57.5 217.5,57.4 219.3,57.4 221.0,57.3 222.8,57.3 224.6,57.2 226.3,57.2 228.1,57.2 229.8,57.1 231.6,57.1 233.4,57.0 235.1,57.0 236.9,57.0 238.7,56.9 240.4,56.9 242.2,56.9 244.0,56.9 245.7,56.8 247.5,56.8 249.2,56.8 251.0,56.8 252.8,56.8 254.5,56.7 256.3,56.7 258.1,56.7 259.8,56.7 261.6,56.7 263.3,56.7 265.1,56.6 266.9,56.6 268.6,56.6 270.4,56.6 272.2,56.6 273.9,56.6 275.7,56.6 277.5,56.6 279.2,56.6 281.0,56.5 282.7,56.5 284.5,56.5 286.3,56.5 288.0,56.5 289.8,56.5 291.6,56.5 293.3,56.5 295.1,56.5 296.9,56.5 298.6,56.5 300.4,56.5 302.1,56.5 303.9,56.5 305.7,56.5 307.4,56.4 309.2,56.4 311.0,56.4 312.7,56.4 314.5,56.4 316.3,56.4 318.0,56.4 319.8,56.4 321.5,56.4 323.3,56.4 325.1,56.4 326.8,56.4 328.6,56.4 330.4,56.4 332.1,56.4 333.9,56.4 335.6,56.4 337.4,56.4 339.2,56.4 340.9,56.4 342.7,56.4 344.5,56.4 346.2,56.4 348.0,56.4 349.8,56.4 351.5,56.4 353.3,56.4 355.0,56.4 356.8,56.4 358.6,56.4 360.3,56.4 362.1,56.4 363.9,56.4 365.6,56.4 367.4,56.4 369.2,56.4 370.9,56.4 372.7,56.4 374.4,56.4 376.2,56.4 378.0,56.4 379.7,56.4 381.5,56.4 383.3,56.4 385.0,56.4 386.8,56.4 388.5,56.4 390.3,56.4 392.1,56.4 393.8,56.4 395.6,56.4 397.4,56.4 399.1,56.4 400.9,56.4 402.7,56.4 404.4,56.4 406.2,56.4 407.9,56.4 409.7,56.4 411.5,56.4 413.2,56.4 415.0,56.4" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<line x1="64" y1="56.4" x2="415" y2="56.4" stroke="#2a7d2a" stroke-width="1" stroke-dasharray="5 3"/>
+<text x="411.0" y="51.4" font-size="9" fill="#2a7d2a" text-anchor="end">ε∞ = σ / H_A</text>
+<text x="64.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
+<text x="151.8" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">1</text>
+<text x="239.5" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">2</text>
+<text x="327.2" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">3</text>
+<text x="415.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">4</text>
+<text x="237.0" y="252.0" font-size="10" fill="#333" text-anchor="middle">time  t / τ</text>
+<text x="26.0" y="130.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 130.0)">ε(t) / ε∞</text>
+</svg><figcaption><b>Endpoint is elastic.</b> At equilibrium $q=0\Rightarrow p=0$, so the solid bears all the load: $\sigma=H_A\varepsilon_\infty\Rightarrow\varepsilon_\infty=\sigma/H_A$. Permeability sets only the <em>path</em>, through $\tau=h^2/H_Ak$.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>At equilibrium nothing flows, so $q=0$, and Darcy $q=-k\,\partial p/\partial z=0$ with drained boundaries forces $p=0$ throughout: the fluid carries none of the load.</p><p>The entire applied stress is then borne by the solid effective stress: $\sigma=\sigma_E=H_A\varepsilon_\infty$, hence $$\boxed{\;\varepsilon_\infty=\sigma/H_A.\;}$$</p><p>Permeability $k$ has dropped out — it cannot affect the endpoint, only the path to it: $k$ (through $D=H_Ak$ and $\tau=h^2/D$) sets how fast the strain climbs to $\varepsilon_\infty$, not its value. Two tissues with the same $H_A$ but different $k$ creep to the <em>same</em> final dent, one faster than the other. The figure shows $\varepsilon(t)/\varepsilon_\infty\to1$.</p></div></details></div>
+
+<div class="qbox"><b>D10 &mdash; when does degeneration run away.</b> <span class="small"><em>Probes: a loop-gain (linear-stability) condition for the OA feedback (<a class="secref" href="#degeneration">§8</a>).</em></span>
+<p>Model the degeneration cascade of C8 as a feedback loop: a small drop $\delta F$ in fluid support produces extra damage that further lowers $F$. Writing the per-cycle amplification as a loop gain $G$, state the condition for a small perturbation to heal versus run away, and interpret $G$.</p>
+<figure><svg class="setupfig" viewBox="0 0 0 0 460 230" width="100%" role="img" aria-label="The degeneration feedback as a loop with gain G: a small drop in fluid support feeds back through stress, wear and permeability; if the loop gain exceeds one the perturbation grows without bound, otherwise it decays.">
+<g font-size="9" fill="#333" text-anchor="middle">
+<rect x="30" y="86" width="70" height="34" rx="5" fill="#eef4f8" stroke="#9cc2d8"/><text x="65" y="100">δF</text><text x="65" y="112">perturb.</text>
+<rect x="130" y="86" width="80" height="34" rx="5" fill="#fdf3e6" stroke="#e0c08a"/><text x="170" y="100">↑ stress,</text><text x="170" y="112">wear, k</text>
+<rect x="240" y="86" width="80" height="34" rx="5" fill="#fbeceb" stroke="#d9a7a3"/><text x="280" y="100">further</text><text x="280" y="112">↓F  (gain G)</text>
+</g>
+<g fill="none" stroke="#b03a2e" stroke-width="2" marker-end="url(#a_mus)">
+<line x1="100" y1="103" x2="128" y2="103"/>
+<line x1="210" y1="103" x2="238" y2="103"/>
+<path d="M280,122 Q280,160 170,160 Q65,160 65,122"/>
+</g>
+<text x="172" y="176" font-size="8.5" fill="#b03a2e" text-anchor="middle">feedback</text>
+<!-- inset: stable vs runaway -->
+<rect x="336" y="40" width="112" height="150" fill="#fbfbf9" stroke="#ddd"/>
+<line x1="348" y1="176" x2="348" y2="52" stroke="#333" stroke-width="1"/>
+<line x1="348" y1="130" x2="440" y2="130" stroke="#333" stroke-width="1"/>
+<path d="M348,130 Q380,60 440,50" fill="none" stroke="#b03a2e" stroke-width="2"/>
+<path d="M348,130 Q380,175 440,178" fill="none" stroke="#2a7d2a" stroke-width="2" stroke-dasharray="5 3"/>
+<text x="392" y="66" font-size="8" fill="#b03a2e" text-anchor="middle">G&gt;1 runaway</text>
+<text x="396" y="168" font-size="8" fill="#2a7d2a" text-anchor="middle">G&lt;1 heals</text>
+<text x="392" y="200" font-size="8" fill="#333" text-anchor="middle">time →</text>
+</svg><figcaption><b>Threshold at $G=1$.</b> A deficit obeys $x_{n+1}=G\,x_n$, so $x_n=G^nx_0$: $G\lt1$ decays (heals), $G\gt1$ grows (runaway OA). $G$ is the product of sensitivities around the loop.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>Let the perturbation to the fluid-support deficit after $n$ cycles be $x_n$. Each pass round the loop multiplies it: $$x_{n+1}=G\,x_n\quad\Rightarrow\quad x_n=G^n\,x_0.$$</p><p>If $G\lt1$ the deficit decays geometrically — the tissue heals and returns to homeostasis. If $G\gt1$ it grows without bound — runaway degeneration. The threshold is $G=1$.</p><p>The loop gain is the product of the sensitivities around the cycle — how strongly loss of support raises permeability, stress and wear, which in turn feed back to lower support: $$G=\frac{\partial(\text{damage})}{\partial(\downarrow F)}\cdot\frac{\partial k}{\partial(\text{damage})}\cdot\frac{\partial(\text{stress})}{\partial k}\cdot\frac{\partial(\downarrow F)}{\partial(\text{stress})}\cdots$$</p><p>Interventions — lower load, restore charge and $F$, reduce friction — all act by pushing $G$ below $1$. The inset contrasts a decaying ($G\lt1$) and a growing ($G\gt1$) response.</p></div></details></div>
+
+<h3 id="computational">Computational problems</h3>
+<p>Ten to compute — every number is reproduced by the copy-buttoned Python beneath its solution.</p>
+
+<div class="qbox"><b>K1 &mdash; diffusivity, gel time, and fluid support.</b> <span class="small"><em>Probes: $D=H_Ak$; $F(T)=\sum 2/\lambda_n^2e^{-\lambda_n^2T}$ with $T=Dt/h^2$; the footstep-vs-$\tau$ separation (<a class="secref" href="#biphasic">§3</a>, <a class="secref" href="#fluidload">§4</a>).</em></span>
+<p>A cartilage plug has thickness $h=1.5\ \mathrm{mm}$, aggregate modulus $H_A=0.8\ \mathrm{MPa}$, and permeability $k=2\times10^{-15}\ \mathrm{m^4/(N\,s)}$. <b>(a)</b> Compute the consolidation diffusivity $D$ and the gel time $\tau=h^2/D$. <b>(b)</b> During a $t_{\rm load}=0.5\ \mathrm s$ footstep, estimate the fluid load support $F$. <b>(c)</b> Degeneration triples the permeability; recompute $\tau$ and $F(\text{footstep})$ and comment.</p>
+<figure><svg class="setupfig" viewBox="0 0 460 300" width="100%" role="img" aria-label="Fluid load support F versus time on a log axis; healthy and degraded curves both near 1 at the footstep and diverging near their gel times.">
+<rect x="91.3" y="44" width="42.9" height="188" fill="#eef6e2"/>
+<line x1="123.3" y1="44" x2="123.3" y2="232" stroke="#eee" stroke-width="1"/>
+<line x1="184.7" y1="44" x2="184.7" y2="232" stroke="#eee" stroke-width="1"/>
+<line x1="246.0" y1="44" x2="246.0" y2="232" stroke="#eee" stroke-width="1"/>
+<line x1="307.3" y1="44" x2="307.3" y2="232" stroke="#eee" stroke-width="1"/>
+<line x1="368.7" y1="44" x2="368.7" y2="232" stroke="#eee" stroke-width="1"/>
+<line x1="62" y1="44" x2="62" y2="232" stroke="#333" stroke-width="1.4"/>
+<line x1="62" y1="232" x2="430" y2="232" stroke="#333" stroke-width="1.4"/>
+<text x="57.0" y="235.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
+<text x="57.0" y="141.0" font-size="8.5" fill="#333" text-anchor="end">0.5</text>
+<text x="57.0" y="47.0" font-size="8.5" fill="#333" text-anchor="end">1</text>
+<text x="30.0" y="140.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 30.0 140.0)">fluid support F</text>
+<g transform="rotate(-90 30 140)"></g>
+<text x="62.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">0.1</text>
+<text x="123.3" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">1</text>
+<text x="184.7" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">10</text>
+<text x="246.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">10²</text>
+<text x="307.3" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">10³</text>
+<text x="368.7" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">10⁴</text>
+<text x="430.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">10⁵</text>
+<text x="246.0" y="262.0" font-size="10" fill="#333" text-anchor="middle">time  t  (s, log scale)</text>
+<polyline points="62.0,45.8 63.5,45.8 65.1,45.9 66.6,46.0 68.2,46.0 69.7,46.1 71.2,46.1 72.8,46.2 74.3,46.3 75.9,46.3 77.4,46.4 78.9,46.5 80.5,46.5 82.0,46.6 83.6,46.7 85.1,46.8 86.6,46.8 88.2,46.9 89.7,47.0 91.3,47.1 92.8,47.2 94.3,47.3 95.9,47.4 97.4,47.5 99.0,47.6 100.5,47.7 102.0,47.8 103.6,47.9 105.1,48.0 106.7,48.1 108.2,48.3 109.7,48.4 111.3,48.5 112.8,48.6 114.4,48.8 115.9,48.9 117.4,49.1 119.0,49.2 120.5,49.4 122.1,49.5 123.6,49.7 125.1,49.9 126.7,50.0 128.2,50.2 129.7,50.4 131.3,50.6 132.8,50.8 134.4,51.0 135.9,51.2 137.4,51.4 139.0,51.6 140.5,51.8 142.1,52.0 143.6,52.3 145.1,52.5 146.7,52.8 148.2,53.0 149.8,53.3 151.3,53.6 152.8,53.8 154.4,54.1 155.9,54.4 157.5,54.7 159.0,55.1 160.5,55.4 162.1,55.7 163.6,56.1 165.2,56.4 166.7,56.8 168.2,57.1 169.8,57.5 171.3,57.9 172.9,58.3 174.4,58.8 175.9,59.2 177.5,59.6 179.0,60.1 180.6,60.6 182.1,61.0 183.6,61.5 185.2,62.1 186.7,62.6 188.3,63.1 189.8,63.7 191.3,64.3 192.9,64.9 194.4,65.5 196.0,66.1 197.5,66.8 199.0,67.4 200.6,68.1 202.1,68.8 203.7,69.6 205.2,70.3 206.7,71.1 208.3,71.9 209.8,72.7 211.4,73.5 212.9,74.4 214.4,75.3 216.0,76.2 217.5,77.1 219.1,78.1 220.6,79.1 222.1,80.1 223.7,81.2 225.2,82.3 226.8,83.4 228.3,84.6 229.8,85.8 231.4,87.0 232.9,88.2 234.5,89.5 236.0,90.9 237.5,92.3 239.1,93.7 240.6,95.1 242.2,96.6 243.7,98.2 245.2,99.8 246.8,101.4 248.3,103.1 249.8,104.8 251.4,106.6 252.9,108.4 254.5,110.3 256.0,112.3 257.5,114.3 259.1,116.3 260.6,118.4 262.2,120.6 263.7,122.9 265.2,125.2 266.8,127.6 268.3,130.0 269.9,132.5 271.4,135.1 272.9,137.7 274.5,140.4 276.0,143.2 277.6,146.1 279.1,149.0 280.6,151.9 282.2,155.0 283.7,158.0 285.3,161.2 286.8,164.3 288.3,167.5 289.9,170.7 291.4,174.0 293.0,177.2 294.5,180.4 296.0,183.7 297.6,186.9 299.1,190.0 300.7,193.1 302.2,196.2 303.7,199.1 305.3,202.0 306.8,204.7 308.4,207.4 309.9,209.9 311.4,212.3 313.0,214.6 314.5,216.7 316.1,218.6 317.6,220.4 319.1,222.1 320.7,223.6 322.2,224.9 323.8,226.1 325.3,227.1 326.8,228.0 328.4,228.8 329.9,229.5 331.5,230.0 333.0,230.5 334.5,230.8 336.1,231.1 337.6,231.4 339.2,231.5 340.7,231.7 342.2,231.8 343.8,231.8 345.3,231.9 346.9,231.9 348.4,232.0 349.9,232.0 351.5,232.0 353.0,232.0 354.6,232.0 356.1,232.0 357.6,232.0 359.2,232.0 360.7,232.0 362.3,232.0 363.8,232.0 365.3,232.0 366.9,232.0 368.4,232.0 369.9,232.0 371.5,232.0 373.0,232.0 374.6,232.0 376.1,232.0 377.6,232.0 379.2,232.0 380.7,232.0 382.3,232.0 383.8,232.0 385.3,232.0 386.9,232.0 388.4,232.0 390.0,232.0 391.5,232.0 393.0,232.0 394.6,232.0 396.1,232.0 397.7,232.0 399.2,232.0 400.7,232.0 402.3,232.0 403.8,232.0 405.4,232.0 406.9,232.0 408.4,232.0 410.0,232.0 411.5,232.0 413.1,232.0 414.6,232.0 416.1,232.0 417.7,232.0 419.2,232.0 420.8,232.0 422.3,232.0 423.8,232.0 425.4,232.0 426.9,232.0 428.5,232.0 430.0,232.0" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<polyline points="62.0,47.1 63.5,47.2 65.1,47.3 66.6,47.4 68.2,47.5 69.7,47.6 71.2,47.7 72.8,47.8 74.3,47.9 75.9,48.0 77.4,48.1 78.9,48.3 80.5,48.4 82.0,48.5 83.6,48.6 85.1,48.8 86.6,48.9 88.2,49.1 89.7,49.2 91.3,49.4 92.8,49.5 94.3,49.7 95.9,49.9 97.4,50.0 99.0,50.2 100.5,50.4 102.0,50.6 103.6,50.8 105.1,51.0 106.7,51.2 108.2,51.4 109.7,51.6 111.3,51.8 112.8,52.0 114.4,52.3 115.9,52.5 117.4,52.8 119.0,53.0 120.5,53.3 122.1,53.6 123.6,53.8 125.1,54.1 126.7,54.4 128.2,54.7 129.7,55.1 131.3,55.4 132.8,55.7 134.4,56.1 135.9,56.4 137.4,56.8 139.0,57.1 140.5,57.5 142.1,57.9 143.6,58.3 145.1,58.8 146.7,59.2 148.2,59.6 149.8,60.1 151.3,60.6 152.8,61.1 154.4,61.6 155.9,62.1 157.5,62.6 159.0,63.1 160.5,63.7 162.1,64.3 163.6,64.9 165.2,65.5 166.7,66.1 168.2,66.8 169.8,67.4 171.3,68.1 172.9,68.8 174.4,69.6 175.9,70.3 177.5,71.1 179.0,71.9 180.6,72.7 182.1,73.5 183.6,74.4 185.2,75.3 186.7,76.2 188.3,77.1 189.8,78.1 191.3,79.1 192.9,80.1 194.4,81.2 196.0,82.3 197.5,83.4 199.0,84.6 200.6,85.8 202.1,87.0 203.7,88.3 205.2,89.6 206.7,90.9 208.3,92.3 209.8,93.7 211.4,95.1 212.9,96.6 214.4,98.2 216.0,99.8 217.5,101.4 219.1,103.1 220.6,104.8 222.1,106.6 223.7,108.4 225.2,110.3 226.8,112.3 228.3,114.3 229.8,116.3 231.4,118.5 232.9,120.6 234.5,122.9 236.0,125.2 237.5,127.6 239.1,130.0 240.6,132.5 242.2,135.1 243.7,137.7 245.2,140.4 246.8,143.2 248.3,146.1 249.8,149.0 251.4,152.0 252.9,155.0 254.5,158.1 256.0,161.2 257.5,164.3 259.1,167.5 260.6,170.8 262.2,174.0 263.7,177.2 265.2,180.5 266.8,183.7 268.3,186.9 269.9,190.0 271.4,193.1 272.9,196.2 274.5,199.1 276.0,202.0 277.6,204.8 279.1,207.4 280.6,209.9 282.2,212.3 283.7,214.6 285.3,216.7 286.8,218.7 288.3,220.5 289.9,222.1 291.4,223.6 293.0,224.9 294.5,226.1 296.0,227.1 297.6,228.0 299.1,228.8 300.7,229.5 302.2,230.0 303.7,230.5 305.3,230.8 306.8,231.1 308.4,231.4 309.9,231.5 311.4,231.7 313.0,231.8 314.5,231.8 316.1,231.9 317.6,231.9 319.1,232.0 320.7,232.0 322.2,232.0 323.8,232.0 325.3,232.0 326.8,232.0 328.4,232.0 329.9,232.0 331.5,232.0 333.0,232.0 334.5,232.0 336.1,232.0 337.6,232.0 339.2,232.0 340.7,232.0 342.2,232.0 343.8,232.0 345.3,232.0 346.9,232.0 348.4,232.0 349.9,232.0 351.5,232.0 353.0,232.0 354.6,232.0 356.1,232.0 357.6,232.0 359.2,232.0 360.7,232.0 362.3,232.0 363.8,232.0 365.3,232.0 366.9,232.0 368.4,232.0 369.9,232.0 371.5,232.0 373.0,232.0 374.6,232.0 376.1,232.0 377.6,232.0 379.2,232.0 380.7,232.0 382.3,232.0 383.8,232.0 385.3,232.0 386.9,232.0 388.4,232.0 390.0,232.0 391.5,232.0 393.0,232.0 394.6,232.0 396.1,232.0 397.7,232.0 399.2,232.0 400.7,232.0 402.3,232.0 403.8,232.0 405.4,232.0 406.9,232.0 408.4,232.0 410.0,232.0 411.5,232.0 413.1,232.0 414.6,232.0 416.1,232.0 417.7,232.0 419.2,232.0 420.8,232.0 422.3,232.0 423.8,232.0 425.4,232.0 426.9,232.0 428.5,232.0 430.0,232.0" fill="none" stroke="#b03a2e" stroke-width="2.6"/>
+<line x1="104.9" y1="44.0" x2="104.9" y2="232.0" stroke="#5a7d2a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="104.9" y="38.0" font-size="9.5" fill="#4a6d1a" text-anchor="middle">footstep 0.5 s</text>
+<line x1="287.2" y1="48.0" x2="287.2" y2="232.0" stroke="#b03a2e" stroke-width="1.1" stroke-dasharray="4 3"/>
+<line x1="316.4" y1="48.0" x2="316.4" y2="232.0" stroke="#2a6ca8" stroke-width="1.1" stroke-dasharray="4 3"/>
+<text x="356.0" y="70.0" font-size="10" fill="#333" text-anchor="start">τ = h²/D:</text>
+<line x1="316.4" y1="86" x2="352" y2="86" stroke="#2a6ca8" stroke-width="0.8"/>
+<text x="356.0" y="89.0" font-size="9" fill="#2a6ca8" text-anchor="start">healthy 1406 s</text>
+<line x1="287.2" y1="104" x2="352" y2="104" stroke="#b03a2e" stroke-width="0.8"/>
+<text x="356.0" y="107.0" font-size="9" fill="#b03a2e" text-anchor="start">degraded 469 s</text>
+<line x1="104.9" y1="50" x2="150" y2="112" stroke="#888" stroke-width="0.7"/>
+<text x="170.0" y="116.0" font-size="9.5" fill="#333" text-anchor="middle">F(0.5 s) ≈ 0.98</text>
+</svg><figcaption><b>Same footstep, different fate.</b> Both healthy ($\tau=1406\ \mathrm s$) and degraded ($\tau=469\ \mathrm s$) tissue sit at $F\approx0.98$ for a $0.5\ \mathrm s$ step; they only diverge near their gel times.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $D=H_Ak=(0.8\times10^6)(2\times10^{-15})=1.6\times10^{-9}\ \mathrm{m^2/s}$; $\tau=h^2/D=(1.5\times10^{-3})^2/1.6\times10^{-9}=1.41\times10^{3}\ \mathrm s\approx23\ \mathrm{min}$.</p><p><b>(b)</b> $T=t_{\rm load}/\tau=3.6\times10^{-4}\ll1$; the series gives $F=0.979$ (short-time $F\approx1-2\sqrt{T/\pi}=0.979$). The fluid carries $\approx98\%$.</p><p><b>(c)</b> $k\to6\times10^{-15}$: $D=4.8\times10^{-9}\ \mathrm{m^2/s}$, $\tau=469\ \mathrm s\approx7.8\ \mathrm{min}$; $F(\text{footstep})=0.963$.</p><p><b>Comment.</b> Tripling permeability barely dents single-step support ($0.98\to0.96$): a footstep is far shorter than even the degraded gel time. The danger is not that one step fails — it is <em>cumulative</em>. With $\tau$ cut, fluid drains between steps faster than <a class="secref" href="#donnan">§2</a>'s osmotic swelling can re-imbibe it, so $F$ sags over sustained and repeated loading (<a class="secref" href="#degeneration">§8</a>), and the rising friction ($\mu_{\rm eff}=\mu_{\rm eq}(1-F)$ climbs from $0.003$ toward $0.006$ here, and further as $F$ sags) abrades the surface. The reassuring single-step number hides a cyclic failure.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+h, HA = 1.5e-3, 0.8e6
+def F(k, t=0.5, N=2000):
+    D = HA*k;  T = D*t/h**2
+    lam = (2*np.arange(N)+1)*np.pi/2
+    return D, h**2/D, np.sum(2/lam**2 * np.exp(-lam**2*T))
+for k in (2e-15, 6e-15):
+    D, tau, Fv = F(k)
+    print(f"k={k:.0e}  tau={tau:6.0f} s  F(0.5 s)={Fv:.3f}")
+# k=2e-15  tau=  1406 s  F(0.5 s)=0.979
+# k=6e-15  tau=   469 s  F(0.5 s)=0.963</code></pre></div></div></details></div>
+
+<div class="qbox"><b>K2 &mdash; the swelling pressure and its collapse.</b> <span class="small"><em>Probes: the Donnan formula; the fast (super-linear) sensitivity to charge loss (<a class="secref" href="#donnan">§2</a>).</em></span>
+<p>Using $\pi=R_gT[\sqrt{c_F^2+4c_0^2}-2c_0]$ with $c_0=0.15\ \mathrm M$, $T=310\ \mathrm K$: <b>(a)</b> compute $\pi$ for healthy $c_F=0.2\ \mathrm M$. <b>(b)</b> Degeneration halves the fixed charge to $c_F=0.1\ \mathrm M$; recompute and give the fractional loss of swelling pressure. <b>(c)</b> Comment on the mechanical consequence.</p>
+<figure><svg class="setupfig" viewBox="0 0 440 290" width="100%" role="img" aria-label="Donnan swelling pressure rising with fixed-charge density; cartilage operating point near 0.2 molar giving about 0.16 megapascal.">
+<line x1="64" y1="40" x2="64" y2="232" stroke="#333" stroke-width="1.4"/>
+<line x1="64" y1="232" x2="410" y2="232" stroke="#333" stroke-width="1.4"/>
+<polyline points="64.0,232.0 66.9,232.0 69.8,231.9 72.7,231.8 75.6,231.7 78.5,231.5 81.4,231.3 84.4,231.1 87.3,230.8 90.2,230.5 93.1,230.1 96.0,229.8 98.9,229.3 101.8,228.9 104.7,228.4 107.6,227.8 110.5,227.3 113.4,226.7 116.3,226.0 119.2,225.3 122.2,224.6 125.1,223.9 128.0,223.1 130.9,222.3 133.8,221.5 136.7,220.6 139.6,219.7 142.5,218.7 145.4,217.7 148.3,216.7 151.2,215.7 154.1,214.6 157.0,213.5 159.9,212.4 162.9,211.2 165.8,210.0 168.7,208.8 171.6,207.5 174.5,206.2 177.4,204.9 180.3,203.5 183.2,202.2 186.1,200.8 189.0,199.3 191.9,197.9 194.8,196.4 197.7,194.9 200.7,193.3 203.6,191.8 206.5,190.2 209.4,188.6 212.3,186.9 215.2,185.3 218.1,183.6 221.0,181.9 223.9,180.2 226.8,178.4 229.7,176.6 232.6,174.8 235.5,173.0 238.5,171.1 241.4,169.3 244.3,167.4 247.2,165.5 250.1,163.6 253.0,161.6 255.9,159.6 258.8,157.6 261.7,155.6 264.6,153.6 267.5,151.6 270.4,149.5 273.3,147.4 276.3,145.3 279.2,143.2 282.1,141.1 285.0,138.9 287.9,136.8 290.8,134.6 293.7,132.4 296.6,130.2 299.5,128.0 302.4,125.7 305.3,123.5 308.2,121.2 311.1,118.9 314.1,116.6 317.0,114.3 319.9,111.9 322.8,109.6 325.7,107.2 328.6,104.9 331.5,102.5 334.4,100.1 337.3,97.7 340.2,95.3 343.1,92.8 346.0,90.4 348.9,88.0 351.8,85.5 354.8,83.0 357.7,80.5 360.6,78.0 363.5,75.5 366.4,73.0 369.3,70.5 372.2,67.9 375.1,65.4 378.0,62.8 380.9,60.2 383.8,57.7 386.7,55.1 389.6,52.5 392.6,49.9 395.5,47.3 398.4,44.6 401.3,42.0 404.2,39.4 407.1,36.7 410.0,34.1" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<text x="64.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
+<text x="150.5" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">0.1</text>
+<text x="237.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">0.2</text>
+<text x="323.5" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">0.3</text>
+<text x="410.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">0.4</text>
+<text x="59.0" y="235.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
+<text x="59.0" y="196.6" font-size="8.5" fill="#333" text-anchor="end">0.1</text>
+<text x="59.0" y="158.2" font-size="8.5" fill="#333" text-anchor="end">0.2</text>
+<text x="59.0" y="119.8" font-size="8.5" fill="#333" text-anchor="end">0.3</text>
+<text x="59.0" y="81.4" font-size="8.5" fill="#333" text-anchor="end">0.4</text>
+<text x="59.0" y="43.0" font-size="8.5" fill="#333" text-anchor="end">0.5</text>
+<text x="237.0" y="262.0" font-size="10" fill="#333" text-anchor="middle">fixed-charge density  c_F  (mol/L)</text>
+<text x="26.0" y="136.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 136.0)">swelling π (MPa)</text>
+<line x1="237.0" y1="172.1" x2="237.0" y2="232.0" stroke="#7a1f1f" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="64" y1="172.1" x2="237.0" y2="172.1" stroke="#7a1f1f" stroke-width="1" stroke-dasharray="4 3"/>
+<circle cx="237.0" cy="172.1" r="3.5" fill="#7a1f1f"/>
+<line x1="180.8" y1="105.3" x2="237.0" y2="172.1" stroke="#7a1f1f" stroke-width="0.7"/>
+<text x="81.3" y="97.6" font-size="9.5" fill="#7a1f1f" text-anchor="start">cartilage: π ≈ 0.16 MPa</text>
+<text x="237.0" y="246.0" font-size="8.5" fill="#7a1f1f" text-anchor="middle">0.2</text>
+</svg><figcaption><b>Charge loss is amplified.</b> Halving $c_F$ ($0.2\to0.1\ \mathrm M$) cuts the swelling pressure by $73\%$ ($0.156\to0.042\ \mathrm{MPa}$) — the dependence is steeper than linear near the operating point.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $\sqrt{0.2^2+4(0.15)^2}=\sqrt{0.13}=0.3606\ \mathrm M$; minus $0.30=0.0606\ \mathrm M=60.6\ \mathrm{mol/m^3}$; $\pi=2577\times60.6=1.56\times10^5\ \mathrm{Pa}=0.156\ \mathrm{MPa}$.</p><p><b>(b)</b> $\sqrt{0.1^2+4(0.15)^2}=\sqrt{0.10}=0.3162\ \mathrm M$; minus $0.30=0.0162\ \mathrm M=16.2\ \mathrm{mol/m^3}$; $\pi=2577\times16.2=4.18\times10^4=0.042\ \mathrm{MPa}$. Loss $=(0.156-0.042)/0.156=73\%$.</p><p><b>(c)</b> Halving the charge cuts the swelling pre-stress by nearly three-quarters. The tissue loses the pre-stress that stiffens its surface and re-imbibes fluid, so both its instantaneous stiffness and its overnight recovery (C10) collapse — the entry point of the C8 cascade.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+RgT, c0 = 8.314*310, 0.15
+pi = lambda cF: RgT*(np.sqrt(cF**2 + 4*c0**2) - 2*c0)*1e3   # Pa
+for cF in (0.2, 0.1):
+    print(f"c_F={cF} M  pi={pi(cF)/1e6:.3f} MPa")
+print(f"loss = {100*(pi(0.2)-pi(0.1))/pi(0.2):.0f}%")
+# c_F=0.2 M  pi=0.156 MPa
+# c_F=0.1 M  pi=0.042 MPa
+# loss = 73%</code></pre></div></div></details></div>
+
+<div class="qbox"><b>K3 &mdash; the hip contact patch.</b> <span class="small"><em>Probes: computing contact radius, peak and mean pressure, and validating against Module&nbsp;3 (<a class="secref" href="#contact">§6</a>).</em></span>
+<p>The hip reaction is $R=1715\ \mathrm N$ (<a class="secref" href="module03.html#contact">Module&nbsp;3</a>). Model the contact as a sphere of effective radius $R_{\rm eff}=30\ \mathrm{mm}$ on cartilage of reduced modulus $E^*=6.67\ \mathrm{MPa}$. Compute <b>(a)</b> the contact radius $a=(3RR_{\rm eff}/4E^*)^{1/3}$, <b>(b)</b> the peak Hertz pressure $p_0=3R/(2\pi a^2)$, <b>(c)</b> the mean pressure $\bar p=R/(\pi a^2)$, and compare $\bar p$ with the Module&nbsp;3 estimate of $1.7\ \mathrm{MPa}$.</p>
+<figure><svg class="setupfig" viewBox="0 0 450 290" width="100%" role="img" aria-label="Two contact-pressure profiles carrying the same hip load: the peaked dry-Hertz profile at 2.5 megapascal and the broader flattened biphasic profile at about 2 megapascal.">
+<line x1="60" y1="40" x2="60" y2="225" stroke="#333" stroke-width="1.4"/>
+<line x1="60" y1="225" x2="415" y2="225" stroke="#333" stroke-width="1.4"/>
+<polyline points="110.0,225.0 111.3,202.8 112.6,193.7 113.9,186.8 115.2,181.0 116.4,176.0 117.7,171.4 119.0,167.3 120.3,163.4 121.6,159.9 122.9,156.5 124.1,153.4 125.4,150.4 126.7,147.6 128.0,144.9 129.3,142.3 130.5,139.8 131.8,137.4 133.1,135.1 134.4,132.9 135.7,130.8 136.9,128.7 138.2,126.7 139.5,124.8 140.8,122.9 142.1,121.1 143.3,119.4 144.6,117.7 145.9,116.0 147.2,114.4 148.5,112.9 149.8,111.4 151.0,109.9 152.3,108.4 153.6,107.0 154.9,105.7 156.2,104.4 157.4,103.1 158.7,101.8 160.0,100.6 161.3,99.4 162.6,98.3 163.8,97.1 165.1,96.0 166.4,94.9 167.7,93.9 169.0,92.9 170.2,91.9 171.5,90.9 172.8,90.0 174.1,89.1 175.4,88.2 176.7,87.3 177.9,86.5 179.2,85.7 180.5,84.9 181.8,84.1 183.1,83.3 184.3,82.6 185.6,81.9 186.9,81.2 188.2,80.5 189.5,79.9 190.7,79.2 192.0,78.6 193.3,78.0 194.6,77.5 195.9,76.9 197.1,76.4 198.4,75.9 199.7,75.4 201.0,74.9 202.3,74.4 203.6,74.0 204.8,73.5 206.1,73.1 207.4,72.7 208.7,72.4 210.0,72.0 211.2,71.7 212.5,71.3 213.8,71.0 215.1,70.8 216.4,70.5 217.6,70.2 218.9,70.0 220.2,69.8 221.5,69.6 222.8,69.4 224.0,69.2 225.3,69.0 226.6,68.9 227.9,68.8 229.2,68.6 230.5,68.5 231.7,68.5 233.0,68.4 234.3,68.4 235.6,68.3 236.9,68.3 238.1,68.3 239.4,68.3 240.7,68.4 242.0,68.4 243.3,68.5 244.5,68.5 245.8,68.6 247.1,68.8 248.4,68.9 249.7,69.0 251.0,69.2 252.2,69.4 253.5,69.6 254.8,69.8 256.1,70.0 257.4,70.2 258.6,70.5 259.9,70.8 261.2,71.0 262.5,71.3 263.8,71.7 265.0,72.0 266.3,72.4 267.6,72.7 268.9,73.1 270.2,73.5 271.4,74.0 272.7,74.4 274.0,74.9 275.3,75.4 276.6,75.9 277.9,76.4 279.1,76.9 280.4,77.5 281.7,78.0 283.0,78.6 284.3,79.2 285.5,79.9 286.8,80.5 288.1,81.2 289.4,81.9 290.7,82.6 291.9,83.3 293.2,84.1 294.5,84.9 295.8,85.7 297.1,86.5 298.3,87.3 299.6,88.2 300.9,89.1 302.2,90.0 303.5,90.9 304.8,91.9 306.0,92.9 307.3,93.9 308.6,94.9 309.9,96.0 311.2,97.1 312.4,98.3 313.7,99.4 315.0,100.6 316.3,101.8 317.6,103.1 318.8,104.4 320.1,105.7 321.4,107.0 322.7,108.4 324.0,109.9 325.2,111.4 326.5,112.9 327.8,114.4 329.1,116.0 330.4,117.7 331.7,119.4 332.9,121.1 334.2,122.9 335.5,124.8 336.8,126.7 338.1,128.7 339.3,130.8 340.6,132.9 341.9,135.1 343.2,137.4 344.5,139.8 345.7,142.3 347.0,144.9 348.3,147.6 349.6,150.4 350.9,153.4 352.1,156.5 353.4,159.9 354.7,163.4 356.0,167.3 357.3,171.4 358.6,176.0 359.8,181.0 361.1,186.8 362.4,193.7 363.7,202.8 365.0,225.0" fill="none" stroke="#b03a2e" stroke-width="2.6"/>
+<polyline points="87.1,225.0 88.6,222.5 90.1,220.1 91.6,217.7 93.1,215.3 94.7,212.9 96.2,210.6 97.7,208.3 99.2,206.0 100.7,203.7 102.2,201.5 103.7,199.2 105.2,197.0 106.8,194.9 108.3,192.7 109.8,190.6 111.3,188.5 112.8,186.5 114.3,184.4 115.8,182.4 117.3,180.4 118.8,178.4 120.4,176.5 121.9,174.6 123.4,172.7 124.9,170.8 126.4,169.0 127.9,167.1 129.4,165.4 130.9,163.6 132.4,161.8 134.0,160.1 135.5,158.4 137.0,156.8 138.5,155.1 140.0,153.5 141.5,151.9 143.0,150.3 144.5,148.8 146.1,147.3 147.6,145.8 149.1,144.3 150.6,142.9 152.1,141.4 153.6,140.0 155.1,138.7 156.6,137.3 158.1,136.0 159.7,134.7 161.2,133.4 162.7,132.2 164.2,131.0 165.7,129.8 167.2,128.6 168.7,127.5 170.2,126.3 171.7,125.2 173.3,124.2 174.8,123.1 176.3,122.1 177.8,121.1 179.3,120.1 180.8,119.2 182.3,118.3 183.8,117.4 185.4,116.5 186.9,115.6 188.4,114.8 189.9,114.0 191.4,113.3 192.9,112.5 194.4,111.8 195.9,111.1 197.4,110.4 199.0,109.8 200.5,109.1 202.0,108.5 203.5,108.0 205.0,107.4 206.5,106.9 208.0,106.4 209.5,105.9 211.0,105.5 212.6,105.1 214.1,104.7 215.6,104.3 217.1,103.9 218.6,103.6 220.1,103.3 221.6,103.0 223.1,102.8 224.7,102.6 226.2,102.4 227.7,102.2 229.2,102.0 230.7,101.9 232.2,101.8 233.7,101.7 235.2,101.7 236.7,101.7 238.3,101.7 239.8,101.7 241.3,101.7 242.8,101.8 244.3,101.9 245.8,102.0 247.3,102.2 248.8,102.4 250.3,102.6 251.9,102.8 253.4,103.0 254.9,103.3 256.4,103.6 257.9,103.9 259.4,104.3 260.9,104.7 262.4,105.1 264.0,105.5 265.5,105.9 267.0,106.4 268.5,106.9 270.0,107.4 271.5,108.0 273.0,108.5 274.5,109.1 276.0,109.8 277.6,110.4 279.1,111.1 280.6,111.8 282.1,112.5 283.6,113.3 285.1,114.0 286.6,114.8 288.1,115.6 289.6,116.5 291.2,117.4 292.7,118.3 294.2,119.2 295.7,120.1 297.2,121.1 298.7,122.1 300.2,123.1 301.7,124.2 303.3,125.2 304.8,126.3 306.3,127.5 307.8,128.6 309.3,129.8 310.8,131.0 312.3,132.2 313.8,133.4 315.3,134.7 316.9,136.0 318.4,137.3 319.9,138.7 321.4,140.0 322.9,141.4 324.4,142.9 325.9,144.3 327.4,145.8 328.9,147.3 330.5,148.8 332.0,150.3 333.5,151.9 335.0,153.5 336.5,155.1 338.0,156.8 339.5,158.4 341.0,160.1 342.6,161.8 344.1,163.6 345.6,165.4 347.1,167.1 348.6,169.0 350.1,170.8 351.6,172.7 353.1,174.6 354.6,176.5 356.2,178.4 357.7,180.4 359.2,182.4 360.7,184.4 362.2,186.5 363.7,188.5 365.2,190.6 366.7,192.7 368.2,194.9 369.8,197.0 371.3,199.2 372.8,201.5 374.3,203.7 375.8,206.0 377.3,208.3 378.8,210.6 380.3,212.9 381.9,215.3 383.4,217.7 384.9,220.1 386.4,222.5 387.9,225.0" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<text x="95.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">-20</text>
+<text x="166.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">-10</text>
+<text x="237.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
+<text x="308.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">10</text>
+<text x="379.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">20</text>
+<text x="55.0" y="228.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
+<text x="55.0" y="166.3" font-size="8.5" fill="#333" text-anchor="end">1</text>
+<text x="55.0" y="104.7" font-size="8.5" fill="#333" text-anchor="end">2</text>
+<text x="55.0" y="43.0" font-size="8.5" fill="#333" text-anchor="end">3</text>
+<text x="237.0" y="258.0" font-size="10" fill="#333" text-anchor="middle">radius  r  (mm)</text>
+<text x="24.0" y="132.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 24.0 132.0)">pressure (MPa)</text>
+<text x="237.5" y="62.3" font-size="9.5" fill="#b03a2e" text-anchor="middle">dry Hertz  p₀=2.5 MPa</text>
+<text x="400.8" y="80.1" font-size="9.5" fill="#2a6ca8" text-anchor="end">biphasic (flattened)</text>
+<text x="131.0" y="64.7" font-size="8.5" fill="#555" text-anchor="middle">same load ∫p·2πr dr</text>
+</svg><figcaption><b>Two models agree.</b> Hertz gives $a=18\ \mathrm{mm}$, $p_0=2.5\ \mathrm{MPa}$, $\bar p=1.7\ \mathrm{MPa}$ — the mean matches Module&nbsp;3's force/area estimate exactly, an independent check.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $a=\big(3\cdot1715\cdot0.03/(4\cdot6.67\times10^6)\big)^{1/3}=(5.785\times10^{-6})^{1/3}=1.80\times10^{-2}\ \mathrm m=18.0\ \mathrm{mm}$.</p><p><b>(b)</b> $p_0=3\cdot1715/(2\pi(0.018)^2)=5145/(2.04\times10^{-3})=2.53\times10^6=2.53\ \mathrm{MPa}$.</p><p><b>(c)</b> $\bar p=1715/(\pi(0.018)^2)=1715/(1.02\times10^{-3})=1.69\times10^6=1.69\ \mathrm{MPa}$.</p><p>The Hertz mean ($1.69\ \mathrm{MPa}$) matches the Module&nbsp;3 force-over-area estimate ($1.7\ \mathrm{MPa}$) — the contact model and the joint-reaction model agree. The peak is $\approx1.5\times$ the mean; the biphasic flattening of C5 brings the <em>true</em> peak down toward $\approx2.0\ \mathrm{MPa}$.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+R, Reff, Estar = 1715.0, 0.03, 6.67e6
+a  = (3*R*Reff/(4*Estar))**(1/3)
+p0 = 3*R/(2*np.pi*a**2);  pbar = R/(np.pi*a**2)
+print(f"a={a*1e3:.1f} mm  p0={p0/1e6:.2f} MPa  pbar={pbar/1e6:.2f} MPa")
+# a=18.0 mm  p0=2.53 MPa  pbar=1.69 MPa</code></pre></div></div></details></div>
+
+<div class="qbox"><b>K4 &mdash; stress relaxation by finite differences.</b> <span class="small"><em>Probes: an explicit FD solution of the consolidation PDE; the undrained peak and the $h^2$ time (<a class="secref" href="#relaxlab">§5</a>).</em></span>
+<p>Solve the 1-D consolidation equation numerically (explicit finite differences) for a plug ramped to strain $\varepsilon_0$ and held. Confirm the stress decays from an undrained peak to $\sigma_\infty=H_A\varepsilon_0$ over a few $\tau$, and that the relaxation time scales as $h^2$.</p>
+<figure><svg class="setupfig" viewBox="0 0 460 290" width="100%" role="img" aria-label="Confined-compression stress relaxation: stress jumps to an undrained peak then decays to the drained equilibrium H_A epsilon over a few gel times.">
+<line x1="64" y1="40" x2="64" y2="232" stroke="#333" stroke-width="1.4"/>
+<line x1="64" y1="232" x2="428" y2="232" stroke="#333" stroke-width="1.4"/>
+<polyline points="64.1,65.0 65.3,71.4 66.5,74.7 67.7,77.3 69.0,79.5 70.2,81.4 71.4,83.2 72.6,84.8 73.8,86.3 75.0,87.7 76.3,89.1 77.5,90.3 78.7,91.5 79.9,92.7 81.1,93.8 82.3,94.9 83.6,95.9 84.8,96.9 86.0,97.9 87.2,98.8 88.4,99.7 89.6,100.6 90.9,101.4 92.1,102.2 93.3,103.0 94.5,103.7 95.7,104.5 97.0,105.2 98.2,105.9 99.4,106.5 100.6,107.2 101.8,107.8 103.0,108.4 104.3,109.0 105.5,109.5 106.7,110.1 107.9,110.6 109.1,111.1 110.3,111.6 111.6,112.1 112.8,112.5 114.0,113.0 115.2,113.4 116.4,113.8 117.6,114.2 118.9,114.6 120.1,115.0 121.3,115.4 122.5,115.7 123.7,116.1 124.9,116.4 126.2,116.7 127.4,117.0 128.6,117.3 129.8,117.6 131.0,117.9 132.2,118.2 133.5,118.4 134.7,118.7 135.9,118.9 137.1,119.2 138.3,119.4 139.6,119.6 140.8,119.8 142.0,120.0 143.2,120.2 144.4,120.4 145.6,120.6 146.9,120.8 148.1,121.0 149.3,121.1 150.5,121.3 151.7,121.5 152.9,121.6 154.2,121.8 155.4,121.9 156.6,122.1 157.8,122.2 159.0,122.3 160.2,122.5 161.5,122.6 162.7,122.7 163.9,122.8 165.1,122.9 166.3,123.0 167.5,123.1 168.8,123.2 170.0,123.3 171.2,123.4 172.4,123.5 173.6,123.6 174.8,123.7 176.1,123.8 177.3,123.9 178.5,123.9 179.7,124.0 180.9,124.1 182.1,124.1 183.4,124.2 184.6,124.3 185.8,124.3 187.0,124.4 188.2,124.5 189.5,124.5 190.7,124.6 191.9,124.6 193.1,124.7 194.3,124.7 195.5,124.8 196.8,124.8 198.0,124.9 199.2,124.9 200.4,125.0 201.6,125.0 202.8,125.0 204.1,125.1 205.3,125.1 206.5,125.2 207.7,125.2 208.9,125.2 210.1,125.3 211.4,125.3 212.6,125.3 213.8,125.4 215.0,125.4 216.2,125.4 217.4,125.4 218.7,125.5 219.9,125.5 221.1,125.5 222.3,125.5 223.5,125.6 224.7,125.6 226.0,125.6 227.2,125.6 228.4,125.6 229.6,125.7 230.8,125.7 232.0,125.7 233.3,125.7 234.5,125.7 235.7,125.7 236.9,125.8 238.1,125.8 239.4,125.8 240.6,125.8 241.8,125.8 243.0,125.8 244.2,125.8 245.4,125.9 246.7,125.9 247.9,125.9 249.1,125.9 250.3,125.9 251.5,125.9 252.7,125.9 254.0,125.9 255.2,125.9 256.4,126.0 257.6,126.0 258.8,126.0 260.0,126.0 261.3,126.0 262.5,126.0 263.7,126.0 264.9,126.0 266.1,126.0 267.3,126.0 268.6,126.0 269.8,126.0 271.0,126.0 272.2,126.1 273.4,126.1 274.6,126.1 275.9,126.1 277.1,126.1 278.3,126.1 279.5,126.1 280.7,126.1 281.9,126.1 283.2,126.1 284.4,126.1 285.6,126.1 286.8,126.1 288.0,126.1 289.3,126.1 290.5,126.1 291.7,126.1 292.9,126.1 294.1,126.1 295.3,126.1 296.6,126.1 297.8,126.1 299.0,126.1 300.2,126.2 301.4,126.2 302.6,126.2 303.9,126.2 305.1,126.2 306.3,126.2 307.5,126.2 308.7,126.2 309.9,126.2 311.2,126.2 312.4,126.2 313.6,126.2 314.8,126.2 316.0,126.2 317.2,126.2 318.5,126.2 319.7,126.2 320.9,126.2 322.1,126.2 323.3,126.2 324.5,126.2 325.8,126.2 327.0,126.2 328.2,126.2 329.4,126.2 330.6,126.2 331.9,126.2 333.1,126.2 334.3,126.2 335.5,126.2 336.7,126.2 337.9,126.2 339.2,126.2 340.4,126.2 341.6,126.2 342.8,126.2 344.0,126.2 345.2,126.2 346.5,126.2 347.7,126.2 348.9,126.2 350.1,126.2 351.3,126.2 352.5,126.2 353.8,126.2 355.0,126.2 356.2,126.2 357.4,126.2 358.6,126.2 359.8,126.2 361.1,126.2 362.3,126.2 363.5,126.2 364.7,126.2 365.9,126.2 367.1,126.2 368.4,126.2 369.6,126.2 370.8,126.2 372.0,126.2 373.2,126.2 374.4,126.2 375.7,126.2 376.9,126.2 378.1,126.2 379.3,126.2 380.5,126.2 381.8,126.2 383.0,126.2 384.2,126.2 385.4,126.2 386.6,126.2 387.8,126.2 389.1,126.2 390.3,126.2 391.5,126.2 392.7,126.2 393.9,126.2 395.1,126.2 396.4,126.2 397.6,126.2 398.8,126.2 400.0,126.2 401.2,126.2 402.4,126.2 403.7,126.2 404.9,126.2 406.1,126.2 407.3,126.2 408.5,126.2 409.7,126.2 411.0,126.2 412.2,126.2 413.4,126.2 414.6,126.2 415.8,126.2 417.0,126.2 418.3,126.2 419.5,126.2 420.7,126.2 421.9,126.2 423.1,126.2 424.3,126.2 425.6,126.2 426.8,126.2 428.0,126.2" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<line x1="64" y1="126.2" x2="428" y2="126.2" stroke="#2a7d2a" stroke-width="1" stroke-dasharray="5 3"/>
+<text x="424.0" y="121.2" font-size="9" fill="#2a7d2a" text-anchor="end">equilibrium σ∞ = H_A ε₀</text>
+<text x="64.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
+<text x="155.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">1</text>
+<text x="246.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">2</text>
+<text x="337.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">3</text>
+<text x="428.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">4</text>
+<text x="246.0" y="262.0" font-size="10" fill="#333" text-anchor="middle">time  t / τ</text>
+<text x="24.0" y="136.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 24.0 136.0)">stress σ(t)</text>
+<circle cx="64.1" cy="65.0" r="3" fill="#b03a2e"/>
+<text x="77.7" y="60.8" font-size="9" fill="#b03a2e" text-anchor="start">undrained peak</text>
+</svg><figcaption><b>Peak, then decay.</b> The stress starts elevated (undrained pressurisation) and relaxes to the drained $\sigma_\infty=H_A\varepsilon_0$ over a few gel times; doubling $h$ shifts the curve right by $4$ in real time, unchanged in $T$.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>Discretise $\partial p/\partial t=D\,\partial^2p/\partial z^2$ on $N$ depth nodes with $p=0$ at the drained face and $\partial p/\partial z=0$ (a mirror node) at the sealed base. The total stress is $\sigma(t)=H_A\varepsilon_0+\langle p\rangle$, the spatial-mean pressure added to the drained elastic stress. The explicit step is stable for $r=D\,\mathrm dt/\mathrm dz^2\le\tfrac12$.</p><p>The stress starts elevated (undrained, the pressure supports extra load), then $\langle p\rangle\to0$ and $\sigma\to H_A\varepsilon_0$. Because the equation is parameter-free in $T=Dt/h^2$ (D6), doubling $h$ quadruples the real relaxation time while leaving the shape fixed. The figure shows the peak-then-decay.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+h, HA, k = 2e-3, 0.6e6, 1e-15
+D = HA*k;  tau = h**2/D
+N, r = 60, 0.4
+dz = h/N;  dt = r*dz**2/D
+p = np.ones(N+1)          # uniform initial pressure (undrained)
+p[-1] = 0.0               # drained top face
+tsteps = int(3*tau/dt)
+for _ in range(tsteps):
+    lap = p[2:] - 2*p[1:-1] + p[:-2]
+    p[1:-1] += r*lap
+    p[0]  = p[1]           # sealed base: zero-flux (mirror)
+    p[-1] = 0.0
+print(f"tau={tau:.0f} s;  mean p after 3*tau = {p.mean():.3f} (-> 0)")
+# tau=6667 s;  mean p after 3*tau = 0.0xx  (stress -> HA*eps0)</code></pre></div></div></details></div>
+
+<div class="qbox"><b>K5 &mdash; footstep versus a long stand.</b> <span class="small"><em>Probes: evaluating $F$ for two very different loading durations (<a class="secref" href="#fluidload">§4</a>).</em></span>
+<p>For healthy cartilage ($h=2\ \mathrm{mm}$, $H_A=0.6\ \mathrm{MPa}$, $k=10^{-15}\ \mathrm{m^4/(N\,s)}$), compute the fluid load support $F$ for <b>(a)</b> a $0.5\ \mathrm s$ footstep and <b>(b)</b> a $1\ \mathrm h$ stand, using $F(T)=\sum 2/\lambda_n^2e^{-\lambda_n^2T}$, $\lambda_n=(2n+1)\pi/2$, $T=Dt/h^2$.</p>
+<figure><svg class="setupfig" viewBox="0 0 460 290" width="100%" role="img" aria-label="Fluid support over one plot: a half-second footstep sits near F=1 while a one-hour stand near the gel time has dropped far toward solid support.">
+<line x1="123.3" y1="40" x2="123.3" y2="224" stroke="#eee" stroke-width="1"/>
+<line x1="184.7" y1="40" x2="184.7" y2="224" stroke="#eee" stroke-width="1"/>
+<line x1="246.0" y1="40" x2="246.0" y2="224" stroke="#eee" stroke-width="1"/>
+<line x1="307.3" y1="40" x2="307.3" y2="224" stroke="#eee" stroke-width="1"/>
+<line x1="368.7" y1="40" x2="368.7" y2="224" stroke="#eee" stroke-width="1"/>
+<line x1="62" y1="40" x2="62" y2="224" stroke="#333" stroke-width="1.4"/>
+<line x1="62" y1="224" x2="430" y2="224" stroke="#333" stroke-width="1.4"/>
+<text x="57.0" y="227.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
+<text x="57.0" y="135.0" font-size="8.5" fill="#333" text-anchor="end">0.5</text>
+<text x="57.0" y="43.0" font-size="8.5" fill="#333" text-anchor="end">1</text>
+<text x="62.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">0.1</text>
+<text x="123.3" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">1</text>
+<text x="184.7" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">10</text>
+<text x="246.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">10²</text>
+<text x="307.3" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">10³</text>
+<text x="368.7" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">10⁴</text>
+<text x="430.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">10⁵</text>
+<text x="246.0" y="256.0" font-size="10" fill="#333" text-anchor="middle">loading time  (s, log scale)</text>
+<text x="26.0" y="132.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 132.0)">fluid support F</text>
+<polyline points="62.0,40.8 63.5,40.8 65.1,40.9 66.6,40.9 68.2,40.9 69.7,40.9 71.2,41.0 72.8,41.0 74.3,41.0 75.9,41.0 77.4,41.1 78.9,41.1 80.5,41.1 82.0,41.2 83.6,41.2 85.1,41.2 86.6,41.3 88.2,41.3 89.7,41.4 91.3,41.4 92.8,41.4 94.3,41.5 95.9,41.5 97.4,41.6 99.0,41.6 100.5,41.7 102.0,41.7 103.6,41.8 105.1,41.8 106.7,41.9 108.2,41.9 109.7,42.0 111.3,42.0 112.8,42.1 114.4,42.1 115.9,42.2 117.4,42.3 119.0,42.3 120.5,42.4 122.1,42.5 123.6,42.6 125.1,42.6 126.7,42.7 128.2,42.8 129.7,42.9 131.3,43.0 132.8,43.0 134.4,43.1 135.9,43.2 137.4,43.3 139.0,43.4 140.5,43.5 142.1,43.6 143.6,43.7 145.1,43.8 146.7,43.9 148.2,44.1 149.8,44.2 151.3,44.3 152.8,44.4 154.4,44.6 155.9,44.7 157.5,44.8 159.0,45.0 160.5,45.1 162.1,45.3 163.6,45.4 165.2,45.6 166.7,45.7 168.2,45.9 169.8,46.1 171.3,46.3 172.9,46.4 174.4,46.6 175.9,46.8 177.5,47.0 179.0,47.2 180.6,47.4 182.1,47.7 183.6,47.9 185.2,48.1 186.7,48.4 188.3,48.6 189.8,48.9 191.3,49.1 192.9,49.4 194.4,49.7 196.0,49.9 197.5,50.2 199.0,50.5 200.6,50.8 202.1,51.2 203.7,51.5 205.2,51.8 206.7,52.2 208.3,52.5 209.8,52.9 211.4,53.3 212.9,53.7 214.4,54.1 216.0,54.5 217.5,54.9 219.1,55.3 220.6,55.8 222.1,56.2 223.7,56.7 225.2,57.2 226.8,57.7 228.3,58.2 229.8,58.8 231.4,59.3 232.9,59.9 234.5,60.5 236.0,61.1 237.5,61.7 239.1,62.3 240.6,63.0 242.2,63.7 243.7,64.3 245.2,65.1 246.8,65.8 248.3,66.6 249.8,67.3 251.4,68.1 252.9,69.0 254.5,69.8 256.0,70.7 257.5,71.6 259.1,72.5 260.6,73.5 262.2,74.4 263.7,75.5 265.2,76.5 266.8,77.6 268.3,78.7 269.9,79.8 271.4,81.0 272.9,82.2 274.5,83.4 276.0,84.7 277.6,86.0 279.1,87.3 280.6,88.7 282.2,90.2 283.7,91.6 285.3,93.1 286.8,94.7 288.3,96.3 289.9,98.0 291.4,99.7 293.0,101.4 294.5,103.2 296.0,105.1 297.6,107.0 299.1,108.9 300.7,110.9 302.2,113.0 303.7,115.2 305.3,117.4 306.8,119.6 308.4,122.0 309.9,124.4 311.4,126.8 313.0,129.3 314.5,131.9 316.1,134.6 317.6,137.3 319.1,140.1 320.7,143.0 322.2,145.9 323.8,148.8 325.3,151.8 326.8,154.9 328.4,158.0 329.9,161.1 331.5,164.3 333.0,167.5 334.5,170.6 336.1,173.8 337.6,176.9 339.2,180.1 340.7,183.1 342.2,186.2 343.8,189.1 345.3,192.0 346.9,194.8 348.4,197.5 349.9,200.1 351.5,202.6 353.0,204.9 354.6,207.1 356.1,209.2 357.6,211.1 359.2,212.8 360.7,214.4 362.3,215.9 363.8,217.2 365.3,218.3 366.9,219.3 368.4,220.2 369.9,220.9 371.5,221.6 373.0,222.1 374.6,222.5 376.1,222.9 377.6,223.2 379.2,223.4 380.7,223.6 382.3,223.7 383.8,223.8 385.3,223.9 386.9,223.9 388.4,223.9 390.0,224.0 391.5,224.0 393.0,224.0 394.6,224.0 396.1,224.0 397.7,224.0 399.2,224.0 400.7,224.0 402.3,224.0 403.8,224.0 405.4,224.0 406.9,224.0 408.4,224.0 410.0,224.0 411.5,224.0 413.1,224.0 414.6,224.0 416.1,224.0 417.7,224.0 419.2,224.0 420.8,224.0 422.3,224.0 423.8,224.0 425.4,224.0 426.9,224.0 428.5,224.0 430.0,224.0" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<line x1="104.9" y1="40.0" x2="104.9" y2="224.0" stroke="#5a7d2a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<circle cx="104.9" cy="41.8" r="3.5" fill="#5a7d2a"/>
+<text x="104.9" y="34.0" font-size="9" fill="#4a6d1a" text-anchor="middle">footstep 0.5 s</text>
+<text x="108.9" y="55.8" font-size="9" fill="#4a6d1a" text-anchor="start">F≈0.990</text>
+<line x1="341.5" y1="40.0" x2="341.5" y2="224.0" stroke="#7a1f1f" stroke-width="1.2" stroke-dasharray="4 3"/>
+<circle cx="341.5" cy="184.6" r="3.5" fill="#7a1f1f"/>
+<text x="341.5" y="34.0" font-size="9" fill="#7a1f1f" text-anchor="middle">stand 1 h</text>
+<line x1="341.5" y1="184.6" x2="364.3" y2="146.7" stroke="#7a1f1f" stroke-width="0.7"/>
+<text x="365.9" y="143.0" font-size="9" fill="#7a1f1f" text-anchor="start">F≈0.21</text>
+<line x1="357.9" y1="40.0" x2="357.9" y2="224.0" stroke="#999" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="357.9" y1="86.0" x2="364.3" y2="86.0" stroke="#999" stroke-width="0.7"/>
+<text x="365.9" y="82.3" font-size="9" fill="#666" text-anchor="start">τ = 1.9 h</text>
+</svg><figcaption><b>Bearing, then solid.</b> $\tau=6667\ \mathrm s$ ($1.9\ \mathrm h$). A $0.5\ \mathrm s$ footstep: $F=0.990$ (fluid carries $99\%$). A $1\ \mathrm h$ stand: $F=0.214$ (solid now carries most).</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>$D=H_Ak=0.6\times10^6\cdot10^{-15}=6\times10^{-10}\ \mathrm{m^2/s}$; $\tau=h^2/D=(2\times10^{-3})^2/6\times10^{-10}=6.7\times10^3\ \mathrm s$ ($1.9\ \mathrm h$).</p><p><b>(a)</b> $T=0.5/6667=7.5\times10^{-5}$, $F=0.990$: a footstep is carried $\approx99\%$ by fluid.</p><p><b>(b)</b> $T=3600/6667=0.54$, $F=0.214$: after an hour near $\tau$, only $\approx21\%$ is fluid-borne; the solid carries most of the load.</p><p>The same tissue is a near-perfect fluid bearing for a step and a nearly drained solid for a long stand — the entire point of the gel time. The figure marks both points on the $F(t)$ curve.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+h, HA, k = 2e-3, 0.6e6, 1e-15
+D = HA*k;  lam = (2*np.arange(2000)+1)*np.pi/2
+F = lambda t: np.sum(2/lam**2 * np.exp(-lam**2 * D*t/h**2))
+print(f"tau={h**2/D:.0f} s  F(0.5 s)={F(0.5):.3f}  F(1 h)={F(3600):.3f}")
+# tau=6667 s  F(0.5 s)=0.990  F(1 h)=0.214</code></pre></div></div></details></div>
+
+<div class="qbox"><b>K6 &mdash; friction follows the fluid.</b> <span class="small"><em>Probes: mapping the decay of $F$ onto a rising friction coefficient (<a class="secref" href="#lubrication">§7</a>).</em></span>
+<p>With $\mu_{\rm eq}=0.15$ and $\mu_{\rm eff}=\mu_{\rm eq}(1-F)$: <b>(a)</b> compute $\mu_{\rm eff}$ for the footstep ($F=0.990$) and for the $1\ \mathrm h$ stand ($F=0.214$) of K5. <b>(b)</b> Comment on why standing still eventually feels no different, frictionally, from a dry contact.</p>
+<figure><svg class="setupfig" viewBox="0 0 460 290" width="100%" role="img" aria-label="Friction versus sliding speed: cartilage stays near 0.01 even as speed goes to zero, while a fluid-film bearing's friction climbs steeply at low speed.">
+<line x1="64" y1="40" x2="64" y2="224" stroke="#333" stroke-width="1.4"/>
+<line x1="64" y1="224" x2="430" y2="224" stroke="#333" stroke-width="1.4"/>
+<polyline points="64.0,218.8 64.0,218.8 64.0,218.9 64.0,218.9 64.0,218.9 64.0,218.9 64.0,219.0 64.0,219.0 64.0,219.0 64.0,219.0 64.0,219.0 64.0,219.1 64.0,219.1 64.0,219.1 64.0,219.1 64.1,219.2 64.1,219.2 64.1,219.2 64.1,219.2 64.1,219.2 64.1,219.3 64.1,219.3 64.1,219.3 64.1,219.3 64.1,219.3 64.1,219.4 64.1,219.4 64.1,219.4 64.1,219.4 64.2,219.5 64.2,219.5 64.2,219.5 64.2,219.5 64.2,219.5 64.2,219.6 64.2,219.6 64.3,219.6 64.3,219.6 64.3,219.6 64.3,219.7 64.3,219.7 64.4,219.7 64.4,219.7 64.4,219.8 64.4,219.8 64.5,219.8 64.5,219.8 64.5,219.8 64.6,219.9 64.6,219.9 64.6,219.9 64.7,219.9 64.7,220.0 64.8,220.0 64.8,220.0 64.8,220.0 64.9,220.0 65.0,220.1 65.0,220.1 65.1,220.1 65.1,220.1 65.2,220.1 65.3,220.2 65.4,220.2 65.5,220.2 65.5,220.2 65.6,220.3 65.7,220.3 65.8,220.3 66.0,220.3 66.1,220.3 66.2,220.4 66.3,220.4 66.5,220.4 66.6,220.4 66.8,220.5 67.0,220.5 67.1,220.5 67.3,220.5 67.5,220.5 67.7,220.6 68.0,220.6 68.2,220.6 68.4,220.6 68.7,220.6 69.0,220.7 69.3,220.7 69.6,220.7 70.0,220.7 70.3,220.8 70.7,220.8 71.1,220.8 71.5,220.8 72.0,220.8 72.4,220.9 72.9,220.9 73.5,220.9 74.1,220.9 74.7,221.0 75.3,221.0 76.0,221.0 76.7,221.0 77.4,221.0 78.2,221.1 79.1,221.1 80.0,221.1 81.0,221.1 82.0,221.1 83.0,221.2 84.2,221.2 85.4,221.2 86.7,221.2 88.0,221.3 89.4,221.3 91.0,221.3 92.6,221.3 94.3,221.3 96.1,221.4 98.0,221.4 100.0,221.4 102.2,221.4 104.5,221.5 106.9,221.5 109.4,221.5 112.2,221.5 115.0,221.5 118.1,221.6 121.3,221.6 124.7,221.6 128.4,221.6 132.2,221.6 136.3,221.7 140.6,221.7 145.1,221.7 150.0,221.7 155.1,221.8 160.5,221.8 166.3,221.8 172.4,221.8 178.9,221.8 185.7,221.9 193.0,221.9 200.7,221.9 208.8,221.9 217.5,221.9 226.6,222.0 236.3,222.0 246.6,222.0 257.5,222.0 269.1,222.1 281.3,222.1 294.2,222.1 308.0,222.1 322.5,222.1 338.0,222.2 354.3,222.2 371.6,222.2 390.0,222.2 409.4,222.3 430.0,222.3" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<polyline points="64.0,87.1 64.0,87.2 64.0,87.3 64.0,87.4 64.0,87.4 64.0,87.5 64.0,87.6 64.0,87.7 64.0,87.8 64.0,87.9 64.0,88.0 64.0,88.1 64.0,88.3 64.0,88.4 64.0,88.5 64.1,88.7 64.1,88.8 64.1,89.0 64.1,89.2 64.1,89.4 64.1,89.5 64.1,89.8 64.1,90.0 64.1,90.2 64.1,90.4 64.1,90.7 64.1,91.0 64.1,91.2 64.1,91.5 64.2,91.9 64.2,92.2 64.2,92.5 64.2,92.9 64.2,93.3 64.2,93.7 64.2,94.1 64.3,94.6 64.3,95.0 64.3,95.5 64.3,96.0 64.3,96.6 64.4,97.2 64.4,97.8 64.4,98.4 64.4,99.0 64.5,99.7 64.5,100.4 64.5,101.2 64.6,102.0 64.6,102.8 64.6,103.6 64.7,104.5 64.7,105.4 64.8,106.4 64.8,107.4 64.8,108.4 64.9,109.5 65.0,110.6 65.0,111.7 65.1,112.9 65.1,114.1 65.2,115.3 65.3,116.6 65.4,117.9 65.5,119.3 65.5,120.7 65.6,122.1 65.7,123.5 65.8,125.0 66.0,126.5 66.1,128.1 66.2,129.6 66.3,131.2 66.5,132.8 66.6,134.4 66.8,136.0 67.0,137.7 67.1,139.3 67.3,141.0 67.5,142.7 67.7,144.3 68.0,146.0 68.2,147.7 68.4,149.3 68.7,151.0 69.0,152.6 69.3,154.2 69.6,155.8 70.0,157.4 70.3,158.9 70.7,160.5 71.1,162.0 71.5,163.5 72.0,164.9 72.4,166.3 72.9,167.7 73.5,169.1 74.1,170.4 74.7,171.7 75.3,172.9 76.0,174.1 76.7,175.3 77.4,176.4 78.2,177.5 79.1,178.6 80.0,179.6 81.0,180.6 82.0,181.6 83.0,182.5 84.2,183.4 85.4,184.2 86.7,185.0 88.0,185.8 89.4,186.6 91.0,187.3 92.6,188.0 94.3,188.6 96.1,189.2 98.0,189.8 100.0,190.4 102.2,191.0 104.5,191.5 106.9,192.0 109.4,192.4 112.2,192.9 115.0,193.3 118.1,193.7 121.3,194.1 124.7,194.5 128.4,194.8 132.2,195.1 136.3,195.5 140.6,195.8 145.1,196.0 150.0,196.3 155.1,196.6 160.5,196.8 166.3,197.0 172.4,197.2 178.9,197.5 185.7,197.6 193.0,197.8 200.7,198.0 208.8,198.2 217.5,198.3 226.6,198.5 236.3,198.6 246.6,198.7 257.5,198.9 269.1,199.0 281.3,199.1 294.2,199.2 308.0,199.3 322.5,199.4 338.0,199.5 354.3,199.6 371.6,199.6 390.0,199.7 409.4,199.8 430.0,199.9" fill="none" stroke="#b03a2e" stroke-width="2.2" stroke-dasharray="6 4"/>
+<text x="64.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">10⁻⁴</text>
+<text x="64.3" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">10⁻³</text>
+<text x="67.6" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">10⁻²</text>
+<text x="100.6" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">0.1</text>
+<text x="430.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">1</text>
+<text x="59.0" y="227.0" font-size="8.5" fill="#333" text-anchor="end">0.00</text>
+<text x="59.0" y="169.5" font-size="8.5" fill="#333" text-anchor="end">0.05</text>
+<text x="59.0" y="112.0" font-size="8.5" fill="#333" text-anchor="end">0.10</text>
+<text x="59.0" y="54.5" font-size="8.5" fill="#333" text-anchor="end">0.15</text>
+<text x="246.0" y="256.0" font-size="10" fill="#333" text-anchor="middle">sliding speed  (m/s, log)</text>
+<text x="26.0" y="132.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 132.0)">friction  μ_eff</text>
+<text x="65.1" y="210.2" font-size="9" fill="#2a6ca8" text-anchor="start">cartilage: μ=μ_eq(1−F) stays low</text>
+<text x="71.3" y="120.5" font-size="9" fill="#b03a2e" text-anchor="start">fluid-film bearing (needs speed)</text>
+</svg><figcaption><b>$100\times$ slippery, then not.</b> Footstep $\mu_{\rm eff}=0.0015$; after an hour $\mu_{\rm eff}=0.118$, close to the dry $\mu_{\rm eq}=0.15$. Cartilage stays low even at $v\to0$ — unlike a fluid-film bearing.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>(a)</b> Footstep: $\mu_{\rm eff}=0.15(1-0.990)=0.0015$. Stand: $\mu_{\rm eff}=0.15(1-0.214)=0.118$.</p><p><b>(b)</b> As you stand and the fluid drains, $F\to0$ and $\mu_{\rm eff}\to\mu_{\rm eq}=0.15$ — the intrinsic solid-on-solid value; the pressurised film that made cartilage $\sim100\times$ slipperier has bled away. Motion re-pressurises the tissue (fluid is re-imbibed under the migrating contact), which is why walking keeps joints slippery but prolonged static loading does not. The figure contrasts cartilage's speed-independent low friction with a fluid-film bearing that needs speed.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>mu_eq = 0.15
+for label, Fv in (("footstep", 0.990), ("1 h stand", 0.214)):
+    print(f"{label:10s} F={Fv:.3f}  mu_eff={mu_eq*(1-Fv):.4f}")
+# footstep   F=0.990  mu_eff=0.0015
+# 1 h stand  F=0.214  mu_eff=0.1179</code></pre></div></div></details></div>
+
+<div class="qbox"><b>K7 &mdash; creep to the drained limit.</b> <span class="small"><em>Probes: the equilibrium creep strain and the time to reach it (<a class="secref" href="#relaxlab">§5</a>).</em></span>
+<p>For the healthy plug ($h=2\ \mathrm{mm}$, $H_A=0.6\ \mathrm{MPa}$, $k=10^{-15}$) under constant stress $\sigma=0.3\ \mathrm{MPa}$: <b>(a)</b> compute the equilibrium creep strain $\varepsilon_\infty=\sigma/H_A$. <b>(b)</b> Using the consolidation series, find the time to reach $90\%$ of $\varepsilon_\infty$.</p>
+<figure><svg class="setupfig" viewBox="0 0 460 290" width="100%" role="img" aria-label="Creep: under a constant load the strain starts small (stiff undrained) and climbs to the drained equilibrium sigma over H_A across a few gel times.">
+<line x1="64" y1="40" x2="64" y2="232" stroke="#333" stroke-width="1.4"/>
+<line x1="64" y1="232" x2="428" y2="232" stroke="#333" stroke-width="1.4"/>
+<polyline points="64.1,161.6 65.3,151.7 66.5,146.4 67.7,142.3 69.0,138.8 70.2,135.8 71.4,133.0 72.6,130.4 73.8,128.1 75.0,125.8 76.3,123.7 77.5,121.7 78.7,119.8 79.9,118.0 81.1,116.2 82.3,114.5 83.6,112.9 84.8,111.3 86.0,109.8 87.2,108.3 88.4,106.9 89.6,105.6 90.9,104.2 92.1,103.0 93.3,101.7 94.5,100.5 95.7,99.4 97.0,98.3 98.2,97.2 99.4,96.2 100.6,95.1 101.8,94.2 103.0,93.2 104.3,92.3 105.5,91.4 106.7,90.6 107.9,89.7 109.1,88.9 110.3,88.2 111.6,87.4 112.8,86.7 114.0,86.0 115.2,85.3 116.4,84.6 117.6,84.0 118.9,83.4 120.1,82.8 121.3,82.2 122.5,81.7 123.7,81.1 124.9,80.6 126.2,80.1 127.4,79.6 128.6,79.1 129.8,78.7 131.0,78.2 132.2,77.8 133.5,77.4 134.7,77.0 135.9,76.6 137.1,76.2 138.3,75.9 139.6,75.5 140.8,75.2 142.0,74.8 143.2,74.5 144.4,74.2 145.6,73.9 146.9,73.6 148.1,73.4 149.3,73.1 150.5,72.8 151.7,72.6 152.9,72.3 154.2,72.1 155.4,71.9 156.6,71.6 157.8,71.4 159.0,71.2 160.2,71.0 161.5,70.8 162.7,70.6 163.9,70.5 165.1,70.3 166.3,70.1 167.5,69.9 168.8,69.8 170.0,69.6 171.2,69.5 172.4,69.3 173.6,69.2 174.8,69.1 176.1,68.9 177.3,68.8 178.5,68.7 179.7,68.6 180.9,68.5 182.1,68.3 183.4,68.2 184.6,68.1 185.8,68.0 187.0,67.9 188.2,67.8 189.5,67.7 190.7,67.7 191.9,67.6 193.1,67.5 194.3,67.4 195.5,67.3 196.8,67.3 198.0,67.2 199.2,67.1 200.4,67.1 201.6,67.0 202.8,66.9 204.1,66.9 205.3,66.8 206.5,66.7 207.7,66.7 208.9,66.6 210.1,66.6 211.4,66.5 212.6,66.5 213.8,66.4 215.0,66.4 216.2,66.4 217.4,66.3 218.7,66.3 219.9,66.2 221.1,66.2 222.3,66.2 223.5,66.1 224.7,66.1 226.0,66.0 227.2,66.0 228.4,66.0 229.6,66.0 230.8,65.9 232.0,65.9 233.3,65.9 234.5,65.8 235.7,65.8 236.9,65.8 238.1,65.8 239.4,65.7 240.6,65.7 241.8,65.7 243.0,65.7 244.2,65.7 245.4,65.6 246.7,65.6 247.9,65.6 249.1,65.6 250.3,65.6 251.5,65.5 252.7,65.5 254.0,65.5 255.2,65.5 256.4,65.5 257.6,65.5 258.8,65.5 260.0,65.4 261.3,65.4 262.5,65.4 263.7,65.4 264.9,65.4 266.1,65.4 267.3,65.4 268.6,65.4 269.8,65.3 271.0,65.3 272.2,65.3 273.4,65.3 274.6,65.3 275.9,65.3 277.1,65.3 278.3,65.3 279.5,65.3 280.7,65.3 281.9,65.3 283.2,65.3 284.4,65.2 285.6,65.2 286.8,65.2 288.0,65.2 289.3,65.2 290.5,65.2 291.7,65.2 292.9,65.2 294.1,65.2 295.3,65.2 296.6,65.2 297.8,65.2 299.0,65.2 300.2,65.2 301.4,65.2 302.6,65.2 303.9,65.2 305.1,65.2 306.3,65.2 307.5,65.2 308.7,65.2 309.9,65.1 311.2,65.1 312.4,65.1 313.6,65.1 314.8,65.1 316.0,65.1 317.2,65.1 318.5,65.1 319.7,65.1 320.9,65.1 322.1,65.1 323.3,65.1 324.5,65.1 325.8,65.1 327.0,65.1 328.2,65.1 329.4,65.1 330.6,65.1 331.9,65.1 333.1,65.1 334.3,65.1 335.5,65.1 336.7,65.1 337.9,65.1 339.2,65.1 340.4,65.1 341.6,65.1 342.8,65.1 344.0,65.1 345.2,65.1 346.5,65.1 347.7,65.1 348.9,65.1 350.1,65.1 351.3,65.1 352.5,65.1 353.8,65.1 355.0,65.1 356.2,65.1 357.4,65.1 358.6,65.1 359.8,65.1 361.1,65.1 362.3,65.1 363.5,65.1 364.7,65.1 365.9,65.1 367.1,65.1 368.4,65.1 369.6,65.1 370.8,65.1 372.0,65.1 373.2,65.1 374.4,65.1 375.7,65.1 376.9,65.1 378.1,65.1 379.3,65.1 380.5,65.1 381.8,65.1 383.0,65.1 384.2,65.1 385.4,65.1 386.6,65.1 387.8,65.1 389.1,65.1 390.3,65.1 391.5,65.1 392.7,65.1 393.9,65.1 395.1,65.1 396.4,65.1 397.6,65.1 398.8,65.1 400.0,65.1 401.2,65.1 402.4,65.1 403.7,65.1 404.9,65.1 406.1,65.1 407.3,65.1 408.5,65.1 409.7,65.1 411.0,65.1 412.2,65.0 413.4,65.0 414.6,65.0 415.8,65.0 417.0,65.0 418.3,65.0 419.5,65.0 420.7,65.0 421.9,65.0 423.1,65.0 424.3,65.0 425.6,65.0 426.8,65.0 428.0,65.0" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<line x1="64" y1="65.0" x2="428" y2="65.0" stroke="#2a7d2a" stroke-width="1" stroke-dasharray="5 3"/>
+<text x="424.0" y="60.0" font-size="9" fill="#2a7d2a" text-anchor="end">ε∞ = σ / H_A</text>
+<text x="64.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
+<text x="155.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">1</text>
+<text x="246.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">2</text>
+<text x="337.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">3</text>
+<text x="428.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">4</text>
+<text x="246.0" y="262.0" font-size="10" fill="#333" text-anchor="middle">time  t / τ</text>
+<text x="24.0" y="136.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 24.0 136.0)">strain  ε(t)</text>
+<circle cx="64.1" cy="161.6" r="3" fill="#b03a2e"/>
+<text x="82.2" y="163.2" font-size="9" fill="#b03a2e" text-anchor="start">stiff undrained start</text>
+</svg><figcaption><b>Hours to settle.</b> $\varepsilon_\infty=\sigma/H_A=0.50$; the plug reaches $90\%$ of it at $T\approx0.85$, i.e. $t\approx5.7\times10^3\ \mathrm s\approx1.6\ \mathrm h$ — a few gel times.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $\varepsilon_\infty=\sigma/H_A=0.3\times10^6/0.6\times10^6=0.50$ (a large, illustrative strain).</p><p><b>(b)</b> The creep follows $\varepsilon(t)/\varepsilon_\infty=1-\sum_n\frac{8}{(2n+1)^2\pi^2}e^{-\lambda_n^2T}$, $\lambda_n=(2n+1)\pi/2$, $T=Dt/h^2$. Solving $\varepsilon/\varepsilon_\infty=0.9$ gives $T\approx0.85$; with $D=6\times10^{-10}$ and $\tau=h^2/D=6667\ \mathrm s$, $t=T\,h^2/D\approx5.7\times10^3\ \mathrm s\approx1.6\ \mathrm h$.</p><p>So the plug reaches most of its creep within a couple of gel times — hours, consistent with the "afternoon under a book" of C1. The figure shows the rising strain approaching the $\sigma/H_A$ plateau.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+h, HA, k, sig = 2e-3, 0.6e6, 1e-15, 0.3e6
+D = HA*k;  eps_inf = sig/HA
+n = np.arange(2000);  lam = (2*n+1)*np.pi/2
+frac = lambda T: 1 - np.sum(8/((2*n+1)**2*np.pi**2)*np.exp(-lam**2*T))
+Ts = np.linspace(1e-3, 2, 20000)
+T90 = Ts[np.argmin(np.abs([frac(T) for T in Ts] - np.full(len(Ts), 0.9)))]
+print(f"eps_inf={eps_inf:.2f}  T90={T90:.3f}  t90={T90*h**2/D:.0f} s = {T90*h**2/D/3600:.2f} h")
+# eps_inf=0.50  T90=0.848  t90=5653 s = 1.57 h</code></pre></div></div></details></div>
+
+<div class="qbox"><b>K8 &mdash; the thickness sweep.</b> <span class="small"><em>Probes: the $\tau\propto h^2$ law across the physiological thickness range (<a class="secref" href="#biphasic">§3</a>).</em></span>
+<p>For $D=6\times10^{-10}\ \mathrm{m^2/s}$, tabulate the gel time $\tau=h^2/D$ for $h=0.5,1,2,4\ \mathrm{mm}$ and confirm the slope-2 law (each doubling multiplies $\tau$ by $4$).</p>
+<figure><svg class="setupfig" viewBox="0 0 440 290" width="100%" role="img" aria-label="Gel time versus cartilage thickness on log-log axes: a straight line of slope two, so doubling thickness quadruples the gel time.">
+<line x1="179.3" y1="40" x2="179.3" y2="224" stroke="#eee" stroke-width="1"/>
+<line x1="294.7" y1="40" x2="294.7" y2="224" stroke="#eee" stroke-width="1"/>
+<line x1="362.1" y1="40" x2="362.1" y2="224" stroke="#eee" stroke-width="1"/>
+<line x1="64" y1="40" x2="64" y2="224" stroke="#333" stroke-width="1.4"/>
+<line x1="64" y1="224" x2="410" y2="224" stroke="#333" stroke-width="1.4"/>
+<polyline points="64.0,186.0 82.7,180.0 99.4,174.6 114.7,169.8 128.6,165.3 141.5,161.2 153.4,157.3 164.6,153.8 175.0,150.4 184.9,147.3 194.2,144.3 203.0,141.5 211.3,138.8 219.3,136.3 226.8,133.8 234.1,131.5 241.1,129.3 247.7,127.2 254.2,125.1 260.3,123.1 266.3,121.2 272.0,119.4 277.6,117.6 283.0,115.9 288.2,114.2 293.3,112.6 298.2,111.0 302.9,109.5 307.6,108.0 312.1,106.6 316.4,105.2 320.7,103.8 324.9,102.5 329.0,101.2 332.9,99.9 336.8,98.6 340.6,97.4 344.3,96.2 347.9,95.1 351.5,94.0 354.9,92.8 358.3,91.8 361.7,90.7 364.9,89.6 368.1,88.6 371.3,87.6 374.4,86.6 377.4,85.6 380.4,84.7 383.3,83.8 386.2,82.8 389.0,81.9 391.8,81.0 394.5,80.2 397.2,79.3 399.8,78.5 402.4,77.6 405.0,76.8 407.5,76.0 410.0,75.2" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<text x="64.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">0.5</text>
+<text x="179.3" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">1</text>
+<text x="294.7" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">2</text>
+<text x="362.1" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">3</text>
+<text x="410.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">4</text>
+<text x="59.0" y="227.0" font-size="8.5" fill="#333" text-anchor="end">10²</text>
+<text x="59.0" y="165.7" font-size="8.5" fill="#333" text-anchor="end">10³</text>
+<text x="59.0" y="104.3" font-size="8.5" fill="#333" text-anchor="end">10⁴</text>
+<text x="59.0" y="43.0" font-size="8.5" fill="#333" text-anchor="end">10⁵</text>
+<text x="237.0" y="256.0" font-size="10" fill="#333" text-anchor="middle">thickness  h  (mm, log)</text>
+<text x="24.0" y="132.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 24.0 132.0)">gel time τ (s, log)</text>
+<text x="223.0" y="72.1" font-size="9.5" fill="#333" text-anchor="start">τ ∝ h²  (slope 2)</text>
+<circle cx="294.7" cy="112.1" r="3.5" fill="#7a1f1f"/>
+<line x1="294.7" y1="112.1" x2="331.8" y2="141.7" stroke="#7a1f1f" stroke-width="0.7"/>
+<text x="335.1" y="145.6" font-size="9" fill="#7a1f1f" text-anchor="start">h=2 mm → τ≈6667 s</text>
+</svg><figcaption><b>Minutes to hours.</b> $\tau$ runs $7\ \mathrm{min}\to28\ \mathrm{min}\to1.9\ \mathrm h\to7.4\ \mathrm h$ as $h$ doubles $0.5\to4\ \mathrm{mm}$ — a factor $4$ per doubling, nearly two decades across the range.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>$\tau=h^2/D$:</p><p>$h=0.5\ \mathrm{mm}\Rightarrow\tau=4.2\times10^2\ \mathrm s$ ($7\ \mathrm{min}$); $h=1\ \mathrm{mm}\Rightarrow1.7\times10^3\ \mathrm s$ ($28\ \mathrm{min}$); $h=2\ \mathrm{mm}\Rightarrow6.7\times10^3\ \mathrm s$ ($1.9\ \mathrm h$); $h=4\ \mathrm{mm}\Rightarrow2.7\times10^4\ \mathrm s$ ($7.4\ \mathrm h$).</p><p>Each doubling of $h$ multiplies $\tau$ by $4$ — slope $2$ on log-log. Thin degenerate cartilage relaxes in minutes while thick cartilage protects for hours; the drainage-path-squared law spans nearly two decades over the physiological thickness range. The figure is the straight-line log-log plot.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>D = 6e-10
+for h in (0.5e-3, 1e-3, 2e-3, 4e-3):
+    tau = h**2/D
+    print(f"h={h*1e3:.1f} mm  tau={tau:7.0f} s = {tau/60:5.1f} min")
+# h=0.5 mm  tau=    417 s =   6.9 min
+# h=1.0 mm  tau=   1667 s =  27.8 min
+# h=2.0 mm  tau=   6667 s = 111.1 min
+# h=4.0 mm  tau=  26667 s = 444.4 min</code></pre></div></div></details></div>
+
+<div class="qbox"><b>K9 &mdash; the cumulative sag.</b> <span class="small"><em>Probes: modelling cumulative loss of support when overnight recovery is incomplete (<a class="secref" href="#degeneration">§8</a>).</em></span>
+<p>Model repeated load/unload cycles. In each, loading drains fluid ($F$ drops) and unloading re-imbibes it by swelling. If healthy tissue fully recovers each cycle but degraded tissue recovers only a fraction $r\lt1$, show how peak $F$ evolves and contrast the two after $20$ cycles.</p>
+<figure><svg class="setupfig" viewBox="0 0 470 290" width="100%" role="img" aria-label="Peak fluid support over successive loading cycles: healthy tissue holds near 0.97, degraded tissue sags cycle by cycle as drainage outpaces osmotic recovery.">
+<line x1="60" y1="40" x2="60" y2="224" stroke="#333" stroke-width="1.4"/>
+<line x1="60" y1="224" x2="438" y2="224" stroke="#333" stroke-width="1.4"/>
+<text x="55.0" y="227.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
+<text x="55.0" y="135.0" font-size="8.5" fill="#333" text-anchor="end">0.5</text>
+<text x="55.0" y="43.0" font-size="8.5" fill="#333" text-anchor="end">1</text>
+<polyline points="60.0,17.9 78.9,25.9 97.8,33.4 116.7,40.7 135.6,47.6 154.5,54.2 173.4,60.5 192.3,66.6 211.2,72.3 230.1,77.8 249.0,83.1 267.9,88.1 286.8,93.0 305.7,97.6 324.6,101.9 343.5,106.1 362.4,110.2 381.3,114.0 400.2,117.6 419.1,121.1" fill="none" stroke="#b03a2e" stroke-width="2.4"/>
+<polyline points="60.0,45.5 78.9,45.5 97.8,45.5 116.7,45.5 135.6,45.5 154.5,45.5 173.4,45.5 192.3,45.5 211.2,45.5 230.1,45.5 249.0,45.5 267.9,45.5 286.8,45.5 305.7,45.5 324.6,45.5 343.5,45.5 362.4,45.5 381.3,45.5 400.2,45.5 419.1,45.5" fill="none" stroke="#2a6ca8" stroke-width="2.2" stroke-dasharray="6 4"/>
+<text x="60.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
+<text x="154.5" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">5</text>
+<text x="249.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">10</text>
+<text x="343.5" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">15</text>
+<text x="438.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">20</text>
+<text x="249.0" y="256.0" font-size="10" fill="#333" text-anchor="middle">loading cycle number</text>
+<text x="26.0" y="132.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 132.0)">peak fluid support F</text>
+<text x="249.0" y="41.8" font-size="9" fill="#2a6ca8" text-anchor="middle">healthy: full overnight re-imbibition</text>
+<text x="286.8" y="132.0" font-size="9" fill="#b03a2e" text-anchor="middle">degraded: drains faster than it swells back</text>
+</svg><figcaption><b>The step number lied.</b> Both tissues pass the single-step test (K1/K5); over $20$ cycles healthy holds $F\approx0.97$ while degraded — draining faster than it re-imbibes — sags to $F\approx0.48$.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>Let the peak support after cycle $n$ be $F_n$. <b>Healthy</b> tissue recovers fully, so $F_n=F_0\approx0.97$ (flat). <b>Degraded</b> tissue re-imbibes incompletely, draining a little more each cycle; a simple envelope is $F_n=F_\infty+(F_0-F_\infty)e^{-n/N_c}$, with $F_\infty$ the drained floor.</p><p>With $F_0=0.97$, $F_\infty\approx0.15$, $N_c\approx22$: after $20$ cycles the healthy tissue is still $\approx0.97$ but the degraded tissue has fallen to $F_{20}=0.15+0.82\,e^{-20/22}=0.48$.</p><p>The single-step number (K1, K5) looked safe for both; it is the <em>cumulative</em> failure to re-imbibe — lost swelling pressure (K2) unable to pull water back between loadings — that separates them. The figure shows the two envelopes diverging cycle by cycle.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+F0, Finf, Nc = 0.97, 0.15, 22
+for n in (0, 5, 10, 20):
+    print(f"cycle {n:2d}:  healthy F={F0:.2f}   degraded F={Finf+(F0-Finf)*np.exp(-n/Nc):.2f}")
+# cycle  0:  healthy F=0.97   degraded F=0.97
+# cycle 20:  healthy F=0.97   degraded F=0.48</code></pre></div></div></details></div>
+
+<div class="qbox"><b>K10 &mdash; the composite's asymmetry in numbers.</b> <span class="small"><em>Probes: comparing tensile, compressive, and swelling contributions (<a class="secref" href="#composite">§1</a>).</em></span>
+<p>Cartilage tensile modulus is $E_{\rm tens}\approx12\ \mathrm{MPa}$, compressive aggregate modulus $H_A\approx0.6\ \mathrm{MPa}$, swelling pre-stress $\pi\approx0.16\ \mathrm{MPa}$. <b>(a)</b> Compute the tension/compression stiffness ratio. <b>(b)</b> What fraction of the extra effective stress at $10\%$ compression does the swelling pre-stress represent? <b>(c)</b> Interpret.</p>
+<figure><svg class="setupfig" viewBox="0 0 430 280" width="100%" role="img" aria-label="Bar chart: cartilage tensile modulus about 12 megapascal dwarfs its compressive aggregate modulus 0.6 and the swelling pre-stress 0.16 megapascal.">
+<line x1="70" y1="40" x2="70" y2="220" stroke="#333" stroke-width="1.4"/>
+<line x1="70" y1="220" x2="410" y2="220" stroke="#333" stroke-width="1.4"/>
+<text x="64.0" y="223.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
+<text x="64.0" y="178.0" font-size="8.5" fill="#333" text-anchor="end">5</text>
+<text x="64.0" y="133.0" font-size="8.5" fill="#333" text-anchor="end">10</text>
+<text x="64.0" y="88.0" font-size="8.5" fill="#333" text-anchor="end">15</text>
+<text x="64.0" y="43.0" font-size="8.5" fill="#333" text-anchor="end">20</text>
+<text x="26.0" y="130.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 130.0)">modulus (MPa)</text>
+<rect x="103.5" y="112.0" width="52.0" height="108.0" fill="#2a7d2a" opacity="0.85"/>
+<text x="129.5" y="106.0" font-size="9" fill="#2a7d2a" text-anchor="middle">12</text>
+<text x="129.5" y="234.0" font-size="8.3" fill="#333" text-anchor="middle">tensile</text>
+<text x="129.5" y="245.0" font-size="8.3" fill="#333" text-anchor="middle">(collagen)</text>
+<rect x="205.5" y="214.6" width="52.0" height="5.4" fill="#2a6ca8" opacity="0.85"/>
+<text x="231.5" y="208.6" font-size="9" fill="#2a6ca8" text-anchor="middle">0.6</text>
+<text x="231.5" y="234.0" font-size="8.3" fill="#333" text-anchor="middle">compressive</text>
+<text x="231.5" y="245.0" font-size="8.3" fill="#333" text-anchor="middle">(aggregate H_A)</text>
+<rect x="307.5" y="218.6" width="52.0" height="1.4" fill="#7d3c98" opacity="0.85"/>
+<text x="333.5" y="212.6" font-size="9" fill="#7d3c98" text-anchor="middle">0.16</text>
+<text x="333.5" y="234.0" font-size="8.3" fill="#333" text-anchor="middle">swelling π</text>
+<text x="333.5" y="245.0" font-size="8.3" fill="#333" text-anchor="middle">pre-stress</text>
+<text x="215.0" y="266.0" font-size="8" fill="#333" text-anchor="middle"></text>
+<text x="240.0" y="67.0" font-size="9" fill="#333" text-anchor="middle">tension ≫ compression: the fibre–gel asymmetry</text>
+</svg><figcaption><b>Stiff skin, pre-loaded core.</b> Tension is $20\times$ stiffer than compression ($12/0.6$); the resting swelling pre-stress ($0.16\ \mathrm{MPa}$) is $\approx2.7\times$ the extra stress of a $10\%$ squeeze — the tissue is genuinely pre-loaded, not slack.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $E_{\rm tens}/H_A=12/0.6=20$: twenty-fold stiffer in tension than compression.</p><p><b>(b)</b> The extra effective stress to compress by $10\%$ is $H_A\cdot0.1=0.06\ \mathrm{MPa}$; the swelling pre-stress $\pi=0.16\ \mathrm{MPa}$ is $0.16/0.06\approx2.7\times$ that — the resting osmotic pre-stress exceeds the added stress of a moderate compression.</p><p><b>(c)</b> The numbers encode the bearing design of C6: a stiff tensile collagen skin over a soft, compressible proteoglycan core held in osmotic pre-tension. Soft enough to conform and spread load, stiff and pre-stressed enough to hold together and spring back. The figure compares the three moduli as bars.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>E_tens, HA, pi = 12.0, 0.6, 0.16   # MPa
+print(f"tension/compression = {E_tens/HA:.0f}x")
+print(f"pi / (HA*0.1)       = {pi/(HA*0.1):.1f}x")
+# tension/compression = 20x
+# pi / (HA*0.1)       = 2.7x</code></pre></div></div></details></div>
+
+<p>That closes the mechanics. The <span class="secref">Appendix</span> collects the notation and the parameter values used throughout; from here the course carries cartilage's stress, pressure, and flow fields forward into the full continuum treatment of <span class="secref">Module&nbsp;16</span> and the aging biology of <span class="secref">Module&nbsp;14</span>.</p>
 
 <hr>
 
