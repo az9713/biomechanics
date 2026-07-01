@@ -43,6 +43,10 @@ window.MathJax = {
   hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; }
   .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; }
   .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+  /* Auto-number every figure "Fig. N." by document order (course-wide figure numbering). */
+  body{ counter-reset: fig; }
+  figure{ counter-increment: fig; }
+  figcaption::before{ content:"Fig. " counter(fig) ". "; font-weight:bold; font-style:normal; color:var(--accent); }
 </style>
 </head>
 <body>

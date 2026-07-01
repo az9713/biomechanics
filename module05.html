@@ -15,7 +15,7 @@ window.MathJax = {
   :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
   html{ -webkit-text-size-adjust:100%; }
   body{ max-width: 52rem; margin: 2.5rem auto; padding: 0 1.25rem 6rem;
-        font: 16px/1.65 Georgia, 'Times New Roman', serif; color:var(--fg); }
+        font: 16px/1.65 Georgia, 'Times New Roman', serif; color:var(--fg); counter-reset: fig; }
   h1{ font-size: 1.95rem; line-height:1.2; margin:.2rem 0 .2rem; }
   h2{ font-size:1.35rem; margin:2.4rem 0 .6rem; border-bottom:2px solid var(--accent); padding-bottom:.2rem; }
   h3{ font-size:1.08rem; margin:1.6rem 0 .4rem; color:var(--accent); }
@@ -32,8 +32,9 @@ window.MathJax = {
   table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.92rem; }
   th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; }
   th{ background:var(--box); }
-  figure{ margin:1.5rem 0; text-align:center; }
+  figure{ margin:1.5rem 0; text-align:center; counter-increment: fig; }
   figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; }
+  figcaption::before{ content:"Fig. " counter(fig) ". "; font-weight:bold; font-style:normal; color:var(--accent); }
   .proof figure,.thm figure{ margin:.2rem auto .7rem; max-width:460px; background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.4rem; }
   .setupfig{ display:block; }
   .setupfig text{ paint-order:stroke; stroke:#fff; stroke-width:2.5px; stroke-linejoin:round; }
@@ -153,7 +154,7 @@ window.MathJax = {
 
   <!-- load moment arm r_L below the forearm -->
   <line x1="150" y1="224" x2="336" y2="224" stroke="#5b3a1a" stroke-width="1.2" marker-start="url(#m5oBlu)" marker-end="url(#m5oBlu)"/>
-  <text x="243" y="238" font-size="11" fill="#5b3a1a" text-anchor="middle" font-style="italic">r_L &#8776; 35 cm  (12&#215; the muscle's lever)</text>
+  <text x="243" y="238" font-size="11" fill="#5b3a1a" text-anchor="middle" font-style="italic">r<tspan baseline-shift="sub" font-size="8">L</tspan> &#8776; 35 cm  (12&#215; the muscle's lever)</text>
 
   <!-- weight of bag -->
   <line x1="336" y1="252" x2="336" y2="284" stroke="#5b3a1a" stroke-width="3" marker-end="url(#m5oW)"/>
