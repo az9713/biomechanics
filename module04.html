@@ -78,7 +78,7 @@ window.MathJax = {
 <li><b>5.</b> <a href="#relaxlab">Computational lab 1 — stress relaxation and creep</a></li>
 <li><b>6.</b> <a href="#contact">Contact: from joint reaction to a pressure field</a></li>
 <li><b>7.</b> <a href="#lubrication">Computational lab 2 — lubrication and the Stribeck curve</a></li>
-<li><b>8.</b> <span class="pending">Degeneration and osteoarthritis mechanics</span></li>
+<li><b>8.</b> <a href="#degeneration">Degeneration and osteoarthritis mechanics</a></li>
 <li><b>9.</b> <span class="pending">What the model captures and misses; diagnostics and problems</span></li>
 <li><span class="pending">Appendix — notation and parameters</span></li>
 </ul>
@@ -143,16 +143,16 @@ window.MathJax = {
 
   <text x="230" y="300" font-size="11" text-anchor="middle" fill="#555">contact pressure p &#8776; 1.7 MPa &#183; &#8776;10&#8310; cycles / year &#183; decades, no replacement</text>
   <text x="230" y="317" font-size="10.5" text-anchor="middle" fill="#7a1f1f" font-style="italic">How does 2&#8211;4 mm of soft gel do this?</text>
-</svg><figcaption><b>The impossible bearing.</b> Two bone ends in a synovial joint, each capped with a thin layer of articular cartilage and separated by a film of synovial fluid. The reaction force from <a class="secref" href="module03.html#contact">Module&nbsp;3</a> presses down at $\approx1.7\ \mathrm{MPa}$ mean pressure; the surfaces slide at $\mu\approx0.005$. No engineered bearing this soft survives this duty. The rest of the module explains how — and, in <span class="secref">§8</span>, how it breaks.</figcaption></figure>
+</svg><figcaption><b>The impossible bearing.</b> Two bone ends in a synovial joint, each capped with a thin layer of articular cartilage and separated by a film of synovial fluid. The reaction force from <a class="secref" href="module03.html#contact">Module&nbsp;3</a> presses down at $\approx1.7\ \mathrm{MPa}$ mean pressure; the surfaces slide at $\mu\approx0.005$. No engineered bearing this soft survives this duty. The rest of the module explains how — and, in <span class="secref"><a class="secref" href="#degeneration">§8</a></span>, how it breaks.</figcaption></figure>
 
 <p>The resolution, which this module develops quantitatively, is a single change of viewpoint. The dry-solid mechanics of Modules&nbsp;1–3 ask "how does a stiff body share a load through its cross-section?" — the right question for a bone (<a class="secref" href="module02.html#setup">Module&nbsp;2</a>), the wrong question for cartilage. <b>Cartilage is not a solid at all. It is a sponge.</b> More precisely, it is a <em>biphasic</em> material: a porous, electrically charged solid scaffold (collagen and proteoglycan) swollen with water that can flow through it. When you step, the load is not borne by the soft scaffold squashing like rubber — it is borne, almost entirely and almost instantly, by the <em>pressure of the trapped water</em>, which cannot escape the fine pores fast enough to matter on the timescale of a footstep. The scaffold rides along, barely stressed. Over minutes of standing the water slowly weeps out and the scaffold gradually takes up the load; lie down and it re-imbibes overnight (you are measurably taller in the morning). This is <b>interstitial fluid pressurization</b>, and it is the headline idea of the module.</p>
 
-<p>That one mechanism organizes everything that follows. It explains the <em>stiffness</em> (water is nearly incompressible, so a sealed sponge is stiff even though its scaffold is soft — <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#fluidload">§4</a></span>); it explains the <em>low friction</em> (if the fluid carries the load, the solid-on-solid contact that generates friction carries almost nothing — <span class="secref"><a class="secref" href="#lubrication">§7</a></span>); and it explains <em>failure</em> (anything that lets the water leak out faster — torn scaffold, lost charge, higher permeability — dumps the load onto the soft solid, which then wears, a runaway we trace in <span class="secref">§8</span> as the mechanics of <b>osteoarthritis</b>). To get there we need three layers of physics, each built on the last:</p>
+<p>That one mechanism organizes everything that follows. It explains the <em>stiffness</em> (water is nearly incompressible, so a sealed sponge is stiff even though its scaffold is soft — <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#fluidload">§4</a></span>); it explains the <em>low friction</em> (if the fluid carries the load, the solid-on-solid contact that generates friction carries almost nothing — <span class="secref"><a class="secref" href="#lubrication">§7</a></span>); and it explains <em>failure</em> (anything that lets the water leak out faster — torn scaffold, lost charge, higher permeability — dumps the load onto the soft solid, which then wears, a runaway we trace in <span class="secref"><a class="secref" href="#degeneration">§8</a></span> as the mechanics of <b>osteoarthritis</b>). To get there we need three layers of physics, each built on the last:</p>
 
 <ul>
 <li><b>What the tissue is made of</b> — collagen, proteoglycans, water, and the fixed electric charge that makes cartilage swell (<span class="secref"><a class="secref" href="#composite">§1</a></span>–<span class="secref"><a class="secref" href="#donnan">§2</a></span>).</li>
 <li><b>How a charged, fluid-filled sponge responds to load</b> — the biphasic / poroelastic model, a diffusion equation for the squeezing-out of water, and the fluid–solid load sharing it predicts (<span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#relaxlab">§5</a></span>).</li>
-<li><b>What that means at the joint</b> — turning Module&nbsp;3's single reaction force into a real contact-pressure field (<span class="secref"><a class="secref" href="#contact">§6</a></span>), explaining the friction (<span class="secref"><a class="secref" href="#lubrication">§7</a></span>), and diagnosing the failure (<span class="secref">§8</span>).</li>
+<li><b>What that means at the joint</b> — turning Module&nbsp;3's single reaction force into a real contact-pressure field (<span class="secref"><a class="secref" href="#contact">§6</a></span>), explaining the friction (<span class="secref"><a class="secref" href="#lubrication">§7</a></span>), and diagnosing the failure (<span class="secref"><a class="secref" href="#degeneration">§8</a></span>).</li>
 </ul>
 
 <p>By the end you will be able to take the lone number $R\approx1715\ \mathrm N$ that Module&nbsp;3 handed us and predict, from tissue properties, how the pressure is distributed across the contact, how it is split between fluid and solid, how it relaxes over time, why the joint is so slippery, and what tips that whole balance into degeneration. We begin with the material itself.</p>
@@ -248,7 +248,7 @@ The tissue is <b>saturated</b> — pores hold only fluid, no gas — so the volu
 $$\varphi^s+\varphi^w=1,\qquad \text{with typically }\varphi^w\approx0.75\text{–}0.80.$$
 "Incompressible constituents" does <em>not</em> mean the tissue cannot change volume: it shrinks precisely by the volume of fluid that flows out. That single bookkeeping fact becomes the governing equation in <span class="secref"><a class="secref" href="#biphasic">§3</a></span>.</div>
 
-<p>A caution before we build on it. This lumped, single-property matrix is <em>homogeneous</em> and <em>isotropic</em>, whereas the figure above shows cartilage is neither: the collagen weave, water content, and fixed charge all vary with depth (the superficial, middle, and deep zones) and have a built-in fibre direction. The toy model we develop in <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#relaxlab">§5</a></span> deliberately ignores that, because the depth-averaged version already captures the headline physics — fluid pressurisation and load sharing — with one tractable equation. The depth-dependence and anisotropy are real and matter for where cartilage actually fails; we reintroduce them qualitatively in <span class="secref"><a class="secref" href="#contact">§6</a></span> and <span class="secref">§8</span>, and defer the full continuum treatment to Module&nbsp;16. With the cast of characters and the idealisation fixed, the first thing to compute is the one effect the dry models entirely missed: the swelling pressure that the fixed charge $c_F$ creates. That is <span class="secref"><a class="secref" href="#donnan">§2</a></span>.</p>
+<p>A caution before we build on it. This lumped, single-property matrix is <em>homogeneous</em> and <em>isotropic</em>, whereas the figure above shows cartilage is neither: the collagen weave, water content, and fixed charge all vary with depth (the superficial, middle, and deep zones) and have a built-in fibre direction. The toy model we develop in <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#relaxlab">§5</a></span> deliberately ignores that, because the depth-averaged version already captures the headline physics — fluid pressurisation and load sharing — with one tractable equation. The depth-dependence and anisotropy are real and matter for where cartilage actually fails; we reintroduce them qualitatively in <span class="secref"><a class="secref" href="#contact">§6</a></span> and <span class="secref"><a class="secref" href="#degeneration">§8</a></span>, and defer the full continuum treatment to Module&nbsp;16. With the cast of characters and the idealisation fixed, the first thing to compute is the one effect the dry models entirely missed: the swelling pressure that the fixed charge $c_F$ creates. That is <span class="secref"><a class="secref" href="#donnan">§2</a></span>.</p>
 
 <hr>
 
@@ -363,16 +363,16 @@ $$\pi = 2577\times61 \approx 1.56\times10^5\ \mathrm{Pa} \approx 0.16\ \mathrm{M
 <line x1="300" y1="62" x2="328" y2="62" stroke="#b08440" stroke-width="2" stroke-dasharray="6 4"/><text x="332" y="65" font-size="9.5" fill="#333">c<tspan baseline-shift="sub" font-size="7">0</tspan> = 0.30 M (more salt)</text>
 <text x="250" y="262" font-size="10.5" fill="#333" text-anchor="middle">fixed charge density  c<tspan baseline-shift="sub" font-size="8">F</tspan>  (mol/L)</text>
 <text x="20" y="131" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 20 131)">swelling pressure  &#960;  (MPa)</text>
-</svg><figcaption><b>Computed swelling pressure.</b> The boxed formula at body temperature, for two bath salt concentrations. Across the healthy fixed-charge range ($c_F\approx0.1$–$0.25\ \mathrm M$) the resting swelling pressure is $\approx0.1$–$0.2\ \mathrm{MPa}$ (operating point $\approx0.16\ \mathrm{MPa}$), present with no external load. Both limits are visible: $\pi\to0$ as $c_F\to0$ (lose the charge, lose the swelling — the degeneration direction, <span class="secref">§8</span>), and the whole curve falls when bath salt rises $0.15\to0.30\ \mathrm M$ (added salt <em>screens</em> the fixed charge and de-swells the tissue).</figcaption></figure>
+</svg><figcaption><b>Computed swelling pressure.</b> The boxed formula at body temperature, for two bath salt concentrations. Across the healthy fixed-charge range ($c_F\approx0.1$–$0.25\ \mathrm M$) the resting swelling pressure is $\approx0.1$–$0.2\ \mathrm{MPa}$ (operating point $\approx0.16\ \mathrm{MPa}$), present with no external load. Both limits are visible: $\pi\to0$ as $c_F\to0$ (lose the charge, lose the swelling — the degeneration direction, <span class="secref"><a class="secref" href="#degeneration">§8</a></span>), and the whole curve falls when bath salt rises $0.15\to0.30\ \mathrm M$ (added salt <em>screens</em> the fixed charge and de-swells the tissue).</figcaption></figure>
 
 <h3>Reading the formula</h3>
 
 <p>Three limits, each a real effect:</p>
 
 <ul>
-<li><b>No charge</b> ($c_F\to0$): $\pi\to R_gT(2c_0-2c_0)=0$. Strip the proteoglycan charge and the swelling vanishes — the tissue loses its resting pre-stress. This is the direction degeneration pushes (<span class="secref">§8</span>).</li>
+<li><b>No charge</b> ($c_F\to0$): $\pi\to R_gT(2c_0-2c_0)=0$. Strip the proteoglycan charge and the swelling vanishes — the tissue loses its resting pre-stress. This is the direction degeneration pushes (<span class="secref"><a class="secref" href="#degeneration">§8</a></span>).</li>
 <li><b>Salt screening</b> (raise $c_0$): for $c_0\gg c_F$, expanding the root gives $\pi\approx R_gT\,c_F^2/(4c_0)\to0$. Add salt and the tissue de-swells and softens — the lower dashed curve above, and a genuine laboratory effect (why cartilage tests must fix the ionic strength of the bath).</li>
-<li><b>More proteoglycan</b> ($c_F\gg c_0$): $\pi\approx R_gT\,(c_F-2c_0)$, climbing almost linearly with fixed charge. More charge $\Rightarrow$ more swelling pressure $\Rightarrow$ stiffer resistance to compression. This near-linear dependence is the lever <span class="secref">§8</span>'s degeneration runs in reverse.</li>
+<li><b>More proteoglycan</b> ($c_F\gg c_0$): $\pi\approx R_gT\,(c_F-2c_0)$, climbing almost linearly with fixed charge. More charge $\Rightarrow$ more swelling pressure $\Rightarrow$ stiffer resistance to compression. This near-linear dependence is the lever <span class="secref"><a class="secref" href="#degeneration">§8</a></span>'s degeneration runs in reverse.</li>
 </ul>
 
 <p>The swelling pressure is the <em>resting</em> state, but cartilage's real job is to carry <em>transient</em> loads many times larger. To see how, we now let the tissue deform and force water to actually flow through it — the biphasic model of <span class="secref"><a class="secref" href="#biphasic">§3</a></span>, where this osmotic $\pi$ reappears as a pre-stress riding underneath the fluid pressure that does the heavy lifting.</p>
@@ -668,7 +668,7 @@ $$F(1\ \mathrm s)=0.986.$$
 
 <p>Loading and recovery together keep $F$ high indefinitely. This is not just theory: direct measurements with pressure transducers in loaded cartilage find interstitial fluid sustaining <b>$85$–$95\%$</b> of the load through normal cyclic activity — an independent check on the picture equation&nbsp;(1) draws.</p>
 
-<p>Hold the load instead of releasing it — drive the same diffusion equation all the way to $t\sim\tau$ — and the fluid support bleeds away while the solid takes over: at fixed strain the tissue's stress <em>relaxes</em>, at fixed load it <em>creeps</em>. That is the experiment <span class="secref"><a class="secref" href="#relaxlab">§5</a></span> simulates directly from the <a class="secref" href="#biphasic">§3</a> equation. And because the fluid carries the load with almost no shear resistance, the same pressurization is the key to cartilage's astonishingly low friction (<span class="secref"><a class="secref" href="#lubrication">§7</a></span>). Lose it — through proteoglycan loss and rising permeability — and the solid is no longer shielded: the degeneration spiral of <span class="secref">§8</span>.</p>
+<p>Hold the load instead of releasing it — drive the same diffusion equation all the way to $t\sim\tau$ — and the fluid support bleeds away while the solid takes over: at fixed strain the tissue's stress <em>relaxes</em>, at fixed load it <em>creeps</em>. That is the experiment <span class="secref"><a class="secref" href="#relaxlab">§5</a></span> simulates directly from the <a class="secref" href="#biphasic">§3</a> equation. And because the fluid carries the load with almost no shear resistance, the same pressurization is the key to cartilage's astonishingly low friction (<span class="secref"><a class="secref" href="#lubrication">§7</a></span>). Lose it — through proteoglycan loss and rising permeability — and the solid is no longer shielded: the degeneration spiral of <span class="secref"><a class="secref" href="#degeneration">§8</a></span>.</p>
 
 <hr>
 
@@ -823,7 +823,7 @@ print("gel time  tau = h^2 / D         =", h**2 / D, "s")</code></pre></div>
 <g font-size="9" fill="#555" text-anchor="middle"><text x="78" y="264">10 s</text><text x="166.5" y="264">100 s</text><text x="255" y="264">10&#179; s</text><text x="343.5" y="264">10&#8308; s</text><text x="432" y="264">10&#8309; s</text></g>
 <text x="255" y="278" font-size="10.5" fill="#333" text-anchor="middle">time  (log scale)</text>
 <text x="20" y="171" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 20 171)">stress  &#963; / &#963;<tspan baseline-shift="sub" font-size="8">&#8734;</tspan></text>
-</svg><figcaption><b>Thickness sensitivity.</b> Same material, three thicknesses; the relaxation simply slides right as $h^2$ (the curves are scaled to share a peak). A thin layer drains in minutes, a thick one in hours. The same lever runs <em>backwards</em> in degeneration (<span class="secref">§8</span>): as proteoglycan is lost and permeability $k$ rises, $\tau$ falls, fluid drains faster, and the matrix is left to carry more — the loss of <a class="secref" href="#fluidload">§4</a>'s shielding.</figcaption></figure>
+</svg><figcaption><b>Thickness sensitivity.</b> Same material, three thicknesses; the relaxation simply slides right as $h^2$ (the curves are scaled to share a peak). A thin layer drains in minutes, a thick one in hours. The same lever runs <em>backwards</em> in degeneration (<span class="secref"><a class="secref" href="#degeneration">§8</a></span>): as proteoglycan is lost and permeability $k$ rises, $\tau$ falls, fluid drains faster, and the matrix is left to carry more — the loss of <a class="secref" href="#fluidload">§4</a>'s shielding.</figcaption></figure>
 
 <h3>Creep — the same physics, flipped</h3>
 
@@ -1037,7 +1037,112 @@ for t in [1, 60, 3600, 20000]:
 
 <p>Two supporting players finish the picture. <b>Synovial fluid is shear-thinning</b> (non-Newtonian): its hyaluronic-acid chains make it viscous at low shear and thin at high shear, tuning the fluid-film regime and cushioning impact. And the adsorbed <b>lubricin / hyaluronic-acid</b> layers set the boundary value $\mu_{\rm eq}$ — the backstop that matters most precisely when fluid support has failed.</p>
 
-<p>So cartilage's sub-ice friction is not classical lubrication at all — it is the <a class="secref" href="#fluidload">§4</a> fluid pressurization, read tangentially. And that makes friction a live gauge of fluid load support: as the biphasic machinery degrades — fluid draining faster, $F$ falling — friction rises, and rising friction abrades the surface, which degrades it further. That self-feeding failure is the subject of <span class="secref">§8</span>.</p>
+<p>So cartilage's sub-ice friction is not classical lubrication at all — it is the <a class="secref" href="#fluidload">§4</a> fluid pressurization, read tangentially. And that makes friction a live gauge of fluid load support: as the biphasic machinery degrades — fluid draining faster, $F$ falling — friction rises, and rising friction abrades the surface, which degrades it further. That self-feeding failure is the subject of <span class="secref"><a class="secref" href="#degeneration">§8</a></span>.</p>
+
+<hr>
+
+<!-- <a class="secref" href="#degeneration">§8</a> -->
+<h2 id="degeneration">8. Degeneration and osteoarthritis mechanics</h2>
+
+<p>Every section so far described cartilage <em>working</em>. This one describes it failing. <b>Osteoarthritis</b> (OA) — the commonest joint disease, the endpoint of ageing, overload, and injury — is, mechanically, this module's physics run in reverse and locked into a <b>self-amplifying loop</b>. No single step is catastrophic; the danger is that each step makes the next one worse.</p>
+
+<h3>The trigger, and the two struts it breaks</h3>
+
+<p>It begins with the proteoglycans. Enzymes (aggrecanases and MMPs — matrix-degrading proteins, up-regulated by injury, inflammation, or age) cleave aggrecan, and the fixed charge density $c_F$ falls. Two consequences follow, and they are the two load-bearing struts of the whole module.</p>
+
+<ul>
+<li><b>The swelling pre-stress is lost (<a class="secref" href="#donnan">§2</a>).</b> The Donnan pressure $\pi=R_gT\big(\sqrt{c_F^2+4c_0^2}-2c_0\big)$ falls with $c_F$. Cartilage loses the resting turgor that kept it inflated and pre-loaded the collagen; it softens, and more load falls on the collagen network — which frays (<em>fibrillation</em>, the surface splitting seen in early OA).</li>
+<li><b>The fluid seal is broken (<a class="secref" href="#biphasic">§3</a>–<a class="secref" href="#fluidload">§4</a>).</b> The proteoglycans were also what made the matrix nearly impermeable. Lose them and the permeability $k$ rises. By <a class="secref" href="#biphasic">§3</a> the gel time $\tau=h^2/(H_Ak)$ falls in proportion; by <a class="secref" href="#fluidload">§4</a> the fluid load support $F$ then collapses sooner. The tissue can no longer carry load as a pressurised fluid — the weakened solid matrix must take the stress.</li>
+</ul>
+
+<p>These two struts feed a single vicious cycle:</p>
+
+<figure><svg class="setupfig" viewBox="0 0 470 332" width="100%" role="img" aria-label="The osteoarthritis feedback loop: proteoglycan loss lowers fixed charge and swelling pressure and raises permeability, which lowers gel time and fluid load support, which raises friction and contact peak, which overloads and wears the matrix, driving more proteoglycan loss.">
+<g font-size="12" fill="#7a1f1f" text-anchor="middle" font-weight="bold"><text x="235" y="150">OSTEOARTHRITIS</text></g>
+<g font-size="8.5" fill="#a05a5a" text-anchor="middle"><text x="235" y="164">self-amplifying:</text><text x="235" y="175">each pass worsens</text><text x="235" y="186">the next (gain &gt; 1)</text></g>
+<g fill="#fbeeea" stroke="#b03a2e" stroke-width="1"><rect x="171" y="18" width="128" height="48" rx="6"/><rect x="324" y="78" width="128" height="48" rx="6"/><rect x="324" y="198" width="128" height="48" rx="6"/><rect x="171" y="262" width="128" height="48" rx="6"/><rect x="18" y="198" width="128" height="48" rx="6"/><rect x="18" y="78" width="128" height="48" rx="6"/></g>
+<g font-size="9.5" fill="#333" text-anchor="middle">
+<text x="235" y="38">proteoglycan loss</text><text x="235" y="51" font-size="8" fill="#777">(aggrecanase, MMP)</text>
+<text x="388" y="98">&#8595; fixed charge c<tspan baseline-shift="sub" font-size="7">F</tspan></text><text x="388" y="111">&#8595; swelling &#960;  (<a class="secref" href="#donnan">§2</a>)</text>
+<text x="388" y="218">&#8593; permeability k</text><text x="388" y="231">&#8595; gel time &#964;  (<a class="secref" href="#biphasic">§3</a>)</text>
+<text x="235" y="282">&#8595; fluid load</text><text x="235" y="295">support F  (<a class="secref" href="#fluidload">§4</a>)</text>
+<text x="82" y="218">&#8593; friction &#956;  (<a class="secref" href="#lubrication">§7</a>)</text><text x="82" y="231">&#8593; contact peak (<a class="secref" href="#contact">§6</a>)</text>
+<text x="82" y="98">matrix overload</text><text x="82" y="111">+ surface wear</text>
+</g>
+<g stroke="#b03a2e" stroke-width="2" fill="none" marker-end="url(#a_mus)">
+<line x1="301" y1="50" x2="332" y2="82"/>
+<line x1="388" y1="128" x2="388" y2="196"/>
+<line x1="330" y1="246" x2="300" y2="272"/>
+<line x1="169" y1="282" x2="142" y2="246"/>
+<line x1="82" y1="196" x2="82" y2="128"/>
+<line x1="140" y1="82" x2="169" y2="52"/>
+</g>
+</svg><figcaption><b>The osteoarthritis loop.</b> Proteoglycan loss lowers the fixed charge (so the swelling pre-stress of <a class="secref" href="#donnan">§2</a> falls) <em>and</em> raises permeability (so the gel time of <a class="secref" href="#biphasic">§3</a> and the fluid support of <a class="secref" href="#fluidload">§4</a> fall). Lost fluid support raises friction (<a class="secref" href="#lubrication">§7</a>) and re-concentrates the contact peak (<a class="secref" href="#contact">§6</a>); the overloaded, abraded matrix sheds still more proteoglycan. Every arrow points the wrong way, and the loop closes on itself.</figcaption></figure>
+
+<h3>Quantifying the collapse</h3>
+
+<p>Put numbers on the second strut — the one this module can compute. As permeability $k$ climbs from its healthy $\sim10^{-15}$, the fluid support during a footstep $F(1\ \mathrm s)$ falls, and the friction $\mu_{\rm eff}=\mu_{\rm eq}(1-F)$ of <a class="secref" href="#lubrication">§7</a> rises to meet it — mirror images of the same failure.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 470 275" width="100%" role="img" aria-label="Computed fluid load support during a footstep falling and friction rising as matrix permeability increases: the two curves mirror each other, healthy at low permeability, osteoarthritic at high.">
+<rect x="80" y="40" width="87.5" height="192" fill="#eef7ee"/>
+<rect x="342.5" y="40" width="87.5" height="192" fill="#fbeeea"/>
+<text x="123" y="54" font-size="9" fill="#2a7d2a" text-anchor="middle">healthy</text>
+<text x="386" y="54" font-size="9" fill="#a05a5a" text-anchor="middle">osteoarthritic</text>
+<line x1="80" y1="88" x2="430" y2="88" stroke="#f2f2f2" stroke-width="1"/>
+<line x1="80" y1="136" x2="430" y2="136" stroke="#f2f2f2" stroke-width="1"/>
+<line x1="80" y1="184" x2="430" y2="184" stroke="#f2f2f2" stroke-width="1"/>
+<polyline points="80.0,42.7 104.0,43.6 128.3,45.0 152.0,47.1 175.9,49.4 199.9,52.8 223.8,57.6 247.8,64.1 271.8,73.1 295.8,85.4 319.7,102.2 343.7,125.2 367.7,156.1 391.6,191.6 415.6,219.7 430.0,228.2" fill="none" stroke="#2a6ca8" stroke-width="2.4"/>
+<polyline points="80.0,229.3 104.0,228.4 128.3,227.0 152.0,224.9 175.9,222.6 199.9,219.2 223.8,214.4 247.8,207.9 271.8,198.9 295.8,186.6 319.7,169.8 343.7,146.8 367.7,115.9 391.6,80.4 415.6,52.3 430.0,43.8" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
+<circle cx="80" cy="42.7" r="3.4" fill="#2a6ca8"/>
+<line x1="80" y1="40" x2="80" y2="232" stroke="#333" stroke-width="1.4"/>
+<line x1="430" y1="40" x2="430" y2="232" stroke="#7a1f1f" stroke-width="1"/>
+<line x1="80" y1="232" x2="430" y2="232" stroke="#333" stroke-width="1.4"/>
+<g font-size="9" fill="#2a6ca8" text-anchor="end"><text x="74" y="43">1.0</text><text x="74" y="139">0.5</text><text x="74" y="235">0</text></g>
+<g font-size="9" fill="#7a1f1f" text-anchor="start"><text x="436" y="43">0.15</text><text x="436" y="107">0.10</text><text x="436" y="171">0.05</text><text x="436" y="235">0</text></g>
+<g font-size="8.5" fill="#555" text-anchor="middle"><text x="80" y="246">10&#8315;&#185;&#8309;</text><text x="167.5" y="246">10&#8315;&#185;&#8308;</text><text x="255" y="246">10&#8315;&#185;&#179;</text><text x="342.5" y="246">10&#8315;&#185;&#178;</text><text x="430" y="246">10&#8315;&#185;&#185;</text></g>
+<text x="255" y="261" font-size="10" fill="#333" text-anchor="middle">matrix permeability  k  [m&#8308;/(N&#183;s)]  (log scale)</text>
+<text x="255" y="274" font-size="9" fill="#555" text-anchor="middle">&#8592; healthy&#8195;&#8195;permeability rises in OA&#8195;&#8195;degenerate &#8594;</text>
+<text x="150" y="72" font-size="9" fill="#2a6ca8" text-anchor="middle" font-weight="bold">fluid support F(1 s)</text>
+<text x="360" y="200" font-size="9" fill="#7a1f1f" text-anchor="middle" font-weight="bold">friction &#956;<tspan baseline-shift="sub" font-size="7">eff</tspan></text>
+</svg><figcaption><b>Fluid support fails as the matrix opens up.</b> Fluid load support during a footstep, $F(1\ \mathrm s)$ (blue, left axis), and the resulting friction $\mu_{\rm eff}=\mu_{\rm eq}(1-F)$ (dark, right axis), versus permeability $k$. A ten-fold-more-permeable matrix still coasts through a single step ($F\approx0.96$); a thousand-fold one ($\tau\approx7\ \mathrm s$, no longer $\gg$ a footstep) has lost <em>half</em> its fluid support and its friction has climbed thirty-fold. Sustained loads fail far sooner still.</figcaption></figure>
+
+<p>Lost fluid support has two mechanical consequences, both damaging. Friction climbs (<a class="secref" href="#lubrication">§7</a>) from $\sim0.005$ toward the intrinsic $\sim0.15$, so the surfaces abrade instead of glide. And the contact peak returns (<a class="secref" href="#contact">§6</a>): without fluid pressurisation the flattening is undone, and the same load re-concentrates onto the weakened matrix.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 470 250" width="100%" role="img" aria-label="Pressure redistribution: the healthy contact spreads the load into a low flat pressure, while the degenerate joint concentrates the same load into a high narrow peak.">
+<line x1="70" y1="123" x2="410" y2="123" stroke="#f2f2f2" stroke-width="1"/>
+<line x1="70" y1="80" x2="410" y2="80" stroke="#f2f2f2" stroke-width="1"/>
+<polyline points="113.9,208.5 134.5,184.4 155.1,164.3 175.8,148.1 196.4,135.9 217.0,127.6 237.6,123.2 250.0,122.5 262.4,123.2 283.0,127.6 303.6,135.9 324.2,148.1 344.9,164.3 365.5,184.4 386.1,208.5" fill="none" stroke="#2a6ca8" stroke-width="2.4"/>
+<polyline points="157.2,185.5 165.4,148.5 175.8,124.2 186.1,107.7 196.4,95.6 206.7,86.4 217.0,79.7 227.3,74.9 237.6,72.1 247.9,70.9 250.0,70.9 258.2,71.4 268.6,73.6 278.9,77.5 289.2,83.4 299.5,91.6 309.8,102.4 320.1,117.0 330.4,137.4 340.8,172.3 342.8,185.5" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
+<circle cx="250" cy="122.5" r="3" fill="#2a6ca8"/><text x="256" y="118" font-size="9" fill="#2a6ca8" text-anchor="start">healthy: 2 MPa, spread</text>
+<circle cx="250" cy="70.9" r="3" fill="#7a1f1f"/><text x="250" y="64" font-size="9" fill="#7a1f1f" text-anchor="middle">degenerate: 3.2 MPa, concentrated</text>
+<line x1="70" y1="36" x2="70" y2="210" stroke="#333" stroke-width="1.4"/>
+<line x1="70" y1="210" x2="410" y2="210" stroke="#333" stroke-width="1.4"/>
+<g font-size="9" fill="#555" text-anchor="end"><text x="64" y="213">0</text><text x="64" y="169">1</text><text x="64" y="126">2</text><text x="64" y="83">3</text><text x="64" y="39">4</text></g>
+<g font-size="9" fill="#555" text-anchor="middle"><text x="132" y="224">&#8722;20</text><text x="191" y="224">&#8722;10</text><text x="250" y="224">0</text><text x="309" y="224">10</text><text x="368" y="224">20</text></g>
+<text x="240" y="238" font-size="10" fill="#333" text-anchor="middle">radial position  r  (mm)</text>
+<text x="20" y="123" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 20 123)">contact pressure  p  (MPa)</text>
+</svg><figcaption><b>Same load, redistributed.</b> With fluid support intact the load spreads into a low, flat pressure (blue, $\approx2\ \mathrm{MPa}$, <a class="secref" href="#contact">§6</a>); once it is lost the same $1715\ \mathrm N$ concentrates into a high, narrow peak (dark, $\approx3.2\ \mathrm{MPa}$) on a smaller, already-damaged patch. Both curves carry the identical load — degeneration does not add force, it <em>focuses</em> it.</figcaption></figure>
+
+<p>Abrasion and overload drive still more proteoglycan loss and collagen damage — and the loop is closed. Read the whole march in one place:</p>
+
+<table>
+<thead><tr><th>Quantity</th><th>Healthy</th><th>Osteoarthritic</th><th>from</th></tr></thead>
+<tbody>
+<tr><td>fixed charge density $c_F$</td><td>$\sim0.2\ \mathrm M$</td><td>falls</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>swelling pressure $\pi$</td><td>$\sim0.16\ \mathrm{MPa}$</td><td>falls</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>permeability $k$</td><td>$\sim10^{-15}$</td><td>rises $10$–$1000\times$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>gel time $\tau=h^2/H_Ak$</td><td>$\sim6700\ \mathrm s$</td><td>falls (to seconds)</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>fluid load support $F(1\,\mathrm s)$</td><td>$\sim0.99$</td><td>falls (toward $0.5$)</td><td><a class="secref" href="#fluidload">§4</a></td></tr>
+<tr><td>friction $\mu_{\rm eff}$</td><td>$\sim0.005$</td><td>rises (toward $0.1$)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>contact peak $p_0$</td><td>$\sim2\ \mathrm{MPa}$</td><td>rises ($\gtrsim3\ \mathrm{MPa}$)</td><td><a class="secref" href="#contact">§6</a></td></tr>
+</tbody>
+</table>
+
+<h3>Why it has a threshold</h3>
+
+<p>Why doesn't a healthy joint spiral like this on its own? Because the loop has a <b>gain</b>. Each pass multiplies the damage by some factor $g$. Healthy cartilage keeps $g\lt1$: its fluid-support margin is enormous ($F\approx0.99$ leaves vast headroom before the solid is overloaded), and chondrocytes slowly repair the matrix, so a perturbation <em>damps</em> out. Degeneration raises $g$ toward and past $1$ — and a loop with $g\gt1$ runs away. That is why osteoarthritis has a <b>tipping point</b>: below it the joint self-corrects, above it the same physics that protected the tissue now destroys it, marching to bone-on-bone. It is also why intervention works best <em>early</em>, while $g$ is still under one and the fluid-support margin can still be defended.</p>
+
+<p>The biological triggers — ageing, obesity (which raises the load $W$ and hence the peak), acute injury, genetics — enter through <span class="secref">Module&nbsp;14</span>. Mechanically, though, the lesson of this module is now complete: <b>cartilage survives because the interstitial fluid carries the load, and it fails when it can no longer do so.</b> What this biphasic picture captures, and what it still leaves out — full three-dimensional contact, collagen anisotropy, finite deformation, the living chondrocyte — is the accounting of <span class="secref">§9</span>.</p>
 
 <hr>
 
