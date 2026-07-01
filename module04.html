@@ -61,6 +61,10 @@ window.MathJax = {
   details.sol[open] > summary::before{ content:"\25BE\00a0"; }
   details.sol > div{ margin:.45rem 0 .2rem; padding-left:.3rem; border-left:2px solid #cfe3cf; }
   ol.diag > li{ margin:.6rem 0; }
+  /* Auto-number every figure "Fig. N." by document order (course-wide figure numbering). */
+  body{ counter-reset: fig; }
+  figure{ counter-increment: fig; }
+  figcaption::before{ content:"Fig. " counter(fig) ". "; font-weight:bold; font-style:normal; color:var(--accent); }
 </style>
 </head>
 <body>
