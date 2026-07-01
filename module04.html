@@ -81,7 +81,7 @@ window.MathJax = {
 <li><b>7.</b> <a href="#lubrication">Computational lab 2 — lubrication and the Stribeck curve</a></li>
 <li><b>8.</b> <a href="#degeneration">Degeneration and osteoarthritis mechanics</a></li>
 <li><b>9.</b> <a href="#synthesis">What the model captures and misses; diagnostics and problems</a></li>
-<li><span class="pending">Appendix — notation and parameters</span></li>
+<li><a href="#appendix">Appendix — notation and parameters</a></li>
 </ul>
 </div>
 
@@ -547,7 +547,7 @@ a <b>diffusion equation</b> with <b>consolidation diffusivity</b> $D=H_A k\;[\ma
 
 <p><b>(ii) The gel time.</b> A diffusion equation spreads a disturbance across a length $h$ in a time of order $h^2/D$. Here that sets the <b>gel time</b> $\tau$ — how long the tissue takes to give up its fluid pressure and settle onto the solid matrix:</p>
 $$\boxed{\;\tau\sim\frac{h^2}{D}=\frac{h^2}{H_A k}\;}$$
-<p>Put in healthy cartilage numbers (drawn together in the Appendix):</p>
+<p>Put in healthy cartilage numbers (drawn together in the <a class="secref" href="#appendix">Appendix</a>):</p>
 
 <table>
 <thead><tr><th>Quantity</th><th>Symbol</th><th>Value</th></tr></thead>
@@ -1150,7 +1150,7 @@ for t in [1, 60, 3600, 20000]:
 <!-- <a class="secref" href="#synthesis">§9</a> -->
 <h2 id="synthesis">9. What the model captures and misses; diagnostics and problems</h2>
 
-<p>Eight sections built one object — a charged, fluid-filled porous solid — and watched it account for a joint's whole mechanical life. Before the notation table (<span class="secref">Appendix</span>), an honest reckoning: what this model earns, what it cannot, and a short set of problems to test whether it is yours.</p>
+<p>Eight sections built one object — a charged, fluid-filled porous solid — and watched it account for a joint's whole mechanical life. Before the notation table (<a class="secref" href="#appendix">Appendix</a>), an honest reckoning: what this model earns, what it cannot, and a short set of problems to test whether it is yours.</p>
 
 <h3>What the model captures</h3>
 
@@ -2059,7 +2059,104 @@ print(f"pi / (HA*0.1)       = {pi/(HA*0.1):.1f}x")
 # tension/compression = 20x
 # pi / (HA*0.1)       = 2.7x</code></pre></div></div></details></div>
 
-<p>That closes the mechanics. The <span class="secref">Appendix</span> collects the notation and the parameter values used throughout; from here the course carries cartilage's stress, pressure, and flow fields forward into the full continuum treatment of <span class="secref">Module&nbsp;16</span> and the aging biology of <span class="secref">Module&nbsp;14</span>.</p>
+<p>That closes the mechanics. The <a class="secref" href="#appendix">Appendix</a> collects the notation and the parameter values used throughout; from here the course carries cartilage's stress, pressure, and flow fields forward into the full continuum treatment of <span class="secref">Module&nbsp;16</span> and the aging biology of <span class="secref">Module&nbsp;14</span>.</p>
+
+<hr>
+
+<h2 id="appendix">Appendix — Notation and Parameters</h2>
+
+<p>This appendix collects, in one place, every symbol defined across <a class="secref" href="#origin">§0</a>–<a class="secref" href="#synthesis">§9</a> and the healthy-adult-cartilage parameter values used throughout, with the section that introduces each. The mechanical foundations are <a class="secref" href="module01.html">Module&nbsp;1</a> (force, stress, moment), the bone that backs the cartilage is <a class="secref" href="module02.html">Module&nbsp;2</a>, and the joint reaction that loads it comes from <a class="secref" href="module03.html">Module&nbsp;3</a>. The idealizations this module makes are cashed later by <span class="secref">Module&nbsp;16</span> (continuum / finite-element mechanics) and <span class="secref">Module&nbsp;14</span> (aging and osteoarthritis biology).</p>
+
+<h3 id="notation">Notation</h3>
+
+<p>Symbols are grouped by role. Within the biphasic core, the one relation everything hangs from is the consolidation equation $\partial u/\partial t=H_Ak\,\partial^2u/\partial z^2$ of <a class="secref" href="#biphasic">§3</a>; the diffusivity $D=H_Ak$ and gel time $\tau=h^2/D$ derive from it.</p>
+
+<table>
+<thead><tr><th>Symbol</th><th>Meaning</th><th>Introduced</th></tr></thead>
+<tbody>
+<tr><th colspan="3">Kinematics, stress, and fluid</th></tr>
+<tr><td>$\varphi^s,\ \varphi^w$</td><td>solid and fluid (water) volume fractions ($\varphi^s+\varphi^w=1$)</td><td><a class="secref" href="#composite">§1</a></td></tr>
+<tr><td>$h$</td><td>cartilage layer thickness (the drainage path)</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>$u,\ \varepsilon$</td><td>solid displacement and strain, $\varepsilon=\partial u/\partial z$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>$v^s,\ v^w$</td><td>solid- and fluid-phase velocities</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>$q$</td><td>relative (Darcy) fluid flux, $q=-k\,\partial p/\partial z$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>$p$</td><td>interstitial (pore) fluid pressure</td><td><a class="secref" href="#biphasic">§3</a>, <a class="secref" href="#fluidload">§4</a></td></tr>
+<tr><td>$\sigma$</td><td>total stress, $\sigma=\sigma_E-p$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>$\sigma_E$</td><td>solid effective (elastic) stress, $\sigma_E=H_A\varepsilon$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><th colspan="3">Transport and consolidation</th></tr>
+<tr><td>$H_A$</td><td>aggregate (confined-compression) modulus</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>$k$</td><td>hydraulic permeability</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>$D$</td><td>consolidation diffusivity, $D=H_Ak$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>$\tau$</td><td>gel (consolidation) time, $\tau=h^2/D$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>$F$</td><td>fluid load support fraction, $F(0)=1$</td><td><a class="secref" href="#fluidload">§4</a></td></tr>
+<tr><td>$T$</td><td>dimensionless time, $T=Dt/h^2$</td><td><a class="secref" href="#fluidload">§4</a></td></tr>
+<tr><td>$\lambda_n$</td><td>drainage eigenvalues, $\lambda_n=(2n+1)\pi/2$ (one-sided)</td><td><a class="secref" href="#fluidload">§4</a></td></tr>
+<tr><th colspan="3">Charge and osmotic (Donnan)</th></tr>
+<tr><td>$c_F$</td><td>fixed-charge density on the proteoglycans</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>$c_0$</td><td>bath (external) salt concentration</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>$c_\pm$</td><td>interstitial mobile cation / anion concentrations</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>$\pi$</td><td>Donnan swelling (pre-stress) pressure</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>$R_g,\ T$</td><td>gas constant and absolute temperature ($R_gT$ = thermal energy)</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><th colspan="3">Contact and elasticity</th></tr>
+<tr><td>$R$</td><td>joint reaction force (from <a class="secref" href="module03.html">Module&nbsp;3</a>)</td><td><a class="secref" href="#origin">§0</a></td></tr>
+<tr><td>$R_{\rm eff}$</td><td>effective (relative) radius of curvature of the contact</td><td><a class="secref" href="#contact">§6</a></td></tr>
+<tr><td>$E,\ \nu$</td><td>instantaneous Young's modulus and Poisson ratio</td><td><a class="secref" href="#contact">§6</a></td></tr>
+<tr><td>$E^*$</td><td>reduced (contact) modulus</td><td><a class="secref" href="#contact">§6</a></td></tr>
+<tr><td>$a,\ A_c$</td><td>contact radius and contact area</td><td><a class="secref" href="#contact">§6</a></td></tr>
+<tr><td>$p_0,\ \bar p$</td><td>peak (Hertz) and mean contact pressure</td><td><a class="secref" href="#contact">§6</a></td></tr>
+<tr><th colspan="3">Lubrication and friction</th></tr>
+<tr><td>$\mu$</td><td>measured friction coefficient</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>$\mu_{\rm eq}$</td><td>intrinsic (fully drained) friction coefficient</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>$\mu_{\rm eff}$</td><td>effective friction, $\mu_{\rm eff}=\mu_{\rm eq}(1-F)$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>$S$</td><td>Stribeck number (bearing regime parameter)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>$\eta$</td><td>synovial fluid viscosity (shear-thinning)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+</tbody>
+</table>
+
+<h3 id="parameters">Parameter values (healthy adult cartilage)</h3>
+
+<p>Order-of-magnitude values for a healthy adult joint. The derived quantities — $D$, $\tau$, $E^*$, $\pi$, $p_0$ — follow from the primary ones through the boxed relations of their sections; the "Source" column points to the derivation or the problem that computes the number.</p>
+
+<table>
+<thead><tr><th>Quantity</th><th>Symbol</th><th>Value</th><th>Source</th></tr></thead>
+<tbody>
+<tr><th colspan="4">Geometry</th></tr>
+<tr><td>layer thickness</td><td>$h$</td><td>$\approx 2\ \mathrm{mm}$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>contact radius</td><td>$a$</td><td>$\approx 18\ \mathrm{mm}$</td><td><a class="secref" href="#contact">§6</a>, K3</td></tr>
+<tr><td>contact area</td><td>$A_c$</td><td>$\approx 10\ \mathrm{cm^2}$</td><td><a class="secref" href="#origin">§0</a></td></tr>
+<tr><td>effective radius</td><td>$R_{\rm eff}$</td><td>$\approx 30\ \mathrm{mm}$</td><td><a class="secref" href="#contact">§6</a></td></tr>
+<tr><th colspan="4">Solid matrix</th></tr>
+<tr><td>aggregate modulus</td><td>$H_A$</td><td>$\approx 0.6\ \mathrm{MPa}$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>instantaneous Young's / Poisson</td><td>$E,\ \nu$</td><td>$\approx 10\ \mathrm{MPa},\ \approx 0.5$</td><td><a class="secref" href="#contact">§6</a></td></tr>
+<tr><td>reduced (contact) modulus</td><td>$E^*$</td><td>$\approx 6.67\ \mathrm{MPa}$</td><td><a class="secref" href="#contact">§6</a></td></tr>
+<tr><td>tensile modulus</td><td>$E_{\rm tens}$</td><td>$\approx 12\ \mathrm{MPa}$</td><td><a class="secref" href="#composite">§1</a>, K10</td></tr>
+<tr><th colspan="4">Transport</th></tr>
+<tr><td>permeability</td><td>$k$</td><td>$\approx 1\times10^{-15}\ \mathrm{m^4/(N\,s)}$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>diffusivity</td><td>$D=H_Ak$</td><td>$\approx 6\times10^{-10}\ \mathrm{m^2/s}$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
+<tr><td>gel time</td><td>$\tau=h^2/D$</td><td>$\approx 6.7\times10^{3}\ \mathrm s\approx 1.9\ \mathrm h$</td><td><a class="secref" href="#biphasic">§3</a>, K8</td></tr>
+<tr><th colspan="4">Charge and osmotic</th></tr>
+<tr><td>fixed-charge density</td><td>$c_F$</td><td>$\approx 0.2\ \mathrm M$</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>bath concentration</td><td>$c_0$</td><td>$\approx 0.15\ \mathrm M$</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>swelling pressure</td><td>$\pi$</td><td>$\approx 0.16\ \mathrm{MPa}$</td><td><a class="secref" href="#donnan">§2</a>, K2</td></tr>
+<tr><td>thermal energy ($T=310\ \mathrm K$)</td><td>$R_gT$</td><td>$\approx 2577\ \mathrm{J/mol}$</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><th colspan="4">Loads and pressures</th></tr>
+<tr><td>joint reaction (single-leg stance)</td><td>$R$</td><td>$\approx 1715\ \mathrm N$</td><td><a class="secref" href="module03.html">Mod&nbsp;3</a>, <a class="secref" href="#origin">§0</a></td></tr>
+<tr><td>mean contact pressure</td><td>$\bar p$</td><td>$\approx 1.7\ \mathrm{MPa}$</td><td><a class="secref" href="#origin">§0</a>, K3</td></tr>
+<tr><td>Hertz peak pressure</td><td>$p_0$</td><td>$\approx 2.5\ \mathrm{MPa}$</td><td><a class="secref" href="#contact">§6</a>, K3</td></tr>
+<tr><td>biphasic-flattened peak</td><td>—</td><td>$\approx 2.0\ \mathrm{MPa}$</td><td><a class="secref" href="#contact">§6</a></td></tr>
+<tr><th colspan="4">Fluid support and friction</th></tr>
+<tr><td>support at a footstep / at $t=0$</td><td>$F$</td><td>$\approx 0.99\ /\ 1$</td><td><a class="secref" href="#fluidload">§4</a>, K5</td></tr>
+<tr><td>measured friction</td><td>$\mu$</td><td>$\approx 0.005$–$0.02$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>intrinsic (drained) friction</td><td>$\mu_{\rm eq}$</td><td>$\approx 0.15$</td><td><a class="secref" href="#lubrication">§7</a>, K6</td></tr>
+<tr><td>synovial viscosity (shear-thinning)</td><td>$\eta$</td><td>$\approx 0.01$–$1\ \mathrm{Pa\,s}$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><th colspan="4">Composition (by wet weight)</th></tr>
+<tr><td>water</td><td>$\varphi^w$</td><td>$\approx 70$–$80\%$</td><td><a class="secref" href="#composite">§1</a></td></tr>
+<tr><td>cells (chondrocytes)</td><td>—</td><td>$\lt 10\%$</td><td><a class="secref" href="#composite">§1</a></td></tr>
+</tbody>
+</table>
+
+<p>These few numbers reproduce the whole module: $D=H_Ak$ gives the $\sim$hour gel time; $\tau\gg$ a footstep gives $F\approx1$ and near-frictionless contact; $\pi$ from $c_F$ gives the resting pre-stress and the overnight recovery; and their decay — rising $k$, falling $c_F$ — is the osteoarthritis cascade of <a class="secref" href="#degeneration">§8</a>, handed forward to <span class="secref">Module&nbsp;14</span> and <span class="secref">Module&nbsp;16</span>.</p>
+
 
 <hr>
 
