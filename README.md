@@ -10,6 +10,7 @@ inline SVG figures.
 - **Course home:** https://az9713.github.io/biomechanics/
 - **Module 1 — Mechanical Foundations:** https://az9713.github.io/biomechanics/module01.html
 - **Module 2 — Bones as Load-Bearing Structures:** https://az9713.github.io/biomechanics/module02.html
-- **Module 3 — Joints as Constrained Interfaces:** https://az9713.github.io/biomechanics/module03.html *(in progress)*
+- **Module 3 — Joints as Constrained Interfaces:** https://az9713.github.io/biomechanics/module03.html
+- **Module 4 — Cartilage, Synovial Fluid & Joint Contact Biophysics:** https://az9713.github.io/biomechanics/module04.html *(in progress)*
 
-Modules 4–17 to come.
+Modules 5–17 to come.
