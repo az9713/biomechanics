@@ -16,6 +16,8 @@ modules** (MathJax + inline SVG/SMIL, no build step). Built with the
   session) for Python figure-data generation and preview renders — never commit it.
 
 ## Status (resume here)
+> **⇒ NEW SESSION — READ `HANDOFF.md` (repo root) FIRST.** It is the live resume
+> point (current state + next task); this file is the standing conventions.
 - **Module 1** (mechanical foundations) — COMPLETE, live.
 - **Module 2** (bones / beam theory / remodeling) — COMPLETE, live.
 - **Module 3** (joints as constrained interfaces) — COMPLETE, live. §0–§9 +
