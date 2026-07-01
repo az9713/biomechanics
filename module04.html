@@ -358,9 +358,9 @@ $$\pi = 2577\times61 \approx 1.56\times10^5\ \mathrm{Pa} \approx 0.16\ \mathrm{M
 <line x1="250.0" y1="168.9" x2="250.0" y2="232" stroke="#7a1f1f" stroke-width="0.9" stroke-dasharray="2 2"/>
 <line x1="70" y1="168.9" x2="250.0" y2="168.9" stroke="#7a1f1f" stroke-width="0.9" stroke-dasharray="2 2"/>
 <circle cx="250.0" cy="168.9" r="4" fill="#7a1f1f"/>
-<text x="258.0" y="162.9" font-size="10" fill="#7a1f1f" font-weight="bold">&#8776; 0.16 MPa</text>
-<line x1="300" y1="46" x2="328" y2="46" stroke="#7a1f1f" stroke-width="2.4"/><text x="332" y="49" font-size="9.5" fill="#333">c<tspan baseline-shift="sub" font-size="7">0</tspan> = 0.15 M</text>
-<line x1="300" y1="62" x2="328" y2="62" stroke="#b08440" stroke-width="2" stroke-dasharray="6 4"/><text x="332" y="65" font-size="9.5" fill="#333">c<tspan baseline-shift="sub" font-size="7">0</tspan> = 0.30 M (more salt)</text>
+<text x="244" y="150" font-size="10" fill="#7a1f1f" font-weight="bold" text-anchor="end">&#8776; 0.16 MPa</text>
+<line x1="80" y1="46" x2="108" y2="46" stroke="#7a1f1f" stroke-width="2.4"/><text x="112" y="49" font-size="9.5" fill="#333">c<tspan baseline-shift="sub" font-size="7">0</tspan> = 0.15 M</text>
+<line x1="80" y1="62" x2="108" y2="62" stroke="#b08440" stroke-width="2" stroke-dasharray="6 4"/><text x="112" y="65" font-size="9.5" fill="#333">c<tspan baseline-shift="sub" font-size="7">0</tspan> = 0.30 M (more salt)</text>
 <text x="250" y="262" font-size="10.5" fill="#333" text-anchor="middle">fixed charge density  c<tspan baseline-shift="sub" font-size="8">F</tspan>  (mol/L)</text>
 <text x="20" y="131" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 20 131)">swelling pressure  &#960;  (MPa)</text>
 </svg><figcaption><b>Computed swelling pressure.</b> The boxed formula at body temperature, for two bath salt concentrations. Across the healthy fixed-charge range ($c_F\approx0.1$–$0.25\ \mathrm M$) the resting swelling pressure is $\approx0.1$–$0.2\ \mathrm{MPa}$ (operating point $\approx0.16\ \mathrm{MPa}$), present with no external load. Both limits are visible: $\pi\to0$ as $c_F\to0$ (lose the charge, lose the swelling — the degeneration direction, <span class="secref"><a class="secref" href="#degeneration">§8</a></span>), and the whole curve falls when bath salt rises $0.15\to0.30\ \mathrm M$ (added salt <em>screens</em> the fixed charge and de-swells the tissue).</figcaption></figure>
@@ -539,9 +539,9 @@ a <b>diffusion equation</b> with <b>consolidation diffusivity</b> $D=H_A k\;[\ma
 <text x="22" y="143" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 22 143)">depth  z / h</text>
 <text x="402" y="32" font-size="9" fill="#111" text-anchor="end">t = 0&#8314; (fluid carries all)</text>
 <text x="118" y="34" font-size="9" fill="#2a7d2a">drained platen</text>
-<line x1="364" y1="170" x2="176" y2="170" stroke="#888" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#a_grn)"/>
-<text x="270" y="164" font-size="9.5" fill="#555" text-anchor="middle" font-style="italic">t increases &#8594; pressure drains away</text>
-<g font-size="8.5"><text x="405" y="233" fill="#2f8fbf" text-anchor="end">T=0.05</text><text x="398" y="246" fill="#2a7d2a" text-anchor="start">0.1</text><text x="341" y="246" fill="#b08440" text-anchor="start">0.2</text><text x="203" y="246" fill="#c0392b" text-anchor="end">0.5</text><text x="116" y="246" fill="#7a1f1f" text-anchor="end">1.0</text></g>
+<line x1="340" y1="62" x2="160" y2="62" stroke="#888" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#a_grn)"/>
+<text x="250" y="30" font-size="9.5" fill="#555" text-anchor="middle" font-style="italic">t increases &#8594; pressure drains away</text>
+<g font-size="8.5"><line x1="412" y1="234" x2="408" y2="248" stroke="#2f8fbf" stroke-width="0.7"/><text x="414" y="236" fill="#2f8fbf" text-anchor="start">T=0.05</text><line x1="412" y1="247" x2="395" y2="248" stroke="#2a7d2a" stroke-width="0.7"/><text x="414" y="249" fill="#2a7d2a" text-anchor="start">0.1</text><text x="341" y="246" fill="#b08440" text-anchor="start">0.2</text><text x="203" y="246" fill="#c0392b" text-anchor="end">0.5</text><text x="116" y="246" fill="#7a1f1f" text-anchor="end">1.0</text></g>
 </svg><figcaption><b>Computed consolidation (Terzaghi series solution of the boxed equation).</b> Pore pressure $p/\sigma_0$ across the depth at dimensionless times $T=Dt/h^2$. At $t=0^+$ the fluid carries the entire load at every depth (vertical line at $p/\sigma_0=1$). Pressure then diffuses out through the drained platen at $z=h$ and decays toward zero; as it falls, the solid effective stress $\sigma_E$ rises to take its place. By $T\approx1$ the fluid pressure is nearly gone and the matrix carries the load alone. The exchange happens over the <em>gel time</em> below.</figcaption></figure>
 
 <p><b>(ii) The gel time.</b> A diffusion equation spreads a disturbance across a length $h$ in a time of order $h^2/D$. Here that sets the <b>gel time</b> $\tau$ — how long the tissue takes to give up its fluid pressure and settle onto the solid matrix:</p>
@@ -609,7 +609,7 @@ $$F(T)=\sum_{n=0}^{\infty}\frac{2}{\lambda_n^{2}}\,e^{-\lambda_n^{2}T},\qquad \l
 <circle cx="332.5" cy="159.9" r="3" fill="#555"/>
 <line x1="332.5" y1="159.9" x2="300" y2="150" stroke="#999" stroke-width="0.8"/>
 <text x="297" y="148" font-size="9" fill="#555" text-anchor="end">F = 1/e (&#8776; 36 min)</text>
-<text x="426" y="150" font-size="9.5" fill="#6b5a36" text-anchor="end" font-style="italic">solid matrix carries the load</text>
+<text x="285" y="105" font-size="9.5" fill="#6b5a36" text-anchor="end" font-style="italic">solid matrix carries the load</text>
 <text x="255" y="262" font-size="10.5" fill="#333" text-anchor="middle">time under load  (log scale)</text>
 <text x="20" y="134" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 20 134)">fluid load support  F = &#10216;p&#10217; / &#963;<tspan baseline-shift="sub" font-size="8">0</tspan></text>
 </svg><figcaption><b>Computed fluid load support.</b> Equation&nbsp;(1) for healthy cartilage ($D=H_Ak=6\times10^{-10}\ \mathrm{m^2/s}$, $h=2\ \mathrm{mm}$). The fluid carries essentially the whole load for everything up to the timescale of a footstep, then hands it to the solid matrix over the gel time. The green band marks physiological loading (steps and gait), where $F\gtrsim0.9$.</figcaption></figure>
@@ -787,7 +787,7 @@ print("gel time  tau = h^2 / D         =", h**2 / D, "s")</code></pre></div>
 <text x="198" y="111" font-size="8.5" fill="#7a1f1f" text-anchor="start">(fluid pressurized, <a class="secref" href="#fluidload">§4</a>)</text>
 <line x1="327.9" y1="250" x2="327.9" y2="120" stroke="#555" stroke-width="1" stroke-dasharray="3 2"/>
 <text x="332" y="128" font-size="9" fill="#555" text-anchor="start">&#964; &#8776; 1.9 h</text>
-<text x="330" y="185" font-size="8.5" fill="#9a6a20" text-anchor="middle" font-style="italic">relaxes to the drained matrix</text>
+<text x="325" y="150" font-size="8.5" fill="#9a6a20" text-anchor="end" font-style="italic">relaxes to the drained matrix</text>
 <line x1="78" y1="92" x2="78" y2="250" stroke="#333" stroke-width="1.4"/>
 <line x1="78" y1="250" x2="432" y2="250" stroke="#333" stroke-width="1.4"/>
 <g font-size="9" fill="#555" text-anchor="middle"><text x="78" y="264">10 s</text><text x="166.5" y="264">100 s</text><text x="255" y="264">10&#179; s</text><text x="343.5" y="264">10&#8308; s</text><text x="432" y="264">10&#8309; s</text></g>
@@ -810,7 +810,7 @@ print("gel time  tau = h^2 / D         =", h**2 / D, "s")</code></pre></div>
 <text x="255" y="80" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">Relaxation time &#964; &#8733; h&#178; / (H<tspan baseline-shift="sub" font-size="8">A</tspan>k)</text>
 <g font-size="9" fill="#555" text-anchor="end"><text x="74" y="253">0</text><text x="74" y="208">2</text><text x="74" y="162">4</text><text x="74" y="117">6</text></g>
 <line x1="78" y1="227.4" x2="432" y2="227.4" stroke="#9a6a20" stroke-width="0.9" stroke-dasharray="5 3"/>
-<text x="430" y="223" font-size="8.5" fill="#9a6a20" text-anchor="end">&#963;<tspan baseline-shift="sub" font-size="7">&#8734;</tspan></text>
+<text x="430" y="214" font-size="8.5" fill="#9a6a20" text-anchor="end">&#963;<tspan baseline-shift="sub" font-size="7">&#8734;</tspan></text>
 <polyline points="78.0,184.8 95.8,167.6 113.6,145.9 131.4,118.6 139.3,104.3 141.3,127.8 149.2,160.8 159.1,179.5 169.0,191.7 178.9,200.7 188.7,207.9 198.6,213.6 208.5,218.4 218.4,222.1 228.3,224.7 238.2,226.3 250.1,227.1 263.9,227.4 290.0,227.4 432.0,227.4" fill="none" stroke="#2a6ca8" stroke-width="2"/>
 <polyline points="78.0,218.2 95.8,209.5 113.6,198.5 131.4,184.7 149.2,167.5 165.0,148.4 178.9,128.2 190.7,107.8 192.7,104.1 194.7,128.7 208.5,173.4 224.3,193.8 240.2,206.6 256.0,215.7 271.8,222.1 287.6,225.8 303.5,227.1 319.3,227.4 343.0,227.4 432.0,227.4" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
 <polyline points="78.0,229.6 105.7,219.7 133.4,205.8 159.1,187.7 180.8,166.9 198.6,145.1 212.5,124.2 222.4,106.9 224.3,106.2 226.3,132.3 240.2,174.2 256.0,194.3 271.8,206.9 287.6,215.9 303.5,222.3 319.3,225.8 335.1,227.2 350.9,227.4 380.6,227.4 432.0,227.4" fill="none" stroke="#2a7d2a" stroke-width="2"/>
@@ -894,7 +894,7 @@ $$a=\Big(\frac{3FR_{\rm eff}}{4E^{*}}\Big)^{1/3},\qquad p(r)=p_0\sqrt{1-\frac{r^
 <line x1="70" y1="104" x2="430" y2="104" stroke="#f4f4f4" stroke-width="1"/>
 <line x1="70" y1="168" x2="430" y2="168" stroke="#f4f4f4" stroke-width="1"/>
 <line x1="70" y1="123.6" x2="430" y2="123.6" stroke="#9a6a20" stroke-width="1" stroke-dasharray="5 3"/>
-<text x="426" y="116" font-size="9" fill="#9a6a20" text-anchor="end">mean p&#772; &#8776; 1.7 MPa (Module 3)</text>
+<text x="426" y="116" font-size="9" fill="#9a6a20" text-anchor="end">mean p&#772; &#8776; 1.7 MPa</text>
 <polyline points="134.8,221.9 136.6,201.7 140.2,181.9 145.6,162.7 151.0,148.4 158.2,133.5 165.4,121.4 174.4,109.2 183.4,99.2 194.2,89.7 205.0,82.3 217.6,76.0 230.2,71.8 242.8,69.8 250.0,69.4 257.2,69.8 269.8,71.8 282.4,76.0 295.0,82.3 305.8,89.7 316.6,99.2 325.6,109.2 332.8,118.7 340.0,130.2 347.2,144.3 352.6,157.5 358.0,174.6 361.6,190.5 363.4,201.7 365.2,221.9" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
 <polyline points="100.6,230.9 106.0,221.9 113.2,210.3 122.2,196.8 131.2,184.1 142.0,170.2 152.8,157.6 165.4,144.5 178.0,133.3 190.6,123.8 203.2,116.2 217.6,109.7 230.2,106.0 242.8,104.0 250.0,103.7 257.2,104.0 269.8,106.0 284.2,110.4 298.6,117.2 313.0,126.4 327.4,137.9 341.8,151.7 356.2,168.0 370.6,186.6 383.2,204.8 394.0,221.9 399.4,230.9" fill="none" stroke="#2a6ca8" stroke-width="2.2"/>
 <circle cx="250" cy="69.4" r="3.4" fill="#7a1f1f"/><text x="244" y="58" font-size="9" fill="#7a1f1f" text-anchor="end">Hertz peak 2.5 MPa</text>
@@ -1087,7 +1087,7 @@ for t in [1, 60, 3600, 20000]:
 <rect x="80" y="40" width="87.5" height="192" fill="#eef7ee"/>
 <rect x="342.5" y="40" width="87.5" height="192" fill="#fbeeea"/>
 <text x="123" y="54" font-size="9" fill="#2a7d2a" text-anchor="middle">healthy</text>
-<text x="386" y="54" font-size="9" fill="#a05a5a" text-anchor="middle">osteoarthritic</text>
+<text x="368" y="54" font-size="9" fill="#a05a5a" text-anchor="middle">osteoarthritic</text>
 <line x1="80" y1="88" x2="430" y2="88" stroke="#f2f2f2" stroke-width="1"/>
 <line x1="80" y1="136" x2="430" y2="136" stroke="#f2f2f2" stroke-width="1"/>
 <line x1="80" y1="184" x2="430" y2="184" stroke="#f2f2f2" stroke-width="1"/>
@@ -1113,7 +1113,7 @@ for t in [1, 60, 3600, 20000]:
 <line x1="70" y1="80" x2="410" y2="80" stroke="#f2f2f2" stroke-width="1"/>
 <polyline points="113.9,208.5 134.5,184.4 155.1,164.3 175.8,148.1 196.4,135.9 217.0,127.6 237.6,123.2 250.0,122.5 262.4,123.2 283.0,127.6 303.6,135.9 324.2,148.1 344.9,164.3 365.5,184.4 386.1,208.5" fill="none" stroke="#2a6ca8" stroke-width="2.4"/>
 <polyline points="157.2,185.5 165.4,148.5 175.8,124.2 186.1,107.7 196.4,95.6 206.7,86.4 217.0,79.7 227.3,74.9 237.6,72.1 247.9,70.9 250.0,70.9 258.2,71.4 268.6,73.6 278.9,77.5 289.2,83.4 299.5,91.6 309.8,102.4 320.1,117.0 330.4,137.4 340.8,172.3 342.8,185.5" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
-<circle cx="250" cy="122.5" r="3" fill="#2a6ca8"/><text x="256" y="118" font-size="9" fill="#2a6ca8" text-anchor="start">healthy: 2 MPa, spread</text>
+<circle cx="250" cy="122.5" r="3" fill="#2a6ca8"/><line x1="250" y1="158" x2="250" y2="126" stroke="#2a6ca8" stroke-width="0.7"/><text x="250" y="166" font-size="9" fill="#2a6ca8" text-anchor="middle">healthy: 2 MPa, spread</text>
 <circle cx="250" cy="70.9" r="3" fill="#7a1f1f"/><text x="250" y="64" font-size="9" fill="#7a1f1f" text-anchor="middle">degenerate: 3.2 MPa, concentrated</text>
 <line x1="70" y1="36" x2="70" y2="210" stroke="#333" stroke-width="1.4"/>
 <line x1="70" y1="210" x2="410" y2="210" stroke="#333" stroke-width="1.4"/>
