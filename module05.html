@@ -40,6 +40,7 @@ window.MathJax = {
   .setupfig text{ paint-order:stroke; stroke:#fff; stroke-width:2.5px; stroke-linejoin:round; }
   /* white/light labels sit on solid fills (bars, glyphs) and already contrast — no halo, else the white stroke bloats them */
   .setupfig text[fill="#fff"], .setupfig text[fill="#ffffff"], .setupfig text[fill="white"], .setupfig text.onfill{ stroke:none; }
+  @media (prefers-reduced-motion: reduce){ .setupfig animate, .setupfig animateTransform, .setupfig animateMotion{ display:none; } }
   .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; }
   .secref:hover{ border-bottom:1px solid var(--accent); }
   .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; }
@@ -74,7 +75,7 @@ window.MathJax = {
 <ul>
 <li><b>0.</b> <a href="#origin">Motivation — the force that has to be built</a></li>
 <li><b>1.</b> <a href="#architecture">Muscle architecture: the force-producing hierarchy</a></li>
-<li><b>2.</b> <span class="pending">The sarcomere: crossbridges and the length–tension law</span></li>
+<li><b>2.</b> <a href="#sarcomere">The sarcomere: crossbridges and the length–tension law</a></li>
 <li><b>3.</b> <span class="pending">Excitation–contraction coupling: from action potential to calcium</span></li>
 <li><b>4.</b> <span class="pending">Motor units, recruitment, and rate coding</span></li>
 <li><b>5.</b> <span class="pending">Activation dynamics</span></li>
@@ -216,7 +217,7 @@ window.MathJax = {
 <p>To make each arrow quantitative we need three layers of physics, each built on the one before:</p>
 
 <ul>
-<li><b>The generator itself</b> — how muscle is built (fascicles, pennation, and the maximal force set by cross-sectional area), and the <b>sarcomere</b>, whose overlapping filaments give the force its dependence on length (<span class="secref"><a class="secref" href="#architecture">§1</a></span>–<span class="secref">§2</span>).</li>
+<li><b>The generator itself</b> — how muscle is built (fascicles, pennation, and the maximal force set by cross-sectional area), and the <b>sarcomere</b>, whose overlapping filaments give the force its dependence on length (<span class="secref"><a class="secref" href="#architecture">§1</a></span>–<span class="secref"><a class="secref" href="#sarcomere">§2</a></span>).</li>
 <li><b>Turning a command into activation</b> — the action potential at the neuromuscular junction, the calcium release that switches the machinery on, and how the nervous system grades whole-muscle drive by recruiting motor units and firing them faster — all collapsed into a first-order <b>activation</b> equation (<span class="secref">§3</span>–<span class="secref">§5</span>).</li>
 <li><b>The force laws and the whole model</b> — the dependence of force on shortening <b>velocity</b> (Hill's hyperbola), assembled with length and activation into the <b>Hill-type muscle model</b>, then converted to joint torque through a moment arm that varies with angle, with agonist and antagonist acting across the joint (<span class="secref">§6</span>–<span class="secref">§8</span>).</li>
 </ul>
@@ -237,7 +238,7 @@ window.MathJax = {
 <li>Inside, the muscle is divided into <b>fascicles</b>: visible bundles of fibres, each sheathed in connective tissue (the <em>perimysium</em>). The <em>arrangement</em> of these fascicles relative to the tendon is what we will call <b>pennation</b>, below.</li>
 <li>Each fascicle is a bundle of <b>muscle fibres</b>. A muscle fibre is a single <em>cell</em> — unusually, a long, cylindrical, multinucleated one (10&#8211;100&#8201;&#956;m across, up to many centimetres long), striped (<em>striated</em>) with a regular cross-banding.</li>
 <li>Each fibre is packed with hundreds of <b>myofibrils</b>: thread-like strands running its full length.</li>
-<li>Each myofibril is a chain of <b>sarcomeres</b> laid end to end. The sarcomere is the <b>contractile unit</b> — the smallest piece that shortens and pulls. Its banding is the source of the fibre's stripes, and its internal machinery (thick and thin filaments) is where force is generated, developed in <span class="secref">§2</span>.</li>
+<li>Each myofibril is a chain of <b>sarcomeres</b> laid end to end. The sarcomere is the <b>contractile unit</b> — the smallest piece that shortens and pulls. Its banding is the source of the fibre's stripes, and its internal machinery (thick and thin filaments) is where force is generated, developed in <span class="secref"><a class="secref" href="#sarcomere">§2</a></span>.</li>
 </ul>
 
 <figure><svg class="setupfig" viewBox="0 0 900 250" width="100%" role="img" aria-label="A left-to-right zoom cascade through the muscle force-producing hierarchy: whole fusiform muscle, then a fascicle (bundle of fibers), then a single striated muscle fiber, then a sarcomere showing interdigitating thick myosin and thin actin filaments between two Z-discs.">
@@ -309,7 +310,7 @@ window.MathJax = {
 
 <h3>Specific tension and physiological cross-section</h3>
 
-<p>Every fibre is built from the same molecular machinery (the crossbridges of <span class="secref">§2</span>), packed at nearly the same density. So the force a fibre can exert is set simply by <em>how many</em> filaments lie side by side across its cross-section — i.e. by its cross-sectional area. The proportionality constant is a material property of muscle:</p>
+<p>Every fibre is built from the same molecular machinery (the crossbridges of <span class="secref"><a class="secref" href="#sarcomere">§2</a></span>), packed at nearly the same density. So the force a fibre can exert is set simply by <em>how many</em> filaments lie side by side across its cross-section — i.e. by its cross-sectional area. The proportionality constant is a material property of muscle:</p>
 
 <div class="def"><b>Definition 1.1 (specific tension).</b> The <em>specific tension</em> $\sigma$ is the maximal isometric ("iso" = same, "metric" = length: contracting at fixed length) force a muscle produces per unit cross-sectional area of fibre. It is a stress (force / area), and across mammalian skeletal muscle it is remarkably constant,
 $$\sigma \approx 0.3\ \mathrm{MPa} = 30\ \mathrm{N\,cm^{-2}},\tag{1.1}$$
@@ -383,7 +384,291 @@ This is the ceiling the neural control of <span class="secref">§3</span>&#8211;
 
 <p><b>Validation against <span class="secref"><a class="secref" href="#origin">§0</a></span>.</b> In <span class="secref"><a class="secref" href="#origin">§0</a></span> the elbow flexors had to pull with roughly $600\ \mathrm N$ to hold a $5\ \mathrm{kg}$ bag at arm's length. The biceps alone reaches only $\sim135\ \mathrm N$ — but it is one of several flexors (brachialis, brachioradialis add more), and together they produce several hundred newtons: the right order of magnitude. The mismatch is itself the lesson — holding $5\ \mathrm{kg}$ on a fully outstretched forearm really is near the limit of the flexor group, which is why it is so quickly tiring. The calf and thigh numbers ($\sim10^3\ \mathrm N$) likewise match the joint reactions of <a class="secref" href="module03.html#reaction">Module&nbsp;3</a>, where standing loaded the hip to $\sim1700\ \mathrm N$.</p>
 
-<p>Equation (1.3) fixes the <em>size</em> of the force. But a muscle almost never works at $F_{\max}$: the force it actually makes depends on how stretched it is, how fast it is shortening, and how strongly it is switched on. The first of these — the dependence on length — is written into the very geometry of the sarcomere we just drew, and it is where we turn next (<span class="secref">§2</span>).</p>
+<p>Equation (1.3) fixes the <em>size</em> of the force. But a muscle almost never works at $F_{\max}$: the force it actually makes depends on how stretched it is, how fast it is shortening, and how strongly it is switched on. The first of these — the dependence on length — is written into the very geometry of the sarcomere we just drew, and it is where we turn next (<span class="secref"><a class="secref" href="#sarcomere">§2</a></span>).</p>
+
+<h2 id="sarcomere">2. The sarcomere: crossbridges and the length&#8211;tension law</h2>
+
+<p>Section&nbsp;1 fixed the <em>ceiling</em> on force, $F_{\max}=\sigma\,\mathrm{PCSA}\cos\theta_p$. But a muscle almost never delivers $F_{\max}$. The force it actually produces at any instant is that ceiling scaled by three dimensionless factors, each between 0 and 1:</p>
+
+<div class="keyresult" style="text-align:center">
+$F_{\text{active}} \;=\; \underbrace{a(t)}_{\text{how switched on}}\;\cdot\; \underbrace{f_L(\ell)}_{\text{how stretched}}\;\cdot\; \underbrace{f_V(v)}_{\text{how fast}}\;\cdot\; F_{\max}$
+</div>
+
+<p>Activation $a$ is the story of <span class="secref">&#167;3</span>&#8211;<span class="secref">&#167;5</span>; the velocity factor $f_V$ is <span class="secref">&#167;6</span>. This section derives the middle one &#8212; the <b>length factor</b> $f_L(\ell)$ &#8212; and the remarkable thing is that it falls straight out of the <em>geometry</em> of the sarcomere we already drew in <span class="secref"><a class="secref" href="#architecture">&#167;1</a></span> (Fig. 3). Force is made by molecular <em>crossbridges</em>; a crossbridge can only pull where a thin filament lies beside it; how much thin filament lies beside the bridges is set by how long the sarcomere is. So force must depend on length &#8212; and we can compute exactly how.</p>
+
+<h3>The sliding-filament model</h3>
+
+<p>Recall the sarcomere from <span class="secref"><a class="secref" href="#architecture">&#167;1</a></span>: central <b>thick</b> (myosin) filaments interdigitating with <b>thin</b> (actin) filaments anchored to the <b>Z-discs</b> at each end. Define the one length this section turns on:</p>
+
+<div class="def"><b>Definition 2.1 (sarcomere length).</b> The <em>sarcomere length</em> $\ell$ is the distance between the two Z-discs that bound one sarcomere &#8212; the length of the repeating contractile unit. At rest in human muscle $\ell\approx2.6$&#8211;$2.8\ \mu\mathrm m$.</div>
+
+<p>How does a muscle shorten? Not by the filaments themselves getting shorter. In the <b>sliding-filament model</b> (A.&nbsp;F. Huxley and Hanson, 1954) the thick and thin filaments keep their lengths and instead <em>slide past one another</em>: the thin filaments are drawn deeper in between the thick ones, hauling the Z-discs together and shrinking $\ell$. The tell-tale evidence is that the thick-filament band stays a fixed width under the microscope while the sarcomere shortens &#8212; only the <em>overlap</em> changes. Everything below follows from that one fact. (An animation of this sliding is the capstone figure of the section, once we know what it does to force.)</p>
+
+<h3>The crossbridge cycle &#8212; where force and ATP meet</h3>
+
+<p>Projecting from each thick filament are hundreds of <b>myosin heads</b>, or <b>crossbridges</b>: tiny motor domains that reach out, grab the neighbouring thin filament, and pull. Each head runs a four-state cycle, burning exactly one molecule of <b>ATP</b> (adenosine triphosphate, the cell's energy currency) per turn (Fig. 5):</p>
+
+<figure><svg class="setupfig" viewBox="0 0 560 300" width="100%" role="img" aria-label="The four-state crossbridge cycle drawn as a ring. State 1 attached: myosin head bound to actin, awaiting ATP. Arrow ATP binds to state 2 detached: head released. Arrow hydrolysis (ATP becomes ADP plus phosphate) to state 3 primed: head re-cocked. Arrow phosphate release, power stroke, to state 4: head pulls the thin filament about 10 nanometres. Arrow ADP release back to state 1. One ATP is hydrolysed per cycle; with no ATP the heads stay locked, which is rigor mortis.">
+  <defs>
+    <marker id="s2cyc" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#555"/></marker>
+    <linearGradient id="cy_thin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b96c8"/><stop offset="1" stop-color="#1e5185"/></linearGradient>
+    <linearGradient id="cy_thick" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d16a5c"/><stop offset="1" stop-color="#8a2a20"/></linearGradient>
+    <marker id="s2slide" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#2a6ca8"/></marker>
+  </defs>
+  <g transform="translate(150,80)">
+<rect x="-52" y="-28.5" width="104" height="5" rx="2" fill="url(#cy_thin)"/>
+<g fill="#cfe0ef"><circle cx="-36" cy="-26" r="1.7"/><circle cx="-18" cy="-26" r="1.7"/><circle cx="0" cy="-26" r="1.7"/><circle cx="18" cy="-26" r="1.7"/><circle cx="36" cy="-26" r="1.7"/></g>
+<rect x="-52" y="21.5" width="104" height="5" rx="2" fill="url(#cy_thick)"/>
+<line x1="-2" y1="22" x2="-16" y2="-16" stroke="#8a2a20" stroke-width="2.4" stroke-linecap="round"/>
+<ellipse cx="-18" cy="-19" rx="6.5" ry="4.8" fill="#2a7d2a" stroke="#5a1c14" stroke-width="0.6"/>
+
+<text x="0" y="46" font-size="11" text-anchor="middle" font-weight="bold" fill="#1a1a1a">&#9312; attached</text>
+<text x="0" y="58" font-size="9" text-anchor="middle" fill="#555">bound; awaiting ATP</text>
+</g>
+<g transform="translate(410,80)">
+<rect x="-52" y="-28.5" width="104" height="5" rx="2" fill="url(#cy_thin)"/>
+<g fill="#cfe0ef"><circle cx="-36" cy="-26" r="1.7"/><circle cx="-18" cy="-26" r="1.7"/><circle cx="0" cy="-26" r="1.7"/><circle cx="18" cy="-26" r="1.7"/><circle cx="36" cy="-26" r="1.7"/></g>
+<rect x="-52" y="21.5" width="104" height="5" rx="2" fill="url(#cy_thick)"/>
+<line x1="0" y1="22" x2="2" y2="-2" stroke="#8a2a20" stroke-width="2.4" stroke-linecap="round"/>
+<ellipse cx="3" cy="-5" rx="6.5" ry="4.8" fill="#c9922e" stroke="#5a1c14" stroke-width="0.6"/>
+<rect x="10" y="-12" width="24" height="12" rx="2" fill="#eaf5ea" stroke="#2a7d2a" stroke-width="0.7"/><text x="22" y="-3" font-size="8" text-anchor="middle" fill="#2a7d2a" class="onfill">ATP</text>
+<text x="0" y="46" font-size="11" text-anchor="middle" font-weight="bold" fill="#1a1a1a">&#9313; detached</text>
+<text x="0" y="58" font-size="9" text-anchor="middle" fill="#555">ATP has bound</text>
+</g>
+<g transform="translate(410,222)">
+<rect x="-52" y="-28.5" width="104" height="5" rx="2" fill="url(#cy_thin)"/>
+<g fill="#cfe0ef"><circle cx="-36" cy="-26" r="1.7"/><circle cx="-18" cy="-26" r="1.7"/><circle cx="0" cy="-26" r="1.7"/><circle cx="18" cy="-26" r="1.7"/><circle cx="36" cy="-26" r="1.7"/></g>
+<rect x="-52" y="21.5" width="104" height="5" rx="2" fill="url(#cy_thick)"/>
+<line x1="0" y1="22" x2="6" y2="-14" stroke="#8a2a20" stroke-width="2.4" stroke-linecap="round"/>
+<ellipse cx="7" cy="-17" rx="6.5" ry="4.8" fill="#8a8f96" stroke="#5a1c14" stroke-width="0.6"/>
+<text x="22" y="-14" font-size="8.5" text-anchor="middle" fill="#777">ADP&#183;P&#7522;</text>
+<text x="0" y="46" font-size="11" text-anchor="middle" font-weight="bold" fill="#1a1a1a">&#9314; primed</text>
+<text x="0" y="58" font-size="9" text-anchor="middle" fill="#555">head re-cocked</text>
+</g>
+<g transform="translate(150,222)">
+<rect x="-52" y="-28.5" width="104" height="5" rx="2" fill="url(#cy_thin)"/>
+<g fill="#cfe0ef"><circle cx="-36" cy="-26" r="1.7"/><circle cx="-18" cy="-26" r="1.7"/><circle cx="0" cy="-26" r="1.7"/><circle cx="18" cy="-26" r="1.7"/><circle cx="36" cy="-26" r="1.7"/></g>
+<rect x="-52" y="21.5" width="104" height="5" rx="2" fill="url(#cy_thick)"/>
+<line x1="-2" y1="22" x2="-16" y2="-16" stroke="#8a2a20" stroke-width="2.4" stroke-linecap="round"/>
+<ellipse cx="-18" cy="-19" rx="6.5" ry="4.8" fill="#2a7d2a" stroke="#5a1c14" stroke-width="0.6"/>
+<line x1="18" y1="-34" x2="-24" y2="-34" stroke="#2a6ca8" stroke-width="1.8" marker-end="url(#s2slide)"/><text x="-3" y="-40" font-size="8" text-anchor="middle" fill="#2a6ca8">thin filament pulled</text>
+<text x="0" y="46" font-size="11" text-anchor="middle" font-weight="bold" fill="#1a1a1a">&#9315; power stroke</text>
+<text x="0" y="58" font-size="9" text-anchor="middle" fill="#555">head pivots, pulls actin</text>
+</g>
+  <!-- ring transition arrows -->
+  <path d="M208,64 Q280,48 352,64" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#s2cyc)"/>
+  <path d="M426,120 Q448,151 426,182" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#s2cyc)"/>
+  <path d="M352,238 Q280,254 208,238" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#s2cyc)"/>
+  <path d="M134,182 Q112,151 134,120" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#s2cyc)"/>
+  <text x="280" y="44" font-size="10.5" text-anchor="middle" fill="#333">ATP binds</text>
+  <text x="470" y="148" font-size="10.5" text-anchor="middle" fill="#333">hydrolysis</text>
+  <text x="470" y="160" font-size="9" text-anchor="middle" fill="#777">ATP&#8594;ADP+P&#7522;</text>
+  <text x="280" y="262" font-size="10.5" text-anchor="middle" fill="#333">P&#7522; out &#8594; power stroke</text>
+  <text x="90" y="151" font-size="10.5" text-anchor="middle" fill="#333">ADP out</text>
+  <!-- centre -->
+  <text x="280" y="146" font-size="11.5" text-anchor="middle" font-weight="bold" fill="#7a1f1f">1 ATP</text>
+  <text x="280" y="160" font-size="11.5" text-anchor="middle" font-weight="bold" fill="#7a1f1f">per cycle</text>
+  <text x="280" y="292" font-size="10" text-anchor="middle" font-style="italic" fill="#555">No ATP &#8594; heads stay locked to actin &#8212; this is rigor mortis.</text>
+</svg><figcaption><b>The crossbridge cycle.</b> A myosin head, bound to actin in the low-energy <em>attached</em> state&nbsp;&#9312;, is released when <b>ATP binds</b>&nbsp;(&#8594;&#9313;). <b>Hydrolysis</b> of that ATP to ADP + P&#7522; re-cocks the head to its high-energy <em>primed</em> conformation&nbsp;(&#8594;&#9314;). The head re-binds actin and, as phosphate leaves, executes its <b>power stroke</b> &#8212; pivoting to drag the thin filament $\sim$10&nbsp;nm toward the sarcomere centre&nbsp;(&#8594;&#9315;) &#8212; then releases ADP to settle back to&nbsp;&#9312;. Note the order: ATP <em>binding</em> (not the stroke) drives <em>detachment</em>; hydrolysis re-cocks; phosphate release drives the stroke. This is why a muscle with no ATP cannot let go: the heads stay locked to actin in the attached state &#8212; the stiffness of <em>rigor mortis</em>.</figcaption></figure>
+
+<p>Two consequences matter for the rest of the module. First, <b>one ATP is hydrolysed per crossbridge per cycle</b> &#8212; the chemical price of the mechanical work, the "chemo-" in this module's title. Second, and more immediately, the heads act as a <em>parallel array of tiny, independent force generators</em>: at any instant the sarcomere's active force is the sum of the pulls of all the heads that happen to be attached, so</p>
+
+<div class="keyresult" style="text-align:center">active force $\;\propto\;$ number of crossbridges attached at that instant.</div>
+
+<h3>Force follows overlap</h3>
+
+<p>A head can only attach where there is a thin filament beside it to grab. The heads are spread (at nearly uniform density) along the thick filament everywhere <em>except</em> a central <b>bare zone</b> that carries no heads. So the number of heads that can attach is set by how much thin filament lies alongside the head-bearing part of the thick filament &#8212; the <b>overlap</b>. To turn "&#8733; attached heads" into "&#8733; overlap length" we make one modelling assumption explicit, because it is exactly what makes the derivation work:</p>
+
+<div class="def"><b>Modelling assumption 2.2 (independent, uniform crossbridges).</b> The myosin heads are (i) distributed at <em>uniform density</em> along the head-bearing zones of the thick filament, and (ii) <em>independent and identical</em> force generators. Then the number of attachable heads &#8212; and hence the active force &#8212; is <em>proportional to the length of overlap</em> between the thin filaments and the head-bearing zone:
+$$F_{\text{active}} \;\propto\; (\text{overlap length}).\tag{2.1}$$
+Uniform density is what makes this proportionality <em>linear</em>; it is the hinge of the whole length&#8211;tension law.</div>
+
+<h3>Sarcomere geometry sets the curve</h3>
+
+<p>Now it is pure bookkeeping of lengths. Take representative human filament dimensions (each varies a little between muscles and people &#8212; the spread is given):</p>
+
+<table>
+<tr><th>Symbol</th><th>Quantity</th><th>Value (representative human)</th></tr>
+<tr><td>$A$</td><td>thick (myosin) filament length</td><td>$1.60\ \mu\mathrm m$</td></tr>
+<tr><td>$a_{\text{thin}}$</td><td>thin (actin) filament length, one side (from the Z-line)</td><td>$\approx 1.3\ \mu\mathrm m$ (range $1.27$&#8211;$1.32$)</td></tr>
+<tr><td>$B$</td><td>central bare zone (head-free) width</td><td>$\approx 0.1$&#8211;$0.2\ \mu\mathrm m$</td></tr>
+<tr><td>$\tfrac{A-B}{2}$</td><td>head-bearing length, one side</td><td>$\approx 0.75\ \mu\mathrm m$</td></tr>
+</table>
+
+<p>Watch the overlap change as we lengthen the sarcomere from fully shortened to fully stretched. Four snapshots (Fig. 6) tell the whole story (the force under each is computed from&nbsp;(2.1)):</p>
+
+<figure><svg class="setupfig" viewBox="0 0 560 340" width="100%" role="img" aria-label="Four sarcomere panels at increasing length showing how thin-thick filament overlap sets active force: at 1.4 micrometres double overlap reduces force to 0.32; at 2.70 micrometres full single overlap gives force 1.0 (plateau); at 3.45 micrometres partial overlap gives 0.50; at 4.2 micrometres filaments no longer overlap and force is 0.">
+<defs><linearGradient id="pg_thick" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d16a5c"/><stop offset="1" stop-color="#8a2a20"/></linearGradient><linearGradient id="pg_thin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b96c8"/><stop offset="1" stop-color="#1e5185"/></linearGradient></defs>
+<g transform="translate(10,12)">
+<text x="125" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#1a1a1a">&#9312; too short (&#8467; = 1.4 &#956;m)</text>
+<text x="125" y="30" font-size="9.5" text-anchor="middle" fill="#555">double overlap &#8212; thin filaments collide</text>
+<rect x="88.4" y="42" width="24.7" height="36" fill="#2a7d2a" opacity="0.16"/>
+<rect x="116.9" y="42" width="24.7" height="36" fill="#2a7d2a" opacity="0.16"/>
+<rect x="92.2" y="42" width="20.9" height="36" fill="#e67e22" opacity="0.22"/>
+<rect x="84.6" y="57" width="60.8" height="6" rx="2" fill="url(#pg_thick)"/>
+<g stroke="#8a2a20" stroke-width="1.3" stroke-linecap="round"><line x1="87.6" y1="57" x2="85.6" y2="51"/><line x1="87.6" y1="63" x2="85.6" y2="69"/><line x1="92.6" y1="57" x2="90.6" y2="51"/><line x1="92.6" y1="63" x2="90.6" y2="69"/><line x1="97.6" y1="57" x2="95.6" y2="51"/><line x1="97.6" y1="63" x2="95.6" y2="69"/><line x1="102.6" y1="57" x2="100.6" y2="51"/><line x1="102.6" y1="63" x2="100.6" y2="69"/><line x1="107.6" y1="57" x2="105.6" y2="51"/><line x1="107.6" y1="63" x2="105.6" y2="69"/><line x1="118.9" y1="57" x2="120.9" y2="51"/><line x1="118.9" y1="63" x2="120.9" y2="69"/><line x1="123.9" y1="57" x2="125.9" y2="51"/><line x1="123.9" y1="63" x2="125.9" y2="69"/><line x1="128.9" y1="57" x2="130.9" y2="51"/><line x1="128.9" y1="63" x2="130.9" y2="69"/><line x1="133.9" y1="57" x2="135.9" y2="51"/><line x1="133.9" y1="63" x2="135.9" y2="69"/><line x1="138.9" y1="57" x2="140.9" y2="51"/><line x1="138.9" y1="63" x2="140.9" y2="69"/><line x1="143.9" y1="57" x2="145.9" y2="51"/><line x1="143.9" y1="63" x2="145.9" y2="69"/></g>
+<rect x="88.4" y="46" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="88.4" y="70.5" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="92.2" y="46" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="92.2" y="70.5" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="86.4" y="40" width="4" height="42" rx="1.5" fill="#333"/>
+<rect x="139.6" y="40" width="4" height="42" rx="1.5" fill="#333"/>
+<text x="88.4" y="94" font-size="8.5" text-anchor="middle" fill="#333">Z</text>
+<text x="141.6" y="94" font-size="8.5" text-anchor="middle" fill="#333">Z</text>
+<text x="125" y="112" font-size="10" text-anchor="middle" fill="#7a1f1f" font-weight="bold">f<tspan baseline-shift="sub" font-size="7">L</tspan> = 0.32</text>
+</g>
+<g transform="translate(290,12)">
+<text x="125" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#1a1a1a">&#9313; optimal (&#8467; = 2.7 &#956;m)</text>
+<text x="125" y="30" font-size="9.5" text-anchor="middle" fill="#555">every head engaged &#8212; plateau</text>
+<rect x="84.6" y="42" width="28.5" height="36" fill="#2a7d2a" opacity="0.16"/>
+<rect x="116.9" y="42" width="28.5" height="36" fill="#2a7d2a" opacity="0.16"/>
+<rect x="84.6" y="57" width="60.8" height="6" rx="2" fill="url(#pg_thick)"/>
+<g stroke="#8a2a20" stroke-width="1.3" stroke-linecap="round"><line x1="87.6" y1="57" x2="85.6" y2="51"/><line x1="87.6" y1="63" x2="85.6" y2="69"/><line x1="92.6" y1="57" x2="90.6" y2="51"/><line x1="92.6" y1="63" x2="90.6" y2="69"/><line x1="97.6" y1="57" x2="95.6" y2="51"/><line x1="97.6" y1="63" x2="95.6" y2="69"/><line x1="102.6" y1="57" x2="100.6" y2="51"/><line x1="102.6" y1="63" x2="100.6" y2="69"/><line x1="107.6" y1="57" x2="105.6" y2="51"/><line x1="107.6" y1="63" x2="105.6" y2="69"/><line x1="118.9" y1="57" x2="120.9" y2="51"/><line x1="118.9" y1="63" x2="120.9" y2="69"/><line x1="123.9" y1="57" x2="125.9" y2="51"/><line x1="123.9" y1="63" x2="125.9" y2="69"/><line x1="128.9" y1="57" x2="130.9" y2="51"/><line x1="128.9" y1="63" x2="130.9" y2="69"/><line x1="133.9" y1="57" x2="135.9" y2="51"/><line x1="133.9" y1="63" x2="135.9" y2="69"/><line x1="138.9" y1="57" x2="140.9" y2="51"/><line x1="138.9" y1="63" x2="140.9" y2="69"/><line x1="143.9" y1="57" x2="145.9" y2="51"/><line x1="143.9" y1="63" x2="145.9" y2="69"/></g>
+<rect x="63.7" y="46" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="63.7" y="70.5" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="116.9" y="46" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="116.9" y="70.5" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="61.7" y="40" width="4" height="42" rx="1.5" fill="#333"/>
+<rect x="164.3" y="40" width="4" height="42" rx="1.5" fill="#333"/>
+<text x="63.7" y="94" font-size="8.5" text-anchor="middle" fill="#333">Z</text>
+<text x="166.3" y="94" font-size="8.5" text-anchor="middle" fill="#333">Z</text>
+<text x="125" y="112" font-size="10" text-anchor="middle" fill="#7a1f1f" font-weight="bold">f<tspan baseline-shift="sub" font-size="7">L</tspan> = 1.00</text>
+</g>
+<g transform="translate(10,182)">
+<text x="125" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#1a1a1a">&#9314; stretched (&#8467; = 3.45 &#956;m)</text>
+<text x="125" y="30" font-size="9.5" text-anchor="middle" fill="#555">partial overlap &#8212; fewer heads</text>
+<rect x="84.6" y="42" width="14.2" height="36" fill="#2a7d2a" opacity="0.16"/>
+<rect x="131.2" y="42" width="14.2" height="36" fill="#2a7d2a" opacity="0.16"/>
+<rect x="84.6" y="57" width="60.8" height="6" rx="2" fill="url(#pg_thick)"/>
+<g stroke="#8a2a20" stroke-width="1.3" stroke-linecap="round"><line x1="87.6" y1="57" x2="85.6" y2="51"/><line x1="87.6" y1="63" x2="85.6" y2="69"/><line x1="92.6" y1="57" x2="90.6" y2="51"/><line x1="92.6" y1="63" x2="90.6" y2="69"/><line x1="97.6" y1="57" x2="95.6" y2="51"/><line x1="97.6" y1="63" x2="95.6" y2="69"/><line x1="102.6" y1="57" x2="100.6" y2="51"/><line x1="102.6" y1="63" x2="100.6" y2="69"/><line x1="107.6" y1="57" x2="105.6" y2="51"/><line x1="107.6" y1="63" x2="105.6" y2="69"/><line x1="118.9" y1="57" x2="120.9" y2="51"/><line x1="118.9" y1="63" x2="120.9" y2="69"/><line x1="123.9" y1="57" x2="125.9" y2="51"/><line x1="123.9" y1="63" x2="125.9" y2="69"/><line x1="128.9" y1="57" x2="130.9" y2="51"/><line x1="128.9" y1="63" x2="130.9" y2="69"/><line x1="133.9" y1="57" x2="135.9" y2="51"/><line x1="133.9" y1="63" x2="135.9" y2="69"/><line x1="138.9" y1="57" x2="140.9" y2="51"/><line x1="138.9" y1="63" x2="140.9" y2="69"/><line x1="143.9" y1="57" x2="145.9" y2="51"/><line x1="143.9" y1="63" x2="145.9" y2="69"/></g>
+<rect x="49.5" y="46" width="49.3" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="49.5" y="70.5" width="49.3" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="131.2" y="46" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="131.2" y="70.5" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="47.5" y="40" width="4" height="42" rx="1.5" fill="#333"/>
+<rect x="178.6" y="40" width="4" height="42" rx="1.5" fill="#333"/>
+<text x="49.5" y="94" font-size="8.5" text-anchor="middle" fill="#333">Z</text>
+<text x="180.6" y="94" font-size="8.5" text-anchor="middle" fill="#333">Z</text>
+<text x="125" y="112" font-size="10" text-anchor="middle" fill="#7a1f1f" font-weight="bold">f<tspan baseline-shift="sub" font-size="7">L</tspan> = 0.50</text>
+</g>
+<g transform="translate(290,182)">
+<text x="125" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#1a1a1a">&#9315; too long (&#8467; = 4.2 &#956;m)</text>
+<text x="125" y="30" font-size="9.5" text-anchor="middle" fill="#555">no overlap &#8212; no force</text>
+<rect x="84.6" y="57" width="60.8" height="6" rx="2" fill="url(#pg_thick)"/>
+<g stroke="#8a2a20" stroke-width="1.3" stroke-linecap="round"><line x1="87.6" y1="57" x2="85.6" y2="51"/><line x1="87.6" y1="63" x2="85.6" y2="69"/><line x1="92.6" y1="57" x2="90.6" y2="51"/><line x1="92.6" y1="63" x2="90.6" y2="69"/><line x1="97.6" y1="57" x2="95.6" y2="51"/><line x1="97.6" y1="63" x2="95.6" y2="69"/><line x1="102.6" y1="57" x2="100.6" y2="51"/><line x1="102.6" y1="63" x2="100.6" y2="69"/><line x1="107.6" y1="57" x2="105.6" y2="51"/><line x1="107.6" y1="63" x2="105.6" y2="69"/><line x1="118.9" y1="57" x2="120.9" y2="51"/><line x1="118.9" y1="63" x2="120.9" y2="69"/><line x1="123.9" y1="57" x2="125.9" y2="51"/><line x1="123.9" y1="63" x2="125.9" y2="69"/><line x1="128.9" y1="57" x2="130.9" y2="51"/><line x1="128.9" y1="63" x2="130.9" y2="69"/><line x1="133.9" y1="57" x2="135.9" y2="51"/><line x1="133.9" y1="63" x2="135.9" y2="69"/><line x1="138.9" y1="57" x2="140.9" y2="51"/><line x1="138.9" y1="63" x2="140.9" y2="69"/><line x1="143.9" y1="57" x2="145.9" y2="51"/><line x1="143.9" y1="63" x2="145.9" y2="69"/></g>
+<rect x="35.2" y="46" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="35.2" y="70.5" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="145.4" y="46" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="145.4" y="70.5" width="49.4" height="3.5" rx="1.5" fill="url(#pg_thin)"/>
+<rect x="33.2" y="40" width="4" height="42" rx="1.5" fill="#333"/>
+<rect x="192.8" y="40" width="4" height="42" rx="1.5" fill="#333"/>
+<text x="35.2" y="94" font-size="8.5" text-anchor="middle" fill="#333">Z</text>
+<text x="194.8" y="94" font-size="8.5" text-anchor="middle" fill="#333">Z</text>
+<text x="125" y="112" font-size="10" text-anchor="middle" fill="#7a1f1f" font-weight="bold">f<tspan baseline-shift="sub" font-size="7">L</tspan> = 0.00</text>
+</g>
+</svg><figcaption><b>Overlap sets force.</b> Thin (blue) filaments hang from the Z-discs; the thick (red) filament sits fixed at centre, its myosin heads shown as ticks (none in the central bare zone). <span style="color:#2a7d2a">Green</span> marks <em>productive</em> overlap &#8212; thin filament beside heads. &#9312;&nbsp;<em>Too short:</em> the thin filaments overshoot the centre and collide/interfere (<span style="color:#e67e22">orange</span> double overlap), and the thick filament is about to jam against the Z-discs &#8212; force is low. &#9313;&nbsp;<em>Optimal:</em> every head has thin filament beside it, none wasted &#8212; force is maximal. &#9314;&nbsp;<em>Stretched:</em> the thin filaments have slid partway out, leaving some heads with nothing to grab &#8212; force falls. &#9315;&nbsp;<em>Too long:</em> no overlap at all, no head can attach &#8212; zero force.</figcaption></figure>
+
+<p>Each snapshot is a breakpoint of the curve, and each is a clean statement about lengths (all measured Z-to-Z). Reading from long to short:</p>
+
+<ul>
+<li><b>Descending-limb zero</b> &#8212; the thin filaments have slid completely clear of the thick filament, so overlap and force reach zero. This happens when the sarcomere length equals the thick length plus both thin filaments: $\ell = A + 2\,a_{\text{thin}} = 1.60 + 2(1.30) = 4.20\ \mu\mathrm m.$</li>
+<li><b>Plateau (optimal length</b> $\ell_0$<b>)</b> &#8212; as the sarcomere shortens from there, overlap grows until every head is engaged. That is first true when the thin-filament tips just reach the edge of the bare zone: $\ell_0 = 2\,a_{\text{thin}} + B = 2.60 + 0.10 = 2.70\ \mu\mathrm m.$ Shorten a touch more and the thin tips slide across the (head-free) bare zone without gaining or losing any engaged heads &#8212; so force stays flat until the tips meet at the centre, at $\ell = 2\,a_{\text{thin}} = 2.60\ \mu\mathrm m$. <b>The plateau width equals the bare-zone width</b> $B$: the head-free centre is exactly what buys a muscle a range of lengths at full force.</li>
+<li><b>Ascending limb</b> &#8212; below $2.60\ \mu\mathrm m$ the thin filaments overshoot the centre and enter the <em>opposite</em> half, where they lie the wrong way among the far heads and interfere (the orange <em>double overlap</em>); force declines. At $\ell = A = 1.60\ \mu\mathrm m$ the thick filaments run into the Z-discs and begin to crumple, and force drops steeply, extrapolating to zero near $\ell\approx1.27\ \mu\mathrm m$.</li>
+</ul>
+
+<p>That last zero deserves a caution. Unlike the descending limb &#8212; whose zero at $4.2\ \mu\mathrm m$ is pure thin/thick geometry &#8212; the ascending zero near $1.27\ \mu\mathrm m$ is an <em>empirical</em> extrapolation set by the thick filament buckling against the Z-discs, a property of the (nearly species-invariant) thick filament rather than a length we can derive by overlap alone. So we treat the descending limb and plateau as <em>exact</em> geometry and the ascending limb as a measured, piecewise-linear approximation.</p>
+
+<div class="prop"><b>Derivation of the descending limb (linear).</b> On the descending limb every attached head lies in the head-bearing zone, and by&nbsp;(2.1) force is proportional to the overlap between one thin filament and one head-bearing half of the thick filament. Measuring from the sarcomere centre, that half runs out to $A/2$, and the thin filament's inner tip sits at $\ell/2 - a_{\text{thin}}$. The overlap is therefore
+$$\text{overlap}(\ell) \;=\; \frac{A}{2} - \Big(\frac{\ell}{2} - a_{\text{thin}}\Big),$$
+which shrinks <em>linearly</em> as $\ell$ grows. Normalising by its maximum, the head-bearing length $\tfrac{A-B}{2}=0.75\ \mu\mathrm m$, gives the straight descending limb from $f_L=1$ at $\ell_0=2.70$ to $f_L=0$ at $4.20\ \mu\mathrm m$. <span class="qed">&#8718;</span></div>
+
+<p>Collecting all four regions gives the active length&#8211;tension law &#8212; the first mechanical law of the module:</p>
+
+<div class="prop"><b>Proposition 2.1 (active length&#8211;tension relation).</b> With sarcomere length $\ell$ in micrometres, the normalized active force is
+$$\boxed{\;f_L(\ell)=\begin{cases}0, & \ell\le 1.27 \ \text{ or }\ \ell\ge 4.20,\\[3pt]\text{ascending (double overlap; thick-filament}\\[-1pt]\quad\text{compression) }\nearrow, & 1.27\lt\ell\lt2.60,\\[3pt]1, & 2.60\le\ell\le 2.70\quad(\text{plateau}),\\[3pt]\dfrac{4.20-\ell}{4.20-2.70}, & 2.70\lt\ell\lt4.20.\end{cases}\;}$$
+The plateau sits at the optimal length $\ell_0\approx2.7\ \mu\mathrm m$; force falls to zero at $\ell\approx1.27$ and $4.20\ \mu\mathrm m$.</div>
+
+<p>Plotted, the law is the classic humped curve (Fig. 7):</p>
+
+<figure><svg class="setupfig" viewBox="0 0 560 340" width="100%" role="img" aria-label="The active length-tension curve: normalized sarcomere force versus sarcomere length. Force is zero below 1.27 micrometres, rises along a steep then shallow ascending limb, is flat at 1.0 across the plateau from 2.60 to 2.70 micrometres, then falls linearly along the descending limb to zero at 4.2 micrometres.">
+<rect x="286.5" y="80" width="13.5" height="200" fill="#2a7d2a" opacity="0.12"/>
+<line x1="151.2" y1="120" x2="151.2" y2="280" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="300" y1="80" x2="300" y2="280" stroke="#2a7d2a" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="70" y1="280" x2="535" y2="280" stroke="#333" stroke-width="1.4"/>
+<line x1="70" y1="280" x2="70" y2="58" stroke="#333" stroke-width="1.4"/>
+<line x1="66" y1="280" x2="70" y2="280" stroke="#333"/><text x="60" y="283" font-size="9" text-anchor="end" fill="#555">0.0</text>
+<line x1="66" y1="180" x2="70" y2="180" stroke="#333"/><text x="60" y="183" font-size="9" text-anchor="end" fill="#555">0.5</text>
+<line x1="66" y1="80" x2="70" y2="80" stroke="#333"/><text x="60" y="83" font-size="9" text-anchor="end" fill="#555">1.0</text>
+<line x1="106.5" y1="280" x2="106.5" y2="284" stroke="#333"/><text x="106.5" y="295" font-size="9" text-anchor="middle" fill="#555">1.27</text>
+<line x1="151.2" y1="280" x2="151.2" y2="284" stroke="#333"/><text x="151.2" y="295" font-size="9" text-anchor="middle" fill="#555">1.6</text>
+<line x1="501.6" y1="280" x2="501.6" y2="284" stroke="#333"/><text x="501.6" y="295" font-size="9" text-anchor="middle" fill="#555">4.2</text>
+<line x1="286.5" y1="286" x2="300" y2="286" stroke="#2a7d2a" stroke-width="1.4"/>
+<text x="293" y="298" font-size="9" text-anchor="middle" fill="#2a7d2a">2.60&#8211;2.70</text>
+<polyline points="70.0,280.0 106.5,280.0 151.2,120.0 286.5,80.0 300.0,80.0 502.9,280.0 530.0,280.0" fill="none" stroke="#7a1f1f" stroke-width="2.6"/>
+<circle cx="106.52941176470588" cy="280.0" r="4" fill="#e67e22" stroke="#fff" stroke-width="1.2"/>
+<circle cx="151.1764705882353" cy="120.0" r="4" fill="#e67e22" stroke="#fff" stroke-width="1.2"/>
+<circle cx="286.4705882352941" cy="80.0" r="4" fill="#e67e22" stroke="#fff" stroke-width="1.2"/>
+<circle cx="300.0" cy="80.0" r="4" fill="#e67e22" stroke="#fff" stroke-width="1.2"/>
+<circle cx="502.9411764705882" cy="280.0" r="4" fill="#e67e22" stroke="#fff" stroke-width="1.2"/>
+<text x="150" y="72" font-size="11" text-anchor="middle" fill="#a8493b" font-style="italic">ascending limb</text>
+<text x="289" y="66" font-size="11" text-anchor="middle" fill="#2a7d2a" font-weight="bold">plateau</text>
+<text x="418" y="80" font-size="11" text-anchor="middle" fill="#a8493b" font-style="italic">descending limb</text>
+<text x="120" y="150" font-size="8.5" text-anchor="middle" fill="#777">double</text><text x="120" y="160" font-size="8.5" text-anchor="middle" fill="#777">overlap</text>
+<text x="289" y="54" font-size="9" text-anchor="middle" fill="#2a7d2a">&#8467;&#8320; &#8776; 2.7 &#956;m</text>
+<text x="303" y="318" font-size="10.5" text-anchor="middle" fill="#333">sarcomere length &#8467; (&#956;m)</text>
+<text x="26" y="170" font-size="10.5" text-anchor="middle" fill="#333" transform="rotate(-90 26 170)">active force  f<tspan baseline-shift="sub" font-size="7.5">L</tspan>(&#8467;)  (normalized)</text>
+</svg><figcaption><b>The active length&#8211;tension curve</b> $f_L(\ell)$, computed from the overlap geometry above. Steep <em>ascending limb</em> (double overlap, then thick-filament compression against the Z-discs at $1.6\ \mu\mathrm m$), a short flat <em>plateau</em> whose width is the bare zone ($2.60$&#8211;$2.70\ \mu\mathrm m$), and a straight <em>descending limb</em> falling to zero at $4.2\ \mu\mathrm m$. Orange dots mark the four geometric breakpoints derived in the text.</figcaption></figure>
+
+<p>This is A.&nbsp;F. Huxley's overlap prediction, confirmed in the landmark single-fibre experiments of <b>Gordon, Huxley &amp; Julian&nbsp;(1966)</b>: the measured force tracks the computed overlap breakpoint-for-breakpoint. Our three landmarks match the human values quoted at the start &#8212; plateau at $\ell_0\approx2.7\ \mu\mathrm m$, zeros near $1.27$ and $4.2\ \mu\mathrm m$ &#8212; a geometry-only prediction validated against measurement.</p>
+
+<p>What does it mean for a working muscle? Sarcomeres in the body are held, by their tendons and skeletal geometry, to operate mostly on the <em>plateau and the near flanks</em> around $\ell_0$ &#8212; they rarely wander out to the zeros, where they would be useless. But they do move off the plateau: this is why your grip is weakest with the wrist fully flexed or fully extended (finger-flexor sarcomeres pushed onto the ascending or descending limb), and strongest in between. The animation (Fig. 8) makes the link concrete &#8212; as the sarcomere breathes through its length range, watch the operating point ride up and down the very curve we just derived:</p>
+
+<figure><svg id="s2anim" class="setupfig" viewBox="0 0 560 320" width="100%" role="img" aria-label="Animated sarcomere: thin actin filaments anchored to two Z-discs slide over a fixed central thick myosin filament as sarcomere length changes from 4.2 down to 1.6 micrometres and back; a dot tracks the resulting operating point along the length-tension curve below.">
+<defs>
+<linearGradient id="s2thick" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d16a5c"/><stop offset="0.5" stop-color="#b03a2e"/><stop offset="1" stop-color="#8a2a20"/></linearGradient>
+<linearGradient id="s2thin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b96c8"/><stop offset="0.5" stop-color="#2a6ca8"/><stop offset="1" stop-color="#1e5185"/></linearGradient>
+</defs>
+<text x="280" y="22" font-size="12.5" text-anchor="middle" font-weight="bold" fill="#1a1a1a">one sarcomere &#8212; the filaments slide, they never shorten</text>
+<rect x="243.2" y="70" width="73.6" height="10" rx="3" fill="url(#s2thick)"/>
+<g stroke="#8a2a20" stroke-width="1.6" stroke-linecap="round"><line x1="247.2" y1="70" x2="244.2" y2="63"/><line x1="247.2" y1="80" x2="244.2" y2="87"/><line x1="253.2" y1="70" x2="250.2" y2="63"/><line x1="253.2" y1="80" x2="250.2" y2="87"/><line x1="259.2" y1="70" x2="256.2" y2="63"/><line x1="259.2" y1="80" x2="256.2" y2="87"/><line x1="265.2" y1="70" x2="262.2" y2="63"/><line x1="265.2" y1="80" x2="262.2" y2="87"/><line x1="271.2" y1="70" x2="268.2" y2="63"/><line x1="271.2" y1="80" x2="268.2" y2="87"/><line x1="284.3" y1="70" x2="287.3" y2="63"/><line x1="284.3" y1="80" x2="287.3" y2="87"/><line x1="290.3" y1="70" x2="293.3" y2="63"/><line x1="290.3" y1="80" x2="293.3" y2="87"/><line x1="296.3" y1="70" x2="299.3" y2="63"/><line x1="296.3" y1="80" x2="299.3" y2="87"/><line x1="302.3" y1="70" x2="305.3" y2="63"/><line x1="302.3" y1="80" x2="305.3" y2="87"/><line x1="308.3" y1="70" x2="311.3" y2="63"/><line x1="308.3" y1="80" x2="311.3" y2="87"/><line x1="314.3" y1="70" x2="317.3" y2="63"/><line x1="314.3" y1="80" x2="317.3" y2="87"/></g>
+<text x="280" y="55" font-size="9.5" text-anchor="middle" fill="#b03a2e">thick (myosin) &#8212; fixed</text>
+<g>
+<rect x="215.4" y="52" width="5" height="46" rx="1.5" fill="#333"/>
+<rect x="217.9" y="61.5" width="59.8" height="4" rx="2" fill="url(#s2thin)"/>
+<rect x="217.9" y="84.5" width="59.8" height="4" rx="2" fill="url(#s2thin)"/>
+<text x="217.9" y="108" font-size="9.5" text-anchor="middle" fill="#333">Z</text>
+<animateTransform attributeName="transform" type="translate" dur="7s" repeatCount="indefinite" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" values="-34.5 0; -17.3 0; -0.0 0; 12.7 0; 25.3 0; 12.7 0; -0.0 0; -17.3 0; -34.5 0"/>
+</g>
+<g>
+<rect x="339.6" y="52" width="5" height="46" rx="1.5" fill="#333"/>
+<rect x="282.3" y="61.5" width="59.8" height="4" rx="2" fill="url(#s2thin)"/>
+<rect x="282.3" y="84.5" width="59.8" height="4" rx="2" fill="url(#s2thin)"/>
+<text x="342.1" y="108" font-size="9.5" text-anchor="middle" fill="#333">Z</text>
+<animateTransform attributeName="transform" type="translate" dur="7s" repeatCount="indefinite" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" values="34.5 0; 17.3 0; 0.0 0; -12.7 0; -25.3 0; -12.7 0; 0.0 0; 17.3 0; 34.5 0"/>
+</g>
+<text x="366" y="66" font-size="9.5" text-anchor="start" fill="#2a6ca8">thin (actin)</text>
+<g transform="translate(150,150)">
+<text x="185" y="16" font-size="11.5" text-anchor="middle" font-weight="bold" fill="#1a1a1a">operating point on f<tspan baseline-shift="sub" font-size="8">L</tspan>(&#8467;)</text>
+<line x1="70" y1="150" x2="305" y2="150" stroke="#333" stroke-width="1.3"/>
+<line x1="70" y1="150" x2="70" y2="52" stroke="#333" stroke-width="1.3"/>
+<text x="188" y="172" font-size="10" text-anchor="middle" fill="#333">sarcomere length &#8467; (&#956;m)</text>
+<text x="42" y="58" font-size="10" fill="#333">f<tspan baseline-shift="sub" font-size="7">L</tspan></text>
+<rect x="173.9" y="60" width="7.4" height="90" fill="#2a7d2a" opacity="0.12"/>
+<polyline points="70.0,150.0 75.2,150.0 99.7,78.0 173.9,60.0 181.3,60.0 292.6,150.0 300.0,150.0" fill="none" stroke="#7a1f1f" stroke-width="2.2"/>
+<line x1="75.2" y1="150" x2="75.2" y2="154" stroke="#333"/><text x="75.2" y="164" font-size="8.5" text-anchor="middle" fill="#555">1.27</text>
+<line x1="181.3" y1="150" x2="181.3" y2="154" stroke="#333"/><text x="181.3" y="164" font-size="8.5" text-anchor="middle" fill="#555">2.7</text>
+<line x1="292.6" y1="150" x2="292.6" y2="154" stroke="#333"/><text x="292.6" y="164" font-size="8.5" text-anchor="middle" fill="#555">4.2</text>
+<circle r="5.5" fill="#e67e22" stroke="#fff" stroke-width="1.5">
+<animate attributeName="cx" dur="7s" repeatCount="indefinite" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" values="292.6; 236.9; 181.3; 140.5; 99.7; 140.5; 181.3; 236.9; 292.6"/>
+<animate attributeName="cy" dur="7s" repeatCount="indefinite" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" values="150.0; 105.0; 60.0; 68.1; 78.0; 68.1; 60.0; 105.0; 150.0"/>
+</circle>
+</g>
+</svg><figcaption><b>The sarcomere breathing along its length&#8211;tension curve.</b> The thin filaments slide over the fixed thick filament as $\ell$ sweeps from $4.2\ \mu\mathrm m$ (pulled apart, no overlap) down to $1.6\ \mu\mathrm m$ (thick filament jammed against the Z-discs) and back. The orange dot is the corresponding operating point on $f_L(\ell)$: force peaks on the plateau near $\ell_0$ and vanishes at the extremes. Both the sliding and the dot are driven from the same computed overlap geometry, so the picture and the curve agree frame for frame. (A frozen frame at the optimal length carries the same lesson for reduced-motion viewers.)</figcaption></figure>
+
+<p>Two loose ends, both repaid later. The velocity factor $f_V(v)$ &#8212; force also depends on how fast the filaments are sliding, because the crossbridge cycle takes time &#8212; is <span class="secref">&#167;6</span>. And the sharp corners of the single-sarcomere curve above are rounded off in a whole muscle, because its millions of sarcomeres are never all at exactly the same length; the smoothed, normalised fibre-level $f_L$ that <span class="secref">&#167;7</span> plugs into the Hill model is this curve with its kinks averaged away. With length handled, we turn to the switch that decides <em>how many</em> of these crossbridges are active at all: the calcium signal of <span class="secref">&#167;3</span>.</p>
+
+
+
 
 <script>
 function copyCode(btn){
