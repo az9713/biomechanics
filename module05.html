@@ -73,7 +73,7 @@ window.MathJax = {
 <b>Contents</b>
 <ul>
 <li><b>0.</b> <a href="#origin">Motivation — the force that has to be built</a></li>
-<li><b>1.</b> <span class="pending">Muscle architecture: the force-producing hierarchy</span></li>
+<li><b>1.</b> <a href="#architecture">Muscle architecture: the force-producing hierarchy</a></li>
 <li><b>2.</b> <span class="pending">The sarcomere: crossbridges and the length–tension law</span></li>
 <li><b>3.</b> <span class="pending">Excitation–contraction coupling: from action potential to calcium</span></li>
 <li><b>4.</b> <span class="pending">Motor units, recruitment, and rate coding</span></li>
@@ -85,7 +85,7 @@ window.MathJax = {
 <li><b>10.</b> <span class="pending">What the model captures and misses; diagnostics and problems</span></li>
 <li><span class="pending">Appendix — notation and parameters</span></li>
 </ul>
-<p class="small" style="margin:.4rem 0 0">Module 5 is under construction; §0 is complete and later sections will be linked as they are built.</p>
+<p class="small" style="margin:.4rem 0 0">Module 5 is under construction; <a class="secref" href="#origin">§0</a> is complete and later sections will be linked as they are built.</p>
 </div>
 
 <hr>
@@ -216,12 +216,174 @@ window.MathJax = {
 <p>To make each arrow quantitative we need three layers of physics, each built on the one before:</p>
 
 <ul>
-<li><b>The generator itself</b> — how muscle is built (fascicles, pennation, and the maximal force set by cross-sectional area), and the <b>sarcomere</b>, whose overlapping filaments give the force its dependence on length (<span class="secref">§1</span>–<span class="secref">§2</span>).</li>
+<li><b>The generator itself</b> — how muscle is built (fascicles, pennation, and the maximal force set by cross-sectional area), and the <b>sarcomere</b>, whose overlapping filaments give the force its dependence on length (<span class="secref"><a class="secref" href="#architecture">§1</a></span>–<span class="secref">§2</span>).</li>
 <li><b>Turning a command into activation</b> — the action potential at the neuromuscular junction, the calcium release that switches the machinery on, and how the nervous system grades whole-muscle drive by recruiting motor units and firing them faster — all collapsed into a first-order <b>activation</b> equation (<span class="secref">§3</span>–<span class="secref">§5</span>).</li>
 <li><b>The force laws and the whole model</b> — the dependence of force on shortening <b>velocity</b> (Hill's hyperbola), assembled with length and activation into the <b>Hill-type muscle model</b>, then converted to joint torque through a moment arm that varies with angle, with agonist and antagonist acting across the joint (<span class="secref">§6</span>–<span class="secref">§8</span>).</li>
 </ul>
 
 <p>Two computational labs then put the model to work — predicting joint torque from a neural command through a movement, and showing how that torque fades under sustained effort (<span class="secref">§9</span>) — before we take honest stock of what the model captures and misses and close with problems (<span class="secref">§10</span>). By the end you will be able to hand the model a neural command and get back the torque it produces at the joint, moment by moment, and understand why the same command produces less when the muscle is tired. We begin with the hardware: how a muscle is built to make force.</p>
+
+<hr>
+
+<!-- <a class="secref" href="#architecture">§1</a> -->
+<h2 id="architecture">1. Muscle architecture: the force-producing hierarchy</h2>
+
+<p>Before we can ask how a nerve signal <em>controls</em> force (<span class="secref">§3</span>–<span class="secref">§5</span>), we need to know what sets the force a muscle can produce <em>at all</em>. That ceiling is fixed by <b>architecture</b> — how the tissue is built and arranged. So begin by zooming in, from the whole muscle you can see under the skin down to the molecular unit that actually generates tension.</p>
+
+<p>A skeletal muscle is a nested bundle. Define each level of the hierarchy the first time it appears:</p>
+
+<ul>
+<li>A <b>whole muscle</b> (say the biceps) is wrapped in connective tissue and tapers at each end into a <b>tendon</b> — the tough cord that transmits its force to bone.</li>
+<li>Inside, the muscle is divided into <b>fascicles</b>: visible bundles of fibres, each sheathed in connective tissue (the <em>perimysium</em>). The <em>arrangement</em> of these fascicles relative to the tendon is what we will call <b>pennation</b>, below.</li>
+<li>Each fascicle is a bundle of <b>muscle fibres</b>. A muscle fibre is a single <em>cell</em> — unusually, a long, cylindrical, multinucleated one (10&#8211;100&#8201;&#956;m across, up to many centimetres long), striped (<em>striated</em>) with a regular cross-banding.</li>
+<li>Each fibre is packed with hundreds of <b>myofibrils</b>: thread-like strands running its full length.</li>
+<li>Each myofibril is a chain of <b>sarcomeres</b> laid end to end. The sarcomere is the <b>contractile unit</b> — the smallest piece that shortens and pulls. Its banding is the source of the fibre's stripes, and its internal machinery (thick and thin filaments) is where force is generated, developed in <span class="secref">§2</span>.</li>
+</ul>
+
+<figure><svg class="setupfig" viewBox="0 0 900 250" width="100%" role="img" aria-label="A left-to-right zoom cascade through the muscle force-producing hierarchy: whole fusiform muscle, then a fascicle (bundle of fibers), then a single striated muscle fiber, then a sarcomere showing interdigitating thick myosin and thin actin filaments between two Z-discs.">
+  <defs>
+    <linearGradient id="h_belly" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d98b7e"/><stop offset="0.45" stop-color="#c15a4b"/><stop offset="1" stop-color="#9c3b2e"/></linearGradient>
+    <linearGradient id="h_fasc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0988b"/><stop offset="0.5" stop-color="#cc6a5b"/><stop offset="1" stop-color="#a8493b"/></linearGradient>
+    <linearGradient id="h_fiber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0b8ad"/><stop offset="0.5" stop-color="#e0968a"/><stop offset="1" stop-color="#c8776a"/></linearGradient>
+    <linearGradient id="h_tendon" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3ede0"/><stop offset="1" stop-color="#d8ccb2"/></linearGradient>
+    <radialGradient id="h_bone" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#fcf8ef"/><stop offset="0.6" stop-color="#e8dabb"/><stop offset="1" stop-color="#c2ae84"/></radialGradient>
+    <filter id="h_sh" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="1.5" dy="2.5" stdDeviation="2" flood-color="#000" flood-opacity="0.20"/></filter>
+  </defs>
+  <g stroke="#c9c2b4" stroke-width="1" stroke-dasharray="3 3" fill="none">
+    <line x1="157" y1="112" x2="230" y2="86"/><line x1="157" y1="128" x2="230" y2="154"/>
+    <line x1="370" y1="100" x2="428" y2="98"/><line x1="370" y1="140" x2="428" y2="142"/>
+    <line x1="572" y1="106" x2="714" y2="86"/><line x1="572" y1="134" x2="714" y2="154"/>
+  </g>
+  <circle cx="12" cy="120" r="7" fill="url(#h_bone)" stroke="#a8916a" stroke-width="0.7"/>
+  <circle cx="178" cy="120" r="7" fill="url(#h_bone)" stroke="#a8916a" stroke-width="0.7"/>
+  <polygon points="33,113 33,127 15,120" fill="url(#h_tendon)" stroke="#c7bda0" stroke-width="0.6"/>
+  <polygon points="157,113 157,127 175,120" fill="url(#h_tendon)" stroke="#c7bda0" stroke-width="0.6"/>
+  <path d="M33,120 C58,90 132,90 157,120 C132,150 58,150 33,120 Z" fill="url(#h_belly)" stroke="#8a3327" stroke-width="0.8" filter="url(#h_sh)"/>
+  <ellipse cx="80" cy="107" rx="20" ry="4" fill="#f3c9bf" opacity="0.4"/>
+  <text x="95" y="40" font-size="13" text-anchor="middle" font-weight="bold" fill="#1a1a1a">whole muscle</text>
+  <text x="95" y="185" font-size="11" text-anchor="middle" font-style="italic" fill="#666">&#8776; 10 cm</text>
+  <rect x="230" y="86" width="140" height="68" rx="34" fill="url(#h_fasc)" stroke="#8a3327" stroke-width="0.9" filter="url(#h_sh)"/>
+  <g stroke="#7d2f24" stroke-width="1" opacity="0.55">
+    <line x1="236" y1="96" x2="364" y2="96"/><line x1="236" y1="104" x2="364" y2="104"/><line x1="236" y1="112" x2="364" y2="112"/><line x1="236" y1="120" x2="364" y2="120"/><line x1="236" y1="128" x2="364" y2="128"/><line x1="236" y1="136" x2="364" y2="136"/><line x1="236" y1="144" x2="364" y2="144"/>
+  </g>
+  <text x="300" y="40" font-size="13" text-anchor="middle" font-weight="bold" fill="#1a1a1a">fascicle</text>
+  <text x="300" y="185" font-size="11" text-anchor="middle" font-style="italic" fill="#666">bundle of fibers &#183; &#8776; 0.1&#8211;1 mm</text>
+  <rect x="428" y="98" width="144" height="44" rx="22" fill="url(#h_fiber)" stroke="#b8574a" stroke-width="0.9" filter="url(#h_sh)"/>
+  <g stroke="#a8493b" stroke-width="1.1" opacity="0.5">
+    <line x1="440" y1="100" x2="440" y2="140"/><line x1="452" y1="99" x2="452" y2="141"/><line x1="464" y1="99" x2="464" y2="141"/><line x1="476" y1="99" x2="476" y2="141"/><line x1="488" y1="99" x2="488" y2="141"/><line x1="500" y1="99" x2="500" y2="141"/><line x1="512" y1="99" x2="512" y2="141"/><line x1="524" y1="99" x2="524" y2="141"/><line x1="536" y1="99" x2="536" y2="141"/><line x1="548" y1="99" x2="548" y2="141"/><line x1="560" y1="99" x2="560" y2="141"/>
+  </g>
+  <ellipse cx="460" cy="104" rx="6" ry="3.4" fill="#5a2a6a" opacity="0.75"/>
+  <ellipse cx="530" cy="105" rx="6" ry="3.4" fill="#5a2a6a" opacity="0.75"/>
+  <text x="500" y="40" font-size="13" text-anchor="middle" font-weight="bold" fill="#1a1a1a">muscle fiber</text>
+  <text x="500" y="185" font-size="11" text-anchor="middle" font-style="italic" fill="#666">one cell &#183; 10&#8211;100 &#956;m &#183; striated</text>
+  <line x1="720" y1="86" x2="720" y2="154" stroke="#333" stroke-width="2.4"/>
+  <line x1="872" y1="86" x2="872" y2="154" stroke="#333" stroke-width="2.4"/>
+  <line x1="796" y1="94" x2="796" y2="146" stroke="#999" stroke-width="1" stroke-dasharray="2 2"/>
+  <g stroke="#2a6ca8" stroke-width="1.8">
+    <line x1="720" y1="90" x2="783.8" y2="90"/><line x1="808.2" y1="90" x2="872" y2="90"/>
+    <line x1="720" y1="105" x2="783.8" y2="105"/><line x1="808.2" y1="105" x2="872" y2="105"/>
+    <line x1="720" y1="120" x2="783.8" y2="120"/><line x1="808.2" y1="120" x2="872" y2="120"/>
+    <line x1="720" y1="135" x2="783.8" y2="135"/><line x1="808.2" y1="135" x2="872" y2="135"/>
+    <line x1="720" y1="150" x2="783.8" y2="150"/><line x1="808.2" y1="150" x2="872" y2="150"/>
+  </g>
+  <g stroke="#b03a2e" stroke-width="4" stroke-linecap="round">
+    <line x1="754.2" y1="105" x2="837.8" y2="105"/>
+    <line x1="754.2" y1="120" x2="837.8" y2="120"/>
+    <line x1="754.2" y1="135" x2="837.8" y2="135"/>
+  </g>
+  <g stroke="#7a1f1f" stroke-width="0.9">
+    <line x1="762" y1="105" x2="762" y2="101"/><line x1="775" y1="105" x2="775" y2="101"/><line x1="788" y1="105" x2="788" y2="101"/><line x1="804" y1="105" x2="804" y2="101"/><line x1="817" y1="105" x2="817" y2="101"/><line x1="830" y1="105" x2="830" y2="101"/>
+    <line x1="762" y1="135" x2="762" y2="139"/><line x1="775" y1="135" x2="775" y2="139"/><line x1="788" y1="135" x2="788" y2="139"/><line x1="804" y1="135" x2="804" y2="139"/><line x1="817" y1="135" x2="817" y2="139"/><line x1="830" y1="135" x2="830" y2="139"/>
+  </g>
+  <text x="796" y="40" font-size="13" text-anchor="middle" font-weight="bold" fill="#1a1a1a">sarcomere</text>
+  <text x="796" y="185" font-size="11" text-anchor="middle" font-style="italic" fill="#666">&#8776; 2.7 &#956;m &#183; the contractile unit</text>
+  <text x="720" y="80" font-size="9.5" text-anchor="middle" fill="#333">Z</text>
+  <text x="872" y="80" font-size="9.5" text-anchor="middle" fill="#333">Z</text>
+  <text x="700" y="108" font-size="9.5" text-anchor="end" fill="#2a6ca8">actin</text>
+  <text x="700" y="122" font-size="9.5" text-anchor="end" fill="#b03a2e">myosin</text>
+  <line x1="701" y1="105" x2="716" y2="105" stroke="#2a6ca8" stroke-width="0.8"/>
+  <line x1="701" y1="119" x2="750" y2="120" stroke="#b03a2e" stroke-width="0.8"/>
+</svg><figcaption><b>The force-producing hierarchy.</b> Zooming in ~10,000&#215; from the whole muscle to its contractile unit. A whole muscle is a bundle of <em>fascicles</em>; each fascicle a bundle of <em>muscle fibres</em> (single, striated, multinucleated cells); each fibre packed with <em>myofibrils</em> built from repeating <em>sarcomeres</em>. In the sarcomere, thin <span style="color:#2a6ca8">actin</span> filaments anchored to the <b>Z-discs</b> interdigitate with central thick <span style="color:#b03a2e">myosin</span> filaments &#8212; the overlap where force is made.</figcaption></figure>
+
+<p>Two architectural numbers set the maximal force. First, <em>how much</em> contractile material the muscle carries across its section. Second, <em>at what angle</em> the fibres pull on the tendon. Take them in turn.</p>
+
+<h3>Specific tension and physiological cross-section</h3>
+
+<p>Every fibre is built from the same molecular machinery (the crossbridges of <span class="secref">§2</span>), packed at nearly the same density. So the force a fibre can exert is set simply by <em>how many</em> filaments lie side by side across its cross-section — i.e. by its cross-sectional area. The proportionality constant is a material property of muscle:</p>
+
+<div class="def"><b>Definition 1.1 (specific tension).</b> The <em>specific tension</em> $\sigma$ is the maximal isometric ("iso" = same, "metric" = length: contracting at fixed length) force a muscle produces per unit cross-sectional area of fibre. It is a stress (force / area), and across mammalian skeletal muscle it is remarkably constant,
+$$\sigma \approx 0.3\ \mathrm{MPa} = 30\ \mathrm{N\,cm^{-2}},\tag{1.1}$$
+with a measured range of about $0.2$&#8211;$0.35\ \mathrm{MPa}$. Its near-universality is the first hint that all muscle runs on one shared mechanism.</div>
+
+<p>But a fibre in a pennate muscle does not run straight down the muscle's long axis, so the muscle's <em>anatomical</em> cross-section (a cut perpendicular to the whole muscle) slices fibres obliquely and undercounts them. The area that matters is the one taken <em>perpendicular to the fibres themselves</em>, summed over every fibre:</p>
+
+<div class="def"><b>Definition 1.2 (physiological cross-sectional area, PCSA).</b> The <em>physiological cross-sectional area</em> is the total cross-sectional area of all the muscle's fibres, measured perpendicular to their length. Since a bundle of fibres of length $L_f$ and total volume $V$ satisfies $V = \mathrm{PCSA}\times L_f$,
+$$\mathrm{PCSA} = \frac{V}{L_f} = \frac{m}{\rho\,L_f},\tag{1.2}$$
+where $m$ is muscle mass and $\rho\approx1.06\ \mathrm{g\,cm^{-3}}$ is muscle density. PCSA counts contractile material, not girth: a fat muscle of long fibres can have a smaller PCSA than a slim muscle of short, densely packed ones.</div>
+
+<p>The force a muscle's fibres generate along their own direction is then just specific tension times the physiological cross-section, $F_{\text{fibre}} = \sigma\,\mathrm{PCSA}$. What reaches the tendon depends on the pennation angle, which we quantify next.</p>
+
+<h3>Pennation: angling the fibres</h3>
+
+<div class="def"><b>Definition 1.3 (pennation angle).</b> The <em>pennation angle</em> $\theta_p$ is the angle between a muscle's fibres and its tendon (its line of action). A muscle whose fibres run parallel to the tendon ($\theta_p\approx0$) is <em>parallel</em> (or <em>fusiform</em>); one whose fibres attach obliquely, like the barbs of a feather (Latin <em>penna</em>), is <em>pennate</em>.</div>
+
+<p>Angling the fibres has an immediate mechanical cost: only the component of a fibre's force along the tendon actually pulls on the bone. Resolve the fibre force $F_{\text{fibre}}$ into a component along the tendon and one perpendicular to it:</p>
+
+<figure><svg class="setupfig" viewBox="0 0 460 250" width="100%" role="img" aria-label="A unipennate muscle: fibres attach at pennation angle theta_p between a tendon along the bottom and an aponeurosis above. For one fibre, the fibre force F_f along the fibre is resolved into a tendon-directed component F_t equal to F_f cos theta_p along the tendon, and a wasted perpendicular component F_f sin theta_p.">
+  <defs>
+    <marker id="p1red" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#b03a2e"/></marker>
+    <marker id="p1blu" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#2a6ca8"/></marker>
+  </defs>
+  <!-- tendon (line of action) -->
+  <line x1="40" y1="196" x2="300" y2="196" stroke="#9c8760" stroke-width="4"/>
+  <text x="46" y="214" font-size="11" fill="#6b5a34" font-style="italic">tendon (line of action)</text>
+  <!-- aponeurosis -->
+  <line x1="88" y1="159.7" x2="352" y2="159.7" stroke="#c4b39a" stroke-width="3"/>
+  <text x="356" y="156" font-size="10.5" fill="#8a7d5c" text-anchor="start">aponeurosis</text>
+  <!-- fibre family -->
+  <g stroke="#cc6a5b" stroke-width="2.6">
+    <line x1="66" y1="196" x2="143.9" y2="159.7"/>
+    <line x1="100" y1="196" x2="177.9" y2="159.7"/>
+    <line x1="134" y1="196" x2="211.9" y2="159.7"/>
+    <line x1="202" y1="196" x2="279.9" y2="159.7"/>
+    <line x1="236" y1="196" x2="313.9" y2="159.7"/>
+    <line x1="270" y1="196" x2="347.9" y2="159.7"/>
+  </g>
+  <text x="92" y="150" font-size="10.5" fill="#a8493b" text-anchor="middle">muscle fibres</text>
+  <!-- highlighted fibre -->
+  <line x1="168" y1="196" x2="245.9" y2="159.7" stroke="#8a3327" stroke-width="3.4"/>
+  <!-- force decomposition at insertion (168,196) -->
+  <line x1="168" y1="196" x2="251.4" y2="157.1" stroke="#b03a2e" stroke-width="3" marker-end="url(#p1red)"/>
+  <line x1="168" y1="196" x2="251.4" y2="196" stroke="#2a6ca8" stroke-width="3" marker-end="url(#p1blu)"/>
+  <line x1="251.4" y1="196" x2="251.4" y2="157.1" stroke="#999" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <path d="M194,196 A26,26 0 0 0 191.6,185" fill="none" stroke="#333" stroke-width="1.2"/>
+  <text x="205" y="192" font-size="11" fill="#333">&#952;<tspan baseline-shift="sub" font-size="8">p</tspan></text>
+  <text x="196" y="167" font-size="12.5" fill="#b03a2e" font-weight="bold" text-anchor="end">F<tspan baseline-shift="sub" font-size="8">f</tspan></text>
+  <text x="205" y="212" font-size="12.5" fill="#2a6ca8" font-weight="bold" text-anchor="middle">F<tspan baseline-shift="sub" font-size="8">t</tspan></text>
+  <text x="257" y="180" font-size="9.5" fill="#888" font-style="italic" text-anchor="start">F<tspan baseline-shift="sub" font-size="8">f</tspan> sin &#952;<tspan baseline-shift="sub" font-size="8">p</tspan></text>
+</svg><figcaption><b>Pennation and the force triangle.</b> Fibres (light red) attach at angle $\theta_p$ between the tendon and an internal sheet (the <em>aponeurosis</em>). For one fibre, the fibre force $F_f$ (red) resolves into a tendon-directed part $F_t=F_f\cos\theta_p$ (blue) that actually pulls the bone, and a perpendicular part $F_f\sin\theta_p$ (dashed) that is wasted against the muscle's own casing. Larger $\theta_p$ &#8594; smaller $\cos\theta_p$ &#8594; less force reaches the tendon, per fibre.</figcaption></figure>
+
+<p>So each fibre delivers $F_t=F_f\cos\theta_p$ along the tendon (eq. below). This looks like a pure loss — yet the most powerful muscles in the body (the quadriceps, the calf) are strongly pennate. The resolution is a <b>trade-off</b>: angling the fibres frees up room, so a pennate muscle can pack many more (necessarily shorter) fibres into the same volume. By (1.2), halving the fibre length doubles the PCSA. That gain in PCSA scales faster than the modest $\cos\theta_p$ loss (at $\theta_p=25^\circ$, $\cos\theta_p=0.91$ &#8212; only a 9% cut), so pennate muscles are <em>high-force</em> designs. The price they pay is elsewhere: short fibres shorten by only a short distance, so pennate muscles have small range and high force, while parallel muscles have large range and lower force. Architecture is a choice between force and excursion.</p>
+
+<p>Collecting the two effects gives the maximal isometric force a muscle delivers to its tendon:</p>
+
+<div class="prop"><b>Proposition 1.1 (maximal isometric force from architecture).</b> A muscle of specific tension $\sigma$, physiological cross-sectional area $\mathrm{PCSA}$, and pennation angle $\theta_p$ delivers a maximal isometric tendon force
+$$\boxed{\;F_{\max} \;=\; \sigma\,\mathrm{PCSA}\,\cos\theta_p\;}\tag{1.3}$$
+This is the ceiling the neural control of <span class="secref">§3</span>&#8211;<span class="secref">§7</span> can approach but never exceed; every later force term is a fraction of it.</div>
+
+<p>Put in numbers. With $\sigma=30\ \mathrm{N\,cm^{-2}}$, a muscle's maximal force in newtons is just $30\times\mathrm{PCSA}\,[\mathrm{cm^2}]\times\cos\theta_p$. The table spans the range from a small parallel flexor to the big pennate extensors:</p>
+
+<table>
+<tr><th>Muscle</th><th>PCSA (cm²)</th><th>Pennation $\theta_p$</th><th>Architecture</th><th>$F_{\max}=\sigma\,\mathrm{PCSA}\cos\theta_p$ (N)</th></tr>
+<tr><td>Biceps brachii</td><td>~4.5</td><td>~0° (parallel)</td><td>long fibres, large range</td><td>~135</td></tr>
+<tr><td>Gastrocnemius</td><td>~30</td><td>~17°</td><td>pennate</td><td>~860</td></tr>
+<tr><td>Soleus</td><td>~50</td><td>~25°</td><td>strongly pennate, short fibres</td><td>~1360</td></tr>
+<tr><td>Quadriceps (four heads)</td><td>~150</td><td>~12°</td><td>large, pennate</td><td>~4400</td></tr>
+</table>
+
+<p><b>Validation against <span class="secref"><a class="secref" href="#origin">§0</a></span>.</b> In <span class="secref"><a class="secref" href="#origin">§0</a></span> the elbow flexors had to pull with roughly $600\ \mathrm N$ to hold a $5\ \mathrm{kg}$ bag at arm's length. The biceps alone reaches only $\sim135\ \mathrm N$ — but it is one of several flexors (brachialis, brachioradialis add more), and together they produce several hundred newtons: the right order of magnitude. The mismatch is itself the lesson — holding $5\ \mathrm{kg}$ on a fully outstretched forearm really is near the limit of the flexor group, which is why it is so quickly tiring. The calf and thigh numbers ($\sim10^3\ \mathrm N$) likewise match the joint reactions of <a class="secref" href="module03.html#reaction">Module&nbsp;3</a>, where standing loaded the hip to $\sim1700\ \mathrm N$.</p>
+
+<p>Equation (1.3) fixes the <em>size</em> of the force. But a muscle almost never works at $F_{\max}$: the force it actually makes depends on how stretched it is, how fast it is shortening, and how strongly it is switched on. The first of these — the dependence on length — is written into the very geometry of the sarcomere we just drew, and it is where we turn next (<span class="secref">§2</span>).</p>
 
 <script>
 function copyCode(btn){
