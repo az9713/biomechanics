@@ -11,8 +11,20 @@ duplicate content that already lives in the files referenced below — open them
   - Plan **written and approved**: `module05-plan.md`. Locked: **§0–§10 + Appendix**
     (labs = §9; captures/misses + problems = §10) with the **full 30-problem set**
     (C1–C10 / D1–D10 / K1–K10 + 5 diagnostics) in §10.
+  - **§0–§3 are COMPLETE and live** (`module05.html`). **§3 (excitation–contraction
+    coupling → calcium → activation)** = EC-coupling pathway NMJ→DHPR/RyR→SR→troponin
+    (Fig. 9, mechanical gating — NOT cardiac CICR), troponin/tropomyosin switch (Fig. 10),
+    **Def 3.1 activation** $a$∈[0,1] + **Prop 3.1** cooperative steady-state
+    $a_\infty=[Ca]^n/(Ca_{50}^n+[Ca]^n)$ (Fig. 11 sigmoid), and the **single twitch**
+    (Fig. 12): fast Ca²⁺ driver vs slow activation $a$ (force ∝ $a$), reaching only ~0.22
+    vs tetanic ceiling ~0.73. KEY: $a$ is the SLOW variable force tracks; $a$ relaxes
+    toward $a_\infty$ via $\dot a=(a_\infty-a)/\tau_a$ = §5's ODE in miniature (advisor
+    fix — avoids an $a$-means-two-things contradiction with §5/§7). Validation: twitch
+    time-to-peak ~25 ms, half-relax ~40 ms (fast-fibre range). §3 figure pipeline in
+    scratchpad: `gen3.py`→`d3.json`, `emit3.py` (twitch+sigmoid), `emit_schem3.py`
+    (ecc+troponin), `build_sec3.py` (idempotent splice). Commit `510552e`. Full loop passes.
   - **§0 (motivation), §1 (muscle architecture), and §2 (sarcomere → length–tension
-    law) are COMPLETE and live** (`module05.html`): §0 = Tier-2 arm hero +
+    law):** §0 = Tier-2 arm hero +
     neural→activation→force→torque pipeline; §1 = the muscle-hierarchy zoom (Fig. 3),
     pennation force triangle (Fig. 4), boxed **Proposition 1.1**
     $F_{\max}=\sigma\,\mathrm{PCSA}\cos\theta_p$, parameter table, and a §0 validation;
@@ -65,17 +77,19 @@ duplicate content that already lives in the files referenced below — open them
   `skill-change-list.md` (skill upgrades — DONE).
 
 ## Next task
-- **Module 5 §3 — Excitation–contraction coupling: from action potential to calcium.**
-  Neuromuscular junction, motor end-plate **action potential**, Ca²⁺ release from the
-  sarcoplasmic reticulum, **troponin/tropomyosin** unblocking the actin binding sites.
-  The Ca²⁺ transient sets the *fraction of available crossbridges* — the physical
-  meaning of **activation** $a\in[0,1]$ (this is what scales the §2 crossbridge count).
-  Introduce a single-twitch Ca²⁺/force response here. See `module05-plan.md` "§3".
-  Figures: NMJ + **computed** Ca²⁺/twitch transient; troponin-unblocking schematic.
-  Then §4 (motor units / recruitment / tetanus — 2nd SMIL) … §10 per the plan.
-- **SMIL is now established in this module** (§2 Fig. 8 + the `prefers-reduced-motion`
-  guard are in place). Reuse `sample.py` (playwright transform-sampler) to verify any
-  new animation actually moves before writing prose around it.
+- **Module 5 §4 — Motor units, recruitment, and rate coding.** Motor unit = one
+  motoneuron + its fibres. **Henneman size principle** (recruit small→large), **rate
+  coding**, and twitch **summation → unfused → fused tetanus**. Whole-muscle neural
+  drive $u(t)\in[0,1]$ = recruitment × firing rate — the lumped command §5 turns into
+  activation $a$. Pick up the §3 hooks: the single twitch only reaches ~0.22 of the
+  tetanic ceiling (so fire fast → twitches sum), and the fast/slow fibre-type spread.
+  See `module05-plan.md` "§4". **This is the module's 2nd SMIL** — animate twitch
+  summation building to a fused tetanus (drive the summed-force keyframes from the §3
+  twitch shape so movie and physics agree). Then §5 (activation ODE, boxed) … §10.
+- **SMIL is established** (§2 Fig. 8 + the `prefers-reduced-motion` guard are in place).
+  Reuse `sample.py` (playwright transform-sampler) to verify any new animation actually
+  moves before writing prose around it. §3's twitch integrator (`gen3.py`) is the basis
+  for the §4 summation keyframes.
 - Continue **section-by-section**; report each with a summary + 2 `★ Insight`
   bullets; **commit only on the user's "commit push."**
 - **Parallel track (optional, separate from building §2):** the **substance backlog**
