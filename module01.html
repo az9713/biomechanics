@@ -195,23 +195,23 @@ It is maximal when the forearm is horizontal ($\theta=0$) and zero when the fore
   <text x="30" y="96" font-size="11" fill="#555">elbow</text>
   <!-- segment COM weight (down) at r_s -->
   <line x1="160" y1="80" x2="160" y2="135" stroke="#2a7d2a" stroke-width="2.4" marker-end="url(#p4dn)"/>
-  <text x="120" y="150" font-size="12" fill="#2a7d2a">W_s = m_s g</text>
+  <text x="120" y="150" font-size="12" fill="#2a7d2a">Wₛ = mₛ g</text>
   <circle cx="160" cy="80" r="3" fill="#2a7d2a"/>
   <!-- load weight (down, larger) at r_L -->
   <line x1="395" y1="80" x2="395" y2="175" stroke="#2a7d2a" stroke-width="2.8" marker-end="url(#p4dn)"/>
-  <text x="352" y="192" font-size="12" fill="#2a7d2a">W_L = m_L g</text>
+  <text x="352" y="192" font-size="12" fill="#2a7d2a">W<tspan baseline-shift="sub" font-size="0.7em">L</tspan> = m<tspan baseline-shift="sub" font-size="0.7em">L</tspan> g</text>
   <circle cx="395" cy="80" r="3" fill="#2a7d2a"/>
   <!-- muscle force (up) close to elbow at d_m -->
   <line x1="95" y1="80" x2="95" y2="22" stroke="#7a1f1f" stroke-width="3" marker-end="url(#p4up)"/>
-  <text x="100" y="30" font-size="12" fill="#7a1f1f">F_m (muscle)</text>
+  <text x="100" y="30" font-size="12" fill="#7a1f1f">Fₘ (muscle)</text>
   <!-- moment-arm dimension lines -->
   <line x1="60" y1="80" x2="60" y2="118" stroke="#999" stroke-width="1"/>
   <line x1="160" y1="80" x2="160" y2="118" stroke="#999" stroke-width="1"/>
   <line x1="60" y1="115" x2="160" y2="115" stroke="#1f5f7a" stroke-width="1.2" stroke-dasharray="3 2"/>
-  <text x="95" y="112" font-size="11" fill="#1f5f7a">r_s</text>
+  <text x="95" y="112" font-size="11" fill="#1f5f7a">rₛ</text>
   <line x1="395" y1="80" x2="395" y2="158" stroke="#999" stroke-width="1"/>
   <line x1="60" y1="155" x2="395" y2="155" stroke="#1f5f7a" stroke-width="1.2" stroke-dasharray="3 2"/>
-  <text x="220" y="152" font-size="11" fill="#1f5f7a">r_L</text>
+  <text x="220" y="146" font-size="11" fill="#1f5f7a">r<tspan baseline-shift="sub" font-size="0.7em">L</tspan></text>
 </svg><figcaption><b>Free-body diagram (horizontal case, $\theta=0$).</b> The forearm is isolated at the elbow $O$. Two weights pull down (segment $W_s$ at $r_s$, load $W_L$ at $r_L$); the muscle force $F_m$ pulls up at a short moment arm. The joint contact force at $O$ is omitted because it contributes no moment about $O$.</figcaption></figure>
 
 By Proposition 3.1, taking moments about the elbow, the two downward weights are $W_s=m_sg$ and $W_L=m_Lg$. When the forearm makes angle $\theta$ below horizontal, a point at distance $r$ along the forearm sits a horizontal distance $r\cos\theta$ from the elbow (the projection onto the horizontal). Hence the moment arms are $d_s=r_s\cos\theta$ and $d_L=r_L\cos\theta$. Substituting into (3.1):
@@ -279,14 +279,14 @@ Because $d_m\ (\sim 0.03\ \mathrm m)$ is far smaller than the load's moment arm 
   <text x="34" y="76" font-size="12">O</text>
   <!-- short muscle moment arm -->
   <line x1="80" y1="80" x2="80" y2="20" stroke="#7a1f1f" stroke-width="4" marker-end="url(#m5up)"/>
-  <text x="86" y="30" font-size="12" fill="#7a1f1f">F_m (large)</text>
+  <text x="86" y="30" font-size="12" fill="#7a1f1f">Fₘ (large)</text>
   <line x1="50" y1="110" x2="80" y2="110" stroke="#1f5f7a" stroke-width="1.4" stroke-dasharray="3 2"/>
-  <text x="52" y="124" font-size="10" fill="#1f5f7a">d_m ≈ 3 cm</text>
+  <text x="52" y="124" font-size="10" fill="#1f5f7a">dₘ ≈ 3 cm</text>
   <!-- long load arm -->
   <line x1="400" y1="80" x2="400" y2="140" stroke="#2a7d2a" stroke-width="2.6" marker-end="url(#m5dn)"/>
-  <text x="360" y="156" font-size="12" fill="#2a7d2a">W_L (small)</text>
+  <text x="360" y="156" font-size="12" fill="#2a7d2a">W<tspan baseline-shift="sub" font-size="0.7em">L</tspan> (small)</text>
   <line x1="50" y1="100" x2="400" y2="100" stroke="#1f5f7a" stroke-width="1.4" stroke-dasharray="3 2"/>
-  <text x="210" y="97" font-size="10" fill="#1f5f7a">r_L ≈ 35 cm</text>
+  <text x="210" y="91" font-size="10" fill="#1f5f7a">r<tspan baseline-shift="sub" font-size="0.7em">L</tspan> ≈ 35 cm</text>
 </svg><figcaption><b>Mechanical disadvantage.</b> The flexor (the muscle that bends the joint) inserts at $d_m\approx3$ cm; the load hangs at $r_L\approx35$ cm. Torque balance $F_m d_m = W_L r_L$ forces $F_m\approx (r_L/d_m)\,W_L\approx 12\times$ the load weight. Human limbs are built as <em>third-class levers</em> — the muscle's effort is applied between the joint (pivot) and the load — so they sacrifice force to gain hand speed and reach.</figcaption></figure>
 
 <!-- <a class="secref" href="#general">§6</a> -->
