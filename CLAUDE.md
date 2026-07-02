@@ -132,8 +132,14 @@ python $S/checklt.py     moduleNN.html   # raw <,> in math — 0
 python $S/check_links.py moduleNN.html   # 0 broken (unlinked §refs OK until autolink)
 python $S/verify_dom.py  moduleNN.html   # 0 mjx-merror, 0 broken (stray-$ ~6 is advisory)
 python $S/check_overlap.py moduleNN.html  # 0 labels over a curve/dashed line (ENFORCED, not by eye)
+python $S/check_frame.py moduleNN.html    # figures whose viewBox wastes >20% margin (advisory; retighten min-y/height)
 python $S/shoot.py FILE out.png --size WxH   # preview render
 ```
+**`check_frame.py` catches oversized viewBoxes** — a figure whose interior geometry is
+computed but whose `<svg viewBox>` is a round number bigger than the drawing, leaving a
+blank band on the page (e.g. a diagram in the lower third of `0 0 460 250`). It compares
+each figure's rendered `getBBox()` to its viewBox and prints a tightened `viewBox` to
+paste. Advisory, not a gate.
 **`check_overlap.py` is the enforcement for the label-overlap rule** — it loads the
 page in headless Chrome and geometrically tests every `<text>` in each
 `.setupfig` against every `<polyline>` (curve) and dashed reference `<line>`
