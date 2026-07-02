@@ -11,12 +11,24 @@ duplicate content that already lives in the files referenced below — open them
   - Plan **written and approved**: `module05-plan.md`. Locked: **§0–§10 + Appendix**
     (labs = §9; captures/misses + problems = §10) with the **full 30-problem set**
     (C1–C10 / D1–D10 / K1–K10 + 5 diagnostics) in §10.
-  - **§0 (motivation) and §1 (muscle architecture) are COMPLETE and live**
-    (`module05.html`): §0 = Tier-2 arm hero + neural→activation→force→torque
-    pipeline; §1 = the muscle-hierarchy zoom (Fig. 3), pennation force triangle
-    (Fig. 4), boxed **Proposition 1.1** $F_{\max}=\sigma\,\mathrm{PCSA}\cos\theta_p$,
-    parameter table, and a §0 validation. Linked from `index.html` *(in progress)* +
-    `README.md`. Full hardening loop passes.
+  - **§0 (motivation), §1 (muscle architecture), and §2 (sarcomere → length–tension
+    law) are COMPLETE and live** (`module05.html`): §0 = Tier-2 arm hero +
+    neural→activation→force→torque pipeline; §1 = the muscle-hierarchy zoom (Fig. 3),
+    pennation force triangle (Fig. 4), boxed **Proposition 1.1**
+    $F_{\max}=\sigma\,\mathrm{PCSA}\cos\theta_p$, parameter table, and a §0 validation;
+    **§2** = sliding-filament model, four-state crossbridge cycle (Fig. 5, 1 ATP/cycle,
+    rigor-mortis hook), overlap-at-4-lengths panels (Fig. 6), boxed **Proposition 2.1**
+    length–tension law $f_L(\ell)$ + computed curve (Fig. 7), and the **module's first
+    SMIL** — a breathing sarcomere with a synced operating-point dot (Fig. 8). Filament
+    dims: thick 1.60 / thin 1.30 / bare-zone 0.10 µm → landmarks $\ell_0$=2.70, zeros
+    1.27 & 4.20 µm (Gordon–Huxley–Julian 1966). Added the `prefers-reduced-motion` guard
+    (file predated it). Commit `e7cd0dd`. Full hardening loop passes.
+    - **§2 figure pipeline (scratchpad, session-transient):** `gen2.py` (all geometry →
+      `d2.json`: f_L breakpoints, SMIL keyframes, per-panel filament coords), `emit.py`
+      (panels), `emit2.py` (f_L curve), `emit_smil.py` (SMIL), `build_sec2.py`
+      (assembles prose + the 4 figures, idempotent splice between the last §1 paragraph
+      and `<script>`). `sample.py` = playwright transform-sampler that verifies SMIL
+      actually animates. Durable record is `module05.html`, not these.
 - **Course-wide improvements landed this round (all Modules 1–5):**
   - **Every figure is auto-numbered "Fig. N"** (CSS counter in each module's style).
   - **All 51 `check_svg` hard issues fixed in Modules 1–4** — SVG `<text>` labels now
@@ -53,16 +65,17 @@ duplicate content that already lives in the files referenced below — open them
   `skill-change-list.md` (skill upgrades — DONE).
 
 ## Next task
-- **Module 5 §2 — The sarcomere: crossbridges and the length–tension law.**
-  Sliding-filament model; actin–myosin crossbridge cycle (attach → power-stroke →
-  detach, 1 ATP/cycle); active force ∝ filament overlap → derive the piecewise
-  **length–tension curve** $f_L(\ell)$ (ascending / plateau / descending) from
-  overlap geometry, **boxed**. Validate: plateau near optimal sarcomere length
-  $\ell_0\approx2.7\ \mu\mathrm m$, force → 0 near ~1.27 and ~4.2 µm. See
-  `module05-plan.md` "§2". Then continue §3 (ECC/calcium) … §10 per the plan.
-- **§2 is the natural first SMIL animation** — animate the sliding filaments /
-  overlap changing with length; the §1 sarcomere inset (Fig. 3) is the static
-  figure it should animate. Compute overlap geometry in Python; keyframes = physics.
+- **Module 5 §3 — Excitation–contraction coupling: from action potential to calcium.**
+  Neuromuscular junction, motor end-plate **action potential**, Ca²⁺ release from the
+  sarcoplasmic reticulum, **troponin/tropomyosin** unblocking the actin binding sites.
+  The Ca²⁺ transient sets the *fraction of available crossbridges* — the physical
+  meaning of **activation** $a\in[0,1]$ (this is what scales the §2 crossbridge count).
+  Introduce a single-twitch Ca²⁺/force response here. See `module05-plan.md` "§3".
+  Figures: NMJ + **computed** Ca²⁺/twitch transient; troponin-unblocking schematic.
+  Then §4 (motor units / recruitment / tetanus — 2nd SMIL) … §10 per the plan.
+- **SMIL is now established in this module** (§2 Fig. 8 + the `prefers-reduced-motion`
+  guard are in place). Reuse `sample.py` (playwright transform-sampler) to verify any
+  new animation actually moves before writing prose around it.
 - Continue **section-by-section**; report each with a summary + 2 `★ Insight`
   bullets; **commit only on the user's "commit push."**
 - **Parallel track (optional, separate from building §2):** the **substance backlog**
