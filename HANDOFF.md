@@ -53,9 +53,24 @@ duplicate content that already lives in the files referenced below — open them
     guard + problem-set skeleton in `assets/template.html`, and new rules in
     `references/pedagogy-checklist.md` + `figures-and-animation.md`. See
     `skill-change-list.md` for the full list.
+  - **NEW `scripts/check_frame.py`** added to the skill + the `CLAUDE.md` hardening
+    loop (commit `420b548`): flags figures whose `<svg viewBox>` is larger than their
+    drawn content (wasted blank margin), via headless-Chrome `getBBox()` vs viewBox;
+    prints a tightened viewBox to paste. Advisory, not a gate. (LOCAL skill file.)
+  - **Three Module 5 figure viewBox crops** — pennation Fig. 4 (`75f8141`) and the
+    §0 pipeline + §1 hierarchy figures (`3aae823`); all Module 5 figures now pass
+    `check_frame`.
 - Everything (repo side) is committed and pushed to `main`
-  (https://github.com/az9713/biomechanics). Working tree clean apart from untracked
-  `.ignore/` and `prompt.txt`.
+  (https://github.com/az9713/biomechanics), **latest `3aae823`**. Working tree clean
+  apart from untracked `.ignore/` and `prompt.txt`.
+
+## Other threads this session (not the biomech repo)
+- **New personal skill `handoff-after-clear`** created (`~/.claude/skills/`, LOCAL,
+  outside this repo) — the durable session-close/resume protocol, distinct from
+  `/handoff`. It is DONE and usable. Its **triggering-optimization is parked**;
+  status + how to resume in `~/.claude/skills/handoff-after-clear-workspace/STATUS.md`
+  (blocked by: `run_loop`'s improve-step needs `ANTHROPIC_API_KEY` this env lacks;
+  and a suspected harness artifact in the trigger eval). Not a biomech task.
 
 ## Where to read things (reference, don't re-derive)
 - **`CLAUDE.md`** (repo root) — authoritative conventions: build loop, hardening
