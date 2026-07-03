@@ -7,7 +7,20 @@ duplicate content that already lives in the files referenced below — open them
 ## Current state (as of latest push)
 - **Modules 1–4 are COMPLETE and live** at https://az9713.github.io/biomechanics/ .
   Each has the full §0–§9 (+ 30-problem §9 for M3/M4) + Appendix.
-- **Module 5 (Muscles as Chemo-Electro-Mechanical Actuators) — IN PROGRESS.**
+- **⇒ Module 5 (Muscles as Chemo-Electro-Mechanical Actuators) — CONTENT-COMPLETE
+  (§0–§10 + Appendix), UNCOMMITTED past §4 (`207a912`).** This session built §5–§10 +
+  Appendix the leaner way (prose in `module05.html`, Python for figures via
+  `<!--FIG:key-->` markers + `s5/splice_figs.py`; scratch pipelines `s5..s10/`). Full
+  hardening loop passes (checktex/checklt/check_svg-0-hard/check_links-0-broken-0-unlinked/
+  verify_dom-0-merror/check_overlap-0/check_frame-0/check_prose-0). 33 figures; §10 has the
+  full 30-problem set (C/D/K, K's Python-verified) + 5 diagnostics + repayment table;
+  Appendix has grouped notation + parameter tables. **On "commit push": commit `module05.html`
+  (+ index.html/README markers already flipped to remove *(in progress)*).**
+  - **KNOWN GAP vs Modules 3/4:** §10's 30 problems share ONE hub figure (Fig 33), not one
+    figure per problem as M3/M4 did. Skill pillars are met (rigorous, self-contained, linked),
+    but if per-problem figures are wanted, that's a follow-up (generate 30 Tier-2/computed
+    figs + splice into the `.prob` blocks).
+- **Module 5 build detail (superseded by the completion note above):**
   - Plan **written and approved**: `module05-plan.md`. Locked: **§0–§10 + Appendix**
     (labs = §9; captures/misses + problems = §10) with the **full 30-problem set**
     (C1–C10 / D1–D10 / K1–K10 + 5 diagnostics) in §10.
@@ -113,15 +126,52 @@ duplicate content that already lives in the files referenced below — open them
   `skill-change-list.md` (skill upgrades — DONE).
 
 ## Next task
-- **§4 is COMPLETE, committed & pushed** (`0434f1b`, prose polish `207a912`). It is live.
-- **⇒ BUILD §5 THE LEANER WAY (process change — do this from §5 on).** Do NOT author
-  section prose inside a Python raw string (`build_secN.py`) — that is what buried §4's
-  prose in code and slipped the read-aloud audit ("Summation is summation in $a$" / "worth
-  watching happen"). Instead: **write §5's prose directly in `module05.html`**, and use
-  Python only for the *figures* (emit each `<svg>` to JSON, then paste them in, or splice
-  into `<!-- FIGN -->…<!-- /FIGN -->` markers already sitting in the prose). `check_prose.py`
-  + the aloud audit only see the HTML, so keep prose there. Full rationale: `CLAUDE.md`
-  "Per-section build loop" + skill `references/figures-and-animation.md`.
+- **§4 COMMITTED & pushed** (`0434f1b`, prose polish `207a912`, live).
+- **§5, §6, §7 BUILT & hardened this session (leaner way), UNCOMMITTED** (await "commit push").
+  - §6 = force&#8211;velocity (Hill's hyperbola, boxed **Prop 6.1** + boxed $f_V$); Fig 22 f-v curve
+    (concentric+eccentric, kink at isometric), Fig 23 crossbridge-timing schematic (why),
+    Fig 24 power curve (peak at ⅓ v_max, ⅓ F₀ — computed & validated). Pipeline `s6/gen6.py`.
+  - §7 = **Hill-type model synthesis** (boxed headline
+    $F_{\text{tendon}}=[a F_{\max} f_L f_V + F_{PE}]\cos\theta_p$); Fig 25 signal-flow block
+    diagram, Fig 26 active+passive+total force&#8211;length, Fig 27 $f_L\!\cdot\!f_V$ envelope.
+    **Modelling assumption 7.1 rigid tendon** (series-elastic deferred to Module 6). `s7/gen7.py`
+    has a `fixsub()` post-processor that converts placeholder subscript entities to `<tspan>`
+    (Unicode has no subscript c/d/l/v — reuse it for §8+).
+  - SVG-subscript gotcha (hit twice): Unicode subscripts exist only for a e o x h k l m n p s t
+    (+ ₘₐₓ ok). For CE/PE/ten/f_L/θ_p use `<tspan baseline-shift='sub' font-size='7'>` (single
+    quotes). `s7/gen7.py fixsub()` is the reusable fixer.
+  - **`s5/splice_figs.py` is the generic figure injector** (`<!--FIG:key-->` markers) — used for
+    §5/§6/§7; reuse for §8+.
+- **§5 (Activation dynamics) — BUILT & hardened this session, UNCOMMITTED** (awaiting the
+  user's "commit push"). Built the **leaner way** (prose written directly in `module05.html`;
+  Python only for figures, injected via `<!--FIG:key-->` markers by `s5/splice_figs.py`).
+  Content: boxed activation ODE $\dot a=(u-a)/\tau_a$, then the **asymmetric** form
+  $\tau_a(u,a)=\tau_{\text{act}}$ (u>a) / $\tau_{\text{deact}}$ (u≤a), $\tau_{\text{act}}{\approx}10$,
+  $\tau_{\text{deact}}{\approx}40$ ms (boxed **Def 5.1**). Fig 19 step response (τ's readable
+  off the curve: 63% at +10 ms, 37% at +40 ms; lag + outlast), Fig 20 RyR-fast/SERCA-slow
+  mechanism (why asymmetric), Fig 21 activation-as-low-pass-filter of a graded command.
+  Continuity: §3/§4's single $\tau_a{\approx}41$ ms = the deactivation constant. Full loop
+  passes (incl. check_overlap 0, check_prose 0). Pipeline in scratchpad `s5/`
+  (`gen5.py`→`d5.json`, `emit5.py`→`figs5.json`, `splice_figs.py`). TOC §5 → link.
+- **§8 (force→joint torque) BUILT & hardened this session, UNCOMMITTED.** Boxed $\tau=F_m d_m(\theta)$
+  + net-torque + redundancy optimization ($\min\sum(F_i/F_{i,\max})^2$). Fig 28 Tier-2 elbow
+  (agonist biceps + antagonist triceps + moment arm + load), Fig 29 $d_m(\theta)$ curve (repays
+  M1 constant-$d_m$ IOU), Fig 30 biceps/brachialis redundancy contour plot. Worked curl validated
+  vs §0 (F_biceps≈147 N). `s8/gen8.py`.
+- **§9 (computational labs) BUILT & hardened this session, UNCOMMITTED.** Lab 1 activation→torque
+  (Fig 31, biceps curl, peak τ≈13 N·m) + Lab 2 fatigue decay/recovery (Fig 32, force sags to ~0.54
+  then recovers); each with the 11-part lab checklist + runnable copy-buttoned Python. `s9/gen9.py`.
+  Note: fatigue lab uses a=u (quasi-static) — integrating the ms-scale activation ODE at the 120 s
+  fatigue dt is unstable.
+- **⇒ NEXT = §10** then Appendix. §10 = captures/misses + **repayment table** (→ M6 series-elastic,
+  M7 reflex/redundancy, M12 whole-limb, M14 fatigue) + how-to-measure (EMG/dynamometry/ultrasound)
+  + **full 30-problem set (C1–C10 conceptual / D1–D10 derivational / K1–K10 computational, K's with
+  Python-verified numbers) + 5 diagnostics** (locked scope, as Modules 3/4 §9). Appendix = grouped
+  notation table (every symbol → its section) + parameter table (σ, PCSA, F_max, ℓ₀, v_max, θ_p,
+  τ_act/τ_deact, Hill a_H/b_H, d_m). **BUILD THE LEANER WAY** — prose in `module05.html`, Python for
+  figures only via `<!--FIG:key-->` markers (`s5/splice_figs.py`). Rationale: `CLAUDE.md`.
+  **§10 is the big one** — pace it; a partial (front matter + diagnostics + some problems) is a fine
+  checkpoint if context runs low.
 - **Module 5 §5 — Activation dynamics (ODE, boxed).** Collapse §3–§4 into the first-order
   activation ODE $\dot a=(u-a)/\tau_a(u,a)$ driven by §4's neural drive $u$, with
   **asymmetric activation vs deactivation** constants ($\tau_{\text{act}}\!\sim\!10$ ms,
