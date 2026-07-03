@@ -113,9 +113,15 @@ duplicate content that already lives in the files referenced below — open them
   `skill-change-list.md` (skill upgrades — DONE).
 
 ## Next task
-- **FIRST: on the user's "commit push", commit §4** (module05.html + HANDOFF.md) with the
-  environment's trailers; module05.html is already linked *(in progress)* in index.html —
-  no listing changes needed for §4.
+- **§4 is COMPLETE, committed & pushed** (`0434f1b`, prose polish `207a912`). It is live.
+- **⇒ BUILD §5 THE LEANER WAY (process change — do this from §5 on).** Do NOT author
+  section prose inside a Python raw string (`build_secN.py`) — that is what buried §4's
+  prose in code and slipped the read-aloud audit ("Summation is summation in $a$" / "worth
+  watching happen"). Instead: **write §5's prose directly in `module05.html`**, and use
+  Python only for the *figures* (emit each `<svg>` to JSON, then paste them in, or splice
+  into `<!-- FIGN -->…<!-- /FIGN -->` markers already sitting in the prose). `check_prose.py`
+  + the aloud audit only see the HTML, so keep prose there. Full rationale: `CLAUDE.md`
+  "Per-section build loop" + skill `references/figures-and-animation.md`.
 - **Module 5 §5 — Activation dynamics (ODE, boxed).** Collapse §3–§4 into the first-order
   activation ODE $\dot a=(u-a)/\tau_a(u,a)$ driven by §4's neural drive $u$, with
   **asymmetric activation vs deactivation** constants ($\tau_{\text{act}}\!\sim\!10$ ms,
