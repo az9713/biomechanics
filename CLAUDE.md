@@ -133,6 +133,7 @@ python $S/check_links.py moduleNN.html   # 0 broken (unlinked §refs OK until au
 python $S/verify_dom.py  moduleNN.html   # 0 mjx-merror, 0 broken (stray-$ ~6 is advisory)
 python $S/check_overlap.py moduleNN.html  # 0 labels over a curve/dashed line (ENFORCED, not by eye)
 python $S/check_frame.py moduleNN.html    # figures whose viewBox wastes >20% margin (advisory; retighten min-y/height)
+python $S/check_prose.py moduleNN.html    # awkward/non-native constructions: X-is-X, "worth VERBing happen", … (advisory; then read aloud, incl. build_secN.py raw-string prose)
 python $S/shoot.py FILE out.png --size WxH   # preview render
 ```
 **`check_frame.py` catches oversized viewBoxes** — a figure whose interior geometry is
