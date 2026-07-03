@@ -11,7 +11,28 @@ duplicate content that already lives in the files referenced below — open them
   - Plan **written and approved**: `module05-plan.md`. Locked: **§0–§10 + Appendix**
     (labs = §9; captures/misses + problems = §10) with the **full 30-problem set**
     (C1–C10 / D1–D10 / K1–K10 + 5 diagnostics) in §10.
-  - **§0–§3 are COMPLETE and live** (`module05.html`). **§3 (excitation–contraction
+  - **§0–§4 are built; §0–§3 live, §4 hardened & awaiting the user's "commit push".**
+  - **§4 (Motor units, recruitment, rate coding)** — built this session, full hardening
+    loop passes (checktex/checklt/check_svg 0-hard/check_links 0-broken/verify_dom 0-merror/
+    **check_overlap 0**/check_frame 0). Spine: motor-unit **Def 4.1** (α-MN + its fibres,
+    all-or-none) → S/FR/FF type table → **Henneman size principle** via the Ohm's-law
+    argument **ΔV=I·R** (small soma → high input resistance → fires first; boxed) → **rate
+    coding + twitch summation**. KEY modelling call (advisor fix): calcium is a **saturating
+    gate** `[Ca]=Ca_rest+(Ca_peak−Ca_rest)(1−∏ᵢ(1−p(t−tᵢ)))` — reduces to §3's single twitch
+    for one AP, and **saturates at 1.4 µM** for a fast train so `a∞` is pinned at exactly
+    §3's ceiling **0.73** (linear calcium summation would have overshot to ~0.95). Summation
+    therefore lives in the **slow variable a** (§3's KEY point). Then **force–frequency curve**
+    with computed **fusion freq ≈ 42 Hz**, and boxed **Def 4.2 neural drive** u∈[0,1]
+    (aggregates recruitment × rate; the §5 input). 6 figures: Fig 13 motor-unit Tier-2,
+    Fig 14 recruitment staircase + ΔV=IR inset, **Fig 15** summation @1/10/25/60 Hz,
+    **Fig 16 = module's 2nd SMIL** (60 Hz tetanus building, dot rides the a(t) path;
+    reduced-motion static carrier), Fig 17 force–frequency (ripple band collapses at fusion),
+    Fig 18 size-principle onion. TOC pending-span flipped to a link; 5 backward §3/§4 refs
+    linked by hand (autolink skipped entity-form spans). §4 pipeline in scratchpad `s4/`:
+    `gen4.py` (validated integrator: tr=2/td=21/τ_a=41 reproduce §3 twitch 0.22/25ms/40ms →
+    `nums4.json`,`curves4.json`), `emit4.py` (figs 15/16/17), `schem4.py` (figs 13/14/18),
+    `build_sec4.py` (idempotent splice between `<!-- SEC4-START/END -->`). NOT yet committed.
+  - **§3 (excitation–contraction
     coupling → calcium → activation)** = EC-coupling pathway NMJ→DHPR/RyR→SR→troponin
     (Fig. 9, mechanical gating — NOT cardiac CICR), troponin/tropomyosin switch (Fig. 10),
     **Def 3.1 activation** $a$∈[0,1] + **Prop 3.1** cooperative steady-state
@@ -92,19 +113,22 @@ duplicate content that already lives in the files referenced below — open them
   `skill-change-list.md` (skill upgrades — DONE).
 
 ## Next task
-- **Module 5 §4 — Motor units, recruitment, and rate coding.** Motor unit = one
-  motoneuron + its fibres. **Henneman size principle** (recruit small→large), **rate
-  coding**, and twitch **summation → unfused → fused tetanus**. Whole-muscle neural
-  drive $u(t)\in[0,1]$ = recruitment × firing rate — the lumped command §5 turns into
-  activation $a$. Pick up the §3 hooks: the single twitch only reaches ~0.22 of the
-  tetanic ceiling (so fire fast → twitches sum), and the fast/slow fibre-type spread.
-  See `module05-plan.md` "§4". **This is the module's 2nd SMIL** — animate twitch
-  summation building to a fused tetanus (drive the summed-force keyframes from the §3
-  twitch shape so movie and physics agree). Then §5 (activation ODE, boxed) … §10.
-- **SMIL is established** (§2 Fig. 8 + the `prefers-reduced-motion` guard are in place).
-  Reuse `sample.py` (playwright transform-sampler) to verify any new animation actually
-  moves before writing prose around it. §3's twitch integrator (`gen3.py`) is the basis
-  for the §4 summation keyframes.
+- **FIRST: on the user's "commit push", commit §4** (module05.html + HANDOFF.md) with the
+  environment's trailers; module05.html is already linked *(in progress)* in index.html —
+  no listing changes needed for §4.
+- **Module 5 §5 — Activation dynamics (ODE, boxed).** Collapse §3–§4 into the first-order
+  activation ODE $\dot a=(u-a)/\tau_a(u,a)$ driven by §4's neural drive $u$, with
+  **asymmetric activation vs deactivation** constants ($\tau_{\text{act}}\!\sim\!10$ ms,
+  $\tau_{\text{deact}}\!\sim\!40$ ms) — why force lags the command and outlasts it. This is
+  the required "activation dynamics ODE." Note the continuity hook: §3/§4 already integrate
+  the *same-form* ODE $\dot a=(a_\infty-a)/\tau_a$ with a single $\tau_a\approx41$ ms; §5's
+  job is to (i) replace the calcium-driven $a_\infty$ with §4's command $u$ directly, and
+  (ii) split $\tau_a$ into the asymmetric rise/fall pair. *(Computed $a(t)$ response to a
+  step / burst of $u$.)* See `module05-plan.md` "§5". Then §6 (force–velocity, Hill) … §10.
+- **SMIL is established** (§2 Fig. 8, §4 Fig. 16 + the `prefers-reduced-motion` guard).
+  The §4 integrator (`s4/gen4.py`, params tr=2/td=21/τ_a=41) is the basis for §5's $a(t)$
+  step/burst responses — reuse it. (`sample.py` playwright transform-sampler from §2 is
+  gone with its scratchpad; shoot.py + a mid-animation frame confirmed §4's SMIL moves.)
 - Continue **section-by-section**; report each with a summary + 2 `★ Insight`
   bullets; **commit only on the user's "commit push."**
 - **Parallel track (optional, separate from building §2):** the **substance backlog**
