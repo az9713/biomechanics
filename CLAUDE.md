@@ -86,6 +86,17 @@ modules** (MathJax + inline SVG/SMIL, no build step). Built with the
 2. **Per-section build loop:**
    - Compute figure/plot data with Python in the scratchpad; emit SVG polyline
      coords / animation keyframes (don't eyeball geometry).
+   - **Prose lives in `moduleNN.html`; Python builds figures only.** Write the
+     section's prose/solutions **directly in the HTML** (where the read-aloud audit
+     and `check_prose.py` see it). Use Python for the *figures* — emit each `<svg>`
+     body to JSON, then either paste them into the HTML or splice them into
+     `<!-- FIGN -->…<!-- /FIGN -->` markers that sit in the already-written prose.
+     **Never author section prose inside a Python raw string** (`build_secN.py`) and
+     splice the whole block in — prose-in-code evades the aloud audit; that is the
+     path that shipped the §4 "Summation is summation in $a$" / "worth watching
+     happen". The Module 3/4/5 `assemble/build_secN.py` pipeline below is the *old*
+     way; prefer the leaner one for §5 onward. (Do the figure generators with Python;
+     keep prose out of them.)
    - Write the section HTML (follow `rigorous-explainer` SKILL.md).
    - Harden (see below) after every edit pass.
    - Preview a figure by extracting its `<figure>` to a standalone HTML and
