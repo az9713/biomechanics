@@ -272,6 +272,21 @@ that established this found 11 real overlaps the eye had passed.)
 - After push, Pages rebuilds in ~1 min; user must hard-refresh / append `?v=N`
   (fragment-only nav doesn't reload). LF→CRLF git warnings on Windows are harmless.
 
+## Audience & problem-set standard
+**Audience = MIT-PhD level.** Do not water down; assume fluency with calculus, ODEs,
+optimization, and numerical methods. In particular, **computational (K) problems must
+build scientific understanding, not test arithmetic.** A "substitute the given numbers
+into the boxed formula" problem (e.g. $F_{\max}=\sigma\,\mathrm{PCSA}\cos\theta_p$ with
+numbers) is busywork at this level — it reveals nothing the derivation didn't already
+show. Every computational problem must require one of: **numerical integration** (run the
+ODE/simulate a train), **optimization** (solve the redundancy/argmax, find an optimal
+angle/rate), an **inverse problem** (recover the command or a parameter from the output),
+a **sensitivity sweep** (how does the optimum shift with a parameter?), or a **regime
+comparison** (concentric vs eccentric energetics, two cost functions). Test each K
+problem: *does solving it surface science the reader could not have read straight off the
+boxed result?* If not, deepen it or cut it. (This was retrofitted into Module 5 §10 after
+the first K1–K10 draft was flagged as plug-in substitution.)
+
 ## Note
 The user values: rigor (no watering down), correct anatomy, strong visuals
 (Tier-2), and reviewing each section before commit. Keep the `★ Insight` summaries.
