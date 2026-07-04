@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 6 — Tendons, Ligaments, Fascia, and Elastic Energy Storage</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], tags: 'ams' },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js" async></script>
+<style>
+  :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ max-width: 52rem; margin: 2.5rem auto; padding: 0 1.25rem 6rem;
+        font: 16px/1.65 Georgia, 'Times New Roman', serif; color:var(--fg); counter-reset: fig; }
+  h1{ font-size: 1.95rem; line-height:1.2; margin:.2rem 0 .2rem; }
+  h2{ font-size:1.35rem; margin:2.4rem 0 .6rem; border-bottom:2px solid var(--accent); padding-bottom:.2rem; }
+  h3{ font-size:1.08rem; margin:1.6rem 0 .4rem; color:var(--accent); }
+  .sub{ color:var(--muted); font-style:italic; margin-top:0; }
+  code{ font-family: ui-monospace,'SFMono-Regular',Consolas,monospace; font-size:.92em; background:#f3f1ec; padding:.05rem .25rem; border-radius:3px;}
+  pre{ background:#f3f1ec; padding:.8rem 1rem; border-radius:5px; overflow:auto; font-size:.84rem; line-height:1.45; }
+  pre code{ background:none; padding:0; }
+  .thm,.def,.lem,.prop{ background:var(--box); border-left:4px solid var(--accent); padding:.6rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0; }
+  .prob{ border-left:3px solid #cdbfa0; padding:.35rem .85rem; margin:1.1rem 0; background:#fbfaf6; border-radius:0 4px 4px 0; }
+  .thm b,.def b,.lem b,.prop b{ color:var(--accent); }
+  .proof{ border-left:2px solid var(--rule); padding-left:.9rem; margin:.8rem 0 1.2rem; color:#222; }
+  .proof::before{ content:"Proof."; font-style:italic; font-weight:bold; margin-right:.4rem; }
+  .qed{ float:right; }
+  table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.92rem; }
+  th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; }
+  th{ background:var(--box); }
+  figure{ margin:1.5rem 0; text-align:center; counter-increment: fig; }
+  figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; }
+  figcaption::before{ content:"Fig. " counter(fig) ". "; font-weight:bold; font-style:normal; color:var(--accent); }
+  .proof figure,.thm figure{ margin:.2rem auto .7rem; max-width:460px; background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.4rem; }
+  .setupfig{ display:block; }
+  .setupfig text{ paint-order:stroke; stroke:#fff; stroke-width:2.5px; stroke-linejoin:round; }
+  .setupfig text[fill="#fff"], .setupfig text[fill="#ffffff"], .setupfig text[fill="white"], .setupfig text.onfill{ stroke:none; }
+  @media (prefers-reduced-motion: reduce){ .setupfig animate, .setupfig animateTransform, .setupfig animateMotion{ display:none; } }
+  figure svg text{ font-family:"STIX Two Math",STIXGeneral,"Times New Roman",Georgia,serif; }
+  .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; }
+  .secref:hover{ border-bottom:1px solid var(--accent); }
+  .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; }
+  .toc ul{ list-style:none; padding-left:.3rem; margin:.3rem 0; } .toc a{ color:var(--accent); text-decoration:none; }
+  .toc .pending{ color:#999; }
+  .small{ font-size:.88rem; color:var(--muted); }
+  hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; }
+  .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; }
+  .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+  .codewrap{ position:relative; }
+  .copybtn{ position:absolute; top:.5rem; right:.5rem; display:inline-flex; align-items:center; gap:.3rem;
+    font:600 .72rem/1 ui-monospace,Consolas,monospace; color:var(--muted);
+    background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.32rem .5rem; cursor:pointer; }
+  .copybtn:hover{ color:var(--accent); border-color:var(--accent); }
+  .copybtn.copied{ color:#2a7d2a; border-color:#2a7d2a; }
+  .copybtn svg{ width:13px; height:13px; }
+  details.sol{ margin:.55rem 0 .1rem; }
+  details.sol > summary{ cursor:pointer; color:#2a7d2a; font-weight:bold; font-size:.92rem; list-style:none; }
+  details.sol > summary::before{ content:"\25B8\00a0"; }
+  details.sol[open] > summary::before{ content:"\25BE\00a0"; }
+  details.sol > div{ margin:.45rem 0 .2rem; padding-left:.3rem; border-left:2px solid #cfe3cf; }
+  ol.diag > li{ margin:.6rem 0; }
+</style>
+</head>
+<body>
+
+<!-- shared Tier-2 defs (gradients, drop-shadow, slim arrow markers); referenced by every figure -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="b_limb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c98a5e"/><stop offset="0.42" stop-color="#f3d7bd"/><stop offset="0.62" stop-color="#e6bd99"/><stop offset="1" stop-color="#b5744b"/></linearGradient><radialGradient id="b_sph" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#fbe7d6"/><stop offset="0.6" stop-color="#e7bd99"/><stop offset="1" stop-color="#c07f52"/></radialGradient><radialGradient id="b_head" cx="40%" cy="32%" r="72%"><stop offset="0" stop-color="#fbe7d6"/><stop offset="0.65" stop-color="#e4b891"/><stop offset="1" stop-color="#b7784e"/></radialGradient><filter id="b_sh" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="1.5" dy="2.5" stdDeviation="2" flood-color="#000" flood-opacity="0.18"/></filter><marker id="a_red" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#b0361f"/></marker><marker id="a_blu" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#2a6ca8"/></marker><marker id="a_grn" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#2a7d2a"/></marker><marker id="a_gry" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#666"/></marker></defs></svg>
+
+<h1>Tendons, Ligaments, Fascia, and Elastic Energy Storage</h1>
+<p class="sub">Module 6: how passive collagen springs store and return the energy of every stride — from the crimp in a single fibril, to a series-elastic tendon that lets muscle act as a catapult, to the ligaments and foot arch that constrain and rebound.</p>
+
+<div class="toc">
+<b>Contents</b>
+<ul>
+<li><b>0.</b> <a href="#origin">Motivation — running is bouncing</a></li>
+<li><b>1.</b> <span class="pending">Collagen, crimp, and the J-shaped law</span></li>
+<li><b>2.</b> <span class="pending">The tendon as a nonlinear spring</span></li>
+<li><b>3.</b> <span class="pending">Elastic energy: storage and return</span></li>
+<li><b>4.</b> <span class="pending">The series-elastic element</span></li>
+<li><b>5.</b> <span class="pending">Viscoelasticity: creep, relaxation, hysteresis</span></li>
+<li><b>6.</b> <span class="pending">Maxwell, Kelvin–Voigt, and the standard linear solid</span></li>
+<li><b>7.</b> <span class="pending">Hysteresis loops and dissipated energy</span></li>
+<li><b>8.</b> <span class="pending">Ligaments, fascia, and the foot arch</span></li>
+<li><b>9.</b> <span class="pending">Computational labs</span></li>
+<li><b>10.</b> <span class="pending">What the model captures — and problems</span></li>
+<li><b>A.</b> <span class="pending">Appendix — notation and parameters</span></li>
+</ul>
+</div>
+
+<hr>
+
+<h2 id="origin">0. Motivation — running is bouncing</h2>
+
+<p>Running feels like work, and it is — but far less of it is muscular than it looks. Watch a runner at a steady pace and every footfall is the same small collapse and rebound: the leg shortens as it takes the body's weight, then lengthens to launch it forward again. At constant speed the body's mechanical energy returns, on average, to where it started each stride, so the <em>net</em> work the muscles do is surprisingly small. Much of the up-and-down is carried not by muscle but by <b>springs</b> — the elastic tendons and the arch of the foot, which stretch on landing and recoil on push-off (Fig.&nbsp;1).</p>
+
+<figure><svg class="setupfig" viewBox="70 20 400 320" width="100%" role="img" aria-label="A runner in mid-stance drawn as a Tier-2 shaded figure. The planted leg is highlighted as a spring: a coil at the Achilles tendon behind the ankle and a coil under the arch of the foot. Body weight W points down from the centre of mass; the ground reaction force points up from the foot."><line x1="70" y1="316" x2="470" y2="316" stroke="#8a7f6a" stroke-width="2"/><line x1="80" y1="316" x2="72" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="102" y1="316" x2="94" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="124" y1="316" x2="116" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="146" y1="316" x2="138" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="168" y1="316" x2="160" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="190" y1="316" x2="182" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="212" y1="316" x2="204" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="234" y1="316" x2="226" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="256" y1="316" x2="248" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="278" y1="316" x2="270" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="300" y1="316" x2="292" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="322" y1="316" x2="314" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="344" y1="316" x2="336" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="366" y1="316" x2="358" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="388" y1="316" x2="380" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="410" y1="316" x2="402" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="432" y1="316" x2="424" y2="324" stroke="#b9ad93" stroke-width="1.4"/><line x1="454" y1="316" x2="446" y2="324" stroke="#b9ad93" stroke-width="1.4"/><rect x="185.2" y="95.0" width="51.5" height="10.0" rx="5.0" fill="url(#b_limb)" transform="rotate(126.9 211.0 100.0)" filter="url(#b_sh)"/><rect x="168.2" y="135.0" width="41.7" height="8.0" rx="4.0" fill="url(#b_limb)" transform="rotate(110.2 189.0 139.0)" filter="url(#b_sh)"/><circle cx="196.0" cy="120.0" r="5.5" fill="url(#b_sph)" filter="url(#b_sh)"/><rect x="147.6" y="183.5" width="68.7" height="15.0" rx="7.5" fill="url(#b_limb)" transform="rotate(136.2 182.0 191.0)" filter="url(#b_sh)"/><rect x="125.9" y="235.5" width="56.2" height="11.0" rx="5.5" fill="url(#b_limb)" transform="rotate(98.4 154.0 241.0)" filter="url(#b_sh)"/><circle cx="158.0" cy="214.0" r="7.0" fill="url(#b_sph)" filter="url(#b_sh)"/><rect x="119.1" y="261.0" width="31.8" height="8.0" rx="4.0" fill="url(#b_limb)" transform="rotate(-168.7 135.0 265.0)" filter="url(#b_sh)"/><rect x="168.9" y="111.0" width="94.1" height="26.0" rx="13.0" fill="url(#b_limb)" transform="rotate(-77.2 216.0 124.0)" filter="url(#b_sh)"/><circle cx="232" cy="48" r="19" fill="url(#b_head)" filter="url(#b_sh)"/><rect x="218.5" y="64.5" width="20.9" height="13.0" rx="6.5" fill="url(#b_limb)" transform="rotate(-71.6 229.0 71.0)" filter="url(#b_sh)"/><rect x="170.5" y="197.5" width="79.0" height="17.0" rx="8.5" fill="url(#b_limb)" transform="rotate(84.0 210.0 206.0)" filter="url(#b_sh)"/><circle cx="206.0" cy="168.0" r="8.0" fill="url(#b_sph)" filter="url(#b_sh)"/><rect x="177.2" y="266.0" width="59.5" height="12.0" rx="6.0" fill="url(#b_limb)" transform="rotate(104.0 207.0 272.0)" filter="url(#b_sh)"/><circle cx="214.0" cy="244.0" r="7.5" fill="url(#b_sph)" filter="url(#b_sh)"/><rect x="175.3" y="308.5" width="32.4" height="9.0" rx="4.5" fill="url(#b_limb)" transform="rotate(3.7 191.5 313.0)" filter="url(#b_sh)"/><rect x="206.3" y="309.5" width="32.4" height="9.0" rx="4.5" fill="url(#b_limb)" transform="rotate(0.0 222.5 314.0)" filter="url(#b_sh)"/><circle cx="200.0" cy="300.0" r="6.5" fill="url(#b_sph)" filter="url(#b_sh)"/><rect x="213.2" y="98.0" width="57.5" height="10.0" rx="5.0" fill="url(#b_limb)" transform="rotate(55.2 242.0 103.0)" filter="url(#b_sh)"/><rect x="235.9" y="139.0" width="36.1" height="8.0" rx="4.0" fill="url(#b_limb)" transform="rotate(103.2 254.0 143.0)" filter="url(#b_sh)"/><circle cx="258.0" cy="126.0" r="5.5" fill="url(#b_sph)" filter="url(#b_sh)"/><circle cx="226.0" cy="80.0" r="7.0" fill="url(#b_sph)" filter="url(#b_sh)"/><polyline points="193.0,262.0 188.2,263.7 196.7,267.6 187.4,268.6 195.9,272.5 186.6,273.5 195.1,277.4 185.8,278.4 194.3,282.3 185.1,283.3 193.6,287.2 184.3,288.2 192.8,292.0 183.5,293.1 192.0,296.9 182.7,298.0 191.2,301.8 181.9,302.8 186.0,306.0" fill="none" stroke="#b0361f" stroke-width="2.4" stroke-linejoin="round"/><polyline points="180.0,314.0 182.3,318.1 185.1,310.2 187.2,318.3 190.0,310.4 192.1,318.5 194.9,310.5 197.0,318.6 199.8,310.7 201.9,318.8 204.7,310.9 206.9,319.0 209.6,311.1 211.8,319.2 214.5,311.3 216.7,319.4 219.4,311.5 221.6,319.5 224.3,311.6 226.5,319.7 229.2,311.8 231.4,319.9 234.0,316.0" fill="none" stroke="#c47a1e" stroke-width="2.2" stroke-linejoin="round"/><line x1="212.0" y1="144.0" x2="212.0" y2="204.0" stroke="#666" stroke-width="3.0" marker-end="url(#a_gry)"/><text x="220.0" y="198.0" font-size="12" text-anchor="start" fill="#555" font-style="italic">W</text><line x1="214.0" y1="314.0" x2="214.0" y2="254.0" stroke="#2a7d2a" stroke-width="3.0" marker-end="url(#a_grn)"/><text x="220.0" y="288.0" font-size="12" text-anchor="start" fill="#2a7d2a" font-style="italic">F</text><text x="226.0" y="288.0" font-size="7.5" text-anchor="start" fill="#2a7d2a" baseline-shift="sub">GRF</text><line x1="195" y1="266" x2="300" y2="250" stroke="#999" stroke-width="1" stroke-dasharray="2 2"/><text x="304.0" y="248.0" font-size="10.5" text-anchor="start" fill="#b0361f" >Achilles tendon</text><text x="304.0" y="262.0" font-size="9" text-anchor="start" fill="#a06a5a" >(series spring)</text><line x1="200" y1="322" x2="300" y2="300" stroke="#999" stroke-width="1" stroke-dasharray="2 2"/><text x="304.0" y="300.0" font-size="10.5" text-anchor="start" fill="#a86a12" >plantar fascia / arch</text><text x="304.0" y="314.0" font-size="9" text-anchor="start" fill="#b08a4a" >(stores stance energy)</text><text x="360.0" y="110.0" font-size="12" text-anchor="middle" fill="#333" font-weight="bold">a running leg</text><text x="360.0" y="126.0" font-size="12" text-anchor="middle" fill="#333" font-weight="bold">is a spring</text></svg><figcaption><b>A running leg is a spring.</b> In mid-stance the planted leg compresses and rebounds. Two passive springs highlighted here store the landing energy and return it at push-off: the <b>Achilles tendon</b> behind the ankle (in series with the calf muscle) and the <b>plantar fascia / arch</b> under the foot. Body weight $W$ drives the compression; the ground reaction $F_{\text{GRF}}$ launches the body. The muscles, meanwhile, can act almost as struts &#8212; holding force while the springs do the stretching.</figcaption></figure>
+
+<p>The bookkeeping is striking. In a moderate run the human <b>Achilles tendon</b> — the thick cord joining the calf muscles to the heel — stretches by a few percent and stores on the order of <b>35&nbsp;J of elastic energy per step</b>, returning about <b>90–93%</b> of it in the push-off. The <b>plantar fascia</b> and the ligaments of the foot arch add roughly another <b>17&nbsp;J</b>. Together these passive springs supply a large share of the energy each stride would otherwise cost the muscles — which is why running is far more economical than its jolting appearance suggests.</p>
+
+<p>Other animals make the point unmistakable. A hopping kangaroo's rate of oxygen consumption is almost <em>independent of speed</em> above a slow hop: it goes faster essentially for free, because its enormous ankle tendons act as a resonant spring, catching the landing energy and flinging it back. And in a classic experiment on running turkeys, the calf-muscle fibres were found to hold nearly <em>constant length</em> during stance — producing force but doing almost no work — while the tendon in series with them did the stretching and recoiling. The muscle behaved as a <em>strut</em>; the tendon was the <em>spring</em>.</p>
+
+<div class="keyresult"><b>The throughline of this module.</b> A tendon is a spring. The interesting questions are: <em>how good</em> a spring (how much energy it stores, how much it gives back), <em>why</em> it is nonlinear, and <em>what it buys</em> the muscle pulling on it. Answering them turns the isolated motor of Module&nbsp;5 into a motor-plus-spring that can act as a catapult.</div>
+
+<p>This is exactly the piece the previous modules set aside. Module&nbsp;5 built the muscle as a Hill-type actuator, but to keep its equations clean it made <a href="module05.html#hillmodel">Assumption&nbsp;7.1</a>: the tendon is <em>rigid</em>. A rigid tendon stores no energy, and it forces the fibres and the tendon to move at the same speed — so it can generate force but can never produce the catapult above. Module&nbsp;3, in turn, treated ligaments and tendons as <a href="module03.html#model">rigid constraints</a> — ideal ropes that transmit force but store nothing — hung on joints with fixed axes. Both are honest simplifications, and both are debts this module now repays.</p>
+
+<p>We pay them in order, each section using the last. We begin with the material: the wavy <b>crimp</b> of collagen and the J-shaped stress–strain curve it produces (<span class="secref">§1</span>). That gives the tendon as a <b>nonlinear spring</b> (<span class="secref">§2</span>) and lets us compute the <b>energy</b> it stores and returns (<span class="secref">§3</span>). Then the payoff: place that spring in <b>series</b> with Module&nbsp;5's muscle (<span class="secref">§4</span>) and the catapult — the fibre and tendon moving at different speeds — falls out of one force balance. Real tissue is not a perfect spring; it creeps, relaxes, and loses a little energy each cycle (<b>viscoelasticity</b>, <span class="secref">§5</span>), which the classical <b>Maxwell / Kelvin–Voigt / standard-linear-solid</b> models capture (<span class="secref">§6</span>) and which shows up as a <b>hysteresis loop</b> whose area is the energy lost (<span class="secref">§7</span>). Finally the other tissues: <b>ligaments</b> as one-sided constraints, <b>fascia</b> as force-transmission sheets, and the <b>foot arch</b> as a windlass (<span class="secref">§8</span>). Three simulations — tendon recoil, running energy storage, and a ligament constraint — close the build (<span class="secref">§9</span>), and <span class="secref">§10</span> audits what remains idealized and sets the problems.</p>
+
+<script>
+function copyCode(btn){
+  var code = btn.parentElement.querySelector('code');
+  if(!code) return;
+  var text = code.textContent;
+  var done = function(){
+    var label = btn.querySelector('span'), prev = label.textContent;
+    btn.classList.add('copied'); label.textContent = 'Copied!';
+    setTimeout(function(){ btn.classList.remove('copied'); label.textContent = prev; }, 1500);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done, function(){});
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+</script>
+
+</body>
+</html>
