@@ -426,17 +426,29 @@ where $\dot\varepsilon=\mathrm{d}\varepsilon/\mathrm{d}t$ and $\eta$ is the <b>v
 
 <h3>Maxwell: spring and dashpot in series</h3>
 
-<p>In series the same stress $\sigma$ passes through the spring (modulus $E_M$) and the dashpot (viscosity $\eta$), and the total strain is the sum, $\varepsilon=\varepsilon_s+\varepsilon_d$. Differentiating and using $\varepsilon_s=\sigma/E_M$ (so $\dot\varepsilon_s=\dot\sigma/E_M$) and $\dot\varepsilon_d=\sigma/\eta$ (from $\sigma=\eta\dot\varepsilon_d$) gives the Maxwell law:</p>
+<p>The first arrangement chains the two elements end to end.</p>
 
-<div class="keyresult">$$\boxed{\;\dot\varepsilon=\frac{\dot\sigma}{E_M}+\frac{\sigma}{\eta}\qquad\Longleftrightarrow\qquad \dot\sigma+\frac{E_M}{\eta}\,\sigma=E_M\,\dot\varepsilon\;}\tag{6.1}$$</div>
+<div class="prop"><b>Proposition 5 (Maxwell law).</b> A Hookean spring (modulus $E_M$) and a Newtonian dashpot (viscosity $\eta$) in series obey
+$$\boxed{\;\dot\varepsilon=\frac{\dot\sigma}{E_M}+\frac{\sigma}{\eta}\qquad\Longleftrightarrow\qquad \dot\sigma+\frac{E_M}{\eta}\,\sigma=E_M\,\dot\varepsilon\;}\tag{6.1}$$</div>
+
+<div class="proof">
+By the series rule (Fig. 13) the spring and dashpot carry the same stress $\sigma$, and their strains add, $\varepsilon=\varepsilon_s+\varepsilon_d$ (subscript $s$ for the spring, $d$ for the dashpot). The spring law $\sigma=E_M\varepsilon_s$ gives $\varepsilon_s=\sigma/E_M$, and differentiating, $\dot\varepsilon_s=\dot\sigma/E_M$. The dashpot law $\sigma=\eta\dot\varepsilon_d$ gives $\dot\varepsilon_d=\sigma/\eta$. Differentiating the strain sum and substituting the two rates,
+$$\dot\varepsilon=\dot\varepsilon_s+\dot\varepsilon_d=\frac{\dot\sigma}{E_M}+\frac{\sigma}{\eta},$$
+which is the first form of (6.1). Multiplying by $E_M$ and moving the stress terms to the left gives the equivalent form $\dot\sigma+(E_M/\eta)\sigma=E_M\dot\varepsilon$. <span class="qed">∎</span>
+</div>
 
 <p><b>Relaxation</b> (hold strain, $\dot\varepsilon=0$): $\dot\sigma=-(E_M/\eta)\sigma$, so $\sigma(t)=\sigma_0\,e^{-t/\tau}$ with $\tau=\eta/E_M$ — the stress decays all the way to <em>zero</em>. <b>Creep</b> (hold stress, $\dot\sigma=0$): $\dot\varepsilon=\sigma/\eta$, so $\varepsilon(t)=\sigma/E_M+(\sigma/\eta)\,t$ — the strain grows <em>linearly forever</em>. Maxwell relaxes fully but creeps without bound: it behaves like a <em>fluid</em>, not a tendon.</p>
 
 <h3>Kelvin–Voigt: spring and dashpot in parallel</h3>
 
-<p>In parallel the spring (modulus $E_K$) and dashpot share the same strain $\varepsilon$, and their stresses add, giving the Kelvin–Voigt law directly:</p>
+<p>The second arrangement sets the two elements side by side.</p>
 
-<div class="keyresult">$$\boxed{\;\sigma=E_K\,\varepsilon+\eta\,\dot\varepsilon\;}\tag{6.2}$$</div>
+<div class="prop"><b>Proposition 6 (Kelvin–Voigt law).</b> A spring (modulus $E_K$) and a dashpot (viscosity $\eta$) in parallel obey
+$$\boxed{\;\sigma=E_K\,\varepsilon+\eta\,\dot\varepsilon\;}\tag{6.2}$$</div>
+
+<div class="proof">
+By the parallel rule (Fig. 13) the spring and dashpot share the same strain $\varepsilon$, and their stresses add, $\sigma=\sigma_s+\sigma_d$. The spring contributes $\sigma_s=E_K\varepsilon$ and the dashpot $\sigma_d=\eta\dot\varepsilon$; summing the two stresses gives $\sigma=E_K\varepsilon+\eta\dot\varepsilon$, which is (6.2). <span class="qed">∎</span>
+</div>
 
 <p><b>Creep</b> (hold stress $\sigma$): solving $E_K\varepsilon+\eta\dot\varepsilon=\sigma$ gives $\varepsilon(t)=(\sigma/E_K)\big(1-e^{-t/\tau}\big)$ with $\tau=\eta/E_K$ — <em>bounded</em> creep, settling at $\sigma/E_K$. <b>Relaxation</b> (hold strain, $\dot\varepsilon=0$): $\sigma=E_K\varepsilon$ is constant — there is <em>no</em> relaxation. Worse, a sudden step of strain would demand an infinite instantaneous stress (the $\eta\dot\varepsilon$ term), so the model has <em>no instantaneous elastic response</em>. Kelvin–Voigt fixes creep but loses both relaxation and the instant give of a real tendon.</p>
 
@@ -444,7 +456,7 @@ where $\dot\varepsilon=\mathrm{d}\varepsilon/\mathrm{d}t$ and $\eta$ is the <b>v
 
 <p>Neither one-spring model is a tendon: Maxwell fails creep, Kelvin–Voigt fails relaxation and the instantaneous response. Adding a <em>second</em> spring resolves both. The <b>standard linear solid</b> (SLS, or Zener model) places an equilibrium spring $E_0$ in parallel with a Maxwell arm — a spring $E_1$ and dashpot $\eta$ in series (Fig. 12, bottom).</p>
 
-<div class="prop"><b>Proposition 5 (the standard-linear-solid law).</b> The SLS obeys
+<div class="prop"><b>Proposition 7 (the standard-linear-solid law).</b> The SLS obeys
 $$\boxed{\;\tau_\sigma\,\dot\sigma+\sigma=E_R\big(\varepsilon+\tau_\varepsilon\,\dot\varepsilon\big)\;}\tag{6.3}$$
 with <b>relaxed modulus</b> $E_R=E_0$, <b>instantaneous modulus</b> $E_{\text{inst}}=E_0+E_1$, <b>relaxation time</b> $\tau_\sigma=\eta/E_1$, and <b>creep time</b> $\tau_\varepsilon=\tau_\sigma\,E_{\text{inst}}/E_R\gt \tau_\sigma$.</div>
 
