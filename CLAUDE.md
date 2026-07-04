@@ -134,14 +134,26 @@ modules** (MathJax + inline SVG/SMIL, no build step). Built with the
    `r"...\"x\"..."` keeps the backslash (broken `class=\"…\"`), so use `'`-quoted
    attributes or de-escape (`s.replace('\\"','"')`). (See the skill's
    `references/math-html-gotchas.md` §7.)
+   - **Never splice `$…$`/backslash text through a double-quoted shell command**
+     (`python -c "…$W$…$F_{\text{GRF}}$…"`). The *shell* is `$`- and `\`-active one
+     layer above Python: `$W`/`$F_…` expand as (unset → empty) shell vars — **deleting
+     the `$…$` delimiters and their contents** — and `\t`/`\n` become literal TAB/newline
+     (`\text`→`<TAB>ext`). The result is still *valid* TeX, so `checktex`'s global `$`
+     parity and `verify_dom` (no `mjx-merror`) both PASS while MathJax typesets a whole
+     swallowed sentence as one giant italic math run (the Module 6 §0 "Fig. 1 caption"
+     bug: `$W$ … $F_{\text{GRF}}$` → `$ … <TAB>ext{GRF}}$`). **Fix/author math-bearing
+     HTML only with Write/Edit, or splice from a file/JSON using a Python raw string —
+     never inline it into a `"…"`-quoted shell arg.** `checktex.py` now hard-fails on the
+     stray control char (TAB/VT/FF/BS/BEL/CR) this leaves behind — the enforceable version
+     of the raw-string rule above.
 
 ## Hardening loop (run after every edit; all must pass)
 ```
 S=C:/Users/simon/.claude/skills/rigorous-explainer/scripts
-python $S/checktex.py    moduleNN.html   # delimiter/brace balance — 0 issues
+python $S/checktex.py    moduleNN.html   # delimiter/brace balance + stray control chars (shell-mangled math) — 0 issues
 python $S/checklt.py     moduleNN.html   # raw <,> in math — 0
 python $S/check_links.py moduleNN.html   # 0 broken (unlinked §refs OK until autolink)
-python $S/verify_dom.py  moduleNN.html   # 0 mjx-merror, 0 broken (stray-$ ~6 is advisory)
+python $S/verify_dom.py  moduleNN.html   # 0 mjx-merror, 0 broken (stray-$ ~6 advisory); + swallowed-prose advisory (inline $…$ that ate a sentence — the residual shell-mangle case checktex can't see)
 python $S/check_overlap.py moduleNN.html  # 0 labels over a curve/dashed line (ENFORCED, not by eye)
 python $S/check_frame.py moduleNN.html    # figures whose viewBox wastes >20% margin (advisory; retighten min-y/height)
 python $S/check_prose.py moduleNN.html    # awkward/non-native constructions: X-is-X, "worth VERBing happen", … (advisory; then read aloud, incl. build_secN.py raw-string prose)

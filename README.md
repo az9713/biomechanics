@@ -13,5 +13,6 @@ inline SVG figures.
 - **Module 3 — Joints as Constrained Interfaces:** https://az9713.github.io/biomechanics/module03.html
 - **Module 4 — Cartilage, Synovial Fluid & Joint Contact Biophysics:** https://az9713.github.io/biomechanics/module04.html
 - **Module 5 — Muscles as Chemo-Electro-Mechanical Actuators**: https://az9713.github.io/biomechanics/module05.html
+- **Module 6 — Tendons, Ligaments, Fascia & Elastic Energy Storage** *(in progress)*: https://az9713.github.io/biomechanics/module06.html
 
-Modules 6–17 to come.
+Modules 7–17 to come.
