@@ -157,8 +157,17 @@ python $S/verify_dom.py  moduleNN.html   # 0 mjx-merror, 0 broken (stray-$ ~6 ad
 python $S/check_overlap.py moduleNN.html  # 0 labels over a curve/dashed line (ENFORCED, not by eye)
 python $S/check_frame.py moduleNN.html    # figures whose viewBox wastes >20% margin (advisory; retighten min-y/height)
 python $S/check_prose.py moduleNN.html    # awkward/non-native constructions: X-is-X, "worth VERBing happen", … (advisory; then read aloud, incl. build_secN.py raw-string prose)
+python $S/check_proofs.py moduleNN.html   # a .prop/.thm/.lem with no adjacent .proof = asserted proposition (advisory)
 python $S/shoot.py FILE out.png --size WxH   # preview render
 ```
+**Rigor rule (`check_proofs.py` + eyeball): every boxed result earns its box.** If one
+result in a section gets a `.prop`+`.proof`, its **sibling** boxed results of equal weight
+(e.g. the other constitutive laws in the same section) must be proved the same way — not
+left as an inline "…gives X" `.keyresult`. `check_proofs.py` catches the crisp case (a
+Proposition/Theorem/Lemma stated with no `.proof`); the sibling-keyresult case is a
+judgement call no script can make (a boxed *definition* or one-line substitution needs no
+proof), so **read each section's boxed results and confirm peers match** — this is the gap
+that shipped Module 6 §6 (6.1/6.2 asserted beside a proved 6.3).
 **`check_frame.py` catches oversized viewBoxes** — a figure whose interior geometry is
 computed but whose `<svg viewBox>` is a round number bigger than the drawing, leaving a
 blank band on the page (e.g. a diagram in the lower third of `0 0 460 250`). It compares
