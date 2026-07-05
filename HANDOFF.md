@@ -5,14 +5,27 @@ This file is the live "what to do next"; `CLAUDE.md` is the standing playbook. D
 duplicate content that already lives in the files referenced below — open them.
 
 ## Current state (as of latest push)
-- **Modules 1–5 are COMPLETE and live** at https://az9713.github.io/biomechanics/ .
-  Modules 1–4: §0–§9 (+ 30-problem §9 for M3/M4) + Appendix. **Module 5 (Muscles as
-  Chemo-Electro-Mechanical Actuators): §0–§10 + Appendix** — 63 figures (2 SMIL), a
-  **30-problem §10 set** (C1–C10 / D1–D10 / K1–K10, each with its own figure; K's are
-  genuinely computational + Python-verified) + 5 diagnostics + repayment table + grouped
-  notation/parameter tables. Full hardening loop passes on all five modules. Latest commit
-  **`bc0ff18`**; working tree clean apart from untracked `.ignore/` and `prompt.txt`.
-- **Two conventions Module 5 established — carry them into Module 6 (both now in `CLAUDE.md`):**
+- **Modules 1–6 are COMPLETE and live** at https://az9713.github.io/biomechanics/ .
+  Modules 1–4: §0–§9 (+ 30-problem §9 for M3/M4) + Appendix. Module 5 (Muscles): §0–§10 +
+  Appendix. **Module 6 (Tendons, Ligaments, Fascia, and Elastic Energy Storage): §0–§10 +
+  Appendix — COMPLETE, latest commit `5741566`.** §0 motivation → §1 collagen/crimp/J-law →
+  §2 nonlinear spring → §3 elastic energy → §4 series-elastic MTU (repays M5's rigid-tendon
+  debt) → §5 viscoelasticity → §6 Maxwell/KV/SLS → §7 hysteresis/complex modulus → §8
+  ligaments/knee four-bar/plantar-fascia arch → §9 three computational labs → **§10 30-problem
+  set** (C1–C10 / D1–D10 / K1–K10, each with its own figure; K's genuinely computational +
+  Python-verified) + 5 diagnostics + repayment table (→ Modules 9/14/16) → Appendix (grouped
+  notation + parameter tables). 11 Propositions, all proved. Full hardening loop passes on all
+  six modules. Working tree clean apart from untracked `.ignore/`, `here.sh.txt`, `prompt.txt`.
+- **Module 6 build lessons (all already encoded in `CLAUDE.md` + the skill — do not re-litigate):**
+  - **Cross-problem numerical consistency is a rigor axis no checker sees.** A §10 K-solution
+    printed a tendon resilience (74%) that contradicted C4 / §3 / §9 (~90–93%) on the same page;
+    caught only by an adversarial read. When a parameter appears in a boxed result, every
+    problem's answer must agree with it — the Appendix parameter table is the ledger to check against.
+  - **A model that resists a clean sweep is telling you something.** The §4 hop is a near-passive
+    bounce whose fibre is velocity-capped, so amplification/elastic-fraction sweeps came out flat;
+    the honest computational results were a rigid-limit root-find (K3) and a resonance optimum (K4).
+    Don't force a sweep out of a model that hasn't got one — re-pose the problem.
+- **Two conventions Module 5 established — still in force (both in `CLAUDE.md`):**
   - **Leaner way:** author section prose DIRECTLY in `moduleNN.html`; use Python only for
     *figures*, injected via `<!--FIG:key-->` markers with the generic `s5/splice_figs.py`.
     **Never author section prose in a Python raw string** — it evades the read-aloud audit +
@@ -56,16 +69,17 @@ duplicate content that already lives in the files referenced below — open them
   `skill-change-list.md` (skill upgrades — DONE).
 
 ## Next task
-- **Module 5 is DONE, committed & pushed (`bc0ff18`), live.** Next = **Module 6.**
-- **Module 6 — draw its plan from `prompt.txt` (Course Structure) + Module 5's forward
-  references**, exactly as Modules 3/4/5 were scoped. The load-bearing forward-ref: Module 5
-  deferred the **series-elastic (compliant) tendon** — elastic energy storage & return, the
-  fibre↔tendon speed difference, and the implicit CE–SE equilibrium solved each timestep — to
-  Module 6 (see §7 "Modelling assumption 7.1 (rigid tendon)" and the §10 repayment table in
-  `module05.html`). Write `module06-plan.md` first, get it approved, then build section-by-section:
-  leaner way (prose in HTML, Python for figures), MIT-PhD level, the full hardening loop after
-  every edit, and **commit only on the user's "commit push."** Publish-while-incomplete: link it in
-  `index.html` + `README.md` as soon as it is first committed.
+- **Module 6 is DONE, committed & pushed (`5741566`), live.** Next = **Module 7.**
+- **Module 7 — draw its plan from `prompt.txt` (Course Structure) + Module 6's forward
+  references**, exactly as Modules 3/4/5/6 were scoped. Module 6's §10 repayment table points
+  forward to **Module 9** (running/jumping SLIP), **Module 14** (creep-to-rupture, fatigue,
+  ageing) and **Module 16** (finite-strain / poroelastic continuum) — check whether Module 7
+  in `prompt.txt` is the next in sequence and what earlier modules deferred *to it* (grep the
+  built `moduleNN.html` for `Module&nbsp;7` forward-refs). Write `module07-plan.md` first, get it
+  approved, then build section-by-section: leaner way (prose in HTML, Python for figures),
+  MIT-PhD level, full hardening loop after every edit, **commit only on the user's "commit push."**
+  Publish-while-incomplete: link it in `index.html` + `README.md` as soon as it is first committed,
+  marked *(in progress)* until complete (drop the marker on completion, as Module 6 just did).
 - **Parallel/backup track:** the **substance backlog** in `audit-modules.md` — higher-value
   content fixes to earlier modules (M2 torsion section; M1 joint-reaction + low-back number;
   M3 nonholonomic relabel; M4 Hertz-validity caveat).
