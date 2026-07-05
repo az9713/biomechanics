@@ -33,10 +33,16 @@ duplicate content that already lives in the files referenced below — open them
   - **Audience = MIT-PhD:** computational (K) problems must require simulation / optimization /
     an inverse problem / a sensitivity sweep — NOT plug-in substitution into a boxed formula.
     (Encoded in `CLAUDE.md` "Audience & problem-set standard" and the skill `pedagogy-checklist.md` §8.)
-- **Module 5 figure generators were session-transient** (scratchpad `s4..s10/`, `sprob/`, `sk/`)
-  and are GONE after clear — the durable record is `module05.html`. To edit a Module 5 figure,
-  either edit the committed inline `<svg>` directly or regenerate from the leaner-way pattern
-  (a `genN.py` → `figsN.json` → `splice_figs.py` into `<!--FIG:key-->` markers).
+- **Module 5 & 6 figure generators were session-transient** and are GONE after clear — the
+  durable record is `module05.html` / `module06.html`. To edit a figure, either edit the
+  committed inline `<svg>` directly or regenerate from the leaner-way pattern
+  (a `genN.py` → `figsN.json` → splice into `<!--FIG:key-->` markers).
+  - **Module 6 §9/§10 scratch pipeline** (regenerate from this pattern): `k10.py` runs the ten
+    §10 computational (K) labs and dumps `kdata.json` (numbers + plot arrays — this is the source
+    of every boxed K-answer; re-run to re-verify); `gen10.py` builds the 30 problem-figure SVGs →
+    `figs10.json`; the §10 prose was hand-authored in `sec10_frag.html`, the Appendix in
+    `appendix_frag.html`, each spliced once into markers (`<!--SEC10-->`, `<!--SEC10-END-->`).
+    All idempotent, all session-transient — durable record is `module06.html`.
 - **SVG-subscript gotcha (bit us twice):** Unicode has no subscript c/d/l/v/etc.; write SVG
   `<text>` subscripts as `<tspan baseline-shift='sub' font-size='7'>` (a `fixsub()` helper in the
   generators maps placeholder entities to it). `ₘₐₓ` (max) is the one that *does* exist.
