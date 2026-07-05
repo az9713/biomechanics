@@ -87,7 +87,7 @@ window.MathJax = {
 <li><b>8.</b> <a href="#ligaments">Ligaments, fascia, and the foot arch</a></li>
 <li><b>9.</b> <a href="#labs">Computational labs</a></li>
 <li><b>10.</b> <a href="#limits">What the model captures &amp; misses; problems</a></li>
-<li><b>A.</b> <span class="pending">Appendix — notation and parameters</span></li>
+<li><b>A.</b> <a href="#appendix">Appendix — notation and parameters</a></li>
 </ul>
 </div>
 
@@ -898,6 +898,78 @@ for slack in (0, 8, 16):
 <p>That closes Module&nbsp;6. From the crimp of a single collagen fibril we have built, step by verifiable step, the tendon as a nonlinear spring, the energy it banks and returns, its series coupling to the muscle and the catapult that follows, the viscoelastic creep and hysteresis that make it imperfect, and the ligaments, fascia and arch that constrain and store. The passive tissues are no longer the rigid constraints Module&nbsp;3 assumed nor the inextensible tendon Module&nbsp;5 assumed &#8212; they are springs, and the debts are paid. What remains &#8212; the whole-body bounce, the slow accrual of damage, the three-dimensional continuum &#8212; is written into Modules&nbsp;9, 14 and&nbsp;16 (Fig.&nbsp;24).</p>
 
 <!--SEC10-END-->
+<hr>
+
+<h2 id="appendix">Appendix &#8212; notation and parameters</h2>
+
+<p>Every symbol introduced in the module, grouped by role and linked to the section that defines it, followed by representative healthy-adult parameter values. This module builds on <a href="module01.html">Module&nbsp;1</a> (energy and levers), <a href="module03.html">Module&nbsp;3</a> (joints as constraints), and <a href="module05.html#hillmodel">Module&nbsp;5</a> (the Hill-type muscle it pulls against), and hands its idealisations forward to Modules&nbsp;9, 14 and&nbsp;16 (<a class="secref" href="#limits">&#167;10</a>, Fig.&nbsp;24).</p>
+
+<h3>Notation</h3>
+
+<table>
+<tr><th>Symbol</th><th>Meaning</th><th>Defined in</th></tr>
+<tr><td colspan="3"><b>Collagen material and the J-shaped law</b></td></tr>
+<tr><td>$\sigma$</td><td>(engineering) stress, force per rest area $F/A_0$</td><td><a href="#collagen">&#167;1</a></td></tr>
+<tr><td>$\varepsilon$</td><td>strain, fractional stretch $(L-L_0)/L_0$</td><td><a href="#collagen">&#167;1</a></td></tr>
+<tr><td>$E(\varepsilon)$</td><td>tangent modulus $\mathrm{d}\sigma/\mathrm{d}\varepsilon$ (material stiffness)</td><td><a href="#collagen">&#167;1</a></td></tr>
+<tr><td>$E_{\text{lin}}$</td><td>modulus of the fully-recruited (linear) region</td><td><a href="#collagen">&#167;1</a></td></tr>
+<tr><td>$\Phi(\varepsilon)$</td><td>recruited fibril fraction (crimp straightened)</td><td><a href="#collagen">&#167;1</a></td></tr>
+<tr><td>$\varepsilon^\ast$</td><td>toe-limit strain (recruitment complete)</td><td><a href="#collagen">&#167;1</a></td></tr>
+<tr><td colspan="3"><b>Structural spring</b></td></tr>
+<tr><td>$F,\ x$</td><td>structural force; elongation $L-L_0$</td><td><a href="#spring">&#167;2</a></td></tr>
+<tr><td>$A_0,\ L_0$</td><td>rest cross-sectional area; rest length</td><td><a href="#spring">&#167;2</a></td></tr>
+<tr><td>$k(x),\ 1/k$</td><td>tangent stiffness $\mathrm{d}F/\mathrm{d}x$; compliance</td><td><a href="#spring">&#167;2</a></td></tr>
+<tr><td>$k_{\text{lin}},\ x^\ast$</td><td>linear stiffness $A_0E_{\text{lin}}/L_0$; toe-limit elongation $\varepsilon^\ast L_0$</td><td><a href="#spring">&#167;2</a></td></tr>
+<tr><td colspan="3"><b>Elastic energy</b></td></tr>
+<tr><td>$U$</td><td>stored elastic energy $\int F\,\mathrm{d}x$</td><td><a href="#energy">&#167;3</a></td></tr>
+<tr><td>$R$</td><td>resilience: fraction of stored energy returned</td><td><a href="#energy">&#167;3</a></td></tr>
+<tr><td colspan="3"><b>Series-elastic element (muscle&#8211;tendon unit)</b></td></tr>
+<tr><td>$L_{\text{MTU}}$</td><td>muscle&#8211;tendon unit length</td><td><a href="#see">&#167;4</a></td></tr>
+<tr><td>$\ell,\ \theta_p$</td><td>fibre length; pennation angle (from <a href="module05.html#architecture">Module&nbsp;5</a>)</td><td><a href="#see">&#167;4</a></td></tr>
+<tr><td>$L_T,\ L_{Ts}$</td><td>tendon length; tendon slack length</td><td><a href="#see">&#167;4</a></td></tr>
+<tr><td>$F_T,\ F_{PE}$</td><td>tendon force; muscle parallel-elastic force</td><td><a href="#see">&#167;4</a></td></tr>
+<tr><td>$a,\ f_L,\ f_V$</td><td>activation; length and velocity factors (from <a href="module05.html#hillmodel">Module&nbsp;5</a>)</td><td><a href="#see">&#167;4</a></td></tr>
+<tr><td>$v,\ k_T,\ k_M$</td><td>fibre velocity; tendon and muscle stiffness</td><td><a href="#see">&#167;4</a></td></tr>
+<tr><td colspan="3"><b>Viscoelastic elements and lumped models</b></td></tr>
+<tr><td>$\eta$</td><td>dashpot viscosity ($\sigma=\eta\dot\varepsilon$)</td><td><a href="#visco">&#167;5</a></td></tr>
+<tr><td>$E_M,\ E_K$</td><td>Maxwell and Kelvin&#8211;Voigt spring moduli</td><td><a href="#models">&#167;6</a></td></tr>
+<tr><td>$E_R,\ E_0,\ E_1$</td><td>SLS relaxed, instantaneous, and series-spring moduli</td><td><a href="#models">&#167;6</a></td></tr>
+<tr><td>$\tau,\ \tau_\sigma,\ \tau_\varepsilon$</td><td>relaxation time $\eta/E$; SLS stress and strain time constants</td><td><a href="#models">&#167;6</a></td></tr>
+<tr><td>$G(t),\ J(t)$</td><td>relaxation modulus; creep compliance</td><td><a href="#models">&#167;6</a></td></tr>
+<tr><td colspan="3"><b>Dynamic loading and hysteresis</b></td></tr>
+<tr><td>$\omega,\ \sigma_0,\ \varepsilon_0$</td><td>angular frequency; stress and strain amplitudes</td><td><a href="#hysteresis">&#167;7</a></td></tr>
+<tr><td>$\delta,\ \tan\delta$</td><td>loss angle (stress&#8211;strain phase lag); loss tangent</td><td><a href="#hysteresis">&#167;7</a></td></tr>
+<tr><td>$E^\ast(\omega),\ E',\ E''$</td><td>complex modulus; storage and loss moduli</td><td><a href="#hysteresis">&#167;7</a></td></tr>
+<tr><td>$W_d$</td><td>energy dissipated per cycle (hysteresis-loop area)</td><td><a href="#hysteresis">&#167;7</a></td></tr>
+<tr><td colspan="3"><b>Ligaments, fascia, and the foot arch</b></td></tr>
+<tr><td>$T(\theta),\ F_{\text{lig}}$</td><td>one-sided restoring torque; ligament force</td><td><a href="#ligaments">&#167;8</a></td></tr>
+<tr><td>$\theta_{\text{lo}},\ \theta_{\text{hi}}$</td><td>free-range limits (ligament slack between them)</td><td><a href="#ligaments">&#167;8</a></td></tr>
+<tr><td>$R,\ W,\ b,\ h$</td><td>ligament moment arm; body load; arch base; arch height</td><td><a href="#ligaments">&#167;8</a></td></tr>
+</table>
+
+<p class="small">Two symbols carry a second meaning by context: $R$ is a resilience in <a href="#energy">&#167;3</a> but a ligament moment arm in <a href="#ligaments">&#167;8</a>; $T$ is a restoring torque $T(\theta)$ but a plantar-fascia tension in $T=Wb/(4h)$ &#8212; each is unambiguous within its section.</p>
+
+<h3>Parameters (representative healthy adult)</h3>
+
+<table>
+<tr><th>Quantity</th><th>Value</th><th>Source</th></tr>
+<tr><td>Collagen linear modulus $E_{\text{lin}}$</td><td>$\approx1.0$&#8211;$1.5\ \mathrm{GPa}$ (used $1.3\ \mathrm{GPa}$)</td><td><a href="#collagen">&#167;1</a></td></tr>
+<tr><td>Toe-limit strain $\varepsilon^\ast$; rupture strain</td><td>$\approx2$&#8211;$4\%$ (used $3\%$); $\approx8$&#8211;$10\%$</td><td><a href="#collagen">&#167;1</a></td></tr>
+<tr><td>Achilles rest area $A_0$; rest length $L_0$</td><td>$\approx80\ \mathrm{mm^2}$; $\approx0.25\ \mathrm m$</td><td><a href="#spring">&#167;2</a></td></tr>
+<tr><td>Linear tendon stiffness $k_{\text{lin}}$</td><td>$\approx4\times10^{5}\ \mathrm{N/m}=416\ \mathrm{N/mm}$</td><td><a href="#spring">&#167;2</a></td></tr>
+<tr><td>Achilles stored energy per running step</td><td>$\approx30$&#8211;$35\ \mathrm J$</td><td><a href="#energy">&#167;3</a></td></tr>
+<tr><td>Tendon resilience $R$; hysteresis loss</td><td>$\approx0.90$&#8211;$0.93$; $\approx5$&#8211;$10\%$</td><td><a href="#energy">&#167;3</a>, <a href="#hysteresis">&#167;7</a></td></tr>
+<tr><td>SLS time constants $\tau_\sigma,\ \tau_\varepsilon$</td><td>$\sim0.05,\ 0.09\ \mathrm s$ (tendon labs; span $10^{-2}$&#8211;$10^{3}\ \mathrm s$)</td><td><a href="#models">&#167;6</a>, <a href="#labs">&#167;9</a></td></tr>
+<tr><td>Loss-tangent peak $\tan\delta_{\max}$</td><td>$\lesssim0.1$ (tendon, in the running band)</td><td><a href="#hysteresis">&#167;7</a></td></tr>
+<tr><td>Plantar-fascia stiffness $k_{PF}$</td><td>$\approx2\times10^{5}\ \mathrm{N/m}$</td><td><a href="#ligaments">&#167;8</a></td></tr>
+<tr><td>Foot-arch base $b$; height $h$</td><td>$\approx0.15\ \mathrm m$; $\approx0.05\ \mathrm m$</td><td><a href="#ligaments">&#167;8</a></td></tr>
+<tr><td>Peak plantar-fascia tension (stance)</td><td>$\approx1.5\ \mathrm{kN}$ at $\sim2.5\times$ body weight</td><td><a href="#ligaments">&#167;8</a></td></tr>
+</table>
+
+<p class="small">Values are round representative figures for orientation, not patient-specific data; each varies with tissue, individual, training, hydration, and measurement method (<a class="secref" href="#limits">&#167;10</a>). The wide range of viscoelastic time constants is why a single tendon can look like a near-perfect spring at running frequencies yet creep visibly over minutes (<a href="#models">&#167;6</a>).</p>
+
+<!-- APPX-END -->
+
 
 
 <script>
