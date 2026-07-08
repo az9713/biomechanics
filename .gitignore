@@ -1,2 +1,7 @@
 # Claude Code — personal, per-project local settings (never commit)
 .claude/settings.local.json
+
+# Scratch / temp — not for the repo (previews stay in scratchpad per CLAUDE.md)
+.ignore/
+here.sh.txt
+module08-preview.png
