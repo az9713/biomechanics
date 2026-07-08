@@ -15,5 +15,6 @@ inline SVG figures.
 - **Module 5 — Muscles as Chemo-Electro-Mechanical Actuators:** https://az9713.github.io/biomechanics/module05.html
 - **Module 6 — Tendons, Ligaments, Fascia & Elastic Energy Storage:** https://az9713.github.io/biomechanics/module06.html
 - **Module 7 — Standing, Posture & Load Bearing:** https://az9713.github.io/biomechanics/module07.html
+- **Module 8 — Walking Biomechanics:** https://az9713.github.io/biomechanics/module08.html
 
-Modules 8–17 to come.
+Modules 9–17 to come.

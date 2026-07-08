@@ -1,0 +1,1020 @@
+﻿
+
+
+
+<!DOCTYPE html>
+
+
+
+<html lang="en">
+
+
+
+<head>
+
+
+
+<meta charset="utf-8">
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Module 8 - Walking Biomechanics</title>
+
+
+
+<script>
+
+
+
+window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], tags: 'ams' }, svg: { fontCache: 'global' } };
+
+
+
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js" async></script>
+
+
+
+<style>
+
+
+
+  :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
+
+
+
+  html{ -webkit-text-size-adjust:100%; }
+
+
+
+  body{ max-width:52rem; margin:2.5rem auto; padding:0 1.25rem 6rem; font:16px/1.65 Georgia,'Times New Roman',serif; color:var(--fg); counter-reset:fig; }
+
+
+
+  h1{ font-size:1.95rem; line-height:1.2; margin:.2rem 0 .2rem; } h2{ font-size:1.35rem; margin:2.4rem 0 .6rem; border-bottom:2px solid var(--accent); padding-bottom:.2rem; } h3{ font-size:1.08rem; margin:1.6rem 0 .4rem; color:var(--accent); }
+
+
+
+  .sub{ color:var(--muted); font-style:italic; margin-top:0; } code{ font-family:ui-monospace,'SFMono-Regular',Consolas,monospace; font-size:.92em; background:#f3f1ec; padding:.05rem .25rem; border-radius:3px;} pre{ background:#f3f1ec; padding:.8rem 1rem; border-radius:5px; overflow:auto; font-size:.84rem; line-height:1.45; } pre code{ background:none; padding:0; }
+
+
+
+  .thm,.def,.lem,.prop{ background:var(--box); border-left:4px solid var(--accent); padding:.6rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0; } .prob{ border-left:3px solid #cdbfa0; padding:.35rem .85rem; margin:1.1rem 0; background:#fbfaf6; border-radius:0 4px 4px 0; } .thm b,.def b,.lem b,.prop b{ color:var(--accent); }
+
+
+
+  .proof{ border-left:2px solid var(--rule); padding-left:.9rem; margin:.8rem 0 1.2rem; color:#222; } .proof::before{ content:"Proof."; font-style:italic; font-weight:bold; margin-right:.4rem; } .qed{ float:right; }
+
+
+
+  table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.92rem; } th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; } th{ background:var(--box); }
+
+
+
+  figure{ margin:1.5rem 0; text-align:center; counter-increment:fig; } figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; } figcaption::before{ content:"Fig. " counter(fig) ". "; font-weight:bold; font-style:normal; color:var(--accent); }
+
+
+
+  .setupfig{ display:block; } .setupfig text{ paint-order:stroke; stroke:#fff; stroke-width:2.5px; stroke-linejoin:round; } .setupfig text[fill="#fff"],.setupfig text[fill="#ffffff"],.setupfig text[fill="white"],.setupfig text.onfill{ stroke:none; } figure svg text{ font-family:"STIX Two Math",STIXGeneral,"Times New Roman",Georgia,serif; }
+
+
+
+  .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; } .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; } .toc ul{ list-style:none; padding-left:.3rem; margin:.3rem 0; } .toc a{ color:var(--accent); text-decoration:none; }
+
+
+
+  .small{ font-size:.88rem; color:var(--muted); } hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; } .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; } .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+
+
+
+  .codewrap{ position:relative; } .copybtn{ position:absolute; top:.5rem; right:.5rem; display:inline-flex; align-items:center; gap:.3rem; font:600 .72rem/1 ui-monospace,Consolas,monospace; color:var(--muted); background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.32rem .5rem; cursor:pointer; } .copybtn svg{ width:13px; height:13px; }
+
+
+
+  details.sol{ margin:.55rem 0 .1rem; } details.sol>summary{ cursor:pointer; color:#2a7d2a; font-weight:bold; font-size:.92rem; list-style:none; } details.sol>summary::before{ content:"\25B8\00a0"; } details.sol[open]>summary::before{ content:"\25BE\00a0"; } details.sol>div{ margin:.45rem 0 .2rem; padding-left:.3rem; border-left:2px solid #cfe3cf; } ol.diag>li{ margin:.6rem 0; }
+
+
+
+</style>
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="b_limb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c98a5e"/><stop offset="0.42" stop-color="#f3d7bd"/><stop offset="0.62" stop-color="#e6bd99"/><stop offset="1" stop-color="#b5744b"/></linearGradient><radialGradient id="b_sph" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#fbe7d6"/><stop offset="0.6" stop-color="#e7bd99"/><stop offset="1" stop-color="#c07f52"/></radialGradient><radialGradient id="b_head" cx="40%" cy="32%" r="72%"><stop offset="0" stop-color="#fbe7d6"/><stop offset="0.65" stop-color="#e4b891"/><stop offset="1" stop-color="#b7784e"/></radialGradient><filter id="b_sh" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="1.5" dy="2.5" stdDeviation="2" flood-color="#000" flood-opacity="0.18"/></filter><marker id="a_red" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#b0361f"/></marker><marker id="a_blu" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#2a6ca8"/></marker><marker id="a_grn" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#2a7d2a"/></marker><marker id="a_gry" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#666"/></marker></defs></svg>
+
+
+
+<h1>Walking Biomechanics</h1>
+
+
+
+<p class="sub">Module 8: walking as controlled falling - gait events, inverted-pendulum vaulting, center-of-pressure travel, compass gait, step-to-step transition cost, inverse dynamics, metabolic economy, arm swing, passive dynamic walking, and why falls in older adults couple physics, chemistry, and biology.</p>
+
+
+
+<div class="toc"><b>Contents</b><ul><li><b>0.</b> <a href="#origin">Motivation - why walking is cheap, but not free</a></li><li><b>1.</b> <a href="#cycle">Gait-cycle notation and events</a></li><li><b>2.</b> <a href="#arc">The inverted-pendulum COM arc</a></li><li><b>3.</b> <a href="#copwalk">Ground reaction force and COP trajectory in walking</a></li><li><b>4.</b> <a href="#compass">Compass gait model</a></li><li><b>5.</b> <a href="#transition">Step-to-step transition cost</a></li><li><b>6.</b> <a href="#powers">Joint torques and joint powers</a></li><li><b>7.</b> <a href="#speedcost">Speed, cadence, stride length, and cost</a></li><li><b>8.</b> <a href="#arms">Arm swing and whole-body angular momentum</a></li><li><b>9.</b> <a href="#passive">Passive dynamic walking and stability</a></li><li><b>10.</b> <a href="#falls">When walking fails: older-adult falls and post-fall decline</a></li><li><b>11.</b> <a href="#labs">Computational labs</a></li><li><b>12.</b> <a href="#problems">Problems, diagnostics, and limitations</a></li><li><b>A.</b> <a href="#appendix">Appendix - notation and parameters</a></li></ul></div>
+
+
+
+<hr>
+
+
+
+<h2 id="origin">0. Motivation - why walking is cheap, but not free</h2>
+
+
+
+<p>Walking looks ordinary because we do it thousands of times a day. Mechanically it is strange. The body repeatedly tips forward, catches itself on the next foot, and redirects its center of mass into a new arc. If the catch is too late, the same movement becomes a fall. If the catch is perfectly timed, the movement becomes efficient locomotion.</p>
+
+
+
+<p>This module turns that intuition into equations. The body is not a motorized cart that rolls horizontally at constant height. It vaults over the stance leg, exchanges kinetic and gravitational potential energy, collides into the next step, and uses muscular work to replace the energy that cannot be recovered. Walking is cheap because some energy is exchanged pendularly; it is not free because the step-to-step transition dissipates energy and must be paid for by ankle, knee, hip, trunk, and neural work.</p>
+
+
+
+<figure><svg class="setupfig" viewBox="0 0 720 300" width="100%" role="img" aria-label="Gait cycle showing heel strike, midstance, toe off, swing, and next heel strike with COM arc and foot contacts labeled."><line x1="40" y1="246" x2="680" y2="246" stroke="#999" stroke-width="1.3"/><path d="M110,154 C190,102 280,102 360,154 C440,206 530,206 610,154" fill="none" stroke="#2a6ca8" stroke-width="2.6"/><text x="360" y="92" font-size="13" fill="#2a6ca8" text-anchor="middle">COM vaults, then redirects</text><g transform="translate(80,0)"><ellipse cx="42" cy="246" rx="38" ry="8" fill="#e8ded0" stroke="#b7a98c"/><line x1="42" y1="238" x2="58" y2="174" stroke="#c98a5e" stroke-width="11" stroke-linecap="round"/><line x1="58" y1="174" x2="70" y2="112" stroke="#c98a5e" stroke-width="13" stroke-linecap="round"/><line x1="58" y1="174" x2="26" y2="232" stroke="#c98a5e" stroke-width="10" stroke-linecap="round"/><circle cx="70" cy="112" r="9" fill="url(#b_sph)"/><rect x="58" y="67" width="25" height="50" rx="12" fill="url(#b_limb)"/><circle cx="70" cy="43" r="14" fill="url(#b_head)"/><circle cx="70" cy="128" r="4" fill="#1a1a1a"/><text x="42" y="272" font-size="11" fill="#555" text-anchor="middle">heel strike</text></g><g transform="translate(250,0)"><ellipse cx="42" cy="246" rx="42" ry="8" fill="#e8ded0" stroke="#b7a98c"/><line x1="42" y1="238" x2="42" y2="174" stroke="#c98a5e" stroke-width="11" stroke-linecap="round"/><line x1="42" y1="174" x2="42" y2="108" stroke="#c98a5e" stroke-width="13" stroke-linecap="round"/><line x1="42" y1="174" x2="82" y2="224" stroke="#c98a5e" stroke-width="10" stroke-linecap="round"/><circle cx="42" cy="108" r="9" fill="url(#b_sph)"/><rect x="30" y="64" width="25" height="50" rx="12" fill="url(#b_limb)"/><circle cx="42" cy="40" r="14" fill="url(#b_head)"/><circle cx="42" cy="122" r="4" fill="#1a1a1a"/><text x="42" y="272" font-size="11" fill="#555" text-anchor="middle">midstance</text></g><g transform="translate(420,0)"><ellipse cx="42" cy="246" rx="42" ry="8" fill="#e8ded0" stroke="#b7a98c"/><line x1="74" y1="238" x2="52" y2="174" stroke="#c98a5e" stroke-width="11" stroke-linecap="round"/><line x1="52" y1="174" x2="30" y2="112" stroke="#c98a5e" stroke-width="13" stroke-linecap="round"/><line x1="52" y1="174" x2="112" y2="218" stroke="#c98a5e" stroke-width="10" stroke-linecap="round"/><circle cx="30" cy="112" r="9" fill="url(#b_sph)"/><rect x="18" y="68" width="25" height="50" rx="12" fill="url(#b_limb)"/><circle cx="30" cy="44" r="14" fill="url(#b_head)"/><circle cx="32" cy="128" r="4" fill="#1a1a1a"/><text x="42" y="272" font-size="11" fill="#555" text-anchor="middle">toe-off</text></g><line x1="188" y1="232" x2="188" y2="184" stroke="#2a7d2a" stroke-width="2.5" marker-end="url(#a_grn)"/><text x="199" y="203" font-size="11" fill="#2a7d2a">GRF</text><line x1="540" y1="236" x2="560" y2="190" stroke="#b0361f" stroke-width="2.5" marker-end="url(#a_red)"/><text x="570" y="200" font-size="11" fill="#b0361f">push-off</text></svg><figcaption>Walking is a controlled sequence of falls and catches. The COM rises over the stance leg, drops toward the next foot, and must be redirected at the transition.</figcaption></figure>
+
+
+
+<div class="keyresult"><b>The arc of this module.</b> We define the gait cycle (<a class="secref" href="#cycle">section 1</a>), derive the inverted-pendulum COM arc (<a class="secref" href="#arc">section 2</a>), connect GRF and COP to motion (<a class="secref" href="#copwalk">section 3</a>), build compass gait and transition costs (<a class="secref" href="#compass">sections 4</a>-<a class="secref" href="#transition">5</a>), estimate joint torques and powers (<a class="secref" href="#powers">section 6</a>), explain speed choice and arm swing (<a class="secref" href="#speedcost">sections 7</a>-<a class="secref" href="#arms">8</a>), and use the same physics-chemistry-biology stack to understand falls in older adults (<a class="secref" href="#falls">section 10</a>).</div>
+
+
+
+<p class="small">Visual map: Fig. 1 previews the gait cycle; Fig. 2 derives the COM vault; Fig. 3 shows COP travel; Fig. 4 defines compass gait; Fig. 5 isolates transition loss; Fig. 6 shows joint power; Fig. 7 frames speed-cost optimization; Fig. 8 stacks fall mechanisms; Fig. 9 anchors the first problem.</p>
+
+
+
+<h2 id="cycle">1. Gait-cycle notation and events</h2>
+
+
+
+<p>A <b>gait cycle</b> is one stride: the interval from an event on one foot to the next occurrence of the same event on that foot. A <b>step</b> is the interval from one foot contact to the opposite foot contact. A <b>stride length</b> $L_s$ is the forward distance covered in one stride; a <b>step length</b> $L$ is half of that distance for symmetric walking, so $L_s=2L$. The <b>cadence</b> $c$ is steps per unit time.</p>
+
+
+
+<div class="prop"><b>Proposition 1.1 (speed bookkeeping).</b> For symmetric walking with step length $L$ and cadence $c$, the mean forward speed is $$v=cL.$$ If cadence is reported in steps per minute, $v=c_{\rm min}L/60$.</div>
+
+
+
+<div class="proof">During one step the body advances $L$. If $c$ steps occur per second, distance per second is $cL$. The stride version is the same statement because one stride advances $2L$ and occurs at frequency $c/2$. <span class="qed">&#8718;</span></div>
+
+
+
+<table><tr><th>Event</th><th>Mechanical meaning</th><th>Why it matters</th></tr><tr><td>Heel strike / initial contact</td><td>The leading foot contacts the ground.</td><td>Impact and velocity redirection begin.</td></tr><tr><td>Loading response</td><td>Both feet are briefly on the ground.</td><td>The trailing leg can push off while the leading leg accepts load.</td></tr><tr><td>Midstance</td><td>The COM passes over the stance foot.</td><td>Potential energy peaks; horizontal speed is near its local minimum.</td></tr><tr><td>Terminal stance / toe-off</td><td>The heel rises and the forefoot pushes.</td><td>Ankle power supplies much of the positive work.</td></tr><tr><td>Swing</td><td>The foot leaves the ground and advances.</td><td>Foot clearance and timing determine trip risk.</td></tr></table>
+
+
+
+<p><b>Double support</b> means both feet are in contact; <b>single support</b> means only one foot is in contact. Walking has double support. Running does not: it replaces double support with aerial flight. That difference is why this module is pendular and Module 9 becomes spring-mass.</p>
+<figure><svg class="setupfig" viewBox="0 0 620 190" width="100%" role="img" aria-label="Gait-cycle timeline for one stride: right and left leg stance and swing bars, with double-support regions shaded and heel-strike, midstance and toe-off events marked."><line x1="70" y1="150" x2="590" y2="150" stroke="#333"/><line x1="70" y1="150" x2="70" y2="155" stroke="#333"/><text x="70" y="168" font-size="9" fill="#555" text-anchor="middle">0</text><line x1="200" y1="150" x2="200" y2="155" stroke="#333"/><text x="200" y="168" font-size="9" fill="#555" text-anchor="middle">25</text><line x1="330" y1="150" x2="330" y2="155" stroke="#333"/><text x="330" y="168" font-size="9" fill="#555" text-anchor="middle">50</text><line x1="460" y1="150" x2="460" y2="155" stroke="#333"/><text x="460" y="168" font-size="9" fill="#555" text-anchor="middle">75</text><line x1="590" y1="150" x2="590" y2="155" stroke="#333"/><text x="590" y="168" font-size="9" fill="#555" text-anchor="middle">100</text><text x="330" y="185" font-size="10.5" fill="#555" text-anchor="middle">percent of gait cycle (one stride)</text><rect x="70" y="40" width="322" height="20" fill="#2a6ca8" fill-opacity="0.5"/><text x="231" y="54" font-size="9.5" fill="#1a3a55" text-anchor="middle">R stance</text><rect x="392" y="40" width="198" height="20" fill="#c9b98a" fill-opacity="0.5"/><text x="491" y="54" font-size="9.5" fill="#6a5a2a" text-anchor="middle">R swing</text><rect x="330" y="68" width="260" height="20" fill="#2a7d2a" fill-opacity="0.45"/><text x="491" y="82" font-size="9.5" fill="#1a4a1a" text-anchor="middle">L stance</text><rect x="70" y="68" width="62" height="20" fill="#2a7d2a" fill-opacity="0.45"/><rect x="132" y="68" width="198" height="20" fill="#c9b98a" fill-opacity="0.5"/><text x="231" y="82" font-size="9.5" fill="#6a5a2a" text-anchor="middle">L swing</text><rect x="70" y="34" width="62" height="60" fill="#b0361f" fill-opacity="0.10"/><rect x="330" y="34" width="62" height="60" fill="#b0361f" fill-opacity="0.10"/><text x="101" y="108" font-size="8.5" fill="#b0361f" text-anchor="middle">double</text><text x="361" y="108" font-size="8.5" fill="#b0361f" text-anchor="middle">double support</text><line x1="70" y1="30" x2="70" y2="40" stroke="#7a1f1f" stroke-width="1.4"/><text x="70" y="26" font-size="8.5" fill="#7a1f1f" text-anchor="middle">HS</text><line x1="231" y1="30" x2="231" y2="40" stroke="#7a1f1f" stroke-width="1.4"/><text x="231" y="26" font-size="8.5" fill="#7a1f1f" text-anchor="middle">mid</text><line x1="392" y1="30" x2="392" y2="40" stroke="#7a1f1f" stroke-width="1.4"/><text x="392" y="26" font-size="8.5" fill="#7a1f1f" text-anchor="middle">TO</text></svg><figcaption>One stride in time: each leg alternates a stance phase (about 62%) and a swing phase, the two legs offset by half a cycle. The overlaps at the start and middle are the two double-support periods that walking keeps and running loses. HS = heel strike, mid = midstance, TO = toe-off.</figcaption></figure>
+
+
+
+
+
+
+
+<h2 id="arc">2. The inverted-pendulum COM arc</h2>
+
+
+
+<p>In single support, the stance leg is often well a\approximated as a nearly rigid link of length $\ell$ from the contact point to the COM. Let $\theta$ be the leg angle from vertical, positive forward. The COM coordinates relative to the stance foot are</p>
+
+
+
+$$x=\ell\sin\theta,\qquad y=\ell\cos\theta.$$
+
+
+
+<p>When $\theta=0$, the COM is highest. At the beginning or end of the step, $|\theta|$ is larger and the COM is lower. If the leg angle sweeps from $-\alpha$ to $+\alpha$, the vertical rise from step edge to midstance is exact.</p>
+
+
+
+<div class="prop"><b>Proposition 2.1 (pendular vault height).</b> The COM rise during stance is $$\Delta h=\ell(1-\cos\alpha).$$</div>
+
+
+
+<div class="proof">At midstance, $y_{\rm mid}=\ell$. At either edge, $y_{\rm edge}=\ell\cos\alpha$. Their difference is $\ell-\ell\cos\alpha$. <span class="qed">&#8718;</span></div>
+
+
+
+<p>If no work is done, the mechanical energy $E=\frac12 Mv^2+Mgy$ is nearly conserved across the middle of stance. The body slows as it rises and speeds up as it falls. This is the pendular exchange that makes walking economical — and, exactly as in Module&nbsp;7, the natural rate of the leg-length pendulum is $\omega_0=\sqrt{g/\ell}$.</p>
+
+
+
+<div class="prop"><b>Proposition 2.2 (pendular speed limit and the Froude number).</b> Because the stance foot can only push, the ground reaction is compressive, and at midstance the vertical balance forces the speed to obey $v^2\le g\ell$. The dimensionless group
+
+
+
+$$\mathrm{Fr}=\frac{v^2}{g\ell}$$
+
+
+
+therefore cannot exceed $1$ in pure vaulting; walking gives way to running well before that, near $\mathrm{Fr}\approx\tfrac12$.</div>
+
+
+
+<div class="proof">At midstance the COM sweeps horizontally on a circular arc of radius $\ell$ about the stance foot, so it carries a centripetal acceleration $v^2/\ell$ directed downward, toward the foot. Newton's second law in the vertical direction is
+
+
+
+$$Mg-N=M\frac{v^2}{\ell},$$
+
+
+
+with $N\ge0$ the vertical ground reaction — the foot can push up but cannot pull the body down. Solving, $N=M\!\left(g-\dfrac{v^2}{\ell}\right)$. The contact constraint $N\ge0$ then requires $v^2\le g\ell$, i.e. $\mathrm{Fr}\le1$. At $\mathrm{Fr}=1$ the ground reaction vanishes at midstance and the vault turns ballistic, so any faster gait must leave the ground — that is running (<span class="secref">Module&nbsp;9</span>). Humans switch earlier, near $\mathrm{Fr}\approx\tfrac12$: with $\ell\approx0.9$&nbsp;m this is $v\approx\sqrt{0.5\,g\ell}\approx2.0\ \mathrm{m\,s^{-1}}$, where the growing push-off and swing costs overtake the pendular saving. <span class="qed">&#8718;</span></div>
+
+
+
+<div class="keyresult"><b>Dynamic similarity.</b> Because $\mathrm{Fr}=v^2/(g\ell)$ is the only dimensionless speed in the vaulting model, geometrically similar legged bodies walk alike at equal $\mathrm{Fr}$, not at equal absolute speed — a mouse, a human, and (were it pendular) a sauropod share one gait chart in Froude units. This is why $\mathrm{Fr}$, not $v$, predicts the walk–run transition across species and body sizes.</div>
+
+
+
+<figure><svg class="setupfig" viewBox="0 0 680 300" width="100%" role="img" aria-label="Inverted pendulum COM arc with leg length ell, angle alpha, height change, and energy exchange plot."><line x1="70" y1="238" x2="310" y2="238" stroke="#999"/><circle cx="190" cy="238" r="4" fill="#7a1f1f"/><text x="190" y="258" font-size="11" fill="#7a1f1f" text-anchor="middle">stance foot</text><path d="M95,214 Q190,70 285,214" fill="none" stroke="#2a6ca8" stroke-width="2.6"/><line x1="190" y1="238" x2="95" y2="214" stroke="#666" stroke-width="1.5"/><line x1="190" y1="238" x2="190" y2="78" stroke="#666" stroke-width="1.5"/><line x1="190" y1="238" x2="285" y2="214" stroke="#666" stroke-width="1.5"/><circle cx="95" cy="214" r="7" fill="url(#b_sph)"/><circle cx="190" cy="78" r="7" fill="url(#b_sph)"/><circle cx="285" cy="214" r="7" fill="url(#b_sph)"/><path d="M166,172 A70,70 0 0 0 214,172" fill="none" stroke="#b0361f" stroke-width="2"/><text x="216" y="164" font-size="12" fill="#b0361f">2&#945;</text><line x1="304" y1="214" x2="304" y2="78" stroke="#2a7d2a" stroke-width="2" marker-end="url(#a_grn)"/><text x="314" y="151" font-size="11" fill="#2a7d2a">&#916;h</text><rect x="390" y="55" width="230" height="165" fill="#fff" stroke="#ddd"/><line x1="415" y1="190" x2="600" y2="190" stroke="#333"/><line x1="415" y1="190" x2="415" y2="80" stroke="#333"/><path d="M420,100 C470,160 535,160 595,100" fill="none" stroke="#2a7d2a" stroke-width="2.4"/><path d="M420,172 C470,112 535,112 595,172" fill="none" stroke="#b0361f" stroke-width="2.4"/><text x="505" y="78" font-size="11" fill="#555" text-anchor="middle">pendular exchange</text><text x="575" y="103" font-size="10" fill="#2a7d2a">PE</text><text x="575" y="174" font-size="10" fill="#b0361f">KE</text><text x="508" y="213" font-size="10" fill="#555" text-anchor="middle">stance percent</text></svg><figcaption>The stance leg turns walking into an inverted-pendulum vault: potential energy rises toward midstance while kinetic energy falls, then the exchange reverses.</figcaption></figure>
+
+
+
+
+
+
+
+<h2 id="copwalk">3. Ground reaction force and COP trajectory in walking</h2>
+
+
+
+<p>In Module 7, the center of pressure (COP) was the point inside the foot where the vertical ground reaction could be taken to act. In walking, the same point becomes a moving record of the stance foot's loading. At heel strike the COP starts near the posterior heel, travels forward along the foot during stance, and leaves near the forefoot or toes.</p>
+
+
+
+<p>Let $\mathbf r_{\rm com}$ be the COM position, $M$ total body mass, and $\mathbf F_{\rm grf}$ the ground reaction force. Newton's second law gives</p>
+
+
+
+<div class="prop"><b>Proposition 3.1 (GRF is COM acceleration plus weight).</b> During stance, if air resistance is negligible, $$\mathbf F_{\rm grf}=M\ddot{\mathbf r}_{\rm com}+Mg\mathbf e_y,$$ where $\mathbf e_y$ points upward.</div>
+
+
+
+<div class="proof">The external forces on the whole body are ground reaction and weight: $\mathbf F_{\rm grf}-Mg\mathbf e_y=M\ddot{\mathbf r}_{\rm com}$. Rearranging gives the result. <span class="qed">&#8718;</span></div>
+
+
+
+<p>The COP tells where that resultant acts; the GRF tells which acceleration it produces. A force plate measures both, but the equations explain why the two are not redundant: location sets moment arms, while vector magnitude sets COM acceleration.</p>
+
+
+
+<figure><svg class="setupfig" viewBox="10 64 660 161" width="100%" role="img" aria-label="Foot with COP path from heel to toe, GRF vectors, and COM acceleration labels."><line x1="40" y1="205" x2="640" y2="205" stroke="#999"/><path d="M112,198 C82,196 70,181 82,160 C98,132 135,134 170,147 C203,159 250,163 304,154 C334,149 360,158 364,178 C370,207 326,220 250,218 L126,216 C118,215 114,208 112,198 Z" fill="#f3ece0" stroke="#b7a98c" stroke-width="1.7"/><path d="M118,184 C160,177 205,173 252,169 C288,166 320,166 350,177" fill="none" stroke="#2a7d2a" stroke-width="3" stroke-linecap="round"/><circle cx="118" cy="184" r="5" fill="#2a7d2a"/><circle cx="235" cy="170" r="5" fill="#2a7d2a"/><circle cx="350" cy="177" r="5" fill="#2a7d2a"/><text x="105" y="151" font-size="11" fill="#2a7d2a">heel COP</text><text x="220" y="144" font-size="11" fill="#2a7d2a">midfoot COP</text><text x="348" y="151" font-size="11" fill="#2a7d2a">toe COP</text><line x1="118" y1="184" x2="102" y2="105" stroke="#2a6ca8" stroke-width="2.4" marker-end="url(#a_blu)"/><line x1="235" y1="170" x2="235" y2="72" stroke="#2a6ca8" stroke-width="2.4" marker-end="url(#a_blu)"/><line x1="350" y1="177" x2="382" y2="90" stroke="#2a6ca8" stroke-width="2.4" marker-end="url(#a_blu)"/><text x="385" y="82" font-size="12" fill="#2a6ca8">GRF rotates as COP advances</text><circle cx="500" cy="82" r="5" fill="#1a1a1a"/><text x="512" y="84" font-size="11" fill="#1a1a1a">COM</text><line x1="500" y1="92" x2="535" y2="125" stroke="#b0361f" stroke-width="2.5" marker-end="url(#a_red)"/><text x="540" y="130" font-size="11" fill="#b0361f">COM acceleration</text></svg><figcaption>The COP is a moving anatomical point under the stance foot, not an abstract arrow anchor. Its heel-to-toe travel changes the moment arms of the ground reaction during stance.</figcaption></figure>
+
+
+
+<h2 id="compass">4. Compass gait model</h2>
+
+
+
+<p>The simplest walking model that has alternating feet is the <b>compass gait</b> model. It has two rigid legs of length $\ell$ joined at a hip mass. During single support, one leg is pinned at the stance foot and the other swings forward. At heel strike, the leading foot becomes the new stance foot and the old stance leg becomes the trailing leg. That relabeling is not bookkeeping trivia; it is where collision loss enters.</p>
+
+
+
+<p>Let $\theta$ be the stance-leg angle from vertical and $\phi$ the swing-leg angle from vertical. In the simplest point-mass version, the single-support equation for the hip angle is the inverted-pendulum equation</p>
+
+
+
+$$\ddot\theta=\frac{g}{\ell}\sin\theta+\frac{u}{M\ell^2},$$
+
+
+
+<p>where $u$ is a generalized actuation term. The gravity term carries the $+\sin\theta$ sign of Module&nbsp;7's <em>unstable</em> inverted pendulum: standing fought this toppling, walking lets it run, catching the fall on the swing leg. A passive walker sets $u=0$ and walks only if slope and collision geometry supply a stable limit cycle (<a class="secref" href="#passive">section 9</a>).</p>
+
+
+
+<p>The relabeling at heel strike is where mechanical energy actually leaves the model, and it is an impulsive collision we can solve exactly.</p>
+
+
+
+<div class="prop"><b>Proposition 4.1 (heel-strike impact map).</b> For the point-mass compass walker with inter-leg angle $2\alpha$ at contact, the instantaneous heel-strike collision scales the angular velocity by $\cos 2\alpha$:
+
+
+
+$$\dot\theta^{+}=\dot\theta^{-}\cos 2\alpha,$$
+
+
+
+so a fraction $\sin^2 2\alpha$ of the kinetic energy is dissipated at every step.</div>
+
+
+
+<div class="proof">Heel strike is instantaneous and perfectly inelastic: the leading foot sticks and becomes the new pivot while the trailing foot releases. The impulsive ground reaction acts <em>at</em> the new contact point, so it has no moment about that point, and the angular momentum of the hip mass about the new contact is conserved across the collision.
+
+
+
+
+
+
+
+Just before impact the mass moves at speed $v^-=\ell\dot\theta^-$ perpendicular to the trailing (old stance) leg. The new stance leg makes angle $2\alpha$ with the old one, so the direction perpendicular to the new leg is rotated by $2\alpha$ from $v^-$, and the velocity component that produces rotation about the new foot is $v^-\cos 2\alpha$. Hence the angular momentum about the new contact is
+
+
+
+$$H^-=M\ell\,(v^-\cos 2\alpha)=M\ell^2\dot\theta^-\cos 2\alpha \quad\text{before},\qquad H^+=M\ell^2\dot\theta^+\quad\text{after},$$
+
+
+
+and conservation $H^-=H^+$ gives $\dot\theta^+=\dot\theta^-\cos 2\alpha$. The kinetic-energy ratio is $(\dot\theta^+/\dot\theta^-)^2=\cos^2 2\alpha$, so the lost fraction is $1-\cos^2 2\alpha=\sin^2 2\alpha$ — precisely the redirection loss computed energetically in <a class="secref" href="#transition">section 5</a>. <span class="qed">&#8718;</span></div>
+
+
+
+<figure><svg class="setupfig" viewBox="29 48 582 212" width="100%" role="img" aria-label="Compass gait schematic with stance leg pivot, swing leg angle, hip mass, next heel strike and relabeling."><line x1="55" y1="225" x2="585" y2="225" stroke="#999"/><circle cx="220" cy="225" r="5" fill="#7a1f1f"/><text x="220" y="247" font-size="11" fill="#7a1f1f" text-anchor="middle">stance pivot</text><line x1="220" y1="225" x2="300" y2="82" stroke="#c98a5e" stroke-width="15" stroke-linecap="round"/><line x1="300" y1="82" x2="410" y2="220" stroke="#c98a5e" stroke-width="15" stroke-linecap="round"/><circle cx="300" cy="82" r="16" fill="url(#b_sph)"/><circle cx="410" cy="220" r="5" fill="#2a7d2a"/><text x="414" y="246" font-size="11" fill="#2a7d2a" text-anchor="middle">next heel strike</text><line x1="300" y1="82" x2="300" y2="225" stroke="#666" stroke-dasharray="4 4"/><path d="M266,151 A85,85 0 0 1 300,139" fill="none" stroke="#b0361f" stroke-width="2"/><text x="262" y="140" font-size="12" fill="#b0361f">&#952;</text><path d="M334,144 A86,86 0 0 0 371,157" fill="none" stroke="#2a6ca8" stroke-width="2"/><text x="375" y="154" font-size="12" fill="#2a6ca8">&#966;</text><path d="M430,78 C480,78 500,106 528,126" fill="none" stroke="#2a7d2a" stroke-width="2.4" marker-end="url(#a_grn)"/><text x="506" y="69" font-size="12" fill="#2a7d2a" text-anchor="middle">impact map: swap legs</text><rect x="455" y="143" width="120" height="60" rx="5" fill="#f6f4ef" stroke="#ddd"/><text x="515" y="166" font-size="12" fill="#333" text-anchor="middle">old swing</text><text x="515" y="186" font-size="12" fill="#333" text-anchor="middle">becomes stance</text></svg><figcaption>The compass gait model is minimal but not empty: it has a stance pivot, swing leg, hip mass, heel-strike event, and relabeling map.</figcaption></figure>
+
+
+
+
+
+
+
+<h2 id="transition">5. Step-to-step transition cost</h2>
+
+
+
+<p>The inverted-pendulum arc saves energy within a step, but consecutive arcs point in different directions. At the end of one step the COM velocity is directed along the old arc; at the beginning of the next, the velocity must align with the new arc. The redirection costs work.</p>
+
+
+
+<div class="prop"><b>Proposition 5.1 (redirection loss and its step-length scaling).</b> Redirecting the COM velocity of magnitude $v$ by the inter-leg angle $2\alpha$ through the inelastic heel strike dissipates
+
+
+
+$$E_{\rm loss}=\tfrac12 Mv^2\sin^2(2\alpha)\;\approx\;\tfrac12 Mv^2\Big(\frac{L}{\ell}\Big)^2\quad(\text{small }\alpha),$$
+
+
+
+so the cost per step grows as $v^2L^2$ and the cost per unit distance as $v^2L$: long, fast steps are expensive.</div>
+
+
+
+<div class="proof">By the heel-strike impact map (<a class="secref" href="#compass">section 4</a>, Prop 4.1), the collision scales the speed by $\cos 2\alpha$, so the kinetic energy drops from $\tfrac12 Mv^2$ to $\tfrac12 Mv^2\cos^2 2\alpha$ and the dissipated energy is
+
+
+
+$$E_{\rm loss}=\tfrac12 Mv^2\big(1-\cos^2 2\alpha\big)=\tfrac12 Mv^2\sin^2 2\alpha.$$
+
+
+
+For a step of length $L$ the leg sweeps from $-\alpha$ to $+\alpha$ with $\sin\alpha=(L/2)/\ell$, so for small angles $2\alpha\approx L/\ell$ and $\sin^2 2\alpha\approx (L/\ell)^2$, giving the stated scaling. Dividing by the step length $L$ shows the cost of transport from transitions rises as $v^2L$. <span class="qed">&#8718;</span></div>
+
+
+
+<p>The redirection must be paid for somehow, but <em>how</em> it is paid changes the bill. The key result is that spreading the redirection over more, gentler impulses is cheaper than one hard collision.</p>
+
+
+
+<div class="prop"><b>Proposition 5.2 (why pre-emptive push-off is cheap).</b> Splitting a velocity redirection of total angle $\beta$ into $n$ equal sequential impulses reduces the collision loss from $\tfrac12 Mv^2\beta^2$ to $\tfrac12 Mv^2\beta^2/n$. Consequently a trailing-leg <b>push-off</b> that does the first half of the redirection as positive work, immediately before the heel-strike collision does the second half, cuts the powered cost of the transition to a fraction of the collision-only value.</div>
+
+
+
+<div class="proof">One inelastic redirection by $\beta$ costs $\tfrac12 Mv^2\sin^2\beta\approx\tfrac12 Mv^2\beta^2$. Replacing it by $n$ equal redirections of $\beta/n$ each costs $n\cdot\tfrac12 Mv^2(\beta/n)^2=\tfrac12 Mv^2\beta^2/n$ — the loss falls as $1/n$ because the dissipated component is quadratic in the per-impulse angle. Push-off supplies the first redirection as <em>positive</em> muscle work (an impulse along the trailing leg) rather than a dissipative collision, so the heel strike is left only the residual angle to destroy. The optimal pre-emptive push-off (impulse along the trailing leg the instant before contact, matched to the collision) is the classic simplest-walker result: it powers the same transition with one-quarter of the work required if the collision is left to dissipate and hip work repays it afterward. <span class="qed">&#8718;</span></div>
+
+
+
+<p>This is why ankle power in late stance (<a class="secref" href="#powers">section 6</a>) is not merely propulsion: it is <em>collision management</em>, timed just before the opposite heel strikes so the transition costs as little as the geometry allows.</p>
+
+
+
+<figure><svg class="setupfig" viewBox="0 0 680 250" width="100%" role="img" aria-label="Velocity redirection diagram showing old arc, new arc, collision loss, and push-off impulse."><line x1="70" y1="205" x2="610" y2="205" stroke="#999"/><circle cx="220" cy="205" r="5" fill="#7a1f1f"/><circle cx="430" cy="205" r="5" fill="#2a7d2a"/><text x="220" y="228" font-size="11" fill="#7a1f1f" text-anchor="middle">old stance</text><text x="430" y="228" font-size="11" fill="#2a7d2a" text-anchor="middle">new stance</text><path d="M220,205 Q325,65 430,205" fill="none" stroke="#2a6ca8" stroke-width="2.3"/><circle cx="330" cy="93" r="6" fill="#1a1a1a"/><text x="342" y="92" font-size="11" fill="#1a1a1a">COM</text><line x1="330" y1="93" x2="383" y2="132" stroke="#666" stroke-width="2.4" marker-end="url(#a_gry)"/><text x="388" y="135" font-size="11" fill="#666">incoming v</text><line x1="330" y1="93" x2="376" y2="68" stroke="#2a7d2a" stroke-width="2.4" marker-end="url(#a_grn)"/><text x="381" y="65" font-size="11" fill="#2a7d2a">push-off impulse</text><line x1="330" y1="93" x2="302" y2="148" stroke="#b0361f" stroke-width="2.4" marker-end="url(#a_red)"/><text x="236" y="154" font-size="11" fill="#b0361f">collision removes normal component</text><rect x="478" y="42" width="150" height="86" rx="5" fill="#f6f4ef" stroke="#ddd"/><text x="553" y="67" font-size="12" fill="#333" text-anchor="middle">cost grows with</text><text x="553" y="91" font-size="13" fill="#b0361f" text-anchor="middle">v&#178; sin&#178;(2&#945;)</text><text x="553" y="113" font-size="11" fill="#555" text-anchor="middle">long, fast steps cost more</text></svg><figcaption>The transition, not the midstance vault, is the costly part of walking. Push-off is valuable because it redirects the COM before the collision does.</figcaption></figure>
+
+
+
+
+
+
+
+<h2 id="powers">6. Joint torques and joint powers</h2>
+
+
+
+<p>Inverse dynamics estimates the net joint torques required to produce measured motion under measured external forces — cashing the promise made in <span class="secref">Module&nbsp;3</span> that measured segment inertias would later drive a gait torque estimate.</p>
+<div class="prop"><b>Proposition 6.1 (segmental inverse dynamics).</b> For a planar body segment of moment of inertia $I$ and angular acceleration $\ddot\theta$, acted on by a known external moment $M_{\rm ext}$ (gravity, the ground reaction, and the already-solved distal joint), the net proximal joint torque is $$\boxed{\;\tau=I\ddot\theta-M_{\rm ext}\;}.$$ Applied foot-first up the chain, it yields the ankle, knee, and hip torques in turn.</div>
+<div class="proof">Euler's rotational equation for the segment is $I\ddot\theta=\sum M=\tau+M_{\rm ext}$, the sum of the proximal joint torque $\tau$ and every other moment $M_{\rm ext}$; solving gives $\tau=I\ddot\theta-M_{\rm ext}$. Because each segment's distal end carries the joint reaction of the segment below it, the recursion starts at the free (foot) end, where the only external load is the measured ground reaction of <a class="secref" href="#copwalk">section 3</a>, and each solved joint supplies the $M_{\rm ext}$ for the next segment up. <span class="qed">&#8718;</span></div>
+
+
+
+
+
+
+<p>Solving foot-first up the chain gives the ankle, knee, and hip moments. The power at joint $j$ is then a signed rate of work.</p>
+
+
+
+<div class="keyresult"><b>Joint power.</b> If $\tau_j$ is the net internal joint torque and $\dot\theta_j$ is the joint angular velocity, $$P_j=\tau_j\dot\theta_j.$$ Positive $P_j$ means the joint is doing net mechanical work on the body; negative $P_j$ means the joint is absorbing work.</div>
+
+
+
+<p>Walking has a recognizable power signature: the ankle produces a large positive burst in late stance, the knee absorbs energy after heel strike and during swing control, and the hip alternates between powering the trunk and controlling limb motion.</p>
+
+
+
+<figure><svg class="setupfig" viewBox="0 0 680 300" width="100%" role="img" aria-label="Joint power plot for ankle, knee, and hip over gait percent with positive and negative work regions."><rect x="72" y="45" width="520" height="210" fill="#fff" stroke="#ddd"/><line x1="78" y1="150" x2="592" y2="150" stroke="#999" stroke-dasharray="4 3"/><line x1="78" y1="255" x2="592" y2="255" stroke="#333"/><line x1="78" y1="45" x2="78" y2="255" stroke="#333"/><rect x="284" y="48" width="113" height="102" fill="#b0361f" fill-opacity="0.10"/><polyline points="78.0,150.3 80.6,150.4 83.2,150.6 85.7,150.9 88.3,151.2 90.9,151.7 93.5,152.3 96.1,153.0 98.7,153.8 101.2,154.8 103.8,155.9 106.4,157.2 109.0,158.5 111.6,159.9 114.2,161.2 116.7,162.5 119.3,163.7 121.9,164.6 124.5,165.4 127.1,165.8 129.7,165.9 132.2,165.7 134.8,165.2 137.4,164.5 140.0,163.4 142.6,162.3 145.2,160.9 147.7,159.6 150.3,158.2 152.9,156.9 155.5,155.7 158.1,154.6 160.7,153.6 163.2,152.8 165.8,152.1 168.4,151.6 171.0,151.2 173.6,150.8 176.2,150.6 178.7,150.4 181.3,150.3 183.9,150.2 186.5,150.1 189.1,150.1 191.6,150.0 194.2,150.0 196.8,150.0 199.4,150.0 202.0,150.0 204.6,150.0 207.1,150.0 209.7,150.0 212.3,150.0 214.9,150.0 217.5,150.0 220.1,150.0 222.6,150.0 225.2,150.0 227.8,150.0 230.4,150.0 233.0,150.0 235.6,150.0 238.1,150.0 240.7,150.0 243.3,150.0 245.9,150.0 248.5,150.0 251.1,150.0 253.6,150.0 256.2,150.0 258.8,149.9 261.4,149.9 264.0,149.8 266.6,149.7 269.1,149.6 271.7,149.4 274.3,149.0 276.9,148.6 279.5,148.0 282.1,147.1 284.6,146.0 287.2,144.5 289.8,142.6 292.4,140.1 295.0,137.1 297.5,133.5 300.1,129.1 302.7,124.1 305.3,118.3 307.9,111.9 310.5,105.0 313.0,97.7 315.6,90.2 318.2,82.8 320.8,75.7 323.4,69.2 326.0,63.7 328.5,59.2 331.1,56.2 333.7,54.6 336.3,54.6 338.9,56.2 341.5,59.2 344.0,63.7 346.6,69.2 349.2,75.7 351.8,82.8 354.4,90.2 357.0,97.7 359.5,105.0 362.1,111.9 364.7,118.3 367.3,124.1 369.9,129.1 372.5,133.5 375.0,137.1 377.6,140.1 380.2,142.6 382.8,144.5 385.4,146.0 387.9,147.1 390.5,148.0 393.1,148.6 395.7,149.0 398.3,149.4 400.9,149.6 403.4,149.7 406.0,149.8 408.6,149.9 411.2,149.9 413.8,150.0 416.4,150.0 418.9,150.0 421.5,150.0 424.1,150.0 426.7,150.0 429.3,150.0 431.9,150.0 434.4,150.0 437.0,150.0 439.6,150.0 442.2,150.0 444.8,150.0 447.4,150.0 449.9,150.0 452.5,150.0 455.1,150.0 457.7,150.0 460.3,150.0 462.9,150.0 465.4,150.0 468.0,150.0 470.6,150.0 473.2,150.0 475.8,150.0 478.4,150.0 480.9,150.0 483.5,150.0 486.1,150.0 488.7,150.0 491.3,150.0 493.8,150.0 496.4,150.0 499.0,150.0 501.6,150.0 504.2,150.0 506.8,150.0 509.3,150.0 511.9,150.0 514.5,150.0 517.1,150.0 519.7,150.0 522.3,150.0 524.8,150.0 527.4,150.0 530.0,150.0 532.6,150.0 535.2,150.0 537.8,150.0 540.3,150.0 542.9,150.0 545.5,150.0 548.1,150.0 550.7,150.0 553.3,150.0 555.8,150.0 558.4,150.0 561.0,150.0 563.6,150.0 566.2,150.0 568.8,150.0 571.3,150.0 573.9,150.0 576.5,150.0 579.1,150.0 581.7,150.0 584.3,150.0 586.8,150.0 589.4,150.0 592.0,150.0" fill="none" stroke="#b0361f" stroke-width="2.4"/><polyline points="78.0,150.0 80.6,150.0 83.2,150.1 85.7,150.1 88.3,150.2 90.9,150.2 93.5,150.4 96.1,150.5 98.7,150.7 101.2,151.0 103.8,151.3 106.4,151.8 109.0,152.4 111.6,153.2 114.2,154.1 116.7,155.2 119.3,156.6 121.9,158.2 124.5,160.0 127.1,162.0 129.7,164.3 132.2,166.8 134.8,169.4 137.4,172.1 140.0,174.9 142.6,177.5 145.2,180.1 147.7,182.5 150.3,184.5 152.9,186.1 155.5,187.4 158.1,188.1 160.7,188.2 163.2,187.9 165.8,187.0 168.4,185.7 171.0,183.9 173.6,181.7 176.2,179.3 178.7,176.7 181.3,173.9 183.9,171.2 186.5,168.5 189.1,165.9 191.6,163.4 194.2,161.2 196.8,159.2 199.4,157.4 202.0,155.8 204.6,154.5 207.1,153.3 209.7,152.3 212.3,151.5 214.9,150.8 217.5,150.2 220.1,149.6 222.6,149.1 225.2,148.7 227.8,148.2 230.4,147.8 233.0,147.3 235.6,146.8 238.1,146.3 240.7,145.8 243.3,145.2 245.9,144.6 248.5,143.9 251.1,143.2 253.6,142.5 256.2,141.8 258.8,141.0 261.4,140.3 264.0,139.5 266.6,138.8 269.1,138.0 271.7,137.3 274.3,136.7 276.9,136.1 279.5,135.5 282.1,135.1 284.6,134.7 287.2,134.4 289.8,134.2 292.4,134.1 295.0,134.1 297.5,134.2 300.1,134.4 302.7,134.6 305.3,135.0 307.9,135.5 310.5,136.0 313.0,136.6 315.6,137.2 318.2,137.9 320.8,138.6 323.4,139.4 326.0,140.2 328.5,140.9 331.1,141.7 333.7,142.5 336.3,143.2 338.9,143.9 341.5,144.6 344.0,145.2 346.6,145.9 349.2,146.5 351.8,147.0 354.4,147.6 357.0,148.1 359.5,148.6 362.1,149.2 364.7,149.7 367.3,150.2 369.9,150.8 372.5,151.4 375.0,152.1 377.6,152.8 380.2,153.5 382.8,154.4 385.4,155.3 387.9,156.3 390.5,157.5 393.1,158.6 395.7,159.9 398.3,161.3 400.9,162.7 403.4,164.2 406.0,165.7 408.6,167.3 411.2,168.8 413.8,170.4 416.4,171.8 418.9,173.2 421.5,174.5 424.1,175.7 426.7,176.7 429.3,177.5 431.9,178.1 434.4,178.5 437.0,178.7 439.6,178.6 442.2,178.4 444.8,177.9 447.4,177.2 449.9,176.3 452.5,175.2 455.1,174.0 457.7,172.7 460.3,171.3 462.9,169.8 465.4,168.3 468.0,166.7 470.6,165.2 473.2,163.7 475.8,162.2 478.4,160.8 480.9,159.5 483.5,158.3 486.1,157.2 488.7,156.2 491.3,155.3 493.8,154.5 496.4,153.8 499.0,153.1 501.6,152.6 504.2,152.1 506.8,151.7 509.3,151.4 511.9,151.1 514.5,150.9 517.1,150.7 519.7,150.5 522.3,150.4 524.8,150.3 527.4,150.2 530.0,150.2 532.6,150.1 535.2,150.1 537.8,150.1 540.3,150.1 542.9,150.0 545.5,150.0 548.1,150.0 550.7,150.0 553.3,150.0 555.8,150.0 558.4,150.0 561.0,150.0 563.6,150.0 566.2,150.0 568.8,150.0 571.3,150.0 573.9,150.0 576.5,150.0 579.1,150.0 581.7,150.0 584.3,150.0 586.8,150.0 589.4,150.0 592.0,150.0" fill="none" stroke="#2a6ca8" stroke-width="2.4"/><polyline points="78.0,145.5 80.6,144.8 83.2,144.1 85.7,143.3 88.3,142.4 90.9,141.5 93.5,140.5 96.1,139.4 98.7,138.2 101.2,137.0 103.8,135.8 106.4,134.5 109.0,133.1 111.6,131.7 114.2,130.4 116.7,129.0 119.3,127.7 121.9,126.3 124.5,125.1 127.1,123.9 129.7,122.7 132.2,121.7 134.8,120.8 137.4,120.0 140.0,119.3 142.6,118.8 145.2,118.4 147.7,118.2 150.3,118.1 152.9,118.2 155.5,118.5 158.1,118.9 160.7,119.5 163.2,120.2 165.8,121.0 168.4,122.0 171.0,123.0 173.6,124.2 176.2,125.4 178.7,126.7 181.3,128.1 183.9,129.4 186.5,130.8 189.1,132.2 191.6,133.6 194.2,134.9 196.8,136.2 199.4,137.5 202.0,138.7 204.6,139.9 207.1,141.0 209.7,142.1 212.3,143.1 214.9,144.0 217.5,144.9 220.1,145.7 222.6,146.5 225.2,147.2 227.8,147.9 230.4,148.6 233.0,149.2 235.6,149.8 238.1,150.4 240.7,151.0 243.3,151.6 245.9,152.3 248.5,152.9 251.1,153.5 253.6,154.2 256.2,154.9 258.8,155.6 261.4,156.3 264.0,157.1 266.6,157.8 269.1,158.6 271.7,159.5 274.3,160.3 276.9,161.1 279.5,162.0 282.1,162.8 284.6,163.6 287.2,164.4 289.8,165.2 292.4,165.9 295.0,166.6 297.5,167.2 300.1,167.7 302.7,168.2 305.3,168.5 307.9,168.8 310.5,169.0 313.0,169.1 315.6,169.1 318.2,169.0 320.8,168.8 323.4,168.6 326.0,168.2 328.5,167.7 331.1,167.2 333.7,166.6 336.3,166.0 338.9,165.3 341.5,164.5 344.0,163.7 346.6,162.9 349.2,162.1 351.8,161.3 354.4,160.5 357.0,159.6 359.5,158.9 362.1,158.1 364.7,157.3 367.3,156.6 369.9,156.0 372.5,155.3 375.0,154.8 377.6,154.2 380.2,153.7 382.8,153.2 385.4,152.8 387.9,152.4 390.5,152.1 393.1,151.8 395.7,151.5 398.3,151.3 400.9,151.0 403.4,150.8 406.0,150.6 408.6,150.5 411.2,150.3 413.8,150.1 416.4,150.0 418.9,149.8 421.5,149.7 424.1,149.5 426.7,149.3 429.3,149.1 431.9,148.9 434.4,148.7 437.0,148.4 439.6,148.1 442.2,147.8 444.8,147.4 447.4,147.0 449.9,146.5 452.5,146.0 455.1,145.5 457.7,144.9 460.3,144.2 462.9,143.5 465.4,142.8 468.0,142.0 470.6,141.2 473.2,140.3 475.8,139.4 478.4,138.4 480.9,137.5 483.5,136.5 486.1,135.6 488.7,134.6 491.3,133.7 493.8,132.8 496.4,131.9 499.0,131.1 501.6,130.4 504.2,129.7 506.8,129.1 509.3,128.6 511.9,128.2 514.5,127.9 517.1,127.8 519.7,127.7 522.3,127.7 524.8,127.9 527.4,128.1 530.0,128.5 532.6,129.0 535.2,129.5 537.8,130.2 540.3,130.9 542.9,131.7 545.5,132.5 548.1,133.4 550.7,134.4 553.3,135.3 555.8,136.3 558.4,137.2 561.0,138.2 563.6,139.1 566.2,140.0 568.8,140.9 571.3,141.8 573.9,142.6 576.5,143.3 579.1,144.0 581.7,144.7 584.3,145.3 586.8,145.9 589.4,146.4 592.0,146.9" fill="none" stroke="#2a7d2a" stroke-width="2.4"/><text x="340" y="42" font-size="11" fill="#b0361f" text-anchor="middle">ankle push-off (A2)</text><text x="602" y="86" font-size="11" fill="#b0361f">ankle</text><text x="602" y="106" font-size="11" fill="#2a6ca8">knee</text><text x="602" y="126" font-size="11" fill="#2a7d2a">hip</text><line x1="74" y1="86" x2="78" y2="86" stroke="#333"/><text x="71" y="89" font-size="8.5" fill="#555" text-anchor="end">2</text><line x1="74" y1="182" x2="78" y2="182" stroke="#333"/><text x="71" y="185" font-size="8.5" fill="#555" text-anchor="end">-1</text><line x1="78" y1="255" x2="78" y2="259" stroke="#333"/><text x="78" y="271" font-size="8.5" fill="#555" text-anchor="middle">0</text><line x1="335" y1="255" x2="335" y2="259" stroke="#333"/><text x="335" y="271" font-size="8.5" fill="#555" text-anchor="middle">50</text><line x1="592" y1="255" x2="592" y2="259" stroke="#333"/><text x="592" y="271" font-size="8.5" fill="#555" text-anchor="middle">100</text><text x="332" y="288" font-size="11" fill="#555" text-anchor="middle">gait cycle percent</text><text x="40" y="150" font-size="11" fill="#555" text-anchor="middle" transform="rotate(-90 40 150)">joint power (W/kg)</text></svg><figcaption>Joint power is signed and computed from a parametric gait model. The ankle's late-stance positive burst (A2, shaded, 40–62% of the cycle) is the anatomical push-off of <a class="secref" href="#transition">section 5</a>; the knee absorbs energy after heel strike and in pre-swing.</figcaption></figure>
+
+
+
+
+
+
+
+<h2 id="speedcost">7. Speed, cadence, stride length, and cost</h2>
+
+
+
+<p>A walker can increase speed by increasing cadence, increasing step length, or both. Neither is free. Long steps increase the redirection angle $\alpha$ and hence the collision cost of <a class="secref" href="#transition">section 5</a> ($\propto v^2\sin^2 2\alpha$). Very high cadence increases swing work, muscle activation frequency, and the joint work of <a class="secref" href="#powers">section 6</a>. Preferred walking speed emerges from this tradeoff, and the cost of transport it minimises is the observable of the second lab in <a class="secref" href="#labs">section 11</a>.</p>
+
+
+
+<p>A minimal cost proxy can be written as</p>
+
+
+
+$$C(v,L)=A\,v^2\sin^2\!\left(2\arcsin\frac{L}{2\ell}\right)+B\left(\frac{v}{L}\right)^2+C_0,$$
+
+
+
+<p>where the first term represents step-to-step transition cost, the second penalizes high cadence $c=v/L$, and $C_0$ is baseline cost. This proxy is not a full metabolic model. Its purpose is to make the optimum unavoidable: one cannot minimize transition cost and cadence cost at the same step length.</p>
+
+
+
+<figure><svg class="setupfig" viewBox="0 0 650 270" width="100%" role="img" aria-label="U-shaped cost curve versus walking speed with preferred speed marked and separate slow and fast penalties."><rect x="70" y="40" width="500" height="185" fill="#fff" stroke="#ddd"/><line x1="78" y1="210" x2="568" y2="210" stroke="#333"/><line x1="78" y1="210" x2="78" y2="45" stroke="#333"/><polyline points="78.0,55.0 79.6,59.3 81.2,63.5 82.8,67.6 84.4,71.5 86.1,75.3 87.7,79.0 89.3,82.6 90.9,86.0 92.5,89.4 94.1,92.7 95.7,95.8 97.3,98.9 99.0,101.9 100.6,104.8 102.2,107.6 103.8,110.3 105.4,113.0 107.0,115.6 108.6,118.1 110.2,120.5 111.9,122.9 113.5,125.2 115.1,127.5 116.7,129.7 118.3,131.8 119.9,133.9 121.5,135.9 123.1,137.9 124.7,139.8 126.4,141.7 128.0,143.5 129.6,145.3 131.2,147.0 132.8,148.7 134.4,150.4 136.0,152.0 137.6,153.5 139.3,155.1 140.9,156.6 142.5,158.0 144.1,159.4 145.7,160.8 147.3,162.2 148.9,163.5 150.5,164.8 152.2,166.0 153.8,167.2 155.4,168.4 157.0,169.6 158.6,170.7 160.2,171.9 161.8,172.9 163.4,174.0 165.1,175.0 166.7,176.0 168.3,177.0 169.9,178.0 171.5,178.9 173.1,179.8 174.7,180.7 176.3,181.6 177.9,182.5 179.6,183.3 181.2,184.1 182.8,184.9 184.4,185.7 186.0,186.4 187.6,187.2 189.2,187.9 190.8,188.6 192.5,189.3 194.1,189.9 195.7,190.6 197.3,191.2 198.9,191.8 200.5,192.4 202.1,193.0 203.7,193.6 205.4,194.2 207.0,194.7 208.6,195.3 210.2,195.8 211.8,196.3 213.4,196.8 215.0,197.3 216.6,197.7 218.2,198.2 219.9,198.6 221.5,199.1 223.1,199.5 224.7,199.9 226.3,200.3 227.9,200.7 229.5,201.1 231.1,201.5 232.8,201.8 234.4,202.2 236.0,202.5 237.6,202.8 239.2,203.2 240.8,203.5 242.4,203.8 244.0,204.1 245.7,204.3 247.3,204.6 248.9,204.9 250.5,205.2 252.1,205.4 253.7,205.6 255.3,205.9 256.9,206.1 258.5,206.3 260.2,206.5 261.8,206.7 263.4,206.9 265.0,207.1 266.6,207.3 268.2,207.5 269.8,207.7 271.4,207.8 273.1,208.0 274.7,208.1 276.3,208.3 277.9,208.4 279.5,208.5 281.1,208.6 282.7,208.8 284.3,208.9 286.0,209.0 287.6,209.1 289.2,209.2 290.8,209.3 292.4,209.3 294.0,209.4 295.6,209.5 297.2,209.6 298.8,209.6 300.5,209.7 302.1,209.7 303.7,209.8 305.3,209.8 306.9,209.9 308.5,209.9 310.1,209.9 311.7,209.9 313.4,210.0 315.0,210.0 316.6,210.0 318.2,210.0 319.8,210.0 321.4,210.0 323.0,210.0 324.6,210.0 326.3,210.0 327.9,209.9 329.5,209.9 331.1,209.9 332.7,209.9 334.3,209.8 335.9,209.8 337.5,209.7 339.2,209.7 340.8,209.7 342.4,209.6 344.0,209.5 345.6,209.5 347.2,209.4 348.8,209.4 350.4,209.3 352.0,209.2 353.7,209.1 355.3,209.1 356.9,209.0 358.5,208.9 360.1,208.8 361.7,208.7 363.3,208.6 364.9,208.5 366.6,208.4 368.2,208.3 369.8,208.2 371.4,208.1 373.0,208.0 374.6,207.9 376.2,207.7 377.8,207.6 379.5,207.5 381.1,207.4 382.7,207.2 384.3,207.1 385.9,207.0 387.5,206.8 389.1,206.7 390.7,206.6 392.3,206.4 394.0,206.3 395.6,206.1 397.2,206.0 398.8,205.8 400.4,205.7 402.0,205.5 403.6,205.3 405.2,205.2 406.9,205.0 408.5,204.9 410.1,204.7 411.7,204.5 413.3,204.3 414.9,204.2 416.5,204.0 418.1,203.8 419.8,203.6 421.4,203.4 423.0,203.3 424.6,203.1 426.2,202.9 427.8,202.7 429.4,202.5 431.0,202.3 432.6,202.1 434.3,201.9 435.9,201.7 437.5,201.5 439.1,201.3 440.7,201.1 442.3,200.9 443.9,200.7 445.5,200.5 447.2,200.3 448.8,200.0 450.4,199.8 452.0,199.6 453.6,199.4 455.2,199.2 456.8,199.0 458.4,198.7 460.1,198.5 461.7,198.3 463.3,198.1 464.9,197.8 466.5,197.6 468.1,197.4 469.7,197.1 471.3,196.9 472.9,196.7 474.6,196.4 476.2,196.2 477.8,195.9 479.4,195.7 481.0,195.4 482.6,195.2 484.2,195.0 485.8,194.7 487.5,194.5 489.1,194.2 490.7,194.0 492.3,193.7 493.9,193.4 495.5,193.2 497.1,192.9 498.7,192.7 500.4,192.4 502.0,192.2 503.6,191.9 505.2,191.6 506.8,191.4 508.4,191.1 510.0,190.8 511.6,190.6 513.3,190.3 514.9,190.0 516.5,189.8 518.1,189.5 519.7,189.2 521.3,188.9 522.9,188.7 524.5,188.4 526.1,188.1 527.8,187.8 529.4,187.6 531.0,187.3 532.6,187.0 534.2,186.7 535.8,186.4 537.4,186.1 539.0,185.9 540.7,185.6 542.3,185.3 543.9,185.0 545.5,184.7 547.1,184.4 548.7,184.1 550.3,183.8 551.9,183.5 553.6,183.2 555.2,182.9 556.8,182.6 558.4,182.4 560.0,182.1" fill="none" stroke="#7a1f1f" stroke-width="2.6"/><line x1="320" y1="210" x2="320" y2="210" stroke="#2a7d2a" stroke-width="1.6" stroke-dasharray="6 4"/><circle cx="320" cy="210" r="5" fill="#2a7d2a"/><text x="320" y="226" font-size="10.5" fill="#2a7d2a" text-anchor="middle">preferred v* ≈ 1.3 m/s</text><text x="158" y="111" font-size="10" fill="#2a6ca8">slow: c₁/v term</text><text x="480" y="183" font-size="10" fill="#b0361f" text-anchor="end">fast: c₂ v term</text><line x1="105" y1="210" x2="105" y2="214" stroke="#333"/><text x="105" y="226" font-size="8.5" fill="#555" text-anchor="middle">0.5</text><line x1="239" y1="210" x2="239" y2="214" stroke="#333"/><text x="239" y="226" font-size="8.5" fill="#555" text-anchor="middle">1.0</text><line x1="373" y1="210" x2="373" y2="214" stroke="#333"/><text x="373" y="226" font-size="8.5" fill="#555" text-anchor="middle">1.5</text><line x1="506" y1="210" x2="506" y2="214" stroke="#333"/><text x="506" y="226" font-size="8.5" fill="#555" text-anchor="middle">2.0</text><text x="320" y="255" font-size="11" fill="#555" text-anchor="middle">walking speed (m/s)</text><text x="40" y="135" font-size="11" fill="#555" text-anchor="middle" transform="rotate(-90 40 135)">cost of transport</text></svg><figcaption>Preferred speed is a computed compromise, not a magic number. With a cost of transport $\mathrm{CoT}(v)=c_1/v+c_2 v$, the minimum sits at $v^\ast=\sqrt{c_1/c_2}\approx1.3$ m/s: too slow and the per-distance support/time term $c_1/v$ dominates, too fast and the transition/swing term $c_2 v$ does.</figcaption></figure>
+
+
+
+<h2 id="arms">8. Arm swing and whole-body angular momentum</h2>
+
+
+
+<p>Arm swing is often described as passive, but passive does not mean irrelevant. The legs exchange angular momentum with the trunk each step. If the arms did not swing, the trunk would have to absorb more yaw and roll momentum, requiring more muscular stabilization. Arm swing gives the body a low-cost moving counterweight.</p>
+<figure><svg class="setupfig" viewBox="0 0 430 230" width="100%" role="img" aria-label="Side view of a walker with the right leg swung forward and the opposite arm swung forward, arm and leg angular momenta about the vertical axis pointing opposite so they cancel."><line x1="40" y1="205" x2="300" y2="205" stroke="#999"/><circle cx="150" cy="40" r="15" fill="url(#b_head)"/><line x1="150" y1="66" x2="150" y2="132" stroke="url(#b_limb)" stroke-width="22" stroke-linecap="round"/><line x1="150" y1="132" x2="184" y2="203" stroke="url(#b_limb)" stroke-width="13" stroke-linecap="round"/><line x1="150" y1="132" x2="116" y2="203" stroke="url(#b_limb)" stroke-width="13" stroke-linecap="round"/><line x1="150" y1="74" x2="124" y2="128" stroke="url(#b_limb)" stroke-width="8" stroke-linecap="round"/><line x1="150" y1="74" x2="172" y2="126" stroke="url(#b_limb)" stroke-width="8" stroke-linecap="round"/><circle cx="150" cy="132" r="10" fill="url(#b_sph)"/><path d="M196,170 A20,20 0 0 1 196,204" fill="none" stroke="#2a7d2a" stroke-width="2" marker-end="url(#a_grn)"/><text x="202" y="192" font-size="10" fill="#2a7d2a">L<tspan baseline-shift="sub" font-size="7">leg</tspan></text><path d="M106,128 A18,18 0 0 0 106,92" fill="none" stroke="#b0361f" stroke-width="2" marker-end="url(#a_red)"/><text x="100" y="112" font-size="10" fill="#b0361f" text-anchor="end">L<tspan baseline-shift="sub" font-size="7">arm</tspan></text><text x="320" y="96" font-size="11" fill="#555">arm and leg</text><text x="320" y="114" font-size="11" fill="#555">momenta oppose:</text><text x="320" y="136" font-size="11" fill="#7a1f1f">L<tspan baseline-shift="sub" font-size="7">arm</tspan> + L<tspan baseline-shift="sub" font-size="7">leg</tspan> &#8776; 0</text></svg><figcaption>Arm swing is angular-momentum management. With the right leg forward and the left arm forward, the arm's and leg's angular momenta about the body's vertical axis point opposite and nearly cancel, so the trunk needs little muscular counter-rotation (Prop 8.1).</figcaption></figure>
+
+
+
+<div class="prop"><b>Proposition 8.1 (angular-momentum bookkeeping).</b> About the whole-body COM, the angular momentum satisfies $$\dot{\mathbf L}_G=\sum \mathbf M_G^{\rm ext}.$$ If external moments about the COM are small over part of the stride, arm and leg angular momenta must a\approximately cancel within the body.</div>
+
+
+
+<div class="proof">This is Euler's angular-momentum balance for the whole body about its COM. With small net external moment, $\dot{\mathbf L}_G\approx0$, so internal segment angular momenta trade against each other. <span class="qed">&#8718;</span></div>
+
+
+
+<p>This is why tying the arms down changes the gait: the legs still swing, but the missing counter-swing must be made up by the trunk and hip muscles.</p>
+
+
+
+
+
+
+
+<h2 id="passive">9. Passive dynamic walking and stability</h2>
+
+
+
+<p>A passive dynamic walker can walk downhill with no motors. It is not violating energy conservation. Gravity supplies the energy lost at each collision, and the walker settles into a stable <b>limit cycle</b>: one stride maps the state back to itself.</p>
+<figure><svg class="setupfig" viewBox="0 0 560 260" width="100%" role="img" aria-label="A compass walker on a downhill slope: two legs at plus and minus the step angle about a hip mass, gravity supplying energy MgL sin gamma per step and the heel-strike collision dissipating half M v squared sin squared two alpha, giving a limit cycle."><line x1="60" y1="90" x2="488" y2="135" stroke="#999" stroke-width="2"/><line x1="81" y1="92" x2="73" y2="102" stroke="#ccc" stroke-width="1"/><line x1="116" y1="96" x2="108" y2="106" stroke="#ccc" stroke-width="1"/><line x1="151" y1="100" x2="143" y2="110" stroke="#ccc" stroke-width="1"/><line x1="186" y1="103" x2="178" y2="113" stroke="#ccc" stroke-width="1"/><line x1="221" y1="107" x2="213" y2="117" stroke="#ccc" stroke-width="1"/><line x1="256" y1="111" x2="248" y2="121" stroke="#ccc" stroke-width="1"/><line x1="291" y1="114" x2="283" y2="124" stroke="#ccc" stroke-width="1"/><line x1="326" y1="118" x2="318" y2="128" stroke="#ccc" stroke-width="1"/><line x1="361" y1="122" x2="353" y2="132" stroke="#ccc" stroke-width="1"/><line x1="396" y1="125" x2="388" y2="135" stroke="#ccc" stroke-width="1"/><line x1="431" y1="129" x2="423" y2="139" stroke="#ccc" stroke-width="1"/><line x1="466" y1="133" x2="458" y2="143" stroke="#ccc" stroke-width="1"/><text x="100" y="84" font-size="9" fill="#666">slope γ</text><line x1="240" y1="109" x2="214" y2="-8" stroke="url(#b_limb)" stroke-width="13" stroke-linecap="round"/><line x1="214" y1="-8" x2="263" y2="101" stroke="url(#b_limb)" stroke-width="13" stroke-linecap="round"/><circle cx="214" cy="-8" r="12" fill="url(#b_sph)"/><circle cx="240" cy="109" r="4" fill="#7a1f1f"/><circle cx="263" cy="101" r="4" fill="#2a7d2a"/><line x1="214" y1="-8" x2="214" y2="42" stroke="#b0361f" stroke-width="2.4" marker-end="url(#a_red)"/><text x="220" y="32" font-size="10" fill="#b0361f">Mg</text><rect x="330" y="30" width="210" height="80" rx="6" fill="#f6f4ef" stroke="#ddd"/><text x="435" y="52" font-size="10.5" fill="#2a7d2a" text-anchor="middle">gravity in: MgL sinγ</text><text x="435" y="72" font-size="10.5" fill="#b0361f" text-anchor="middle">heel-strike out: ½Mv²sin²2α</text><text x="435" y="94" font-size="10.5" fill="#7a1f1f" text-anchor="middle">balance → limit cycle (Prop 9.1)</text></svg><figcaption>The passive dynamic walker: two rigid legs about a hip mass, rolling down a gentle slope with no motor. Gravity feeds in $MgL\sin\gamma$ per step and the heel strike dissipates $\tfrac12 Mv^2\sin^2 2\alpha$; their balance is the limit cycle of Proposition 9.1.</figcaption></figure>
+
+
+
+<p>Let $\mathbf z_n=(\theta_n,\dot\theta_n)$ be the state just after heel strike on step $n$. One stride defines a map</p>
+
+
+
+$$\mathbf z_{n+1}=\mathcal P(\mathbf z_n;\gamma),$$
+
+
+
+<p>where $\gamma$ is the slope angle. A periodic gait is a fixed point $\mathbf z^*=\mathcal P(\mathbf z^*;\gamma)$, and its local stability is determined by the eigenvalues of the Jacobian $D\mathcal P(\mathbf z^*)$. If their magnitudes are less than one, nearby steps converge back to the gait — the walker recovers from a small disturbance with no control at all. We do not need the full map to find <em>which</em> slope sustains the gait, though: an energy balance fixes it.</p>
+
+
+
+<div class="prop"><b>Proposition 9.1 (passive limit-cycle energy balance).</b> A periodic compass gait on a slope $\gamma$ requires the gravitational energy released per step to equal the heel-strike loss,
+
+
+
+$$MgL\sin\gamma=\tfrac12 Mv^2\sin^2 2\alpha,$$
+
+
+
+which for small angles selects a mid-stance speed $v^2\approx g\ell\,\dfrac{\sin\gamma}{\alpha}$: faster on steeper slopes, and impossible on the level.</div>
+
+
+
+<div class="proof">Over one step the configuration returns to itself, so the mechanical energy is unchanged step to step. Only two things change it: gravity does positive work $MgL\sin\gamma$ as the COM descends the slope by $L\sin\gamma$ over a step of length $L$, and the heel strike dissipates $E_{\rm loss}=\tfrac12 Mv^2\sin^2 2\alpha$ (<a class="secref" href="#transition">section 5</a>, Prop 5.1). Periodicity demands they balance, $MgL\sin\gamma=\tfrac12 Mv^2\sin^2 2\alpha$. Substituting $L\approx2\ell\alpha$ and $\sin 2\alpha\approx2\alpha$ gives $Mg\,(2\ell\alpha)\sin\gamma=\tfrac12 Mv^2(2\alpha)^2$, hence $v^2\approx g\ell\sin\gamma/\alpha$. For $\ell=0.9$&nbsp;m, a step half-angle $\alpha\approx0.3$&nbsp;rad and a gentle slope $\gamma\approx0.05$&nbsp;rad ($3^\circ$), this gives $v\approx1.2\ \mathrm{m\,s^{-1}}$ — a realistic walking speed from gravity alone. On the level ($\gamma=0$) the only solution is $v=0$: gravity supplies nothing, so the losses cannot be replaced and steady walking must inject exactly $\tfrac12 Mv^2\sin^2 2\alpha$ per step by active push-off. <span class="qed">&#8718;</span></div>
+
+
+
+<div class="keyresult"><b>Passive walking lesson.</b> A gait can be mechanically self-stabilizing over a finite basin (the Jacobian eigenvalues sit inside the unit circle), and on a slope gravity even pays the running cost — but level-ground human walking still needs muscles: without slope or actuation, the heel-strike loss of Prop 5.1 drains the energy and the walker halts.</div>
+
+
+
+
+
+
+
+<h2 id="falls">10. When walking fails: older-adult falls and post-fall decline</h2>
+
+
+
+<p>A fall is not simply "bad balance." For older adults, the causal stack is best read from the bottom upward: chemistry/materials set the tissue and signaling substrate; biology turns that substrate into sensing, force, reaction-time, and control capacity; physics is the visible gait event when the available control margin is no longer enough for the perturbation. Physics is therefore not separate from aging biology and chemistry, but it is still the layer that decides the actual motion, impact energy, and contact path. After the fall, biology and chemistry decide whether recovery restores function or whether pain, inflammation, fear, and unloading drive decline.</p>
+
+
+
+<figure><svg class="setupfig" viewBox="0 0 720 330" width="100%" role="img" aria-label="Older adult fall stack: chemistry biology physics fall stack with chemistry as substrate, biology as control reserve, physics as visible event, and post-fall recovery biology."><line x1="48" y1="252" x2="384" y2="252" stroke="#999"/><path d="M100,248 C82,246 76,237 84,224 C95,204 125,208 148,215 C176,225 205,224 240,218 C258,215 272,222 273,236 C275,253 248,260 200,260 L116,260 C108,260 102,256 100,248 Z" fill="#f3ece0" stroke="#b7a98c"/><rect x="164" y="168" width="72" height="12" rx="6" fill="url(#b_limb)" transform="rotate(-69 200 174)"/><rect x="190" y="104" width="92" height="24" rx="12" fill="url(#b_limb)" transform="rotate(-55 236 116)"/><circle cx="260" cy="83" r="15" fill="url(#b_head)"/><circle cx="224" cy="134" r="5" fill="#1a1a1a"/><text x="235" y="133" font-size="11" fill="#1a1a1a">COM</text><line x1="224" y1="140" x2="270" y2="183" stroke="#b0361f" stroke-width="2.6" marker-end="url(#a_red)"/><text x="274" y="188" font-size="11" fill="#b0361f">COM velocity</text><rect x="289" y="240" width="28" height="12" rx="2" fill="#b0361f"/><text x="303" y="233" font-size="11" fill="#b0361f" text-anchor="middle">trip</text><line x1="224" y1="252" x2="302" y2="252" stroke="#2a7d2a" stroke-width="2"/><text x="263" y="276" font-size="11" fill="#2a7d2a" text-anchor="middle">shrinking margin</text><rect x="425" y="22" width="250" height="61" rx="6" fill="#f6f4ef" stroke="#ddd"/><text x="550" y="43" font-size="13" fill="#7a1f1f" text-anchor="middle">physics: visible event</text><text x="550" y="65" font-size="10.5" fill="#333" text-anchor="middle">foot clearance, COM speed, impact path</text><rect x="425" y="96" width="250" height="61" rx="6" fill="#f6f4ef" stroke="#ddd"/><text x="550" y="117" font-size="13" fill="#7a1f1f" text-anchor="middle">biology: control reserve</text><text x="550" y="139" font-size="10.5" fill="#333" text-anchor="middle">sarcopenia, sensation, reflex delay</text><rect x="425" y="170" width="250" height="61" rx="6" fill="#f6f4ef" stroke="#ddd"/><text x="550" y="191" font-size="13" fill="#7a1f1f" text-anchor="middle">chemistry: substrate</text><text x="550" y="213" font-size="10.5" fill="#333" text-anchor="middle">vitamin D, inflammation, drugs, glucose</text><rect x="425" y="244" width="250" height="61" rx="6" fill="#f6f4ef" stroke="#ddd"/><text x="550" y="265" font-size="13" fill="#7a1f1f" text-anchor="middle">post-fall biology</text><text x="550" y="287" font-size="10.5" fill="#333" text-anchor="middle">pain, fear, unloading, deconditioning</text><path d="M340,170 C382,85 397,52 425,52" fill="none" stroke="#666" stroke-width="1.8" marker-end="url(#a_gry)"/><path d="M340,170 C382,130 397,126 425,126" fill="none" stroke="#666" stroke-width="1.8" marker-end="url(#a_gry)"/><path d="M340,170 C382,192 397,200 425,200" fill="none" stroke="#666" stroke-width="1.8" marker-end="url(#a_gry)"/><path d="M340,170 C382,248 397,274 425,274" fill="none" stroke="#666" stroke-width="1.8" marker-end="url(#a_gry)"/></svg><figcaption>Older-adult falls are multi-scale events. Read the causal stack from bottom to top: chemistry/materials shape biology, biology sets control reserve, and physics is the visible gait failure and impact event.</figcaption></figure>
+
+
+
+<h3>Chemistry/materials layer: the aging substrate</h3>
+
+
+
+<p>Chemistry helps explain both why the fall becomes more likely and why it becomes more injurious. Low vitamin D and disturbed calcium-parathyroid hormone balance can reduce muscle performance and bone mineralization. Chronic low-grade inflammation promotes catabolism, worsens muscle quality, and biases remodeling away from robust tissue maintenance. Diabetes-related glycation and microvascular injury can damage peripheral nerves, degrading sensation before the fall. Sedatives, anticholinergics, antihypertensives, alcohol, dehydration, and electrolyte disturbances alter receptor signaling, alertness, blood pressure regulation, and reaction time. At impact, the same chemistry/material state sets the failure threshold: bone mineral density, trabecular architecture, collagen cross-link quality, and remodeling balance determine whether a hip, wrist, vertebra, or skull survives the mechanical energy delivered by the fall.</p>
+
+
+
+<h3>Biology layer: the weakened control system</h3>
+
+
+
+<p>The pre-fall biology is the loss of reserve in the control loop. <b>Sarcopenia</b> reduces muscle cross-sectional area, especially fast force-producing capacity, so the corrective step and hip strategy develop too little impulse too late. Motor-unit remodeling makes activation coarser; tendon and muscle stiffness changes reduce power transfer; vestibular, visual, and proprioceptive signals become noisier; peripheral neuropathy makes the foot-ground state less certain; and executive load matters because walking while turning, talking, or scanning a curb is a dual-task control problem. The result is not merely "weakness." It is a slower, noisier, lower-authority feedback controller operating with less mechanical margin.</p>
+
+
+
+<h3>Physics layer: the visible fall event</h3>
+
+
+
+<p>The physics question is whether the extrapolated COM can be brought back inside a recoverable base of support before the body rotates or translates too far. Older adults often walk with shorter steps and lower speed as a rational stability strategy, but several variables shrink the recovery margin at once: reduced toe clearance increases trip probability; slower reaction time delays corrective stepping; weaker hip abductors and ankle plantarflexors reduce the impulse that can redirect the COM; and impaired sensation delays detection of where the foot and ground are.</p>
+
+
+
+<div class="keyresult"><b>Fall-margin inequality.</b> A step can recover a forward perturbation only if the required capture location is within feasible step reach $x_s^{\max}$: $x_{\rm com}+\frac{\dot x_{\rm com}}{\omega_0}\le x_s^{\max},\qquad \omega_0=\sqrt{g/h_{\rm com}}.$ Aging can reduce the right side by strength/range limits and increase the left side by delayed response.</div>
+
+
+
+<h3>Biology after the fall: why health often declines afterward</h3>
+
+
+
+<p>The post-fall decline is not psychological weakness. It is a coupled biological cascade. Pain reduces loading; unloading accelerates sarcopenia and bone loss; fear of falling narrows activity; less activity worsens cardiovascular reserve, insulin sensitivity, balance calibration, and muscle power; hospitalization adds sleep disruption, inflammation, infection risk, and rapid deconditioning. The next fall then becomes more likely. A single mechanical event can become a systems-biology transition to a lower functional state.</p>
+
+
+
+<h2 id="labs">11. Computational labs</h2>
+
+
+
+<p>The labs are deliberately small but scientific: each one varies a parameter and asks what mechanism changes.</p>
+
+
+
+<h3>Lab 1: COM arc and Froude sweep</h3>
+
+
+
+<div class="codewrap"><button class="copybtn" onclick="copyCode(this)" aria-label="Copy code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+
+
+
+
+
+
+g = 9.81
+
+
+
+ell = 0.95
+
+
+
+alpha = np.deg2rad(16)
+
+
+
+theta = np.linspace(-alpha, alpha, 200)
+
+
+
+y = ell*np.cos(theta)
+
+
+
+dh = ell - y
+
+
+
+speeds = np.linspace(0.6, 1.8, 7)
+
+
+
+Fr = speeds**2/(g*ell)
+
+
+
+print('COM rise at step edge:', ell*(1-np.cos(alpha)))
+
+
+
+print(list(zip(np.round(speeds,2), np.round(Fr,3))))</code></pre></div>
+
+
+
+<h3>Lab 2: transition-cost optimization</h3>
+
+
+
+<div class="codewrap"><button class="copybtn" onclick="copyCode(this)" aria-label="Copy code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+
+
+
+
+
+
+M, ell, v = 70.0, 0.95, 1.35
+
+
+
+L = np.linspace(0.35, 0.95, 200)
+
+
+
+alpha = np.arcsin(L/(2*ell))
+
+
+
+loss = 0.5*M*v*v*np.sin(2*alpha)**2
+
+
+
+cadence_penalty = 0.09*(v/L)**2*M
+
+
+
+cost = loss + cadence_penalty
+
+
+
+print('best step length:', L[np.argmin(cost)])</code></pre></div>
+
+
+
+<h3>Lab 3: inverse-dynamics estimate</h3>
+
+
+
+<div class="codewrap"><button class="copybtn" onclick="copyCode(this)" aria-label="Copy code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+
+
+
+
+
+
+t = np.linspace(0, 1, 501)
+
+
+
+ankle = 70*np.exp(-((t-0.55)/0.09)**2) - 15*np.exp(-((t-0.12)/0.08)**2)
+
+
+
+knee = -35*np.exp(-((t-0.12)/0.07)**2) + 20*np.exp(-((t-0.72)/0.12)**2)
+
+
+
+hip = 30*np.sin(2*np.pi*(t-0.08))*np.exp(-((t-0.45)/0.55)**2)
+
+
+
+omega_a = 2.0*np.exp(-((t-0.58)/0.10)**2)
+
+
+
+work_ankle = np.trapz(np.maximum(ankle*omega_a,0), t)
+
+
+
+print('positive ankle work proxy:', work_ankle)</code></pre></div>
+
+
+
+<h3>Lab 4: older-adult fall-margin sensitivity</h3>
+
+
+
+<div class="codewrap"><button class="copybtn" onclick="copyCode(this)" aria-label="Copy code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+
+
+
+
+
+
+g = 9.81
+
+
+
+h = 0.95
+
+
+
+omega = np.sqrt(g/h)
+
+
+
+x = 0.03
+
+
+
+v = 0.45
+
+
+
+reaction_delay = np.linspace(0.08, 0.32, 7)
+
+
+
+step_reach = np.linspace(0.28, 0.55, 7)
+
+
+
+for delay in reaction_delay:
+
+
+
+    capture = x + v*delay + v/omega
+
+
+
+    feasible = capture &lt; step_reach
+
+
+
+    print(round(delay,2), round(capture,3), feasible.sum(), 'of', len(step_reach), 'reachable')</code></pre></div>
+
+
+
+
+
+
+
+<h2 id="problems">12. Problems, diagnostics, and limitations</h2>
+
+
+
+<h3>Conceptual problems</h3>
+
+
+
+<div class="prob"><b>C1.</b> Identify which part of a walking step is controlled falling and which part is catching. <span class="small"><b>Probes:</b> mechanism before terminology.</span><figure><svg class="setupfig" viewBox="0 0 340 124" width="100%" style="max-width:340px" role="img" aria-label="C1 figure"><line x1="20" y1="98" x2="330" y2="98" stroke="#999"/><polyline points="45.0,98.0 46.0,96.7 47.0,95.5 48.0,94.2 49.0,93.0 50.0,91.7 51.0,90.5 52.0,89.2 53.0,88.0 54.0,86.8 55.0,85.6 56.0,84.3 57.0,83.1 58.0,81.9 59.0,80.7 60.0,79.6 61.0,78.4 62.0,77.2 63.0,76.1 64.0,75.0 65.0,73.8 66.0,72.7 67.0,71.6 68.0,70.6 69.0,69.5 70.0,68.5 71.0,67.4 72.0,66.4 73.0,65.4 74.0,64.5 75.0,63.5 76.0,62.6 77.0,61.7 78.0,60.8 79.0,59.9 80.0,59.1 81.0,58.3 82.0,57.5 83.0,56.7 84.0,55.9 85.0,55.2 86.0,54.5 87.0,53.8 88.0,53.2 89.0,52.6 90.0,52.0 91.0,51.4 92.0,50.8 93.0,50.3 94.0,49.8 95.0,49.4 96.0,48.9 97.0,48.5 98.0,48.2 99.0,47.8 100.0,47.5 101.0,47.2 102.0,47.0 103.0,46.7 104.0,46.5 105.0,46.4 106.0,46.2 107.0,46.1 108.0,46.1 109.0,46.0 110.0,46.0" fill="none" stroke="#2a7d2a" stroke-width="2.4"/><polyline points="110.0,46.0 111.0,46.0 112.0,46.1 113.0,46.1 114.0,46.2 115.0,46.4 116.0,46.5 117.0,46.7 118.0,47.0 119.0,47.2 120.0,47.5 121.0,47.8 122.0,48.2 123.0,48.5 124.0,48.9 125.0,49.4 126.0,49.8 127.0,50.3 128.0,50.8 129.0,51.4 130.0,52.0 131.0,52.6 132.0,53.2 133.0,53.8 134.0,54.5 135.0,55.2 136.0,55.9 137.0,56.7 138.0,57.5 139.0,58.3 140.0,59.1 141.0,59.9 142.0,60.8 143.0,61.7 144.0,62.6 145.0,63.5 146.0,64.5 147.0,65.4 148.0,66.4 149.0,67.4 150.0,68.5 151.0,69.5 152.0,70.6 153.0,71.6 154.0,72.7 155.0,73.8 156.0,75.0 157.0,76.1 158.0,77.2 159.0,78.4 160.0,79.6 161.0,80.7 162.0,81.9 163.0,83.1 164.0,84.3 165.0,85.6 166.0,86.8 167.0,88.0 168.0,89.2 169.0,90.5 170.0,91.7 171.0,93.0 172.0,94.2 173.0,95.5 174.0,96.7 175.0,98.0" fill="none" stroke="#b0361f" stroke-width="2.4"/><circle cx="45" cy="98" r="5" fill="#7a1f1f"/><circle cx="175" cy="98" r="5" fill="#2a7d2a"/><text x="90" y="40" font-size="10" fill="#2a7d2a">rise = catch</text><text x="140" y="40" font-size="10" fill="#b0361f">fall</text><text x="45" y="114" font-size="9" fill="#7a1f1f" text-anchor="middle">old foot</text><text x="175" y="114" font-size="9" fill="#2a7d2a" text-anchor="middle">next foot</text></svg><figcaption>C1 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>The fall is the descent after midstance toward the next contact; the catch is the leading-foot collision and loading response that redirects the COM.</div></details></div>
+
+
+
+<div class="prob"><b>C2.</b> Explain why walking has double support but running has flight. <span class="small"><b>Probes:</b> gait classification.</span><figure><svg class="setupfig" viewBox="0 0 300 100" width="100%" style="max-width:340px" role="img" aria-label="C2 figure"><text x="20" y="26" font-size="9" fill="#555">walk</text><text x="20" y="70" font-size="9" fill="#555">run</text><rect x="55" y="16" width="120" height="12" fill="#2a6ca8" fill-opacity="0.5"/><rect x="140" y="16" width="120" height="12" fill="#2a7d2a" fill-opacity="0.5"/><rect x="140" y="16" width="35" height="12" fill="#7a1f1f" fill-opacity="0.6"/><text x="157" y="46" font-size="8" fill="#7a1f1f" text-anchor="middle">double support</text><rect x="55" y="60" width="80" height="12" fill="#2a6ca8" fill-opacity="0.5"/><rect x="170" y="60" width="80" height="12" fill="#2a7d2a" fill-opacity="0.5"/><rect x="135" y="60" width="35" height="12" fill="none" stroke="#b0361f" stroke-dasharray="3 2"/><text x="152" y="90" font-size="8" fill="#b0361f" text-anchor="middle">flight (no contact)</text></svg><figcaption>C2 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Walking keeps at least one foot on the ground and has a double-support exchange. Running has an aerial interval, so its mechanics are spring-mass rather than inverted-pendulum dominated.</div></details></div>
+
+
+
+<div class="prob"><b>C3.</b> Why is midstance not the most energetically expensive part of walking? <span class="small"><b>Probes:</b> exchange versus loss.</span><figure><svg class="setupfig" viewBox="0 0 330 116" width="100%" style="max-width:340px" role="img" aria-label="C3 figure"><line x1="40" y1="90" x2="300" y2="90" stroke="#333" stroke-width="1.1"/><line x1="40" y1="90" x2="40" y2="20" stroke="#333" stroke-width="1.1"/><polyline points="40.0,25.0 46.4,25.4 52.8,26.5 59.2,28.4 65.6,31.0 72.1,34.2 78.5,38.0 84.9,42.1 91.3,46.7 97.7,51.4 104.1,56.2 110.5,61.0 116.9,65.6 123.3,70.0 129.7,74.0 136.2,77.5 142.6,80.4 149.0,82.6 155.4,84.1 161.8,84.9 168.2,84.9 174.6,84.1 181.0,82.6 187.4,80.4 193.8,77.5 200.3,74.0 206.7,70.0 213.1,65.6 219.5,61.0 225.9,56.2 232.3,51.4 238.7,46.7 245.1,42.1 251.5,38.0 257.9,34.2 264.4,31.0 270.8,28.4 277.2,26.5 283.6,25.4 290.0,25.0" fill="none" stroke="#2a7d2a" stroke-width="2.2"/><polyline points="40.0,85.0 46.4,84.6 52.8,83.5 59.2,81.6 65.6,79.0 72.1,75.8 78.5,72.0 84.9,67.9 91.3,63.3 97.7,58.6 104.1,53.8 110.5,49.0 116.9,44.4 123.3,40.0 129.7,36.0 136.2,32.5 142.6,29.6 149.0,27.4 155.4,25.9 161.8,25.1 168.2,25.1 174.6,25.9 181.0,27.4 187.4,29.6 193.8,32.5 200.3,36.0 206.7,40.0 213.1,44.4 219.5,49.0 225.9,53.8 232.3,58.6 238.7,63.3 245.1,67.9 251.5,72.0 257.9,75.8 264.4,79.0 270.8,81.6 277.2,83.5 283.6,84.6 290.0,85.0" fill="none" stroke="#b0361f" stroke-width="2.2"/><text x="305" y="30" font-size="9" fill="#2a7d2a">PE</text><text x="305" y="82" font-size="9" fill="#b0361f">KE</text><text x="165" y="106" font-size="9" fill="#555" text-anchor="middle">midstance: they swap, little net loss</text></svg><figcaption>C3 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>In ideal pendular motion, kinetic and potential energy exchange at midstance with little net loss. The expensive part is redirecting velocity between steps.</div></details></div>
+
+
+
+<div class="prob"><b>C4.</b> Why does the COP move from heel to toe in stance? <span class="small"><b>Probes:</b> foot loading.</span><figure><svg class="setupfig" viewBox="0 0 330 116" width="100%" style="max-width:340px" role="img" aria-label="C4 figure"><path d="M60,80 C50,78 46,68 52,58 C62,42 96,44 130,52 C168,60 214,62 262,55 C286,52 300,60 300,74 C300,92 262,96 200,94 L82,92 C70,91 62,88 60,80 Z" fill="#f3ece0" stroke="#b7a98c" stroke-width="1.5"/><polyline points="72.0,74.0 150.0,66.0 250.0,64.0" fill="none" stroke="#2a7d2a" stroke-width="3"/><circle cx="72" cy="74" r="4.5" fill="#2a7d2a"/><line x1="72" y1="74" x2="62" y2="46" stroke="#2a6ca8" stroke-width="2" marker-end="url(#a_blu)"/><circle cx="150" cy="66" r="4.5" fill="#2a7d2a"/><line x1="150" y1="66" x2="150" y2="38" stroke="#2a6ca8" stroke-width="2" marker-end="url(#a_blu)"/><circle cx="250" cy="64" r="4.5" fill="#2a7d2a"/><line x1="250" y1="64" x2="260" y2="36" stroke="#2a6ca8" stroke-width="2" marker-end="url(#a_blu)"/><text x="72" y="102" font-size="8.5" fill="#2a7d2a" text-anchor="middle">heel</text><text x="250" y="102" font-size="8.5" fill="#2a7d2a" text-anchor="middle">toe</text><text x="180" y="30" font-size="9" fill="#2a6ca8" text-anchor="middle">load moves forward</text></svg><figcaption>C4 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>As load transfers from heel strike through midfoot to forefoot push-off, the pressure-weighted average of contact pressure moves forward.</div></details></div>
+
+
+
+<div class="prob"><b>C5.</b> Explain why long steps can be costly even if cadence is low. <span class="small"><b>Probes:</b> transition angle.</span><figure><svg class="setupfig" viewBox="0 0 340 124" width="100%" style="max-width:340px" role="img" aria-label="C5 figure"><line x1="20" y1="98" x2="330" y2="98" stroke="#999"/><line x1="90" y1="98" x2="75" y2="45" stroke="url(#b_limb)" stroke-width="4" stroke-linecap="round"/><line x1="90" y1="98" x2="105" y2="45" stroke="url(#b_limb)" stroke-width="4" stroke-linecap="round"/><path d="M76,45 A55,55 0 0 1 104,45" fill="none" stroke="#2a7d2a" stroke-width="1.8"/><text x="90" y="30" font-size="9" fill="#2a7d2a" text-anchor="middle">short 2α</text><line x1="240" y1="98" x2="214" y2="50" stroke="url(#b_limb)" stroke-width="4" stroke-linecap="round"/><line x1="240" y1="98" x2="266" y2="50" stroke="url(#b_limb)" stroke-width="4" stroke-linecap="round"/><path d="M226,45 A55,55 0 0 1 254,45" fill="none" stroke="#b0361f" stroke-width="1.8"/><text x="240" y="30" font-size="9" fill="#b0361f" text-anchor="middle">long 2α</text><text x="165" y="116" font-size="9" fill="#555" text-anchor="middle">longer step → bigger angle → more loss</text></svg><figcaption>C5 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Longer steps increase the angle between successive inverted-pendulum arcs, increasing collision/redirection loss.</div></details></div>
+
+
+
+<div class="prob"><b>C6.</b> Why does ankle push-off reduce heel-strike loss? <span class="small"><b>Probes:</b> timing of work.</span><figure><svg class="setupfig" viewBox="0 0 330 108" width="100%" style="max-width:340px" role="img" aria-label="C6 figure"><line x1="20" y1="95" x2="320" y2="95" stroke="#999"/><circle cx="170" cy="45" r="5" fill="#1a1a1a"/><line x1="170" y1="45" x2="220" y2="80" stroke="#666" stroke-width="2.2" marker-end="url(#a_gry)"/><text x="224" y="84" font-size="8.5" fill="#666">v</text><line x1="170" y1="45" x2="205" y2="24" stroke="#2a7d2a" stroke-width="2.2" marker-end="url(#a_grn)"/><text x="208" y="22" font-size="8.5" fill="#2a7d2a">push-off first</text><line x1="170" y1="45" x2="150" y2="80" stroke="#b0361f" stroke-width="2" marker-end="url(#a_red)"/><text x="70" y="86" font-size="8.5" fill="#b0361f">smaller loss left</text></svg><figcaption>C6 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>It redirects the COM before the leading leg collision, leaving a smaller incompatible velocity component for heel strike to dissipate.</div></details></div>
+
+
+
+<div class="prob"><b>C7.</b> What does positive joint power mean? <span class="small"><b>Probes:</b> sign convention.</span><figure><svg class="setupfig" viewBox="0 0 340 104" width="100%" style="max-width:340px" role="img" aria-label="C7 figure"><circle cx="80" cy="60" r="16" fill="url(#b_sph)"/><path d="M64,45 A22,22 0 0 1 96,45" fill="none" stroke="#7a1f1f" stroke-width="2.4" marker-end="url(#a_red)"/><text x="80" y="30" font-size="8.5" fill="#7a1f1f" text-anchor="middle">τ</text><line x1="80" y1="60" x2="120" y2="60" stroke="#2a7d2a" stroke-width="2.2" marker-end="url(#a_grn)"/><text x="118" y="52" font-size="8.5" fill="#2a7d2a">θ̇</text><text x="210" y="42" font-size="10" fill="#2a7d2a">τ, θ̇ same sign: +P (generate)</text><text x="210" y="72" font-size="10" fill="#b0361f">opposite: −P (absorb)</text></svg><figcaption>C7 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Positive $P=\tau\dot\theta$ means the joint's net torque adds mechanical energy; negative power means it absorbs energy.</div></details></div>
+
+
+
+<div class="prob"><b>C8.</b> Why can arm swing reduce walking cost? <span class="small"><b>Probes:</b> angular momentum.</span><figure><svg class="setupfig" viewBox="0 0 340 132" width="100%" style="max-width:340px" role="img" aria-label="C8 figure"><line x1="60" y1="100" x2="60" y2="45" stroke="url(#b_limb)" stroke-width="16" stroke-linecap="round"/><circle cx="60" cy="35" r="12" fill="url(#b_head)"/><line x1="60" y1="55" x2="30" y2="80" stroke="url(#b_limb)" stroke-width="7" stroke-linecap="round"/><line x1="60" y1="55" x2="90" y2="80" stroke="url(#b_limb)" stroke-width="7" stroke-linecap="round"/><line x1="60" y1="95" x2="35" y2="120" stroke="url(#b_limb)" stroke-width="8" stroke-linecap="round"/><line x1="60" y1="95" x2="88" y2="118" stroke="url(#b_limb)" stroke-width="8" stroke-linecap="round"/><path d="M30,72 A18,18 0 0 1 30,88" fill="none" stroke="#2a7d2a" stroke-width="1.8" marker-end="url(#a_grn)"/><path d="M88,110 A18,18 0 0 1 88,126" fill="none" stroke="#b0361f" stroke-width="1.8" marker-end="url(#a_red)"/><text x="200" y="60" font-size="10" fill="#555">arm swings opposite leg →</text><text x="200" y="80" font-size="10" fill="#555">trunk angular momentum cancels</text></svg><figcaption>C8 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>The arms swing opposite the legs, reducing trunk angular momentum that muscles would otherwise need to control.</div></details></div>
+
+
+
+<div class="prob"><b>C9.</b> Why is passive dynamic walking not free on level ground? <span class="small"><b>Probes:</b> energy source.</span><figure><svg class="setupfig" viewBox="0 0 340 120" width="100%" style="max-width:340px" role="img" aria-label="C9 figure"><line x1="30" y1="90" x2="150" y2="60" stroke="#999" stroke-width="1.5"/><line x1="90" y1="75" x2="100" y2="36" stroke="url(#b_limb)" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="36" r="7" fill="url(#b_sph)"/><line x1="80" y1="55" x2="100" y2="47" stroke="#2a7d2a" stroke-width="2" marker-end="url(#a_grn)"/><text x="90" y="30" font-size="9" fill="#2a7d2a" text-anchor="middle">gravity pays</text><line x1="200" y1="90" x2="320" y2="90" stroke="#999" stroke-width="1.5"/><line x1="255" y1="90" x2="259" y2="50" stroke="url(#b_limb)" stroke-width="5" stroke-linecap="round"/><circle cx="259" cy="50" r="7" fill="url(#b_sph)"/><text x="260" y="30" font-size="9" fill="#b0361f" text-anchor="middle">level: stops</text><text x="260" y="112" font-size="8.5" fill="#555" text-anchor="middle">needs muscle work</text></svg><figcaption>C9 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>The passive walker relies on downhill gravitational work. On level ground, muscles must replace heel-strike losses.</div></details></div>
+
+
+
+<div class="prob"><b>C10.</b> Why do older-adult falls require physics, chemistry, and biology together? <span class="small"><b>Probes:</b> stack reasoning.</span><figure><svg class="setupfig" viewBox="0 0 340 112" width="100%" style="max-width:340px" role="img" aria-label="C10 figure"><rect x="120" y="20" width="200" height="24" rx="4" fill="#f6f4ef" stroke="#7a1f1f"/><text x="220" y="36" font-size="9.5" fill="#7a1f1f" text-anchor="middle">physics: gait failure</text><rect x="120" y="48" width="200" height="24" rx="4" fill="#f6f4ef" stroke="#3a6a92"/><text x="220" y="64" font-size="9.5" fill="#3a6a92" text-anchor="middle">biology: control reserve</text><rect x="120" y="76" width="200" height="24" rx="4" fill="#f6f4ef" stroke="#2a7d2a"/><text x="220" y="92" font-size="9.5" fill="#2a7d2a" text-anchor="middle">chemistry: substrate</text><line x1="60" y1="88" x2="115" y2="30" stroke="#666" stroke-width="1.6" marker-end="url(#a_gry)"/><line x1="60" y1="88" x2="115" y2="58" stroke="#666" stroke-width="1.6" marker-end="url(#a_gry)"/><line x1="60" y1="88" x2="115" y2="86" stroke="#666" stroke-width="1.6" marker-end="url(#a_gry)"/><text x="55" y="104" font-size="9" fill="#555" text-anchor="middle">fall</text></svg><figcaption>C10 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Physics explains loss of stability and impact; chemistry/materials explain fracture and tissue tolerance; biology explains sarcopenia, fear, inflammation, and deconditioning after the event.</div></details></div>
+
+
+
+
+
+
+
+<h3>Derivational problems</h3>
+
+
+
+<div class="prob"><b>D1.</b> Derive $v=cL$ for symmetric walking. <span class="small"><b>Probes:</b> gait bookkeeping.</span><figure><svg class="setupfig" viewBox="0 0 340 106" width="100%" style="max-width:340px" role="img" aria-label="D1 figure"><line x1="20" y1="70" x2="320" y2="70" stroke="#999"/><line x1="40" y1="70" x2="95" y2="45" stroke="#c98a5e" stroke-width="6"/><circle cx="40" cy="70" r="3" fill="#7a1f1f"/><line x1="40" y1="86" x2="110" y2="86" stroke="#333"/><text x="75" y="98" font-size="8" fill="#333" text-anchor="middle">L</text><line x1="110" y1="70" x2="165" y2="45" stroke="#c98a5e" stroke-width="6"/><circle cx="110" cy="70" r="3" fill="#7a1f1f"/><line x1="110" y1="86" x2="180" y2="86" stroke="#333"/><text x="145" y="98" font-size="8" fill="#333" text-anchor="middle">L</text><line x1="180" y1="70" x2="235" y2="45" stroke="#c98a5e" stroke-width="6"/><circle cx="180" cy="70" r="3" fill="#7a1f1f"/><line x1="180" y1="86" x2="250" y2="86" stroke="#333"/><text x="215" y="98" font-size="8" fill="#333" text-anchor="middle">L</text><line x1="250" y1="70" x2="305" y2="45" stroke="#c98a5e" stroke-width="6"/><circle cx="250" cy="70" r="3" fill="#7a1f1f"/><line x1="250" y1="86" x2="320" y2="86" stroke="#333"/><text x="285" y="98" font-size="8" fill="#333" text-anchor="middle">L</text><text x="180" y="30" font-size="10" fill="#7a1f1f" text-anchor="middle">c steps/s × L per step = v</text></svg><figcaption>D1 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Each step advances $L$ and there are $c$ steps per second, so speed is distance/time $v=cL$.</div></details></div>
+
+
+
+<div class="prob"><b>D2.</b> Derive $\Delta h=\ell(1-\cos\alpha)$ for an inverted-pendulum stance arc. <span class="small"><b>Probes:</b> COM geometry.</span><figure><svg class="setupfig" viewBox="0 0 340 128" width="100%" style="max-width:340px" role="img" aria-label="D2 figure"><line x1="40" y1="110" x2="300" y2="110" stroke="#999"/><circle cx="170" cy="110" r="4" fill="#7a1f1f"/><line x1="170" y1="110" x2="139" y2="36" stroke="url(#b_limb)" stroke-width="3" stroke-linecap="round"/><line x1="170" y1="110" x2="170" y2="30" stroke="url(#b_limb)" stroke-width="3" stroke-linecap="round"/><circle cx="139" cy="36" r="6" fill="url(#b_sph)"/><circle cx="170" cy="30" r="6" fill="url(#b_sph)"/><line x1="139" y1="36" x2="139" y2="30" stroke="#2a7d2a" stroke-width="1.4" stroke-dasharray="3 2"/><line x1="139" y1="30" x2="170" y2="30" stroke="#2a7d2a" stroke-width="1.4" stroke-dasharray="3 2"/><text x="123" y="33" font-size="9" fill="#2a7d2a">Δh</text><text x="150" y="80" font-size="9" fill="#666">ℓ</text><path d="M150,96 A24,24 0 0 1 170,86" fill="none" stroke="#666"/><text x="150" y="106" font-size="9" fill="#666">α</text><text x="240" y="40" font-size="9" fill="#333">Δh=ℓ(1−cosα)</text></svg><figcaption>D2 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>The COM height is $\ell\cos\theta$; compare edge $\theta=\alpha$ to midstance $\theta=0$.</div></details></div>
+
+
+
+<div class="prob"><b>D3.</b> Derive the Froude number by nondimensionalizing $v^2$ with $g\ell$. <span class="small"><b>Probes:</b> dynamic similarity.</span><figure><svg class="setupfig" viewBox="0 0 340 118" width="100%" style="max-width:340px" role="img" aria-label="D3 figure"><rect x="40" y="40" width="90" height="40" rx="4" fill="#eef3f8" stroke="#3a6a92"/><text x="85" y="58" font-size="11" fill="#3a6a92" text-anchor="middle">v²</text><text x="85" y="72" font-size="8" fill="#666" text-anchor="middle">m²/s²</text><rect x="150" y="40" width="90" height="40" rx="4" fill="#eef8ee" stroke="#2a7d2a"/><text x="195" y="58" font-size="11" fill="#2a7d2a" text-anchor="middle">gℓ</text><text x="195" y="72" font-size="8" fill="#666" text-anchor="middle">m²/s²</text><text x="270" y="64" font-size="12" fill="#7a1f1f">→ Fr=v²/gℓ</text><text x="170" y="105" font-size="9" fill="#555" text-anchor="middle">same units → dimensionless ratio</text></svg><figcaption>D3 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>$g\ell$ has units $\mathrm{m^2s^{-2}}$, the same as $v^2$, so $v^2/(g\ell)$ is the natural dimensionless speed.</div></details></div>
+
+
+
+<div class="prob"><b>D4.</b> Starting from Newton's law, derive $\mathbf F_{\rm grf}=M\ddot{\mathbf r}_{\rm com}+Mg\mathbf e_y$. <span class="small"><b>Probes:</b> whole-body force balance.</span><figure><svg class="setupfig" viewBox="0 0 340 150" width="100%" style="max-width:340px" role="img" aria-label="D4 figure"><line x1="40" y1="120" x2="300" y2="120" stroke="#999"/><circle cx="150" cy="55" r="7" fill="#1a1a1a"/><text x="162" y="52" font-size="9" fill="#1a1a1a">COM</text><line x1="150" y1="62" x2="150" y2="105" stroke="#b0361f" stroke-width="2.6" marker-end="url(#a_red)"/><text x="156" y="92" font-size="9" fill="#b0361f">Mg</text><line x1="150" y1="118" x2="150" y2="70" stroke="#2a7d2a" stroke-width="2.6" marker-end="url(#a_grn)"/><text x="120" y="80" font-size="9" fill="#2a7d2a">F<tspan baseline-shift="sub" font-size="7">grf</tspan></text><line x1="150" y1="55" x2="195" y2="40" stroke="#2a6ca8" stroke-width="2.4" marker-end="url(#a_blu)"/><text x="200" y="40" font-size="9" fill="#2a6ca8">Ma</text><text x="170" y="140" font-size="9" fill="#333" text-anchor="middle">F<tspan baseline-shift="sub" font-size="7">grf</tspan> − Mg = M a</text></svg><figcaption>D4 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Sum external forces: $\mathbf F_{\rm grf}-Mg\mathbf e_y=M\ddot{\mathbf r}_{\rm com}$, then rearrange.</div></details></div>
+
+
+
+<div class="prob"><b>D5.</b> Derive the compass-gait relabeling condition at heel strike. <span class="small"><b>Probes:</b> event maps.</span><figure><svg class="setupfig" viewBox="0 0 340 120" width="100%" style="max-width:340px" role="img" aria-label="D5 figure"><line x1="20" y1="95" x2="320" y2="95" stroke="#999"/><circle cx="90" cy="95" r="4" fill="#7a1f1f"/><circle cx="230" cy="95" r="4" fill="#2a7d2a"/><line x1="90" y1="95" x2="114" y2="40" stroke="url(#b_limb)" stroke-width="6" stroke-linecap="round"/><line x1="230" y1="95" x2="206" y2="40" stroke="url(#b_limb)" stroke-width="6" stroke-linecap="round"/><text x="90" y="112" font-size="8.5" fill="#7a1f1f" text-anchor="middle">old stance</text><text x="230" y="112" font-size="8.5" fill="#2a7d2a" text-anchor="middle">new stance</text><path d="M150,50 C180,42 195,44 210,52" fill="none" stroke="#666" stroke-width="1.6" marker-end="url(#a_gry)"/><text x="180" y="34" font-size="9" fill="#666" text-anchor="middle">swap pivot</text></svg><figcaption>D5 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>The old swing foot becomes the new stance pivot, so pre-impact swing-leg angle becomes post-impact stance-leg angle with sign convention changed; velocities map through the impact constraint.</div></details></div>
+
+
+
+<div class="prob"><b>D6.</b> Derive the redirection loss $\frac12 Mv^2\sin^2(2\alpha)$. <span class="small"><b>Probes:</b> collision geometry.</span><figure><svg class="setupfig" viewBox="0 0 340 116" width="100%" style="max-width:340px" role="img" aria-label="D6 figure"><line x1="20" y1="100" x2="320" y2="100" stroke="#999"/><circle cx="170" cy="45" r="5" fill="#1a1a1a"/><line x1="170" y1="45" x2="230" y2="72" stroke="#666" stroke-width="2.4" marker-end="url(#a_gry)"/><text x="234" y="76" font-size="8.5" fill="#666">v</text><line x1="170" y1="45" x2="215" y2="35" stroke="#2a7d2a" stroke-width="2" marker-end="url(#a_grn)"/><text x="216" y="30" font-size="8" fill="#2a7d2a">along new leg</text><line x1="170" y1="45" x2="200" y2="92" stroke="#b0361f" stroke-width="2" marker-end="url(#a_red)"/><text x="120" y="96" font-size="8.5" fill="#b0361f">lost: v sin2α</text></svg><figcaption>D6 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>The component perpendicular to the new admissible tangent is $v\sin(2\alpha)$; an inelastic collision removes its kinetic energy.</div></details></div>
+
+
+
+<div class="prob"><b>D7.</b> Derive $P_j=\tau_j\dot\theta_j$ from work rate. <span class="small"><b>Probes:</b> rotational power.</span><figure><svg class="setupfig" viewBox="0 0 340 110" width="100%" style="max-width:340px" role="img" aria-label="D7 figure"><circle cx="90" cy="60" r="22" fill="none" stroke="#999" stroke-width="1.4"/><path d="M90,38 A22,22 0 0 1 112,60" fill="none" stroke="#2a7d2a" stroke-width="2.4" marker-end="url(#a_grn)"/><line x1="90" y1="60" x2="90" y2="38" stroke="#7a1f1f" stroke-width="2" marker-end="url(#a_red)"/><text x="96" y="34" font-size="8.5" fill="#7a1f1f">τ</text><text x="118" y="60" font-size="8.5" fill="#2a7d2a">dθ</text><text x="200" y="52" font-size="10" fill="#333">dW=τ dθ</text><text x="200" y="74" font-size="10" fill="#333">P=τ θ̇</text></svg><figcaption>D7 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Rotational work is $dW=\tau_j d\theta_j$. Divide by $dt$ to get $P_j=\tau_j\dot\theta_j$.</div></details></div>
+
+
+
+<div class="prob"><b>D8.</b> Derive a first-order condition for optimal step length in a cost proxy $C(L)=a\sin^2(2\arcsin(L/2\ell))+b/L^2$. <span class="small"><b>Probes:</b> optimum, not substitution.</span><figure><svg class="setupfig" viewBox="0 0 340 128" width="100%" style="max-width:340px" role="img" aria-label="D8 figure"><line x1="45" y1="100" x2="310" y2="100" stroke="#333" stroke-width="1.1"/><line x1="45" y1="100" x2="45" y2="25" stroke="#333" stroke-width="1.1"/><polyline points="45.0,30.0 49.5,36.7 54.0,42.7 58.5,48.2 63.0,53.2 67.5,57.7 71.9,61.8 76.4,65.5 80.9,68.9 85.4,72.0 89.9,74.9 94.4,77.5 98.9,79.9 103.4,82.0 107.9,84.0 112.4,85.8 116.9,87.4 121.4,88.9 125.8,90.3 130.3,91.5 134.8,92.7 139.3,93.7 143.8,94.6 148.3,95.4 152.8,96.1 157.3,96.8 161.8,97.4 166.3,97.9 170.8,98.3 175.3,98.7 179.7,99.0 184.2,99.3 188.7,99.5 193.2,99.7 197.7,99.8 202.2,99.9 206.7,100.0 211.2,100.0 215.7,100.0 220.2,99.9 224.7,99.9 229.2,99.8 233.6,99.6 238.1,99.5 242.6,99.3 247.1,99.1 251.6,98.9 256.1,98.7 260.6,98.5 265.1,98.2 269.6,98.0 274.1,97.7 278.6,97.4 283.1,97.1 287.5,96.8 292.0,96.5 296.5,96.2 301.0,95.9 305.5,95.6 310.0,95.3" fill="none" stroke="#7a1f1f" stroke-width="2.2"/><line x1="211" y1="100" x2="211" y2="100" stroke="#2a7d2a" stroke-dasharray="4 3"/><circle cx="211" cy="100" r="4" fill="#2a7d2a"/><text x="211" y="120" font-size="9" fill="#2a7d2a" text-anchor="middle">dC/dL=0</text><text x="180" y="20" font-size="9" fill="#555" text-anchor="middle">cost C(L): interior optimum</text></svg><figcaption>D8 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Differentiate $C$ with respect to $L$ and set $dC/dL=0$; transition and cadence costs scale oppositely, so an interior optimum can exist.</div></details></div>
+
+
+
+<div class="prob"><b>D9.</b> Derive the capture inequality $x+\dot x/\omega_0\le x_s^{\max}$. <span class="small"><b>Probes:</b> fall margin.</span><figure><svg class="setupfig" viewBox="0 0 340 104" width="100%" style="max-width:340px" role="img" aria-label="D9 figure"><line x1="40" y1="70" x2="300" y2="70" stroke="#5a86a8" stroke-width="6" stroke-linecap="round"/><circle cx="120" cy="70" r="5" fill="#1a1a1a"/><line x1="120" y1="70" x2="170" y2="70" stroke="#2a6ca8" stroke-width="2" marker-end="url(#a_blu)"/><text x="145" y="60" font-size="8.5" fill="#2a6ca8">v/ω₀</text><circle cx="180" cy="70" r="5" fill="none" stroke="#b0361f" stroke-width="2"/><text x="180" y="56" font-size="8.5" fill="#b0361f" text-anchor="middle">x+v/ω₀</text><line x1="260" y1="58" x2="260" y2="82" stroke="#7a1f1f" stroke-width="1.6"/><text x="260" y="96" font-size="8.5" fill="#7a1f1f" text-anchor="middle">step reach</text><text x="180" y="30" font-size="9" fill="#555" text-anchor="middle">recover iff capture ≤ reach</text></svg><figcaption>D9 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>For the linear inverted pendulum, the divergent component is $x+\dot x/\omega_0$. A feasible step must place support beyond that component, so the maximum feasible step reach $x_s^{\max}$ must exceed it.</div></details></div>
+
+
+
+<div class="prob"><b>D10.</b> Show why passive downhill walking needs slope work to equal collision loss over a cycle. <span class="small"><b>Probes:</b> limit-cycle energy.</span><figure><svg class="setupfig" viewBox="0 0 300 128" width="100%" style="max-width:340px" role="img" aria-label="D10 figure"><line x1="64" y1="95" x2="286" y2="95" stroke="#333"/><rect x="70" y="40" width="48" height="55" fill="#2a7d2a" fill-opacity="0.75"/><text x="94" y="108" font-size="8.5" fill="#555" text-anchor="middle">gravity in</text><rect x="178" y="40" width="48" height="55" fill="#b0361f" fill-opacity="0.75"/><text x="202" y="108" font-size="8.5" fill="#555" text-anchor="middle">collision out</text><text x="150" y="30" font-size="9.5" fill="#555" text-anchor="middle">periodic gait: input = loss</text><text x="150" y="115" font-size="8.5" fill="#555" text-anchor="middle">(passive: actuator work = 0)</text></svg><figcaption>D10 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>On a periodic gait, total mechanical energy repeats each step. Therefore gravitational work from descent plus actuator work must equal impact and frictional losses. Passive means actuator work is zero, so slope work pays the losses.</div></details></div>
+
+
+
+
+
+
+
+<h3>Computational problems</h3>
+
+
+
+<div class="prob"><b>K1.</b> Simulate COM height over one step for $\ell=0.95$ m and $\alpha=12^\circ,16^\circ,20^\circ$. Which step angle produces the largest pendular energy exchange? <span class="small"><b>Probes:</b> numerical geometry.</span><figure><svg class="setupfig" viewBox="0 0 300 120" width="100%" style="max-width:340px" role="img" aria-label="K1 figure"><line x1="54" y1="95" x2="186" y2="95" stroke="#333"/><rect x="60" y="73" width="26" height="22" fill="#2a6ca8" fill-opacity="0.75"/><text x="73" y="108" font-size="8.5" fill="#555" text-anchor="middle">12°</text><rect x="102" y="56" width="26" height="39" fill="#2a6ca8" fill-opacity="0.75"/><text x="115" y="108" font-size="8.5" fill="#555" text-anchor="middle">16°</text><rect x="144" y="35" width="26" height="60" fill="#b0361f" fill-opacity="0.75"/><text x="157" y="108" font-size="8.5" fill="#555" text-anchor="middle">20°</text><text x="150" y="26" font-size="9.5" fill="#555" text-anchor="middle">PE exchange MgΔh (J): rises with α</text></svg><figcaption>K1 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Compute $\Delta h=\ell(1-\cos\alpha)$ for each angle. The largest angle gives the largest rise: numerically, with $\ell=0.95$ m, $\Delta h=2.1,\,3.7,\,5.7$ cm and $Mg\Delta h\approx14,\,25,\,39$ J for $12^\circ,16^\circ,20^\circ$, so the $20^\circ$ step exchanges the most energy.</div></details></div>
+
+
+
+<div class="prob"><b>K2.</b> Sweep walking speed from 0.6 to 2.0 m/s and compute $\mathrm{Fr}$ for leg lengths 0.8, 0.95, and 1.1 m. <span class="small"><b>Probes:</b> dynamic similarity.</span><figure><svg class="setupfig" viewBox="0 0 340 128" width="100%" style="max-width:340px" role="img" aria-label="K2 figure"><line x1="45" y1="100" x2="300" y2="100" stroke="#333" stroke-width="1.1"/><line x1="45" y1="100" x2="45" y2="25" stroke="#333" stroke-width="1.1"/><polyline points="45.0,92.7 53.8,91.4 62.6,90.1 71.4,88.7 80.2,87.2 89.0,85.6 97.8,83.9 106.6,82.1 115.3,80.2 124.1,78.2 132.9,76.1 141.7,73.9 150.5,71.6 159.3,69.3 168.1,66.8 176.9,64.3 185.7,61.6 194.5,58.9 203.3,56.0 212.1,53.1 220.9,50.0 229.7,46.9 238.4,43.7 247.2,40.4 256.0,36.9 264.8,33.4 273.6,29.8 282.4,26.1 291.2,22.3 300.0,18.5" fill="none" stroke="#b0361f" stroke-width="1.9"/><text x="305" y="18" font-size="8" fill="#b0361f">0.8m</text><polyline points="45.0,93.8 53.8,92.8 62.6,91.7 71.4,90.5 80.2,89.2 89.0,87.8 97.8,86.4 106.6,84.9 115.3,83.3 124.1,81.6 132.9,79.9 141.7,78.0 150.5,76.1 159.3,74.1 168.1,72.1 176.9,69.9 185.7,67.7 194.5,65.3 203.3,63.0 212.1,60.5 220.9,57.9 229.7,55.3 238.4,52.6 247.2,49.8 256.0,46.9 264.8,43.9 273.6,40.9 282.4,37.8 291.2,34.6 300.0,31.3" fill="none" stroke="#c9761a" stroke-width="1.9"/><text x="305" y="31" font-size="8" fill="#c9761a">0.95m</text><polyline points="45.0,94.7 53.8,93.8 62.6,92.8 71.4,91.8 80.2,90.7 89.0,89.5 97.8,88.3 106.6,87.0 115.3,85.6 124.1,84.1 132.9,82.6 141.7,81.0 150.5,79.4 159.3,77.7 168.1,75.9 176.9,74.0 185.7,72.1 194.5,70.1 203.3,68.0 212.1,65.9 220.9,63.7 229.7,61.4 238.4,59.0 247.2,56.6 256.0,54.1 264.8,51.6 273.6,49.0 282.4,46.3 291.2,43.5 300.0,40.7" fill="none" stroke="#2a7d2a" stroke-width="1.9"/><text x="305" y="41" font-size="8" fill="#2a7d2a">1.1m</text><text x="175" y="20" font-size="9" fill="#555" text-anchor="middle">Fr=v²/gℓ (shorter leg → higher Fr)</text><text x="175" y="118" font-size="8.5" fill="#555" text-anchor="middle">walking speed v</text></svg><figcaption>K2 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Use $\mathrm{Fr}=v^2/(g\ell)$. At $v=1.3$ m/s, $\mathrm{Fr}=0.22,\,0.18,\,0.16$ for $\ell=0.8,\,0.95,\,1.1$ m; the short-legged walker sits at a higher Froude number for the same speed, and reaches the walk–run range ($\mathrm{Fr}\approx0.5$) sooner.</div></details></div>
+
+
+
+<div class="prob"><b>K3.</b> Optimize step length in the cost proxy in section 7 for $v=1.3$ m/s. <span class="small"><b>Probes:</b> optimization.</span><figure><svg class="setupfig" viewBox="0 0 340 128" width="100%" style="max-width:340px" role="img" aria-label="K3 figure"><line x1="45" y1="100" x2="300" y2="100" stroke="#333" stroke-width="1.1"/><line x1="45" y1="100" x2="45" y2="25" stroke="#333" stroke-width="1.1"/><polyline points="45.0,30.5 49.3,39.2 53.6,47.1 58.0,54.1 62.3,60.5 66.6,66.2 70.9,71.3 75.3,75.8 79.6,79.9 83.9,83.4 88.2,86.6 92.5,89.3 96.9,91.7 101.2,93.7 105.5,95.4 109.8,96.8 114.2,97.9 118.5,98.8 122.8,99.4 127.1,99.8 131.4,100.0 135.8,100.0 140.1,99.8 144.4,99.4 148.7,98.8 153.1,98.1 157.4,97.3 161.7,96.3 166.0,95.2 170.3,94.0 174.7,92.6 179.0,91.2 183.3,89.7 187.6,88.0 191.9,86.3 196.3,84.5 200.6,82.6 204.9,80.7 209.2,78.7 213.6,76.6 217.9,74.5 222.2,72.4 226.5,70.2 230.8,67.9 235.2,65.7 239.5,63.4 243.8,61.0 248.1,58.7 252.5,56.3 256.8,53.9 261.1,51.5 265.4,49.1 269.7,46.7 274.1,44.3 278.4,41.9 282.7,39.5 287.0,37.1 291.4,34.7 295.7,32.3 300.0,30.0" fill="none" stroke="#7a1f1f" stroke-width="2.2"/><circle cx="131" cy="100" r="4" fill="#2a7d2a"/><text x="131" y="118" font-size="8.5" fill="#2a7d2a" text-anchor="middle">optimum L*</text><text x="175" y="20" font-size="9" fill="#555" text-anchor="middle">grid-search cost vs step length (v=1.3)</text></svg><figcaption>K3 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Evaluate the proxy on a grid of feasible $L$ or solve $dC/dL=0$ numerically. With the section-7 form (transition cost against a cadence term $B(v/L)^2$), the grid minimum at $v=1.3$ m/s sits near $L^{*}\approx0.6$ m — close to the preferred step length; too-long steps raise transition loss, too-short steps raise cadence cost.</div></details></div>
+
+
+
+<div class="prob"><b>K4.</b> Compare transition loss before and after a push-off impulse that reduces the redirection angle by 25 percent. <span class="small"><b>Probes:</b> intervention effect.</span><figure><svg class="setupfig" viewBox="0 0 300 120" width="100%" style="max-width:340px" role="img" aria-label="K4 figure"><line x1="64" y1="95" x2="278" y2="95" stroke="#333"/><rect x="70" y="37" width="46" height="58" fill="#b0361f" fill-opacity="0.75"/><text x="93" y="108" font-size="8.5" fill="#555" text-anchor="middle">collision</text><rect x="174" y="63" width="46" height="32" fill="#2a7d2a" fill-opacity="0.75"/><text x="197" y="108" font-size="8.5" fill="#555" text-anchor="middle">push-off</text><text x="150" y="26" font-size="9.5" fill="#555" text-anchor="middle">angle ×0.75 → loss ×0.56 (−44%)</text></svg><figcaption>K4 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Apply the loss $\propto\sin^2(\text{angle})$ twice. Cutting the redirection angle to $0.75\times$ multiplies the loss by $0.75^2=0.56$, a $44\%$ reduction — a large saving from a modest pre-emptive push-off.</div></details></div>
+
+
+
+<div class="prob"><b>K5.</b> From synthetic ankle torque and angular velocity curves, integrate positive ankle work over stance. <span class="small"><b>Probes:</b> power integration.</span><figure><svg class="setupfig" viewBox="0 0 340 116" width="100%" style="max-width:340px" role="img" aria-label="K5 figure"><line x1="45" y1="95" x2="305" y2="95" stroke="#333" stroke-width="1.1"/><line x1="45" y1="95" x2="45" y2="25" stroke="#333" stroke-width="1.1"/><line x1="45" y1="64" x2="305" y2="64" stroke="#999" stroke-dasharray="3 2"/><polyline points="45.0,64.0 49.4,64.0 53.8,64.0 58.2,64.0 62.6,64.0 67.0,64.0 71.4,64.0 75.8,64.0 80.3,64.0 84.7,64.0 89.1,64.0 93.5,64.0 97.9,64.0 102.3,64.0 106.7,64.0 111.1,64.0 115.5,64.0 119.9,64.0 124.3,64.0 128.7,64.0 133.1,64.0 137.5,64.0 141.9,64.0 146.4,64.0 150.8,63.9 155.2,63.6 159.6,63.0 164.0,61.7 168.4,59.2 172.8,55.1 177.2,49.7 181.6,43.6 186.0,38.5 190.4,36.0 194.8,36.9 199.2,41.0 203.6,46.8 208.1,52.6 212.5,57.4 216.9,60.7 221.3,62.5 225.7,63.4 230.1,63.8 234.5,63.9 238.9,64.0 243.3,64.0 247.7,64.0 252.1,64.0 256.5,64.0 260.9,64.0 265.3,64.0 269.7,64.0 274.2,64.0 278.6,64.0 283.0,64.0 287.4,64.0 291.8,64.0 296.2,64.0 300.6,64.0 305.0,64.0" fill="none" stroke="#b0361f" stroke-width="2"/><text x="175" y="18" font-size="9" fill="#555" text-anchor="middle">P=τθ̇: positive work ≈ 15.8 J</text></svg><figcaption>K5 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Compute $P(t)=\tau(t)\dot\theta(t)$ and integrate only $P^{+}$ by the trapezoid rule. For the synthetic terminal-stance burst this gives $\int P^{+}\,dt\approx15.8$ J of positive ankle work per step.</div></details></div>
+
+
+
+<div class="prob"><b>K6.</b> Add noise to joint angle data, finite-difference it twice, and observe how inverse-dynamics torque changes. <span class="small"><b>Probes:</b> measurement sensitivity.</span><figure><svg class="setupfig" viewBox="0 0 340 112" width="100%" style="max-width:340px" role="img" aria-label="K6 figure"><line x1="45" y1="95" x2="305" y2="95" stroke="#333" stroke-width="1.1"/><line x1="45" y1="95" x2="45" y2="25" stroke="#333" stroke-width="1.1"/><polyline points="45.0,60.0 48.3,58.3 51.6,56.7 54.9,55.0 58.2,53.4 61.5,51.9 64.7,50.4 68.0,48.9 71.3,47.5 74.6,46.2 77.9,45.0 81.2,43.9 84.5,42.9 87.8,42.0 91.1,41.2 94.4,40.5 97.7,39.9 100.9,39.5 104.2,39.2 107.5,39.0 110.8,39.0 114.1,39.1 117.4,39.3 120.7,39.7 124.0,40.2 127.3,40.8 130.6,41.5 133.9,42.4 137.2,43.4 140.4,44.4 143.7,45.6 147.0,46.9 150.3,48.2 153.6,49.6 156.9,51.1 160.2,52.6 163.5,54.2 166.8,55.9 170.1,57.5 173.4,59.2 176.6,60.8 179.9,62.5 183.2,64.1 186.5,65.8 189.8,67.4 193.1,68.9 196.4,70.4 199.7,71.8 203.0,73.1 206.3,74.4 209.6,75.6 212.8,76.6 216.1,77.6 219.4,78.5 222.7,79.2 226.0,79.8 229.3,80.3 232.6,80.7 235.9,80.9 239.2,81.0 242.5,81.0 245.8,80.8 249.1,80.5 252.3,80.1 255.6,79.5 258.9,78.8 262.2,78.0 265.5,77.1 268.8,76.1 272.1,75.0 275.4,73.8 278.7,72.5 282.0,71.1 285.3,69.6 288.5,68.1 291.8,66.6 295.1,65.0 298.4,63.3 301.7,61.7 305.0,60.0" fill="none" stroke="#2a7d2a" stroke-width="1.8"/><polyline points="45.0,59.3 48.3,55.9 51.6,53.5 54.9,54.6 58.2,51.1 61.5,48.6 64.7,48.2 68.0,45.6 71.3,43.4 74.6,41.5 77.9,40.2 81.2,38.0 84.5,38.5 87.8,37.9 91.1,38.1 94.4,36.2 97.7,35.6 100.9,35.7 104.2,37.1 107.5,37.5 110.8,37.4 114.1,38.1 117.4,35.6 120.7,33.9 124.0,40.0 127.3,44.6 130.6,45.7 133.9,47.5 137.2,48.0 140.4,48.6 143.7,45.3 147.0,48.9 150.3,51.0 153.6,48.2 156.9,48.3 160.2,48.4 163.5,51.1 166.8,56.2 170.1,57.5 173.4,58.9 176.6,63.2 179.9,66.3 183.2,68.1 186.5,71.7 189.8,73.5 193.1,74.8 196.4,76.2 199.7,78.7 203.0,78.8 206.3,78.2 209.6,78.7 212.8,81.5 216.1,80.9 219.4,82.8 222.7,81.7 226.0,84.6 229.3,83.1 232.6,83.5 235.9,86.4 239.2,87.2 242.5,87.0 245.8,86.3 249.1,88.0 252.3,89.9 255.6,89.0 258.9,89.3 262.2,88.0 265.5,85.5 268.8,87.9 272.1,86.3 275.4,82.5 278.7,81.8 282.0,82.1 285.3,79.1 288.5,77.0 291.8,73.6 295.1,72.7 298.4,74.2 301.7,72.8 305.0,72.0" fill="none" stroke="#b0361f" stroke-width="1.2"/><text x="175" y="20" font-size="9" fill="#555" text-anchor="middle">double diff amplifies noise (τ artifacts)</text></svg><figcaption>K6 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Second derivatives amplify noise, so unfiltered kinematics produce large torque artifacts. This forwards to Module 15.</div></details></div>
+
+
+
+<div class="prob"><b>K7.</b> Sweep cadence and step length combinations that produce the same speed. Which combinations minimize the cost proxy? <span class="small"><b>Probes:</b> redundancy in gait choice.</span><figure><svg class="setupfig" viewBox="0 0 340 128" width="100%" style="max-width:340px" role="img" aria-label="K7 figure"><line x1="45" y1="100" x2="300" y2="100" stroke="#333" stroke-width="1.1"/><line x1="45" y1="100" x2="45" y2="25" stroke="#333" stroke-width="1.1"/><polyline points="45.0,30.0 50.2,39.6 55.4,48.2 60.6,55.8 65.8,62.6 71.0,68.7 76.2,74.0 81.4,78.6 86.6,82.7 91.8,86.3 97.0,89.3 102.2,91.9 107.4,94.1 112.7,95.9 117.9,97.4 123.1,98.5 128.3,99.2 133.5,99.8 138.7,100.0 143.9,100.0 149.1,99.8 154.3,99.3 159.5,98.7 164.7,97.8 169.9,96.8 175.1,95.7 180.3,94.3 185.5,92.9 190.7,91.3 195.9,89.6 201.1,87.8 206.3,85.8 211.5,83.8 216.7,81.7 221.9,79.5 227.1,77.3 232.3,74.9 237.6,72.5 242.8,70.1 248.0,67.6 253.2,65.1 258.4,62.5 263.6,59.9 268.8,57.3 274.0,54.6 279.2,52.0 284.4,49.3 289.6,46.6 294.8,43.9 300.0,41.2" fill="none" stroke="#2a6ca8" stroke-width="2.2"/><circle cx="139" cy="100" r="4" fill="#2a7d2a"/><text x="175" y="20" font-size="9" fill="#555" text-anchor="middle">cL=v fixed: cost picks one (L,c)</text><text x="175" y="118" font-size="8.5" fill="#555" text-anchor="middle">step length L</text></svg><figcaption>K7 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Constrain $cL=v$ and evaluate the proxy over feasible $L$. The minimum lands near $L^{*}\approx0.6$ m (cadence $c\approx2.2$ steps/s at $v=1.3$ m/s): the redundancy in $(L,c)$ is broken because transition cost rises with $L$ while cadence cost falls with $L$.</div></details></div>
+
+
+
+<div class="prob"><b>K8.</b> Model arm swing as reducing trunk angular-momentum amplitude by 30 percent. Estimate the change in a quadratic stabilization cost. <span class="small"><b>Probes:</b> angular-momentum cost.</span><figure><svg class="setupfig" viewBox="0 0 300 120" width="100%" style="max-width:340px" role="img" aria-label="K8 figure"><line x1="64" y1="95" x2="278" y2="95" stroke="#333"/><rect x="70" y="37" width="46" height="58" fill="#b0361f" fill-opacity="0.75"/><text x="93" y="108" font-size="8.5" fill="#555" text-anchor="middle">no swing</text><rect x="174" y="67" width="46" height="28" fill="#2a7d2a" fill-opacity="0.75"/><text x="197" y="108" font-size="8.5" fill="#555" text-anchor="middle">arm swing</text><text x="150" y="26" font-size="9.5" fill="#555" text-anchor="middle">amplitude ×0.7 → cost ×0.49</text></svg><figcaption>K8 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>If cost is proportional to amplitude squared, a 30 percent amplitude reduction gives cost multiplier $0.7^2=0.49$.</div></details></div>
+
+
+
+<div class="prob"><b>K9.</b> Iterate a one-dimensional stride map $z_{n+1}=az_n+b$ for different $a$. Which values are stable? <span class="small"><b>Probes:</b> limit-cycle stability.</span><figure><svg class="setupfig" viewBox="0 0 340 114" width="100%" style="max-width:340px" role="img" aria-label="K9 figure"><line x1="45" y1="100" x2="300" y2="100" stroke="#333" stroke-width="1.1"/><line x1="45" y1="100" x2="45" y2="25" stroke="#333" stroke-width="1.1"/><polyline points="45.0,55.0 73.3,73.0 101.7,83.8 130.0,90.3 158.3,94.2 186.7,96.5 215.0,97.9 243.3,98.7 271.7,99.2 300.0,99.5" fill="none" stroke="#2a7d2a" stroke-width="1.9"/><polyline points="45.0,55.0 73.3,48.3 101.7,40.5 130.0,31.6 158.3,28.0 186.7,28.0 215.0,28.0 243.3,28.0 271.7,28.0 300.0,28.0" fill="none" stroke="#b0361f" stroke-width="1.9"/><text x="175" y="20" font-size="9" fill="#555" text-anchor="middle">zₙ₊₁=a zₙ: |a|<1 decays, |a|>1 grows</text><text x="308" y="60" font-size="8" fill="#b0361f">a=1.15</text><text x="308" y="92" font-size="8" fill="#2a7d2a">a=0.6</text></svg><figcaption>K9 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>The fixed point is stable when $|a|\lt1$; perturbations decay geometrically. Iterating confirms it: $a=0.6$ and $a=0.9$ converge to the fixed point, while $a=1.15$ diverges — the passive-gait Jacobian eigenvalue must lie inside the unit circle (section 9).</div></details></div>
+
+
+
+<div class="prob"><b>K10.</b> Sweep reaction delay, step reach, and COM speed in the fall-margin inequality. Which variable has the strongest effect on loss of recoverability? <span class="small"><b>Probes:</b> older-adult fall sensitivity.</span><figure><svg class="setupfig" viewBox="0 0 300 120" width="100%" style="max-width:340px" role="img" aria-label="K10 figure"><line x1="54" y1="95" x2="186" y2="95" stroke="#333"/><rect x="60" y="35" width="26" height="60" fill="#b0361f" fill-opacity="0.75"/><text x="73" y="108" font-size="8.5" fill="#555" text-anchor="middle">speed</text><rect x="102" y="71" width="26" height="24" fill="#2a6ca8" fill-opacity="0.75"/><text x="115" y="108" font-size="8.5" fill="#555" text-anchor="middle">delay</text><rect x="144" y="75" width="26" height="20" fill="#2a7d2a" fill-opacity="0.75"/><text x="157" y="108" font-size="8.5" fill="#555" text-anchor="middle">reach</text><text x="150" y="26" font-size="9.5" fill="#555" text-anchor="middle">margin elasticity: speed dominates</text></svg><figcaption>K10 figure.</figcaption></figure><details class="sol"><summary>Solution</summary><div>Compute $x+v\Delta+v/\omega_0$ against $x_{\rm max}^{\rm step}$. Numerically the margin's elasticity is $\approx0.88$ to speed versus $\approx0.35$ to reaction delay and $\approx0.30$ to step reach: speed dominates because it enters both the reaction drift $v\Delta$ and the divergent term $v/\omega_0$.</div></details></div>
+
+
+
+
+
+
+
+<h3>Diagnostics</h3>
+
+
+
+<ol class="diag"><li>If someone says walking is free because energy is exchanged pendularly, ask where heel-strike loss went.</li><li>If a gait figure has arrows but no foot, COP, COM, or event labels, it is not yet a gait figure.</li><li>If inverse dynamics reports torque without angular velocity, it cannot report joint power.</li><li>If an older-adult fall explanation names only "balance," it is missing tissue chemistry and recovery biology.</li><li>If a passive walker is drawn on level ground without actuation, it must eventually stop.</li></ol>
+
+
+
+<h3>What the model captures and misses</h3>
+
+
+
+<table><tr><th>Model</th><th>Captures</th><th>Misses / forwarded</th></tr><tr><td>Inverted-pendulum walking</td><td>COM vault, energy exchange, Froude scaling</td><td>Soft tissue, foot roll details, active control</td></tr><tr><td>Compass gait</td><td>Alternating steps, impact map, transition loss</td><td>Muscle coordination, multi-segment feet, 3-D balance</td></tr><tr><td>Inverse dynamics</td><td>Net ankle/knee/hip torques and powers</td><td>Individual muscle forces and measurement uncertainty</td></tr><tr><td>Fall stack</td><td>Mechanics, material fragility, biological decline loop</td><td>Full clinical heterogeneity, medication-specific risk, rehabilitation planning</td></tr></table>
+
+
+
+
+
+
+
+<h2 id="appendix">Appendix - notation and parameters</h2>
+
+
+
+<table><tr><th>Symbol</th><th>Meaning</th><th>First use</th></tr><tr><td>$L$</td><td>step length</td><td><a class="secref" href="#cycle">section 1</a></td></tr><tr><td>$L_s$</td><td>stride length</td><td><a class="secref" href="#cycle">section 1</a></td></tr><tr><td>$c$</td><td>cadence in steps per second</td><td><a class="secref" href="#cycle">section 1</a></td></tr><tr><td>$v$</td><td>mean walking speed</td><td><a class="secref" href="#cycle">section 1</a></td></tr><tr><td>$\ell$</td><td>leg length or inverted-pendulum length</td><td><a class="secref" href="#arc">section 2</a></td></tr><tr><td>$\alpha$</td><td>half step angle of the stance arc</td><td><a class="secref" href="#arc">section 2</a></td></tr><tr><td>$\mathrm{Fr}$</td><td>Froude number, $v^2/(g\ell)$</td><td><a class="secref" href="#arc">section 2</a></td></tr><tr><td>$\mathbf F_{\rm grf}$</td><td>ground reaction force</td><td><a class="secref" href="#copwalk">section 3</a></td></tr><tr><td>COP</td><td>center of pressure</td><td><a class="secref" href="#copwalk">section 3</a></td></tr><tr><td>$\theta,\phi$</td><td>stance-leg and swing-leg angles in compass gait</td><td><a class="secref" href="#compass">section 4</a></td></tr><tr><td>$\tau_j$</td><td>net joint torque at joint $j$</td><td><a class="secref" href="#powers">section 6</a></td></tr><tr><td>$P_j$</td><td>joint power</td><td><a class="secref" href="#powers">section 6</a></td></tr><tr><td>$\omega_0$</td><td>linear inverted-pendulum frequency</td><td><a class="secref" href="#falls">section 10</a></td></tr></table>
+
+
+
+<table><tr><th>Parameter</th><th>Typical value</th><th>Use</th></tr><tr><td>Body mass $M$</td><td>70 kg</td><td>work and impact estimates</td></tr><tr><td>Leg length $\ell$</td><td>0.8-1.1 m</td><td>Froude number, COM arc</td></tr><tr><td>Preferred walking speed</td><td>about 1.2-1.4 m/s</td><td>cost proxy examples</td></tr><tr><td>Double-support fraction</td><td>about 20-30 percent of gait cycle</td><td>event timing</td></tr><tr><td>Older-adult reaction delay</td><td>task dependent, often increased</td><td>fall-margin sensitivity</td></tr></table>
+
+
+
+<p class="small">This closes Module 8. Walking turns Module 7's unstable inverted pendulum into a moving sequence of falls and catches. It also creates the bridge forward: running and jumping need spring-mass dynamics (Module 9), perturbation recovery needs balance control (Module 10), coordination needs optimal control (Module 12), falls need aging biology (Module 14), and inverse dynamics needs measurement science (Module 15).</p>
+
+
+
+<script>
+
+
+
+function copyCode(btn){ var code=btn.parentElement.querySelector('code'); if(!code) return; var text=code.textContent; var done=function(){ var label=btn.querySelector('span'), prev=label.textContent; btn.classList.add('copied'); label.textContent='Copied!'; setTimeout(function(){ btn.classList.remove('copied'); label.textContent=prev; },1500); }; if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done); } else { var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(); }catch(e){} document.body.removeChild(ta); } }
+
+
+
+</script>
+
+
+
+</body>
+
+
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
