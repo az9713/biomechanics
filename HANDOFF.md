@@ -5,108 +5,90 @@ This file is the live "what to do next"; `CLAUDE.md` is the standing playbook. D
 duplicate content that already lives in the files referenced below — open them.
 
 ## Current state (as of latest push)
-- **Modules 1–6 are COMPLETE and live** at https://az9713.github.io/biomechanics/ .
-  Modules 1–4: §0–§9 (+ 30-problem §9 for M3/M4) + Appendix. Module 5 (Muscles): §0–§10 +
-  Appendix. **Module 6 (Tendons, Ligaments, Fascia, and Elastic Energy Storage): §0–§10 +
-  Appendix — COMPLETE, latest commit `5741566`.** §0 motivation → §1 collagen/crimp/J-law →
-  §2 nonlinear spring → §3 elastic energy → §4 series-elastic MTU (repays M5's rigid-tendon
-  debt) → §5 viscoelasticity → §6 Maxwell/KV/SLS → §7 hysteresis/complex modulus → §8
-  ligaments/knee four-bar/plantar-fascia arch → §9 three computational labs → **§10 30-problem
-  set** (C1–C10 / D1–D10 / K1–K10, each with its own figure; K's genuinely computational +
-  Python-verified) + 5 diagnostics + repayment table (→ Modules 9/14/16) → Appendix (grouped
-  notation + parameter tables). 11 Propositions, all proved. Full hardening loop passes on all
-  six modules. Working tree clean apart from untracked `.ignore/`, `here.sh.txt`, `prompt.txt`.
-- **Module 6 build lessons (all already encoded in `CLAUDE.md` + the skill — do not re-litigate):**
-  - **Cross-problem numerical consistency is a rigor axis no checker sees.** A §10 K-solution
-    printed a tendon resilience (74%) that contradicted C4 / §3 / §9 (~90–93%) on the same page;
-    caught only by an adversarial read. When a parameter appears in a boxed result, every
-    problem's answer must agree with it — the Appendix parameter table is the ledger to check against.
-  - **A model that resists a clean sweep is telling you something.** The §4 hop is a near-passive
-    bounce whose fibre is velocity-capped, so amplification/elastic-fraction sweeps came out flat;
-    the honest computational results were a rigid-limit root-find (K3) and a resonance optimum (K4).
-    Don't force a sweep out of a model that hasn't got one — re-pose the problem.
-- **Two conventions Module 5 established — still in force (both in `CLAUDE.md`):**
-  - **Leaner way:** author section prose DIRECTLY in `moduleNN.html`; use Python only for
-    *figures*, injected via `<!--FIG:key-->` markers with the generic `s5/splice_figs.py`.
-    **Never author section prose in a Python raw string** — it evades the read-aloud audit +
-    `check_prose.py`. (The old Module 3/4/5-§4 `build_secN.py` assembler is the superseded way.)
-  - **Audience = MIT-PhD:** computational (K) problems must require simulation / optimization /
-    an inverse problem / a sensitivity sweep — NOT plug-in substitution into a boxed formula.
-    (Encoded in `CLAUDE.md` "Audience & problem-set standard" and the skill `pedagogy-checklist.md` §8.)
-- **Module 5 & 6 figure generators were session-transient** and are GONE after clear — the
-  durable record is `module05.html` / `module06.html`. To edit a figure, either edit the
-  committed inline `<svg>` directly or regenerate from the leaner-way pattern
-  (a `genN.py` → `figsN.json` → splice into `<!--FIG:key-->` markers).
-  - **Module 6 §9/§10 scratch pipeline** (regenerate from this pattern): `k10.py` runs the ten
-    §10 computational (K) labs and dumps `kdata.json` (numbers + plot arrays — this is the source
-    of every boxed K-answer; re-run to re-verify); `gen10.py` builds the 30 problem-figure SVGs →
-    `figs10.json`; the §10 prose was hand-authored in `sec10_frag.html`, the Appendix in
-    `appendix_frag.html`, each spliced once into markers (`<!--SEC10-->`, `<!--SEC10-END-->`).
-    All idempotent, all session-transient — durable record is `module06.html`.
-- **SVG-subscript gotcha (bit us twice):** Unicode has no subscript c/d/l/v/etc.; write SVG
-  `<text>` subscripts as `<tspan baseline-shift='sub' font-size='7'>` (a `fixsub()` helper in the
-  generators maps placeholder entities to it). `ₘₐₓ` (max) is the one that *does* exist.
-
-## Other threads this session (not the biomech repo)
-- **New personal skill `handoff-after-clear`** created (`~/.claude/skills/`, LOCAL,
-  outside this repo) — the durable session-close/resume protocol, distinct from
-  `/handoff`. It is DONE and usable. Its **triggering-optimization is parked**;
-  status + how to resume in `~/.claude/skills/handoff-after-clear-workspace/STATUS.md`
-  (blocked by: `run_loop`'s improve-step needs `ANTHROPIC_API_KEY` this env lacks;
-  and a suspected harness artifact in the trigger eval). Not a biomech task.
-
-## Where to read things (reference, don't re-derive)
-- **`CLAUDE.md`** (repo root) — authoritative conventions: build loop, hardening
-  loop, figure rules, git/publish, publish-while-incomplete. **Read it.**
-- **`module04-learnings.md`** (repo root) — the build playbook from Module 4: the
-  generator/assembler figure pipeline, what each hardening check catches, the bugs
-  the toolchain surfaced, math-in-HTML gotchas. **Read before any figure-heavy work.**
-- **`module04-plan.md`** — the §-by-§ plan template (how Module 4 was scoped).
-- **`prompt.txt`** — the original course spec; the source of truth for scope/structure
-  of all 17 modules.
-- **`svg-figure-tiers.md`** — figure-style decision doc.
-- **Skill:** `C:\Users\simon\.claude\skills\rigorous-explainer\` — SKILL.md,
-  `scripts/*.py` (hardening tools incl. the new `check_svg.py`), `references/*.md`,
-  `assets/template.html`.
-- **Audit + planning docs (this round):** `audit-modules.md` (per-module quality
-  findings for all 5 modules — the **substance backlog**: e.g. M2 torsion section,
-  M1 joint-reaction/low-back numbers, M3 nonholonomic fix), `check-svg-fixlist.md`
-  (label/viewBox fixes — DONE), `skill-improvements-from-audit.md` +
-  `skill-change-list.md` (skill upgrades — DONE).
+- **Modules 1–8 are COMPLETE and live** at https://az9713.github.io/biomechanics/ .
+  Each `moduleNN.html` is self-contained (MathJax + inline SVG/SMIL, no build step) and
+  passes the full hardening loop. Latest commit **`7936b0e`** on `main`.
+  - **Module 7** (Standing, Posture, Load Bearing): §0–§10 + Appendix; delayed-PD inverted
+    pendulum, 15 proved props, SMIL sway animation, 30-problem set. Commit `949f40f`;
+    `.nojekyll` deploy fix `d04089e`.
+  - **Module 8** (Walking Biomechanics): §0–§12 + Appendix; controlled-falling inverted
+    pendulum → Froude → compass-gait impact map → step-to-step transition + push-off →
+    inverse-dynamics joint power → energetics → arm swing → passive dynamic walking →
+    older-adult falls (physics/chem/bio stack) → 4 labs → 30-problem set → Appendix.
+    11 proved props; every section has a figure; all plots computed.
+    - **Built by elevating a prior Codex draft** (thin rigor + placeholder figures) to the M7
+      standard, then two follow-up fixes this session: **(a)** relabeled the 4 lab code blocks
+      to PEP8/compact (commit `9b326a7`); **(b)** rebuilt all 30 C/D/K problem figures to the
+      3-layer semantic-clarity standard (commit `7936b0e`).
+- Everything committed and pushed to `main` (https://github.com/az9713/biomechanics).
+  Working tree clean apart from **known untracked noise**: `.ignore/` (transcripts),
+  `prompt.txt` (source spec — intentionally untracked), `here.sh.txt`, and **Codex
+  artifacts** `AGENTS.md`, `CODEX_HANDOFF_REPORT.md`, `MODULE6_MODULE7_PROBLEM_FIGURE_COMPARISON.md`,
+  `MODULE7_FIGURE_UPGRADE_PLAN.md`, `module08-preview.png` — **leave these untracked; do not commit.**
 
 ## Next task
-- **Module 6 is DONE, committed & pushed (`5741566`), live.** Next = **Module 7.**
-- **Module 7 — draw its plan from `prompt.txt` (Course Structure) + Module 6's forward
-  references**, exactly as Modules 3/4/5/6 were scoped. Module 6's §10 repayment table points
-  forward to **Module 9** (running/jumping SLIP), **Module 14** (creep-to-rupture, fatigue,
-  ageing) and **Module 16** (finite-strain / poroelastic continuum) — check whether Module 7
-  in `prompt.txt` is the next in sequence and what earlier modules deferred *to it* (grep the
-  built `moduleNN.html` for `Module&nbsp;7` forward-refs). Write `module07-plan.md` first, get it
-  approved, then build section-by-section: leaner way (prose in HTML, Python for figures),
-  MIT-PhD level, full hardening loop after every edit, **commit only on the user's "commit push."**
-  Publish-while-incomplete: link it in `index.html` + `README.md` as soon as it is first committed,
-  marked *(in progress)* until complete (drop the marker on completion, as Module 6 just did).
-- **Parallel/backup track:** the **substance backlog** in `audit-modules.md` — higher-value
-  content fixes to earlier modules (M2 torsion section; M1 joint-reaction + low-back number;
-  M3 nonholonomic relabel; M4 Hertz-validity caveat).
+- **Module 9 — Running and Jumping.** Draw the plan from `prompt.txt` (Course Structure,
+  "Module 9") + the forward-references Module 8 makes to it (grep the built `module0[1-8].html`
+  for `Module&nbsp;9`): the **spring-mass / SLIP** model, **flight phase**, the **walk→run
+  transition** at Fr≈0.5 (M8 §2/§4 explicitly hand this to M9), **impact loading / impulse**,
+  **tendon recoil** (repays M6's Achilles energy-storage IOU), **countermovement jump**,
+  **stretch-shortening cycle**, **landing mechanics**, **injury risk**. Write
+  **`module09-plan.md` first**, get it approved, then build section-by-section (leaner way:
+  prose in HTML, Python for figures only), MIT-PhD level, full hardening loop after every edit,
+  **commit only on the user's "commit push."** Publish-while-incomplete: link in `index.html`
+  (shift the pending line to "Modules 10–17") + `README.md` on first commit, marked *(in progress)*.
+- **Parallel/backup track:** the **substance backlog** in `audit-modules.md` (M2 torsion section,
+  M1 joint-reaction/low-back number, M3 nonholonomic relabel, M4 Hertz-validity caveat).
 - If the user asks for something else, that takes precedence.
 
-## How to work (the essentials — full detail in `CLAUDE.md`)
-- **Invoke the `rigorous-explainer` skill** at the start; follow its SKILL.md build loop.
-- **Section-by-section.** Build ONE section → report with a short summary + 2
-  `★ Insight` bullets → user reviews → commit/push **only on "commit push."**
-- **Figures:** compute plot/geometry data with Python in the scratchpad (run in the
-  background — numpy startup is slow); Tier-2 shaded for anatomy, flat schematic for
-  physics/plots; slim arrows only; reuse a shared `<defs>` block. **Get one
-  representative figure per family approved before mass-producing.**
-- **Hardening loop after every edit** — `checktex / checklt / check_links /
-  check_svg / verify_dom / check_overlap` all to 0; then `autolink_sections.py`.
-  Never eyeball a plot for overlaps; `check_overlap.py` enforces it. **Note:**
-  `check_svg` fails on literal `_`/`^` in `<text>` and bad `viewBox` — use Unicode
-  subscripts or `<tspan baseline-shift>`; and `baseline-shift="sub"` grows a label
-  box downward, so re-run `check_overlap` after adding subscripts near a ref line.
-- **Publish-while-incomplete:** when a `moduleNN.html` is committed, keep it linked in
-  `index.html` + `README.md` (marked *(in progress)* until complete).
+## Where to read things (reference, don't re-derive)
+- **`CLAUDE.md`** (repo root) — authoritative conventions: build loop, hardening loop, figure
+  rules, git/publish, publish-while-incomplete. **Read it.**
+- **`prompt.txt`** — original course spec; source of truth for scope/structure of all 17 modules.
+- **`module04-learnings.md`** — build playbook (generator/assembler figure pipeline, what each
+  hardening check catches, math-in-HTML gotchas). Read before figure-heavy work.
+- **`module04-plan.md` … `module08-plan.md`** — the §-by-§ plan templates.
+- **`audit-modules.md`** — the substance backlog for earlier modules.
+- **Skill:** `C:\Users\simon\.claude\skills\rigorous-explainer\` — SKILL.md, `scripts/*.py`
+  (hardening tools), `references/*.md`, `assets/template.html`.
 
-## Suggested skills
-- **`rigorous-explainer`** (primary — the whole course is built with it).
+## Skill upgrades made THIS session (LOCAL — in `~/.claude/skills/rigorous-explainer/`, NOT in this repo)
+- **`scripts/check_code.py`** — runs `pycodestyle` on every Python `<pre><code>` block; **fails**
+  on E303 (the `<pre>`-preserves-blank-lines spacing bug) and E501. Added to the hardening loop.
+- **`scripts/check_probfig.py`** — advisory: flags problem (C/D/K) figures that are neither a drawn
+  Tier-2 entity nor a real plot (floating arrows/bare glyph/text). Added to the loop.
+- **`SKILL.md`** — (1) PEP8/compact code-authoring rule; (2) **problem-figure exception**: C/D/K
+  figures always lead with the recognizable Tier-2 entity (overrides the "physics figures stay
+  flat" default), plus a note that `check_probfig` does NOT replace the manual 3-layer semantic audit.
+  These matter for every future module's figure + code quality.
+
+## Session-transient scratch (GONE after clear; regenerate from the pattern — durable record is `module08.html`)
+Scratchpad dir differs per session. Module 8 figure/lab generators:
+- **`fig7lib.py`** — shared Tier-2 helpers (`cap` shaded capsule, `sph` shaded sphere, `rot`,
+  `body` posable walking body). Note: an old `leg()` helper drew *upward*; don't reuse it —
+  build legs with `cap()` between explicit points.
+- **`fig_p8_v2.py`** — the 30 C/D/K problem figures (recognizable entity + anchored variables for
+  C/D; small Tier-2 model inset + computation panel for K) → idempotent inline `<figure>` replace
+  keyed by `<b>C1.</b>`…`<b>K10.</b>`.
+- **`gen_fig67.py`** (joint-power + cost-of-transport plots), **`gen_sec_figs.py`** (§1 gait
+  timeline, §8 arm swing, §9 passive walker) — idempotent inline replace by SVG `aria-label`.
+- **`clean_labs.py`** — the 4 PEP8 lab code blocks; splices by anchor string.
+- All idempotent, all session-transient. To edit a figure: regenerate from these, or edit the
+  committed inline `<svg>` in `module08.html` directly.
+
+## How to work (essentials — full detail in `CLAUDE.md`)
+- **Invoke `rigorous-explainer`** at the start; follow its SKILL.md build loop.
+- **Section-by-section:** build ONE section → report + 2 `★ Insight` bullets → user reviews →
+  commit/push **only on "commit push."**
+- **Figures:** Tier-2 shaded for anatomy, flat/computed for physics/plots — BUT **problem-set
+  C/D/K figures always lead with the recognizable Tier-2 entity** (this session's fix). Compute
+  geometry/plot data in Python (background runs — numpy startup is slow); slim arrows anchored to
+  the structure; reuse the shared `<defs>` block. Get one representative figure approved before
+  mass-producing.
+- **Hardening loop after every edit** — all to 0: `checktex / checklt / check_links / check_svg /
+  check_overlap / verify_dom / check_proofs / check_code / check_probfig`; then `autolink_sections.py`.
+- **Deploy:** `.nojekyll` is committed, so pushes deploy clean. If a Pages build stalls,
+  `gh api -X POST repos/az9713/biomechanics/pages/builds` nudges a fresh one.
+- **Gotcha (bit hard this session):** never route `\`-heavy Python (`\approx`, `\alpha`, `\tau`)
+  through a Bash-tool heredoc — `\a`→BEL etc. corrupts the file. Author such scripts with the
+  Write tool using raw strings.
