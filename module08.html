@@ -588,49 +588,14 @@ which for small angles selects a mid-stance speed $v^2\approx g\ell\,\dfrac{\sin
 
 <div class="codewrap"><button class="copybtn" onclick="copyCode(this)" aria-label="Copy code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 
-
-
-
-
-
-
-g = 9.81
-
-
-
-ell = 0.95
-
-
-
+g, ell = 9.81, 0.95
 alpha = np.deg2rad(16)
-
-
-
 theta = np.linspace(-alpha, alpha, 200)
-
-
-
-y = ell*np.cos(theta)
-
-
-
-dh = ell - y
-
-
-
+dh = ell - ell*np.cos(theta)          # COM rise along the vault arc
 speeds = np.linspace(0.6, 1.8, 7)
-
-
-
 Fr = speeds**2/(g*ell)
-
-
-
-print('COM rise at step edge:', ell*(1-np.cos(alpha)))
-
-
-
-print(list(zip(np.round(speeds,2), np.round(Fr,3))))</code></pre></div>
+print('COM rise at step edge:', ell*(1 - np.cos(alpha)))
+print(list(zip(np.round(speeds, 2), np.round(Fr, 3))))</code></pre></div>
 
 
 
@@ -640,36 +605,12 @@ print(list(zip(np.round(speeds,2), np.round(Fr,3))))</code></pre></div>
 
 <div class="codewrap"><button class="copybtn" onclick="copyCode(this)" aria-label="Copy code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 
-
-
-
-
-
-
 M, ell, v = 70.0, 0.95, 1.35
-
-
-
 L = np.linspace(0.35, 0.95, 200)
-
-
-
 alpha = np.arcsin(L/(2*ell))
-
-
-
-loss = 0.5*M*v*v*np.sin(2*alpha)**2
-
-
-
+loss = 0.5*M*v*v*np.sin(2*alpha)**2       # heel-strike redirection loss
 cadence_penalty = 0.09*(v/L)**2*M
-
-
-
 cost = loss + cadence_penalty
-
-
-
 print('best step length:', L[np.argmin(cost)])</code></pre></div>
 
 
@@ -680,36 +621,11 @@ print('best step length:', L[np.argmin(cost)])</code></pre></div>
 
 <div class="codewrap"><button class="copybtn" onclick="copyCode(this)" aria-label="Copy code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 
-
-
-
-
-
-
 t = np.linspace(0, 1, 501)
-
-
-
 ankle = 70*np.exp(-((t-0.55)/0.09)**2) - 15*np.exp(-((t-0.12)/0.08)**2)
-
-
-
-knee = -35*np.exp(-((t-0.12)/0.07)**2) + 20*np.exp(-((t-0.72)/0.12)**2)
-
-
-
-hip = 30*np.sin(2*np.pi*(t-0.08))*np.exp(-((t-0.45)/0.55)**2)
-
-
-
 omega_a = 2.0*np.exp(-((t-0.58)/0.10)**2)
-
-
-
-work_ankle = np.trapz(np.maximum(ankle*omega_a,0), t)
-
-
-
+power = ankle*omega_a                      # joint power P = tau * omega
+work_ankle = np.trapz(np.maximum(power, 0), t)
 print('positive ankle work proxy:', work_ankle)</code></pre></div>
 
 
@@ -720,53 +636,15 @@ print('positive ankle work proxy:', work_ankle)</code></pre></div>
 
 <div class="codewrap"><button class="copybtn" onclick="copyCode(this)" aria-label="Copy code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 
-
-
-
-
-
-
-g = 9.81
-
-
-
-h = 0.95
-
-
-
+g, h = 9.81, 0.95
 omega = np.sqrt(g/h)
-
-
-
-x = 0.03
-
-
-
-v = 0.45
-
-
-
+x, v = 0.03, 0.45
 reaction_delay = np.linspace(0.08, 0.32, 7)
-
-
-
 step_reach = np.linspace(0.28, 0.55, 7)
-
-
-
 for delay in reaction_delay:
-
-
-
     capture = x + v*delay + v/omega
-
-
-
-    feasible = capture &lt; step_reach
-
-
-
-    print(round(delay,2), round(capture,3), feasible.sum(), 'of', len(step_reach), 'reachable')</code></pre></div>
+    n = int((capture &lt; step_reach).sum())
+    print(f'delay {delay:.2f}s  capture {capture:.3f}m  {n}/{len(step_reach)}')</code></pre></div>
 
 
 
