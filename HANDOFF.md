@@ -35,16 +35,22 @@ duplicate content that already lives in the files referenced below — open them
   are now **gitignored** (scratch/preview — leave them).
 
 ## Next task
-- **Module 9 — Running and Jumping.** Draw the plan from `prompt.txt` (Course Structure,
-  "Module 9") + the forward-references Module 8 makes to it (grep the built `module0[1-8].html`
-  for `Module&nbsp;9`): the **spring-mass / SLIP** model, **flight phase**, the **walk→run
-  transition** at Fr≈0.5 (M8 §2/§4 explicitly hand this to M9), **impact loading / impulse**,
-  **tendon recoil** (repays M6's Achilles energy-storage IOU), **countermovement jump**,
-  **stretch-shortening cycle**, **landing mechanics**, **injury risk**. Write
-  **`module09-plan.md` first**, get it approved, then build section-by-section (leaner way:
-  prose in HTML, Python for figures only), MIT-PhD level, full hardening loop after every edit,
-  **commit only on the user's "commit push."** Publish-while-incomplete: link in `index.html`
-  (shift the pending line to "Modules 10–17") + `README.md` on first commit, marked *(in progress)*.
+- **Module 9 — Running and Jumping — IN PROGRESS.** Plan approved (`module09-plan.md`,
+  12-section spine). Live at https://az9713.github.io/biomechanics/module09.html and wired
+  into `index.html` + `README.md` (pending line now "Modules 10–17"). **§0–§5 COMPLETE**
+  (each hardened to 0 + rigor-reviewer-approved, committed):
+  §0 motivation (running is bouncing), §1 gait notation + duty factor, §2 SLIP model
+  (stance EOM / energy / ballistic), §3 stance GRF (single vs double hump), §4 flight +
+  Froude walk→run ceiling, §5 impulse-momentum. Latest commit `8b30e95`.
+  - **NEXT = §6 (jump height from takeoff velocity)** → then §7 stretch-shortening/tendon
+    recoil (repays M6 Achilles IOU), §8 landing/force absorption, §9 impact/injury
+    (mechanics-first, repays M2 dynamic-impact IOU), §10 four Python labs, §11 30-problem
+    set + appendix. Build section-by-section (leaner way: prose in HTML, Python figures only),
+    MIT-PhD level, full hardening loop every edit, dispatch `rigor-reviewer` after scripts
+    hit 0, **commit only on the user's "commit push."**
+  - **K-DEPTH carry-forward still open:** before trusting the reviewer on the §11 K set,
+    inject one deliberately plug-in K problem into a scratch copy and confirm it flags
+    `K-DEPTH: fail`.
 - **Use the reviewer in the build loop:** after a section's hardening scripts hit 0, dispatch
   `rigor-reviewer` for an independent judgment pass **before** user review; fix its findings
   (bounded rounds), then report to the user. **Two carry-forward items:** (1) it must run as the
