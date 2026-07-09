@@ -5,7 +5,7 @@ This file is the live "what to do next"; `CLAUDE.md` is the standing playbook. D
 duplicate content that already lives in the files referenced below — open them.
 
 ## Current state (as of latest push)
-- **Modules 1–8 are COMPLETE and live** at https://az9713.github.io/biomechanics/ .
+- **Modules 1–9 are COMPLETE and live** at https://az9713.github.io/biomechanics/ .
   Each `moduleNN.html` is self-contained (MathJax + inline SVG/SMIL, no build step) and
   passes the full hardening loop. Latest commit **`7936b0e`** on `main`.
   - **Module 7** (Standing, Posture, Load Bearing): §0–§10 + Appendix; delayed-PD inverted
@@ -35,22 +35,26 @@ duplicate content that already lives in the files referenced below — open them
   are now **gitignored** (scratch/preview — leave them).
 
 ## Next task
-- **Module 9 — Running and Jumping — IN PROGRESS.** Plan approved (`module09-plan.md`,
-  12-section spine). Live at https://az9713.github.io/biomechanics/module09.html and wired
-  into `index.html` + `README.md` (pending line now "Modules 10–17"). **§0–§5 COMPLETE**
-  (each hardened to 0 + rigor-reviewer-approved, committed):
-  §0 motivation (running is bouncing), §1 gait notation + duty factor, §2 SLIP model
-  (stance EOM / energy / ballistic), §3 stance GRF (single vs double hump), §4 flight +
-  Froude walk→run ceiling, §5 impulse-momentum. Latest commit `8b30e95`.
-  - **NEXT = §6 (jump height from takeoff velocity)** → then §7 stretch-shortening/tendon
-    recoil (repays M6 Achilles IOU), §8 landing/force absorption, §9 impact/injury
-    (mechanics-first, repays M2 dynamic-impact IOU), §10 four Python labs, §11 30-problem
-    set + appendix. Build section-by-section (leaner way: prose in HTML, Python figures only),
-    MIT-PhD level, full hardening loop every edit, dispatch `rigor-reviewer` after scripts
-    hit 0, **commit only on the user's "commit push."**
-  - **K-DEPTH carry-forward still open:** before trusting the reviewer on the §11 K set,
-    inject one deliberately plug-in K problem into a scratch copy and confirm it flags
-    `K-DEPTH: fail`.
+- **Module 9 — Running and Jumping — COMPLETE & live.** All of §0–§11 + Appendix
+  built, each hardened to 0 and rigor-reviewer-approved, committed and pushed. Live at
+  https://az9713.github.io/biomechanics/module09.html; wired into `index.html` +
+  `README.md` (no longer *(in progress)*; pending line "Modules 10–17"). Spine: §0
+  motivation → §1 gait/duty factor → §2 SLIP → §3 GRF (single vs double hump) → §4 flight
+  + Froude ceiling → §5 impulse-momentum → §6 jump height → §7 stretch-shortening/tendon
+  recoil (repays M6) → §8 landing (1/d) → §9 impact/injury (mechanics-first, repays M2) →
+  §10 four Python labs → §11 30 problems + diagnostics + limitations + repayment →
+  Appendix (notation + parameters). Latest commit at handoff time: run `git log -1`.
+  - **K-DEPTH carry-forward RESOLVED:** the reviewer's K-depth sensitivity was validated on
+    a scratch probe (flagged a plug-in K, passed genuine sim/opt/inverse ones) — see memory
+    `rigor-reviewer-calibration.md`. It passed all 10 §11 K problems.
+- **NEXT = Module 10 — Balance, Stability, Perturbation Recovery, and Sensorimotor
+  Control.** Draw the plan from `prompt.txt` ("Module 10") + the forward-references Modules
+  7–9 make to it (grep `module0[1-9].html` for `Module&nbsp;10`): perturbed standing/running,
+  slips/trips/recovery steps, margin of stability / XcoM, sensory fusion and reflex delay,
+  reactive vs predictive control. Write `module10-plan.md` first, get it approved, then build
+  section-by-section (leaner way: prose in HTML, Python figures only), MIT-PhD level, full
+  hardening loop every edit, dispatch `rigor-reviewer` after scripts hit 0. Publish-while-
+  incomplete on first commit.
 - **Use the reviewer in the build loop:** after a section's hardening scripts hit 0, dispatch
   `rigor-reviewer` for an independent judgment pass **before** user review; fix its findings
   (bounded rounds), then report to the user. **Two carry-forward items:** (1) it must run as the
