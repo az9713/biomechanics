@@ -16,5 +16,6 @@ inline SVG figures.
 - **Module 6 — Tendons, Ligaments, Fascia & Elastic Energy Storage:** https://az9713.github.io/biomechanics/module06.html
 - **Module 7 — Standing, Posture & Load Bearing:** https://az9713.github.io/biomechanics/module07.html
 - **Module 8 — Walking Biomechanics:** https://az9713.github.io/biomechanics/module08.html
+- **Module 9 — Running and Jumping** *(in progress)*: https://az9713.github.io/biomechanics/module09.html
 
-Modules 9–17 to come.
+Modules 10–17 to come.
