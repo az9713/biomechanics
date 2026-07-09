@@ -20,11 +20,19 @@ duplicate content that already lives in the files referenced below — open them
       standard, then two follow-up fixes this session: **(a)** relabeled the 4 lab code blocks
       to PEP8/compact (commit `9b326a7`); **(b)** rebuilt all 30 C/D/K problem figures to the
       3-layer semantic-clarity standard (commit `7936b0e`).
-- Everything committed and pushed to `main` (https://github.com/az9713/biomechanics).
-  Working tree clean apart from **known untracked noise**: `.ignore/` (transcripts),
-  `prompt.txt` (source spec — intentionally untracked), `here.sh.txt`, and **Codex
-  artifacts** `AGENTS.md`, `CODEX_HANDOFF_REPORT.md`, `MODULE6_MODULE7_PROBLEM_FIGURE_COMPARISON.md`,
-  `MODULE7_FIGURE_UPGRADE_PLAN.md`, `module08-preview.png` — **leave these untracked; do not commit.**
+- **Agent team for the build loop (NEW this session, commit `d0d12b8`).** A reviewer agent
+  now sits between "hardening scripts pass" and "user review": **`.claude/agents/rigor-reviewer.md`**
+  — a read-only (Read/Grep/Glob/Skill; **NO** Write/Edit/Bash) independent judge of the four things
+  the scripts can't check (rigor parity, read-aloud prose, K-depth, self-containment).
+  **Calibrated & APPROVED** against Module 8 (sharp — no false alarms on accepted work,
+  rigor-parity sensitivity confirmed on a §5 injection). Full record: memory
+  `rigor-reviewer-calibration.md`. Design rationale in repo root: `when-to-spawn-a-subagent.md`
+  + `building-a-claude-code-agent.md`.
+- Everything committed and pushed to `main` (https://github.com/az9713/biomechanics);
+  local `d0d12b8` == remote. `prompt.txt` and the Codex docs (`AGENTS.md`, `CODEX_HANDOFF_REPORT.md`,
+  `MODULE6_MODULE7_PROBLEM_FIGURE_COMPARISON.md`, `MODULE7_FIGURE_UPGRADE_PLAN.md`) are **now
+  committed** (`d0d12b8`). Working tree clean; `.ignore/`, `here.sh.txt`, `module08-preview.png`
+  are now **gitignored** (scratch/preview — leave them).
 
 ## Next task
 - **Module 9 — Running and Jumping.** Draw the plan from `prompt.txt` (Course Structure,
@@ -37,6 +45,14 @@ duplicate content that already lives in the files referenced below — open them
   prose in HTML, Python for figures only), MIT-PhD level, full hardening loop after every edit,
   **commit only on the user's "commit push."** Publish-while-incomplete: link in `index.html`
   (shift the pending line to "Modules 10–17") + `README.md` on first commit, marked *(in progress)*.
+- **Use the reviewer in the build loop:** after a section's hardening scripts hit 0, dispatch
+  `rigor-reviewer` for an independent judgment pass **before** user review; fix its findings
+  (bounded rounds), then report to the user. **Two carry-forward items:** (1) it must run as the
+  **registered** agent — this session only tested it via a general-purpose *fallback* because the
+  file was created mid-session; a fresh session loads `.claude/agents/rigor-reviewer.md` properly
+  and enforces its read-only tools. (2) **K-depth sensitivity is UNTESTED** — before trusting it on
+  the M9 problem set, inject one deliberately plug-in K problem into a scratch copy and confirm the
+  reviewer flags `K-DEPTH: fail`.
 - **Parallel/backup track:** the **substance backlog** in `audit-modules.md` (M2 torsion section,
   M1 joint-reaction/low-back number, M3 nonholonomic relabel, M4 Hertz-validity caveat).
 - If the user asks for something else, that takes precedence.
@@ -51,6 +67,9 @@ duplicate content that already lives in the files referenced below — open them
 - **`audit-modules.md`** — the substance backlog for earlier modules.
 - **Skill:** `C:\Users\simon\.claude\skills\rigorous-explainer\` — SKILL.md, `scripts/*.py`
   (hardening tools), `references/*.md`, `assets/template.html`.
+- **`.claude/agents/rigor-reviewer.md`** — the reviewer agent; **`building-a-claude-code-agent.md`**
+  + **`when-to-spawn-a-subagent.md`** (repo root) — how the agent team works and when a subagent is
+  justified. Memory `rigor-reviewer-calibration.md` — its approved-for-use status + open K-depth item.
 
 ## Skill upgrades made THIS session (LOCAL — in `~/.claude/skills/rigorous-explainer/`, NOT in this repo)
 - **`scripts/check_code.py`** — runs `pycodestyle` on every Python `<pre><code>` block; **fails**
