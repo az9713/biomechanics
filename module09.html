@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 9 - Running and Jumping</title>
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], tags: 'ams' }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js" async></script>
+<style>
+  :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ max-width:52rem; margin:2.5rem auto; padding:0 1.25rem 6rem; font:16px/1.65 Georgia,'Times New Roman',serif; color:var(--fg); counter-reset:fig; }
+  h1{ font-size:1.95rem; line-height:1.2; margin:.2rem 0 .2rem; } h2{ font-size:1.35rem; margin:2.4rem 0 .6rem; border-bottom:2px solid var(--accent); padding-bottom:.2rem; } h3{ font-size:1.08rem; margin:1.6rem 0 .4rem; color:var(--accent); }
+  .sub{ color:var(--muted); font-style:italic; margin-top:0; } code{ font-family:ui-monospace,'SFMono-Regular',Consolas,monospace; font-size:.92em; background:#f3f1ec; padding:.05rem .25rem; border-radius:3px;} pre{ background:#f3f1ec; padding:.8rem 1rem; border-radius:5px; overflow:auto; font-size:.84rem; line-height:1.45; } pre code{ background:none; padding:0; }
+  .thm,.def,.lem,.prop{ background:var(--box); border-left:4px solid var(--accent); padding:.6rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0; } .prob{ border-left:3px solid #cdbfa0; padding:.35rem .85rem; margin:1.1rem 0; background:#fbfaf6; border-radius:0 4px 4px 0; } .thm b,.def b,.lem b,.prop b{ color:var(--accent); }
+  .proof{ border-left:2px solid var(--rule); padding-left:.9rem; margin:.8rem 0 1.2rem; color:#222; } .proof::before{ content:"Proof."; font-style:italic; font-weight:bold; margin-right:.4rem; } .qed{ float:right; }
+  table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.92rem; } th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; } th{ background:var(--box); }
+  figure{ margin:1.5rem 0; text-align:center; counter-increment:fig; } figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; } figcaption::before{ content:"Fig. " counter(fig) ". "; font-weight:bold; font-style:normal; color:var(--accent); }
+  .setupfig{ display:block; } .setupfig text{ paint-order:stroke; stroke:#fff; stroke-width:2.5px; stroke-linejoin:round; } .setupfig text[fill="#fff"],.setupfig text[fill="#ffffff"],.setupfig text[fill="white"],.setupfig text.onfill{ stroke:none; } figure svg text{ font-family:"STIX Two Math",STIXGeneral,"Times New Roman",Georgia,serif; }
+  .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; } .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; } .toc ul{ list-style:none; padding-left:.3rem; margin:.3rem 0; } .toc a{ color:var(--accent); text-decoration:none; }
+  .small{ font-size:.88rem; color:var(--muted); } hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; } .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; } .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+  .codewrap{ position:relative; } .copybtn{ position:absolute; top:.5rem; right:.5rem; display:inline-flex; align-items:center; gap:.3rem; font:600 .72rem/1 ui-monospace,Consolas,monospace; color:var(--muted); background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.32rem .5rem; cursor:pointer; } .copybtn svg{ width:13px; height:13px; }
+  details.sol{ margin:.55rem 0 .1rem; } details.sol>summary{ cursor:pointer; color:#2a7d2a; font-weight:bold; font-size:.92rem; list-style:none; } details.sol>summary::before{ content:"\25B8\00a0"; } details.sol[open]>summary::before{ content:"\25BE\00a0"; } details.sol>div{ margin:.45rem 0 .2rem; padding-left:.3rem; border-left:2px solid #cfe3cf; } ol.diag>li{ margin:.6rem 0; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="b_limb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c98a5e"/><stop offset="0.42" stop-color="#f3d7bd"/><stop offset="0.62" stop-color="#e6bd99"/><stop offset="1" stop-color="#b5744b"/></linearGradient><radialGradient id="b_sph" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#fbe7d6"/><stop offset="0.6" stop-color="#e7bd99"/><stop offset="1" stop-color="#c07f52"/></radialGradient><radialGradient id="b_head" cx="40%" cy="32%" r="72%"><stop offset="0" stop-color="#fbe7d6"/><stop offset="0.65" stop-color="#e4b891"/><stop offset="1" stop-color="#b7784e"/></radialGradient><filter id="b_sh" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="1.5" dy="2.5" stdDeviation="2" flood-color="#000" flood-opacity="0.18"/></filter><marker id="a_red" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#b0361f"/></marker><marker id="a_blu" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#2a6ca8"/></marker><marker id="a_grn" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#2a7d2a"/></marker><marker id="a_gry" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#666"/></marker></defs></svg>
+
+<h1>Running and Jumping</h1>
+<p class="sub">Module 9: running as a spring-mass bounce - the spring-loaded inverted pendulum, stance and flight, ground reaction force, the walk-to-run transition, impulse and momentum, jump height from takeoff velocity, the stretch-shortening cycle and tendon recoil, landing force absorption, and impact loading and injury risk.</p>
+
+<div class="toc"><b>Contents</b><ul><li><b>0.</b> <a href="#origin">Motivation - why running is bouncing</a></li><li><b>1.</b> <a href="#gait">Running-gait notation and events</a></li><li><b>2.</b> <a href="#slip">The spring-loaded inverted pendulum (SLIP)</a></li><li><b>3.</b> <a href="#stance">Stance dynamics and the ground reaction force</a></li><li><b>4.</b> <a href="#flight">Flight phase and the walk-to-run transition</a></li><li><b>5.</b> <a href="#impulse">Impulse and momentum</a></li><li><b>6.</b> <a href="#jump">Jump height from takeoff velocity</a></li><li><b>7.</b> <a href="#ssc">Stretch-shortening cycle and tendon recoil</a></li><li><b>8.</b> <a href="#landing">Landing mechanics and force absorption</a></li><li><b>9.</b> <a href="#impact">Impact loading and injury risk</a></li><li><b>10.</b> <a href="#labs">Computational labs</a></li><li><b>11.</b> <a href="#problems">Problems, diagnostics, and limitations</a></li><li><b>A.</b> <a href="#appendix">Appendix - notation and parameters</a></li></ul></div>
+
+<hr>
+
+<h2 id="origin">0. Motivation - why running is bouncing</h2>
+
+<p>Try to walk faster and faster. At some speed - a little over $2\ \mathrm{m/s}$ for most people - walking stops feeling natural and you break into a run. Something qualitative has changed. In walking you always have at least one foot on the ground; in running there are moments when <em>both</em> feet are off the ground and the whole body is airborne. Each footfall the leg visibly gives, then rebounds, and flings the body back into the air. Running feels like bouncing because, mechanically, it is.</p>
+
+<p>Module 8 modelled walking as an <b>inverted pendulum</b>: the body vaults over a nearly rigid stance leg, so the centre of mass (the average position of the body's mass, abbreviated COM) rides <em>highest</em> as it passes over the foot at midstance, trading speed for height like a pole-vaulter. Running is the reverse. The leg behaves like a <b>spring</b> and the body like a mass bouncing on it: the leg compresses through the first half of stance and recoils through the second, so the COM sits <em>lowest</em> at midstance and <em>highest</em> at the top of the airborne flight phase. There is no double support (the brief overlap when both feet are on the ground) to smooth the ride - flight replaces it (Fig. 1).</p>
+
+<figure><svg class="setupfig" viewBox="0 0 760 320" width="100%" role="img" aria-label="A runner shown at touchdown, midstance, toe-off and flight. The stance leg is drawn as a spring coil that compresses at midstance and extends at toe-off; the centre-of-mass path dips lowest at midstance and peaks during flight, the reverse of walking."><line x1="40" y1="276" x2="720" y2="276" stroke="#999" stroke-width="1.3"/><polyline points="100.0,150.0 106.5,152.8 113.0,155.7 119.6,158.4 126.1,161.1 132.6,163.7 139.1,166.2 145.7,168.5 152.2,170.7 158.7,172.7 165.2,174.6 171.7,176.2 178.3,177.7 184.8,179.0 191.3,180.1 197.8,181.1 204.3,181.8 210.9,182.4 217.4,182.9 223.9,183.3 230.4,183.5 237.0,183.7 243.5,183.9 250.0,184.0 250.0,184.0 256.5,183.9 263.0,183.7 269.6,183.5 276.1,183.3 282.6,182.9 289.1,182.4 295.7,181.8 302.2,181.1 308.7,180.1 315.2,179.0 321.7,177.7 328.3,176.2 334.8,174.6 341.3,172.7 347.8,170.7 354.3,168.5 360.9,166.2 367.4,163.7 373.9,161.1 380.4,158.4 387.0,155.7 393.5,152.8 400.0,150.0 400.0,150.0 407.0,141.5 413.9,133.1 420.9,124.9 427.8,117.1 434.8,109.7 441.7,102.8 448.7,96.6 455.7,91.1 462.6,86.3 469.6,82.4 476.5,79.2 483.5,77.0 490.4,75.6 497.4,75.0 504.3,75.2 511.3,76.2 518.3,77.9 525.2,80.3 532.2,83.1 539.1,86.5 546.1,90.1 553.0,94.0 560.0,98.0 560.0,98.0 565.7,101.6 571.3,105.2 577.0,108.8 582.6,112.2 588.3,115.6 593.9,118.9 599.6,122.0 605.2,125.0 610.9,127.8 616.5,130.4 622.2,132.8 627.8,135.1 633.5,137.2 639.1,139.1 644.8,140.8 650.4,142.3 656.1,143.7 661.7,145.0 667.4,146.2 673.0,147.2 678.7,148.2 684.3,149.1 690.0,150.0" fill="none" stroke="#2a6ca8" stroke-width="2.4" stroke-dasharray="1"/><rect x="87.0" y="92.0" width="26" height="52" rx="13" fill="url(#b_limb)"/><circle cx="100.0" cy="94.0" r="8" fill="url(#b_sph)"/><circle cx="100.0" cy="72.0" r="14" fill="url(#b_head)"/><line x1="100.0" y1="94.0" x2="70.0" y2="110.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><line x1="100.0" y1="94.0" x2="126.0" y2="120.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><polyline points="100.0,150.0 105.4,170.2 102.0,184.2 118.8,192.8 108.6,208.7 125.4,217.3 115.2,233.2 132.0,241.8 128.6,255.8 134.0,276.0" fill="none" stroke="#7a1f1f" stroke-width="3.2"/><line x1="100.0" y1="150.0" x2="70.0" y2="190.0" stroke="#c98a5e" stroke-width="9" stroke-linecap="round"/><line x1="70.0" y1="190.0" x2="86.0" y2="222.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><circle cx="100.0" cy="150.0" r="5" fill="url(#b_sph)"/><rect x="237.0" y="126.0" width="26" height="52" rx="13" fill="url(#b_limb)"/><circle cx="250.0" cy="128.0" r="8" fill="url(#b_sph)"/><circle cx="250.0" cy="106.0" r="14" fill="url(#b_head)"/><line x1="250.0" y1="128.0" x2="280.0" y2="144.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><line x1="250.0" y1="128.0" x2="224.0" y2="154.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><polyline points="250.0,184.0 250.6,198.7 242.5,206.9 259.8,214.0 243.2,222.5 260.5,229.6 243.8,238.2 261.2,245.3 244.5,253.8 253.4,261.3 254.0,276.0" fill="none" stroke="#7a1f1f" stroke-width="3.4"/><line x1="250.0" y1="184.0" x2="216.0" y2="206.0" stroke="#c98a5e" stroke-width="9" stroke-linecap="round"/><line x1="216.0" y1="206.0" x2="244.0" y2="224.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><circle cx="250.0" cy="184.0" r="5" fill="url(#b_sph)"/><rect x="387.0" y="92.0" width="26" height="52" rx="13" fill="url(#b_limb)"/><circle cx="400.0" cy="94.0" r="8" fill="url(#b_sph)"/><circle cx="400.0" cy="72.0" r="14" fill="url(#b_head)"/><line x1="400.0" y1="94.0" x2="430.0" y2="110.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><line x1="400.0" y1="94.0" x2="374.0" y2="120.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><polyline points="400.0,150.0 395.2,170.2 386.0,183.1 394.2,200.1 379.2,211.6 387.4,228.7 372.4,240.2 374.8,255.8 370.0,276.0" fill="none" stroke="#7a1f1f" stroke-width="3.0"/><line x1="400.0" y1="150.0" x2="430.0" y2="180.0" stroke="#c98a5e" stroke-width="9" stroke-linecap="round"/><line x1="430.0" y1="180.0" x2="452.0" y2="158.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><circle cx="400.0" cy="150.0" r="5" fill="url(#b_sph)"/><rect x="547.0" y="40.0" width="26" height="52" rx="13" fill="url(#b_limb)"/><circle cx="560.0" cy="42.0" r="8" fill="url(#b_sph)"/><circle cx="560.0" cy="20.0" r="14" fill="url(#b_head)"/><line x1="560.0" y1="42.0" x2="530.0" y2="58.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><line x1="560.0" y1="42.0" x2="586.0" y2="68.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><line x1="560.0" y1="98.0" x2="594.0" y2="116.0" stroke="#c98a5e" stroke-width="9" stroke-linecap="round"/><line x1="594.0" y1="116.0" x2="618.0" y2="100.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><line x1="560.0" y1="98.0" x2="530.0" y2="132.0" stroke="#c98a5e" stroke-width="9" stroke-linecap="round"/><line x1="530.0" y1="132.0" x2="512.0" y2="104.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><circle cx="560.0" cy="98.0" r="5" fill="url(#b_sph)"/><rect x="677.0" y="92.0" width="26" height="52" rx="13" fill="url(#b_limb)"/><circle cx="690.0" cy="94.0" r="8" fill="url(#b_sph)"/><circle cx="690.0" cy="72.0" r="14" fill="url(#b_head)"/><line x1="690.0" y1="94.0" x2="660.0" y2="110.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><line x1="690.0" y1="94.0" x2="716.0" y2="120.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><polyline points="690.0,150.0 695.4,170.2 692.0,184.2 708.8,192.8 698.6,208.7 715.4,217.3 705.2,233.2 722.0,241.8 718.6,255.8 724.0,276.0" fill="none" stroke="#7a1f1f" stroke-width="3.2"/><line x1="690.0" y1="150.0" x2="660.0" y2="190.0" stroke="#c98a5e" stroke-width="9" stroke-linecap="round"/><line x1="660.0" y1="190.0" x2="676.0" y2="222.0" stroke="#c98a5e" stroke-width="8" stroke-linecap="round"/><circle cx="690.0" cy="150.0" r="5" fill="url(#b_sph)"/><text x="190" y="252" font-size="11" fill="#7a1f1f" text-anchor="middle">the leg is a spring</text><text x="560" y="250" font-size="11.5" fill="#2a6ca8" text-anchor="middle">flight: free-fall</text><text x="380" y="18" font-size="12" fill="#2a6ca8" text-anchor="middle">COM path: highest in flight, lowest at midstance</text><line x1="60" y1="292" x2="440" y2="292" stroke="#7a1f1f" stroke-width="1.2"/><text x="250" y="305" font-size="10" fill="#7a1f1f" text-anchor="middle">contact time t<tspan baseline-shift="sub" font-size="7">c</tspan></text><line x1="440" y1="292" x2="690" y2="292" stroke="#2a6ca8" stroke-width="1.2"/><text x="565" y="305" font-size="10" fill="#2a6ca8" text-anchor="middle">flight time t<tspan baseline-shift="sub" font-size="7">f</tspan></text></svg><figcaption>Running is a bounce, not a vault. Each stance compresses the leg like a spring (dark coil) and returns the energy at toe-off; between stances the body is airborne in free-fall. Unlike walking, where the centre of mass rises highest over the stance leg, in running it sits <em>lowest</em> at midstance and <em>highest</em> in flight - the ground reaction and centre-of-mass height rise and fall together, exactly like a bouncing ball.</figcaption></figure>
+
+<p>This single change of picture - from a stiff pendulum to a spring - reorganises everything that follows. It sets the shape of the ground reaction force, fixes the speed at which walking must give way to running, and explains where the energy for economical running comes from. It also connects three promises left open earlier in the course. Module 6 built the Achilles tendon as a one-dimensional elastic spring and noted that its energy return powers efficient running; here that spring becomes the whole-leg spring of the bouncing model. Module 8 showed that pendular walking cannot exceed a Froude number near $\tfrac12$ and handed the faster regime forward; here we cross that boundary. Module 2 treated bone loads as static and deferred the dynamic impact wave; here landing forces make it unavoidable.</p>
+
+<p>Two practical questions organise the module, the same two the course syllabus poses for running and jumping: <b>what limits how high you can jump, and what makes a landing safe?</b> Both have the same answer, and it is worth stating in advance because everything after <a class="secref" href="#impulse">Section 5</a> is a variation on it: a jump and a landing are the same event run in opposite directions, and both are governed by <b>force acting over a distance or a time</b>. You leave the ground with whatever velocity the push-off impulse gives you; you survive a landing by spreading the reverse impulse over as long a stop as you can. Height rewards a large impulse; safety rewards a slow one.</p>
+
+<div class="keyresult"><b>The arc of this module.</b> We fix running-gait notation and the duty factor (<a class="secref" href="#gait">section 1</a>), build the spring-loaded inverted pendulum (<a class="secref" href="#slip">section 2</a>) and integrate its stance to get the ground reaction force (<a class="secref" href="#stance">section 3</a>), add the flight phase and locate the walk-to-run transition (<a class="secref" href="#flight">section 4</a>), state the impulse-momentum theorem (<a class="secref" href="#impulse">section 5</a>) and use it for jump height (<a class="secref" href="#jump">section 6</a>), explain the stretch-shortening cycle and tendon recoil (<a class="secref" href="#ssc">section 7</a>), turn the same impulse idea toward landing and force absorption (<a class="secref" href="#landing">section 8</a>), and close with impact loading and injury risk (<a class="secref" href="#impact">section 9</a>) before the computational labs and problem set (<a class="secref" href="#labs">sections 10</a>-<a class="secref" href="#problems">11</a>).</div>
+
+<p class="small">Visual map: Fig. 1 contrasts the running bounce with the walking vault; <a class="secref" href="#slip">Section 2</a> draws the SLIP model that makes the leg-spring precise; <a class="secref" href="#stance">Section 3</a> computes the ground reaction force it predicts; <a class="secref" href="#flight">Section 4</a> plots the walk-to-run transition; <a class="secref" href="#impulse">Sections 5-6</a> build the impulse-momentum chain to jump height; <a class="secref" href="#ssc">Section 7</a> tracks tendon energy return; <a class="secref" href="#landing">Sections 8-9</a> turn the same physics toward landing safety and injury.</p>
+
+<h2 id="gait">1. Running-gait notation and events</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<h2 id="slip">2. The spring-loaded inverted pendulum (SLIP)</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<h2 id="stance">3. Stance dynamics and the ground reaction force</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<h2 id="flight">4. Flight phase and the walk-to-run transition</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<h2 id="impulse">5. Impulse and momentum</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<h2 id="jump">6. Jump height from takeoff velocity</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<h2 id="ssc">7. Stretch-shortening cycle and tendon recoil</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<h2 id="landing">8. Landing mechanics and force absorption</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<h2 id="impact">9. Impact loading and injury risk</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<h2 id="labs">10. Computational labs</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<h2 id="problems">11. Problems, diagnostics, and limitations</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<h2 id="appendix">A. Appendix - notation and parameters</h2>
+<p class="small"><em>Section in progress.</em></p>
+
+<script>
+function copyCode(btn){
+  var code = btn.parentElement.querySelector('code');
+  if(!code) return;
+  var text = code.textContent;
+  var done = function(){
+    var label = btn.querySelector('span'), prev = label.textContent;
+    btn.classList.add('copied'); label.textContent = 'Copied!';
+    setTimeout(function(){ btn.classList.remove('copied'); label.textContent = prev; }, 1500);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done, function(){});
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+(function(){
+  try{
+    if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('svg').forEach(function(svg){
+        if(typeof svg.pauseAnimations === 'function') svg.pauseAnimations();
+      });
+    }
+  }catch(e){}
+})();
+</script>
+
+</body>
+</html>
