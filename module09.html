@@ -289,7 +289,107 @@ so a softer contact lowers the peak as $\sqrt{k_{\rm c}}$ and the loading rate a
 <p>This is why "impact" alone is the wrong villain. Running is not injurious because forces are large; forces of a few body weights are what bone and tendon are built for. Injury is a mismatch - loading rate and cumulative dose against tissue tolerance and its rate of repair - and each term is a lever: a softer surface or forefoot strike lowers the rate, a gradual training progression keeps the dose under the fatigue limit, and stronger tissue raises tolerance. Turning these mechanical quantities into measurements (force plates, loading-rate estimates) is the province of Module 15, and how tolerance and repair change with age and tissue health belongs to Module 14. The mechanics of running and jumping, from the bounce to the break, is now complete; what remains is to compute with it.</p>
 
 <h2 id="labs">10. Computational labs</h2>
-<p class="small"><em>Section in progress.</em></p>
+
+<p>The results of this module are worth computing, not just reading. Four short labs turn the boxed relations into runnable code; each is a starting point meant to be edited. They use only <code>numpy</code> (version 2.0+ for <code>np.trapezoid</code>; on older numpy use <code>np.trapz</code>).</p>
+
+<h3>Lab 1 - SLIP stance and the ground reaction force</h3>
+<p>Integrate the spring-loaded inverted pendulum through one stance (<a class="secref" href="#slip">section 2</a>) and read off the vertical ground reaction (<a class="secref" href="#stance">section 3</a>). Sweeping the leg stiffness $k_{\rm leg}$ shows the peak force climbing and the contact time shortening together - the scaling the keyresult of <a class="secref" href="#stance">section 3</a> predicted.</p>
+
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+
+def slip_stance(m, g, L0, k, alpha_deg, vx0, vy0, dt=1e-4):
+    """One SLIP stance, touchdown to takeoff. Foot at the origin;
+    the leg spring pushes the point mass. Returns time, vertical GRF."""
+    a = np.radians(alpha_deg)
+    x, y, vx, vy = -L0*np.cos(a), L0*np.sin(a), vx0, vy0
+    t, T, Fz = 0.0, [], []
+    while True:
+        r = np.hypot(x, y)
+        F = k*(L0 - r)                 # positive in compression
+        ax, ay = F*x/r/m, F*y/r/m - g
+        T.append(t)
+        Fz.append(F*y/r)               # vertical ground reaction
+        vx, vy = vx + ax*dt, vy + ay*dt
+        x, y = x + vx*dt, y + vy*dt    # symplectic Euler
+        t += dt
+        if np.hypot(x, y) &gt;= L0 and t &gt; 5*dt:
+            break
+        if y &lt;= 0 or t &gt; 2.0:
+            break
+    return np.array(T), np.array(Fz)
+
+
+m, g, L0 = 70.0, 9.81, 1.0
+print("leg stiffness sweep (jog touchdown, alpha=70 deg):")
+for k in (11000, 15000, 20000, 26000):
+    T, Fz = slip_stance(m, g, L0, k, 70, 4.0, -0.7)
+    print(f"  k = {k/1000:2.0f} kN/m -&gt; peak {Fz.max()/(m*g):.2f} BW,"
+          f" contact {T[-1]*1000:.0f} ms")
+</code></pre></div>
+
+<p class="small">Output: peak $2.1\to3.6$ body weights and contact $211\to150\ \mathrm{ms}$ as $k$ runs $11\to26\ \mathrm{kN/m}$. <b>Try:</b> sweep the angle of attack $\alpha_0$ instead, or record the horizontal GRF and confirm its braking and propulsive lobes cancel.</p>
+
+<h3>Lab 2 - Vertical jump: countermovement versus squat</h3>
+<p>A jump height is set by the takeoff impulse (<a class="secref" href="#jump">section 6</a>). Give each jump a concentric force-time profile at the <em>same</em> peak force, integrate its net impulse to a takeoff velocity, and get the height from $h=v_0^2/2g$. Because the countermovement profile is front-loaded - the same peak reached earlier - it carries more impulse over the push-off, so the shape itself produces a higher jump.</p>
+
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+m, g, Tp, Fpk = 70.0, 9.81, 0.30, 2.5   # duration (s), peak force (BW)
+t = np.linspace(0, Tp, 400)
+
+
+def height(force_bw):
+    """Jump height from a concentric vertical-force profile (in BW):
+    net impulse -&gt; takeoff speed -&gt; ballistic height h = v0^2/2g."""
+    v0 = np.trapezoid((force_bw - 1.0)*m*g, t)/m
+    return v0*v0/(2*g)
+
+
+def profile(front):
+    """Same-peak force shape; front &lt; 1 shifts force earlier."""
+    return 1.0 + (Fpk - 1.0)*np.sin(np.pi*(t/Tp)**front)**1.55
+
+
+print(f"squat jump (symmetric)   h = {height(profile(1.0))*100:.0f} cm")
+print(f"countermovement (front)  h = {height(profile(0.8))*100:.0f} cm")
+print("front-loading sweep at fixed peak force:")
+for front in (1.0, 0.9, 0.8, 0.7):
+    print(f"  front = {front:.1f} -&gt; h = {height(profile(front))*100:.1f} cm")
+</code></pre></div>
+
+<p class="small">Output: at a fixed $2.5$-body-weight peak, the symmetric push-off clears $30\ \mathrm{cm}$ and the front-loaded one $32\ \mathrm{cm}$, and the sweep shows height rising monotonically with front-loading ($30.0\to32.4\ \mathrm{cm}$) - the impulse gain of the stretch-shortening cycle (<a class="secref" href="#ssc">section 7</a>) made explicit. <b>Try:</b> vary the peak force too, or the push-off duration $t_{\rm p}$.</p>
+
+<h3>Lab 3 - Landing impact and the stopping distance</h3>
+<p>A landing removes the arriving momentum; the force it takes depends on the distance over which the centre of mass is stopped (<a class="secref" href="#landing">section 8</a>). This is the $1/d$ law of Proposition 8.1, tabulated.</p>
+
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+m, g, h_drop = 70.0, 9.81, 0.5
+v_land = np.sqrt(2*g*h_drop)
+print(f"drop {h_drop} m -&gt; landing speed {v_land:.2f} m/s")
+for d in (0.05, 0.15, 0.30, 0.45):
+    F = 0.5*m*v_land**2/d + m*g          # work-energy average force
+    print(f"  stop over {d*100:2.0f} cm -&gt; {F:5.0f} N = {F/(m*g):4.1f} BW")
+</code></pre></div>
+
+<p class="small">Output: $11.0,\ 4.3,\ 2.7,\ 2.1$ body weights for stops of $5,\ 15,\ 30,\ 45\ \mathrm{cm}$. <b>Try:</b> add an impact-transient model (<a class="secref" href="#impact">section 9</a>) and compare the loading rate for a stiff versus a soft contact.</p>
+
+<h3>Lab 4 - Tendon recoil and running economy</h3>
+<p>The muscle need supply only the tendon's dissipative loss each step (<a class="secref" href="#ssc">section 7</a>). Sweeping the resilience $R$ shows how sharply the muscle's mechanical work - and so the economy factor $2/(1-R)$ - depends on how good a spring the tendon is.</p>
+
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>U = 31.0        # elastic energy cycled per running step (J)
+print("running economy vs tendon resilience R:")
+for R in (0.80, 0.88, 0.92, 0.95):
+    w_musc = (1 - R)*U      # muscle work per step, Prop 7.1
+    w_rigid = 2*U           # rigid leg: absorb U then regenerate U
+    print(f"  R = {R:.2f} -&gt; muscle {w_musc:4.1f} J,"
+          f" a factor {w_rigid/w_musc:4.1f} less than a rigid leg")
+</code></pre></div>
+
+<p class="small">Output: the economy factor climbs $10.0\to16.7\to25.0\to40.0$ as $R$ rises $0.80\to0.95$ - a steep reward for a good spring, and the reason a small drop in tendon quality costs so much. <b>Try:</b> replace the fixed $U$ with the tendon loop area from <a class="secref" href="#ssc">section 7</a> and sweep the tendon stiffness instead of $R$.</p>
+
+<p>These four labs cover the module's spine: the spring-mass bounce, the jump, the landing, and the tendon economy. The problems that follow ask you to push each further.</p>
 
 <h2 id="problems">11. Problems, diagnostics, and limitations</h2>
 <p class="small"><em>Section in progress.</em></p>
