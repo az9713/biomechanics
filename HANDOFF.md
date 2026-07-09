@@ -91,19 +91,25 @@ duplicate content that already lives in the files referenced below — open them
   flat" default), plus a note that `check_probfig` does NOT replace the manual 3-layer semantic audit.
   These matter for every future module's figure + code quality.
 
-## Session-transient scratch (GONE after clear; regenerate from the pattern — durable record is `module08.html`)
-Scratchpad dir differs per session. Module 8 figure/lab generators:
-- **`fig7lib.py`** — shared Tier-2 helpers (`cap` shaded capsule, `sph` shaded sphere, `rot`,
-  `body` posable walking body). Note: an old `leg()` helper drew *upward*; don't reuse it —
-  build legs with `cap()` between explicit points.
-- **`fig_p8_v2.py`** — the 30 C/D/K problem figures (recognizable entity + anchored variables for
-  C/D; small Tier-2 model inset + computation panel for K) → idempotent inline `<figure>` replace
-  keyed by `<b>C1.</b>`…`<b>K10.</b>`.
-- **`gen_fig67.py`** (joint-power + cost-of-transport plots), **`gen_sec_figs.py`** (§1 gait
-  timeline, §8 arm swing, §9 passive walker) — idempotent inline replace by SVG `aria-label`.
-- **`clean_labs.py`** — the 4 PEP8 lab code blocks; splices by anchor string.
-- All idempotent, all session-transient. To edit a figure: regenerate from these, or edit the
-  committed inline `<svg>` in `module08.html` directly.
+## Session-transient scratch (GONE after clear; durable record is `module09.html`/`module08.html`)
+Scratchpad dir differs per session. **Module 9 is COMPLETE** — to edit an M9 figure, just edit
+the committed inline `<svg>` in `module09.html` directly, or regenerate from these patterns:
+- **Per-section figure generators** (each emits an `<svg>`/`<figure>` body, spliced into the HTML):
+  `fig0.py` (§0 running-bounce sequence), `fig1.py` (§1 gait timeline), `fig_slip.py` (§2 SLIP
+  schematic), `fig_grf.py` (§3 GRF; uses `slip_stance.py`/`slip_sym.py`→`grf.json`/`grf5.json`),
+  `fig_flight.py` (§4), `fig_impulse.py` (§5), `fig_jump.py`+`jump.py` (§6), `fig_tendon.py`+
+  `fig_econ.py`+`tendon.json` (§7), `fig_land.py`+`land.json` (§8), `fig_impact.py`+`impact.json`
+  (§9). Labs: `lab1_slip.py`…`lab4_econ.py` (§10, all PEP8).
+- **`fig_prob9.py`** — the 30 §11 problem figures via a REUSABLE generator (shared `body`/`coil`/
+  `slip`/`plot`/`kfig` helpers) → `prob9.json` keyed `C1…K10`. Splice pattern: replace the 30
+  `<figure style="margin:.5rem 0">…</figure>` blocks **in document order** (C1…C10,D1…D10,K1…K10),
+  then strip literal `_` inside `<text>` (`re.sub(r'(<text[^>]*>)([^<]*)(</text>)', …)`) — SVG text
+  can't use `$…$`, and `check_svg` hard-fails on a literal `_`/`^` in a label.
+- **Gotcha that bit repeatedly:** never route `\`-macros (`\to \rm \approx \tfrac`) through a
+  **double-quoted** `python3 -c "…"` shell arg — bash collapses `\\`→`\`, then Python turns `\t`→TAB,
+  `\r`→CR, `\a`→BEL and corrupts the math. Use a `<<'PY'` heredoc, the Write/Edit tools, or a
+  `lambda` replacement (not a regex template, which reinterprets `\i`,`\d`). `checktex` catches the
+  stray control char.
 
 ## How to work (essentials — full detail in `CLAUDE.md`)
 - **Invoke `rigorous-explainer`** at the start; follow its SKILL.md build loop.
