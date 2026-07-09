@@ -551,7 +551,56 @@ for R in (0.80, 0.88, 0.92, 0.95):
 <p class="small">This closes Module 9. Running turned Module 8's stiff-legged vault into a spring-mass bounce; the same impulse that launches a jump, read backward, tames a landing; and the tendon that Module 6 built as a spring turns out to do most of the work of running. What is left is to perturb it (Module 10), coordinate it (Module 12), vary its terrain (Module 13), age its tissues (Module 14), and measure it (Module 15).</p>
 
 <h2 id="appendix">A. Appendix - notation and parameters</h2>
-<p class="small"><em>Section in progress.</em></p>
+
+<p>Every symbol used in the module, grouped and linked to where it is defined, followed by the representative values used in the worked examples and labs.</p>
+
+<h3>Notation</h3>
+<table><tr><th>Symbol</th><th>Meaning</th><th>Defined in</th></tr>
+<tr><td>$t_{\rm c},\ t_{\rm f}$</td><td>contact (stance) time and flight time</td><td><a class="secref" href="#gait">&#167;1</a></td></tr>
+<tr><td>$\beta$</td><td>duty factor, $t_{\rm c}/[2(t_{\rm c}+t_{\rm f})]$</td><td><a class="secref" href="#gait">&#167;1</a></td></tr>
+<tr><td>$T,\ L,\ L_{\rm s}$</td><td>stride period, step length, stride length</td><td><a class="secref" href="#gait">&#167;1</a></td></tr>
+<tr><td>$f,\ c$</td><td>step frequency and cadence, $c=60f$</td><td><a class="secref" href="#gait">&#167;1</a></td></tr>
+<tr><td>$v$</td><td>mean forward running speed, $v=fL$</td><td><a class="secref" href="#gait">&#167;1</a></td></tr>
+<tr><td>$m,\ g$</td><td>body mass and gravitational acceleration</td><td><a class="secref" href="#slip">&#167;2</a></td></tr>
+<tr><td>$k_{\rm leg},\ L_0$</td><td>effective leg-spring stiffness and rest length</td><td><a class="secref" href="#slip">&#167;2</a></td></tr>
+<tr><td>$\alpha_0$</td><td>angle of attack (leg-ground angle at touchdown)</td><td><a class="secref" href="#slip">&#167;2</a></td></tr>
+<tr><td>$r,\ \varphi$</td><td>leg length and angle in polar coordinates about the foot</td><td><a class="secref" href="#slip">&#167;2</a></td></tr>
+<tr><td>$x,\ y,\ E$</td><td>centre-of-mass position and total mechanical energy</td><td><a class="secref" href="#slip">&#167;2</a></td></tr>
+<tr><td>$F_z$</td><td>vertical ground reaction force</td><td><a class="secref" href="#stance">&#167;3</a></td></tr><tr><td>$F_x$</td><td>horizontal (braking / propulsive) ground reaction force</td><td><a class="secref" href="#impulse">&#167;5</a></td></tr>
+<tr><td>$\Delta r_{\max}$</td><td>greatest leg compression, at midstance</td><td><a class="secref" href="#stance">&#167;3</a></td></tr>
+<tr><td>$v_x,\ v_y$</td><td>horizontal and vertical takeoff velocity components</td><td><a class="secref" href="#flight">&#167;4</a></td></tr>
+<tr><td>$h_{\rm apex},\ d_{\rm f}$</td><td>flight apex height and horizontal range</td><td><a class="secref" href="#flight">&#167;4</a></td></tr>
+<tr><td>$\mathrm{Fr}$</td><td>Froude number, $v^2/gL_0$</td><td><a class="secref" href="#flight">&#167;4</a></td></tr>
+<tr><td>$\mathbf J,\ \mathbf p$</td><td>impulse and momentum, $\mathbf p=m\mathbf v$</td><td><a class="secref" href="#impulse">&#167;5</a></td></tr>
+<tr><td>$v_0,\ h$</td><td>vertical takeoff speed and jump height</td><td><a class="secref" href="#jump">&#167;6</a></td></tr>
+<tr><td>$t_{\rm p},\ d$</td><td>push-off time and the push-off / stopping distance</td><td><a class="secref" href="#jump">&#167;6</a>, <a class="secref" href="#landing">&#167;8</a></td></tr>
+<tr><td>$U,\ R$</td><td>elastic energy stored per step and tendon resilience</td><td><a class="secref" href="#ssc">&#167;7</a></td></tr>
+<tr><td>$W_{\rm musc}$</td><td>muscle mechanical work per step, $(1-R)U$</td><td><a class="secref" href="#ssc">&#167;7</a></td></tr>
+<tr><td>$v_{\rm land},\ \bar F,\ \Delta t$</td><td>landing speed, average landing force, stopping time</td><td><a class="secref" href="#landing">&#167;8</a></td></tr>
+<tr><td>$v_{\rm imp},\ m_{\rm imp},\ k_{\rm c}$</td><td>impact closing speed, effective impact mass, contact stiffness</td><td><a class="secref" href="#impact">&#167;9</a></td></tr><tr><td>$F_{\rm peak},\ \Delta F/\Delta t$</td><td>impact-force peak $v_{\rm imp}\sqrt{k_{\rm c}m_{\rm imp}}$ and loading rate</td><td><a class="secref" href="#impact">&#167;9</a></td></tr>
+</table>
+
+<h3>Representative parameters</h3>
+<p class="small">Round figures for a typical adult runner, used in the worked examples and the labs of <a class="secref" href="#labs">&#167;10</a>; each varies with individual, training, surface, and measurement.</p>
+<table><tr><th>Quantity</th><th>Value</th><th>Where used</th></tr>
+<tr><td>Body mass $m$</td><td>$70\ \mathrm{kg}$</td><td>throughout</td></tr>
+<tr><td>Leg length / rest length $L_0$</td><td>$1.0\ \mathrm{m}$</td><td><a class="secref" href="#slip">&#167;2</a></td></tr>
+<tr><td>Effective leg stiffness $k_{\rm leg}$</td><td>$\sim15\ \mathrm{kN/m}$</td><td><a class="secref" href="#stance">&#167;3</a>, <a class="secref" href="#labs">Lab 1</a></td></tr>
+<tr><td>Angle of attack $\alpha_0$</td><td>$65$-$70^\circ$</td><td><a class="secref" href="#slip">&#167;2</a></td></tr>
+<tr><td>Contact / flight time (jog)</td><td>$t_{\rm c}\approx0.20\ \mathrm s,\ t_{\rm f}\approx0.10\ \mathrm s$</td><td><a class="secref" href="#gait">&#167;1</a></td></tr>
+<tr><td>Duty factor (jog)</td><td>$\beta\approx\tfrac13$</td><td><a class="secref" href="#gait">&#167;1</a></td></tr>
+<tr><td>Peak vertical GRF (running)</td><td>$2$-$3$ body weights</td><td><a class="secref" href="#stance">&#167;3</a></td></tr>
+<tr><td>Walk-to-run transition</td><td>$\mathrm{Fr}\approx0.5$ (ceiling $\mathrm{Fr}=1$)</td><td><a class="secref" href="#flight">&#167;4</a></td></tr>
+<tr><td>Vertical jump</td><td>$v_0\approx2.4\ \mathrm{m/s},\ h\approx30\ \mathrm{cm}$</td><td><a class="secref" href="#jump">&#167;6</a></td></tr>
+<tr><td>Achilles energy per step $U$</td><td>$\sim31\ \mathrm J$</td><td><a class="secref" href="#ssc">&#167;7</a></td></tr>
+<tr><td>Tendon resilience $R$</td><td>$\approx0.90$-$0.95$</td><td><a class="secref" href="#ssc">&#167;7</a></td></tr>
+<tr><td>Muscle-work saving</td><td>$2/(1-R)\approx25\times$ (mechanical)</td><td><a class="secref" href="#ssc">&#167;7</a></td></tr>
+<tr><td>Landing (drop $0.5\ \mathrm m$)</td><td>$v_{\rm land}\approx3.1\ \mathrm{m/s}$; stiff $\sim11$, soft $\sim2$ BW</td><td><a class="secref" href="#landing">&#167;8</a></td></tr>
+<tr><td>Impact loading rate</td><td>stiff $\sim185$, soft $\sim37$ body weights/s</td><td><a class="secref" href="#impact">&#167;9</a></td></tr>
+</table>
+
+<hr>
+<p class="small">Module 9 of the Quantitative Human Musculoskeletal Science course. Built with the <code>rigorous-explainer</code> method: self-contained HTML, MathJax, inline SVG. Source: <a href="https://github.com/az9713/biomechanics">github.com/az9713/biomechanics</a>.</p>
 
 <script>
 function copyCode(btn){
