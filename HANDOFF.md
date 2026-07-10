@@ -131,20 +131,24 @@ duplicate content that already lives in the files referenced below — open them
   the `/sync-transcripts` skill (global infra, recorded in MMS memory; NOT biomechanics-repo state).
 
 ## Next task
-- **Module 16 (Continuum and Finite-Element-Style Tissue Models) — IN PROGRESS.**
-  §0–§5 built, hardened to 0, committed WIP (not yet wired live): §0 motivation
-  (M2 beam / M4 biphasic / M6 spring as 1-D shadows of one 3-D stress state),
-  §1 deformation kinematics (displacement u, deformation gradient F, Green-Lagrange
-  strain E, Prop 1.1 small-strain linearisation), §2 Cauchy stress (t=σn, Prop 2.1
-  symmetry, equilibrium ∇·σ+b=0), §3 linear elasticity (Hooke/Lamé, Prop 3.1
-  strain-energy W=½σ:ε positive-definite, tissue modulus table), §4 bar/beam
-  elements (Def 4.1 k=EA/L, Prop 4.1 element matrix = energy Hessian, 4×4 beam),
-  §5 FE assembly (Prop 5.1 Ku=f, PEP8 code, tapered-bar stress staircase). Defs:
-  b_bone/b_ten/b_sph gradients + a_red/blu/grn/gry markers; deformation-grid figure
-  via gen16_def.py (scratchpad). **NEXT within M16 = §6** (anisotropy/fibre reinforcement),
-  then §7 hyperelasticity, §7 hyperelasticity,
-  §8 visco/poroelasticity, §9 the three tissues + limits, §10 labs, §11 problems,
-  Appendix. Then wire into index/README + 3-pass rigor-review + commit.
+- **NEXT = Module 17 — Capstone Modeling Projects** (`prompt.txt` line ~881): the
+  final module; rigorous end-to-end projects (quiet standing w/ delayed control,
+  sit-to-stand knee torque, walking inverted pendulum, running spring-mass, jump/
+  landing forces, hip-fracture risk, two-link reaching, grip vs friction, stair
+  work/power) that compose Modules 1–16. Same build loop + review + wire + commit.
+- **Module 16 (Continuum and Finite-Element-Style Tissue Models) — COMPLETE & live**
+  (commit pushed; wired into index + README). §0–§11 + Appendix: §0 motivation
+  (M2 beam / M4 biphasic / M6 spring as 1-D shadows of one 3-D stress state), §1
+  deformation (F, Green-Lagrange E, Prop 1.1), §2 Cauchy stress (t=σn, Prop 2.1
+  symmetry, equilibrium), §3 linear elasticity (Hooke/Lamé, Prop 3.1 strain energy),
+  §4 bar/beam elements (Def 4.1, Prop 4.1), §5 FE assembly (Prop 5.1, toy code),
+  §6 anisotropy/fibre (Prop 6.1), §7 hyperelasticity (neo-Hookean, Prop 7.1, fibre
+  J-toe), §8 visco/poroelasticity (Def 8.1/8.2, Prop 8.1, consolidation→M4), §9 the
+  three tissues + limits, §10 three labs (FE convergence / linear-law validity /
+  biphasic relaxation), §11 30 problems (K-depth all sim/inverse/regime/sensitivity/
+  optimisation) + diagnostics + repayment, Appendix. ~45 figures computed; full
+  12-check hardening loop = 0. **Rigor-reviewer 3-pass DISPATCHED** (§0–4, §5–9,
+  labs+K); apply findings + commit. Reusable defs: b_bone/b_ten/b_sph gradients.
 - **Module 16 full scope** (`prompt.txt` line ~854) (`prompt.txt`;
   stress/strain tensors, deformation gradient, constitutive laws, anisotropy, hyper-/
   visco-/poro-elasticity, fibre-reinforced tissues — replaces this course's rigid
