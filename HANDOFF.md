@@ -16,8 +16,13 @@ duplicate content that already lives in the files referenced below — open them
   code + computed figure; §8 catalog of 9 more briefs; §9 validation ladder +
   uncertainty + honest-report figure; §10 12 problems (K1-K4 sim/inverse/opt/uncertainty)
   + diagnostics; Appendix = 17-module course-in-one-page. Models as .def (stated);
-  12-check loop = 0. **Rigor-reviewer 3-pass DISPATCHED**; apply findings + commit.
-  gen17_caps.py (scratchpad) computes the 6 capstone figures.
+  12-check loop = 0. **Rigor-reviewer 3-pass, all findings fixed** (commit `9f1fd83`):
+  Froude 2.5->2.2 m/s; standing model made dimensionally sound (k_d=150 N.m.s) and
+  Delta_c reconciled to ~150 ms (delays 100/200 ms); walking GRF regenerated as a
+  proper M-shape ~1.18 BW; Principle 1.3 + knee-torque +/-15% band; Model 5.1 phi/ell
+  defined + 2.5-3 BW earned by impulse; k_c vs leg-spring k; landing quarters->third;
+  Fig 6 '79%%'/aria-label bugs; run-in caps. All K1-K4 K-depth pass.
+  gen17_caps.py + regen17.py (scratchpad) compute the capstone figures.
 - **Module 15 (Measurement, Estimation, and Inverse Dynamics) — COMPLETE & live**
   (commit `4d37b21`). §0–§11 + Appendix: the measurement-to-torque pipeline that
   supplies the joint torques the whole course assumed. Spine: §0 motivation (no
