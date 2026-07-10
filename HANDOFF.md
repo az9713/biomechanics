@@ -5,6 +5,32 @@ This file is the live "what to do next"; `CLAUDE.md` is the standing playbook. D
 duplicate content that already lives in the files referenced below — open them.
 
 ## Current state (as of latest push)
+- **Module 15 (Measurement, Estimation, and Inverse Dynamics) — COMPLETE & live**
+  (commit `4d37b21`). §0–§11 + Appendix: the measurement-to-torque pipeline that
+  supplies the joint torques the whole course assumed. Spine: §0 motivation (no
+  instrument reads torque) → §1 measurement chain (mocap/phone/force plate/IMU/EMG,
+  observation model y=h(x)+ε) → §2 planar marker model + BSP (atan2 segment angles,
+  Dempster/Winter table) → §3 noise & differentiation (Prop 3.1: Var(v)=σ²/2Δt²,
+  Var(a)=6σ²/Δt⁴; σ_a≈147 rad/s² = 12× signal) → §4 optimal cutoff (Prop 4.1
+  bias-variance, residual analysis, f_c*≈7 Hz) → §5 COM + force-plate validation
+  (Prop 5.1, dynamic residual) → §6 Newton-Euler inverse dynamics (Prop 6.1,
+  distal→proximal from the GRF) → §7 assembled pipeline + 20-line code (filtered
+  RMSE 0.08 vs raw 6.8 N·m) → §8 uncertainty propagation (Prop 8.1 quadrature +
+  Monte Carlo; BSP dominates the error budget) → §9 least-squares parameter ID
+  (Prop 9.1) + validation → §10 four Python labs → §11 30 problems (K-depth:
+  sweep/inverse/sim/sensitivity/regime) + 5 diagnostics + limitations + repayment →
+  Appendix. ~40 figures computed (gen15_*.py + patch*.py in scratchpad,
+  session-transient); full 12-check hardening loop = 0. Wired into index.html
+  ("Modules 16–17" pending) + README.md.
+  - **Rigor-reviewer: 3 parallel passes (§0–4, §5–9, labs+K-depth), all findings
+    fixed** (commit `2c5846d`): IMU row corrected (gyro=rate/accel=linear, not q̈);
+    Def 3.1 k-index vs k_i-gyration note; "quadruples the noise variance"; shank
+    Newton y −653.6→−653.7; Euler step drops unverified "tens of N·m" (states the
+    moment arms); force = support not deceleration; Def 6.1 M-overload note; **real
+    Lab A code bug fixed** (argmax resid<1.5·tail) with the honest ~4 Hz residual
+    knee (was hand-placed 7 Hz), and the cutoff story reconciled across §4/LabA/LabB/K2
+    (residual knee 4 Hz = torque optimum < velocity optimum 7 Hz); **K1 deepened**
+    plug-in→regime (raw ∝f² 64× vs filtered flat 2–5 rad/s²). All K1–K10 K-depth PASS.
 - **Module 14 (Aging, Injury, Degeneration, and Adaptation) — COMPLETE & live** (commit
   `2480a45`). §0–§10 + Appendix: reserve/margin framework (R=C/D) → sarcopenia (Prop 2.1
   failure age a*=a₀+(1/r)(1−D/τ_p), chair fails at 77) → osteoporosis (S∝ρ², impact
@@ -105,9 +131,10 @@ duplicate content that already lives in the files referenced below — open them
   the `/sync-transcripts` skill (global infra, recorded in MMS memory; NOT biomechanics-repo state).
 
 ## Next task
-- **NEXT = Module 15 — Measurement, Estimation, and Inverse Dynamics** (`prompt.txt`;
-  the pipeline from noisy motion-capture/force-plate data to the joint torques the whole
-  course has assumed we can read). Same build loop: plan from `prompt.txt` + the
+- **NEXT = Module 16 — Continuum and Finite-Element-Style Tissue Models** (`prompt.txt`;
+  stress/strain tensors, deformation gradient, constitutive laws, anisotropy, hyper-/
+  visco-/poro-elasticity, fibre-reinforced tissues — replaces this course's rigid
+  segments with deformable continua). Same build loop: plan from `prompt.txt` + the
   forward-references Modules 1–14 make to it → section-by-section (prose in HTML, Python
   figures only) → hardening loop every edit → dispatch `rigor-reviewer` after scripts hit
   0 → publish-while-incomplete on first commit → commit/push per module. Modules 16
