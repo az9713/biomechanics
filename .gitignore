@@ -5,3 +5,6 @@
 .ignore/
 here.sh.txt
 module08-preview.png
+
+# Local transcript backups (sync-transcripts skill)
+claude-transcripts/
