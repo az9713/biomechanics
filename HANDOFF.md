@@ -5,6 +5,19 @@ This file is the live "what to do next"; `CLAUDE.md` is the standing playbook. D
 duplicate content that already lives in the files referenced below — open them.
 
 ## Current state (as of latest push)
+- **ENTIRE COURSE COMPLETE: all 17 modules built, hardened, reviewed, and live**
+  at https://az9713.github.io/biomechanics/ . The autonomous `/goal` (complete
+  Modules 11-17) is finished.
+- **Module 17 (Capstone Modeling Projects) — COMPLETE & live** (commit `c2102ab`).
+  §0-§10 + Appendix: the 11-element modeling template + 3 principles; six worked
+  capstones (I standing/delayed-pendulum stable-vs-unstable, II sit-to-stand knee
+  torque ~109 N.m, III walking inverted-pendulum GRF + Froude, IV running spring-mass
+  ~2.6 BW, V jump-landing 6.2/2.1 kN, VI hip fracture 79% BMD) each with model box +
+  code + computed figure; §8 catalog of 9 more briefs; §9 validation ladder +
+  uncertainty + honest-report figure; §10 12 problems (K1-K4 sim/inverse/opt/uncertainty)
+  + diagnostics; Appendix = 17-module course-in-one-page. Models as .def (stated);
+  12-check loop = 0. **Rigor-reviewer 3-pass DISPATCHED**; apply findings + commit.
+  gen17_caps.py (scratchpad) computes the 6 capstone figures.
 - **Module 15 (Measurement, Estimation, and Inverse Dynamics) — COMPLETE & live**
   (commit `4d37b21`). §0–§11 + Appendix: the measurement-to-torque pipeline that
   supplies the joint torques the whole course assumed. Spine: §0 motivation (no
