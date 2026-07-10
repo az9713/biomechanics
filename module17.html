@@ -77,7 +77,7 @@ window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [[
 <text x="285" y="82" font-size="8.5" fill="#555" text-anchor="middle">question &#8594; model</text>
 <text x="285" y="98" font-size="8.5" fill="#555" text-anchor="middle">&#8594; equations &#8594; simulate</text>
 <text x="285" y="114" font-size="8.5" fill="#555" text-anchor="middle">&#8594; validate &#8594; limits</text>
-<text x="285" y="140" font-size="8" fill="#999" text-anchor="middle">Section 1</text>
+<text x="285" y="140" font-size="8" fill="#999" text-anchor="middle"><a class="secref" href="#method">Section 1</a></text>
 <line x1="360" y1="105" x2="395" y2="105" stroke="#666" stroke-width="1.8" marker-end="url(#a_gry)"/>
 <!-- answers -->
 <rect x="400" y="30" width="220" height="150" rx="6" fill="#fff" stroke="#7a1f1f" stroke-width="1.2"/>
@@ -88,7 +88,7 @@ window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [[
 <text x="415" y="124" font-size="8.5" fill="#555">&#183; the force of a landing</text>
 <text x="415" y="142" font-size="8.5" fill="#555">&#183; whether a fall breaks a hip</text>
 <text x="415" y="160" font-size="8.5" fill="#555">&#183; the grip a jar demands</text>
-</svg><figcaption>Section 0. The capstone arc. The toolkit of Modules 1-16 feeds a single modeling method (Section 1) that turns concrete questions into simulated, validated answers. Every project in this module walks the same arc; the questions differ, the discipline does not.</figcaption></figure>
+</svg><figcaption><a class="secref" href="#origin">Section 0</a>. The capstone arc. The toolkit of Modules 1-16 feeds a single modeling method (<a class="secref" href="#method">Section 1</a>) that turns concrete questions into simulated, validated answers. Every project in this module walks the same arc; the questions differ, the discipline does not.</figcaption></figure>
 
 <p>The projects are deliberately varied - a control problem, an inverse-dynamics estimate, three gait models, an impact-and-fracture calculation, and a catalogue of nine more - so that between them they exercise every module. Six are worked in full (<a class="secref" href="#standing">Sections 2</a>-<a class="secref" href="#fracture">7</a>); nine more are specified as ready-to-build briefs (<a class="secref" href="#catalog">Section 8</a>); and a closing section (<a class="secref" href="#validation">Section 9</a>) treats the part beginners skip and experts obsess over - validation and the honest report. First, the method.</p>
 
@@ -209,7 +209,7 @@ set by the flight time to be absorbed and the (short) ground-contact time.</div>
 
 <div class="cap"><p class="small"><b>Assumptions:</b> massless linear leg-spring, symmetric stance, point-mass COM. <b>Parameters:</b> $m=70\ \mathrm{kg}$; leg stiffness tuned so the peak is $\approx2.6$ BW; contact $\sim$0.2 s. <b>Validation:</b> the single-hump shape and $\sim$2.5-3 BW peak match running force-plate data (Module 9).</p></div>
 
-<p>Figure 4 plots the running force (dark red) beside the walking force: the spring-mass bounce gives one hump peaking near $2.6$ body weights, more than double the walking peak, over a shorter, sharper contact. The single versus twin peak is the cleanest mechanical signature separating the two gaits, and the higher peak is why running loads bone and tendon far more per step - the impact risk of Module 9. <b>Interpretation:</b> the leg-spring stiffness is a control choice, tuned to the surface and speed; a stiffer leg raises the peak but shortens contact. <b>Limits/validation:</b> the massless-spring SLIP omits the swing leg and damping (real tendons return $\sim$90&#37;, not 100&#37;, of the energy, Module 6); compare the modelled and measured peak and contact time. <b>Extension:</b> add a damping term and predict the metabolic cost of the lost energy.</p>
+<p>Figure 4 plots the running force (dark red) beside the walking force: the spring-mass bounce gives one hump peaking near $2.6$ body weights, more than double the walking peak, over a shorter, sharper contact. The single versus twin peak is the cleanest mechanical signature separating the two gaits, and the higher peak is why running loads bone and tendon much more heavily each step - the impact risk of Module 9. <b>Interpretation:</b> the leg-spring stiffness is a control choice, tuned to the surface and speed; a stiffer leg raises the peak but shortens contact. <b>Limits/validation:</b> the massless-spring SLIP omits the swing leg and damping (real tendons return $\sim$90&#37;, not 100&#37;, of the energy, Module 6); compare the modelled and measured peak and contact time. <b>Extension:</b> add a damping term and predict the metabolic cost of the lost energy.</p>
 
 <h2 id="jump">6. Capstone V - jump and landing forces</h2>
 
@@ -246,7 +246,143 @@ $$\boxed{\;\frac{S}{F}=\frac{S_0(\rho/\rho_0)^2}{F}\lt 1\quad\Longrightarrow\qua
 
 <p><b>Interpretation and limits.</b> The margin crosses one at about $79\%$ of young bone density (Fig. 6): above it a sideways fall bruises, below it the identical fall fractures the hip. The squared strength law makes the margin fall steeply, so a modest density loss is dangerous out of proportion - and both levers of prevention (lower $F$ with a hip protector, raise $S$ with loading) follow directly. The lumped-scalar model hides the true stress field, which the continuum of Module 16 would resolve to find where the neck actually cracks. <b>Validation:</b> compare the critical density to clinical fracture thresholds; <b>extension:</b> replace the scalar strength with a finite-element femur model loaded in the fall configuration.</p>
 
-<!-- SECTIONS 8-10 + APPENDIX TO FOLLOW -->
+<h2 id="catalog">8. More capstones: a project catalog</h2>
+
+<p>Six worked projects cannot exercise sixteen modules. The nine below are specified as ready-to-build briefs - each a filled-in first four elements of the template (problem, model, key equation, expected result), leaving the simulation and the honest report as the exercise. Together with the worked six they touch every module of the course, and each names the module whose method it turns.</p>
+
+<table>
+<tr><th>Project</th><th>Physical model &amp; key equation</th><th>Expected result</th><th>Turns</th></tr>
+<tr><td><b>Two-link arm reaching</b></td><td>inverse kinematics of a two-link arm; $\theta=\mathrm{IK}(\mathbf x_{\rm target})$, two elbow solutions</td><td>a joint path to any reachable target; a singular locus at full extension</td><td>Module 11</td></tr>
+<tr><td><b>Grip force vs friction</b></td><td>friction cone; minimum grip $F_g\ge W/(2\mu)$ to hold weight $W$ with coefficient $\mu$</td><td>required grip doubles as $\mu$ halves; the slippery-jar demand</td><td>Module 11</td></tr>
+<tr><td><b>Stair work and power</b></td><td>work-energy; $W=mg\,\Delta h$ per step, power $P=W/t$; eccentric on descent</td><td>$\sim$200 W ascending a stair at a normal cadence; negative work descending</td><td>Module 13</td></tr>
+<tr><td><b>Fall-risk toy model</b></td><td>effective recoverable impulse $J_{\rm eff}=m\omega_0(b-c\sigma)e^{-\omega_0\Delta t}$ vs age</td><td>the recovery envelope falling from $\sim$13.5 to $\sim$3.5 N&#183;s with age</td><td>Module 14</td></tr>
+<tr><td><b>Cartilage stress relaxation</b></td><td>biphasic consolidation $\partial u/\partial t=c_v\,\partial^2u/\partial z^2$, step load</td><td>stress relaxing from the instantaneous peak to equilibrium over $\tau\sim L^2/c_v$</td><td>Modules 4, 16</td></tr>
+<tr><td><b>Tendon hysteresis</b></td><td>viscoelastic loop; energy return $=1-$ hysteresis area/loading area</td><td>$\sim$90&#37; energy return, $\sim$10&#37; lost as heat per stretch cycle</td><td>Module 6</td></tr>
+<tr><td><b>Bone adaptation</b></td><td>mechanostat rate law $dC/dt=k_{\rm ad}(\Sigma-\Sigma_0)$ under repeated load</td><td>density rising to a load-set equilibrium; resorption under disuse</td><td>Modules 2, 14</td></tr>
+<tr><td><b>Muscle activation dynamics</b></td><td>first-order activation $\dot a=(u-a)/\tau_a$ then Hill force-length-velocity</td><td>joint torque lagging neural drive by $\sim$30-50 ms; a smoothed command</td><td>Module 5</td></tr>
+<tr><td><b>Whole-body movement simulator</b></td><td>multi-segment optimal control; minimise $\int(\text{effort})\,dt$ subject to the dynamics</td><td>a coordinated reach or step emerging from one cost (the uncontrolled manifold)</td><td>Module 12</td></tr>
+</table>
+
+<p>Each brief is a genuine project: the model and equation are given, but the assumptions must be stated, the parameters sourced, the simulation written, and - the part that makes it rigorous - the result validated and its error bar reported. The catalog is deliberately broad so that a reader can pick the module they want to master and build its capstone; the discipline transfers unchanged from the worked six.</p>
+
+<h2 id="validation">9. Validation, uncertainty, and the honest report</h2>
+
+<p>The element every beginner skips and every expert dwells on is the last: is the answer <em>right</em>, and how sure are we? A simulation that runs is not a validated model, and a number without an error bar is not a result (Principle 1.3). This section makes the closing discipline explicit, because it is what separates a capstone from a demonstration.</p>
+
+<div class="keyresult">
+<b>The validation ladder (climb as far as the data allow).</b>
+<b>(1) Internal checks</b> - dimensional consistency and limiting cases (Principle 1.2): does the force vanish at zero load, the strain at zero stress, the torque reduce to $mgL$ in a static hold?
+<b>(2) Face validity</b> - is the number the right order of magnitude and sign (a knee torque of tens, not thousands, of newton-metres)?
+<b>(3) Independent measurement</b> - does it match data the model was not fitted to (a force plate, EMG timing, a known modulus)?
+<b>(4) Cross-model agreement</b> - does a second, independent model give the same answer (the force-plate and kinematic COM accelerations of Module 15)?
+</div>
+
+<p>Uncertainty is the other half. A capstone's prediction inherits error from two sources - the parameters (a body-segment mass known to $\pm15\%$, Module 15) and the idealisations (a rigid leg, a lumped mass) - and both must be propagated to the output, by linear error propagation or Monte Carlo (Module 15). The result is a prediction <em>with a band</em>, and the band decides everything: a knee-torque estimate of $109\pm8\ \mathrm{N\,m}$ can settle whether a patient clears a threshold; one of $109\pm60\ \mathrm{N\,m}$ cannot, and the honest report says so.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 500 210" width="100%" role="img" aria-label="A model prediction shown as a curve inside a shaded uncertainty band, with two independent data points falling inside the band, illustrating a validated result.">
+<line x1="60" y1="170" x2="470" y2="170" stroke="#333"/><line x1="60" y1="30" x2="60" y2="170" stroke="#333"/>
+<text x="265" y="196" font-size="10" fill="#555" text-anchor="middle">movement phase</text>
+<text x="30" y="100" font-size="10" fill="#555" text-anchor="middle" transform="rotate(-90 30 100)">predicted quantity</text>
+<polygon points="60,120 130,95 200,70 270,60 340,72 410,100 470,128 470,150 410,122 340,94 270,82 200,92 130,117 60,142" fill="#2a6ca8" fill-opacity="0.16" stroke="none"/>
+<polyline points="60,131 130,106 200,81 270,71 340,83 410,111 470,139" fill="none" stroke="#2a6ca8" stroke-width="2.4"/>
+<circle cx="200" cy="84" r="4" fill="#7a1f1f"/><circle cx="340" cy="90" r="4" fill="#7a1f1f"/>
+<text x="250" y="112" font-size="8.5" fill="#7a1f1f" text-anchor="middle">independent data</text>
+<text x="120" y="55" font-size="8.5" fill="#2a6ca8" text-anchor="start">model &#177; uncertainty band</text>
+</svg><figcaption><a class="secref" href="#validation">Section 9</a>. A validated result. The model prediction (blue) carries an uncertainty band propagated from its parameters and idealisations; independent measurements (dark red) fall inside it. This is the shape of an honest capstone: not a bare curve, but a prediction with a quantified band that data the model never saw can be tested against - agreement inside the band is validation, a point outside it is a finding.</figcaption></figure>
+
+<p>The honest report, then, has a fixed close: the prediction, its error bar, the validation it passed, the assumptions that bound it, and the one experiment that would test it hardest. A capstone that ends this way has done the whole job - not just produced a number, but earned it and said how far to trust it. This is the standard the entire course has been building toward.</p>
+
+<h2 id="problems">10. Problems and extensions</h2>
+
+<p class="small">Jump to:
+  <a href="#conceptual">Conceptual</a> &#183;
+  <a href="#derivational">Derivational</a> &#183;
+  <a href="#computational">Computational</a> &#183;
+  <a href="#diagnostics">Diagnostics</a></p>
+
+<p>Twelve problems - four on the method, four on the capstone models, four computational extensions - plus five diagnostics. Each carries a <em>Probes</em> note and a worked solution; the computational ones extend the projects above rather than re-running them.</p>
+
+<h3 id="conceptual">Conceptual <a class="small" href="#problems">&#8593; contents</a></h3>
+
+<div class="prob"><b>C1 - the simplest adequate model.</b> Why prefer a one-parameter inverted pendulum to a fifty-muscle simulation for the question "why does standing sway"? <span class="small"><em>Probes: Principle 1.1; <a class="secref" href="#method">Section 1</a>.</em></span>
+<details class="sol"><summary>Solution</summary><div>The sway question turns on one mechanism - delayed feedback stabilising an unstable equilibrium - which the inverted pendulum captures with a single delay parameter. A fifty-muscle model adds parameters the sway data cannot constrain, so it can fit anything and predicts nothing new about the mechanism; its extra fidelity answers a different question. Match the model's complexity to the question and the data, not to the anatomy.</div></details></div>
+
+<div class="prob"><b>C2 - the two error sources.</b> A capstone's prediction has an error bar. What two distinct sources feed it, and which does averaging reduce? <span class="small"><em>Probes: Principle 1.3; <a class="secref" href="#validation">Section 9</a>.</em></span>
+<details class="sol"><summary>Solution</summary><div>Random error (measurement noise, trial-to-trial variation) and systematic error (a body-segment parameter or an idealisation that is wrong the same way every time). Averaging many trials shrinks the random part but not the systematic part, which repeats identically; only measuring or identifying the parameter (Module 15), or improving the model, reduces the systematic error. An honest band separates the two.</div></details></div>
+
+<div class="prob"><b>C3 - one plot, two gaits.</b> How does a single ground-reaction-force trace tell walking from running? <span class="small"><em>Probes: gait signatures; <a class="secref" href="#walk">Sections 4</a>-<a class="secref" href="#run">5</a>.</em></span>
+<details class="sol"><summary>Solution</summary><div>Walking is an inverted-pendulum vault: the vertical force is twin-peaked (loading and push-off) with a mid-stance dip <em>below</em> body weight as the centre of mass crests its arc. Running is a spring-mass bounce: a single hump peaking near 2.5-3 body weights, with the force zero during flight. The number of peaks and the peak magnitude separate the two mechanisms unambiguously.</div></details></div>
+
+<div class="prob"><b>C4 - why the fall breaks the hip.</b> The same sideways fall bruises a young hip and fractures an old one. In the capstone margin model, what changed? <span class="small"><em>Probes: the fracture margin; <a class="secref" href="#fracture">Section 7</a>.</em></span>
+<details class="sol"><summary>Solution</summary><div>The impact force $F$ depends on the fall, not the bone, so it is the same; what changed is the strength $S=S_0(\rho/\rho_0)^2$, which falls as the square of bone density. The margin $S/F$ crosses one near $79\%$ density: above it the fall is a bruise, below it a fracture. The squared law makes a modest density loss dangerous out of proportion - a small drift in a parameter flips a threshold.</div></details></div>
+
+<h3 id="derivational">Derivational <a class="small" href="#problems">&#8593; contents</a></h3>
+
+<div class="prob"><b>D1 - the delayed-pendulum equation.</b> Write the equation of motion for the delayed-feedback standing model and state its stability condition without delay. <span class="small"><em>Probes: Model 2.1; <a class="secref" href="#standing">Section 2</a>.</em></span>
+<details class="sol"><summary>Solution</summary><div>Newton for the inverted pendulum: $I\ddot\theta=mgL\theta-[k_p\theta(t-\Delta)+k_d\dot\theta(t-\Delta)]$, with $I=mL^2$. Without delay ($\Delta=0$) it is $I\ddot\theta+k_d\dot\theta+(k_p-mgL)\theta=0$, a damped oscillator, stable iff $k_p\gt mgL$ (restoring stiffness beats gravity's toppling) and $k_d\gt0$. The delay erodes this by adding phase lag, so beyond a critical $\Delta_c$ the loop oscillates unstably.</div></details></div>
+
+<div class="prob"><b>D2 - the landing-force law.</b> Derive $F_{\rm peak}\approx mgh/d+mg$ for a landing cushioned over distance $d$. <span class="small"><em>Probes: Model 6.1; <a class="secref" href="#jump">Section 6</a>.</em></span>
+<details class="sol"><summary>Solution</summary><div>Falling from height $h$ gives impact speed $v=\sqrt{2gh}$, hence kinetic energy $\tfrac12mv^2=mgh$. Arresting over a COM displacement $d$ at a roughly constant force does work $F_{\rm avg}\,d$, which must absorb the kinetic energy plus the gravity work over $d$: $F_{\rm avg}\,d\approx mgh+mgd$, so $F_{\rm avg}\approx mgh/d+mg$. The peak is a small factor above the average; the key dependence is $F\propto1/d$ - a hyperbola in the cushioning distance.</div></details></div>
+
+<div class="prob"><b>D3 - the Froude speed limit.</b> Derive the walking speed limit from the requirement that the stance leg can only push. <span class="small"><em>Probes: Model 4.1; <a class="secref" href="#walk">Section 4</a>.</em></span>
+<details class="sol"><summary>Solution</summary><div>At mid-stance the COM moves on a circular arc of radius $L$ at speed $v$, needing centripetal force $mv^2/L$ directed toward the foot (downward). Gravity supplies $mg$ downward and the leg can only push up (not pull), so the net downward force available for the centripetal requirement is at most $mg$: $mv^2/L\le mg$, i.e. $\mathrm{Fr}=v^2/(gL)\le1$. Above it the COM would fly off the arc - the walk must become a run (transition near $\mathrm{Fr}\approx0.5$).</div></details></div>
+
+<div class="prob"><b>D4 - the fracture threshold.</b> Derive the critical bone density at which a sideways fall fractures the hip. <span class="small"><em>Probes: Model 7.1; <a class="secref" href="#fracture">Section 7</a>.</em></span>
+<details class="sol"><summary>Solution</summary><div>Fracture at $S=F$: with $S=S_0(\rho/\rho_0)^2$ and impact $F$, $(\rho/\rho_0)_{\rm crit}=\sqrt{F/S_0}$. For $F\approx4.4\ \mathrm{kN}$ and young strength $S_0\approx7\ \mathrm{kN}$, $(\rho/\rho_0)_{\rm crit}=\sqrt{0.63}\approx0.79$ - a $21\%$ density loss suffices. A hip protector cutting $F$ by $\sqrt2$ lowers the threshold to $\approx0.66$, protecting a hip that has lost a third of its density.</div></details></div>
+
+<h3 id="computational">Computational <a class="small" href="#problems">&#8593; contents</a></h3>
+<p class="small">Each extends a worked capstone by a sweep, an inverse, an optimisation, or an uncertainty analysis - not a re-run.</p>
+
+<div class="prob"><b>K1 - the critical delay (inverse).</b> Find, by bisection on the standing simulation, the largest neural delay the balance loop tolerates, and compare to the human value. <span class="small"><em>Probes: locating a stability boundary; <a class="secref" href="#standing">Section 2</a>.</em></span>
+<details class="sol"><summary>Solution</summary><div>Bisect the delay between a known-stable and a known-unstable value, simulating each and testing whether the lean stays bounded, until the interval closes on $\Delta_c$. For the gains of Capstone I the critical delay lands near $130$-$150\ \mathrm{ms}$, just above the human $\sim$100 ms - so a healthy stander sits inside the island with a modest margin, and the age-related delay increase of Module 14 eats exactly that margin. The bisection turns a yes/no simulation into a boundary value.</div></details></div>
+
+<div class="prob"><b>K2 - the leg-stiffness sweep (sensitivity).</b> Sweep the running leg-spring stiffness and find how the peak force and contact time trade off. <span class="small"><em>Probes: the SLIP parameter; <a class="secref" href="#run">Section 5</a>.</em></span>
+<details class="sol"><summary>Solution</summary><div>Integrating the spring-mass stance across a range of leg stiffness $k$: a stiffer leg gives a higher, sharper force peak and a shorter ground-contact time; a softer leg spreads a lower peak over a longer contact. The peak scales roughly as $\sqrt{k}$ and the contact time as $1/\sqrt{k}$, so their product (the impulse) is fixed by the flight momentum to be reversed. The sweep shows leg stiffness is the runner's tuning knob between a jarring, economical stride and a soft, costly one.</div></details></div>
+
+<div class="prob"><b>K3 - the momentum strategy (optimisation).</b> For the sit-to-stand, optimise the forward trunk lean that minimises the peak knee torque. <span class="small"><em>Probes: trading horizontal for vertical demand; <a class="secref" href="#sts">Section 3</a>.</em></span>
+<details class="sol"><summary>Solution</summary><div>Parameterise the rise by the amount of forward trunk lean before seat-off and compute the peak knee torque for each; a forward lean moves the centre of mass over the feet before the knees extend, converting part of the vertical lift into a horizontal momentum transfer and lowering the peak knee demand. The optimum is an intermediate lean - too little leaves the torque high, too much risks a forward fall - reproducing the momentum strategy older adults adopt as their knee reserve shrinks (Module 13).</div></details></div>
+
+<div class="prob"><b>K4 - the knee-torque error bar (uncertainty).</b> Monte Carlo the sit-to-stand knee-torque estimate under body-segment-parameter and timing uncertainty, and report the band. <span class="small"><em>Probes: propagating uncertainty; <a class="secref" href="#validation">Section 9</a>, Module 15.</em></span>
+<details class="sol"><summary>Solution</summary><div>Draw the HAT mass and moment arm from their $\pm10$-$15\%$ ranges and the movement time from its variability, run the inverse-dynamics estimate on each draw, and collect the peak knee torque. The result is a distribution - a mean near $109\ \mathrm{N\,m}$ with a band of order $\pm15\%$, dominated by the segment-parameter uncertainty (Module 15's error budget). Whether that band clears a clinical threshold is the answer the honest report must give; a bare $109\ \mathrm{N\,m}$ hides it.</div></details></div>
+
+<h3 id="diagnostics">Five diagnostics <a class="small" href="#problems">&#8593; contents</a></h3>
+<ol class="diag">
+<li><b>Model choice.</b> When should a capstone add a parameter? <details class="sol"><summary>Solution</summary><div>Only when a validation shows the simpler model fails - never merely because more detail is available (Principle 1.1).</div></details></li>
+<li><b>The static check.</b> What must any joint-torque model return for a limb held still and horizontal? <details class="sol"><summary>Solution</summary><div>Exactly the gravity torque $mgL$, with no dynamic term - the cheapest limiting-case check (Principle 1.2).</div></details></li>
+<li><b>Gait peaks.</b> How many vertical-force peaks per stance for walking, and for running? <details class="sol"><summary>Solution</summary><div>Two for walking (an M-shape about a mid-stance dip), one for running.</div></details></li>
+<li><b>Cushioning.</b> Doubling the landing flexion distance changes the peak force how? <details class="sol"><summary>Solution</summary><div>Roughly halves it, since $F\propto1/d$ (Model 6.1).</div></details></li>
+<li><b>The honest close.</b> What five things end a rigorous capstone report? <details class="sol"><summary>Solution</summary><div>The prediction, its error bar, the validation passed, the bounding assumptions, and the sharpest experiment that would test it.</div></details></li>
+</ol>
+
+<p>These twelve close the course's problem sets as they began - with questions that have numbers for answers, and answers that come with the evidence for trusting them. The capstones are where the toolkit becomes a practice; the method is the lasting result.</p>
+
+<h2 id="appendix">A. Appendix - the course in one page</h2>
+
+<p>Seventeen modules, one arc: from a single free-body diagram to a modelled, measured, validated human body. Each module's core result is the block the capstones assemble.</p>
+
+<table>
+<tr><th>#</th><th>Module</th><th>Core result</th></tr>
+<tr><td>1</td><td>Mechanical foundations</td><td>free bodies, static equilibrium, the torque-to-force lever</td></tr>
+<tr><td>2</td><td>Bones as structures</td><td>stress/strain, Euler-Bernoulli bending, fracture, remodelling ($S\propto\rho^2$)</td></tr>
+<tr><td>3</td><td>Joints as constraints</td><td>degrees of freedom, constraint forces, joint reactions (Lagrange multipliers)</td></tr>
+<tr><td>4</td><td>Cartilage &amp; synovial fluid</td><td>the biphasic consolidation equation and fluid load support</td></tr>
+<tr><td>5</td><td>Muscles as actuators</td><td>the Hill model: length-tension, force-velocity, activation dynamics</td></tr>
+<tr><td>6</td><td>Tendons &amp; elastic storage</td><td>the J-shaped spring, series elasticity, viscoelastic energy return</td></tr>
+<tr><td>7</td><td>Standing &amp; posture</td><td>the delayed-PD inverted pendulum and its stability boundary</td></tr>
+<tr><td>8</td><td>Walking</td><td>the inverted-pendulum vault, Froude limit, step-to-step transition cost</td></tr>
+<tr><td>9</td><td>Running &amp; jumping</td><td>the spring-mass bounce, impulse-momentum, landing force absorption</td></tr>
+<tr><td>10</td><td>Balance &amp; sensorimotor control</td><td>margin of stability, delayed feedback, the Kalman estimate</td></tr>
+<tr><td>11</td><td>Reaching &amp; manipulation</td><td>the Jacobian, redundancy, the friction cone and force closure</td></tr>
+<tr><td>12</td><td>Whole-body coordination</td><td>optimal feedback control and the minimal-intervention principle</td></tr>
+<tr><td>13</td><td>Daily-life movement</td><td>the reserve $R=C/D$ across the ordinary day</td></tr>
+<tr><td>14</td><td>Aging &amp; adaptation</td><td>aging as parameter drift; the mechanostat that reverses it</td></tr>
+<tr><td>15</td><td>Measurement &amp; inverse dynamics</td><td>the measurement-to-torque pipeline and its error budget</td></tr>
+<tr><td>16</td><td>Continuum tissue models</td><td>stress/strain tensors, constitutive laws, the finite element</td></tr>
+<tr><td>17</td><td>Capstone projects</td><td>the modeling method that turns the toolkit into answers</td></tr>
+</table>
+
+<hr>
+<p class="small">Module 17 of the Quantitative Human Musculoskeletal Science course, and its conclusion. Built with the <code>rigorous-explainer</code> method: every model stated, every figure computed, every number reproduced by the code shown, and every result offered with the discipline to earn it. The human body has been modelled from a single free-body diagram to a controlled, measured, deformable, aging mechanical-biological system - and, in these capstones, put to work.</p>
 
 <script>
 function copyCode(btn){

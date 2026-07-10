@@ -24,5 +24,5 @@ inline SVG figures.
 - **Module 14 — Aging, Injury, Degeneration, and Adaptation:** https://az9713.github.io/biomechanics/module14.html
 - **Module 15 — Measurement, Estimation, and Inverse Dynamics:** https://az9713.github.io/biomechanics/module15.html
 - **Module 16 — Continuum and Finite-Element-Style Tissue Models:** https://az9713.github.io/biomechanics/module16.html
+- **Module 17 — Capstone Modeling Projects:** https://az9713.github.io/biomechanics/module17.html
 
-Module 17 to come.
