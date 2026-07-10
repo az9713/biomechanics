@@ -5,9 +5,10 @@ This file is the live "what to do next"; `CLAUDE.md` is the standing playbook. D
 duplicate content that already lives in the files referenced below — open them.
 
 ## Current state (as of latest push)
-- **Modules 1–9 are COMPLETE and live** at https://az9713.github.io/biomechanics/ .
+- **Modules 1–10 are COMPLETE and live** at https://az9713.github.io/biomechanics/ .
   Each `moduleNN.html` is self-contained (MathJax + inline SVG/SMIL, no build step) and
-  passes the full hardening loop. Latest commit **`7936b0e`** on `main`.
+  passes the full hardening loop. Latest module-content commit **`d19e434`** on `main`
+  (this handoff commit only adds a `.gitignore` entry + refreshes this file).
   - **Module 7** (Standing, Posture, Load Bearing): §0–§10 + Appendix; delayed-PD inverted
     pendulum, 15 proved props, SMIL sway animation, 30-problem set. Commit `949f40f`;
     `.nojekyll` deploy fix `d04089e`.
@@ -28,16 +29,15 @@ duplicate content that already lives in the files referenced below — open them
   rigor-parity sensitivity confirmed on a §5 injection). Full record: memory
   `rigor-reviewer-calibration.md`. Design rationale in repo root: `when-to-spawn-a-subagent.md`
   + `building-a-claude-code-agent.md`.
-- Everything committed and pushed to `main` (https://github.com/az9713/biomechanics);
-  local `d0d12b8` == remote. `prompt.txt` and the Codex docs (`AGENTS.md`, `CODEX_HANDOFF_REPORT.md`,
-  `MODULE6_MODULE7_PROBLEM_FIGURE_COMPARISON.md`, `MODULE7_FIGURE_UPGRADE_PLAN.md`) are **now
-  committed** (`d0d12b8`). Working tree clean; `.ignore/`, `here.sh.txt`, `module08-preview.png`
-  are now **gitignored** (scratch/preview — leave them).
+- Everything committed and pushed to `main` (https://github.com/az9713/biomechanics); local ==
+  remote. Working tree clean apart from local scratch (`.ignore/`, preview PNGs) and the
+  **gitignored `claude-transcripts/`** — that folder is per-project transcript backups written by
+  the `/sync-transcripts` skill (global infra, recorded in MMS memory; NOT biomechanics-repo state).
 
 ## Next task
 - **Module 10 — Balance, Stability, Perturbation Recovery, and Sensorimotor
   Control — COMPLETE & live.** Built end-to-end this session (autonomous `/goal`
-  run): §0–§11 + Appendix, committed and pushed (latest `39342b3`), live at
+  run): §0–§11 + Appendix, committed and pushed (latest `d19e434`), live at
   https://az9713.github.io/biomechanics/module10.html and wired into `index.html`
   (pending line now "Modules 11–17") + `README.md`. Spine: §0 motivation (balance =
   active feedback under delay+noise) → §1 margin of stability / XcoM (critical
@@ -55,39 +55,22 @@ duplicate content that already lives in the files referenced below — open them
     bug — the §4 "period near 4τ" heuristic was quantitatively wrong (fixed to the
     phase-margin-erosion picture). R2 essentially clean (one H/L symbol nit, fixed).
     Nits on Lab B/K2 prose, Lab D framing, a caption garden-path, K8 anchoring — all fixed.
+    - **Post-completion fixes:** clipped x-axis titles in 13 problem figures (viewBox too short
+      for the `y0+30` axis title) → content-aware figure heights (commit `6c3ec57`); then
+      **hardened `check_frame.py` to HARD-fail on figure CLIPPING** (content past the viewBox
+      edge — no other check saw it), which caught 2 more real clips (K3 s-plane poles off-scale,
+      fig8 top) — commit `d19e434`. SKILL.md + CLAUDE.md updated for the clip gate.
 - **NEXT = Module 11 — Reaching, Waving, Holding, Gripping, and Manipulation.**
   Draw the plan from `prompt.txt` ("Module 11", line ~699) + forward-refs Modules
   1–10 make to it. Same build loop: plan → section-by-section (prose in HTML, Python
   figures only) → hardening loop every edit → dispatch `rigor-reviewer` after scripts
   hit 0 → publish-while-incomplete on first commit.
-- **Module 9 — Running and Jumping — COMPLETE & live.** All of §0–§11 + Appendix
-  built, each hardened to 0 and rigor-reviewer-approved, committed and pushed. Live at
-  https://az9713.github.io/biomechanics/module09.html; wired into `index.html` +
-  `README.md` (no longer *(in progress)*; pending line "Modules 10–17"). Spine: §0
-  motivation → §1 gait/duty factor → §2 SLIP → §3 GRF (single vs double hump) → §4 flight
-  + Froude ceiling → §5 impulse-momentum → §6 jump height → §7 stretch-shortening/tendon
-  recoil (repays M6) → §8 landing (1/d) → §9 impact/injury (mechanics-first, repays M2) →
-  §10 four Python labs → §11 30 problems + diagnostics + limitations + repayment →
-  Appendix (notation + parameters). Latest commit at handoff time: run `git log -1`.
-  - **K-DEPTH carry-forward RESOLVED:** the reviewer's K-depth sensitivity was validated on
-    a scratch probe (flagged a plug-in K, passed genuine sim/opt/inverse ones) — see memory
-    `rigor-reviewer-calibration.md`. It passed all 10 §11 K problems.
-- **NEXT = Module 10 — Balance, Stability, Perturbation Recovery, and Sensorimotor
-  Control.** Draw the plan from `prompt.txt` ("Module 10") + the forward-references Modules
-  7–9 make to it (grep `module0[1-9].html` for `Module&nbsp;10`): perturbed standing/running,
-  slips/trips/recovery steps, margin of stability / XcoM, sensory fusion and reflex delay,
-  reactive vs predictive control. Write `module10-plan.md` first, get it approved, then build
-  section-by-section (leaner way: prose in HTML, Python figures only), MIT-PhD level, full
-  hardening loop every edit, dispatch `rigor-reviewer` after scripts hit 0. Publish-while-
-  incomplete on first commit.
-- **Use the reviewer in the build loop:** after a section's hardening scripts hit 0, dispatch
-  `rigor-reviewer` for an independent judgment pass **before** user review; fix its findings
-  (bounded rounds), then report to the user. **Two carry-forward items:** (1) it must run as the
-  **registered** agent — this session only tested it via a general-purpose *fallback* because the
-  file was created mid-session; a fresh session loads `.claude/agents/rigor-reviewer.md` properly
-  and enforces its read-only tools. (2) **K-depth sensitivity is UNTESTED** — before trusting it on
-  the M9 problem set, inject one deliberately plug-in K problem into a scratch copy and confirm the
-  reviewer flags `K-DEPTH: fail`.
+- **Use the reviewer in the build loop (for Module 11):** after a section's hardening scripts hit
+  0, dispatch `rigor-reviewer` (registered, read-only Read/Grep/Glob/Skill) for an independent
+  judgment pass on the four things scripts can't check (rigor parity, read-aloud prose, K-depth,
+  self-containment); fix findings in bounded rounds, then report. Confirmed effective on M10 (3
+  parallel passes; K-depth validated on all 10 K problems; caught a real §4 correctness bug the
+  scripts missed). For a big module, run it in a few section-group passes in parallel.
 - **Parallel/backup track:** the **substance backlog** in `audit-modules.md` (M2 torsion section,
   M1 joint-reaction/low-back number, M3 nonholonomic relabel, M4 Hertz-validity caveat).
 - If the user asks for something else, that takes precedence.
@@ -115,26 +98,35 @@ duplicate content that already lives in the files referenced below — open them
   figures always lead with the recognizable Tier-2 entity (overrides the "physics figures stay
   flat" default), plus a note that `check_probfig` does NOT replace the manual 3-layer semantic audit.
   These matter for every future module's figure + code quality.
+- **`scripts/check_frame.py`** (Module-10 session) — now **HARD-fails on figure CLIPPING** (content
+  spilling past the `<svg viewBox>` edge and cut off by the browser), not just wasted margin. No
+  other check saw clipping (it's outside the box — not a `<`/`>`/`_`, overlap, or margin issue); it
+  shipped as clipped x-axis titles in 13 M10 problem figures. Also catches off-scale computed points
+  (an s-plane pole placed off-axis). Lesson baked into SKILL.md + repo `CLAUDE.md`: size viewBoxes to
+  content or trust this gate. Hardening loop is now 9 checks.
 
-## Session-transient scratch (GONE after clear; durable record is `module09.html`/`module08.html`)
-Scratchpad dir differs per session. **Module 9 is COMPLETE** — to edit an M9 figure, just edit
-the committed inline `<svg>` in `module09.html` directly, or regenerate from these patterns:
-- **Per-section figure generators** (each emits an `<svg>`/`<figure>` body, spliced into the HTML):
-  `fig0.py` (§0 running-bounce sequence), `fig1.py` (§1 gait timeline), `fig_slip.py` (§2 SLIP
-  schematic), `fig_grf.py` (§3 GRF; uses `slip_stance.py`/`slip_sym.py`→`grf.json`/`grf5.json`),
-  `fig_flight.py` (§4), `fig_impulse.py` (§5), `fig_jump.py`+`jump.py` (§6), `fig_tendon.py`+
-  `fig_econ.py`+`tendon.json` (§7), `fig_land.py`+`land.json` (§8), `fig_impact.py`+`impact.json`
-  (§9). Labs: `lab1_slip.py`…`lab4_econ.py` (§10, all PEP8).
-- **`fig_prob9.py`** — the 30 §11 problem figures via a REUSABLE generator (shared `body`/`coil`/
-  `slip`/`plot`/`kfig` helpers) → `prob9.json` keyed `C1…K10`. Splice pattern: replace the 30
-  `<figure style="margin:.5rem 0">…</figure>` blocks **in document order** (C1…C10,D1…D10,K1…K10),
-  then strip literal `_` inside `<text>` (`re.sub(r'(<text[^>]*>)([^<]*)(</text>)', …)`) — SVG text
-  can't use `$…$`, and `check_svg` hard-fails on a literal `_`/`^` in a label.
-- **Gotcha that bit repeatedly:** never route `\`-macros (`\to \rm \approx \tfrac`) through a
-  **double-quoted** `python3 -c "…"` shell arg — bash collapses `\\`→`\`, then Python turns `\t`→TAB,
-  `\r`→CR, `\a`→BEL and corrupts the math. Use a `<<'PY'` heredoc, the Write/Edit tools, or a
-  `lambda` replacement (not a regex template, which reinterprets `\i`,`\d`). `checktex` catches the
-  stray control char.
+## Session-transient scratch (GONE after clear; durable record is the committed `moduleNN.html`)
+Scratchpad dir differs per session. **Module 10 is COMPLETE** — to edit an M10 figure, edit the
+committed inline `<svg>` in `module10.html` directly, or regenerate from these patterns:
+- **`figlib.py`** — shared helpers: a posable Tier-2 `body(hipx,hipy,lean,scale,step,arms)` (capsule
+  limbs + sphere joints + head, returns svg + COM + ankle coords) and a `Plot` class (data→SVG
+  polyline mapping + axes). Reused by every M10 figure generator.
+- **Per-figure generators** (each emits a `<figure>` body → `.txt`/JSON, spliced into markers in the
+  HTML): `fig0.py` (perturbed standing ξ-in/out), `fig1.py` (margin), `fig2.py` (phase portrait —
+  computed saddle vs spiral), `fig3.py` (sensor map), `fig4.py` (stability island + DDE traces),
+  `fig5.py` (stochastic sway), `fig6.py` (Kalman fusion), `fig7.py` (recovery ladder), `fig8.py`
+  (slip/trip), `fig9.py` (aging), `fig10.py` (Lab-A result). `labs.py`+`build_labs.py` (4 lab code
+  blocks, PEP8-verified), `verify_K.py` (K3/K4/K6/K7/K8/K10 numbers).
+- **`prob_fig.py`** — the 30 §11 problem figures via a reusable generator (mini `body`/`Plot`/
+  `sensor_head`/`s_plane`/`gaussian_fusion` helpers) → `prob.json` keyed `C1…K10`. Splice: replace the
+  30 `<figure style="margin:.5rem 0">…problem figure…</figure>` blocks in document order. **Key
+  gotchas relearned:** SVG `<text>` can't use `$…$` or literal `_`/`^` (`check_svg` hard-fails —
+  use `<tspan baseline-shift="sub">` or Unicode); `svg()` computes a **content-aware viewBox height**
+  so axis titles at `y0+30` don't clip (and `check_frame` now HARD-fails clipping); use `find -printf`
+  / one Python call, not per-file subprocess loops (MSYS fork is ~100× slower).
+- **Gotcha (unchanged):** never route `\`-macros through a **double-quoted** `python -c "…"` shell arg
+  (bash `\\`→`\`, then Python `\t`→TAB etc. corrupts math). Use a `<<'PY'` heredoc / Write-Edit tools /
+  a `lambda` replacement (not a regex template). `checktex` catches the stray control char.
 
 ## How to work (essentials — full detail in `CLAUDE.md`)
 - **Invoke `rigorous-explainer`** at the start; follow its SKILL.md build loop.
