@@ -131,7 +131,19 @@ duplicate content that already lives in the files referenced below — open them
   the `/sync-transcripts` skill (global infra, recorded in MMS memory; NOT biomechanics-repo state).
 
 ## Next task
-- **NEXT = Module 16 — Continuum and Finite-Element-Style Tissue Models** (`prompt.txt`;
+- **Module 16 (Continuum and Finite-Element-Style Tissue Models) — IN PROGRESS.**
+  §0–§3 built, hardened to 0, committed WIP (not yet wired live): §0 motivation
+  (M2 beam / M4 biphasic / M6 spring as 1-D shadows of one 3-D stress state),
+  §1 deformation kinematics (displacement u, deformation gradient F, Green-Lagrange
+  strain E, Prop 1.1 small-strain linearisation), §2 Cauchy stress (t=σn, Prop 2.1
+  symmetry, equilibrium ∇·σ+b=0), §3 linear elasticity (Hooke/Lamé, Prop 3.1
+  strain-energy W=½σ:ε positive-definite, tissue modulus table). Reusable defs:
+  b_bone/b_ten/b_sph gradients + a_red/blu/grn/gry markers; deformation-grid figure
+  via gen16_def.py (scratchpad). **NEXT within M16 = §4** (bar/beam elements),
+  then §5 (assemble+solve toy FE, code), §6 anisotropy/fibre, §7 hyperelasticity,
+  §8 visco/poroelasticity, §9 the three tissues + limits, §10 labs, §11 problems,
+  Appendix. Then wire into index/README + 3-pass rigor-review + commit.
+- **Module 16 full scope** (`prompt.txt` line ~854) (`prompt.txt`;
   stress/strain tensors, deformation gradient, constitutive laws, anisotropy, hyper-/
   visco-/poro-elasticity, fibre-reinforced tissues — replaces this course's rigid
   segments with deformable continua). Same build loop: plan from `prompt.txt` + the
