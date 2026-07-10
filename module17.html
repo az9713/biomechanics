@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 17 - Capstone Modeling Projects</title>
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], tags: 'ams' }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js" async></script>
+<style>
+  :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ max-width:52rem; margin:2.5rem auto; padding:0 1.25rem 6rem; font:16px/1.65 Georgia,'Times New Roman',serif; color:var(--fg); counter-reset:fig; }
+  h1{ font-size:1.95rem; line-height:1.2; margin:.2rem 0 .2rem; } h2{ font-size:1.35rem; margin:2.4rem 0 .6rem; border-bottom:2px solid var(--accent); padding-bottom:.2rem; } h3{ font-size:1.08rem; margin:1.6rem 0 .4rem; color:var(--accent); }
+  .sub{ color:var(--muted); font-style:italic; margin-top:0; } code{ font-family:ui-monospace,'SFMono-Regular',Consolas,monospace; font-size:.92em; background:#f3f1ec; padding:.05rem .25rem; border-radius:3px;} pre{ background:#f3f1ec; padding:.8rem 1rem; border-radius:5px; overflow:auto; font-size:.84rem; line-height:1.45; } pre code{ background:none; padding:0; }
+  .thm,.def,.lem,.prop{ background:var(--box); border-left:4px solid var(--accent); padding:.6rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0; } .prob{ border-left:3px solid #cdbfa0; padding:.35rem .85rem; margin:1.1rem 0; background:#fbfaf6; border-radius:0 4px 4px 0; } .thm b,.def b,.lem b,.prop b{ color:var(--accent); }
+  .proof{ border-left:2px solid var(--rule); padding-left:.9rem; margin:.8rem 0 1.2rem; color:#222; } .proof::before{ content:"Proof."; font-style:italic; font-weight:bold; margin-right:.4rem; } .qed{ float:right; }
+  table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.92rem; } th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; } th{ background:var(--box); }
+  figure{ margin:1.5rem 0; text-align:center; counter-increment:fig; } figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; } figcaption::before{ content:"Fig. " counter(fig) ". "; font-weight:bold; font-style:normal; color:var(--accent); }
+  .setupfig{ display:block; } .setupfig text{ paint-order:stroke; stroke:#fff; stroke-width:2.5px; stroke-linejoin:round; } .setupfig text[fill="#fff"],.setupfig text[fill="#ffffff"],.setupfig text[fill="white"],.setupfig text.onfill{ stroke:none; } figure svg text{ font-family:"STIX Two Math",STIXGeneral,"Times New Roman",Georgia,serif; }
+  .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; } .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; } .toc ul{ list-style:none; padding-left:.3rem; margin:.3rem 0; } .toc a{ color:var(--accent); text-decoration:none; }
+  .small{ font-size:.88rem; color:var(--muted); } hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; } .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; } .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+  .codewrap{ position:relative; } .copybtn{ position:absolute; top:.5rem; right:.5rem; display:inline-flex; align-items:center; gap:.3rem; font:600 .72rem/1 ui-monospace,Consolas,monospace; color:var(--muted); background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.32rem .5rem; cursor:pointer; } .copybtn svg{ width:13px; height:13px; }
+  details.sol{ margin:.55rem 0 .1rem; } details.sol>summary{ cursor:pointer; color:#2a7d2a; font-weight:bold; font-size:.92rem; list-style:none; } details.sol>summary::before{ content:"\25B8\00a0"; } details.sol[open]>summary::before{ content:"\25BE\00a0"; } details.sol>div{ margin:.45rem 0 .2rem; padding-left:.3rem; border-left:2px solid #cfe3cf; } ol.diag>li{ margin:.6rem 0; }
+  .cap{ background:#fbfaf6; border:1px solid #e6ddc7; border-radius:6px; padding:.2rem 1rem .6rem; margin:1.4rem 0; }
+  @media (prefers-reduced-motion: reduce){ animate,animateTransform,animateMotion{ display:none; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="b_limb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c98a5e"/><stop offset="0.42" stop-color="#f3d7bd"/><stop offset="0.62" stop-color="#e6bd99"/><stop offset="1" stop-color="#b5744b"/></linearGradient><radialGradient id="b_head" cx="40%" cy="32%" r="72%"><stop offset="0" stop-color="#fbe7d6"/><stop offset="0.65" stop-color="#e4b891"/><stop offset="1" stop-color="#b7784e"/></radialGradient><radialGradient id="b_sph" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#fbe7d6"/><stop offset="0.6" stop-color="#e7bd99"/><stop offset="1" stop-color="#c07f52"/></radialGradient><linearGradient id="b_bone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a08b63"/><stop offset="0.42" stop-color="#f8f2e5"/><stop offset="0.62" stop-color="#e6d9bc"/><stop offset="1" stop-color="#9c8760"/></linearGradient><filter id="b_sh" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="1.5" dy="2.5" stdDeviation="2" flood-color="#000" flood-opacity="0.18"/></filter><marker id="a_red" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#b0361f"/></marker><marker id="a_blu" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#2a6ca8"/></marker><marker id="a_grn" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#2a7d2a"/></marker><marker id="a_gry" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#666"/></marker></defs></svg>
+
+<h1>Capstone Modeling Projects</h1>
+<p class="sub">The whole course turned into complete answers: worked, simulated, validated models of standing, rising, walking, running, jumping, falling, reaching, and gripping - each built from the blocks of Modules 1-16, and each honest about what it leaves out.</p>
+
+<div class="toc">
+<b>Contents</b>
+<ul>
+<li><b>0.</b> <a href="#origin">Motivation - from a toolkit to a model</a></li>
+<li><b>1.</b> <a href="#method">The modeling method: a rigorous capstone template</a></li>
+<li><b>2.</b> <a href="#standing">Capstone I - quiet standing with delayed feedback</a></li>
+<li><b>3.</b> <a href="#sts">Capstone II - knee torque during a sit-to-stand</a></li>
+<li><b>4.</b> <a href="#walk">Capstone III - walking as an inverted pendulum</a></li>
+<li><b>5.</b> <a href="#run">Capstone IV - running as a spring-mass system</a></li>
+<li><b>6.</b> <a href="#jump">Capstone V - jump and landing forces</a></li>
+<li><b>7.</b> <a href="#fracture">Capstone VI - hip-fracture risk in a sideways fall</a></li>
+<li><b>8.</b> <a href="#catalog">More capstones: a project catalog</a></li>
+<li><b>9.</b> <a href="#validation">Validation, uncertainty, and the honest report</a></li>
+<li><b>10.</b> <a href="#problems">Problems and extensions</a></li>
+<li><b>A.</b> <a href="#appendix">Appendix - the course in one page</a></li>
+</ul>
+</div>
+
+<hr>
+
+<h2 id="origin">0. Motivation - from a toolkit to a model</h2>
+
+<p>Sixteen modules have built a toolkit. Forces and free bodies (Module 1); bone as a beam and cartilage and tendon as biphasic and viscoelastic tissue (Modules 2, 4, 6); muscle as a chemo-mechanical actuator (Module 5); joints, standing, walking, running, and balance as mechanics under control (Modules 3, 7-10); reaching and coordination (Modules 11-12); the movements of an ordinary day (Module 13); aging and injury (Module 14); measurement and inverse dynamics (Module 15); and the continuum beneath it all (Module 16). Each was a piece. A <b>capstone</b> is what happens when you pick a real question and assemble the pieces into a model that answers it - and then check whether the answer is right.</p>
+
+<p>This module is a set of such projects. Each takes a concrete question - <em>why does standing sway? how large is the knee torque rising from a chair? will this fall break a hip?</em> - and carries it through the full arc of a rigorous model: state the problem, choose the physical model and its biological basis, write the governing equations, list the assumptions, tabulate the parameters, simulate, plot, interpret, bound the errors, propose a validation, and name the extensions. The arc is the same every time, which is the point: modeling is a <em>method</em>, not a bag of tricks, and the method is the real deliverable of the course.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 640 210" width="100%" role="img" aria-label="The course modules on the left feeding into a modeling method in the centre that produces answered capstone questions on the right.">
+<rect x="20" y="30" width="150" height="150" rx="6" fill="#f6f4ef" stroke="#7a1f1f" stroke-width="1.2"/>
+<text x="95" y="48" font-size="10" fill="#7a1f1f" text-anchor="middle">the toolkit</text>
+<text x="95" y="68" font-size="8.5" fill="#555" text-anchor="middle">forces, beams, muscle,</text>
+<text x="95" y="82" font-size="8.5" fill="#555" text-anchor="middle">joints, gait, control,</text>
+<text x="95" y="96" font-size="8.5" fill="#555" text-anchor="middle">reaching, tissue,</text>
+<text x="95" y="110" font-size="8.5" fill="#555" text-anchor="middle">measurement</text>
+<text x="95" y="132" font-size="8" fill="#999" text-anchor="middle">Modules 1-16</text>
+<!-- mini body -->
+<circle cx="95" cy="152" r="8" fill="url(#b_head)"/><rect x="89" y="160" width="12" height="14" rx="6" fill="url(#b_limb)"/>
+<line x1="170" y1="105" x2="205" y2="105" stroke="#666" stroke-width="1.8" marker-end="url(#a_gry)"/>
+<!-- method box -->
+<rect x="210" y="45" width="150" height="120" rx="6" fill="#eef3ee" stroke="#2a7d2a" stroke-width="1.3"/>
+<text x="285" y="62" font-size="10" fill="#2a7d2a" text-anchor="middle">the method</text>
+<text x="285" y="82" font-size="8.5" fill="#555" text-anchor="middle">question &#8594; model</text>
+<text x="285" y="98" font-size="8.5" fill="#555" text-anchor="middle">&#8594; equations &#8594; simulate</text>
+<text x="285" y="114" font-size="8.5" fill="#555" text-anchor="middle">&#8594; validate &#8594; limits</text>
+<text x="285" y="140" font-size="8" fill="#999" text-anchor="middle">Section 1</text>
+<line x1="360" y1="105" x2="395" y2="105" stroke="#666" stroke-width="1.8" marker-end="url(#a_gry)"/>
+<!-- answers -->
+<rect x="400" y="30" width="220" height="150" rx="6" fill="#fff" stroke="#7a1f1f" stroke-width="1.2"/>
+<text x="510" y="48" font-size="10" fill="#7a1f1f" text-anchor="middle">answered questions</text>
+<text x="415" y="70" font-size="8.5" fill="#555">&#183; why standing sways</text>
+<text x="415" y="88" font-size="8.5" fill="#555">&#183; the knee torque of a chair-rise</text>
+<text x="415" y="106" font-size="8.5" fill="#555">&#183; the speed limit of walking</text>
+<text x="415" y="124" font-size="8.5" fill="#555">&#183; the force of a landing</text>
+<text x="415" y="142" font-size="8.5" fill="#555">&#183; whether a fall breaks a hip</text>
+<text x="415" y="160" font-size="8.5" fill="#555">&#183; the grip a jar demands</text>
+</svg><figcaption>Section 0. The capstone arc. The toolkit of Modules 1-16 feeds a single modeling method (Section 1) that turns concrete questions into simulated, validated answers. Every project in this module walks the same arc; the questions differ, the discipline does not.</figcaption></figure>
+
+<p>The projects are deliberately varied - a control problem, an inverse-dynamics estimate, three gait models, an impact-and-fracture calculation, and a catalogue of nine more - so that between them they exercise every module. Six are worked in full (<a class="secref" href="#standing">Sections 2</a>-<a class="secref" href="#fracture">7</a>); nine more are specified as ready-to-build briefs (<a class="secref" href="#catalog">Section 8</a>); and a closing section (<a class="secref" href="#validation">Section 9</a>) treats the part beginners skip and experts obsess over - validation and the honest report. First, the method.</p>
+
+<h2 id="method">1. The modeling method: a rigorous capstone template</h2>
+
+<p>A model is not a simulation that runs; it is an argument that a chosen abstraction answers a question to a stated accuracy. The argument has a fixed skeleton, and every capstone below fills it in. Stating the skeleton once turns the projects from demonstrations into exercises of one transferable method.</p>
+
+<div class="keyresult">
+<b>The capstone template (eleven elements).</b>
+<b>(1) Problem</b> - the question, sharp enough to have a number for an answer.
+<b>(2) Physical model</b> - the idealisation (a pendulum, a spring, a beam) and why it is adequate.
+<b>(3) Biological mechanism</b> - what tissue or control realises it.
+<b>(4) Equations</b> - the governing law, derived or cited.
+<b>(5) Assumptions</b> - each idealisation, named.
+<b>(6) Parameters</b> - a table of values with sources and units.
+<b>(7) Simulation</b> - the numerical method and code.
+<b>(8) Plots</b> - the computed result.
+<b>(9) Interpretation</b> - what the number means.
+<b>(10) Limitations and validation</b> - where the model fails and how you would check it against data.
+<b>(11) Extensions</b> - the next question it opens.
+</div>
+
+<p>Three principles run through the eleven and are worth stating as their own small results, because they are what separates a rigorous capstone from a plausible-looking one.</p>
+
+<div class="def"><b>Principle 1.1 (the simplest adequate model).</b> Among models that capture the mechanism the question turns on, prefer the one with the fewest parameters; add complexity only when a validation shows the simpler model fails. A model with more free parameters than the data constrains can fit anything and predicts nothing.</div>
+
+<div class="def"><b>Principle 1.2 (dimensional soundness and limits).</b> Every equation must be dimensionally consistent, and every result must reduce to a known answer in a limiting case (zero load, small angle, infinite stiffness). A model that passes both is not proven right, but a model that fails either is certainly wrong - the cheapest tests available, applied first.</div>
+
+<div class="def"><b>Principle 1.3 (an answer without an error bar is not a result).</b> A predicted number carries an uncertainty inherited from its parameters and its idealisations; the capstone must estimate it (by propagation or Monte Carlo, Module 15) and report it. The width of the error bar decides whether the answer can settle the question at all.</div>
+
+<p>These are not pieties. Principle 1.1 is why the projects below reach for a one-parameter inverted pendulum before a fifty-muscle simulation; Principle 1.2 is the small-angle and static checks each capstone runs; Principle 1.3 is why every headline number comes with a range. With the template fixed, the projects begin - each a filled-in instance of it, and together a tour of the whole course.</p>
+
+<!-- SECTIONS 2-10 + APPENDIX TO FOLLOW -->
+
+<script>
+function copyCode(btn){
+  var code = btn.parentElement.querySelector('code');
+  if(!code) return;
+  var text = code.textContent;
+  var done = function(){
+    var label = btn.querySelector('span'), prev = label.textContent;
+    btn.classList.add('copied'); label.textContent = 'Copied!';
+    setTimeout(function(){ btn.classList.remove('copied'); label.textContent = prev; }, 1500);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done, function(){});
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+(function(){
+  try{
+    if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('svg').forEach(function(svg){
+        if(typeof svg.pauseAnimations === 'function') svg.pauseAnimations();
+      });
+    }
+  }catch(e){}
+})();
+</script>
+
+</body>
+</html>
