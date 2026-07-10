@@ -21,5 +21,6 @@ inline SVG figures.
 - **Module 11 — Reaching, Waving, Holding, Gripping & Manipulation:** https://az9713.github.io/biomechanics/module11.html
 - **Module 12 — Whole-Body Coordination and Motor Control:** https://az9713.github.io/biomechanics/module12.html
 - **Module 13 — Daily-Life Movement Case Studies:** https://az9713.github.io/biomechanics/module13.html
+- **Module 14 — Aging, Injury, Degeneration, and Adaptation:** https://az9713.github.io/biomechanics/module14.html
 
-Modules 14–17 to come.
+Modules 15–17 to come.
