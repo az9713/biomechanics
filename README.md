@@ -19,5 +19,6 @@ inline SVG figures.
 - **Module 9 — Running and Jumping**: https://az9713.github.io/biomechanics/module09.html
 - **Module 10 — Balance, Stability, and Sensorimotor Control:** https://az9713.github.io/biomechanics/module10.html
 - **Module 11 — Reaching, Waving, Holding, Gripping & Manipulation:** https://az9713.github.io/biomechanics/module11.html
+- **Module 12 — Whole-Body Coordination and Motor Control:** https://az9713.github.io/biomechanics/module12.html
 
-Modules 12–17 to come.
+Modules 13–17 to come.

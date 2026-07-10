@@ -5,6 +5,27 @@ This file is the live "what to do next"; `CLAUDE.md` is the standing playbook. D
 duplicate content that already lives in the files referenced below — open them.
 
 ## Current state (as of latest push)
+- **Module 12 (Whole-Body Coordination and Motor Control) — COMPLETE & live.**
+  §0–§11 + Appendix: Bernstein's DOF problem / null space → movement as optimal control
+  (Euler-Poisson) → minimum-jerk trajectory → LQR (HJB→ARE) → impedance control (K_x=
+  J⁻ᵀK_qJ⁻¹, passivity) → internal models + reafference + error-driven adaptation → optimal
+  feedback control + minimal-intervention / uncontrolled manifold → muscle synergies +
+  central pattern generators (Adler locking) → human-vs-robot synthesis → 4 Python labs
+  (min-jerk, LQR trade, impedance-vs-servo contact, UCM) → 30 problems (K-depth all 10 pass)
+  → Appendix. 44 figures computed (figlib12 reuses figlib11 arm/Plot + box/oscillator/ellipse
+  helpers); full 10-check hardening loop = 0.
+  - **Rigor-reviewer: 3 parallel passes.** §0–4 READY (3 nits fixed: pseudoinverse gloss,
+    ARE stabilizability note, Bellman-principle pointer). §5–9 fixed: Prop 7.1 boxed claim
+    softened to what's proved + plant-smoothing note, Prop 6.2 aftereffect reworded (= initial
+    not final error), `g` clarified as error-sensitivity (vs gravity). Labs/K: K-depth all 10
+    PASS; fixed Lab B "tenfold"→"~3×" (R^{-1/4}), K1 doubled word, Lab D N=500-of-4000 caption,
+    and recast K7 to a joint-space redundant-reach UCM (ratio 6.4) so it no longer duplicates
+    Lab D. Wired into index.html ("Modules 13–17" pending) + README.md.
+- **NEXT = Module 13 — Daily-Life Movement Case Studies** (`prompt.txt` line ~758): sit-to-
+  stand, stairs up/down, carrying, lifting, reaching overhead, turning, stumble recovery,
+  jar-opening, door-push, suitcase-pull, uphill/downhill — each: task → structures → links/
+  joints/actuators/sensors/constraints → simplified equations → force/torque/power/stress
+  estimates → simulate → failure modes → aging/injury/training. Applies Modules 1–12.
 - **Module 11 (Reaching, Waving, Holding, Gripping, Manipulation) — COMPLETE & live.**
   Built end-to-end this autonomous `/goal` run (goal = complete Modules 11–17). §0–§11 +
   Appendix: two-link forward kinematics → Jacobian (det J = ℓ₁ℓ₂ sin θ₂) → inverse
