@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 16 - Continuum and Finite-Element-Style Tissue Models</title>
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], tags: 'ams' }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js" async></script>
+<style>
+  :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ max-width:52rem; margin:2.5rem auto; padding:0 1.25rem 6rem; font:16px/1.65 Georgia,'Times New Roman',serif; color:var(--fg); counter-reset:fig; }
+  h1{ font-size:1.95rem; line-height:1.2; margin:.2rem 0 .2rem; } h2{ font-size:1.35rem; margin:2.4rem 0 .6rem; border-bottom:2px solid var(--accent); padding-bottom:.2rem; } h3{ font-size:1.08rem; margin:1.6rem 0 .4rem; color:var(--accent); }
+  .sub{ color:var(--muted); font-style:italic; margin-top:0; } code{ font-family:ui-monospace,'SFMono-Regular',Consolas,monospace; font-size:.92em; background:#f3f1ec; padding:.05rem .25rem; border-radius:3px;} pre{ background:#f3f1ec; padding:.8rem 1rem; border-radius:5px; overflow:auto; font-size:.84rem; line-height:1.45; } pre code{ background:none; padding:0; }
+  .thm,.def,.lem,.prop{ background:var(--box); border-left:4px solid var(--accent); padding:.6rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0; } .prob{ border-left:3px solid #cdbfa0; padding:.35rem .85rem; margin:1.1rem 0; background:#fbfaf6; border-radius:0 4px 4px 0; } .thm b,.def b,.lem b,.prop b{ color:var(--accent); }
+  .proof{ border-left:2px solid var(--rule); padding-left:.9rem; margin:.8rem 0 1.2rem; color:#222; } .proof::before{ content:"Proof."; font-style:italic; font-weight:bold; margin-right:.4rem; } .qed{ float:right; }
+  table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.92rem; } th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; } th{ background:var(--box); }
+  figure{ margin:1.5rem 0; text-align:center; counter-increment:fig; } figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; } figcaption::before{ content:"Fig. " counter(fig) ". "; font-weight:bold; font-style:normal; color:var(--accent); }
+  .setupfig{ display:block; } .setupfig text{ paint-order:stroke; stroke:#fff; stroke-width:2.5px; stroke-linejoin:round; } .setupfig text[fill="#fff"],.setupfig text[fill="#ffffff"],.setupfig text[fill="white"],.setupfig text.onfill{ stroke:none; } figure svg text{ font-family:"STIX Two Math",STIXGeneral,"Times New Roman",Georgia,serif; }
+  .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; } .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; } .toc ul{ list-style:none; padding-left:.3rem; margin:.3rem 0; } .toc a{ color:var(--accent); text-decoration:none; }
+  .small{ font-size:.88rem; color:var(--muted); } hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; } .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; } .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+  .codewrap{ position:relative; } .copybtn{ position:absolute; top:.5rem; right:.5rem; display:inline-flex; align-items:center; gap:.3rem; font:600 .72rem/1 ui-monospace,Consolas,monospace; color:var(--muted); background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.32rem .5rem; cursor:pointer; } .copybtn svg{ width:13px; height:13px; }
+  details.sol{ margin:.55rem 0 .1rem; } details.sol>summary{ cursor:pointer; color:#2a7d2a; font-weight:bold; font-size:.92rem; list-style:none; } details.sol>summary::before{ content:"\25B8\00a0"; } details.sol[open]>summary::before{ content:"\25BE\00a0"; } details.sol>div{ margin:.45rem 0 .2rem; padding-left:.3rem; border-left:2px solid #cfe3cf; } ol.diag>li{ margin:.6rem 0; }
+  @media (prefers-reduced-motion: reduce){ animate,animateTransform,animateMotion{ display:none; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="b_bone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a08b63"/><stop offset="0.42" stop-color="#f8f2e5"/><stop offset="0.62" stop-color="#e6d9bc"/><stop offset="1" stop-color="#9c8760"/></linearGradient><linearGradient id="b_ten" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8d2c0"/><stop offset="0.45" stop-color="#f4f0e6"/><stop offset="1" stop-color="#cfc7b2"/></linearGradient><radialGradient id="b_sph" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#fcf8ef"/><stop offset="0.6" stop-color="#e8dabb"/><stop offset="1" stop-color="#c2ae84"/></radialGradient><filter id="b_sh" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="1.5" dy="2.5" stdDeviation="2" flood-color="#000" flood-opacity="0.18"/></filter><marker id="a_red" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#b0361f"/></marker><marker id="a_blu" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#2a6ca8"/></marker><marker id="a_grn" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#2a7d2a"/></marker><marker id="a_gry" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#666"/></marker></defs></svg>
+
+<h1>Continuum and Finite-Element-Style Tissue Models</h1>
+<p class="sub">The three-dimensional mechanics beneath the beams, springs, and biphasic gels of this course - stress and strain as tensors, the constitutive laws of bone, tendon, and cartilage, and the finite-element reasoning that turns them into computable models.</p>
+
+<div class="toc">
+<b>Contents</b>
+<ul>
+<li><b>0.</b> <a href="#origin">Motivation - from one-dimensional models to a continuum</a></li>
+<li><b>1.</b> <a href="#kinematics">Deformation: the displacement field, gradient, and strain</a></li>
+<li><b>2.</b> <a href="#stress">Stress: traction and the Cauchy stress tensor</a></li>
+<li><b>3.</b> <a href="#elasticity">Linear elasticity and the strain-energy function</a></li>
+<li><b>4.</b> <a href="#bar">The bar and beam elements: finite-element intuition</a></li>
+<li><b>5.</b> <a href="#assembly">Assembling and solving a toy finite-element model</a></li>
+<li><b>6.</b> <a href="#anisotropy">Anisotropy and fibre reinforcement</a></li>
+<li><b>7.</b> <a href="#hyper">Hyperelasticity: finite strain and strain-energy density</a></li>
+<li><b>8.</b> <a href="#timedep">Viscoelasticity and poroelasticity</a></li>
+<li><b>9.</b> <a href="#tissues">The three tissues as continua, and what the models miss</a></li>
+<li><b>10.</b> <a href="#labs">Computational labs</a></li>
+<li><b>11.</b> <a href="#problems">Problems, diagnostics, and limitations</a></li>
+<li><b>A.</b> <a href="#appendix">Appendix - notation and parameters</a></li>
+</ul>
+</div>
+
+<hr>
+
+<h2 id="origin">0. Motivation - from one-dimensional models to a continuum</h2>
+
+<p>This course has been quietly modelling tissues as one-dimensional objects. Module 2 treated a bone as an Euler-Bernoulli <em>beam</em> - a line with a bending stiffness. Module 4 treated cartilage as a stack of <em>springs and dashpots</em> squeezing fluid through a one-dimensional column. Module 6 treated a tendon as a nonlinear <em>spring</em>, a single force-length curve. Each reduction was deliberate and powerful, and each threw away the same thing: that a tissue is a three-dimensional body, deforming in every direction at once, with a stress that is not a single number but a <em>state</em> at each point.</p>
+
+<p>A one-dimensional model cannot answer the questions that decide whether a tissue fails. When a bone is loaded off-axis, where is the stress highest across its cross-section? When a tendon is stretched along its fibres, how much does it bulge sideways, and why does that matter for its stiffness? When cartilage is pressed, how does the load partition between the solid matrix and the pressurised fluid, point by point? These are questions about <em>fields</em> - stress and strain that vary through the body's volume - and to answer them we need the language those fields are written in: continuum mechanics.</p>
+
+<figure><svg class="setupfig" viewBox="0 0 640 230" width="100%" role="img" aria-label="Three one-dimensional tissue models from earlier modules - a bone beam, a tendon spring, a cartilage spring-dashpot column - all resolving into a single three-dimensional stress element carrying a full stress state.">
+<!-- left: three 1-D reductions -->
+<text x="120" y="24" font-size="10.5" fill="#7a1f1f" text-anchor="middle">one-dimensional models</text>
+<!-- bone beam -->
+<rect x="30" y="46" width="180" height="14" rx="4" fill="url(#b_bone)"/><line x1="120" y1="40" x2="120" y2="20" stroke="#b0361f" stroke-width="2" marker-end="url(#a_red)"/><text x="30" y="76" font-size="9" fill="#555" text-anchor="start">bone = beam (Module 2)</text>
+<!-- tendon spring -->
+<path d="M40,110 h20 l8,-10 l16,20 l16,-20 l16,20 l16,-20 l16,20 l8,-10 h20" fill="none" stroke="#8a7f66" stroke-width="2.2"/><text x="30" y="132" font-size="9" fill="#555" text-anchor="start">tendon = spring (Module 6)</text>
+<!-- cartilage spring-dashpot -->
+<path d="M40,168 h18 l6,-8 l12,16 l12,-16 l12,16 l6,-8 h10" fill="none" stroke="#4a6a8a" stroke-width="2"/><rect x="126" y="160" width="26" height="16" fill="none" stroke="#4a6a8a" stroke-width="1.6"/><line x1="152" y1="168" x2="176" y2="168" stroke="#4a6a8a" stroke-width="2"/><text x="30" y="196" font-size="9" fill="#555" text-anchor="start">cartilage = spring + dashpot (Module 4)</text>
+<!-- big arrow -->
+<line x1="250" y1="115" x2="330" y2="115" stroke="#333" stroke-width="2.2" marker-end="url(#a_gry)"/><text x="290" y="105" font-size="10" fill="#333" text-anchor="middle">one continuum</text>
+<!-- right: 3-D stress element (cube) -->
+<g transform="translate(400,60)">
+<polygon points="30,40 130,40 160,10 60,10" fill="#efeadd" stroke="#7a1f1f" stroke-width="1.4"/>
+<polygon points="30,40 130,40 130,120 30,120" fill="#f6f4ef" stroke="#7a1f1f" stroke-width="1.4"/>
+<polygon points="130,40 160,10 160,90 130,120" fill="#e6ddc7" stroke="#7a1f1f" stroke-width="1.4"/>
+<!-- normal + shear tractions on top face -->
+<line x1="95" y1="25" x2="95" y2="-8" stroke="#b0361f" stroke-width="2.4" marker-end="url(#a_red)"/><text x="101" y="-2" font-size="10" fill="#b0361f" text-anchor="start" font-style="italic">&#963;</text>
+<line x1="95" y1="25" x2="128" y2="25" stroke="#2a6ca8" stroke-width="2.2" marker-end="url(#a_blu)"/><text x="120" y="20" font-size="10" fill="#2a6ca8" text-anchor="start" font-style="italic">&#964;</text>
+<!-- normal on right face -->
+<line x1="145" y1="70" x2="176" y2="70" stroke="#b0361f" stroke-width="2.2" marker-end="url(#a_red)"/>
+<text x="80" y="145" font-size="9" fill="#555" text-anchor="middle">stress element: 6 components</text>
+</g>
+</svg><figcaption>Section 0. One continuum beneath every earlier model. The beam of Module 2, the tendon spring of Module 6, and the cartilage spring-dashpot of Module 4 are each a one-dimensional shadow of the same three-dimensional object: a material point carrying a full stress state (a normal stress &#963; and shear stress &#964; on each face, six independent components in all). This module builds that state and the laws it obeys.</figcaption></figure>
+
+<p>The plan runs from geometry to law to computation. We first make deformation precise - the <b>displacement field</b>, the <b>deformation gradient</b>, and the <b>strain</b> tensor that measures local stretching (<a class="secref" href="#kinematics">Section 1</a>). We then define <b>stress</b> as a tensor and impose equilibrium (<a class="secref" href="#stress">Section 2</a>), and connect the two with a <b>constitutive law</b> - linear elasticity and its strain energy (<a class="secref" href="#elasticity">Section 3</a>). With the physics in place, we turn to computation: the <b>bar and beam elements</b> that are the atoms of finite-element analysis (<a class="secref" href="#bar">Section 4</a>), and how they <b>assemble</b> into a global system solved for the stress field (<a class="secref" href="#assembly">Section 5</a>). The last third makes the laws realistic for tissue: <b>anisotropy and fibre reinforcement</b> (<a class="secref" href="#anisotropy">Section 6</a>), <b>hyperelasticity</b> at finite strain (<a class="secref" href="#hyper">Section 7</a>), and the <b>time-dependent</b> viscoelastic and poroelastic behaviours (<a class="secref" href="#timedep">Section 8</a>) that make bone a composite, tendon a fibre-reinforced solid, and cartilage a biphasic material (<a class="secref" href="#tissues">Section 9</a>). Two labs and a problem set close it. The reward is that every idealisation of the earlier modules becomes a special case of one framework - and its limits become visible.</p>
+
+<h2 id="kinematics">1. Deformation: the displacement field, gradient, and strain</h2>
+
+<p>Continuum mechanics begins not with force but with <em>geometry</em>: a precise account of how a body changes shape. Label each material point by its position $\mathbf X$ in the undeformed (reference) body. When the body deforms, that point moves to a new position $\mathbf x$. The map $\mathbf x=\boldsymbol\chi(\mathbf X)$ is the <b>deformation</b>, and its local behaviour - how a tiny material fibre is stretched and rotated - is captured by a single object.</p>
+
+<div class="def"><b>Definition 1.1 (displacement field and deformation gradient).</b> The <em>displacement</em> of a material point is $\mathbf u(\mathbf X)=\mathbf x-\mathbf X$, the vector from where the point was to where it is. The <em>deformation gradient</em> is the Jacobian of the deformation map,
+$$\mathbf F=\frac{\partial\mathbf x}{\partial\mathbf X}=\mathbf I+\frac{\partial\mathbf u}{\partial\mathbf X},$$
+a second-order tensor (in two dimensions a $2\times2$ matrix). It maps an infinitesimal material fibre $d\mathbf X$ in the reference body to its image $d\mathbf x=\mathbf F\,d\mathbf X$ in the deformed body, encoding the local stretch and rotation. Its determinant $J=\det\mathbf F$ is the local volume ratio (deformed volume over reference volume); $J=1$ is an isochoric (volume-preserving) deformation.</div>
+
+<figure><svg class="setupfig" viewBox="35 5 522 184" width="100%" role="img" aria-label="A reference square grid on the left mapped by the deformation gradient F to a stretched and sheared parallelogram grid on the right; a material fibre dX maps to dx = F dX."><text x="120" y="24" font-size="10" fill="#555" text-anchor="middle">reference body</text><text x="440" y="24" font-size="10" fill="#555" text-anchor="middle">deformed body</text><line x1="60.0" y1="175.0" x2="94.0" y2="175.0" stroke="#9c8760" stroke-width="1.4"/><line x1="60.0" y1="175.0" x2="60.0" y2="141.0" stroke="#9c8760" stroke-width="1.4"/><line x1="60.0" y1="141.0" x2="94.0" y2="141.0" stroke="#9c8760" stroke-width="1.4"/><line x1="60.0" y1="141.0" x2="60.0" y2="107.0" stroke="#9c8760" stroke-width="1.4"/><line x1="60.0" y1="107.0" x2="94.0" y2="107.0" stroke="#9c8760" stroke-width="1.4"/><line x1="60.0" y1="107.0" x2="60.0" y2="73.0" stroke="#9c8760" stroke-width="1.4"/><line x1="60.0" y1="73.0" x2="94.0" y2="73.0" stroke="#9c8760" stroke-width="1.4"/><line x1="94.0" y1="175.0" x2="128.0" y2="175.0" stroke="#9c8760" stroke-width="1.4"/><line x1="94.0" y1="175.0" x2="94.0" y2="141.0" stroke="#9c8760" stroke-width="1.4"/><line x1="94.0" y1="141.0" x2="128.0" y2="141.0" stroke="#9c8760" stroke-width="1.4"/><line x1="94.0" y1="141.0" x2="94.0" y2="107.0" stroke="#9c8760" stroke-width="1.4"/><line x1="94.0" y1="107.0" x2="128.0" y2="107.0" stroke="#9c8760" stroke-width="1.4"/><line x1="94.0" y1="107.0" x2="94.0" y2="73.0" stroke="#9c8760" stroke-width="1.4"/><line x1="94.0" y1="73.0" x2="128.0" y2="73.0" stroke="#9c8760" stroke-width="1.4"/><line x1="128.0" y1="175.0" x2="162.0" y2="175.0" stroke="#9c8760" stroke-width="1.4"/><line x1="128.0" y1="175.0" x2="128.0" y2="141.0" stroke="#9c8760" stroke-width="1.4"/><line x1="128.0" y1="141.0" x2="162.0" y2="141.0" stroke="#9c8760" stroke-width="1.4"/><line x1="128.0" y1="141.0" x2="128.0" y2="107.0" stroke="#9c8760" stroke-width="1.4"/><line x1="128.0" y1="107.0" x2="162.0" y2="107.0" stroke="#9c8760" stroke-width="1.4"/><line x1="128.0" y1="107.0" x2="128.0" y2="73.0" stroke="#9c8760" stroke-width="1.4"/><line x1="128.0" y1="73.0" x2="162.0" y2="73.0" stroke="#9c8760" stroke-width="1.4"/><line x1="162.0" y1="175.0" x2="162.0" y2="141.0" stroke="#9c8760" stroke-width="1.4"/><line x1="162.0" y1="141.0" x2="162.0" y2="107.0" stroke="#9c8760" stroke-width="1.4"/><line x1="162.0" y1="107.0" x2="162.0" y2="73.0" stroke="#9c8760" stroke-width="1.4"/><line x1="360.0" y1="175.0" x2="404.2" y2="175.0" stroke="#7a1f1f" stroke-width="1.6"/><line x1="360.0" y1="175.0" x2="371.9" y2="135.9" stroke="#7a1f1f" stroke-width="1.6"/><line x1="371.9" y1="135.9" x2="416.1" y2="135.9" stroke="#7a1f1f" stroke-width="1.6"/><line x1="371.9" y1="135.9" x2="383.8" y2="96.8" stroke="#7a1f1f" stroke-width="1.6"/><line x1="383.8" y1="96.8" x2="428.0" y2="96.8" stroke="#7a1f1f" stroke-width="1.6"/><line x1="383.8" y1="96.8" x2="395.7" y2="57.7" stroke="#7a1f1f" stroke-width="1.6"/><line x1="395.7" y1="57.7" x2="439.9" y2="57.7" stroke="#7a1f1f" stroke-width="1.6"/><line x1="404.2" y1="175.0" x2="448.4" y2="175.0" stroke="#7a1f1f" stroke-width="1.6"/><line x1="404.2" y1="175.0" x2="416.1" y2="135.9" stroke="#7a1f1f" stroke-width="1.6"/><line x1="416.1" y1="135.9" x2="460.3" y2="135.9" stroke="#7a1f1f" stroke-width="1.6"/><line x1="416.1" y1="135.9" x2="428.0" y2="96.8" stroke="#7a1f1f" stroke-width="1.6"/><line x1="428.0" y1="96.8" x2="472.2" y2="96.8" stroke="#7a1f1f" stroke-width="1.6"/><line x1="428.0" y1="96.8" x2="439.9" y2="57.7" stroke="#7a1f1f" stroke-width="1.6"/><line x1="439.9" y1="57.7" x2="484.1" y2="57.7" stroke="#7a1f1f" stroke-width="1.6"/><line x1="448.4" y1="175.0" x2="492.6" y2="175.0" stroke="#7a1f1f" stroke-width="1.6"/><line x1="448.4" y1="175.0" x2="460.3" y2="135.9" stroke="#7a1f1f" stroke-width="1.6"/><line x1="460.3" y1="135.9" x2="504.5" y2="135.9" stroke="#7a1f1f" stroke-width="1.6"/><line x1="460.3" y1="135.9" x2="472.2" y2="96.8" stroke="#7a1f1f" stroke-width="1.6"/><line x1="472.2" y1="96.8" x2="516.4" y2="96.8" stroke="#7a1f1f" stroke-width="1.6"/><line x1="472.2" y1="96.8" x2="484.1" y2="57.7" stroke="#7a1f1f" stroke-width="1.6"/><line x1="484.1" y1="57.7" x2="528.3" y2="57.7" stroke="#7a1f1f" stroke-width="1.6"/><line x1="492.6" y1="175.0" x2="504.5" y2="135.9" stroke="#7a1f1f" stroke-width="1.6"/><line x1="504.5" y1="135.9" x2="516.4" y2="96.8" stroke="#7a1f1f" stroke-width="1.6"/><line x1="516.4" y1="96.8" x2="528.3" y2="57.7" stroke="#7a1f1f" stroke-width="1.6"/><line x1="94.0" y1="141.0" x2="128.0" y2="141.0" stroke="#2a6ca8" stroke-width="3" marker-end="url(#a_blu)"/><text x="111.0" y="133.0" font-size="10" fill="#2a6ca8" text-anchor="middle" font-style="italic">dX</text><line x1="416.1" y1="135.9" x2="460.3" y2="135.9" stroke="#2a6ca8" stroke-width="3" marker-end="url(#a_blu)"/><text x="438.2" y="127.9" font-size="10" fill="#2a6ca8" text-anchor="middle" font-style="italic">dx</text><line x1="210" y1="120" x2="300" y2="120" stroke="#333" stroke-width="2.4" marker-end="url(#a_gry)"/><text x="255" y="112" font-size="12" fill="#333" text-anchor="middle" font-style="italic">F</text><text x="255" y="135" font-size="8" fill="#555" text-anchor="middle">dx = F dX</text><text x="255" y="175" font-size="9" fill="#7a1f1f" text-anchor="middle">J = det F = 1.49</text></svg><figcaption>Section 1. The deformation gradient maps fibres. A square grid of material lines in the reference body (tan) is carried by F into a stretched, sheared grid in the deformed body (dark red). Any infinitesimal fibre dX becomes dx = F dX, so F alone encodes the local stretch and rotation; its determinant J = det F (here 1.49) is the local volume ratio. Strain (Definition 1.2) is the part of F that survives removing rigid rotation.</figcaption></figure>
+
+<p>The deformation gradient contains rotation as well as stretch, and rotation is not deformation - a rigid spin of the whole body strains nothing. To measure only the stretching, we form a quantity that is blind to rotation. The <b>Green-Lagrange strain tensor</b> does this exactly.</p>
+
+<div class="def"><b>Definition 1.2 (strain).</b> The <em>Green-Lagrange strain</em> is
+$$\mathbf E=\tfrac12\big(\mathbf F^{\!\top}\mathbf F-\mathbf I\big),$$
+which vanishes for any rigid-body motion (where $\mathbf F$ is a pure rotation, $\mathbf F^{\!\top}\mathbf F=\mathbf I$) and measures the change in squared length of material fibres. When displacements and their gradients are <em>small</em> - the regime of bone and of small tissue strains - the quadratic term is negligible and $\mathbf E$ reduces to the <em>infinitesimal (small) strain tensor</em>
+$$\boldsymbol\varepsilon=\tfrac12\big(\nabla\mathbf u+\nabla\mathbf u^{\!\top}\big),\qquad \varepsilon_{ij}=\tfrac12\Big(\frac{\partial u_i}{\partial X_j}+\frac{\partial u_j}{\partial X_i}\Big),$$
+whose diagonal entries $\varepsilon_{11},\varepsilon_{22},\varepsilon_{33}$ are the fractional stretches along each axis (the familiar $\Delta L/L$) and whose off-diagonal entries are the shear strains.</div>
+
+<div class="prop"><b>Proposition 1.1 (small strain is the linearisation of Green-Lagrange strain).</b> For small displacement gradients $\nabla\mathbf u$, the Green-Lagrange strain equals the infinitesimal strain to first order:
+$$\boxed{\;\mathbf E=\boldsymbol\varepsilon+O\big(\lVert\nabla\mathbf u\rVert^2\big),\qquad \boldsymbol\varepsilon=\tfrac12\big(\nabla\mathbf u+\nabla\mathbf u^{\!\top}\big).\;}$$</div>
+
+<div class="proof">Write $\mathbf F=\mathbf I+\mathbf H$ with $\mathbf H=\nabla\mathbf u$ the displacement gradient. Then
+$$\mathbf F^{\!\top}\mathbf F=(\mathbf I+\mathbf H)^{\!\top}(\mathbf I+\mathbf H)=\mathbf I+\mathbf H+\mathbf H^{\!\top}+\mathbf H^{\!\top}\mathbf H,$$
+so $\mathbf E=\tfrac12(\mathbf F^{\!\top}\mathbf F-\mathbf I)=\tfrac12(\mathbf H+\mathbf H^{\!\top})+\tfrac12\mathbf H^{\!\top}\mathbf H$. The first term is exactly $\boldsymbol\varepsilon$; the second is quadratic in $\mathbf H=\nabla\mathbf u$ and is dropped when $\lVert\nabla\mathbf u\rVert\ll1$. Hence $\mathbf E=\boldsymbol\varepsilon+O(\lVert\nabla\mathbf u\rVert^2)$. The linear theory of <a class="secref" href="#elasticity">Section 3</a> uses $\boldsymbol\varepsilon$; the finite-strain theory of <a class="secref" href="#hyper">Section 7</a> keeps the full $\mathbf E$. <span class="qed">&#8718;</span></div>
+
+<p>A concrete case anchors the tensor. Under a uniaxial stretch of ratio $\lambda$ along $X_1$ with lateral contraction ratio governed by Poisson's ratio $\nu$ (<a class="secref" href="#elasticity">Section 3</a>), the deformation is $x_1=\lambda X_1$, $x_2=(1-\nu(\lambda-1))X_2$, so $\mathbf F=\operatorname{diag}(\lambda,\,1-\nu(\lambda-1))$ and, for small $\lambda-1$, the axial small strain is $\varepsilon_{11}=\lambda-1$ and the transverse strain is $\varepsilon_{22}=-\nu\varepsilon_{11}$ - the sideways bulge of a stretched tendon quantified. This is the geometry the next section loads.</p>
+
+<!-- SECTIONS 2-11 + APPENDIX TO FOLLOW -->
+
+<script>
+function copyCode(btn){
+  var code = btn.parentElement.querySelector('code');
+  if(!code) return;
+  var text = code.textContent;
+  var done = function(){
+    var label = btn.querySelector('span'), prev = label.textContent;
+    btn.classList.add('copied'); label.textContent = 'Copied!';
+    setTimeout(function(){ btn.classList.remove('copied'); label.textContent = prev; }, 1500);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done, function(){});
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+(function(){
+  try{
+    if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('svg').forEach(function(svg){
+        if(typeof svg.pauseAnimations === 'function') svg.pauseAnimations();
+      });
+    }
+  }catch(e){}
+})();
+</script>
+
+</body>
+</html>
