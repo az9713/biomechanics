@@ -5,6 +5,27 @@ This file is the live "what to do next"; `CLAUDE.md` is the standing playbook. D
 duplicate content that already lives in the files referenced below — open them.
 
 ## Current state (as of latest push)
+- **Module 11 (Reaching, Waving, Holding, Gripping, Manipulation) — COMPLETE & live.**
+  Built end-to-end this autonomous `/goal` run (goal = complete Modules 11–17). §0–§11 +
+  Appendix: two-link forward kinematics → Jacobian (det J = ℓ₁ℓ₂ sin θ₂) → inverse
+  kinematics (two elbows + boundary singularity) → statics τ = Jᵀ F + velocity/force
+  ellipsoids → 3-link redundancy + null space → two-link inverse dynamics (Lagrangian
+  M/C/g, the wave) → shoulder concavity-compression stability ratio + scapulohumeral
+  rhythm → friction cone + minimum grip force + force closure (wrench-space) → tactile
+  grip-load loop + slip reflex → 4 Python labs (PEP8, verified numbers) → 30 problems
+  (10C/10D/10K, K-depth all pass incl. capstan K10) + 5 diagnostics + limitations +
+  repayment → Appendix. Every proposition proved; all 44 figures computed (figlib11 +
+  genfigs11/genprobs11, session-transient in scratchpad); full 10-check hardening loop = 0.
+  - **Rigor-reviewer: 3 parallel passes (§0–4, §5–9, §10–11 K-depth), all addressed.**
+    Caught + fixed: endpoint ℓ₂ definition (forearm+hand), Def 5 slip-boundary factor of 2
+    (L/2μ), Prop 6.1 Coriolis step made explicit, Prop 8.2 force closure given a wrench-space
+    argument, "rotated exactly 90°" softened to reciprocal-axes, K10 upgraded from plug-in to
+    a capstan (e^{μβ}) regime comparison, K9 `L` symbol collision → ℓ_tot, plus prose nits.
+    Wired live into `index.html` (pending line now "Modules 12–17") + `README.md`.
+- **NEXT = Module 12 — Whole-Body Coordination and Motor Control** (`prompt.txt` line ~730):
+  DOF problem, synergies, CPGs, feedback/feedforward/impedance/optimal control, internal
+  models, minimum-jerk, LQR, MPC, redundancy resolution, motor learning. It directly
+  continues Module 11's redundancy/null-space and endpoint-stiffness threads.
 - **Modules 1–10 are COMPLETE and live** at https://az9713.github.io/biomechanics/ .
   Each `moduleNN.html` is self-contained (MathJax + inline SVG/SMIL, no build step) and
   passes the full hardening loop. Latest module-content commit **`d19e434`** on `main`
