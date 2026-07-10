@@ -155,7 +155,7 @@ python $S/checklt.py     moduleNN.html   # raw <,> in math — 0
 python $S/check_links.py moduleNN.html   # 0 broken (unlinked §refs OK until autolink)
 python $S/verify_dom.py  moduleNN.html   # 0 mjx-merror, 0 broken (stray-$ ~6 advisory); + swallowed-prose advisory (inline $…$ that ate a sentence — the residual shell-mangle case checktex can't see)
 python $S/check_overlap.py moduleNN.html  # 0 labels over a curve/dashed line (ENFORCED, not by eye)
-python $S/check_frame.py moduleNN.html    # figures whose viewBox wastes >20% margin (advisory; retighten min-y/height)
+python $S/check_frame.py moduleNN.html    # HARD-fails on content CLIPPED past the viewBox edge (cut off); advisory on >20% wasted margin
 python $S/check_prose.py moduleNN.html    # awkward/non-native constructions: X-is-X, "worth VERBing happen", … (advisory; then read aloud, incl. build_secN.py raw-string prose)
 python $S/check_proofs.py moduleNN.html   # a .prop/.thm/.lem with no adjacent .proof = asserted proposition (advisory)
 python $S/shoot.py FILE out.png --size WxH   # preview render
@@ -168,11 +168,19 @@ Proposition/Theorem/Lemma stated with no `.proof`); the sibling-keyresult case i
 judgement call no script can make (a boxed *definition* or one-line substitution needs no
 proof), so **read each section's boxed results and confirm peers match** — this is the gap
 that shipped Module 6 §6 (6.1/6.2 asserted beside a proved 6.3).
-**`check_frame.py` catches oversized viewBoxes** — a figure whose interior geometry is
-computed but whose `<svg viewBox>` is a round number bigger than the drawing, leaving a
-blank band on the page (e.g. a diagram in the lower third of `0 0 460 250`). It compares
-each figure's rendered `getBBox()` to its viewBox and prints a tightened `viewBox` to
-paste. Advisory, not a gate.
+**`check_frame.py` catches two viewBox-fit bugs (one HARD, one advisory).** It compares each
+figure's rendered `getBBox()` to its viewBox. **(a) CLIPPING (HARD, exit 1)** — content spills
+*past* a viewBox edge and the browser cuts it off. This shipped in Module 10: 13 problem figures put
+an x-axis title at `y0+30 = 182` inside a `viewBox="0 0 300 180"`, so the bottom line of every plot
+label ("gain kₚ", "delay τ (s)", …) rendered below the box and was **clipped** — and every *other*
+check passed (checktex/check_svg/check_overlap/verify_dom all green), because clipping is outside the
+box (not a `<`/`>`/`_`, not a label-over-curve hit, not wasted margin). A human caught it. The gate
+now fails the build and prints how many px past which edge + an enlarged viewBox. **Lesson: sizing a
+viewBox from hand-computed coordinates is unreliable** (text glyph extents, markers, and off-scale
+computed points — an s-plane pole placed off-axis — exceed the attribute coords you can see); **size
+viewBoxes to content, or trust this gate.** **(b) WASTED MARGIN (advisory)** — an oversized viewBox
+leaving a blank band (e.g. a diagram in the lower third of `0 0 460 250`); prints a tightened viewBox
+but never fails (retightening is a judgement call).
 **`check_overlap.py` is the enforcement for the label-overlap rule** — it loads the
 page in headless Chrome and geometrically tests every `<text>` in each
 `.setupfig` against every `<polyline>` (curve) and dashed reference `<line>`
