@@ -5,6 +5,23 @@ This file is the live "what to do next"; `CLAUDE.md` is the standing playbook. D
 duplicate content that already lives in the files referenced below — open them.
 
 ## Current state (as of latest push)
+- **Module 14 (Aging, Injury, Degeneration, and Adaptation) — COMPLETE & live** (commit
+  `2480a45`). §0–§10 + Appendix: reserve/margin framework (R=C/D) → sarcopenia (Prop 2.1
+  failure age a*=a₀+(1/r)(1−D/τ_p), chair fails at 77) → osteoporosis (S∝ρ², impact
+  F=v√(m_eff·k)≈4.4 kN vs strength) → osteoarthritis cartilage-stress cycle
+  (p=p₀(h₀/h)^n_c, load-damage feedback) → sensorimotor aging (delay erosion e^−ω₀Δt) →
+  fall-risk model J_eff=mω₀(b−cσ)e^−ω₀Δt (13.5→3.5 N·s) → mechanostat adaptation
+  (dC/dt=k_ad(Σ−Σ₀)) → coupled-drift synthesis → 4 Python labs → 30 problems (K-depth all
+  pass) → Appendix. Reuses figlib11/12/13; 44 figures computed; full 10-check loop = 0.
+  - **Rigor-reviewer 3-pass, all findings fixed:** symbol collisions resolved
+    (k→k_ad adaptation vs landing stiffness; n→n_b/n_c bone vs cartilage exponent;
+    h→h_f fall height vs cartilage thickness); §6 correctness — the margin dominates
+    because the *usable* margin (b−cσ) contracts most (0.09→0.03, −67%), not "b's
+    relative change"; Prop 6.1 defines c and states ξ₀=J/(mω₀); K1 recast plug-in →
+    inverse solve across a demand sweep; Lab C rebuilt to a two-case recovery model
+    (code+figure+caption reconciled); K9 age-70 params stated; glosses (proteoglycan,
+    femoral neck, apparent density) + prose fixes. Wired into index.html ("Modules 15–17"
+    pending) + README.md.
 - **Module 13 (Daily-Life Movement Case Studies) — COMPLETE & live.**
   §0–§10 + Appendix: the case-study method → rising from a chair (knee torque m_up g d +
   momentum) → stairs (work mgh, power, eccentric descent) → lifting & carrying (L5/S1
@@ -16,10 +33,6 @@ duplicate content that already lives in the files referenced below — open them
   cos φ upper-bound reconciliation, W(work)→U rename vs weight, ω₀/HAT/NIOSH glosses,
   K1 healthy→older-adult relabel, K9 recast to a load-split optimisation, K10 note, and
   prose nits. Wired into index.html ("Modules 14–17" pending) + README.md.
-- **NEXT = Module 14 — Aging, Injury, Degeneration, and Adaptation** (`prompt.txt` line ~790):
-  sarcopenia, osteoporosis, osteoarthritis, tendon/proprioception/reflex decline, fall & fracture
-  risk, strength reserve, balance-margin reduction, cartilage/inflammation/repair, training
-  adaptation — develops the tissue + control changes Module 13 read as shrinking margins.
 - **Module 12 (Whole-Body Coordination and Motor Control) — COMPLETE & live.**
   §0–§11 + Appendix: Bernstein's DOF problem / null space → movement as optimal control
   (Euler-Poisson) → minimum-jerk trajectory → LQR (HJB→ARE) → impedance control (K_x=
@@ -92,6 +105,13 @@ duplicate content that already lives in the files referenced below — open them
   the `/sync-transcripts` skill (global infra, recorded in MMS memory; NOT biomechanics-repo state).
 
 ## Next task
+- **NEXT = Module 15 — Measurement, Estimation, and Inverse Dynamics** (`prompt.txt`;
+  the pipeline from noisy motion-capture/force-plate data to the joint torques the whole
+  course has assumed we can read). Same build loop: plan from `prompt.txt` + the
+  forward-references Modules 1–14 make to it → section-by-section (prose in HTML, Python
+  figures only) → hardening loop every edit → dispatch `rigor-reviewer` after scripts hit
+  0 → publish-while-incomplete on first commit → commit/push per module. Modules 16
+  (continuum / FE-style tissue models) and 17 (capstone projects) follow.
 - **Module 10 — Balance, Stability, Perturbation Recovery, and Sensorimotor
   Control — COMPLETE & live.** Built end-to-end this session (autonomous `/goal`
   run): §0–§11 + Appendix, committed and pushed (latest `d19e434`), live at
