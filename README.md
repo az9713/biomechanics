@@ -17,5 +17,6 @@ inline SVG figures.
 - **Module 7 — Standing, Posture & Load Bearing:** https://az9713.github.io/biomechanics/module07.html
 - **Module 8 — Walking Biomechanics:** https://az9713.github.io/biomechanics/module08.html
 - **Module 9 — Running and Jumping**: https://az9713.github.io/biomechanics/module09.html
+- **Module 10 — Balance, Stability, and Sensorimotor Control:** https://az9713.github.io/biomechanics/module10.html
 
 Modules 10–17 to come.
