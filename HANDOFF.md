@@ -5,6 +5,21 @@ This file is the live "what to do next"; `CLAUDE.md` is the standing playbook. D
 duplicate content that already lives in the files referenced below — open them.
 
 ## Current state (as of latest push)
+- **Module 13 (Daily-Life Movement Case Studies) — COMPLETE & live.**
+  §0–§10 + Appendix: the case-study method → rising from a chair (knee torque m_up g d +
+  momentum) → stairs (work mgh, power, eccentric descent) → lifting & carrying (L5/S1
+  compression, safe-lift envelope) → turning & stumble recovery (impulse 2mv sin(β/2), XcoM
+  step) → jar & door (μ F_grip r; τ/d) → slopes (mg v sinθ) → aging/injury/training synthesis
+  → 4 labs → 30 problems (K-depth all pass after K9 deepened to an optimisation) → Appendix.
+  Reuses figlib13 (a posable side-view person) + figlib11/12; 44 figures computed; full
+  10-check loop = 0. **Rigor-reviewer 3-pass, all findings fixed:** stair power 214→210 W,
+  cos φ upper-bound reconciliation, W(work)→U rename vs weight, ω₀/HAT/NIOSH glosses,
+  K1 healthy→older-adult relabel, K9 recast to a load-split optimisation, K10 note, and
+  prose nits. Wired into index.html ("Modules 14–17" pending) + README.md.
+- **NEXT = Module 14 — Aging, Injury, Degeneration, and Adaptation** (`prompt.txt` line ~790):
+  sarcopenia, osteoporosis, osteoarthritis, tendon/proprioception/reflex decline, fall & fracture
+  risk, strength reserve, balance-margin reduction, cartilage/inflammation/repair, training
+  adaptation — develops the tissue + control changes Module 13 read as shrinking margins.
 - **Module 12 (Whole-Body Coordination and Motor Control) — COMPLETE & live.**
   §0–§11 + Appendix: Bernstein's DOF problem / null space → movement as optimal control
   (Euler-Poisson) → minimum-jerk trajectory → LQR (HJB→ARE) → impedance control (K_x=
