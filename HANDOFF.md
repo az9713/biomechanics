@@ -35,6 +35,31 @@ duplicate content that already lives in the files referenced below — open them
   are now **gitignored** (scratch/preview — leave them).
 
 ## Next task
+- **Module 10 — Balance, Stability, Perturbation Recovery, and Sensorimotor
+  Control — COMPLETE & live.** Built end-to-end this session (autonomous `/goal`
+  run): §0–§11 + Appendix, committed and pushed (latest `39342b3`), live at
+  https://az9713.github.io/biomechanics/module10.html and wired into `index.html`
+  (pending line now "Modules 11–17") + `README.md`. Spine: §0 motivation (balance =
+  active feedback under delay+noise) → §1 margin of stability / XcoM (critical
+  impulse J=mω₀b) → §2 state-space controller + controllability → §3 sensors as
+  measurement models + observability → §4 delayed-feedback DDE + stability island
+  (τ_c≈137 ms, inside the human loop) → §5 stochastic sway + Lyapunov variance → §6
+  Kalman fusion + delay predictor → §7 recovery ladder ankle→hip→step + capture
+  placement → §8 slips vs trips → §9 aging as parameter drift → §10 four Python labs
+  (all verified, PEP8) → §11 30 problems (K-depth all pass) + diagnostics +
+  limitations + repayment → Appendix. Every proposition proved; all figures computed
+  (figlib.py poser + Plot helper, session-transient in scratchpad); full hardening
+  loop to 0.
+  - **Rigor-reviewer: 3 parallel passes (§0–4, §5–9, §10–11 K-depth), all addressed.**
+    R3 verdict READY (all 10 K problems pass K-depth). R1 caught one real correctness
+    bug — the §4 "period near 4τ" heuristic was quantitatively wrong (fixed to the
+    phase-margin-erosion picture). R2 essentially clean (one H/L symbol nit, fixed).
+    Nits on Lab B/K2 prose, Lab D framing, a caption garden-path, K8 anchoring — all fixed.
+- **NEXT = Module 11 — Reaching, Waving, Holding, Gripping, and Manipulation.**
+  Draw the plan from `prompt.txt` ("Module 11", line ~699) + forward-refs Modules
+  1–10 make to it. Same build loop: plan → section-by-section (prose in HTML, Python
+  figures only) → hardening loop every edit → dispatch `rigor-reviewer` after scripts
+  hit 0 → publish-while-incomplete on first commit.
 - **Module 9 — Running and Jumping — COMPLETE & live.** All of §0–§11 + Appendix
   built, each hardened to 0 and rigor-reviewer-approved, committed and pushed. Live at
   https://az9713.github.io/biomechanics/module09.html; wired into `index.html` +
