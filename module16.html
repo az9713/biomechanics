@@ -201,7 +201,76 @@ the work per unit volume done in straining it, and stress is its gradient, $\sig
 
 <p>Bone at $\sim$18 GPa is a thousand times stiffer than tendon's effective range and a million times stiffer than cartilage, so under the same load bone barely strains while cartilage deforms visibly - the division of labour the whole musculoskeletal system is built on. But three of these four tissues are poorly served by the isotropic, linear, time-independent law: tendon is strongly <em>anisotropic</em> (stiff along fibres, soft across), tendon and cartilage are <em>nonlinear</em> and <em>time-dependent</em>, and cartilage is <em>biphasic</em>. The rest of the module builds those laws - but first, the linear law is enough to make the continuum computable, which is the business of the finite element.</p>
 
-<!-- SECTIONS 4-11 + APPENDIX TO FOLLOW -->
+<h2 id="bar">4. The bar and beam elements: finite-element intuition</h2>
+
+<p>The continuum equations of the last three sections - strain from displacement, stress from strain, equilibrium of stress - are partial differential equations, solvable in closed form only for simple geometries. The <b>finite-element method</b> makes them computable for any shape by a single idea: chop the body into small pieces (elements), assume a simple displacement variation within each, and require equilibrium of the pieces. The atom of the method is the <b>bar element</b>, and it is nothing more than Hooke's law for a rod.</p>
+
+<div class="def"><b>Definition 4.1 (the axial bar element).</b> A straight rod of length $L$, cross-section $A$, and modulus $E$ carries axial displacements $u_1,u_2$ at its two end nodes, with axial forces $f_1,f_2$. Assuming the displacement varies linearly along the rod, the strain is the constant $\varepsilon=(u_2-u_1)/L$, the stress $\sigma=E\varepsilon$, and the internal force $N=\sigma A=\dfrac{EA}{L}(u_2-u_1)$. Force balance at the nodes gives the <em>element stiffness relation</em>
+$$\boxed{\;\begin{pmatrix}f_1\\ f_2\end{pmatrix}=\frac{EA}{L}\begin{pmatrix}1&-1\\-1&1\end{pmatrix}\begin{pmatrix}u_1\\ u_2\end{pmatrix}=\mathbf k_e\,\mathbf u_e,\;}$$
+with $k=EA/L$ the axial stiffness (the spring constant of Modules 2 and 6, here derived from the continuum).</div>
+
+<div class="prop"><b>Proposition 4.1 (the element matrix is the Hessian of its strain energy).</b> The bar element's stiffness matrix $\mathbf k_e$ is symmetric positive-semidefinite, and equals the second derivative of the element strain energy $W_e=\tfrac12\,\dfrac{EA}{L}(u_2-u_1)^2$ with respect to the nodal displacements; its single zero eigenvalue is the rigid translation $u_1=u_2$.</div>
+
+<div class="proof">The stored energy is the strain-energy density $\tfrac12 E\varepsilon^2$ times the volume $AL$: $W_e=\tfrac12 E\big(\tfrac{u_2-u_1}{L}\big)^2 AL=\tfrac12\tfrac{EA}{L}(u_2-u_1)^2$. Its gradient gives the nodal forces, $f_1=\partial W_e/\partial u_1=-\tfrac{EA}{L}(u_2-u_1)$, $f_2=\partial W_e/\partial u_2=+\tfrac{EA}{L}(u_2-u_1)$, which is the boxed relation, and its Hessian $\partial^2 W_e/\partial u_i\partial u_j=\tfrac{EA}{L}\big(\begin{smallmatrix}1&-1\\-1&1\end{smallmatrix}\big)=\mathbf k_e$. This matrix is symmetric with eigenvalues $0$ (eigenvector $(1,1)$, a rigid shift that strains nothing) and $2EA/L$ (eigenvector $(1,-1)$, pure stretch), hence positive-semidefinite. The zero eigenvalue is why a structure needs a support: without a fixed node, $\mathbf K$ is singular and the displacement is undetermined up to a rigid motion. <span class="qed">&#8718;</span></div>
+
+<figure><svg class="setupfig" viewBox="0 42 466 112" width="100%" role="img" aria-label="A two-node axial bar element with nodal displacements and forces, its stiffness relating force to displacement through EA over L, beside the two-by-two element stiffness matrix.">
+<line x1="70" y1="80" x2="250" y2="80" stroke="#9c8760" stroke-width="10" stroke-linecap="round"/>
+<circle cx="70" cy="80" r="7" fill="url(#b_sph)"/><circle cx="250" cy="80" r="7" fill="url(#b_sph)"/>
+<text x="70" y="60" font-size="10" fill="#333" text-anchor="middle">node 1</text><text x="250" y="60" font-size="10" fill="#333" text-anchor="middle">node 2</text>
+<line x1="70" y1="100" x2="98" y2="100" stroke="#2a6ca8" stroke-width="2.2" marker-end="url(#a_blu)"/><text x="84" y="116" font-size="10" fill="#2a6ca8" text-anchor="middle" font-style="italic">u&#8321;</text>
+<line x1="250" y1="100" x2="278" y2="100" stroke="#2a6ca8" stroke-width="2.2" marker-end="url(#a_blu)"/><text x="264" y="116" font-size="10" fill="#2a6ca8" text-anchor="middle" font-style="italic">u&#8322;</text>
+<line x1="70" y1="80" x2="40" y2="80" stroke="#b0361f" stroke-width="2.4" marker-end="url(#a_red)"/><text x="34" y="83" font-size="10" fill="#b0361f" text-anchor="end" font-style="italic">f&#8321;</text>
+<line x1="250" y1="80" x2="280" y2="80" stroke="#b0361f" stroke-width="2.4" marker-end="url(#a_red)"/><text x="286" y="83" font-size="10" fill="#b0361f" text-anchor="start" font-style="italic">f&#8322;</text>
+<text x="160" y="140" font-size="9.5" fill="#555" text-anchor="middle">length L, area A, modulus E &#8594; k = EA/L</text>
+<text x="410" y="66" font-size="11" fill="#7a1f1f" text-anchor="middle">k&#8202;&#8339; = (EA/L)</text>
+<text x="410" y="92" font-size="13" fill="#333" text-anchor="middle">[ 1  &#8722;1 ]</text>
+<text x="410" y="110" font-size="13" fill="#333" text-anchor="middle">[ &#8722;1  1 ]</text>
+</svg><figcaption>Section 4. The bar element. Two nodes carry axial displacements u&#8321;, u&#8322; and forces f&#8321;, f&#8322;; a linear displacement gives constant strain, so the element behaves as a spring of stiffness k = EA/L and its stiffness matrix is the 2&#215;2 form shown (Definition 4.1). This is Hooke's law of Section 3 written for two nodes - the building block every finite-element model is assembled from.</figcaption></figure>
+
+<p>Bending needs one more element. A <b>beam element</b> resists transverse deflection, and because bending couples deflection to rotation (Module 2's Euler-Bernoulli theory), each node carries <em>two</em> degrees of freedom - a transverse displacement $w$ and a slope $\theta=dw/dx$ - so the element stiffness is a $4\times4$ matrix built from the bending stiffness $EI$,</p>
+
+<div class="keyresult">
+$$\mathbf k_{\rm beam}=\frac{EI}{L^3}\begin{pmatrix}12&6L&-12&6L\\6L&4L^2&-6L&2L^2\\-12&-6L&12&-6L\\6L&2L^2&-6L&4L^2\end{pmatrix},$$
+</div>
+
+<p>whose entries are exactly the shear-force and bending-moment reactions Module 2 computed for a loaded beam, now packaged so that a bone modelled as a chain of beam elements reproduces its deflection under any load. The bar carries axial force, the beam carries bending; a general frame element superposes the two. With one element understood, the method is defined by how elements <em>combine</em>.</p>
+
+<h2 id="assembly">5. Assembling and solving a toy finite-element model</h2>
+
+<p>A body is meshed into many elements sharing nodes. The rule that combines them is physical: the total strain energy is the sum of the elements' energies, so the global stiffness is the sum of the element stiffnesses, each added into the rows and columns of the nodes it touches.</p>
+
+<div class="prop"><b>Proposition 5.1 (assembly and solution).</b> For a mesh of elements $e$ with stiffness matrices $\mathbf k_e$ acting on their nodal displacements, the global equilibrium is
+$$\boxed{\;\mathbf K\,\mathbf u=\mathbf f,\qquad \mathbf K=\sum_e \mathbf L_e^{\!\top}\mathbf k_e\mathbf L_e,\;}$$
+where $\mathbf L_e$ selects an element's nodes from the global list. $\mathbf K$ is symmetric positive-semidefinite; imposing enough displacement boundary conditions to remove rigid-body motion makes the reduced system positive-definite and uniquely solvable for $\mathbf u$, after which each element's stress follows from its nodal displacements.</div>
+
+<div class="proof">The total strain energy is $W=\sum_e W_e=\sum_e\tfrac12\mathbf u_e^{\!\top}\mathbf k_e\mathbf u_e=\tfrac12\mathbf u^{\!\top}\big(\sum_e\mathbf L_e^{\!\top}\mathbf k_e\mathbf L_e\big)\mathbf u=\tfrac12\mathbf u^{\!\top}\mathbf K\mathbf u$, using $\mathbf u_e=\mathbf L_e\mathbf u$. Equilibrium is stationarity of the total potential energy $\Pi=W-\mathbf f^{\!\top}\mathbf u$: $\partial\Pi/\partial\mathbf u=\mathbf K\mathbf u-\mathbf f=\mathbf 0$, the boxed system. $\mathbf K$ inherits symmetry and positive-semidefiniteness from the $\mathbf k_e$ (a sum of such matrices), with rigid-body motions its null space (Proposition 4.1); fixing those degrees of freedom leaves a positive-definite reduced $\mathbf K$, which is invertible, so $\mathbf u$ is unique. The element strain, then stress $\sigma=E\varepsilon$, is read back from the solved nodal displacements. <span class="qed">&#8718;</span></div>
+
+<p>The whole method is short enough to read. The code below meshes a tapered bar into bar elements, assembles $\mathbf K$, applies a fixed end and an end load, solves $\mathbf K\mathbf u=\mathbf f$, and recovers the element stresses.</p>
+
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+E, L, P, A0, nel = 17e9, 0.10, 2000.0, 2e-4, 8
+xn = np.linspace(0, L, nel + 1)
+Ael = A0*(1 - 0.5*(xn[:-1] + xn[1:])/2/L)     # taper A0 -> A0/2
+K = np.zeros((nel + 1, nel + 1))
+for e in range(nel):                           # assemble
+    k = E*Ael[e]/(xn[e + 1] - xn[e])
+    K[e:e + 2, e:e + 2] += k*np.array([[1, -1], [-1, 1]])
+f = np.zeros(nel + 1)
+f[-1] = P                                      # end load
+free = np.arange(1, nel + 1)                    # node 0 fixed
+u = np.zeros(nel + 1)
+u[free] = np.linalg.solve(K[np.ix_(free, free)], f[free])
+sig = np.array([E*(u[e + 1] - u[e])/(xn[e + 1] - xn[e])
+                for e in range(nel)])
+print("tip displacement = %.4f mm" % (u[-1]*1e3))
+print("stress %.1f -> %.1f MPa" % (sig[0]/1e6, sig[-1]/1e6))</code></pre></div>
+
+<figure><svg class="setupfig" viewBox="0 0 520 250" width="100%" role="img" aria-label="Axial stress along a tapered bar under end load: the exact hyperbola P over A(x) rising toward the thinner end, and the finite-element solution as a staircase of constant-stress elements tracking it."><line x1="70" y1="195" x2="470" y2="195" stroke="#333"/><line x1="70" y1="40" x2="70" y2="195" stroke="#333"/><line x1="70.0" y1="195" x2="70.0" y2="199" stroke="#333"/><text x="70.0" y="210" font-size="8.5" fill="#555" text-anchor="middle">0.00</text><line x1="270.0" y1="195" x2="270.0" y2="199" stroke="#333"/><text x="270.0" y="210" font-size="8.5" fill="#555" text-anchor="middle">0.05</text><line x1="470.0" y1="195" x2="470.0" y2="199" stroke="#333"/><text x="470.0" y="210" font-size="8.5" fill="#555" text-anchor="middle">0.10</text><line x1="66" y1="195.0" x2="70" y2="195.0" stroke="#333"/><text x="63" y="198.0" font-size="8.5" fill="#555" text-anchor="end">0</text><line x1="66" y1="123.2" x2="70" y2="123.2" stroke="#333"/><text x="63" y="126.2" font-size="8.5" fill="#555" text-anchor="end">10</text><line x1="66" y1="51.5" x2="70" y2="51.5" stroke="#333"/><text x="63" y="54.5" font-size="8.5" fill="#555" text-anchor="end">20</text><text x="270" y="226" font-size="10.5" fill="#555" text-anchor="middle">position along bar x (m)</text><text x="38" y="117.5" font-size="10" fill="#555" text-anchor="middle" transform="rotate(-90 38 117.5)">axial stress (MPa)</text><polyline points="70.0,123.2 78.0,122.5 86.1,121.8 94.1,121.0 102.2,120.2 110.2,119.4 118.2,118.6 126.3,117.8 134.3,117.0 142.4,116.1 150.4,115.2 158.4,114.3 166.5,113.4 174.5,112.5 182.6,111.5 190.6,110.5 198.6,109.5 206.7,108.5 214.7,107.4 222.8,106.3 230.8,105.2 238.8,104.0 246.9,102.9 254.9,101.7 263.0,100.4 271.0,99.2 279.0,97.9 287.1,96.5 295.1,95.1 303.2,93.7 311.2,92.3 319.2,90.8 327.3,89.2 335.3,87.6 343.4,86.0 351.4,84.3 359.4,82.6 367.5,80.8 375.5,78.9 383.6,77.0 391.6,75.0 399.6,72.9 407.7,70.8 415.7,68.6 423.8,66.4 431.8,64.0 439.8,61.5 447.9,59.0 455.9,56.4 464.0,53.6 470.0,51.5" fill="none" stroke="#7a1f1f" stroke-width="2.4"/><line x1="70.0" y1="120.9" x2="120.0" y2="120.9" stroke="#2a6ca8" stroke-width="2.4"/><line x1="120.0" y1="115.8" x2="170.0" y2="115.8" stroke="#2a6ca8" stroke-width="2.4"/><line x1="170.0" y1="110.0" x2="220.0" y2="110.0" stroke="#2a6ca8" stroke-width="2.4"/><line x1="220.0" y1="103.1" x2="270.0" y2="103.1" stroke="#2a6ca8" stroke-width="2.4"/><line x1="270.0" y1="95.2" x2="320.0" y2="95.2" stroke="#2a6ca8" stroke-width="2.4"/><line x1="320.0" y1="85.7" x2="370.0" y2="85.7" stroke="#2a6ca8" stroke-width="2.4"/><line x1="370.0" y1="74.1" x2="420.0" y2="74.1" stroke="#2a6ca8" stroke-width="2.4"/><line x1="420.0" y1="59.9" x2="470.0" y2="59.9" stroke="#2a6ca8" stroke-width="2.4"/><text x="150" y="60" font-size="9" fill="#7a1f1f" text-anchor="start">exact P/A(x)</text><text x="150" y="74" font-size="9" fill="#2a6ca8" text-anchor="start">FE elements</text><polygon points="90,30 110,30 106,20 94,20" fill="#e6ddc7" stroke="#9c8760" stroke-width="1"/></svg><figcaption>Section 5. A toy finite-element solution. A tapered bar (2 cm&#178; narrowing to 1 cm&#178; over 10 cm) is fixed at the wide end and pulled with 2 kN. Assembling eight bar elements into K&#8202;u = f and solving gives the axial stress as a staircase of element-constant values (blue) that tracks the exact hyperbola &#963;(x) = P/A(x) (dark red), rising from 10 to 20 MPa toward the thin end. More elements shrink the steps - the essence of finite-element convergence.</figcaption></figure>
+
+<p><b>The output is exact where it can be and convergent where it cannot.</b> The tip displacement is $0.082\ \mathrm{mm}$ and the element stresses rise from $10\ \mathrm{MPa}$ at the wide end to $19\ \mathrm{MPa}$ at the narrow end, straddling the true $P/A(x)$ hyperbola that climbs from $10$ to $20\ \mathrm{MPa}$ (Fig. 6). Each element carries a single constant stress - the price of the linear-displacement assumption - so the solution is a staircase; refining the mesh shrinks the steps and the staircase converges to the exact curve. This is the whole of finite-element analysis in miniature: a boundary-value problem no formula solves becomes a matrix system a computer does, with an accuracy set by the mesh. The remaining sections make the <em>material law</em> inside each element realistic for tissue.</p>
+
+<!-- SECTIONS 6-11 + APPENDIX TO FOLLOW -->
 
 <script>
 function copyCode(btn){
