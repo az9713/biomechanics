@@ -147,8 +147,13 @@ duplicate content that already lives in the files referenced below — open them
   three tissues + limits, §10 three labs (FE convergence / linear-law validity /
   biphasic relaxation), §11 30 problems (K-depth all sim/inverse/regime/sensitivity/
   optimisation) + diagnostics + repayment, Appendix. ~45 figures computed; full
-  12-check hardening loop = 0. **Rigor-reviewer 3-pass DISPATCHED** (§0–4, §5–9,
-  labs+K); apply findings + commit. Reusable defs: b_bone/b_ten/b_sph gradients.
+  12-check hardening loop = 0. **Rigor-reviewer 3-pass, all findings fixed** (commit pushed): stiffness ratios
+  corrected (~10×/1e3-1e4×/1e6×); equilibrium eqn earned a Taylor derivation; beam
+  matrix framed deferred; λ (Lamé vs stretch), K, k (fibre vs permeability), ⊗ glosses;
+  **real Lab B code bug fixed** (argmax all-False guard) + numbers (neo valid 47%,
+  fibre 0.2%, gap ~200×); K3/K4 recast plug-in→sweeps (localisation / stress-
+  concentration factor); K7 σ relabelled Cauchy; Lab C drainage prose softened. All
+  K1–K10 K-depth pass. Reusable defs: b_bone/b_ten/b_sph gradients.
 - **Module 16 full scope** (`prompt.txt` line ~854) (`prompt.txt`;
   stress/strain tensors, deformation gradient, constitutive laws, anisotropy, hyper-/
   visco-/poro-elasticity, fibre-reinforced tissues — replaces this course's rigid
