@@ -2,7 +2,7 @@
  "module01.html": {
   "checktex": {
    "code": 0,
-   "tail": "[checktex] module01.html: 216 math segment(s), 0 issue(s)"
+   "tail": "[checktex] module01.html: 621 math segment(s), 0 issue(s)"
   },
   "checklt": {
    "code": 0,
@@ -10,11 +10,11 @@
   },
   "check_links": {
    "code": 0,
-   "tail": "[check_links] module01.html: 34 internal link(s), 0 broken; 0 unlinked section ref(s)"
+   "tail": "[check_links] module01.html: 49 internal link(s), 0 broken; 0 unlinked section ref(s)"
   },
   "check_svg": {
    "code": 0,
-   "tail": "  adv : 5 figures but no \"Fig. N\" reference in prose (cite them by number)"
+   "tail": "  adv : 1 polyline(s) with >120 points (consider decimating to ~40-60)"
   },
   "verify_dom": {
    "code": 0,
@@ -25,8 +25,8 @@
    "tail": "[check_overlap] 0 label/curve overlaps"
   },
   "check_frame": {
-   "code": 1,
-   "tail": "      suggest viewBox=\"39 33 289 159\""
+   "code": 0,
+   "tail": "      suggest viewBox=\"104 64 103 214\""
   },
   "check_prose": {
    "code": 0,
@@ -34,11 +34,11 @@
   },
   "check_proofs": {
    "code": 0,
-   "tail": "  - line 268: \"Proposition 5.1 (muscle force)\" has no .proof \u2014 prove it, or demote to .def/.keyresult"
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
   },
   "check_code": {
-   "code": 1,
-   "tail": "[check_code] module01.html: 1 Python code block(s) checked (pycodestyle); 7 issue(s)."
+   "code": 0,
+   "tail": "[check_code] module01.html: 11 Python code block(s) checked (pycodestyle); 0 issue(s)."
   },
   "check_probfig": {
    "code": 0,
@@ -48,7 +48,7 @@
  "module02.html": {
   "checktex": {
    "code": 0,
-   "tail": "[checktex] module02.html: 192 math segment(s), 0 issue(s)"
+   "tail": "[checktex] module02.html: 685 math segment(s), 0 issue(s)"
   },
   "checklt": {
    "code": 0,
@@ -56,11 +56,11 @@
   },
   "check_links": {
    "code": 0,
-   "tail": "[check_links] module02.html: 34 internal link(s), 0 broken; 0 unlinked section ref(s)"
+   "tail": "[check_links] module02.html: 54 internal link(s), 0 broken; 0 unlinked section ref(s)"
   },
   "check_svg": {
    "code": 0,
-   "tail": "  adv : 6 figures but no \"Fig. N\" reference in prose (cite them by number)"
+   "tail": "  adv : mixed disclosure labels: both \"Answer\" and \"solution\" in <summary> (unify)"
   },
   "verify_dom": {
    "code": 0,
@@ -72,7 +72,7 @@
   },
   "check_frame": {
    "code": 0,
-   "tail": "[check_frame] 0 figures clipped or with wasted margin (>20%)"
+   "tail": "      suggest viewBox=\"66 12 168 174\""
   },
   "check_prose": {
    "code": 0,
@@ -80,21 +80,21 @@
   },
   "check_proofs": {
    "code": 0,
-   "tail": "  - line 280: \"thm block\" has no .proof \u2014 prove it, or demote to .def/.keyresult"
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
   },
   "check_code": {
-   "code": 1,
-   "tail": "[check_code] module02.html: 1 Python code block(s) checked (pycodestyle); 19 issue(s)."
+   "code": 0,
+   "tail": "[check_code] module02.html: 11 Python code block(s) checked (pycodestyle); 0 issue(s)."
   },
   "check_probfig": {
    "code": 0,
-   "tail": "[check_probfig] module02.html: 0 problem figure(s); each is a recognizable entity or a real plot."
+   "tail": "   C1, C3, C5, D1, D2, D3, D4, D5, D10"
   }
  },
  "module03.html": {
   "checktex": {
    "code": 0,
-   "tail": "[checktex] module03.html: 746 math segment(s), 0 issue(s)"
+   "tail": "[checktex] module03.html: 833 math segment(s), 0 issue(s)"
   },
   "checklt": {
    "code": 0,
@@ -102,7 +102,7 @@
   },
   "check_links": {
    "code": 0,
-   "tail": "[check_links] module03.html: 226 internal link(s), 0 broken; 0 unlinked section ref(s)"
+   "tail": "[check_links] module03.html: 229 internal link(s), 0 broken; 0 unlinked section ref(s)"
   },
   "check_svg": {
    "code": 0,
@@ -117,7 +117,7 @@
    "tail": "[check_overlap] 0 label/curve overlaps"
   },
   "check_frame": {
-   "code": 1,
+   "code": 0,
    "tail": "      suggest viewBox=\"101 13 334 190\""
   },
   "check_prose": {
@@ -126,11 +126,11 @@
   },
   "check_proofs": {
    "code": 0,
-   "tail": "  - line 1047: \"thm block\" has no .proof \u2014 prove it, or demote to .def/.keyresult"
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
   },
   "check_code": {
-   "code": 1,
-   "tail": "[check_code] module03.html: 6 Python code block(s) checked (pycodestyle); 27 issue(s)."
+   "code": 0,
+   "tail": "[check_code] module03.html: 6 Python code block(s) checked (pycodestyle); 0 issue(s)."
   },
   "check_probfig": {
    "code": 0,
@@ -140,7 +140,7 @@
  "module04.html": {
   "checktex": {
    "code": 0,
-   "tail": "[checktex] module04.html: 1167 math segment(s), 0 issue(s)"
+   "tail": "[checktex] module04.html: 1222 math segment(s), 0 issue(s)"
   },
   "checklt": {
    "code": 0,
@@ -148,7 +148,7 @@
   },
   "check_links": {
    "code": 0,
-   "tail": "[check_links] module04.html: 275 internal link(s), 0 broken; 0 unlinked section ref(s)"
+   "tail": "[check_links] module04.html: 279 internal link(s), 0 broken; 0 unlinked section ref(s)"
   },
   "check_svg": {
    "code": 0,
@@ -172,11 +172,11 @@
   },
   "check_proofs": {
    "code": 0,
-   "tail": "  - line 593: \"thm block\" has no .proof \u2014 prove it, or demote to .def/.keyresult"
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
   },
   "check_code": {
-   "code": 1,
-   "tail": "[check_code] module04.html: 12 Python code block(s) checked (pycodestyle); 39 issue(s)."
+   "code": 0,
+   "tail": "[check_code] module04.html: 12 Python code block(s) checked (pycodestyle); 0 issue(s)."
   },
   "check_probfig": {
    "code": 0,
@@ -186,7 +186,7 @@
  "module05.html": {
   "checktex": {
    "code": 0,
-   "tail": "[checktex] module05.html: 726 math segment(s), 0 issue(s)"
+   "tail": "[checktex] module05.html: 752 math segment(s), 0 issue(s)"
   },
   "checklt": {
    "code": 0,
@@ -209,8 +209,8 @@
    "tail": "[check_overlap] 0 label/curve overlaps"
   },
   "check_frame": {
-   "code": 1,
-   "tail": "      fix: enlarge to viewBox=\"-12 10 352 130\" (or move the element inward)"
+   "code": 0,
+   "tail": "[check_frame] 0 figures clipped or with wasted margin (>20%)"
   },
   "check_prose": {
    "code": 0,
@@ -218,11 +218,11 @@
   },
   "check_proofs": {
    "code": 0,
-   "tail": "  - line 1001: \"Proposition 6.1 (Hill&#8217;s force&#8211;velocity equation, 1938)\" has no .proof \u2014 prove it, or demote to .def/.keyresult"
+   "tail": "  - line 1003: \"Proposition 6.1 (Hill&#8217;s force&#8211;velocity equation, 1938)\" has no .proof \u2014 prove it, or demote to .def/.keyresult"
   },
   "check_code": {
-   "code": 1,
-   "tail": "[check_code] module05.html: 2 Python code block(s) checked (pycodestyle); 21 issue(s)."
+   "code": 0,
+   "tail": "[check_code] module05.html: 2 Python code block(s) checked (pycodestyle); 0 issue(s)."
   },
   "check_probfig": {
    "code": 0,
@@ -255,8 +255,8 @@
    "tail": "[check_overlap] 0 label/curve overlaps"
   },
   "check_frame": {
-   "code": 1,
-   "tail": "      fix: enlarge to viewBox=\"-12 -64 365 223\" (or move the element inward)"
+   "code": 0,
+   "tail": "[check_frame] 0 figures clipped or with wasted margin (>20%)"
   },
   "check_prose": {
    "code": 0,
@@ -267,8 +267,8 @@
    "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
   },
   "check_code": {
-   "code": 1,
-   "tail": "[check_code] module06.html: 3 Python code block(s) checked (pycodestyle); 48 issue(s)."
+   "code": 0,
+   "tail": "[check_code] module06.html: 3 Python code block(s) checked (pycodestyle); 0 issue(s)."
   },
   "check_probfig": {
    "code": 0,
@@ -301,7 +301,7 @@
    "tail": "[check_overlap] 0 label/curve overlaps"
   },
   "check_frame": {
-   "code": 1,
+   "code": 0,
    "tail": "      suggest viewBox=\"0 28 498 167\""
   },
   "check_prose": {
@@ -313,12 +313,12 @@
    "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
   },
   "check_code": {
-   "code": 1,
-   "tail": "[check_code] module07.html: 2 Python code block(s) checked (pycodestyle); 26 issue(s)."
+   "code": 0,
+   "tail": "[check_code] module07.html: 2 Python code block(s) checked (pycodestyle); 0 issue(s)."
   },
   "check_probfig": {
    "code": 0,
-   "tail": "   C10, D4"
+   "tail": "[check_probfig] module07.html: 30 problem figure(s); each is a recognizable entity or a real plot."
   }
  },
  "module08.html": {
@@ -347,7 +347,7 @@
    "tail": "[check_overlap] 0 label/curve overlaps"
   },
   "check_frame": {
-   "code": 1,
+   "code": 0,
    "tail": "      suggest viewBox=\"30 16 289 135\""
   },
   "check_prose": {
@@ -548,7 +548,7 @@
   },
   "check_probfig": {
    "code": 0,
-   "tail": "   ?"
+   "tail": "[check_probfig] module12.html: 30 problem figure(s); each is a recognizable entity or a real plot."
   }
  },
  "module13.html": {
