@@ -714,39 +714,45 @@ $$u_i^{\,n+1}=u_i^{\,n}+r\big(u_{i-1}^{\,n}-2u_i^{\,n}+u_{i+1}^{\,n}\big),\qquad
 <div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 
 # ---- material + geometry (healthy cartilage) ----
-h   = 2e-3        # layer thickness            [m]
-HA  = 0.6e6       # aggregate modulus          [Pa]
-k   = 1e-15       # hydraulic permeability     [m^4/(N s)]
-D   = HA * k      # consolidation diffusivity  [m^2/s]   (the <a class="secref" href="#biphasic">§3</a> result)
+h = 2e-3  # layer thickness            [m]
+HA = 0.6e6  # aggregate modulus          [Pa]
+k = 1e-15  # hydraulic permeability     [m^4/(N s)]
+# consolidation diffusivity [m^2/s], <a class="secref" href="#biphasic">§3</a>
+D = HA * k
 
 # ---- loading: ramp to a held strain, then hold (confined compression) ----
-eps0 = 0.10       # held compressive strain    [-]
-t0   = 200.0      # ramp duration              [s]
-tmax = 20000.0    # total simulated time       [s]
+eps0 = 0.10  # held compressive strain    [-]
+t0 = 200.0  # ramp duration              [s]
+tmax = 20000.0  # total simulated time       [s]
 
 # ---- finite-difference grid ----
-N  = 50                      # number of intervals
+N = 50  # number of intervals
 dz = h / N
-dt = 0.4 * dz**2 / D         # time step -> stability number r = 0.4
-r  = D * dt / dz**2
+dt = 0.4 * dz**2 / D  # time step -&gt; stability number r = 0.4
+r = D * dt / dz**2
 assert r &lt;= 0.5, "explicit scheme unstable: need r &lt;= 1/2"
 
-u  = np.zeros(N + 1)         # solid displacement u(z); u(z,0) = 0
-Uh = eps0 * h                # final platen displacement
+u = np.zeros(N + 1)  # solid displacement u(z); u(z,0) = 0
+Uh = eps0 * h  # final platen displacement
 t_hist, sig_hist = [], []
 
 for n in range(int(tmax / dt) + 1):
     t = n * dt
-    u[0] = 0.0                    # impermeable fixed base : u = 0
-    u[N] = Uh * min(t / t0, 1.0)  # porous platen : prescribed displacement (ramp, then hold)
-    # reaction stress = HA * surface strain  (pore pressure = 0 at the drained platen)
+    u[0] = 0.0  # impermeable fixed base : u = 0
+    # porous platen : prescribed displacement (ramp, then hold)
+    u[N] = Uh * min(t / t0, 1.0)
+    # reaction stress = HA * surface strain  (pore pressure = 0 at the drained
+    # platen)
     sigma = HA * (3*u[N] - 4*u[N-1] + u[N-2]) / (2*dz)
-    t_hist.append(t); sig_hist.append(sigma)
-    # explicit update of every interior node -- the discretized <a class="secref" href="#biphasic">§3</a> PDE
+    t_hist.append(t)
+    sig_hist.append(sigma)
+    # explicit update of every interior node -- the discretized
+    # <a class="secref" href="#biphasic">§3</a> PDE
     u[1:N] += r * (u[2:N+1] - 2*u[1:N] + u[0:N-1])
 
 sig = np.array(sig_hist)
-print("equilibrium sigma_inf = HA*eps0 =", HA*eps0, "Pa")   # 60000 Pa = 0.06 MPa
+print("equilibrium sigma_inf = HA*eps0 =",
+      HA*eps0, "Pa")  # 60000 Pa = 0.06 MPa
 print("peak / equilibrium ratio        =", sig.max() / (HA*eps0))
 print("gel time  tau = h^2 / D         =", h**2 / D, "s")</code></pre></div>
 
@@ -991,24 +997,28 @@ $$\boxed{\;\mu_{\rm eff}(t)=\mu_{\rm eq}\,\big(1-F(t)\big)\;}$$
 <div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 
 # ---------- (1) classical Stribeck curve  mu(S) ----------
-mu_bl, S0, alpha = 0.15, 0.5, 0.012      # boundary level, transition, film slope
-S  = np.logspace(-4, 1, 300)             # Stribeck number  S = eta*U/W
-mu = mu_bl/(1 + (S/S0)**2) + alpha*S     # boundary term + hydrodynamic term
+# boundary level, transition, film slope
+mu_bl, S0, alpha = 0.15, 0.5, 0.012
+S = np.logspace(-4, 1, 300)  # Stribeck number  S = eta*U/W
+mu = mu_bl/(1 + (S/S0)**2) + alpha*S  # boundary term + hydrodynamic term
 print("min mu =", round(mu.min(), 3), "at S =", round(S[mu.argmin()], 2))
 
 # ---------- (2) biphasic friction  mu_eff = mu_eq (1 - F) ----------
 h, HA, k = 2e-3, 0.6e6, 1e-15
-D   = HA*k;  tau = h**2/D                 # gel time (<a class="secref" href="#biphasic">§3</a>)  ~ 6667 s
-mu_eq = 0.15                              # intrinsic (drained) solid friction
+D = HA*k
+tau = h**2/D  # gel time (<a class="secref" href="#biphasic">§3</a>)  ~ 6667 s
+mu_eq = 0.15  # intrinsic (drained) solid friction
 
-def F(t, N=1500):                         # fluid load support fraction (<a class="secref" href="#fluidload">§4</a>)
-    T   = D*t/h**2
+
+def F(t, N=1500):  # fluid support, <a class="secref" href="#fluidload">§4</a>
+    T = D*t/h**2
     lam = (2*np.arange(N) + 1)*np.pi/2
     return np.sum(2/lam**2 * np.exp(-lam**2 * T))
 
+
 for t in [1, 60, 3600, 20000]:
     print(f"t={t:6d}s  F={F(t):.3f}  mu_eff={mu_eq*(1-F(t)):.4f}")
-# t=1s -> mu_eff ~ 0.002 (footstep);  t=20000s -> ~0.15 (fully drained)</code></pre></div>
+# t=1s -&gt; mu_eff ~ 0.002 (footstep);  t=20000s -&gt; ~0.15 (fully drained)</code></pre></div>
 
 <table>
 <thead><tr><th>Quantity</th><th>Symbol</th><th>Value</th></tr></thead>
@@ -1763,10 +1773,15 @@ for t in [1, 60, 3600, 20000]:
 </svg><figcaption><b>Same footstep, different fate.</b> Both healthy ($\tau=1406\ \mathrm s$) and degraded ($\tau=469\ \mathrm s$) tissue sit at $F\approx0.98$ for a $0.5\ \mathrm s$ step; they only diverge near their gel times.</figcaption></figure>
 <details class="sol"><summary>solution</summary><div><p><b>(a)</b> $D=H_Ak=(0.8\times10^6)(2\times10^{-15})=1.6\times10^{-9}\ \mathrm{m^2/s}$; $\tau=h^2/D=(1.5\times10^{-3})^2/1.6\times10^{-9}=1.41\times10^{3}\ \mathrm s\approx23\ \mathrm{min}$.</p><p><b>(b)</b> $T=t_{\rm load}/\tau=3.6\times10^{-4}\ll1$; the series gives $F=0.979$ (short-time $F\approx1-2\sqrt{T/\pi}=0.979$). The fluid carries $\approx98\%$.</p><p><b>(c)</b> $k\to6\times10^{-15}$: $D=4.8\times10^{-9}\ \mathrm{m^2/s}$, $\tau=469\ \mathrm s\approx7.8\ \mathrm{min}$; $F(\text{footstep})=0.963$.</p><p><b>Comment.</b> Tripling permeability barely dents single-step support ($0.98\to0.96$): a footstep is far shorter than even the degraded gel time. The danger is not that one step fails — it is <em>cumulative</em>. With $\tau$ cut, fluid drains between steps faster than <a class="secref" href="#donnan">§2</a>'s osmotic swelling can re-imbibe it, so $F$ sags over sustained and repeated loading (<a class="secref" href="#degeneration">§8</a>), and the rising friction ($\mu_{\rm eff}=\mu_{\rm eq}(1-F)$ climbs from $0.003$ toward $0.006$ here, and further as $F$ sags) abrades the surface. The reassuring single-step number hides a cyclic failure.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 h, HA = 1.5e-3, 0.8e6
+
+
 def F(k, t=0.5, N=2000):
-    D = HA*k;  T = D*t/h**2
+    D = HA*k
+    T = D*t/h**2
     lam = (2*np.arange(N)+1)*np.pi/2
     return D, h**2/D, np.sum(2/lam**2 * np.exp(-lam**2*T))
+
+
 for k in (2e-15, 6e-15):
     D, tau, Fv = F(k)
     print(f"k={k:.0e}  tau={tau:6.0f} s  F(0.5 s)={Fv:.3f}")
@@ -1801,7 +1816,9 @@ for k in (2e-15, 6e-15):
 </svg><figcaption><b>Charge loss is amplified.</b> Halving $c_F$ ($0.2\to0.1\ \mathrm M$) cuts the swelling pressure by $73\%$ ($0.156\to0.042\ \mathrm{MPa}$) — the dependence is steeper than linear near the operating point.</figcaption></figure>
 <details class="sol"><summary>solution</summary><div><p><b>(a)</b> $\sqrt{0.2^2+4(0.15)^2}=\sqrt{0.13}=0.3606\ \mathrm M$; minus $0.30=0.0606\ \mathrm M=60.6\ \mathrm{mol/m^3}$; $\pi=2577\times60.6=1.56\times10^5\ \mathrm{Pa}=0.156\ \mathrm{MPa}$.</p><p><b>(b)</b> $\sqrt{0.1^2+4(0.15)^2}=\sqrt{0.10}=0.3162\ \mathrm M$; minus $0.30=0.0162\ \mathrm M=16.2\ \mathrm{mol/m^3}$; $\pi=2577\times16.2=4.18\times10^4=0.042\ \mathrm{MPa}$. Loss $=(0.156-0.042)/0.156=73\%$.</p><p><b>(c)</b> Halving the charge cuts the swelling pre-stress by nearly three-quarters. The tissue loses the pre-stress that stiffens its surface and re-imbibes fluid, so both its instantaneous stiffness and its overnight recovery (C10) collapse — the entry point of the C8 cascade.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 RgT, c0 = 8.314*310, 0.15
-pi = lambda cF: RgT*(np.sqrt(cF**2 + 4*c0**2) - 2*c0)*1e3   # Pa
+def pi(cF): return RgT*(np.sqrt(cF**2 + 4*c0**2) - 2*c0)*1e3  # Pa
+
+
 for cF in (0.2, 0.1):
     print(f"c_F={cF} M  pi={pi(cF)/1e6:.3f} MPa")
 print(f"loss = {100*(pi(0.2)-pi(0.1))/pi(0.2):.0f}%")
@@ -1833,8 +1850,9 @@ print(f"loss = {100*(pi(0.2)-pi(0.1))/pi(0.2):.0f}%")
 </svg><figcaption><b>Two models agree.</b> Hertz gives $a=18\ \mathrm{mm}$, $p_0=2.5\ \mathrm{MPa}$, $\bar p=1.7\ \mathrm{MPa}$ — the mean matches Module&nbsp;3's force/area estimate exactly, an independent check.</figcaption></figure>
 <details class="sol"><summary>solution</summary><div><p><b>(a)</b> $a=\big(3\cdot1715\cdot0.03/(4\cdot6.67\times10^6)\big)^{1/3}=(5.785\times10^{-6})^{1/3}=1.80\times10^{-2}\ \mathrm m=18.0\ \mathrm{mm}$.</p><p><b>(b)</b> $p_0=3\cdot1715/(2\pi(0.018)^2)=5145/(2.04\times10^{-3})=2.53\times10^6=2.53\ \mathrm{MPa}$.</p><p><b>(c)</b> $\bar p=1715/(\pi(0.018)^2)=1715/(1.02\times10^{-3})=1.69\times10^6=1.69\ \mathrm{MPa}$.</p><p>The Hertz mean ($1.69\ \mathrm{MPa}$) matches the Module&nbsp;3 force-over-area estimate ($1.7\ \mathrm{MPa}$) — the contact model and the joint-reaction model agree. The peak is $\approx1.5\times$ the mean; the biphasic flattening of C5 brings the <em>true</em> peak down toward $\approx2.0\ \mathrm{MPa}$.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 R, Reff, Estar = 1715.0, 0.03, 6.67e6
-a  = (3*R*Reff/(4*Estar))**(1/3)
-p0 = 3*R/(2*np.pi*a**2);  pbar = R/(np.pi*a**2)
+a = (3*R*Reff/(4*Estar))**(1/3)
+p0 = 3*R/(2*np.pi*a**2)
+pbar = R/(np.pi*a**2)
 print(f"a={a*1e3:.1f} mm  p0={p0/1e6:.2f} MPa  pbar={pbar/1e6:.2f} MPa")
 # a=18.0 mm  p0=2.53 MPa  pbar=1.69 MPa</code></pre></div></div></details></div>
 
@@ -1858,19 +1876,21 @@ print(f"a={a*1e3:.1f} mm  p0={p0/1e6:.2f} MPa  pbar={pbar/1e6:.2f} MPa")
 </svg><figcaption><b>Peak, then decay.</b> The stress starts elevated (undrained pressurisation) and relaxes to the drained $\sigma_\infty=H_A\varepsilon_0$ over a few gel times; doubling $h$ shifts the curve right by $4$ in real time, unchanged in $T$.</figcaption></figure>
 <details class="sol"><summary>solution</summary><div><p>Discretise $\partial p/\partial t=D\,\partial^2p/\partial z^2$ on $N$ depth nodes with $p=0$ at the drained face and $\partial p/\partial z=0$ (a mirror node) at the sealed base. The total stress is $\sigma(t)=H_A\varepsilon_0+\langle p\rangle$, the spatial-mean pressure added to the drained elastic stress. The explicit step is stable for $r=D\,\mathrm dt/\mathrm dz^2\le\tfrac12$.</p><p>The stress starts elevated (undrained, the pressure supports extra load), then $\langle p\rangle\to0$ and $\sigma\to H_A\varepsilon_0$. Because the equation is parameter-free in $T=Dt/h^2$ (D6), doubling $h$ quadruples the real relaxation time while leaving the shape fixed. The figure shows the peak-then-decay.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 h, HA, k = 2e-3, 0.6e6, 1e-15
-D = HA*k;  tau = h**2/D
+D = HA*k
+tau = h**2/D
 N, r = 60, 0.4
-dz = h/N;  dt = r*dz**2/D
-p = np.ones(N+1)          # uniform initial pressure (undrained)
-p[-1] = 0.0               # drained top face
+dz = h/N
+dt = r*dz**2/D
+p = np.ones(N+1)  # uniform initial pressure (undrained)
+p[-1] = 0.0  # drained top face
 tsteps = int(3*tau/dt)
 for _ in range(tsteps):
     lap = p[2:] - 2*p[1:-1] + p[:-2]
     p[1:-1] += r*lap
-    p[0]  = p[1]           # sealed base: zero-flux (mirror)
+    p[0] = p[1]  # sealed base: zero-flux (mirror)
     p[-1] = 0.0
-print(f"tau={tau:.0f} s;  mean p after 3*tau = {p.mean():.3f} (-> 0)")
-# tau=6667 s;  mean p after 3*tau = 0.0xx  (stress -> HA*eps0)</code></pre></div></div></details></div>
+print(f"tau={tau:.0f} s;  mean p after 3*tau = {p.mean():.3f} (-&gt; 0)")
+# tau=6667 s;  mean p after 3*tau = 0.0xx  (stress -&gt; HA*eps0)</code></pre></div></div></details></div>
 
 <div class="qbox"><b>K5 &mdash; footstep versus a long stand.</b> <span class="small"><em>Probes: evaluating $F$ for two very different loading durations (<a class="secref" href="#fluidload">§4</a>).</em></span>
 <p>For healthy cartilage ($h=2\ \mathrm{mm}$, $H_A=0.6\ \mathrm{MPa}$, $k=10^{-15}\ \mathrm{m^4/(N\,s)}$), compute the fluid load support $F$ for <b>(a)</b> a $0.5\ \mathrm s$ footstep and <b>(b)</b> a $1\ \mathrm h$ stand, using $F(T)=\sum 2/\lambda_n^2e^{-\lambda_n^2T}$, $\lambda_n=(2n+1)\pi/2$, $T=Dt/h^2$.</p>
@@ -1910,8 +1930,11 @@ print(f"tau={tau:.0f} s;  mean p after 3*tau = {p.mean():.3f} (-> 0)")
 </svg><figcaption><b>Bearing, then solid.</b> $\tau=6667\ \mathrm s$ ($1.9\ \mathrm h$). A $0.5\ \mathrm s$ footstep: $F=0.990$ (fluid carries $99\%$). A $1\ \mathrm h$ stand: $F=0.214$ (solid now carries most).</figcaption></figure>
 <details class="sol"><summary>solution</summary><div><p>$D=H_Ak=0.6\times10^6\cdot10^{-15}=6\times10^{-10}\ \mathrm{m^2/s}$; $\tau=h^2/D=(2\times10^{-3})^2/6\times10^{-10}=6.7\times10^3\ \mathrm s$ ($1.9\ \mathrm h$).</p><p><b>(a)</b> $T=0.5/6667=7.5\times10^{-5}$, $F=0.990$: a footstep is carried $\approx99\%$ by fluid.</p><p><b>(b)</b> $T=3600/6667=0.54$, $F=0.214$: after an hour near $\tau$, only $\approx21\%$ is fluid-borne; the solid carries most of the load.</p><p>The same tissue is a near-perfect fluid bearing for a step and a nearly drained solid for a long stand — the entire point of the gel time. The figure marks both points on the $F(t)$ curve.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 h, HA, k = 2e-3, 0.6e6, 1e-15
-D = HA*k;  lam = (2*np.arange(2000)+1)*np.pi/2
-F = lambda t: np.sum(2/lam**2 * np.exp(-lam**2 * D*t/h**2))
+D = HA*k
+lam = (2*np.arange(2000)+1)*np.pi/2
+def F(t): return np.sum(2/lam**2 * np.exp(-lam**2 * D*t/h**2))
+
+
 print(f"tau={h**2/D:.0f} s  F(0.5 s)={F(0.5):.3f}  F(1 h)={F(3600):.3f}")
 # tau=6667 s  F(0.5 s)=0.990  F(1 h)=0.214</code></pre></div></div></details></div>
 
@@ -1962,12 +1985,26 @@ for label, Fv in (("footstep", 0.990), ("1 h stand", 0.214)):
 </svg><figcaption><b>Hours to settle.</b> $\varepsilon_\infty=\sigma/H_A=0.50$; the plug reaches $90\%$ of it at $T\approx0.85$, i.e. $t\approx5.7\times10^3\ \mathrm s\approx1.6\ \mathrm h$ — a few gel times.</figcaption></figure>
 <details class="sol"><summary>solution</summary><div><p><b>(a)</b> $\varepsilon_\infty=\sigma/H_A=0.3\times10^6/0.6\times10^6=0.50$ (a large, illustrative strain).</p><p><b>(b)</b> The creep follows $\varepsilon(t)/\varepsilon_\infty=1-\sum_n\frac{8}{(2n+1)^2\pi^2}e^{-\lambda_n^2T}$, $\lambda_n=(2n+1)\pi/2$, $T=Dt/h^2$. Solving $\varepsilon/\varepsilon_\infty=0.9$ gives $T\approx0.85$; with $D=6\times10^{-10}$ and $\tau=h^2/D=6667\ \mathrm s$, $t=T\,h^2/D\approx5.7\times10^3\ \mathrm s\approx1.6\ \mathrm h$.</p><p>So the plug reaches most of its creep within a couple of gel times — hours, consistent with the "afternoon under a book" of C1. The figure shows the rising strain approaching the $\sigma/H_A$ plateau.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 h, HA, k, sig = 2e-3, 0.6e6, 1e-15, 0.3e6
-D = HA*k;  eps_inf = sig/HA
-n = np.arange(2000);  lam = (2*n+1)*np.pi/2
-frac = lambda T: 1 - np.sum(8/((2*n+1)**2*np.pi**2)*np.exp(-lam**2*T))
+D = HA*k
+eps_inf = sig/HA
+n = np.arange(2000)
+lam = (2*n+1)*np.pi/2
+def frac(T): return 1 - np.sum(8/((2*n+1)**2*np.pi**2)*np.exp(-lam**2*T))
+
+
 Ts = np.linspace(1e-3, 2, 20000)
 T90 = Ts[np.argmin(np.abs([frac(T) for T in Ts] - np.full(len(Ts), 0.9)))]
-print(f"eps_inf={eps_inf:.2f}  T90={T90:.3f}  t90={T90*h**2/D:.0f} s = {T90*h**2/D/3600:.2f} h")
+print(
+    f"eps_inf={
+        eps_inf:.2f}  T90={
+            T90:.3f}  t90={
+                T90 *
+                h**2 /
+                D:.0f} s = {
+                    T90 *
+                    h**2 /
+                    D /
+                    3600:.2f} h")
 # eps_inf=0.50  T90=0.848  t90=5653 s = 1.57 h</code></pre></div></div></details></div>
 
 <div class="qbox"><b>K8 &mdash; the thickness sweep.</b> <span class="small"><em>Probes: the $\tau\propto h^2$ law across the physiological thickness range (<a class="secref" href="#biphasic">§3</a>).</em></span>
@@ -2027,7 +2064,8 @@ for h in (0.5e-3, 1e-3, 2e-3, 4e-3):
 <details class="sol"><summary>solution</summary><div><p>Let the peak support after cycle $n$ be $F_n$. <b>Healthy</b> tissue recovers fully, so $F_n=F_0\approx0.97$ (flat). <b>Degraded</b> tissue re-imbibes incompletely, draining a little more each cycle; a simple envelope is $F_n=F_\infty+(F_0-F_\infty)e^{-n/N_c}$, with $F_\infty$ the drained floor.</p><p>With $F_0=0.97$, $F_\infty\approx0.15$, $N_c\approx22$: after $20$ cycles the healthy tissue is still $\approx0.97$ but the degraded tissue has fallen to $F_{20}=0.15+0.82\,e^{-20/22}=0.48$.</p><p>The single-step number (K1, K5) looked safe for both; it is the <em>cumulative</em> failure to re-imbibe — lost swelling pressure (K2) unable to pull water back between loadings — that separates them. The figure shows the two envelopes diverging cycle by cycle.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 F0, Finf, Nc = 0.97, 0.15, 22
 for n in (0, 5, 10, 20):
-    print(f"cycle {n:2d}:  healthy F={F0:.2f}   degraded F={Finf+(F0-Finf)*np.exp(-n/Nc):.2f}")
+    dg = Finf + (F0 - Finf)*np.exp(-n/Nc)
+    print(f"cycle {n:2d}: healthy F={F0:.2f}  degraded F={dg:.2f}")
 # cycle  0:  healthy F=0.97   degraded F=0.97
 # cycle 20:  healthy F=0.97   degraded F=0.48</code></pre></div></div></details></div>
 
@@ -2057,7 +2095,7 @@ for n in (0, 5, 10, 20):
 <text x="215.0" y="266.0" font-size="8" fill="#333" text-anchor="middle"></text>
 <text x="240.0" y="67.0" font-size="9" fill="#333" text-anchor="middle">tension ≫ compression: the fibre–gel asymmetry</text>
 </svg><figcaption><b>Stiff skin, pre-loaded core.</b> Tension is $20\times$ stiffer than compression ($12/0.6$); the resting swelling pre-stress ($0.16\ \mathrm{MPa}$) is $\approx2.7\times$ the extra stress of a $10\%$ squeeze — the tissue is genuinely pre-loaded, not slack.</figcaption></figure>
-<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $E_{\rm tens}/H_A=12/0.6=20$: twenty-fold stiffer in tension than compression.</p><p><b>(b)</b> The extra effective stress to compress by $10\%$ is $H_A\cdot0.1=0.06\ \mathrm{MPa}$; the swelling pre-stress $\pi=0.16\ \mathrm{MPa}$ is $0.16/0.06\approx2.7\times$ that — the resting osmotic pre-stress exceeds the added stress of a moderate compression.</p><p><b>(c)</b> The numbers encode the bearing design of C6: a stiff tensile collagen skin over a soft, compressible proteoglycan core held in osmotic pre-tension. Soft enough to conform and spread load, stiff and pre-stressed enough to hold together and spring back. The figure compares the three moduli as bars.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>E_tens, HA, pi = 12.0, 0.6, 0.16   # MPa
+<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $E_{\rm tens}/H_A=12/0.6=20$: twenty-fold stiffer in tension than compression.</p><p><b>(b)</b> The extra effective stress to compress by $10\%$ is $H_A\cdot0.1=0.06\ \mathrm{MPa}$; the swelling pre-stress $\pi=0.16\ \mathrm{MPa}$ is $0.16/0.06\approx2.7\times$ that — the resting osmotic pre-stress exceeds the added stress of a moderate compression.</p><p><b>(c)</b> The numbers encode the bearing design of C6: a stiff tensile collagen skin over a soft, compressible proteoglycan core held in osmotic pre-tension. Soft enough to conform and spread load, stiff and pre-stressed enough to hold together and spring back. The figure compares the three moduli as bars.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>E_tens, HA, pi = 12.0, 0.6, 0.16  # MPa
 print(f"tension/compression = {E_tens/HA:.0f}x")
 print(f"pi / (HA*0.1)       = {pi/(HA*0.1):.1f}x")
 # tension/compression = 20x

@@ -183,7 +183,7 @@ window.MathJax = {
 
 <p><b>Example.</b> A planar two-link arm is fixed completely by its two joint angles, $q=(\theta_1,\theta_2)$. Every pose of the arm is therefore a single <em>point</em> in the $(\theta_1,\theta_2)$ plane — and moving the arm draws a <em>path</em> through that plane.</p>
 
-<figure><svg class="setupfig" viewBox="0 0 460 220" width="100%" role="img" aria-label="Left: a two-link arm swinging through poses. Right: the matching point tracing a closed loop in the theta-1 theta-2 configuration plane, in step with the arm.">
+<figure><svg class="setupfig" viewBox="-27 -15 493 217" width="100%" role="img" aria-label="Left: a two-link arm swinging through poses. Right: the matching point tracing a closed loop in the theta-1 theta-2 configuration plane, in step with the arm.">
   <defs>
     <marker id="c1ax" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#555"/></marker>
   </defs>
@@ -655,7 +655,7 @@ The matrix $J_c M^{-1} J_c^{\mathsf T}$ is invertible whenever the constraints a
 
 $$g(x,y)=\tfrac12\,(x^2+y^2-L^2)=0,\qquad J_c=\partial g/\partial q=(x,\;y).\tag{3.6}$$
 
-<figure><svg class="setupfig" viewBox="0 0 460 240" width="100%" role="img" aria-label="A pendulum: pivot at top, rod to a bob at angle theta from vertical, on a dashed circle of radius L. Gravity m g points down, tension T points up the rod toward the pivot, and the constraint gradient points radially outward.">
+<figure><svg class="setupfig" viewBox="57 -104 289 318" width="100%" role="img" aria-label="A pendulum: pivot at top, rod to a bob at angle theta from vertical, on a dashed circle of radius L. Gravity m g points down, tension T points up the rod toward the pivot, and the constraint gradient points radially outward.">
   <defs>
     <marker id="f2T" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
     <marker id="f2g" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#1f5f7a"/></marker>
@@ -1268,10 +1268,12 @@ $$\begin{bmatrix} M & J_c^{\mathsf T}\\ J_c & 0\end{bmatrix}\begin{bmatrix}\ddot
 L1, L2 = 0.30, 0.30           # bone lengths (m)
 m1, m2 = 2.0, 1.5             # point masses at elbow, hand (kg)
 g,  yh = 9.81, -0.48          # gravity (m/s^2), rail height below shoulder (m)
-a,  b  = 40.0, 40.0           # Baumgarte constraint-stabilisation gains
+a,  b = 40.0, 40.0           # Baumgarte constraint-stabilisation gains
 
-M = np.diag([m1, m1, m2, m2])         # mass matrix: CONSTANT in Cartesian coords
+# mass matrix: CONSTANT in Cartesian coords
+M = np.diag([m1, m1, m2, m2])
 Q = np.array([0, -m1*g, 0, -m2*g])    # gravity = generalised applied force
+
 
 def constraints(q):                    # g(q): two bone lengths + hand-on-rail
     x1, y1, x2, y2 = q
@@ -1279,29 +1281,36 @@ def constraints(q):                    # g(q): two bone lengths + hand-on-rail
                      0.5*((x2-x1)**2 + (y2-y1)**2 - L2*L2),
                      y2 - yh])
 
+
 def Jc(q):                             # constraint Jacobian dg/dq  (3 x 4)
     x1, y1, x2, y2 = q
-    return np.array([[ x1, y1, 0., 0.],
+    return np.array([[x1, y1, 0., 0.],
                      [-(x2-x1), -(y2-y1), x2-x1, y2-y1],
-                     [ 0., 0., 0., 1.]])
+                     [0., 0., 0., 1.]])
+
 
 def dJc(q, dq):                        # time derivative of Jc
     dx1, dy1, dx2, dy2 = dq
-    return np.array([[ dx1, dy1, 0., 0.],
+    return np.array([[dx1, dy1, 0., 0.],
                      [-(dx2-dx1), -(dy2-dy1), dx2-dx1, dy2-dy1],
-                     [ 0., 0., 0., 0.]])
+                     [0., 0., 0., 0.]])
 
-q  = np.array([0.193, -0.230, 0.358, -0.48])   # released from rest, hand on rail
-dq = np.zeros(4);  dt = 5e-5
+
+# released from rest, hand on rail
+q = np.array([0.193, -0.230, 0.358, -0.48])
+dq = np.zeros(4)
+dt = 5e-5
 for step in range(40000):
     J, dJ, gv = Jc(q), dJc(q, dq), constraints(q)
-    A   = np.block([[M, J.T], [J, np.zeros((3, 3))]])         # 7x7 KKT matrix
-    rhs = np.concatenate([Q, -(dJ@dq) - 2*a*(J@dq) - b*b*gv]) # eq. (7.6) + Baumgarte
+    A = np.block([[M, J.T], [J, np.zeros((3, 3))]])         # 7x7 KKT matrix
+    # eq. (7.6) + Baumgarte
+    rhs = np.concatenate([Q, -(dJ@dq) - 2*a*(J@dq) - b*b*gv])
     sol = np.linalg.solve(A, rhs)
     ddq, lam = sol[:4], -sol[4:]
-    Rs, Re, Nc = abs(lam[0])*L1, abs(lam[1])*L2, lam[2]       # the three forces (N)
-    dq = dq + dt*ddq;  q = q + dt*dq                          # semi-implicit Euler
-</code></pre></div>
+    Rs, Re, Nc = abs(lam[0])*L1, abs(lam[1]) * \
+        L2, lam[2]       # the three forces (N)
+    dq = dq + dt*ddq
+    q = q + dt*dq                          # semi-implicit Euler</code></pre></div>
 
 <h3 id="lab-results">7.5 Results — the multiplier in motion</h3>
 
@@ -1942,8 +1951,8 @@ $$\lambda=-\frac{m}{L^2}\,(Lg)=-\frac{mg}{L}\quad\Rightarrow\quad |\lambda|\,L =
 <div class="qbox"><b>K1 — verify the load path.</b> <span class="small"><em>Probes: quantifying the load-path principle — confirming a vertical load routes entirely to the constraint, not the joints (<a class="secref" href="#lab">§7</a>).</em></span>
 <p>Take the runnable code of <a class="secref" href="#lab-code">§7.4</a>. Add a held mass $m_L$ in the hand by changing only the applied-force line, so the hand's downward weight becomes $(m_2+m_L)g$:</p>
 <div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>mL = 5.0                                   # held hand mass (kg)
-Q  = np.array([0, -m1*g, 0, -(m2+mL)*g])   # the only change from <a class="secref" href="#lab-code">§7.4</a>
-</code></pre></div>
+# the only change from <a class="secref" href="#lab-code">§7.4</a>
+Q = np.array([0, -m1*g, 0, -(m2+mL)*g])</code></pre></div>
 <p>Run it for $m_L=0,\ 5,\ 10\ \mathrm{kg}$. Predict, then check: how does the peak contact force change, and how does the peak shoulder reaction change?</p>
 <figure><svg viewBox="0 0 230 176" width="100%" style="max-width:230px" role="img" aria-label="A two-link limb with its hand on a horizontal rail and a held mass at the hand; the contact force points up and grows with the load while the shoulder reaction along the bone is unchanged."><line x1="120" y1="150" x2="216" y2="150" stroke="#1a1a1a" stroke-width="2.5"/><line x1="126" y1="150" x2="120" y2="156" stroke="#bbb" stroke-width="1"/><line x1="140" y1="150" x2="134" y2="156" stroke="#bbb" stroke-width="1"/><line x1="154" y1="150" x2="148" y2="156" stroke="#bbb" stroke-width="1"/><line x1="168" y1="150" x2="162" y2="156" stroke="#bbb" stroke-width="1"/><line x1="182" y1="150" x2="176" y2="156" stroke="#bbb" stroke-width="1"/><line x1="196" y1="150" x2="190" y2="156" stroke="#bbb" stroke-width="1"/><line x1="210" y1="150" x2="204" y2="156" stroke="#bbb" stroke-width="1"/><rect x="51.5" y="56.5" width="76.9" height="13.0" rx="6.5" fill="url(#b_bone)" filter="url(#b_sh)" transform="rotate(37.5 90.0 63.0)"/><rect x="104.6" y="112.5" width="84.8" height="11.0" rx="5.5" fill="url(#b_bone)" filter="url(#b_sh)" transform="rotate(49.8 147.0 118.0)"/><circle cx="60.0" cy="40.0" r="7.0" fill="url(#b_bone)" filter="url(#b_sh)"/><circle cx="120.0" cy="86.0" r="6.0" fill="url(#b_bone)" filter="url(#b_sh)"/><circle cx="174.0" cy="150.0" r="6.0" fill="url(#b_bone)" filter="url(#b_sh)"/><rect x="167" y="154" width="14" height="12" rx="2" fill="#9c8760" stroke="#7a5c34"/><text x="186" y="166" font-size="10" fill="#555" text-anchor="start" font-style="italic">m<tspan baseline-shift="sub" font-size="0.7em">L</tspan></text><line x1="174.0" y1="152.0" x2="174.0" y2="114.0" stroke="#1f6f3f" stroke-width="2.6" marker-end="url(#a_grn)"/><text x="180" y="124" font-size="10" fill="#1f6f3f" text-anchor="start" font-style="italic">contact +mₗg</text><line x1="60.0" y1="40.0" x2="78.0" y2="53.8" stroke="#7a1f1f" stroke-width="1.8" marker-end="url(#a_red)"/><text x="58" y="32" font-size="10" fill="#7a1f1f" text-anchor="start" font-style="italic">Rs (unchanged)</text></svg><figcaption>A held weight on the horizontal rail: the upward contact force grows by exactly $m_Lg$, while the joint reactions do not move.</figcaption></figure>
 <details class="sol"><summary>Show solution</summary><div>
@@ -1959,8 +1968,9 @@ Q  = np.array([0, -m1*g, 0, -(m2+mL)*g])   # the only change from <a class="secr
 </div>
 
 <div class="qbox"><b>K2 — swap the rail for a wall.</b> <span class="small"><em>Probes: that the constraint normal sets the load path — a vertical load reaches the joints only when the surface cannot carry it (<a class="secref" href="#lab">§7</a>, Problem&nbsp;C1).</em></span>
-<p>Replace the horizontal rail with a frictionless <em>vertical wall</em> the hand presses on, by changing the third constraint to $g_3=x_2-x_w$ (Jacobian row $[0,0,1,0]$). Add a held mass $m_L$ at the hand. Predict, then check: does a vertical hand-load now reach the shoulder?</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>def constraints(q):              # rail  ->  vertical wall at x = xw
-    x1,y1,x2,y2 = q;  xw = 0.30
+<p>Replace the horizontal rail with a frictionless <em>vertical wall</em> the hand presses on, by changing the third constraint to $g_3=x_2-x_w$ (Jacobian row $[0,0,1,0]$). Add a held mass $m_L$ at the hand. Predict, then check: does a vertical hand-load now reach the shoulder?</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>def constraints(q):              # rail  -&gt;  vertical wall at x = xw
+    x1, y1, x2, y2 = q
+    xw = 0.30
     return np.array([0.5*(x1*x1+y1*y1-L1*L1),
                      0.5*((x2-x1)**2+(y2-y1)**2-L2*L2),
                      x2 - xw])           # was  y2 - yh
@@ -1985,7 +1995,7 @@ yh = -(0.30 + L2) * 0.8          # keep the hand at 80% of full reach</code></pr
 
 <div class="qbox"><b>K5 — static versus moving.</b> <span class="small"><em>Probes: the dynamic amplification a static snapshot misses — the inertial terms of <a class="secref" href="#forces">§3</a> (<a class="secref" href="#reaction">§4</a>).</em></span>
 <p>From a single run, compare the shoulder reaction at the turning point (where the limb is momentarily at rest) with its peak during the swing.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>Rs_static = Rs_history[0]          # at release: the limb is at rest
-Rs_peak   = max(Rs_history)        # somewhere mid-swing
+Rs_peak = max(Rs_history)        # somewhere mid-swing
 print(Rs_peak / Rs_static)</code></pre></div>
 <figure><svg viewBox="0 0 300 180" width="100%" style="max-width:300px" role="img" aria-label="A plot of shoulder reaction in units of limb weight versus hand position over the swing, marking the low static value at the turning point and the higher peak mid-swing."><line x1="50" y1="14" x2="50" y2="150" stroke="#1a1a1a" stroke-width="1.1"/><line x1="50" y1="150" x2="286" y2="150" stroke="#1a1a1a" stroke-width="1.1"/><line x1="78.1" y1="150" x2="78.1" y2="154" stroke="#1a1a1a"/><text x="78.1" y="166" font-size="9" fill="#555" text-anchor="middle">0.0</text><line x1="134.3" y1="150" x2="134.3" y2="154" stroke="#1a1a1a"/><text x="134.3" y="166" font-size="9" fill="#555" text-anchor="middle">0.1</text><line x1="190.5" y1="150" x2="190.5" y2="154" stroke="#1a1a1a"/><text x="190.5" y="166" font-size="9" fill="#555" text-anchor="middle">0.2</text><line x1="246.7" y1="150" x2="246.7" y2="154" stroke="#1a1a1a"/><text x="246.7" y="166" font-size="9" fill="#555" text-anchor="middle">0.3</text><line x1="46" y1="150.0" x2="286" y2="150.0" stroke="#eee"/><text x="44" y="153.0" font-size="9" fill="#555" text-anchor="end">0</text><line x1="46" y1="85.2" x2="286" y2="85.2" stroke="#eee"/><text x="44" y="88.2" font-size="9" fill="#555" text-anchor="end">0.5</text><line x1="46" y1="20.5" x2="286" y2="20.5" stroke="#eee"/><text x="44" y="23.5" font-size="9" fill="#555" text-anchor="end">1.0</text><polyline fill="none" stroke="#7a1f1f" stroke-width="2.2" points="279.5,106.1 279.5,105.9 279.5,105.5 279.5,104.7 279.6,103.7 279.6,102.3 279.7,100.7 279.7,98.8 279.8,96.6 279.9,94.2 279.9,91.6 280.0,88.8 280.1,85.8 280.2,82.7 280.2,79.4 280.3,76.1 280.3,72.6 280.4,69.2 280.4,65.7 280.4,62.3 280.3,58.9 280.3,55.7 280.2,52.5 280.1,49.5 280.0,46.6 279.8,43.9 279.6,41.4 279.3,39.1 279.0,37.0 278.7,35.2 278.3,33.5 277.9,32.1 277.5,30.8 276.9,29.8 276.4,28.9 275.8,28.2 275.1,27.7 274.4,27.3 273.7,27.1 272.9,27.0 272.0,27.0 271.2,27.2 270.2,27.4 269.2,27.7 268.2,28.1 267.1,28.5 266.0,29.1 264.8,29.6 263.6,30.2 262.4,30.8 261.1,31.5 259.8,32.2 258.4,32.9 257.0,33.6 255.5,34.3 254.1,35.1 252.6,35.8 251.0,36.6 249.4,37.3 247.8,38.1 246.2,38.8 244.5,39.6 242.8,40.3 241.1,41.1 239.4,41.8 237.6,42.5 235.8,43.2 234.0,44.0 232.1,44.7 230.3,45.4 228.4,46.1 226.5,46.8 224.6,47.4 222.7,48.1 220.8,48.8 218.8,49.5 216.8,50.1 214.9,50.8 212.9,51.5 210.9,52.1 208.9,52.8 206.8,53.4 204.8,54.0 202.8,54.7 200.8,55.3 198.7,56.0 196.7,56.6 194.6,57.2 192.6,57.9 190.5,58.5 188.5,59.1 186.4,59.8 184.4,60.4 182.3,61.0 180.3,61.7 178.2,62.3 176.2,62.9 174.1,63.6 172.1,64.2 170.1,64.9 168.0,65.5 166.0,66.1 164.0,66.8 162.0,67.4 160.0,68.0 158.0,68.7 156.0,69.3 154.1,70.0 152.1,70.6 150.2,71.2 148.2,71.9 146.3,72.5 144.4,73.2 142.5,73.8 140.6,74.4 138.8,75.1 136.9,75.7 135.1,76.3 133.2,77.0 131.4,77.6 129.6,78.2 127.9,78.8 126.1,79.4 124.4,80.1 122.6,80.7 120.9,81.3 119.2,81.9 117.6,82.5 115.9,83.1 114.3,83.6 112.7,84.2 111.1,84.8 109.5,85.4 108.0,85.9 106.5,86.5 105.0,87.0 103.5,87.6 102.0,88.1 100.6,88.7 99.2,89.2 97.8,89.7 96.4,90.2 95.1,90.7 93.8,91.2 92.5,91.7 91.2,92.2 90.0,92.6 88.8,93.1 87.6,93.5 86.4,94.0 85.3,94.4 84.1,94.8 83.1,95.2 82.0,95.7 81.0,96.0 80.0,96.4 79.0,96.8 78.0,97.2 77.1,97.5 76.2,97.9 75.3,98.2 74.5,98.5 73.7,98.8 72.9,99.1 72.1,99.4 71.4,99.7 70.7,100.0 70.0,100.2 69.4,100.5 68.8,100.7 68.2,101.0 67.6,101.2 67.1,101.4 66.6,101.6 66.2,101.8 65.7,101.9 65.3,102.1 64.9,102.2 64.6,102.4 64.3,102.5 64.0,102.6 63.7,102.7 63.5,102.8 63.3,102.9 63.1,102.9 63.0,103.0 62.9,103.0 62.8,103.1 62.8,103.1 62.8,103.1"/><text x="168" y="176" font-size="10" fill="#1a1a1a" text-anchor="middle">hand position x (m)</text><text x="13" y="82" font-size="10" fill="#1a1a1a" text-anchor="middle" transform="rotate(-90 13 82)">Rs / Wₗ</text><circle cx="279.5" cy="106.1" r="3" fill="#1f5f7a"/><text x="275.5" y="100.1" font-size="9" fill="#1f5f7a" text-anchor="end">static 0.34W</text><circle cx="272.9" cy="27.0" r="3" fill="#7a1f1f"/><text x="277.9" y="29.0" font-size="9" fill="#7a1f1f">peak 0.95W</text></svg><figcaption>Shoulder reaction over the swing: lowest at the turning point (static), peaking mid-motion — a 2.8-fold dynamic amplification.</figcaption></figure>
 <details class="sol"><summary>Show solution</summary><div><p>At the turning point $R_s=11.6\ \mathrm N=0.34\,W_L$ — the static value. Mid-swing the inertial terms push it to $32.6\ \mathrm N=0.95\,W_L$, a factor of $2.8$. A static calculation systematically under-reads what a moving joint carries; this is exactly why <a class="secref" href="#reaction">§4</a> noted gait raises peak hip loads to $3$–$5\,W$.</p></div></details>
@@ -2002,7 +2012,7 @@ print(Rs_peak / Rs_static)</code></pre></div>
 <div class="qbox"><b>K7 — how fast does it swing.</b> <span class="small"><em>Probes: that a constrained limb is an effective pendulum, but not the naive point-mass one (<a class="secref" href="#config">§1</a>).</em></span>
 <p>Measure the period of the constrained swing (twice the time between turning points) and compare it with a simple pendulum whose length is the limb's centre-of-mass distance.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>half = time_of_first_turning_point
 T_limb = 2 * half
-L_com  = (m1*L1 + m2*(L1+L2)) / (m1+m2)
+L_com = (m1*L1 + m2*(L1+L2)) / (m1+m2)
 T_simple = 2*np.pi*np.sqrt(L_com/g)</code></pre></div>
 <figure><svg viewBox="0 0 300 168" width="100%" style="max-width:300px" role="img" aria-label="Side by side: the two-link constrained limb with its measured period, and a simple pendulum of the centre-of-mass length with its estimated period."><rect x="58.2" y="48.5" width="63.6" height="11.0" rx="5.5" fill="url(#b_bone)" filter="url(#b_sh)" transform="rotate(50.2 90.0 54.0)"/><rect x="96.7" y="99.5" width="66.5" height="9.0" rx="4.5" fill="url(#b_bone)" filter="url(#b_sh)" transform="rotate(52.4 130.0 104.0)"/><circle cx="70.0" cy="30.0" r="6.0" fill="url(#b_bone)" filter="url(#b_sh)"/><circle cx="110.0" cy="78.0" r="5.0" fill="url(#b_bone)" filter="url(#b_sh)"/><circle cx="150.0" cy="130.0" r="5.0" fill="url(#b_bone)" filter="url(#b_sh)"/><line x1="120" y1="130" x2="180" y2="130" stroke="#1a1a1a" stroke-width="2"/><text x="110" y="152" font-size="10" fill="#7a1f1f" text-anchor="middle" font-style="italic">constrained limb  T = 1.51 s</text><line x1="214" y1="26" x2="246" y2="26" stroke="#1a1a1a" stroke-width="2.5"/><rect x="198.7" y="64.5" width="88.6" height="7.0" rx="3.5" fill="url(#b_bone)" filter="url(#b_sh)" transform="rotate(72.8 243.0 68.0)"/><circle cx="256.0" cy="110.0" r="9.0" fill="url(#b_sph)" filter="url(#b_sh)"/><circle cx="230.0" cy="26.0" r="4.0" fill="url(#b_bone)" filter="url(#b_sh)"/><circle cx="230" cy="26" r="86" fill="none" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/><text x="238" y="152" font-size="10" fill="#1f5f7a" text-anchor="middle" font-style="italic">simple pendulum  T ≈ 1.31 s</text></svg><figcaption>The constrained limb (left) swings slightly slower than a simple pendulum of its centre-of-mass length (right).</figcaption></figure>
 <details class="sol"><summary>Show solution</summary><div><p>The constrained limb's period is $\approx1.51\ \mathrm s$; a simple pendulum of length $L_{\text{com}}=0.43\ \mathrm m$ gives $\approx1.31\ \mathrm s$. The limb is the slower of the two: its mass is spread out and the constraint geometry adds effective inertia, so a point mass at the centre of mass underestimates the period. The single remaining degree of freedom still behaves like a pendulum — just not the naive one.</p></div></details>
@@ -2010,7 +2020,7 @@ T_simple = 2*np.pi*np.sqrt(L_com/g)</code></pre></div>
 
 <div class="qbox"><b>K8 — make the floor one-sided.</b> <span class="small"><em>Probes: the difference between a bilateral constraint and a real (unilateral) contact — the $\lambda_3\ge0$ condition (<a class="secref" href="#lab-extend">§7.7</a>, <a class="secref" href="#model">§8</a>).</em></span>
 <p>A real floor can only <em>push</em>. After each solve, check the sign of the contact multiplier $\lambda_3$. From what release amplitude does it go negative — meaning the bilateral rail is 'pulling' the hand down, so a one-sided floor would let it lift off?</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>ddq, lam = solve_kkt(...)
-if lam[2] < 0:
+if lam[2] &lt; 0:
     print('contact would separate (lift-off) at t =', t)</code></pre></div>
 <figure><svg viewBox="0 0 300 175" width="100%" style="max-width:300px" role="img" aria-label="A plot of the contact force against time over one half-swing; it dips below zero in the middle, marking lift-off."><line x1="50" y1="14" x2="50" y2="145" stroke="#1a1a1a" stroke-width="1.1"/><line x1="50" y1="145" x2="286" y2="145" stroke="#1a1a1a" stroke-width="1.1"/><line x1="50.0" y1="145" x2="50.0" y2="149" stroke="#1a1a1a"/><text x="50.0" y="161" font-size="9" fill="#555" text-anchor="middle">0</text><line x1="168.0" y1="145" x2="168.0" y2="149" stroke="#1a1a1a"/><text x="168.0" y="161" font-size="9" fill="#555" text-anchor="middle">0.45</text><line x1="286.0" y1="145" x2="286.0" y2="149" stroke="#1a1a1a"/><text x="286.0" y="161" font-size="9" fill="#555" text-anchor="middle">0.9</text><line x1="46" y1="138.1" x2="286" y2="138.1" stroke="#eee"/><text x="44" y="141.1" font-size="9" fill="#555" text-anchor="end">-10</text><line x1="46" y1="103.6" x2="286" y2="103.6" stroke="#eee"/><text x="44" y="106.6" font-size="9" fill="#555" text-anchor="end">0</text><line x1="46" y1="69.2" x2="286" y2="69.2" stroke="#eee"/><text x="44" y="72.2" font-size="9" fill="#555" text-anchor="end">10</text><line x1="46" y1="34.7" x2="286" y2="34.7" stroke="#eee"/><text x="44" y="37.7" font-size="9" fill="#555" text-anchor="end">20</text><polyline fill="none" stroke="#1f6f3f" stroke-width="2.2" points="50.0,-13.1 51.0,-13.1 52.1,-12.9 53.1,-12.7 54.2,-12.4 55.2,-12.0 56.3,-11.6 57.3,-11.0 58.4,-10.3 59.4,-9.5 60.5,-8.6 61.5,-7.6 62.6,-6.4 63.6,-5.1 64.7,-3.7 65.7,-2.1 66.8,-0.3 67.8,1.7 68.9,3.9 69.9,6.3 71.0,8.9 72.0,11.8 73.1,14.9 74.1,18.4 75.2,22.1 76.2,26.1 77.3,30.4 78.3,35.1 79.4,40.1 80.4,45.4 81.5,50.9 82.5,56.7 83.6,62.7 84.6,68.9 85.7,75.1 86.7,81.4 87.8,87.5 88.8,93.5 89.9,99.1 90.9,104.4 92.0,109.1 93.0,113.3 94.1,116.8 95.1,119.6 96.2,121.7 97.2,123.1 98.2,123.8 99.3,123.9 100.3,123.4 101.4,122.4 102.4,121.0 103.5,119.3 104.5,117.2 105.6,115.0 106.6,112.7 107.7,110.2 108.7,107.7 109.8,105.2 110.8,102.7 111.9,100.2 112.9,97.8 114.0,95.5 115.0,93.2 116.1,91.1 117.1,89.0 118.2,87.0 119.2,85.2 120.3,83.4 121.3,81.7 122.4,80.1 123.4,78.5 124.5,77.1 125.5,75.7 126.6,74.4 127.6,73.2 128.7,72.0 129.7,70.9 130.8,69.8 131.8,68.8 132.9,67.8 133.9,66.9 135.0,66.1 136.0,65.2 137.1,64.4 138.1,63.7 139.2,63.0 140.2,62.3 141.3,61.6 142.3,61.0 143.4,60.4 144.4,59.8 145.4,59.2 146.5,58.6 147.5,58.1 148.6,57.6 149.6,57.1 150.7,56.6 151.7,56.1 152.8,55.7 153.8,55.2 154.9,54.8 155.9,54.4 157.0,53.9 158.0,53.5 159.1,53.1 160.1,52.7 161.2,52.3 162.2,51.9 163.3,51.6 164.3,51.2 165.4,50.8 166.4,50.4 167.5,50.1 168.5,49.7 169.6,49.3 170.6,48.9 171.7,48.6 172.7,48.2 173.8,47.8 174.8,47.5 175.9,47.1 176.9,46.7 178.0,46.3 179.0,46.0 180.1,45.6 181.1,45.2 182.2,44.8 183.2,44.4 184.3,44.0 185.3,43.6 186.4,43.2 187.4,42.8 188.5,42.4 189.5,42.0 190.6,41.6 191.6,41.2 192.6,40.7 193.7,40.3 194.7,39.9 195.8,39.4 196.8,39.0 197.9,38.5 198.9,38.0 200.0,37.6 201.0,37.1 202.1,36.6 203.1,36.1 204.2,35.6 205.2,35.1 206.3,34.6 207.3,34.1 208.4,33.6 209.4,33.1 210.5,32.6 211.5,32.1 212.6,31.5 213.6,31.0 214.7,30.5 215.7,29.9 216.8,29.4 217.8,28.8 218.9,28.3 219.9,27.7 221.0,27.2 222.0,26.6 223.1,26.1 224.1,25.5 225.2,25.0 226.2,24.4 227.3,23.9 228.3,23.3 229.4,22.8 230.4,22.2 231.5,21.7 232.5,21.2 233.6,20.6 234.6,20.1 235.7,19.6 236.7,19.0 237.8,18.5 238.8,18.0 239.8,17.5 240.9,17.0 241.9,16.5 243.0,16.0 244.0,15.5 245.1,15.1 246.1,14.6 247.2,14.1 248.2,13.7 249.3,13.3 250.3,12.8 251.4,12.4 252.4,12.0 253.5,11.6 254.5,11.2 255.6,10.8 256.6,10.5 257.7,10.1 258.7,9.8 259.8,9.4 260.8,9.1 261.9,8.8 262.9,8.5 264.0,8.2 265.0,8.0 266.1,7.7 267.1,7.5 268.2,7.2 269.2,7.0 270.3,6.8 271.3,6.6 272.4,6.4 273.4,6.2 274.5,6.1 275.5,5.9 276.6,5.8 277.6,5.7 278.7,5.6 279.7,5.5 280.8,5.4 281.8,5.4 282.9,5.3 283.9,5.3 285.0,5.3 286.0,5.2"/><text x="168" y="171" font-size="10" fill="#1a1a1a" text-anchor="middle">time (s)</text><text x="13" y="80" font-size="10" fill="#1a1a1a" text-anchor="middle" transform="rotate(-90 13 80)">contact λ₃ (N)</text><line x1="50.0" y1="103.6" x2="286.0" y2="103.6" stroke="#7a1f1f" stroke-width="1" stroke-dasharray="4 3"/><text x="286.0" y="127.8" font-size="9" fill="#7a1f1f" text-anchor="end">λ₃ &lt; 0 → lift-off</text></svg><figcaption>At a large enough swing the contact force dips below zero — a one-sided floor would let the hand lift off there.</figcaption></figure>
 <details class="sol"><summary>Show solution</summary><div><p>At small swings the contact stays positive (minimum $10.7\ \mathrm N$ at $30^\circ$, $6.2\ \mathrm N$ at $40^\circ$). At $50^\circ$ it dips to $-5.9\ \mathrm N$: the two-sided rail is now <em>pulling</em> the hand down to hold it on the line — something a real floor cannot do, so the hand separates. Enforcing the inequality $\lambda_3\ge0$ (releasing the constraint when it would go negative) is the unilateral-contact upgrade of <a class="secref" href="#lab-extend">§7.7</a> and <a class="secref" href="#model">§8</a>.</p></div></details>
