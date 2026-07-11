@@ -2,6 +2,9 @@
 .claude/settings.local.json
 # Subagent worktrees (isolated repo copies — never commit)
 .claude/worktrees/
+# Python bytecode from the vendored skill's scripts (regenerated on run)
+.claude/skills/**/__pycache__/
+*.pyc
 
 # Scratch / temp — not for the repo (previews stay in scratchpad per CLAUDE.md)
 .ignore/
