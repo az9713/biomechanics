@@ -80,7 +80,7 @@ The C1/D1 seed figures came from the approved sign-off preview
 Run **all five after every edit pass**; all must reach 0 (stray-$ ~6 is advisory).
 
 ```
-S=C:/Users/simon/.claude/skills/rigorous-explainer/scripts
+S=C:/Users/<user>/.claude/skills/rigorous-explainer/scripts
 python $S/checktex.py     module04.html   # $/$$ + brace/\begin-end/\boxed balance
 python $S/checklt.py      module04.html   # literal <,> inside math
 python $S/check_links.py  module04.html   # #id links resolve; unlinked §refs

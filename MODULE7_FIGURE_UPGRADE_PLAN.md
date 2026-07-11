@@ -177,7 +177,7 @@ Use visual derivation aids:
 After each edit batch, run:
 
 ```powershell
-$S="C:/Users/simon/.Codex/skills/rigorous-explainer/scripts"
+$S="C:/Users/<user>/.Codex/skills/rigorous-explainer/scripts"
 python $S/checktex.py module07.html
 python $S/checklt.py module07.html
 python $S/check_links.py module07.html

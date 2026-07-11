@@ -179,7 +179,7 @@ reader could not read off the boxed result?* Deepen or cut any that reduce to su
 After every edit pass — all to 0:
 
 ```powershell
-$S='C:/Users/simon/.claude/skills/rigorous-explainer/scripts'
+$S='C:/Users/<user>/.claude/skills/rigorous-explainer/scripts'
 python $S/checktex.py    module10.html
 python $S/checklt.py     module10.html
 python $S/check_links.py module10.html

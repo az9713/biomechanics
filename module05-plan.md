@@ -2,7 +2,7 @@
 
 ## Context
 Continuation of the quantitative human-musculoskeletal course in
-`C:\Users\simon\Downloads\human_movement_science_me`. Modules 1–4 are COMPLETE
+`C:\Users\<user>\Downloads\human_movement_science_me`. Modules 1–4 are COMPLETE
 and live. Module 5 supplies the **active force generator** that every prior
 module either invented as an abstraction or left blank: Module 1's "net muscle
 moment," Module 3's "applied force $Q$" on the constrained joint. It is the
@@ -39,7 +39,7 @@ forward to Module 6 (tendon series-elastic / energy storage), Module 7 (neural
 control / reflexes / co-contraction in posture), Modules 12 & 14 (fatigue, aging).
 
 ## Deliverable
-`C:\Users\simon\Downloads\human_movement_science_me\module05.html`
+`C:\Users\<user>\Downloads\human_movement_science_me\module05.html`
 
 ## Spine (each section uses the previous)
 - **§0 Motivation.** Everyday hook: you decide to lift a bag, and ~100 ms later

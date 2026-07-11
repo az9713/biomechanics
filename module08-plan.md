@@ -138,7 +138,7 @@ and a collapsible solution. C/D/K diagrams should be task-specific:
 After every edit pass:
 
 ```powershell
-$S='C:/Users/simon/.claude/skills/rigorous-explainer/scripts'
+$S='C:/Users/<user>/.claude/skills/rigorous-explainer/scripts'
 python $S/checktex.py module08.html
 python $S/checklt.py module08.html
 python $S/check_links.py module08.html

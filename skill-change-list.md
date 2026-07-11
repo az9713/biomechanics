@@ -8,7 +8,7 @@ from [`audit-modules.md`](audit-modules.md) and
 > **Status: PLAN ONLY. No skill files have been changed.** This document is the
 > backlog; each item is a proposed edit awaiting go-ahead.
 
-Skill location: `C:\Users\simon\.claude\skills\rigorous-explainer\`
+Skill location: `C:\Users\<user>\.claude\skills\rigorous-explainer\`
 (`SKILL.md`, `assets/template.html`, `scripts/*.py`, `references/*.md`).
 
 ---

@@ -2,7 +2,7 @@
 
 ## Context
 Continuation of the quantitative human-musculoskeletal course in
-`C:\Users\simon\Downloads\human_movement_science_me`. Modules 1–3 are COMPLETE
+`C:\Users\<user>\Downloads\human_movement_science_me`. Modules 1–3 are COMPLETE
 and live. Module 4 develops the **tissue** that lives at the joint interface
 Module 3 left idealized. It is the first *continuum/biphasic* module.
 
@@ -26,7 +26,7 @@ Python first); full hardening loop; builds on and links back to Modules 1–3,
 forward to Modules 14 (OA/aging) and 16 (continuum/FE).
 
 ## Deliverable
-`C:\Users\simon\Downloads\human_movement_science_me\module04.html`
+`C:\Users\<user>\Downloads\human_movement_science_me\module04.html`
 
 ## Spine (each section uses the previous)
 - **§0 Motivation.** A 2–4 mm layer of soft tissue carries ~1.7 MPa (Module 3 §5)

@@ -161,7 +161,7 @@ collapsible solution; K solutions use Python-verified numbers with a copy button
 After every edit pass (all to 0 / advisory clean):
 
 ```powershell
-$S='C:/Users/simon/.claude/skills/rigorous-explainer/scripts'
+$S='C:/Users/<user>/.claude/skills/rigorous-explainer/scripts'
 python $S/checktex.py module09.html
 python $S/checklt.py module09.html
 python $S/check_links.py module09.html

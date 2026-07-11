@@ -1,7 +1,7 @@
 # Codex Handoff Report — Quantitative Human Musculoskeletal Science
 
 Generated: 2026-07-05  
-Workspace: `C:\Users\simon\Downloads\human_movement_science_me`  
+Workspace: `C:\Users\<user>\Downloads\human_movement_science_me`  
 Repo: `https://github.com/az9713/biomechanics`  
 Live site: `https://az9713.github.io/biomechanics/`
 
@@ -56,7 +56,7 @@ History files:
 
 Skill:
 
-- `C:\Users\simon\.claude\skills\rigorous-explainer\`
+- `C:\Users\<user>\.claude\skills\rigorous-explainer\`
 - The project instructions sometimes mention `.Codex`; the actual skill path
   inspected here is `.claude`.
 
@@ -166,7 +166,7 @@ The skill's non-negotiables:
 The standing loop after every edit is:
 
 ```powershell
-$S='C:/Users/simon/.claude/skills/rigorous-explainer/scripts'
+$S='C:/Users/<user>/.claude/skills/rigorous-explainer/scripts'
 python "$S/checktex.py" moduleNN.html
 python "$S/checklt.py" moduleNN.html
 python "$S/check_links.py" moduleNN.html
@@ -190,7 +190,7 @@ Current Module 7 static checks run in this Codex audit:
 
 Browser-based checks could not be rerun locally from this managed Codex sandbox
 because the scripts attempted to write temporary instrumented HTML under
-`C:\Users\simon\AppData\Local\Temp`, which is not writable here. Setting
+`C:\Users\<user>\AppData\Local\Temp`, which is not writable here. Setting
 `TEMP/TMP/TMPDIR` did not override Python's selected temp directory because
 `C:\tmp` also denied writes in this environment. This is an environment issue,
 not a discovered content failure. The Module 7 skeleton transcript records the
@@ -249,7 +249,7 @@ Publish-while-incomplete policy:
 
 Git conventions:
 
-- Commit as `az9713 <az9713@yahoo.com>`.
+- Commit as `az9713 <<your-email>>`.
 - Claude-era trailers used:
   `Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>` and
   `Claude-Session: <session url>`.

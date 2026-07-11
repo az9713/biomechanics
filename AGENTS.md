@@ -10,7 +10,7 @@ modules** (MathJax + inline SVG/SMIL, no build step). Built with the
 - **Files:** `index.html` (landing + syllabus), `module01.html`…`module03.html`,
   `README.md`, `svg-figure-tiers.md` (figure-style decision doc), `prompt.txt`
   (the original course spec — the source of truth for scope/structure).
-- **Skill:** `C:\Users\simon\.Codex\skills\rigorous-explainer\` — `SKILL.md`,
+- **Skill:** `C:\Users\<user>\.Codex\skills\rigorous-explainer\` — `SKILL.md`,
   `scripts/*.py` (hardening tools), `references/*.md`, `assets/template.html`.
 - **Temp/figure work:** use this session's scratchpad dir (path differs per
   session) for Python figure-data generation and preview renders — never commit it.
@@ -149,7 +149,7 @@ modules** (MathJax + inline SVG/SMIL, no build step). Built with the
 
 ## Hardening loop (run after every edit; all must pass)
 ```
-S=C:/Users/simon/.claude/skills/rigorous-explainer/scripts
+S=C:/Users/<user>/.claude/skills/rigorous-explainer/scripts
 python $S/checktex.py    moduleNN.html   # delimiter/brace balance + stray control chars (shell-mangled math) — 0 issues
 python $S/checklt.py     moduleNN.html   # raw <,> in math — 0
 python $S/check_links.py moduleNN.html   # 0 broken (unlinked §refs OK until autolink)
@@ -290,7 +290,7 @@ that established this found 11 real overlaps the eye had passed.)
 
 ## Git / publish
 - `gh` CLI authenticated as **az9713** (active account). Pages already enabled.
-- Commit as: `git -c user.name="az9713" -c user.email="az9713@yahoo.com" commit …`
+- Commit as: `git -c user.name="az9713" -c user.email="<your-email>" commit …`
 - Commit message trailers (this environment's convention):
   ```
   Co-Authored-By: Codex Opus 4.8 (1M context) <noreply@anthropic.com>

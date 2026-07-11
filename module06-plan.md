@@ -2,7 +2,7 @@
 
 ## Context
 Continuation of the quantitative human-musculoskeletal course in
-`C:\Users\simon\Downloads\human_movement_science_me`. Modules 1–5 are COMPLETE
+`C:\Users\<user>\Downloads\human_movement_science_me`. Modules 1–5 are COMPLETE
 and live. Module 6 develops the **passive connective tissues** — the collagenous
 springs and constraints that Modules 3 and 5 idealised away. It is the course's
 tissue-mechanics counterpart to Module 5's active muscle: where Module 5 built the
@@ -43,7 +43,7 @@ tissue). **30-problem §10** (C1–C10 / D1–D10 / K1–K10) + 5 diagnostics, m
 M3/M4/M5 — this is the locked default, not a hedge.
 
 ## Deliverable
-`C:\Users\simon\Downloads\human_movement_science_me\module06.html`
+`C:\Users\<user>\Downloads\human_movement_science_me\module06.html`
 
 ## Spine (each section uses the previous)
 - **§0 Motivation.** Running is bouncing. A runner's leg is a pogo stick: the

@@ -77,7 +77,7 @@ duplicate content that already lives in the files referenced below — open them
   digging through old HANDOFF revisions or git log for "how did we get here").
 - **`audit-modules.md`** — the substance backlog for Modules 1–5 (mostly closed
   this session; residual items listed above).
-- **Skill:** `C:\Users\simon\.claude\skills\rigorous-explainer\` — SKILL.md, `scripts/*.py`
+- **Skill:** `C:\Users\<user>\.claude\skills\rigorous-explainer\` — SKILL.md, `scripts/*.py`
   (hardening tools), `references/*.md`, `assets/template.html`.
 - **`.claude/agents/rigor-reviewer.md`** — the reviewer agent (read-only judge of rigor
   parity, prose, K-depth, self-containment). Dispatch it after hardening scripts hit 0,
