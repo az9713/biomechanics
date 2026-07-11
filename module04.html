@@ -327,6 +327,8 @@ $$\pi = R_gT\big[(c_++c_-)-2c_0\big].$$
 $$\boxed{\;\pi = R_gT\Big(\sqrt{c_F^{2}+4c_0^{2}}\;-\;2c_0\Big)\;}$$
 with $R_g=8.314\ \mathrm{J\,mol^{-1}K^{-1}}$ the universal gas constant and $T$ the absolute temperature. It exists with <em>no external load</em> — it is the tissue's resting pre-stress.</div>
 
+<div class="proof">Combine the two equilibrium conditions: substituting $c_-=c_+-c_F$ from electroneutrality&nbsp;(1) into the Donnan condition&nbsp;(2) gives the quadratic $c_+^2-c_Fc_+-c_0^2=0$, whose positive roots are&nbsp;(3), so the interior mobile-ion total is $c_++c_-=\sqrt{c_F^{2}+4c_0^{2}}$ (against $2c_0$ in the bath). Van't Hoff's law sets the swelling pressure equal to $R_gT$ times the <em>excess</em> particle concentration inside over the bath, $\pi=R_gT\big[(c_++c_-)-2c_0\big]$; inserting the total yields the boxed $\pi=R_gT\big(\sqrt{c_F^{2}+4c_0^{2}}-2c_0\big)$. <span class="qed">∎</span></div>
+
 <p><b>Put numbers in.</b> Take healthy values $c_F\approx0.2\ \mathrm{M}=200\ \mathrm{mol/m^3}$, bath $c_0\approx0.15\ \mathrm{M}=150\ \mathrm{mol/m^3}$, and body temperature $T=310\ \mathrm K$ so $R_gT=2577\ \mathrm{J/mol}$:</p>
 $$\sqrt{200^2+4(150)^2}=\sqrt{1.30\times10^5}=361\ \mathrm{mol/m^3},\qquad 361-300=61\ \mathrm{mol/m^3},$$
 $$\pi = 2577\times61 \approx 1.56\times10^5\ \mathrm{Pa} \approx 0.16\ \mathrm{MPa}.$$
@@ -497,6 +499,8 @@ $$\frac{\partial u}{\partial t}=k\,\frac{\partial p}{\partial z}=k\,\Big(H_A\,\f
 $$\boxed{\;\frac{\partial u}{\partial t}=H_A\,k\,\frac{\partial^2 u}{\partial z^2}\;}$$
 a <b>diffusion equation</b> with <b>consolidation diffusivity</b> $D=H_A k\;[\mathrm{m^2/s}]$. The pore pressure $p$ and the strain $\varepsilon=\partial u/\partial z$ satisfy the same equation. The matrix does not respond to load like a spring; it <em>diffuses</em> toward its loaded shape, at a rate set jointly by how stiff it is ($H_A$) and how freely fluid can leave ($k$).</div>
 
+<div class="proof">Continuity&nbsp;(1) and Darcy's law&nbsp;(2) combine to $\partial u/\partial t=k\,\partial p/\partial z$, eq.&nbsp;(3), tying the solid's velocity to the pore-pressure gradient. Quasi-static equilibrium of the incompressible mixture makes the total stress uniform in $z$, which with the matrix law $\sigma_E=H_A\,\partial u/\partial z$ gives $\partial p/\partial z=H_A\,\partial^2u/\partial z^2$, eq.&nbsp;(5). Eliminating the pressure gradient between&nbsp;(3) and&nbsp;(5) leaves $\partial u/\partial t=H_A\,k\,\partial^2u/\partial z^2$, the boxed consolidation equation. Because the pore pressure $p$ and the strain $\varepsilon=\partial u/\partial z$ are, under these boundary conditions, linear in $u$ and its derivatives, each satisfies the same diffusion equation. <span class="qed">∎</span></div>
+
 <p>This single boxed line is what Module&nbsp;3 deferred. A joint surface is not an elastic solid: it is a porous medium in which load, pressure, and deformation <em>spread by diffusion</em>. Everything in the rest of the module — load sharing, stress relaxation, creep, lubrication, even the failure cascade of osteoarthritis — is this diffusion equation seen from a different angle.</p>
 
 <p>"Diffusion" is meant literally: the equation is identical in form to heat conduction, with displacement playing the role of temperature and $D=H_Ak$ the role of thermal diffusivity. Everything you know about heat spreading carries over.</p>
@@ -590,7 +594,7 @@ with $\langle p\rangle$ the average pore pressure. $F=1$ means the fluid carries
 $$F(T)=\sum_{n=0}^{\infty}\frac{2}{\lambda_n^{2}}\,e^{-\lambda_n^{2}T},\qquad \lambda_n=\tfrac{(2n+1)\pi}{2}. \tag{1}$$
 <p>At the instant of loading ($T=0$) every exponential is $1$, and the coefficients sum to exactly one — $\sum_n 2/\lambda_n^2=\tfrac{8}{\pi^2}\sum_n(2n+1)^{-2}=\tfrac{8}{\pi^2}\cdot\tfrac{\pi^2}{8}=1$:</p>
 
-<div class="thm"><b>Undrained limit.</b> $\displaystyle F(0)=1.$ At the first instant the interstitial fluid carries the <em>entire</em> applied load. (The matrix cannot change volume with no fluid yet displaced, so its strain — and hence its effective stress — is still zero.)</div>
+<div class="keyresult"><b>Undrained limit.</b> $\displaystyle F(0)=1.$ At the first instant the interstitial fluid carries the <em>entire</em> applied load. (This is the direct evaluation of the series&nbsp;(1) at $T=0$, using the Basel sum above; physically, the matrix cannot change volume with no fluid yet displaced, so its strain — and hence its effective stress — is still zero.)</div>
 
 <p>Thereafter every mode decays; the slowest, $n=0$, sets the rate $e^{-(\pi^2/4)T}$, so $F$ falls to $1/e$ at $t\approx0.32\,h^2/D\approx36\ \mathrm{min}$ and to nearly nothing by $t\sim\tau$. The curve below is equation&nbsp;(1) evaluated with the <a class="secref" href="#biphasic">§3</a> parameters.</p>
 
@@ -813,6 +817,8 @@ print("gel time  tau = h^2 / D         =", h**2 / D, "s")</code></pre></div>
 </ul>
 <p>The peak, by contrast, is <em>not</em> a fixed material number: it scales as $\sigma_{\rm peak}/\sigma_\infty\sim h/\sqrt{D\,t_0}$ — ramp faster (smaller $t_0$) and the fluid is trapped harder, so the spike is taller. The equilibrium is the material; the peak is the loading rate.</p>
 
+<p><b>A caveat on the strain level.</b> The held strain is $\varepsilon_0=0.10$, a full $10\%$ compaction — chosen for a clean, well-separated relaxation signal, but it sits <em>at the upper edge of the small-strain regime the linear biphasic theory formally assumes</em>. The matrix law $\sigma_E=H_A\varepsilon$ of <a class="secref" href="#biphasic">§3</a> is an infinitesimal-strain (first-order) relation, and it treats the permeability $k$ as constant; at $10\%$ strain the pores narrow enough that $k$ measurably drops with compaction and the stress–strain law stiffens, both neglected here. The linear model still captures faithfully what this lab is built to test — the relaxation <em>timescale</em> $\tau$ and the fluid-to-solid load handoff — but the quantitative response at $10\%$ strain would need the strain-dependent permeability $k(\varepsilon)$ and finite-strain kinematics repaid in <span class="secref">Module&nbsp;16</span> (see the limitations table in <a class="secref" href="#synthesis">§9</a>). Read $\varepsilon_0=0.10$ here as a controlled illustration, not a claim that the tissue is linear that far.</p>
+
 <h3>Sensitivity: what sets the relaxation time</h3>
 
 <p><a class="secref" href="#biphasic">§3</a> claimed $\tau\propto h^2/(H_Ak)$. Test it directly: rerun for three thicknesses (scaling the ramp with each $\tau$ so the peaks coincide). The curves are the <em>same shape shifted along the log-time axis</em>, and the shift is exactly $h^2$ — double the thickness, quadruple the relaxation time.</p>
@@ -853,9 +859,18 @@ print("gel time  tau = h^2 / D         =", h**2 / D, "s")</code></pre></div>
 
 <h3>The elastic baseline: Hertz contact</h3>
 
-<p>Model the loaded joint as two elastic bodies pressed together — the classic <b>Hertz contact</b> derived in <a class="secref" href="module03.html#contact">Module&nbsp;3</a> (problem&nbsp;D7). Approximate the articulating surface as a convex body of <b>effective radius</b> $R_{\rm eff}$ (the combined curvature of the two surfaces) meeting the opposing cartilage, pressed by the load $F=R$. Under a fast load the cartilage responds with its <b>instantaneous</b> (undrained) Young's modulus $E\approx10\ \mathrm{MPa}$ and Poisson ratio $\nu\approx0.5$ — nearly incompressible, because the fluid of <a class="secref" href="#fluidload">§4</a> is trapped and stiffens it. Combine the two like surfaces into a <b>reduced modulus</b> $E^{*}$ via $1/E^{*}=2(1-\nu^{2})/E$. Hertz theory then gives a circular contact of radius $a$ carrying a hemispherical pressure cap:</p>
-$$a=\Big(\frac{3FR_{\rm eff}}{4E^{*}}\Big)^{1/3},\qquad p(r)=p_0\sqrt{1-\frac{r^{2}}{a^{2}}},\qquad p_0=\frac{3F}{2\pi a^{2}}=\tfrac32\,\bar p, \tag{1}$$
-<p>with $r$ the distance from the contact centre, $\bar p=F/(\pi a^{2})$ the mean, and $p_0$ the peak at the centre. (Note $E$ here is the tissue's isotropic Young's modulus for fast loading — distinct from the confined aggregate modulus $H_A$ of <a class="secref" href="#biphasic">§3</a>, which governs one-dimensional drainage, not contact.)</p>
+<p>Model the loaded joint as two elastic bodies pressed together — the classic <b>Hertz elastic contact</b> (introduced in <a class="secref" href="module03.html#contact">Module&nbsp;3</a>'s contact section, and derived in full below). We carry forward the joint-reaction <em>magnitude</em> $F=R\approx1715\ \mathrm N$ from Module&nbsp;3's hip as a representative lower-limb joint load, and apply it to a <b>tibiofemoral (knee) contact</b>: a rounded femoral condyle of <b>effective radius</b> $R_{\rm eff}$ (the combined curvature of the two surfaces) bearing on the cartilage of the tibial plateau. The knee is used here deliberately — it is the cleaner <em>non-conforming</em>, convex-on-flat geometry that Hertz assumes, whereas the hip of <a class="secref" href="#origin">§0</a> is a <em>conforming</em> ball-in-socket for which Hertz is only a reference (we return to this in the caveat below).</p>
+
+<p>Under a fast load the cartilage responds with its <b>instantaneous</b> (undrained) Young's modulus $E\approx10\ \mathrm{MPa}$ and Poisson ratio $\nu\approx0.5$ — nearly incompressible, because the fluid of <a class="secref" href="#fluidload">§4</a> is trapped and stiffens it. Combine the two like surfaces into a <b>reduced modulus</b> $E^{*}$ via $1/E^{*}=2(1-\nu^{2})/E$. Here $E$ is the tissue's isotropic Young's modulus for fast loading — distinct from the confined aggregate modulus $H_A$ of <a class="secref" href="#biphasic">§3</a>, which governs one-dimensional drainage, not contact.</p>
+
+<div class="prop" id="hertz"><b>Hertz contact (sphere on an elastic half-space).</b> A convex body of effective radius $R_{\rm eff}$ pressed by a normal force $F$ against an elastic half-space of reduced modulus $E^{*}$ (with $1/E^{*}=2(1-\nu^{2})/E$ for two like cartilage surfaces) makes a circular contact of radius $a$ carrying a hemispherical pressure cap:
+$$\boxed{\;a=\Big(\frac{3FR_{\rm eff}}{4E^{*}}\Big)^{1/3},\qquad p(r)=p_0\sqrt{1-\frac{r^{2}}{a^{2}}},\qquad p_0=\frac{3F}{2\pi a^{2}}=\tfrac32\,\bar p\;}\tag{1}$$
+with $r$ the distance from the contact centre, $\bar p=F/(\pi a^{2})$ the mean pressure, and $p_0$ the peak at the centre.</div>
+
+<div class="proof"><b>Peak-to-mean (exact).</b> Integrate the cap over the circular patch. With $s=r/a$,
+$$F=\int_0^a p_0\sqrt{1-\tfrac{r^{2}}{a^{2}}}\,2\pi r\,\mathrm dr=2\pi p_0 a^{2}\!\int_0^1 s\sqrt{1-s^{2}}\,\mathrm ds=2\pi p_0a^{2}\cdot\tfrac13=\tfrac23\pi a^{2}p_0,$$
+so $p_0=3F/(2\pi a^{2})$; since $\bar p=F/(\pi a^{2})$, this is $p_0=\tfrac32\bar p$ — the peak is exactly half again the mean, whatever the load or contact size.
+<br><b>Contact radius.</b> The cap is the pressure that a paraboloid presses into the half-space: Boussinesq's half-space solution gives the surface normal displacement under $p(r)$ as $u_z(r)=\dfrac{\pi p_0}{4E^{*}a}\big(2a^{2}-r^{2}\big)$ for $r\le a$. Inside the contact the two surfaces conform to the local gap, $u_z(r)=\delta-\dfrac{r^{2}}{2R_{\rm eff}}$; matching the $r^{2}$ coefficients gives $\dfrac{\pi p_0}{4E^{*}a}=\dfrac{1}{2R_{\rm eff}}$, i.e. $p_0=\dfrac{2E^{*}a}{\pi R_{\rm eff}}$. Equating this to $p_0=3F/(2\pi a^{2})$ and solving for $a$ yields $a^{3}=\dfrac{3FR_{\rm eff}}{4E^{*}}$. <span class="qed">∎</span></div>
 
 <figure><svg class="setupfig" viewBox="0 0 470 300" width="100%" role="img" aria-label="A femoral condyle pressing on the cartilage-covered tibial plateau: the joint reaction pushes the rounded bone end into a thin cartilage layer, forming a contact patch of width 2a much larger than the layer thickness h.">
 <rect x="200" y="6" width="70" height="64" rx="32" fill="url(#b_bone)" filter="url(#b_sh)"/>
@@ -889,7 +904,14 @@ $$a=\Big(\frac{3FR_{\rm eff}}{4E^{*}}\Big)^{1/3},\qquad p(r)=p_0\sqrt{1-\frac{r^
 </tbody>
 </table>
 
-<p>The model reproduces Module&nbsp;3 with <em>no tuning</em>: $a\approx18\ \mathrm{mm}$ gives $A_c\approx10\ \mathrm{cm^2}$ and $\bar p\approx1.7\ \mathrm{MPa}$, exactly its area and mean. What Hertz <em>adds</em> is the distribution — a peak $p_0\approx2.5\ \mathrm{MPa}$ at the centre, half again the mean, tailing to zero at the rim (the dark curve below).</p>
+<p>With no tuning the elastic estimate lands on the same order as Module&nbsp;3's hip: $a\approx18\ \mathrm{mm}$ gives $A_c\approx10\ \mathrm{cm^2}$ and $\bar p\approx1.7\ \mathrm{MPa}$, matching its contact area and mean pressure — reassuring, since a healthy knee and hip carry comparable loads over comparable areas. What Hertz <em>adds</em> is the distribution — a peak $p_0\approx2.5\ \mathrm{MPa}$ at the centre, half again the mean, tailing to zero at the rim (the dark curve below).</p>
+
+<p><b>Where classical Hertz is stretched.</b> Equation&nbsp;(1) rests on three assumptions, and a real joint strains all three — each in the direction that <em>lowers and broadens</em> the true peak below the Hertz cap, so the elastic estimate is a conservative (over-)estimate of the peak:</p>
+<ul>
+<li><b>Small contact</b> ($a\ll R_{\rm eff}$). The parabolic-gap and linear half-space steps of the proof drop terms of order $(a/R_{\rm eff})^{2}$. Here $a\approx18\ \mathrm{mm}$ against $R_{\rm eff}\approx30\ \mathrm{mm}$, so $a/R_{\rm eff}\approx0.6$ — <em>not</em> small; the result is a first approximation, not an exact contact solution.</li>
+<li><b>Non-conforming bodies.</b> Hertz assumes two convex surfaces meeting at a point. The knee condyle-on-plateau is a fair case; the <em>hip</em> of <a class="secref" href="#origin">§0</a> is a <em>conforming</em> ball-in-socket that wraps the load over a large congruent area, for which Hertz badly under-predicts the contact area and over-predicts the peak. That is exactly why the worked geometry here is the knee, with only the load magnitude carried over from the hip.</li>
+<li><b>Deep bodies (half-space).</b> Hertz assumes each solid is deep compared with $a$; cartilage is a $\approx2\ \mathrm{mm}$ layer bonded to rigid bone with $a/h\approx9$ — the thin-layer correction taken up next.</li>
+</ul>
 
 <h3>What the biphasic thin layer does to it</h3>
 
