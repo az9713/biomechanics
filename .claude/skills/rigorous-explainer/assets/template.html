@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TITLE — rigorous explainer</title>
+<!-- MathJax v3, SVG output. One CDN line; needs network on first open. -->
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], tags: 'ams' },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js" async></script>
+<style>
+  :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ max-width: 50rem; margin: 2.5rem auto; padding: 0 1.25rem 6rem;
+        font: 16px/1.65 Georgia, 'Times New Roman', serif; color:var(--fg); counter-reset: fig; }
+  h1{ font-size: 1.9rem; line-height:1.2; margin:.2rem 0 .2rem; }
+  h2{ font-size:1.35rem; margin:2.4rem 0 .6rem; border-bottom:2px solid var(--accent); padding-bottom:.2rem; }
+  h3{ font-size:1.1rem; margin:1.6rem 0 .4rem; color:var(--accent); }
+  .sub{ color:var(--muted); font-style:italic; margin-top:0; }
+  code{ font-family: ui-monospace,'SFMono-Regular',Consolas,monospace; font-size:.92em; background:#f3f1ec; padding:.05rem .25rem; border-radius:3px; }
+  pre{ background:#f3f1ec; padding:.8rem 1rem; border-radius:5px; overflow:auto; font-size:.84rem; line-height:1.45; }
+  pre code{ background:none; padding:0; }
+  /* Copy-to-clipboard button on code blocks (see #lab-code pattern + copyCode() script). */
+  .codewrap{ position:relative; }
+  .copybtn{ position:absolute; top:.5rem; right:.5rem; display:inline-flex; align-items:center; gap:.3rem;
+    font:600 .72rem/1 ui-monospace,Consolas,monospace; color:var(--muted);
+    background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.32rem .5rem; cursor:pointer; }
+  .copybtn:hover{ color:var(--accent); border-color:var(--accent); }
+  .copybtn.copied{ color:#2a7d2a; border-color:#2a7d2a; }
+  .copybtn svg{ width:13px; height:13px; }
+  .thm,.def,.lem,.prop{ background:var(--box); border-left:4px solid var(--accent); padding:.6rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0; }
+  .thm b,.def b,.lem b,.prop b{ color:var(--accent); }
+  .proof{ border-left:2px solid var(--rule); padding-left:.9rem; margin:.8rem 0 1.2rem; color:#222; }
+  .proof::before{ content:"Proof."; font-style:italic; font-weight:bold; margin-right:.4rem; }
+  .qed{ float:right; }
+  table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.95rem; }
+  th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; }
+  th{ background:var(--box); }
+  figure{ margin:1.5rem 0; text-align:center; counter-increment: fig; }
+  figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; }
+  /* Auto-number every figure "Fig. N." via a CSS counter — survives reordering, no manual renumbering. */
+  figcaption::before{ content:"Fig. " counter(fig) ". "; font-weight:bold; font-style:normal; color:var(--accent); }
+  .proof figure,.thm figure,.lem figure,.prop figure{ margin:.2rem auto .7rem; max-width:440px; background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.4rem; }
+  .proof figcaption,.thm figcaption,.lem figcaption,.prop figcaption{ font-size:.8rem; line-height:1.4; }
+  .setupfig{ display:block; }
+  /* white halo behind every in-plot label so curves/reference lines under text stay legible */
+  .setupfig text{ paint-order:stroke; stroke:#fff; stroke-width:2.5px; stroke-linejoin:round; }
+  /* EXCEPT white/light labels on solid fills (bar values, glyphs on shapes): no halo, else the white stroke bloats them into blobs */
+  .setupfig text[fill="#fff"], .setupfig text[fill="#ffffff"], .setupfig text[fill="white"], .setupfig text.onfill{ stroke:none; }
+  /* SVG labels match MathJax typography: serif math font; tag labels class="v" (italic variable) / class="vb" (bold \mathbf vector) */
+  figure svg text{ font-family:"STIX Two Math",STIXGeneral,"Times New Roman",Georgia,serif; }
+  figure svg text.v{ font-style:italic; }
+  figure svg text.vb{ font-weight:bold; }
+  .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; }
+  .secref:hover{ border-bottom:1px solid var(--accent); }
+  .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; }
+  .toc ul{ list-style:none; padding-left:.3rem; margin:.3rem 0; } .toc a{ color:var(--accent); text-decoration:none; }
+  .small{ font-size:.88rem; color:var(--muted); }
+  hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; }
+  .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<h1>TITLE</h1>
+<p class="sub">One-sentence statement of what is derived and for whom.</p>
+
+<div class="toc">
+<b>Contents</b>
+<ul>
+<li><b>0.</b> <a href="#origin">Motivation — the everyday hook</a></li>
+<li><b>1.</b> <a href="#setup">Setup, notation, and the governing law</a></li>
+<li><b>2.</b> <a href="#main">The main result</a></li>
+</ul>
+</div>
+
+<hr>
+
+<!-- §0 MOTIVATION FIRST: ground the abstraction in something concrete before any math. -->
+<h2 id="origin">0. Motivation — the everyday hook</h2>
+<p>Start from a phenomenon the reader already knows; state what we will derive and why each later section is needed.</p>
+
+<h2 id="setup">1. Setup, notation, and the governing law</h2>
+<p>Define every symbol AT FIRST USE, self-contained. Example: the bending stiffness $B$ (resistance to curving) and the curvature $\kappa=1/R$.</p>
+
+<!-- DEFINITION box -->
+<div class="def"><b>Definition 1 (name).</b> State the object precisely; introduce its symbol here, e.g. the excess length $\Delta = L-b$.</div>
+
+<h2 id="main">2. The main result</h2>
+<p>Each section should USE results from the previous one (cite with a link, e.g. <a class="secref" href="#setup">§1</a>).</p>
+
+<!-- THEOREM with a SETUP FIGURE inside the proof.
+     RULE: every SVG marker id must be UNIQUE across the whole document
+     (ids are global) — prefix them, e.g. t1arrow, p2arrow. -->
+<div class="thm"><b>Theorem 1 (name).</b> State it; box the key result:
+$$\boxed{\; Y \;=\; f(X) \;}\tag{2.1}$$
+</div>
+
+<div class="proof">
+<figure><svg class="setupfig" viewBox="0 0 420 180" width="100%" role="img" aria-label="setup: map each symbol to the geometry">
+  <defs>
+    <marker id="t1arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2a7d2a"/></marker>
+  </defs>
+  <line x1="20" y1="150" x2="400" y2="150" stroke="#999" stroke-width="1.4"/>
+  <path d="M40,150 C140,150 160,60 230,60 C300,60 320,150 400,150" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
+  <line x1="230" y1="64" x2="230" y2="100" stroke="#2a7d2a" stroke-width="1.4" marker-end="url(#t1arrow)"/>
+  <text x="236" y="92" font-size="11" fill="#2a7d2a" font-style="italic">label</text>
+</svg><figcaption><b>Setup.</b> One sentence mapping each symbol in (2.1) to a feature of the picture.</figcaption></figure>
+Step-by-step derivation; show EVERY step. End with <span class="qed">∎</span>
+</div>
+
+<!-- IN-DOCUMENT ANIMATION via SVG SMIL (no JS, works offline).
+     One <animateTransform>/<animate> per element; share dur + keyTimes to sync. -->
+<figure>
+<svg viewBox="0 0 420 160" width="100%" style="max-width:420px" role="img" aria-label="looping animation of the process">
+  <line x1="20" y1="120" x2="400" y2="120" stroke="#999" stroke-width="1.4"/>
+  <g>
+    <rect x="60" y="104" width="34" height="14" fill="#7a1f1f" fill-opacity="0.55"/>
+    <animateTransform attributeName="transform" type="translate"
+      values="0 0; 0 0; 120 0; 120 0; 60 0; 60 0" keyTimes="0;0.2;0.4;0.6;0.8;1"
+      dur="5s" repeatCount="indefinite"/>
+  </g>
+  <text x="20" y="148" font-size="11" fill="#555" font-style="italic">phase label (toggle opacity with &lt;animate&gt; on phase-aligned keyTimes)</text>
+</svg>
+<figcaption>Caption: explain what moves and what each phase means. SMIL loops natively; no JavaScript.</figcaption>
+</figure>
+
+<!-- CODE LISTING with a COPY button.
+     Wrap every <pre> in <div class="codewrap"> and put the .copybtn first.
+     copyCode() copies code.textContent (exact source), uses the async Clipboard
+     API on https and falls back to execCommand for local file:// viewing. -->
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+# runnable listing; the reader can copy it with the button above
+print("hello, rigorous explainer")
+</code></pre></div>
+
+<!-- PROBLEM-SET SKELETON — copy this when a document has a large problem set (10+).
+     A sub-nav + per-group "↑ contents" keep 20–30 collapsibles navigable. Use ONE
+     disclosure label throughout (here "Solution") so it stays consistent.
+<h2 id="problems">N. Problems</h2>
+<p class="small">Jump to:
+  <a href="#conceptual">Conceptual</a> ·
+  <a href="#derivational">Derivational</a> ·
+  <a href="#computational">Computational</a></p>
+
+<h3 id="conceptual">Conceptual <a class="small" href="#problems">↑ contents</a></h3>
+<div class="prob"><b>C1 — short title.</b> Statement. <span class="small"><em>Probes: what it tests, and the section it draws on.</em></span>
+  <details class="sol"><summary>Solution</summary><div>Worked solution here.</div></details>
+</div>
+
+<h3 id="derivational">Derivational <a class="small" href="#problems">↑ contents</a></h3>
+<h3 id="computational">Computational <a class="small" href="#problems">↑ contents</a></h3>
+-->
+
+<script>
+function copyCode(btn){
+  var code = btn.parentElement.querySelector('code');
+  if(!code) return;
+  var text = code.textContent;
+  var done = function(){
+    var label = btn.querySelector('span'), prev = label.textContent;
+    btn.classList.add('copied'); label.textContent = 'Copied!';
+    setTimeout(function(){ btn.classList.remove('copied'); label.textContent = prev; }, 1500);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done, function(){});
+  } else {            // fallback for non-secure contexts (file://)
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+
+// Accessibility: honor prefers-reduced-motion by freezing SMIL animations.
+// (A CSS @media query cannot pause SMIL; pauseAnimations() on each <svg> can.)
+(function(){
+  try{
+    if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('svg').forEach(function(svg){
+        if(typeof svg.pauseAnimations === 'function') svg.pauseAnimations();
+      });
+    }
+  }catch(e){}
+})();
+</script>
+
+</body>
+</html>
