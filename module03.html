@@ -276,7 +276,7 @@ $$\boxed{\,f = n - m\,}\tag{1.1}$$
 
 <p>Constraining a free particle ($n=3$) to a surface adds one equation ($m=1$), leaving $f=2$. Pinning a planar body to the ground removes its two translations, leaving $f=1$ — a hinge.</p>
 
-<p class="small"><b>Aside.</b> Constraints on <em>velocities</em> that cannot be integrated into a relation among coordinates — e.g. a wheel rolling without slipping — are <em>nonholonomic</em>; they restrict motion without reducing $f$. We meet them only in passing; joints in this module are holonomic.</p>
+<p class="small"><b>Aside.</b> Constraints on <em>velocities</em> that cannot be integrated into a relation among coordinates — e.g. a wheel that rolls without slipping while free to steer on a plane — are <em>nonholonomic</em>; they restrict motion without reducing $f$. (Rolling that stays in one plane, such as the knee's roll-and-glide of <a class="secref" href="#model">§8</a>, <em>is</em> integrable, hence holonomic.) We meet them only in passing; joints in this module are holonomic.</p>
 
 <p>This single count is the spine of the module: classify every joint by how many freedoms it keeps (<span class="secref"><a class="secref" href="#taxonomy">§2</a></span>), then compute the force each removed freedom costs (<span class="secref"><a class="secref" href="#forces">§3</a></span>).</p>
 
@@ -555,6 +555,14 @@ $$\boxed{\,f = n - m\,}\tag{1.1}$$
 $$\boxed{\,f_{\text{end}}=\sum_i f_i\,}\tag{2.1}$$
 For a mechanism with loops, use the Grübler–Kutzbach count $M=6(N-1)-\sum_i(6-f_i)$, where $N$ counts all bodies including ground.</div>
 
+<div class="proof">Count freedoms against constraints. Take $N$ rigid bodies in space, one of them fixed as ground. Before any joint is installed, each of the $N-1$ moving bodies carries the six freedoms of a free rigid body relative to ground — $6(N-1)$ freedoms in all. Now attach the joints. A joint of mobility $f_i$ between two bodies permits $f_i$ of their six relative freedoms and <em>forbids</em> the remaining $6-f_i$; each forbidden freedom is one independent holonomic constraint (<a class="secref" href="#config">Def 1.3</a>), and by (1.1) every independent constraint removes one degree of freedom. Subtracting the constraints of all the joints from the free total gives
+$$M=6(N-1)-\sum_i(6-f_i),$$
+the Grübler–Kutzbach count — valid whenever the joint constraints are independent (their Jacobians together have full rank).
+
+Specialize to an open chain: $n$ moving links joined in series to ground by $n$ joints, so $N=n+1$ bodies and no closed loop. Then
+$$M=6n-\sum_{i=1}^{n}(6-f_i)=6n-6n+\sum_i f_i=\sum_i f_i,$$
+which is precisely the mobility of the end-effector relative to ground, $f_{\text{end}}=\sum_i f_i$. The absence of loops is what keeps the joint constraints independent, so no freedom is counted twice. (A closed loop imposes its own loop-closure constraints, which is why looped mechanisms need the full $M$ count above.) <span class="qed">&#8718;</span></div>
+
 <p><b>The arm.</b> Shoulder (3) + elbow (1) + forearm pronation (1) + wrist (2) $= 7$ DOF for the hand.</p>
 
 <p>Placing the hand at a chosen position <em>and</em> orientation needs only 6. The arm has one to spare — it is <em>kinematically redundant</em>, which is why you can keep your hand flat on a table and still swing your elbow. We exploit this in <span class="secref"><a class="secref" href="#stability">§6</a></span> and Module&nbsp;11.</p>
@@ -615,6 +623,8 @@ $$M(q)\,\ddot q + c(q,\dot q) = Q,\tag{3.1}$$
 $$\boxed{\;M(q)\,\ddot q + c(q,\dot q) = Q + J_c^{\mathsf T}\lambda,\qquad g(q)=0,\;}\tag{3.2}$$
 where $J_c=\partial g/\partial q$ is the constraint Jacobian and $\lambda$ are the Lagrange multipliers. The term $J_c^{\mathsf T}\lambda$ is the generalized constraint (joint reaction) force.</div>
 
+<div class="proof">Superpose the unconstrained dynamics and the constraint force. Without constraints, the Euler–Lagrange equations of the mechanical system take the matrix form (3.1), $M(q)\ddot q+c(q,\dot q)=Q$, with $M$ symmetric positive-definite. A constraint acts by adding a generalized force $F_c$ to the right-hand side, so $M\ddot q+c=Q+F_c$. It remains to identify $F_c$. By d'Alembert's principle (<a class="secref" href="#forces">§3.1</a>) the constraint force does no virtual work on any virtual displacement $\delta q$ tangent to the constraint surface $g(q)=0$; the tangent space is $\ker J_c$, so $F_c^{\mathsf T}\delta q=0$ for all $\delta q\in\ker J_c$. Hence $F_c\perp\ker J_c$, i.e. $F_c$ lies in the row space of $J_c$ — the space spanned by the constraint gradients. Every such vector is $J_c^{\mathsf T}\lambda$ for a unique $\lambda\in\mathbb R^{m}$ (one component per constraint). Substituting $F_c=J_c^{\mathsf T}\lambda$ and adjoining the constraint itself yields (3.2). <span class="qed">&#8718;</span></div>
+
 <p>The symbols, gathered:</p>
 
 <table>
@@ -644,6 +654,14 @@ $$\begin{bmatrix} M & J_c^{\mathsf T}\\[2pt] J_c & 0\end{bmatrix}\begin{bmatrix}
 <div class="thm"><b>Proposition 3.2 (the multiplier).</b>
 $$\boxed{\;\lambda = -\bigl(J_c M^{-1} J_c^{\mathsf T}\bigr)^{-1}\bigl(J_c M^{-1}(Q-c)+\dot J_c\,\dot q\bigr).\;}\tag{3.5}$$
 The matrix $J_c M^{-1} J_c^{\mathsf T}$ is invertible whenever the constraints are independent (full-rank $J_c$). The physical constraint force is then $J_c^{\mathsf T}\lambda$.</div>
+
+<div class="proof">Solve the coupled system (3.2)–(3.3) for $\lambda$ by eliminating $\ddot q$. The equations of motion (3.2) give the acceleration explicitly,
+$$\ddot q = M^{-1}\bigl(Q-c+J_c^{\mathsf T}\lambda\bigr),$$
+using that $M$ is invertible (it is positive-definite). Substitute this into the acceleration-level constraint (3.3), $J_c\ddot q+\dot J_c\dot q=0$:
+$$J_c M^{-1}\bigl(Q-c+J_c^{\mathsf T}\lambda\bigr)+\dot J_c\dot q=0.$$
+Collect the term in $\lambda$ on one side,
+$$\bigl(J_c M^{-1} J_c^{\mathsf T}\bigr)\lambda = -\,J_c M^{-1}(Q-c)-\dot J_c\dot q,$$
+and invert the bracket to obtain (3.5). The bracket is invertible under the stated hypothesis: $M^{-1}$ is symmetric positive-definite, so $J_c M^{-1} J_c^{\mathsf T}$ is positive-definite — hence nonsingular — exactly when $J_c$ has full row rank ($J_c^{\mathsf T}x\neq0$ for every $x\neq0$), i.e. when the constraints are independent. <span class="qed">&#8718;</span></div>
 
 <p>Two readings of (3.5). The $\dot J_c\dot q$ term is the force needed to keep the body curving along the constraint — the centripetal part. The $J_c M^{-1}(Q-c)$ term is the part of the applied and inertial forces that would push the body <em>off</em> the surface, which the constraint must cancel.</p>
 
@@ -825,6 +843,16 @@ R = W_s + F_{ab}.$$
 $$\boxed{\;R = W_s\Bigl(1+\frac{b}{a}\Bigr).\;}\tag{4.1}$$
 With $W_s=\tfrac56 W$, abductor arm $a\approx5\ \mathrm{cm}$, and weight arm $b\approx10\ \mathrm{cm}$: $R = \tfrac56 W\,(1+2)=2.5\,W$ — two-and-a-half times body weight, standing on one leg.</div>
 
+<div class="proof">Take as the free body everything above the hip except the swinging leg — the mass whose weight is $W_s$. In single-leg stance it is held in equilibrium by three frontal-plane forces: its weight $W_s$, downward at the center of mass a horizontal distance $b$ <em>medial</em> to the femoral head $O$; the abductor pull $F_{ab}$ at the greater trochanter, a distance $a$ <em>lateral</em> to $O$; and the hip reaction $R$ transmitted through $O$. Treat the muscle and weight forces as vertical (the standard first-pass simplification; the inclined-line correction follows). Because $R$ passes through the pivot $O$ it exerts no moment there, so moment balance about $O$ reads
+$$\textstyle\sum M_O=0:\quad F_{ab}\,a - W_s\,b = 0 \;\Longrightarrow\; F_{ab}=W_s\frac{b}{a}.$$
+Both the weight and the muscle pull downward on this free body, so vertical force balance makes the upward reaction carry their sum:
+$$\textstyle\sum F_y=0:\quad R = W_s + F_{ab} = W_s\Bigl(1+\frac{b}{a}\Bigr),$$
+which is (4.1). <span class="qed">&#8718;</span></div>
+
+<div class="keyresult"><b>How large is the reaction, really? — $2.5\,W$ versus $\sim3\,W$.</b> Equation (4.1) treats the abductors as pulling straight up, which is exactly why it lands on a clean $2.5\,W$. They do not: gluteus medius runs from the iliac crest down to the trochanter at roughly $\alpha\approx30^\circ$ from vertical. Redo the balance with that tilt (trochanter taken level with $O$, so only the vertical muscle component has a moment arm). Moment balance now gives $F_{ab}\cos\alpha\,\cdot a = W_s b$, i.e. $F_{ab}=W_s b/(a\cos\alpha)$ — the muscle must pull <em>harder</em>. The reaction acquires a horizontal part $R_x=F_{ab}\sin\alpha=(W_s\,b/a)\tan\alpha$ while its vertical part is unchanged, $R_y=W_s+F_{ab}\cos\alpha=W_s(1+b/a)=2.5\,W$ (moment balance still fixes $F_{ab}\cos\alpha$). Its magnitude is
+$$|R|=W_s\sqrt{\Bigl(1+\tfrac{b}{a}\Bigr)^2+\Bigl(\tfrac{b}{a}\tan\alpha\Bigr)^2}\approx 2.7\,W\quad(\alpha=30^\circ),$$
+tilted $\approx21^\circ$ from vertical toward the midline. So $2.5\,W$ is precisely the <em>vertical component</em> of the hip reaction; the honest resultant magnitude is $\approx2.6$–$2.8\,W$ — the "$\sim3\,W$" figure quoted for static single-leg stance. The two numbers are the same analysis read to different fidelity, and both are dominated by muscle, not by the external weight. In-vivo telemetry during slow level walking reads $\approx2.3$–$2.9\,W$, straddling this static estimate.</div>
+
 <p>The lever ratio $b/a$ is the whole story. Because the abductors work at half the body-weight lever, they must pull at twice body weight, and the femoral head carries their pull <em>plus</em> the weight itself. Gait raises this further — the dynamic terms of <a class="secref" href="#forces">§3</a> add inertial load, pushing peak hip JRF to roughly $3$–$5\,W$ while walking and running.</p>
 
 <figure>
@@ -939,10 +967,10 @@ $$\frac{1}{R_{\text{eff}}}=\frac{1}{R_1}\pm\frac{1}{R_2},\qquad
 \frac{1}{E^*}=\frac{1-\nu_1^2}{E_1}+\frac{1-\nu_2^2}{E_2},$$
 where the sign is $-$ for a ball in a concave socket. Here $E$ is Young's modulus (<a class="secref" href="module02.html#setup">Module&nbsp;2</a>) and $\nu$ is <em>Poisson's ratio</em> — the fraction by which a material narrows sideways when stretched (near $0.5$ for nearly-incompressible cartilage). $R_{\text{eff}}$ measures how sharply curved the contact is; $E^*$ is the <em>effective modulus</em>, the combined stiffness of the pair.</div>
 
-<div class="thm"><b>Hertz contact (sphere).</b> A normal force $F$ pressed through such a contact produces a circular patch of radius $a$ carrying a dome-shaped pressure that peaks at $p_0$ in the centre:
+<div class="keyresult"><b>Hertz contact (sphere).</b> A normal force $F$ pressed through such a contact produces a circular patch of radius $a$ carrying a dome-shaped pressure that peaks at $p_0$ in the centre:
 $$\boxed{\;a=\Bigl(\tfrac{3FR_{\text{eff}}}{4E^*}\Bigr)^{1/3},\qquad
 p_0=\frac{3F}{2\pi a^2}=\Bigl(\tfrac{6F\,{E^*}^{2}}{\pi^3 R_{\text{eff}}^{2}}\Bigr)^{1/3}.\;}\tag{5.2}$$
-The pressure profile is $p(r)=p_0\sqrt{1-(r/a)^2}$, and the peak exceeds the mean by exactly $\tfrac32$.</div>
+The pressure profile is $p(r)=p_0\sqrt{1-(r/a)^2}$, and the peak exceeds the mean by exactly $\tfrac32$. This is the classical Hertz result of contact elasticity; we cite it rather than re-derive the Boussinesq half-space potential solution behind it. Its load-and-radius scaling is exercised in problem D7, and the full joint contact-pressure <em>field</em> — this dry-elastic dome refined by the biphasic, thin-layer physics of real cartilage — is developed from biphasic contact theory in <a class="secref" href="module04.html#contact">Module&nbsp;4, §6</a>.</div>
 
 <figure><svg class="setupfig" viewBox="0 0 460 200" width="100%" role="img" aria-label="Two pressure domes: a congruent joint spreads the load over a wide patch with a low peak pressure; an incongruent joint concentrates it into a narrow patch with a tall peak.">
   <defs>
@@ -1047,6 +1075,10 @@ The pressure profile is $p(r)=p_0\sqrt{1-(r/a)^2}$, and the peak exceeds the mea
 <div class="thm"><b>Stability ratio.</b> The sideways force needed to dislocate a ball-and-socket, and the dimensionless <em>stability ratio</em> $S$ (the clinically measured "glenohumeral stability ratio"), are
 $$\boxed{\;F_{\text{dislocate}} = N\tan\beta,\qquad S \equiv \frac{F_{\text{dislocate}}}{N}=\tan\beta.\;}\tag{6.1}$$
 Stability scales with the socket's compressive load $N$ and with the tangent of its coverage angle $\beta$. A deeper socket (larger $\beta$) resists a proportionally larger destabilizing force.</div>
+
+<div class="proof">Resolve the force on the head into the compressive load $N$ directed along the socket axis and the destabilizing force $F_t$ perpendicular to it. Their resultant makes an angle $\varphi$ with the axis given by $\tan\varphi=F_t/N$. The head stays seated as long as this resultant still points into the cup — geometrically, as long as it falls within the cone of half-angle $\beta$ subtended by the socket rim, i.e. $\varphi\lt\beta$. A resultant tilted beyond $\beta$ points past the rim, where there is no cup wall to react against, and the head rides over the edge. Dislocation is therefore the threshold $\varphi=\beta$:
+$$\tan\beta=\frac{F_{\text{dislocate}}}{N}\;\Longrightarrow\; F_{\text{dislocate}}=N\tan\beta,$$
+and the stability ratio $S\equiv F_{\text{dislocate}}/N=\tan\beta$ follows by its definition. Note $S$ is dimensionless and independent of $N$: the socket resists a fixed <em>fraction</em> $\tan\beta$ of whatever compressive load presses the head in, so loading the joint harder raises the dislocating force in exact proportion. <span class="qed">&#8718;</span></div>
 
 <figure><svg class="setupfig" viewBox="0 0 460 200" width="100%" role="img" aria-label="Left: the hip, a deep socket wrapping more than half the femoral head, with a wide stability cone. Right: the shoulder, a shallow socket cradling only the bottom of the humeral head, with a narrow stability cone.">
   <defs>
@@ -1506,7 +1538,7 @@ for step in range(40000):
 <ul>
 <li><b>Bilateral &rarr; unilateral.</b> A distance constraint resists motion in <em>both</em> directions; a real joint surface can only <em>push</em>, never pull (cartilage carries compression, not tension), and a foot can leave the floor. This is the $\lambda_3\ge0$ condition flagged in the <a class="secref" href="#lab-extend">§7.7</a> challenge — a one-sided constraint, the language of contact mechanics (Module&nbsp;4) and of stance-vs-swing in gait (Module&nbsp;8).</li>
 <li><b>Frictionless &rarr; lubricated.</b> We assumed no tangential force at the constraint. Synovial joints have a remarkably low but nonzero friction coefficient ($\mu\approx0.005$), the product of a rich fluid-film and biphasic lubrication mechanism — the subject of Module&nbsp;4.</li>
-<li><b>Fixed axis &rarr; migrating, compliant axis.</b> The ideal "hinge" of <a class="secref" href="#taxonomy">§2</a> has a single fixed rotation axis; the knee's axis moves as it rolls and glides (a <em>non-holonomic</em>, rolling character — a constraint on velocities, not just positions), and ligament laxity lets the bones shift slightly off the nominal path.</li>
+<li><b>Fixed axis &rarr; migrating, compliant axis.</b> The ideal "hinge" of <a class="secref" href="#taxonomy">§2</a> has a single fixed rotation axis; the knee's axis moves as it rolls and glides, coupling rotation to a small translation so the <em>instantaneous</em> axis migrates with the flexion angle — a <em>configuration-dependent axis</em>, but still a holonomic constraint (planar rolling of one profile on another integrates to an arc-length relation among the coordinates, unlike a genuinely non-holonomic steered wheel). Ligament laxity additionally lets the bones shift slightly off the nominal path.</li>
 </ul>
 
 <p><b>(c) The interface is not a point, and the inertia is not lumped.</b> Two final simplifications:</p>
