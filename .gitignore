@@ -1,5 +1,7 @@
 # Claude Code — personal, per-project local settings (never commit)
 .claude/settings.local.json
+# Subagent worktrees (isolated repo copies — never commit)
+.claude/worktrees/
 
 # Scratch / temp — not for the repo (previews stay in scratchpad per CLAUDE.md)
 .ignore/
