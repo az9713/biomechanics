@@ -35,6 +35,7 @@ window.MathJax = {
   figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; }
   .proof figure,.thm figure{ margin:.2rem auto .7rem; max-width:460px; background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.4rem; }
   .setupfig{ display:block; }
+  @media (prefers-reduced-motion: reduce){ .setupfig animate, .setupfig animateTransform, .setupfig animateMotion{ display:none; } }
   .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; }
   .secref:hover{ border-bottom:1px solid var(--accent); }
   .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; }
