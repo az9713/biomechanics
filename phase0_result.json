@@ -1,0 +1,784 @@
+{
+ "module01.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module01.html: 216 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module01.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module01.html: 34 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "  adv : 5 figures but no \"Fig. N\" reference in prose (cite them by number)"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 1,
+   "tail": "      suggest viewBox=\"39 33 289 159\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  - line 268: \"Proposition 5.1 (muscle force)\" has no .proof \u2014 prove it, or demote to .def/.keyresult"
+  },
+  "check_code": {
+   "code": 1,
+   "tail": "[check_code] module01.html: 1 Python code block(s) checked (pycodestyle); 7 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module01.html: 0 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module02.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module02.html: 192 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module02.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module02.html: 34 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "  adv : 6 figures but no \"Fig. N\" reference in prose (cite them by number)"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 0,
+   "tail": "[check_frame] 0 figures clipped or with wasted margin (>20%)"
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  - line 280: \"thm block\" has no .proof \u2014 prove it, or demote to .def/.keyresult"
+  },
+  "check_code": {
+   "code": 1,
+   "tail": "[check_code] module02.html: 1 Python code block(s) checked (pycodestyle); 19 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module02.html: 0 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module03.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module03.html: 746 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module03.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module03.html: 226 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "  adv : 4 polyline(s) with >120 points (consider decimating to ~40-60)"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 1,
+   "tail": "      suggest viewBox=\"101 13 334 190\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  - line 1047: \"thm block\" has no .proof \u2014 prove it, or demote to .def/.keyresult"
+  },
+  "check_code": {
+   "code": 1,
+   "tail": "[check_code] module03.html: 6 Python code block(s) checked (pycodestyle); 27 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module03.html: 0 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module04.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module04.html: 1167 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module04.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module04.html: 275 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "  adv : 19 polyline(s) with >120 points (consider decimating to ~40-60)"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 0,
+   "tail": "      suggest viewBox=\"115 15 328 183\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  - line 593: \"thm block\" has no .proof \u2014 prove it, or demote to .def/.keyresult"
+  },
+  "check_code": {
+   "code": 1,
+   "tail": "[check_code] module04.html: 12 Python code block(s) checked (pycodestyle); 39 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module04.html: 0 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module05.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module05.html: 726 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module05.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module05.html: 233 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "  adv : 4 polyline(s) with >120 points (consider decimating to ~40-60)"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 1,
+   "tail": "      fix: enlarge to viewBox=\"-12 10 352 130\" (or move the element inward)"
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  - line 1001: \"Proposition 6.1 (Hill&#8217;s force&#8211;velocity equation, 1938)\" has no .proof \u2014 prove it, or demote to .def/.keyresult"
+  },
+  "check_code": {
+   "code": 1,
+   "tail": "[check_code] module05.html: 2 Python code block(s) checked (pycodestyle); 21 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module05.html: 0 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module06.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module06.html: 842 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module06.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module06.html: 217 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "[check_svg] module06.html: 0 hard issue(s), 0 advisory"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 1,
+   "tail": "      fix: enlarge to viewBox=\"-12 -64 365 223\" (or move the element inward)"
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 1,
+   "tail": "[check_code] module06.html: 3 Python code block(s) checked (pycodestyle); 48 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module06.html: 0 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module07.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module07.html: 673 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module07.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module07.html: 187 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "  adv : 4 polyline(s) with >120 points (consider decimating to ~40-60)"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 1,
+   "tail": "      suggest viewBox=\"0 28 498 167\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 1,
+   "tail": "[check_code] module07.html: 2 Python code block(s) checked (pycodestyle); 26 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "   C10, D4"
+  }
+ },
+ "module08.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module08.html: 253 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module08.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module08.html: 46 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "  adv : 4 polyline(s) with >120 points (consider decimating to ~40-60)"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 1,
+   "tail": "      suggest viewBox=\"30 16 289 135\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 0,
+   "tail": "[check_code] module08.html: 4 Python code block(s) checked (pycodestyle); 0 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module08.html: 30 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module09.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module09.html: 573 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module09.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module09.html: 170 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "[check_svg] module09.html: 0 hard issue(s), 0 advisory"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "      5 bare words :: 'F_{\\\\rm peak}/\\\\Delta t=v_{\\\\rm imp}\\\\sqrt{k_{\\\\rm c}m_{\\\\rm imp}}\\\\big/\\\\big('"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 0,
+   "tail": "      suggest viewBox=\"13 39 248 116\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 0,
+   "tail": "[check_code] module09.html: 4 Python code block(s) checked (pycodestyle); 0 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module09.html: 30 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module10.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module10.html: 717 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module10.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module10.html: 177 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "  adv : large file: 538 KB"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "      4 bare words :: 'b=x_{\\\\rm edge}-\\\\xi=x_{\\\\rm edge}-x_{\\\\rm com}-\\\\dot x_{\\\\rm com}/\\\\omega_0'"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 0,
+   "tail": "      suggest viewBox=\"18 46 264 96\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 0,
+   "tail": "[check_code] module10.html: 4 Python code block(s) checked (pycodestyle); 0 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module10.html: 30 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module11.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module11.html: 794 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module11.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module11.html: 130 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "  adv : 14 polyline(s) with >120 points (consider decimating to ~40-60)"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 0,
+   "tail": "      suggest viewBox=\"40 78 244 112\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 0,
+   "tail": "[check_code] module11.html: 4 Python code block(s) checked (pycodestyle); 0 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module11.html: 30 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module12.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module12.html: 597 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module12.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module12.html: 118 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "  adv : 12 polyline(s) with >120 points (consider decimating to ~40-60)"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "      5 bare words :: '\\\\mathbf r=\\\\mathbf s-\\\\hat{\\\\mathbf s}_{\\\\rm self}=\\\\big(\\\\mathbf s_{\\\\rm sel'"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 0,
+   "tail": "      suggest viewBox=\"57 7 156 158\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 0,
+   "tail": "[check_code] module12.html: 4 Python code block(s) checked (pycodestyle); 0 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "   ?"
+  }
+ },
+ "module13.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module13.html: 509 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module13.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module13.html: 84 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "[check_svg] module13.html: 0 hard issue(s), 0 advisory"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 0,
+   "tail": "      suggest viewBox=\"104 5 102 190\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 0,
+   "tail": "[check_code] module13.html: 4 Python code block(s) checked (pycodestyle); 0 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module13.html: 30 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module14.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module14.html: 536 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module14.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module14.html: 85 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "[check_svg] module14.html: 0 hard issue(s), 0 advisory"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 0,
+   "tail": "      suggest viewBox=\"6 9 298 132\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 0,
+   "tail": "[check_code] module14.html: 4 Python code block(s) checked (pycodestyle); 0 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module14.html: 30 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module15.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module15.html: 441 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module15.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module15.html: 140 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "[check_svg] module15.html: 0 hard issue(s), 0 advisory"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 0,
+   "tail": "      suggest viewBox=\"84 4 112 184\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 0,
+   "tail": "[check_code] module15.html: 5 Python code block(s) checked (pycodestyle); 0 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module15.html: 30 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module16.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module16.html: 488 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module16.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module16.html: 111 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "[check_svg] module16.html: 0 hard issue(s), 0 advisory"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "      4 bare words :: '(\\\\boldsymbol\\\\sigma_{\\\\rm fib})_{ij}=\\\\partial W_{\\\\rm fib}/\\\\partial\\\\varep'"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 0,
+   "tail": "      suggest viewBox=\"56 4 195 171\""
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 0,
+   "tail": "[check_code] module16.html: 4 Python code block(s) checked (pycodestyle); 0 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module16.html: 30 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ },
+ "module17.html": {
+  "checktex": {
+   "code": 0,
+   "tail": "[checktex] module17.html: 171 math segment(s), 0 issue(s)"
+  },
+  "checklt": {
+   "code": 0,
+   "tail": "[checklt] module17.html: 0 math segment(s) with raw < or >"
+  },
+  "check_links": {
+   "code": 0,
+   "tail": "[check_links] module17.html: 41 internal link(s), 0 broken; 0 unlinked section ref(s)"
+  },
+  "check_svg": {
+   "code": 0,
+   "tail": "[check_svg] module17.html: 0 hard issue(s), 0 advisory"
+  },
+  "verify_dom": {
+   "code": 0,
+   "tail": "  swallowed-prose  : 0  (advisory; inline $...$ that ate a sentence)"
+  },
+  "check_overlap": {
+   "code": 0,
+   "tail": "[check_overlap] 0 label/curve overlaps"
+  },
+  "check_frame": {
+   "code": 0,
+   "tail": "[check_frame] 0 figures clipped or with wasted margin (>20%)"
+  },
+  "check_prose": {
+   "code": 0,
+   "tail": "  (advisory \u2014 verify each; then read every paragraph aloud, generator-script prose included)"
+  },
+  "check_proofs": {
+   "code": 0,
+   "tail": "  every proposition/theorem/lemma is proved. (Still eyeball boxed .keyresult siblings \u2014 an unproved sibling law is a judgement call this can't see.)"
+  },
+  "check_code": {
+   "code": 0,
+   "tail": "[check_code] module17.html: 3 Python code block(s) checked (pycodestyle); 0 issue(s)."
+  },
+  "check_probfig": {
+   "code": 0,
+   "tail": "[check_probfig] module17.html: 0 problem figure(s); each is a recognizable entity or a real plot."
+  }
+ }
+}
