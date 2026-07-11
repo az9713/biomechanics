@@ -269,7 +269,7 @@ Factor out $g\cos\theta$ to obtain (4.1). At $\theta=0$, $\cos\theta=1$ (maximum
 $$F_m=\frac{\tau}{d_m}.\tag{5.1}$$
 Because $d_m\ (\sim 0.03\ \mathrm m)$ is far smaller than the load's moment arm $r_L\ (\sim 0.35\ \mathrm m)$, $F_m$ is many times the load weight: the body trades force for range of motion and speed.</div>
 
-<figure><svg class="setupfig" viewBox="0 0 440 160" width="100%" role="img" aria-label="Lever view: muscle inserts a short distance d_m from the joint, the load hangs at a long distance r_L; the muscle force is much larger than the load.">
+<figure><svg class="setupfig" viewBox="0 0 440 168" width="100%" role="img" aria-label="Lever view: muscle inserts a short distance d_m from the joint, the load hangs at a long distance r_L; the muscle force is much larger than the load.">
   <defs>
     <marker id="m5up" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#7a1f1f"/></marker>
     <marker id="m5dn" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#2a7d2a"/></marker>
@@ -319,21 +319,26 @@ $$F_m=\frac{\tau}{d_m}=\frac{18.9}{0.03}\approx 631\ \mathrm N \approx 64\ \math
 <pre><code>import numpy as np
 import matplotlib.pyplot as plt
 
-g, m_s, r_s, r_L, d_m = 9.81, 0.022*70.0, 0.116, 0.35, 0.03   # SI units
+g, m_s, r_s, r_L, d_m = 9.81, 0.022*70.0, 0.116, 0.35, 0.03   # SI
+
 
 def tau(theta, m_L):          # Eq. (4.1): required joint torque
     return g*np.cos(theta)*(m_s*r_s + m_L*r_L)
+
 
 theta = np.linspace(0, np.pi/2, 200)
 for m_L in [0, 2, 5, 10]:
     plt.plot(np.degrees(theta), tau(theta, m_L), label=f"{m_L} kg")
 plt.xlabel("forearm angle below horizontal  theta  (deg)")
 plt.ylabel("required elbow torque  tau  (N*m)")
-plt.legend(); plt.grid(alpha=0.3); plt.tight_layout(); plt.savefig("m1_torque.png")
+plt.legend()
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig("m1_torque.png")
 
 for m_L in [0, 2, 5, 10]:                      # worst case (horizontal)
     t0 = tau(0.0, m_L)
-    print(f"load {m_L:>2} kg -> tau = {t0:5.2f} N*m,  F_muscle = {t0/d_m:6.0f} N")</code></pre>
+    print(f"load {m_L:>2} kg -> tau={t0:5.2f} N*m, F_m={t0/d_m:6.0f} N")</code></pre>
 <p>Output (computed):</p>
 <table>
 <tr><th>Load $m_L$ (kg)</th><th>$\tau$ at $\theta=0$ (N·m)</th><th>Muscle force $F_m=\tau/d_m$ (N)</th><th>as multiple of load weight</th></tr>

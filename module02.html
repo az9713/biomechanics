@@ -293,28 +293,42 @@ At equilibrium the bone grows or shrinks until strain re-enters the band: $Z_\te
 import matplotlib.pyplot as plt
 
 R, r = 0.014, 0.007
-I_h = np.pi*(R**4 - r**4)/4;  Z0 = I_h/R          # initial section modulus
-E = 17e9;  eps_lo, eps_hi = 1000e-6, 1500e-6      # lazy-zone strain band
-k = 80.0                                          # remodeling gain (1/strain/day)
-M_ref = 1250e-6 * Z0 * E                          # habitual moment -> mid-band strain
+I_h = np.pi*(R**4 - r**4)/4
+Z0 = I_h/R                          # initial section modulus
+E = 17e9
+eps_lo, eps_hi = 1000e-6, 1500e-6   # lazy-zone strain band
+k = 80.0                            # remodeling gain (1/strain/day)
+M_ref = 1250e-6 * Z0 * E            # habitual moment -> mid-band strain
+
 
 def rate(Z, M):
     e = M/(Z*E)
-    if e > eps_hi: return k*Z*(e - eps_hi)        # formation
-    if e < eps_lo: return k*Z*(e - eps_lo)        # resorption (negative)
+    if e > eps_hi:
+        return k*Z*(e - eps_hi)     # formation
+    if e < eps_lo:
+        return k*Z*(e - eps_lo)     # resorption (negative)
     return 0.0
 
+
 def simulate(scale, days=400, dt=1.0):
-    Z = Z0; out = []
+    Z = Z0
+    out = []
     for _ in range(days+1):
-        out.append(Z); Z = max(Z + rate(Z, scale*M_ref)*dt, 1e-8)
+        out.append(Z)
+        Z = max(Z + rate(Z, scale*M_ref)*dt, 1e-8)
     return np.array(out)
 
+
 t = np.arange(401)
-for scale, lab in [(1.6,"+60% load"), (1.0,"habitual"), (0.4,"disuse -60%")]:
+cases = [(1.6, "+60% load"), (1.0, "habitual"), (0.4, "disuse -60%")]
+for scale, lab in cases:
     plt.plot(t, 100*simulate(scale)/Z0, label=lab)
-plt.xlabel("time (days)"); plt.ylabel("section modulus (% of initial)")
-plt.legend(); plt.grid(alpha=0.3); plt.tight_layout(); plt.savefig("m2_remodel.png")</code></pre>
+plt.xlabel("time (days)")
+plt.ylabel("section modulus (% of initial)")
+plt.legend()
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig("m2_remodel.png")</code></pre>
 <p>Output (computed): increased load drives a $+33\%$ gain, disuse a $-50\%$ loss, habitual load is a stable equilibrium — all from the single law (7.1).</p>
 
 <figure>
