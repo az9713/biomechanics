@@ -153,11 +153,14 @@ S=C:/Users/simon/.claude/skills/rigorous-explainer/scripts
 python $S/checktex.py    moduleNN.html   # delimiter/brace balance + stray control chars (shell-mangled math) — 0 issues
 python $S/checklt.py     moduleNN.html   # raw <,> in math — 0
 python $S/check_links.py moduleNN.html   # 0 broken (unlinked §refs OK until autolink)
+python $S/check_svg.py   moduleNN.html   # viewBox arity + literal _/^ in <text> — 0 hard; advisories (ASCII-Greek, uncited figs, heavy polylines)
 python $S/verify_dom.py  moduleNN.html   # 0 mjx-merror, 0 broken (stray-$ ~6 advisory); + swallowed-prose advisory (inline $…$ that ate a sentence — the residual shell-mangle case checktex can't see)
 python $S/check_overlap.py moduleNN.html  # 0 labels over a curve/dashed line (ENFORCED, not by eye)
 python $S/check_frame.py moduleNN.html    # HARD-fails on content CLIPPED past the viewBox edge (cut off); advisory on >20% wasted margin
 python $S/check_prose.py moduleNN.html    # awkward/non-native constructions: X-is-X, "worth VERBing happen", … (advisory; then read aloud, incl. build_secN.py raw-string prose)
 python $S/check_proofs.py moduleNN.html   # a .prop/.thm/.lem with no adjacent .proof = asserted proposition (advisory)
+python $S/check_code.py  moduleNN.html    # every Python <pre><code> block is PEP8 (pycodestyle) — 0 issues (HARD)
+python $S/check_probfig.py moduleNN.html  # problem (C/D/K) figures that are neither a drawn entity nor a labelled plot (advisory; then eyeball ALL problem figures for the 3-layer semantic audit)
 python $S/shoot.py FILE out.png --size WxH   # preview render
 ```
 **Rigor rule (`check_proofs.py` + eyeball): every boxed result earns its box.** If one

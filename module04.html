@@ -39,6 +39,7 @@ window.MathJax = {
   .setupfig text{ paint-order:stroke; stroke:#fff; stroke-width:2.5px; stroke-linejoin:round; }
   /* white/light labels sit on solid fills (bars, glyphs) and already contrast — no halo, else the white stroke bloats them */
   .setupfig text[fill="#fff"], .setupfig text[fill="#ffffff"], .setupfig text[fill="white"], .setupfig text.onfill{ stroke:none; }
+  @media (prefers-reduced-motion: reduce){ .setupfig animate, .setupfig animateTransform, .setupfig animateMotion{ display:none; } }
   .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; }
   .secref:hover{ border-bottom:1px solid var(--accent); }
   .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; }
