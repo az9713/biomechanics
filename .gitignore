@@ -13,3 +13,7 @@ module08-preview.png
 
 # Local transcript backups (sync-transcripts skill)
 claude-transcripts/
+
+# Personal reference images dropped in the repo (not part of the course)
+human_template.JPEG
+elbow.jpg
