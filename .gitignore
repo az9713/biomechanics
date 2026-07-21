@@ -17,3 +17,8 @@ claude-transcripts/
 # Personal reference images dropped in the repo (not part of the course)
 human_template.JPEG
 elbow.jpg
+
+# Personal reference image (copyright — not part of the course)
+body_template.JPEG
+# Unrelated local MCP server folders
+mcps/

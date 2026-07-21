@@ -1,0 +1,38 @@
+{
+  "convention": "Sagittal angles in degrees. Hip: +flexion (thigh forward of vertical). Knee: +flexion. Ankle: +dorsiflexion (0 = neutral plantigrade).",
+  "reference": "Teaching-grade rounded means after Winter gait tables; event names after Perry.",
+  "events": {
+    "ic": {
+      "name": "initial contact / heel strike",
+      "hip": 25,
+      "knee": 5,
+      "ankle": 0,
+      "pct_stride": 0
+    },
+    "midstance": {
+      "name": "midstance",
+      "hip": 0,
+      "knee": 8,
+      "ankle": 5,
+      "pct_stride": 30
+    },
+    "toe_off": {
+      "name": "toe-off",
+      "hip": -10,
+      "knee": 40,
+      "ankle": -20,
+      "pct_stride": 60
+    },
+    "midswing": {
+      "name": "mid-swing",
+      "hip": 30,
+      "knee": 60,
+      "ankle": 0,
+      "pct_stride": 80
+    }
+  },
+  "contralateral_arm": {
+    "note": "When right leg is forward, left arm is forward (reciprocal).",
+    "shoulder_flex_with_contralateral_leg_flex_deg": 25
+  }
+}

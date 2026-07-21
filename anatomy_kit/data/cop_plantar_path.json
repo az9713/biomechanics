@@ -1,0 +1,16 @@
+{
+  "note": "Normalized plantar coordinates: x from heel(0) to toe(1), y from medial(0) to lateral(1). Origin at heel centerline. Teaching schematic of typical A-P progression with early lateral then medial (hallux) drift.",
+  "outline_control": {
+    "heel_width": 0.28,
+    "mid_width": 0.32,
+    "fore_width": 0.38,
+    "length": 1.0
+  },
+  "cop_path": [
+    {"s": 0.00, "x": 0.12, "y": 0.48, "label": "heel COP"},
+    {"s": 0.25, "x": 0.32, "y": 0.58, "label": null},
+    {"s": 0.50, "x": 0.52, "y": 0.55, "label": "midfoot COP"},
+    {"s": 0.75, "x": 0.72, "y": 0.42, "label": null},
+    {"s": 1.00, "x": 0.88, "y": 0.32, "label": "toe COP"}
+  ]
+}

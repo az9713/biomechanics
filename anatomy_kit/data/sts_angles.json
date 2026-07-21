@@ -1,0 +1,9 @@
+{
+  "note": "Sit-to-stand teaching keyframes (sagittal). Hip/knee +flexion; trunk lean from vertical +forward.",
+  "events": {
+    "sit": {"hip": 90, "knee": 90, "ankle": 0, "trunk": 5},
+    "lift_off": {"hip": 70, "knee": 75, "ankle": 10, "trunk": 30},
+    "extension": {"hip": 35, "knee": 40, "ankle": 5, "trunk": 15},
+    "stand": {"hip": 0, "knee": 0, "ankle": 0, "trunk": 0}
+  }
+}
