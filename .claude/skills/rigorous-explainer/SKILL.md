@@ -173,6 +173,29 @@ length/angle so the gradient aligns) rather than placing them by hand.
 
 **Layer 3 -- domain patterns and examples.** Treat these as examples, not universal mandates. For biomechanics/anatomy, draw the recognizable entity before the variables: body, foot, knee, spine, trunk, load, support base, or joint. Label quantities where they live: COM, COP, XcoM, base of support, foot edge, L5/S1, trunk COM, load, phi, r_t, r_L, muscle arm d, muscle force, ground reaction, and spinal compression. For computational biomechanics problems, a strong pattern is a small anatomy inset establishing the model plus a larger plot/bar/sweep/ranking panel showing the actual calculation. For force and load figures, arrows must be anchored to the structure they act on, and moment arms should be drawn from the pivot to the line of action or projection used in the equation.
 
+**Full-body default (biomechanics posture / gait / balance / load).** When the teaching context is a *person* — standing, leaning, walking, running, jumping, lifting, swaying, single-leg stance, compass gait, COP/GRF/COM on a human — the figure must show a **recognizable whole body** in Module&nbsp;1 style, not an isolated head (circle), lone limb (capsule), or V-shaped compass-stick legs. Minimum Tier-2 chain: **shaded head** (`sphH` / `b_head`) + **multi-segment trunk** (≥2 torso capsules or a flexed spine chain) + **both legs** with **foot polygons** on the ground line + **arms** when reach/load/balance matters. Generate poses programmatically from joint pixel-coordinates (`figlib` / `fig9lib` pattern); never place one capsule and call it a person. **Exempt** (regional close-ups are fine): elbow/forearm FBD, pelvis-on-one-leg frontal FBD, knee/socket contact, foot-arch truss, cartilage/tendon/bone tissue, pure plots/phase portraits, SLIP point-mass schematics *when explicitly labeled as the lumped model*. A problem-set figure in a gait/balance module that is only arrows on a bare line or a single pill-box fails Layer&nbsp;1 even if `check_probfig` passes.
+
+**A body must be proportionally consistent with its OWN limbs — derive the scale from
+the drawing, not from a constant.** When adding a body onto a figure that already draws
+part of it (compass-gait legs, an inverted-pendulum link, a shank FBD), do **not** pick
+the body unit `U` independently: derive it from the existing limb — a full hip→foot leg
+of length `L` implies `U = L/2.35` (thigh 1.20U + shank 1.15U) — then size head
+(r = 0.55U), torso (0.95U wide), and limb **thickness** (thigh 0.52U, shank 0.44U, upper
+arm 0.40U, forearm 0.34U) from that same `U`, and thicken the pre-existing limb to match.
+The defect this prevents shipped across ~20 Module-8 figures: a chunky template body
+(head r=27, torso 49 wide) was bolted onto the module's existing 15px hairline compass
+legs — because the instruction was *"the model legs are physics, leave them thin"*. The
+result matched neither the template nor the old style, and the body's own `U=62` was
+inconsistent with its legs' implied `U=75`. **"It's the physics model, not anatomy" is
+not a licence to leave a limb hairline** — the reader sees one figure, and a chunky bust
+on sticks is a proportion clash, not a modelling choice. `check_bodyprop.py` now
+HARD-fails it (thickness/length < 0.18). **And note how it escaped:** every other gate
+passed (`check_probfig` only asks whether *some* entity is drawn), and the human review
+sampled 3 figures out of ~30 — none of them the C/D/K set that carried the defect. When
+a change touches a whole class of figures, **render every figure in that class, not a
+sample**, and check them against the *user's* standard rather than your own rationale for
+deviating from it.
+
 **Semantic audit beyond scripts.** `check_overlap.py` can prove that labels do not sit on curves, but it cannot prove that a figure is interpretable. After the mechanical checks pass, inspect each problem figure for semantic clarity: What is the object? What are the forces or variables? Where are the pivots, angles, and moment arms? What task does this figure serve? If the reader must decode the drawing before starting the math, redraw it.
 
 **Number and reference every figure.** The template auto-numbers each `<figure>`
@@ -201,6 +224,8 @@ python scripts/check_prose.py FILE.html    # awkward/non-native constructions: X
 python scripts/check_proofs.py FILE.html   # a .prop/.thm/.lem with no adjacent .proof = asserted proposition (advisory; sibling-keyresult rigor is a judgement call — eyeball it)
 python scripts/check_code.py FILE.html     # every Python <pre><code> block is PEP8 (pycodestyle): fails on E303 blank-line spacing bug, E501 long lines, etc.
 python scripts/check_probfig.py FILE.html  # problem (C/D/K) figures that are neither a drawn entity nor a labelled plot — floating arrows/bare glyph/text (advisory; then eyeball ALL problem figures for the 3-layer semantic audit)
+python scripts/check_bodyprop.py FILE.html # headless Chrome: HARD-fails a body figure with a HAIRLINE limb (thickness/length < 0.18; template limbs run 0.23-0.43) — the "chunky head+torso on thin stick legs" defect
+
 ```
 **The `check_probfig` advisory does NOT replace the semantic audit — it only narrows
 the candidates.** A green `check_probfig` means no figure is a *bare* abstraction; it
@@ -267,6 +292,7 @@ commit only deliverables. Full recipe (gh commands, .gitignore, screenshot via
 | `check_proofs.py` | a `.prop`/`.thm`/`.lem` with no adjacent `.proof` (asserted proposition); sibling-keyresult rigor is a judgement call it can't see | — (advisory) |
 | `check_code.py` | every Python `<pre><code>` block via `pycodestyle` (PEP8): E303 blank-line spacing bug (`<pre>` preserves whitespace), E501 long lines, spacing | any PEP8 issue |
 | `check_probfig.py` | problem (C/D/K) figures that are neither a drawn Tier-2 entity nor a labelled plot (floating arrows/bare glyph/text); narrows candidates for the manual 3-layer semantic audit | — (advisory) |
+| `check_bodyprop.py` | body-figure PROPORTION: per limb, thickness/length (scale-free) + thickness vs head radius. Catches a chunky head/torso bolted onto hairline stick limbs | a limb's thickness/length < 0.18 (template limbs are 0.23–0.43) |
 | `autolink_sections.py` | wrap §refs in links, map from headings (.bak) | — |
 | `verify_dom.py` | rendered-DOM checks via headless Chrome + swallowed-prose advisory (inline `$…$` that ate a sentence; source re-read) | mjx-merror or broken link |
 | `shoot.py` | reliable headless screenshot → PNG | load failed |

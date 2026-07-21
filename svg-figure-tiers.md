@@ -77,3 +77,17 @@ load-bearing scientific anatomy.
 - Use **Tier 3** only for a deliberate "hero" figure, and prefer tracing a
   reference (i.e. lean toward "Real") to avoid freehand-outline errors.
 - **Never** AI-generate anatomy.
+
+### Geometry from data (course rule, 2026-07)
+
+Tier-2 is allowed for anatomy only when **geometry is driven by biological data**,
+not freehand placement:
+
+- Whole-body and limb poses → `anatomy_kit/` (Winter segment ratios + joint-angle tables).
+- Plantar feet / COP → `anatomy_kit` foot template (never `url(#b_head)` for feet).
+- Load-bearing bone/joint **outlines** → Real open-license paths when the outline
+  is the lesson; see `anatomy_kit/ATTRIBUTIONS.md` and `BIOLOGICAL_FIGURE_REALISM_PLAN.md`.
+- Pure models (compass gait, SLIP, FBDs) and computed plots stay schematic;
+  do not add decorative mini-bodies to plots unless the body carries teaching labels.
+
+**Plan document:** `BIOLOGICAL_FIGURE_REALISM_PLAN.md` (Grok Build powered by Grok 4.5 high).

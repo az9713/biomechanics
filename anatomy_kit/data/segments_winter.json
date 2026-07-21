@@ -1,0 +1,71 @@
+{
+  "reference": "Winter Biomechanics and Motor Control of Human Movement (4th ed.); Module 1 Appendix for forearm+hand example",
+  "body_mass_kg_default": 70.0,
+  "stature_m_default": 1.75,
+  "segments": {
+    "foot": {
+      "mass_frac": 0.0145,
+      "com_frac_from_proximal": 0.50,
+      "length_frac_stature": 0.152,
+      "thickness_frac_length": 0.28
+    },
+    "shank": {
+      "mass_frac": 0.0465,
+      "com_frac_from_proximal": 0.433,
+      "length_frac_stature": 0.246,
+      "thickness_frac_length": 0.22
+    },
+    "thigh": {
+      "mass_frac": 0.1000,
+      "com_frac_from_proximal": 0.433,
+      "length_frac_stature": 0.245,
+      "thickness_frac_length": 0.26
+    },
+    "pelvis_trunk": {
+      "mass_frac": 0.4970,
+      "com_frac_from_proximal": 0.50,
+      "length_frac_stature": 0.288,
+      "thickness_frac_length": 0.42,
+      "note": "HAT trunk portion hip-to-shoulder; mass lumps trunk+pelvis approx"
+    },
+    "upper_arm": {
+      "mass_frac": 0.0280,
+      "com_frac_from_proximal": 0.436,
+      "length_frac_stature": 0.186,
+      "thickness_frac_length": 0.22
+    },
+    "forearm": {
+      "mass_frac": 0.0160,
+      "com_frac_from_proximal": 0.430,
+      "length_frac_stature": 0.146,
+      "thickness_frac_length": 0.18
+    },
+    "hand": {
+      "mass_frac": 0.0060,
+      "com_frac_from_proximal": 0.506,
+      "length_frac_stature": 0.108,
+      "thickness_frac_length": 0.20
+    },
+    "head_neck": {
+      "mass_frac": 0.0810,
+      "com_frac_from_proximal": 0.50,
+      "length_frac_stature": 0.130,
+      "thickness_frac_length": 1.0,
+      "note": "head height ~0.13 stature; diameter uses same scale for circle head"
+    }
+  },
+  "module1_appendix": {
+    "forearm_hand_mass_frac": 0.022,
+    "forearm_hand_com_frac_from_elbow": 0.43,
+    "grip_distance_from_elbow_m": 0.35,
+    "elbow_flexor_moment_arm_m": 0.03
+  },
+  "proportion_gates": {
+    "head_height_over_stature": [0.12, 0.15],
+    "leg_length_hip_to_floor_over_stature": [0.48, 0.55],
+    "thigh_over_shank": [0.95, 1.20],
+    "upper_arm_over_forearm": [1.00, 1.35],
+    "limb_thickness_over_length_min": 0.18,
+    "foot_length_over_stature": [0.14, 0.16]
+  }
+}

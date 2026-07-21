@@ -4,104 +4,173 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook. Don't
 duplicate content that already lives in the files referenced below — open them.
 
-## Current state (as of latest push)
-- **ENTIRE COURSE COMPLETE: all 17 modules built, hardened, reviewed, and live**
-  at https://az9713.github.io/biomechanics/ .
-- **Retrofit pass COMPLETE** (this session): a feasibility assessment
-  (`rigorous-explainer-feasibility-assessment.md` + a revised critique
-  `rigorous-explainer-feasibility-assessment-revised.md`) led to
-  `IMPLEMENTATION_PLAN.md`, grounded in a mechanical **Phase-0 inventory**
-  (`phase0_result.json`) across all 17 modules × the 11-check hardening loop.
-  All six phases are done:
-  - **Phase 1** — hard-gate green sweep: M1–M8 (the modules that predated the
-    newest gates) fixed to 0 on `check_code`/`check_frame`; two real figure bugs
-    fixed along the way (M6's tangent-stiffness curve, M7's viewBox mismatches).
-  - **Phase 2/3** — rigor-parity + domain-substance retrofits on **M1, M2, M3,
-    M4, M5** (parallel worktree agents, one per module) + **M7** (redrew two
-    bare problem figures) + **M12** (fixed one bare problem figure). Each
-    proved/demoted every flagged proposition, closed the named
-    `audit-modules.md` domain gaps (M2's torsion strand, M1's GRF/COP section +
-    joint-reaction/low-back numbers, M3's nonholonomic relabel + hip-reaction
-    reconciliation, M4's Hertz-validity + strain caveats, M5's force
-    reconciliation), and — for M1/M2 — built the missing 30-problem C/D/K sets.
-    **Every module went through build → harden-to-0 → 3-pass rigor-review →
-    fix → re-verify → merge → commit.** The reviewer caught real bugs each time
-    it ran (a scrambled D-section assembly in M1, a disguised-plug-in K
-    problem in M2, a velocity/acceleration mislabel in an M7 figure) — it is
-    a load-bearing gate, not a formality.
-  - **Phase 4** — M1 and M2's 30-problem sets, built + reviewed (see above).
-  - **Phase 5** — M17 optional depth: **skipped** (M17 already covers all 15
-    `prompt.txt` capstones — 6 worked + 9 briefs — per the revised assessment;
-    deepening the briefs is optional polish, not a gap).
-  - **Phase 6** — aligned `CLAUDE.md`'s and `AGENTS.md`'s hardening-loop lists
-    with the skill's actual 11-check set (both were missing `check_svg`,
-    `check_code`, `check_probfig`; `AGENTS.md` also pointed at a nonexistent
-    `~/.Codex/skills/` path, repointed to the canonical `~/.claude/skills/`);
-    added the missing `prefers-reduced-motion` SMIL guard to M1/M3/M4 (M2/M5
-    already had it from the template).
-- **Residual / explicitly deferred** (low priority, not blocking — from
-  `audit-modules.md` §A, the cross-cutting themes):
-  - Course-wide **SVG label typography retrofit** (matching the MathJax serif
-    font in figure `<text>`) — not done for M1–M5.
-  - Course-wide **symbol-collision flags** beyond what was fixed in-pass.
-  - **Figures not cited by number** in prose ("the figure below" vs "Fig. 3").
-  - **§9/§11 problem-set sub-TOC navigation** (per-group "↑ contents" links).
-  - **No inter-module navigation rail** (◀ Module N−1 · N · N+1 ▶).
-  - M3: K1–K10 only exercise §7 (no computational problems for hip JRF/contact
-    pressure/stability ratio); §5's congruence claim isn't shown as a swept curve.
-  - These were out of scope for the targeted agent tracks (which fixed the
-    *named* defects, not the broad low-priority sweeps) — pick up as a future
-    session if the course needs another pass.
-- Everything committed and pushed to `main` (https://github.com/az9713/biomechanics);
-  local == remote. Working tree clean apart from local scratch (`.ignore/`, preview
-  PNGs) and the gitignored `claude-transcripts/` + `.claude/worktrees/`.
+**Last handoff written:** 2026-07-15 (session close — biological figure realism).  
+**Agent:** Grok Build powered by Grok 4.5 (high).
+
+---
+
+## Current state
+
+### Course baseline (already on remote `main`)
+- **ENTIRE COURSE COMPLETE:** modules 1–17 live at
+  https://az9713.github.io/biomechanics/
+- **Remote tip (unchanged by this session):** `f114a91`
+  (*Modules 8/11/12/15 figures: chunky-pictogram proportions + v-elbow fix*).
+- Prior rigor retrofit (`IMPLEMENTATION_PLAN.md`, `phase0_result.json`) remains the
+  record for that pass — still valid.
+
+### THIS SESSION — Biological figure realism (**DONE but NOT committed**)
+
+Full plan executed: **`BIOLOGICAL_FIGURE_REALISM_PLAN.md`** (status COMPLETE).
+
+| Deliverable | Path | Notes |
+|-------------|------|--------|
+| Plan | `BIOLOGICAL_FIGURE_REALISM_PLAN.md` | Phases 0–5, Waves A–E, §9/§10 checked |
+| Dev report (MD) | `BIOLOGICAL_FIGURE_REALISM_IMPLEMENTATION_REPORT.md` | Full history + **§5A per-figure catalog** |
+| Dev report (HTML) | `BIOLOGICAL_FIGURE_REALISM_IMPLEMENTATION_REPORT.html` | Full conversion of the MD (no content skipped) |
+| Anatomy kit | `anatomy_kit/` | **New package** — body/foot/heroes/tests/previews/NIH SVGs |
+| Figure policy | `svg-figure-tiers.md` | Added “Geometry from data” rule |
+| Modules touched | `module01.html` … `module17.html` | Heroes + hygiene + aria rewrites |
+| Conventions | `CLAUDE.md`, `AGENTS.md` | May have unrelated local mods too — review before commit |
+
+**What the kit does (durable product):**
+- Winter-proportion posable body + gait poses (`anatomy_kit/py/body.py`)
+- Plantar foot + COP path (never `b_head` fill) (`foot_plantar.py`)
+- Geometry heroes: femur/hip/knee/shoulder/lumbar/foot (`geometry_heroes.py`)
+- NIH BioArt **public domain** SVGs: upper leg + arm bones (`svg_paths/nih_*.svg`)
+- Attributions: `anatomy_kit/ATTRIBUTIONS.md`
+- Tests: `test_proportions.py`, `test_heroes_and_exports.py`, `test_aria_labels.py`
+- Apply scripts: `wave_a_apply.py`, `phase2_apply.py`, `finish_all_waves.py`, `fetch_nih_heroes.py`
+
+**Hardening (last known green):** M1–M17 passed hard suite including
+`checktex/checklt/check_links/check_svg/verify_dom/check_overlap/check_frame/check_bodyprop/check_code`
+with 0 hard failures. Inventory: large-head r>18 → 0; path-level head-fill-on-foot → 0.
+Problem-figure placeholder aria-labels → 0 (`test_aria_labels.py`).
+
+**Git state at handoff (CRITICAL):**
+- Branch: `main` @ `f114a91` (remote).
+- **Working tree DIRTY** — realism work is **local only, not pushed**.
+- Do **not** assume Pages has the new figures until after **commit push**.
+
+### Uncommitted / untracked (review before commit)
+
+**Modified (tracked):**
+- `module01.html` … `module17.html` (all 17)
+- `svg-figure-tiers.md`
+- `HANDOFF.md` (this file)
+- `CLAUDE.md`, `AGENTS.md` (check diff — may include non-realism edits)
+- `.claude/skills/rigorous-explainer/SKILL.md` (check diff)
+
+**Untracked (should be added if committing realism):**
+- `anatomy_kit/` (entire tree)
+- `BIOLOGICAL_FIGURE_REALISM_PLAN.md`
+- `BIOLOGICAL_FIGURE_REALISM_IMPLEMENTATION_REPORT.md`
+- `BIOLOGICAL_FIGURE_REALISM_IMPLEMENTATION_REPORT.html`
+- `.claude/skills/rigorous-explainer/scripts/check_bodyprop.py` (if intentional skill update)
+- `mcps/` (unknown/unrelated — **do not blindly add**; inspect)
+
+**Do not commit:** `.ignore/` session scripts, temp previews, SCRATCH logs.
+
+---
 
 ## Next task
-- **No blocking work.** If resuming cold: skim the residual list above and
-  `audit-modules.md` §A for optional polish, or ask the user what's next.
-- `IMPLEMENTATION_PLAN.md` + `phase0_result.json` are the retrofit's durable
-  record — read them before assuming something is still broken; re-run the
-  hardening loop to get current ground truth rather than trusting old notes.
+
+1. **Primary — user says “commit push”:**  
+   - Review `git diff` especially `CLAUDE.md` / `AGENTS.md` / skill files.  
+   - Stage realism deliverables only (kit + modules + plan + reports + svg-figure-tiers + this HANDOFF).  
+   - Commit with a clear message (e.g. “Course-wide biological figure realism: anatomy_kit + Waves A–E”).  
+   - Push `main`; confirm remote HEAD matches local.  
+   - User hard-refreshes live Pages (`?v=N`).
+
+2. **If continuing polish instead of commit:**  
+   - Optional: full Winter pose regen of remaining problem-set bodies (still capsule-y ones).  
+   - Optional: Servier/OpenStax Real plates for menisci / pennate muscle.  
+   - Re-run kit tests + hardening after any further edit.
+
+3. **If user asks for something else**, that takes precedence.
+
+---
 
 ## Where to read things (reference, don't re-derive)
-- **`CLAUDE.md`** (repo root) — authoritative conventions: build loop, hardening loop,
-  figure rules, git/publish, publish-while-incomplete. **Read it.**
-- **`AGENTS.md`** — same conventions, for tools that read this filename instead.
-- **`prompt.txt`** — original course spec; source of truth for scope/structure of all 17 modules.
-- **`IMPLEMENTATION_PLAN.md`** + **`phase0_result.json`** — this session's retrofit plan
-  and its grounding mechanical inventory.
-- **`rigorous-explainer-feasibility-assessment.md`** / **`-revised.md`** — the
-  feasibility analysis (Grok v1 + a corrected revision) that the retrofit plan was built from.
-- **`DEVELOPMENT_JOURNEY.md`** — the full development history of the skill, the
-  rigor-reviewer agent, and the module-by-module build (read this instead of
-  digging through old HANDOFF revisions or git log for "how did we get here").
-- **`audit-modules.md`** — the substance backlog for Modules 1–5 (mostly closed
-  this session; residual items listed above).
-- **Skill:** `C:\Users\<user>\.claude\skills\rigorous-explainer\` — SKILL.md, `scripts/*.py`
-  (hardening tools), `references/*.md`, `assets/template.html`.
-- **`.claude/agents/rigor-reviewer.md`** — the reviewer agent (read-only judge of rigor
-  parity, prose, K-depth, self-containment). Dispatch it after hardening scripts hit 0,
-  before considering any section/module done — it has caught a real bug every module
-  it's been run on this session.
+
+| Doc | Why open it |
+|-----|-------------|
+| **This file** | Resume point |
+| `CLAUDE.md` | Build loop, hardening, git/publish, figure rules |
+| `BIOLOGICAL_FIGURE_REALISM_PLAN.md` | Spec that was executed |
+| `BIOLOGICAL_FIGURE_REALISM_IMPLEMENTATION_REPORT.md` | Full development history + **§5A per-figure tables** |
+| `BIOLOGICAL_FIGURE_REALISM_IMPLEMENTATION_REPORT.html` | Same report, browser-readable |
+| `anatomy_kit/README.md` | How to regenerate previews/tests/apply scripts |
+| `anatomy_kit/ATTRIBUTIONS.md` | NIH PD licenses |
+| `svg-figure-tiers.md` | Tier 1/2/Real + geometry-from-data rule |
+| `prompt.txt` | Course structure source of truth |
+| `IMPLEMENTATION_PLAN.md` + `phase0_result.json` | Prior rigor retrofit (separate) |
+| Hardening scripts | `C:\Users\<user>\.claude\skills\rigorous-explainer\scripts\` |
+
+---
+
+## Session-transient scratch (regenerate; durable record is kit + modules)
+
+These lived under `.ignore/` and/or implementer SCRATCH; **not required in git**.
+Patterns to rebuild if needed:
+
+| Pattern | Role |
+|---------|------|
+| `anatomy_kit/py/*.py` | **Durable** generators (committed with kit) |
+| `.ignore/harden_all.py` | Full hard suite → logs |
+| `.ignore/fix_aria_labels*.py` | Aria rewrite (already applied to HTML) |
+| `.ignore/per_figure_changes.py` | Regenerates §5A catalog from live modules |
+| `.ignore/md_to_html_report.py` | MD → HTML report conversion |
+| `.ignore/finish` / gate fix scripts | One-shot harden/viewBox/bodyprop fixes already baked into HTML |
+
+**Session SCRATCH** (may be deleted by OS/harness):  
+`C:\Users\simon\AppData\Local\Temp\grok-goal-92ae88c38da1\implementer\`  
+Had: `harden_all.log`, `harden_m01`…`m17.log`, `fig_audit_post.txt`,
+`figure_class_inventory.md`, kit/aria test logs. Re-run tests +
+`.ignore/harden_all.py` if you need fresh evidence.
+
+---
 
 ## How to work (essentials — full detail in `CLAUDE.md`)
-- **Invoke `rigorous-explainer`** at the start; follow its SKILL.md build loop.
-- **Section-by-section:** build ONE section → report + 2 `★ Insight` bullets → user reviews →
-  commit/push **only on "commit push"** (unless the user has explicitly granted broader
-  autonomy for a bounded task, as with this session's retrofit).
-- **Figures:** Tier-2 shaded for anatomy, flat/computed for physics/plots — BUT **problem-set
-  C/D/K figures always lead with the recognizable Tier-2 entity**. Compute geometry/plot data
-  in Python (background runs — numpy startup is slow); slim arrows anchored to the structure;
-  reuse the shared `<defs>` block. Get one representative figure approved before mass-producing.
-- **Hardening loop after every edit** — all to 0 (11 checks): `checktex / checklt /
-  check_links / check_svg / verify_dom / check_overlap / check_frame / check_prose /
-  check_proofs / check_code / check_probfig`; then `autolink_sections.py`.
-- **Parallel work:** independent modules (disjoint files) can be retrofitted by parallel
-  worktree-isolated agents; the rigor-reviewer gate stays mandatory before merging any of
-  them as "done." Cross-module citations/numbers need a coordinator reconciliation pass
-  after merge — agents working in parallel can't see each other's edits.
-- **Deploy:** `.nojekyll` is committed, so pushes deploy clean. If a Pages build stalls,
-  `gh api -X POST repos/az9713/biomechanics/pages/builds` nudges a fresh one.
-- **Gotcha:** never route `\`-heavy Python (`\approx`, `\alpha`, `\tau`) through a
-  Bash-tool heredoc or a double-quoted shell arg — corrupts math-bearing HTML. Author
-  such scripts with the Write tool using raw strings, or edit HTML directly with Write/Edit.
+
+- **Commit only on user “commit push”** (or explicit autonomy grant).
+- **Section-by-section** for new content; hardening loop after HTML edits.
+- **Figures:** Tier-2 + data-driven geometry via `anatomy_kit/`; Class S stays schematic;
+  never AI anatomy; slim arrows; Unicode in SVG text not `$…$`.
+- **Publish-while-incomplete:** if committing incomplete modules, wire `index.html` +
+  `README.md` live links (full course already live).
+- **Hardening (must pass for figure work):**
+  `checktex checklt check_links check_svg verify_dom check_overlap check_frame
+  check_bodyprop check_code` (+ prose/proofs/probfig as advisory).
+
+### Quick verification after resume
+
+```bash
+python anatomy_kit/tests/test_proportions.py
+python anatomy_kit/tests/test_heroes_and_exports.py
+python anatomy_kit/tests/test_aria_labels.py
+# optional full harden:
+# python .ignore/harden_all.py   # if script still present
+```
+
+### Quick previews
+
+```bash
+python anatomy_kit/py/build_previews.py
+python anatomy_kit/py/build_phase2_previews.py
+# open anatomy_kit/previews/*.html
+# open BIOLOGICAL_FIGURE_REALISM_IMPLEMENTATION_REPORT.html
+```
+
+---
+
+## Suggested first actions for next agent
+
+1. Read this file + skim `BIOLOGICAL_FIGURE_REALISM_IMPLEMENTATION_REPORT.md` §0–§3 and §5A.  
+2. `git status` — confirm dirty tree matches list above.  
+3. Ask user: **commit push** now, or more polish first?  
+4. If commit: stage carefully, exclude `mcps/` unless user wants it; push; verify remote.
+
+---
+
+*End of handoff — 2026-07-15.*

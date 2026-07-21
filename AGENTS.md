@@ -161,6 +161,7 @@ python $S/check_prose.py moduleNN.html    # awkward/non-native constructions: X-
 python $S/check_proofs.py moduleNN.html   # a .prop/.thm/.lem with no adjacent .proof = asserted proposition (advisory)
 python $S/check_code.py  moduleNN.html    # every Python <pre><code> block is PEP8 (pycodestyle) — 0 issues (HARD)
 python $S/check_probfig.py moduleNN.html  # problem (C/D/K) figures that are neither a drawn entity nor a labelled plot (advisory; then eyeball ALL problem figures for the 3-layer semantic audit)
+python $S/check_bodyprop.py moduleNN.html # HARD: a body figure with a HAIRLINE limb (thickness/length <0.18; template limbs are 0.23-0.43). Catches "chunky head+torso bolted onto thin stick legs". Advisory: limb thin vs a head-gradient circle (may be anatomy, not a head) + head-with-no-limbs
 python $S/shoot.py FILE out.png --size WxH   # preview render
 ```
 (Note: the `~/.Codex/skills/...` path this block previously pointed to does not exist on

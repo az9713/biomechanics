@@ -97,6 +97,8 @@ window.MathJax = {
 
 <p>In <a class="secref" href="module03.html#contact">Module&nbsp;3</a> we tracked a load all the way from the floor to the inside of the hip and arrived at a number: in single-leg stance the femoral head presses into its socket with a reaction force $R\approx2.5\,W\approx1715\ \mathrm N$, spread over a contact patch of roughly $A_c\approx10\ \mathrm{cm^2}$, for a mean pressure $p=R/A_c\approx1.7\ \mathrm{MPa}$. We then stopped, because Module&nbsp;3 treated the contacting surfaces as <em>dry, rigid, and frictionless</em> — placeholders we promised to repay here. This module is the repayment. It is about the thin layer of tissue that actually sits in that contact: <b>articular cartilage</b> (the glistening white coating on the ends of bones in a movable joint), bathed in <b>synovial fluid</b> (the slippery joint lubricant, roughly the consistency of egg white).</p>
 
+<figure><svg class="setupfig" viewBox="-7.0 1.0 434.0 260.0" width="100%" role="img" aria-label="Osteochondral unit: subchondral bone, calcified cartilage, hyaline cartilage, synovial fluid."><rect x="40" y="140" width="340" height="81.6" fill="url(#b_bone)" stroke="#8a7350"/><text x="210" y="165" font-size="12" fill="#555" text-anchor="middle">subchondral bone</text><rect x="40" y="120" width="340" height="20" fill="#c2ae84" stroke="#8a7350"/><text x="210" y="134" font-size="11" fill="#555" text-anchor="middle">calcified cartilage</text><rect x="40" y="70" width="340" height="50" fill="#e8f0f8" stroke="#5a86a8"/><text x="210" y="100" font-size="12" fill="#2a6ca8" text-anchor="middle">hyaline cartilage (porous, charged)</text><rect x="40" y="40" width="340" height="30" fill="#d6eaf8" fill-opacity="0.5" stroke="#2a6ca8" stroke-dasharray="4 2"/><text x="210" y="60" font-size="12" fill="#2a6ca8" text-anchor="middle">synovial fluid</text><line x1="40" y1="40" x2="40" y2="180" stroke="#333" stroke-width="1"/></svg><figcaption>Osteochondral unit in load-bearing order: fluid, hyaline cartilage, calcified cartilage, subchondral bone. Biphasic and Donnan physics live in the cartilage layer; the sequence is anatomy, not decoration.</figcaption></figure>
+
 <p>Hold the numbers up to the light and they should look impossible. The cartilage layer is only about <b>2–4 mm thick</b>. It carries $\approx1.7\ \mathrm{MPa}$ — and far more in a stumble or a jump, where hip forces reach $8$–$10\,W$ — not once, but on the order of <b>a million loading cycles a year</b>, and it does so for <em>decades</em> in most people without being replaced (mature cartilage has no blood supply and barely any cells). And it slides against its partner surface at a friction coefficient of about $\mu\approx0.005$ — lower than the $\mu\approx0.03$ of an ice skate on ice, lower than any bearing a mechanical engineer can buy. A soft, thin, living gasket that out-performs steel-on-PTFE and never gets a service interval: that is the object of this module.</p>
 
 <figure><svg class="setupfig" viewBox="0 0 460 326" width="100%" role="img" aria-label="Cross-section of a synovial joint: two bone ends each capped with a thin articular-cartilage layer, meeting in a contact zone, with a large vertical load arrow pressing down and a small horizontal sliding-friction arrow.">
@@ -107,7 +109,7 @@ window.MathJax = {
     <filter id="m4oBl"><feGaussianBlur stdDeviation="1.3"/></filter>
     <marker id="m4oLoad" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" refX="11" refY="4" orient="auto"><path d="M0,0 L11,4 L0,8 Z" fill="#7a1f1f"/></marker>
     <marker id="m4oFr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2a6ca8"/></marker>
-  </defs>
+  <linearGradient id="b_foot" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7f0e4"/><stop offset="0.5" stop-color="#e8ded0"/><stop offset="1" stop-color="#d4c4a8"/></linearGradient></defs>
 
   <!-- upper bone: shaft + condyle -->
   <g filter="url(#m4oSh)" stroke="#a8916a" stroke-width="0.8">
@@ -180,10 +182,10 @@ window.MathJax = {
 <li><b>Chondrocytes</b>: the cartilage cells (the suffix <em>-cyte</em> just means "cell"), occupying under 10&nbsp;% of the volume. They synthesise and maintain the matrix but carry essentially no load. Mature cartilage is <em>avascular</em> (no blood vessels) and <em>aneural</em> (no nerves), which is why it neither bleeds nor hurts when first damaged — and why, with so few cells and no blood supply, it heals so poorly.</li>
 </ul>
 
-<figure><svg class="setupfig" viewBox="-80 0 622 320" width="100%" role="img" aria-label="Microstructure of articular cartilage: a hydrated layer on subchondral bone, showing arching collagen fibres (Benninghoff arcades), bottle-brush proteoglycan aggregates carrying fixed negative charge, interstitial water, chondrocyte cells, and the three depth zones.">
+<figure><svg class="setupfig" viewBox="-110.0 -31.0 633.0 411.0" width="100%" role="img" aria-label="Microstructure of articular cartilage: a hydrated layer on subchondral bone, showing arching collagen fibres (Benninghoff arcades), bottle-brush proteoglycan aggregates carrying fixed negative charge, interstitial water, chondrocyte cells, and the three depth zones.">
 <rect x="60" y="38" width="340" height="212" fill="url(#b_cart)"/>
 <g fill="#9fd6ea" opacity="0.55"><circle cx="270" cy="223" r="1.5"/><circle cx="318" cy="99" r="1.5"/><circle cx="166" cy="219" r="1.5"/><circle cx="72" cy="209" r="1.5"/><circle cx="325" cy="144" r="1.5"/><circle cx="167" cy="109" r="1.5"/><circle cx="152" cy="140" r="1.5"/><circle cx="231" cy="160" r="1.5"/><circle cx="389" cy="204" r="1.5"/><circle cx="269" cy="240" r="1.5"/><circle cx="139" cy="87" r="1.5"/><circle cx="266" cy="66" r="1.5"/><circle cx="81" cy="153" r="1.5"/><circle cx="219" cy="227" r="1.5"/><circle cx="271" cy="153" r="1.5"/><circle cx="229" cy="104" r="1.5"/><circle cx="74" cy="93" r="1.5"/><circle cx="291" cy="95" r="1.5"/><circle cx="188" cy="59" r="1.5"/><circle cx="336" cy="86" r="1.5"/><circle cx="156" cy="220" r="1.5"/><circle cx="233" cy="214" r="1.5"/></g>
-<rect x="60" y="250" width="340" height="42" fill="url(#b_bone)" filter="url(#b_sh)" stroke="#a8916a" stroke-width="0.8"/>
+<rect x="60" y="250" width="340" height="74.8" fill="url(#b_bone)" filter="url(#b_sh)" stroke="#a8916a" stroke-width="0.8"/>
 <path d="M60,250 Q68,255 76,250 Q84,245 92,250 Q100,255 108,250 Q116,245 124,250 Q132,255 140,250 Q148,245 156,250 Q164,255 172,250 Q180,245 188,250 Q196,255 204,250 Q212,245 220,250 Q228,255 236,250 Q244,245 252,250 Q260,255 268,250 Q276,245 284,250 Q292,255 300,250 Q308,245 316,250 Q324,255 332,250 Q340,245 348,250 Q356,255 364,250 Q372,245 380,250 Q388,255 396,250 Q404,245 412,250" fill="none" stroke="#8a7350" stroke-width="1.4" opacity="0.8"/>
 <g fill="none" stroke="#b08440" stroke-width="1.15" opacity="0.62" stroke-linecap="round">
 <path d="M78.0,250.0 C78.0,87.0 84.0,47.0 103.3,47.0 C122.7,47.0 128.7,87.0 128.7,250.0"/>
@@ -411,7 +413,7 @@ $$\pi = 2577\times61 \approx 1.56\times10^5\ \mathrm{Pa} \approx 0.16\ \mathrm{M
 <use href="#b_brush" transform="translate(280,178) scale(0.62)"/>
 <rect x="165" y="72" width="150" height="20" fill="#d7dbe0" stroke="#9aa3ad" stroke-width="0.9"/>
 <g fill="#ffffff" stroke="#94a3ad" stroke-width="0.7"><circle cx="180" cy="82" r="2.6"/><circle cx="205" cy="82" r="2.6"/><circle cx="230" cy="82" r="2.6"/><circle cx="255" cy="82" r="2.6"/><circle cx="280" cy="82" r="2.6"/><circle cx="300" cy="82" r="2.6"/></g>
-<line x1="240" y1="32" x2="240" y2="70" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
+<line x1="240" y1="32" x2="240" y2="70" stroke="#7a1f1f" stroke-width="16.0" marker-end="url(#a_red)"/>
 <line x1="200" y1="40" x2="200" y2="70" stroke="#7a1f1f" stroke-width="2.1" marker-end="url(#a_red)"/>
 <line x1="280" y1="40" x2="280" y2="70" stroke="#7a1f1f" stroke-width="2.1" marker-end="url(#a_red)"/>
 <text x="240" y="24" font-size="11" fill="#7a1f1f" text-anchor="middle" font-weight="bold">&#963;<tspan baseline-shift="sub" font-size="8">0</tspan>  applied stress</text>
@@ -668,7 +670,7 @@ $$F(1\ \mathrm s)=0.986.$$
 <g fill="#ffffff" stroke="#94a3ad" stroke-width="0.6"><circle cx="148" cy="83" r="2.3"/><circle cx="170" cy="83" r="2.3"/><circle cx="192" cy="83" r="2.3"/></g>
 <animateTransform attributeName="transform" type="translate" values="0 0;0 0.2;0 0.7;0 1.6;0 3.5;0 7.5;0 15;0 18" keyTimes="0;0.12;0.25;0.4;0.55;0.7;0.85;1" dur="6s" repeatCount="indefinite"/>
 </g>
-<line x1="170" y1="34" x2="170" y2="72" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
+<line x1="170" y1="34" x2="170" y2="72" stroke="#7a1f1f" stroke-width="16.0" marker-end="url(#a_red)"/>
 <text x="170" y="28" font-size="9.5" fill="#7a1f1f" text-anchor="middle">load (held)</text>
 <g stroke="#2a6ca8" stroke-width="2.2" marker-end="url(#a_blu)"><line x1="150" y1="70" x2="144" y2="50"><animate attributeName="opacity" values="0.9;0.9;0.85;0.72;0.5;0.28;0.07;0" keyTimes="0;0.12;0.25;0.4;0.55;0.7;0.85;1" dur="6s" repeatCount="indefinite"/></line><line x1="190" y1="70" x2="196" y2="50"><animate attributeName="opacity" values="0.9;0.9;0.85;0.72;0.5;0.28;0.07;0" keyTimes="0;0.12;0.25;0.4;0.55;0.7;0.85;1" dur="6s" repeatCount="indefinite"/></line></g>
 <text x="218" y="52" font-size="8.5" fill="#2a6ca8">fluid out</text>
@@ -873,13 +875,13 @@ $$F=\int_0^a p_0\sqrt{1-\tfrac{r^{2}}{a^{2}}}\,2\pi r\,\mathrm dr=2\pi p_0 a^{2}
 so $p_0=3F/(2\pi a^{2})$; since $\bar p=F/(\pi a^{2})$, this is $p_0=\tfrac32\bar p$ — the peak is exactly half again the mean, whatever the load or contact size.
 <br><b>Contact radius.</b> The cap is the pressure that a paraboloid presses into the half-space: Boussinesq's half-space solution gives the surface normal displacement under $p(r)$ as $u_z(r)=\dfrac{\pi p_0}{4E^{*}a}\big(2a^{2}-r^{2}\big)$ for $r\le a$. Inside the contact the two surfaces conform to the local gap, $u_z(r)=\delta-\dfrac{r^{2}}{2R_{\rm eff}}$, with $\delta$ the indentation depth (the rigid-body approach of the two bodies' centres); matching the $r^{2}$ coefficients gives $\dfrac{\pi p_0}{4E^{*}a}=\dfrac{1}{2R_{\rm eff}}$, i.e. $p_0=\dfrac{2E^{*}a}{\pi R_{\rm eff}}$. Equating this to $p_0=3F/(2\pi a^{2})$ and solving for $a$ yields $a^{3}=\dfrac{3FR_{\rm eff}}{4E^{*}}$. <span class="qed">∎</span></div>
 
-<figure><svg class="setupfig" viewBox="0 0 470 300" width="100%" role="img" aria-label="A femoral condyle pressing on the cartilage-covered tibial plateau: the joint reaction pushes the rounded bone end into a thin cartilage layer, forming a contact patch of width 2a much larger than the layer thickness h.">
+<figure><svg class="setupfig" viewBox="-59.0 -60.0 601.0 462.0" width="100%" role="img" aria-label="A femoral condyle pressing on the cartilage-covered tibial plateau: the joint reaction pushes the rounded bone end into a thin cartilage layer, forming a contact patch of width 2a much larger than the layer thickness h.">
 <rect x="200" y="6" width="70" height="64" rx="32" fill="url(#b_bone)" filter="url(#b_sh)"/>
 <circle cx="235" cy="150" r="84" fill="url(#b_sph)" filter="url(#b_sh)"/>
-<rect x="45" y="252" width="380" height="34" fill="url(#b_bone)" filter="url(#b_sh)"/>
+<rect x="45" y="252" width="380" height="83.6" fill="url(#b_bone)" filter="url(#b_sh)"/>
 <rect x="45" y="236" width="380" height="16" fill="url(#b_cart)" stroke="#7fc6e0" stroke-width="0.6"/>
 <ellipse cx="235" cy="236" rx="62" ry="7" fill="#b03a2e" opacity="0.28"/>
-<line x1="138" y1="40" x2="138" y2="120" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
+<line x1="138" y1="40" x2="138" y2="120" stroke="#7a1f1f" stroke-width="20.8" marker-end="url(#a_red)"/>
 <text x="138" y="32" font-size="10.5" fill="#7a1f1f" text-anchor="middle" font-weight="bold">F = R &#8776; 1715 N</text>
 <line x1="173" y1="230" x2="173" y2="242" stroke="#2a6ca8" stroke-width="1"/><line x1="297" y1="230" x2="297" y2="242" stroke="#2a6ca8" stroke-width="1"/><line x1="173" y1="236" x2="297" y2="236" stroke="#2a6ca8" stroke-width="1"/>
 <line x1="315" y1="145" x2="356" y2="140" stroke="#8a7350" stroke-width="0.8"/><text x="360" y="143" font-size="9.5" fill="#6b5a36">femoral condyle</text>
@@ -1285,7 +1287,7 @@ for t in [1, 60, 3600, 20000]:
 <path d="M260,170 L260,142 Q290,140 305,150 Q345,163 385,150 Q400,140 430,142 L430,170 Z" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="1"/>
 <!-- book -->
 <rect x="298" y="120" width="94" height="22" rx="2" fill="#c9a36a" stroke="#9c8760" stroke-width="1" filter="url(#b_sh)"/>
-<rect x="298" y="120" width="94" height="6" rx="2" fill="#d9b985"/>
+<rect x="298" y="120" width="94" height="22.6" rx="11.3" fill="#d9b985"/>
 <text x="345" y="135" font-size="9" fill="#fff" text-anchor="middle" class="onfill">book</text>
 <!-- load arrow (heavier: thicker shaft, same slim head) -->
 <line x1="345" y1="86" x2="345" y2="115" stroke="#7a1f1f" stroke-width="4" marker-end="url(#a_red)"/>
@@ -1330,14 +1332,14 @@ for t in [1, 60, 3600, 20000]:
 <text x="330" y="26" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">t ≫ τ (drained)</text>
 <!-- left: sealed, pressure jumps -->
 <rect x="66" y="70" width="88" height="120" fill="#dcf1f8" stroke="#7fb8cf" stroke-width="1.2"/>
-<rect x="60" y="58" width="100" height="14" rx="2" fill="#c9a36a" stroke="#9c8760"/>
+<rect x="60" y="58" width="100" height="24.0" rx="12.0" fill="#c9a36a" stroke="#9c8760"/>
 <line x1="110" y1="34" x2="110" y2="56" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
 <text x="110" y="132" font-size="10" fill="#2a6ca8" text-anchor="middle" class="onfill">p ↑ (all load)</text>
 <text x="110" y="150" font-size="9" fill="#2a6ca8" text-anchor="middle" class="onfill">no outflow</text>
 <text x="110" y="206" font-size="10" fill="#333" text-anchor="middle">F = 1</text>
 <!-- right: drained, fluid gone, solid bears -->
 <rect x="286" y="86" width="88" height="104" fill="#e9e0cd" stroke="#b8a67e" stroke-width="1.2"/>
-<rect x="280" y="74" width="100" height="14" rx="2" fill="#c9a36a" stroke="#9c8760"/>
+<rect x="280" y="74" width="100" height="24.0" rx="12.0" fill="#c9a36a" stroke="#9c8760"/>
 <line x1="330" y1="50" x2="330" y2="72" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
 <line x1="286" y1="150" x2="262" y2="150" stroke="#2a6ca8" stroke-width="2" marker-end="url(#a_blu)"/>
 <line x1="374" y1="150" x2="398" y2="150" stroke="#2a6ca8" stroke-width="2" marker-end="url(#a_blu)"/>
@@ -1359,7 +1361,7 @@ for t in [1, 60, 3600, 20000]:
 <text x="114" y="164" font-size="9.5" fill="#b03a2e" text-anchor="middle">v = 0 → high μ</text>
 <text x="114" y="180" font-size="8.5" fill="#555" text-anchor="middle">(no film without speed)</text>
 <!-- cartilage: pressurised at rest -->
-<rect x="270" y="120" width="140" height="20" rx="7" fill="url(#b_bone)"/>
+<rect x="270" y="120" width="140" height="30.8" rx="15.4" fill="url(#b_bone)"/>
 <rect x="270" y="104" width="140" height="16" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="0.8"/>
 <rect x="296" y="76" width="88" height="26" rx="3" fill="#cfc7b6" stroke="#8a8474"/>
 <line x1="340" y1="44" x2="340" y2="72" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
