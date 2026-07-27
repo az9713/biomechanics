@@ -306,11 +306,16 @@ circle with a posed `body_group`; verify by render):
   intentional arc abstractions. **Render each before fixing.** The genuinely broken
   ones (two fat straight `#c98a5e` leg-lines hip→ground + zero-length "shank" lines +
   no feet) get real legs: replace the fat lines with thigh+shank+knee+foot capsules
-  (recipe used on m09 fig14, commit after `e86dcef`). Broken: m09 fig14-right (DONE),
-  fig20 & fig32 (landings — need real legs), fig13 (arm through head, front leg no
-  knee), fig2 (5 poses, backward knees + no feet), fig1 (feet piled on one spot).
-  Also slabs where limbs are lines — exclude `#c98a5e` from the slab-thin or legs
-  vanish.
+  (recipe: `legs()` = capsule thigh+shank + knee sphere + foot ellipse, replacing
+  the fat `#c98a5e` lines; keep head/trunk/arms/overlays).
+  **m09 DONE:** fig14-right, fig17, fig20 (both bodies), fig27, fig32.
+  **m09 remaining:** **fig2** (5 running poses, backward knees at different gait
+  phases — intricate per-phase posing, do carefully/fresh), fig13 (stance leg no
+  knee — minor), fig1 (rect-based, feet piled on one spot — minor).
+  **m10 UNTOUCHED (biggest remaining):** ~13 slab-bug figures (ground/plumb/force
+  lines sw 69–174 burying feet) + the single-point-shoulder body template. Thin
+  slabs by the ratio rule **excluding `#c98a5e`** (m10 limbs are lines too); rebuild
+  the wishbone body (both arms from one midline point → separate shoulders).
 - **m01 f13/f21, m15**: backward knees inside transformed groups — resolve the
   transform (or replace via body_group). **m02/m14**: neck-less femurs.
 
