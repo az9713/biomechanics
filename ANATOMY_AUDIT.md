@@ -312,10 +312,12 @@ circle with a posed `body_group`; verify by render):
   **m09 remaining:** **fig2** (5 running poses, backward knees at different gait
   phases — intricate per-phase posing, do carefully/fresh), fig13 (stance leg no
   knee — minor), fig1 (rect-based, feet piled on one spot — minor).
-  **m10 UNTOUCHED (biggest remaining):** ~13 slab-bug figures (ground/plumb/force
-  lines sw 69–174 burying feet) + the single-point-shoulder body template. Thin
-  slabs by the ratio rule **excluding `#c98a5e`** (m10 limbs are lines too); rebuild
-  the wishbone body (both arms from one midline point → separate shoulders).
+  **m10 SLAB BUG DONE:** 48 slab lines (ground sw 69–174, plumb/force sw 27–63)
+  thinned across ~13 figures — the feet/legs/dynamics are now visible. **m10
+  residual (minor):** the "wishbone" body template (both arms originate from one
+  midline point → no shoulder width; torso narrower than head). Per-body arm-origin
+  split; bodies are already recognizable so this is cosmetic, not incomplete
+  anatomy — lowest priority.
 - **m01 f13/f21, m15**: backward knees inside transformed groups — resolve the
   transform (or replace via body_group). **m02/m14**: neck-less femurs.
 
