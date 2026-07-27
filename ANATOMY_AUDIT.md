@@ -360,6 +360,13 @@ to confirm nothing collapsed.
 8. **m05 f1 defs-ordering** (move shared defs before the first figure).
 9. **Femur neck** — m14 f5/f18 (reuse m14 f1's correct proximal femur; retarget
    fall arrow to the lateral greater trochanter); m02 f1 125° neck-shaft.
+**FEMUR NECKS — m14 DONE (fig5/17/18/32):** added a femoral neck (head angled
+medial-superior) + greater-trochanter bump to each; fig5 impact arrow retargeted to
+the trochanter. **m02 fig1 remaining:** the teaching femur is a single `<path>`
+(head arc `A12,12` + neck + shaft lines); to fix the 146°→125° neck-shaft angle,
+recompute the arc endpoints + neck vertex so the neck comes off medial at 125°
+without breaking the outline — bespoke path edit, do fresh.
+
 10. **Regional logic** — m03 f29 finger order, f35 antagonist side, f27 cane;
     m06 f1/f2 Achilles/foot direction, f21 fascia; m12/m13 5-digit hands.
 11. **Clipping** — m03 f26 viewBox; m07 f42/f52 ground overshoot.
