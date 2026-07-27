@@ -4,117 +4,97 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last handoff written:** 2026-07-27 (session close — course-wide anatomy audit
-complete; FIX PHASE PENDING).
+**Last handoff written:** 2026-07-27 (anatomy fix phase ~complete; ONE bespoke
+figure + cosmetics remain).
 
 ---
 
-## ⇒ RESUME HERE: execute the anatomy fixes in `ANATOMY_AUDIT.md`
+## Current state (as of latest push `f6e7317`)
 
-A full coordinate-verified visual audit of every human-anatomy figure (2026-07-27,
-7 parallel agents) found a **course-wide regression from the realism pass
-(`3fd6fbe`)**: exposition figures are good (Winter `anatomy_kit.body_group`), but
-the **problem-set body figures across modules 1–15 are broken** — **~90
-defect-level figures.** The audit is DONE and fully documented; **no re-auditing
-needed** — just execute.
+The course-wide **anatomy regression** from the realism pass (`3fd6fbe`) is
+**fixed — ~89 of ~90 defect figures done**, every one gate-checked AND rendered,
+across ~36 commits (`8b1cdce` → `f6e7317`). All pushed to `main`; remote tip =
+local tip = `f6e7317`. Working tree clean apart from known-untracked tool dirs
+`.agents/` and `.codex/` (local scaffolding — leave untracked, like `mcps/`).
 
-**FIX PROGRESS (2026-07-27, ~63 of ~90 figures, 19 commits `8b1cdce`→HEAD):**
-- **m11 DONE** (6 blank bodies emitted, 29 heads seated, 60 slabs thinned).
-- **m12 DONE** (7 heads seated, shoulder-ball gradient, slabs).
-- **m13 trunk-columns DONE** (f5/f9/f16/f23 no-legs bodies regenerated).
-- **m07 broken bodies DONE** (18/23/29/30/31/32 — 8 bodies regenerated, overlays
-  kept aligned).
-- **m03 f26 clip, m04 f15, m06 f21, m13 f4** slab/clip fixes.
-- See `ANATOMY_AUDIT.md` PROGRESS + the three **PROVEN RECIPES** (emit body /
-  seat-head-by-shared-coord / thin-slabs-by-0.3×length-ratio / element-wise
-  body-swap preserving hip-shoulder-arm axes for overlay-bearing figures).
+**What got fixed (all committed + render-verified):**
+- **Every broken body regenerated** via `anatomy_kit.body_group`: m11 (6 empty
+  `<g>` + 29 detached heads + 60 slabs), m12 (7 heads), m13 (4 trunk-columns),
+  m07 (8 bodies, overlays kept aligned), m09 (5 gown-legs).
+- **Every locatable backward knee:** m01 (f13/f21/C7), m09 fig2 (5 gait poses).
+- **Every neck-less femur reachable as capsule/sphere:** m14 (fig5/17/18/32) —
+  neck capsule + greater trochanter + retargeted fall arrow.
+- **Every slab-buried figure:** m10 (~13 figs), plus m04/06/07/11/12/13 — thinned
+  by the 0.3×length ratio, **excluding** `#c98a5e` limb-lines + wood-tone floor.
+- **m15 fig4** doubled-body — deleted the duplicate offset copy.
 
-**Update: m09 gown-bodies DONE (14/17/20/27/32); m10 slab bug DONE (~13 figs
-un-buried); m01 backward knees DONE (3 figs, knee 135→152).** Now ~83 of ~90 fixed.
+## Next task — **m02 fig1 (the one real remaining figure)**
 
-**REMAINING (~7, bespoke correctness — start here next session):**
-- **Backward knees** (genuine incorrect-anatomy): m09 fig2 (5 running poses, per-gait
-  -phase — the biggest), m15 squat figure (inside scaled/translated groups —
-  resolve the transform first; audit coords are post-transform). *(m01 f13/f21/C7
-  DONE.)*
-- **Neck-less femurs** m02/m14 (femur head bolted on the shaft axis, no neck/greater
-  trochanter): NOT a capsule+sphere — path/transform-based, locate by caption;
-  reuse m14 fig1's correct proximal-femur shape; retarget the fall arrow to the
-  lateral greater trochanter.
-- **Minor/cosmetic:** m10 wishbone shoulders (arms from one midline point), m09
-  fig1 (feet piled) & fig13 (stance leg no knee), m13 remaining detached-heads/feet,
-  m07 sheet-"fig16" hyperextension (locate by caption), m12 fig21 walker ground-slab.
-- All specified in `ANATOMY_AUDIT.md`. Locate by CAPTION (numbering mismatch);
-  render-verify every fix; gate + commit per figure.
+**Goal:** the teaching femur in `module02.html` fig1 is a single closed `<path>`
+whose neck-shaft angle reads ~146° (coxa valga) instead of the normal ~125°.
+Correct it to ~125°.
 
-- **Work-list + root causes + fix order:** `ANATOMY_AUDIT.md` (repo root). Read it
-  first, fix in the order it gives.
-- **Root-cause families** (fixing a few clears most figures): (A) annotation
-  `<line stroke-width>` set to ~0.3×length → 60–174px slabs burying anatomy
-  (m04/06/07/10/11/12/13); (B) detached head + oversized "neck-ball", no real neck
-  (m07/11/12/13); (C) footless shank stumps / one-leg / one-arm / no-thigh bodies;
-  (D) **6 m11 figures whose body `<g>` is EMPTY** (f8/11/12/38/39/45); (E) backward
-  knees (m01 f13/f21, m09 f2, m15 f3) & through-arm/wrong-way elbows (m11 f16/f23);
-  (F) `a_red`/siblings missing `markerUnits="userSpaceOnUse"` → wedge-blob heads;
-  (G) m13 f5/f9/f16/f23 = "trunk-column" bodies with NO legs.
-- **How to fix:** original generators are gone; bodies are baked static SVG.
-  Regenerate each from `anatomy_kit.body_group` posed to match, keep the physics
-  overlays, thin the annotation strokes, fix markers. After EACH module: run all
-  nine hard gates (esp. `check_bodyprop`, `check_frame`, `check_overlap`,
-  `verify_dom`) then commit+push that module.
-- **Audit tooling** (session-transient scratch, regenerate if gone):
-  `…/a21d973c-…/scratchpad/an.py` (`an.run('moduleNN.html',{figs})` → limb
-  endpoints/joints/fat-lines) and `render.py` (full-height per-figure renderer —
-  the truncation-safe replacement for the capped `build_sheets.py`).
+**Why it was deferred, not skipped:** it is NOT a capsule+sphere body (the proven
+recipes don't apply) — it's one hand-authored closed outline. Fixing it means
+recomputing the head-arc centre + neck vertices of that path so the outline stays
+coherent, which needs **iterative render-verification** — and in the prior session
+Chrome renders had started timing out at 2 min, so a bone-outline edit could not
+be safely verified. A fresh session (renders working again) is the right place.
 
-## Prior state (unchanged facts)
+**How to do it (est. ~10 min in a clean session):**
+1. Locate fig1 by caption (numbering mismatch — don't trust sheet-position numbers).
+2. Read the femur `<path d="…">`; identify the head-arc (`A rx ry …`) + the neck
+   segment feeding into the shaft. Reuse **m14 fig5's** now-correct proximal-femur
+   geometry (neck at ~125° off the shaft axis + a lateral greater trochanter) as
+   the shape reference.
+3. Recompute the head centre (medial-superior of the shaft top) and neck vertices;
+   edit the `d` in place. Retarget any fall/impact arrow to the **lateral greater
+   trochanter**, not the head.
+4. **Render-verify** (`shoot.py`) — confirm the outline is coherent and the angle
+   reads ~125°. Revert the edit if the outline breaks; do not ship unverified.
+5. Run all nine hard gates → commit + push that figure.
 
-- Modules 1–17 are LIVE at https://az9713.github.io/biomechanics/; remote tip =
-  local tip. The realism pass is committed at `3fd6fbe`. `.gitignore` excludes
-  `body_template.JPEG` and `mcps/`.
-- **Caution:** the nine hard gates previously reported "all green" but did NOT
-  catch these anatomy defects — they are geometric/semantic (backward knees,
-  detached heads, footless legs, fat annotation strokes, empty body groups) that
-  `check_bodyprop` (proportion-only) and the others do not test. Trust the audit
-  register, not a prior "green" claim.
-- **Only commit on the user's explicit "commit push."** (The audit docs were
-  committed as a completed work unit.)
-
-## Recently explored & dropped (don't re-propose unprompted)
-
-- **Costco flat-pictogram restyle** (from `body_template.JPEG`): investigated
-  2026-07-20, user dropped it. The crux finding: a *solid* silhouette occludes
-  the physics overlay (hip/COM/GRF/moment-arm), so it can't replace FBD-bearing
-  whole-body figures. Course keeps its **Tier-2 shaded / data-driven** figures.
+## Then — cosmetic cleanup (optional, low priority; not incorrect-anatomy)
+- **m10** wishbone shoulders (both arms spring from one midline point).
+- **m09** fig1 (feet piled at one point), fig13 (stance leg has no knee).
+- **m13** any residual detached heads / missing feet after the trunk-column pass.
+Locate each by CAPTION; render-verify; gate + commit per figure. If the user
+brings something else, that takes precedence.
 
 ## Where to read things (reference, don't re-derive)
-
-- `CLAUDE.md` — standing conventions (build loop, hardening, git/publish, figures).
-- `anatomy_kit/README.md` — how the durable body/figure generators + tests work.
-- `anatomy_kit/ATTRIBUTIONS.md` — NIH BioArt public-domain licenses.
-- `BIOLOGICAL_FIGURE_REALISM_{PLAN,IMPLEMENTATION_REPORT}.md` — the realism spec +
-  full history (incl. §5A per-figure catalog).
-- `svg-figure-tiers.md` — Tier 1/2/Real + "geometry from data" rule.
+- `ANATOMY_AUDIT.md` (repo root) — the full defect register, the 4 proven fix
+  recipes, resolved document indices, and the safety caveats below. **Read it
+  before touching any figure.**
+- `CLAUDE.md` — standing conventions (build loop, nine hard gates, git/publish,
+  figure style, the "Standing rules (tutor)" block).
+- `anatomy_kit/README.md` — how `body_group` / `capsule` / `sphere` / `head` work.
 - `prompt.txt` — course structure source of truth.
-- Hardening scripts — `C:\Users\<user>\.claude\skills\rigorous-explainer\scripts\`.
 
-## Session-transient scratch (regenerate; durable record is the committed output)
+## Critical safety caveats (bit us this session)
+- **Limbs in m09/m10 are drawn as thick `#c98a5e` `<line>`s.** NEVER blind-sweep
+  stroke-width to thin slabs — you'll delete legs. Every slab fix excludes
+  `#c98a5e` (and wood-tone floor/chair lines).
+- **Figure numbering mismatch:** audit sheet-numbers ≠ document `<figure>` index.
+  Locate every figure by its **caption**.
+- **Some bodies sit in transformed `<g>`s** — audit coords are post-transform;
+  resolve the transform before trusting coordinates.
+- Spring/arc abstractions are NOT defects — render-and-judge, don't "fix" them.
 
-- **`anatomy_kit/py/*.py`** — these are the **durable, committed** generators
-  (body/foot/heroes + previews + apply scripts). Not transient. Regenerate figures
-  or previews from `anatomy_kit/README.md`.
-- One-off analysis from the 2026-07-20 session (figure classifiers, the pictogram
-  mockup, the hardening-sweep script) lived in the OS scratchpad and is **gone** —
-  none of it is needed; the durable record is the committed modules + gates.
+## Session-transient scratch (regenerate; durable record is the committed HTML)
+- Audit/render tooling lived in the OS scratchpad and is **gone** — none needed
+  to finish m02 fig1 (a direct `<path>` edit + `shoot.py` render is enough).
+  If you want the coordinate helpers back: `an.py` (`an.run('moduleNN.html',
+  {figs})` → limb endpoints/joints/fat-lines) + `render.py` (full-height
+  per-figure renderer) — regenerate from the pattern in `ANATOMY_AUDIT.md`.
 
 ## How to work (essentials — full detail in `CLAUDE.md`)
-
-- **Commit only on the user's explicit "commit push."** Push to public `main`.
-  Commit as `az9713` with the `az9713@users.noreply.github.com` email; keep the
-  standard trailer block.
-- **Hardening loop after every figure edit** (all nine hard gates above must be 0)
-  — and don't trust a prior session's "all green" claim; re-run it (this session
-  found 9 bugs a prior "green" handoff had missed).
-- **Figures:** Tier-2 + data-driven via `anatomy_kit/`; never AI anatomy; slim
-  arrows; Unicode in SVG `<text>`, not `$…$`. Approve one representative figure
-  before mass-producing a style.
+- **Nine hard gates after every figure edit** (all 0): checktex, checklt,
+  check_links, check_svg, check_code, verify_dom, check_overlap, check_frame,
+  check_bodyprop. Then **render-verify** with `shoot.py` — don't trust gates alone
+  (they do NOT catch backward knees / detached heads / footless legs).
+- **Commit + push per figure**, as `az9713` / `az9713@users.noreply.github.com`,
+  with the standard trailer block. Public repo — never reintroduce the private
+  `az9713@yahoo.com` email (it still lives in git history; needs a filter-repo
+  rewrite + force-push, coordinate with the user first).
+- **Keep the session small** — this handoff exists because the fix phase ran to
+  ~680k context. Finish m02 fig1, then stop or `/clear`.

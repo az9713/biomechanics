@@ -323,3 +323,7 @@ the first K1–K10 draft was flagged as plug-in substitution.)
 ## Note
 The user values: rigor (no watering down), correct anatomy, strong visuals
 (Tier-2), and reviewing each section before commit. Keep the `★ Insight` summaries.
+
+## Standing rules (tutor)
+- After completing each module/work unit: commit and push without asking. Never wait for a "commit and push" prompt.
+- At each module boundary: write/refresh HANDOFF.md (current state + next task), then suggest the user /clear. Do not let the session grow past ~150k context.
