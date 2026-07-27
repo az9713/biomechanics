@@ -222,10 +222,24 @@ module affected except 16/17. Three-quarters trace to a handful of shared
 generator bugs (stroke-width-slab, detached-head/neck-ball, missing-neck, empty
 body group, non-Winter problem body, dangling/`markerUnits`-less arrow markers).
 
+## ⚠ CRITICAL SAFETY CAVEAT (verified 2026-07-27) — do NOT blind-sweep stroke-width
+**Limbs are drawn as thick `<line>`s, not just rects.** A survey of every
+`<line stroke-width>15>` found that the SAME width range holds both the slab-bug
+lines AND legitimate anatomy: **limb capsules `stroke="#c98a5e"` at width 15–20**
+(m10 has 72, m09 has 8 — these are the actual legs/arms), **muscle bars
+`#2a7d2a`/`#b0361f`/`#7a1f1f`** (m01/05/06), **floor/chair lines
+`#c9b79a`/`#b09a78`/`#9a8b6a` at 37–54**, and **FEM bars `#9c8760`** (m16). A blind
+"set every fat line to 3px" sweep would **turn every leg and arm into a hairline
+and destroy the bodies.** The slab-bug lines must be identified **per figure by
+coordinate** (the audit did this), never by width alone. Build the geometric
+checker + a before/after visual baseline FIRST, then fix per-figure and re-render
+to confirm nothing collapsed.
+
 ## Fix order (highest leverage first)
-1. **Stroke-width sweep** — every annotation `<line stroke-width>` >~15 down to
-   ~2.5–3 (exclude legit thick bars: FEM bars m16, floor/chair lines, m01 mRed
-   muscle bars). Clears the "slab/barcode" class across m04/06/07/10/11/12/13.
+1. **Stroke-width fix — PER FIGURE, NOT a sweep** (see caveat above). For each
+   flagged slab line (ground/plumb/force lines the audit lists by module/fig),
+   thin to ~2.5–3, leaving limb/muscle/floor/FEM lines untouched. Clears the
+   "slab/barcode" class across m04/06/07/10/11/12/13.
 2. **Arrow markers** — give `a_red`/`a_grn`/`a_blu`/siblings
    `markerUnits="userSpaceOnUse"` in each module's shared defs (fixes wedge-blob
    heads, e.g. m03 f47, m04 f15); add the missing `a_blu` in m05.
