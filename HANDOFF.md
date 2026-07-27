@@ -18,6 +18,18 @@ the **problem-set body figures across modules 1–15 are broken** — **~90
 defect-level figures.** The audit is DONE and fully documented; **no re-auditing
 needed** — just execute.
 
+**FIX PROGRESS (2026-07-27, commits `8b1cdce`→`b8eedab`):** m03 f26 (clip); **m11
+DONE** (6 blank bodies emitted, 29 detached heads seated, 60 slabs thinned; residual
+minor: fig2 foot/hand, fig16/23 elbow posture, missing hands, faded IK branches);
+**m12 DONE** (7 heads seated, shoulder-ball gradient, slabs; residual: fig21 walker
+ground-slab, feet-past-floor, 5-digit hands). See `ANATOMY_AUDIT.md` PROGRESS +
+**PROVEN BATCH-FIX RECIPE** (emit body / seat-head-by-shared-coord / thin-slabs-by-
+0.3×length-ratio). **Remaining (harder, per-figure):** m13 (per-figure heads +
+trunk-column no-legs bodies), m07 (no-thigh bodies, hip hyperextension), m09/m10
+(broken gait bodies + slabs where **limbs are `#c98a5e` LINES** — exclude that colour
+or legs vanish), m01 (backward knees f13/f21), m02/m14 (femur necks), m15 (doubled
+body, backward knee). Continue worst-first; gate + commit per module.
+
 - **Work-list + root causes + fix order:** `ANATOMY_AUDIT.md` (repo root). Read it
   first, fix in the order it gives.
 - **Root-cause families** (fixing a few clears most figures): (A) annotation
