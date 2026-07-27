@@ -7,6 +7,44 @@ pre-rendered contact sheets were truncated at 1340 px and unreliable — ignore
 them). Each module's anatomy figures were inventoried via GRAD (flesh/bone
 gradient) references.
 
+## PROGRESS (updated 2026-07-27)
+
+Fixes are underway, worst-first, gate-verified and committed per module.
+
+**Done & pushed:**
+- **m03 f26** — clipped viewBox fixed (`8b1cdce`).
+- **m11** — 4 of the 5 defect classes cleared:
+  - the **6 blank figures** (empty body `<g>`) now render correct Winter seated
+    bodies via `anatomy_kit.body_group` + fig12 slab thinned (`81703fd`);
+  - **29 detached heads** seated on slim necks (`035b7f8`);
+  - **60 leader/force stroke-width slabs** thinned by the 0.3×length signature
+    (`035b7f8`… see `pushed` after). All gates green.
+  - **m11 residual (minor, still TODO):** fig2 missing foot/hand; fig16 & fig23
+    elbow posture (through-arm / wrong-way wave); missing hands on
+    fig17/25/29/33/34/40/42; faded elbow-up IK branches (fig5/17/28).
+
+**PROVEN BATCH-FIX RECIPE (reuse for m07/m12/m13/m09/m10/m15):**
+1. **Emit a missing/broken body:** compute a joints dict (seated or standing) and
+   call `anatomy_kit.py.body.body_group(joints, show_arms, show_feet)`; splice the
+   returned `<g>` in place of the empty/broken body group. m11's seat pose is a
+   good template (see git `81703fd`). Verify the module has the gradient ids
+   `b_limb/b_head/b_sph` (all present in m07/11/12/13).
+2. **Seat a detached head + slim the neck-ball (shared-coord batch):** if the head
+   circle and neck rect are at *fixed inner coords* across N figures (they were in
+   m11: head `cy=89 r=14`, neck `y=113.2 w=38.2` ×29; m12/m13 share the SAME
+   `y=113.2 w=38.2` neck-ball), lower the head to seat and replace each fat
+   neck-ball with a slim vertical neck capsule (width ~14) at the same centreline
+   (`cx = rect.x + w/2`). One regex pass fixes all N.
+3. **Thin stroke-width slabs — BY RATIO, never by width alone** (see caveat below):
+   for each `<line>`, thin to ~2.6 only if `stroke-width>10` AND
+   `stroke-width/length>0.15` AND the stroke is not a wood-tone floor/chair line
+   (`#c9b79a/#b09a78/#9a8f7a/#6a5a3a`). This hits exactly the 0.3×length bug and
+   spares limbs/muscle/FEM/floor. (Works when limbs are *rects*, as in m11/12/13;
+   in m09/m10 limbs are thick `#c98a5e` LINES — exclude that colour too, or the
+   legs vanish.)
+4. After each module: run all nine gates (esp. `check_bodyprop`, `check_frame`,
+   `check_overlap`, `verify_dom`) + eyeball a render of the touched figures; commit.
+
 ## Root cause (one regression, many figures)
 
 The **biological-figure-realism pass** (commit `3fd6fbe`, 2026-07-20) rebuilt the
