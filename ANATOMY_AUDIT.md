@@ -45,6 +45,17 @@ Fixes are underway, worst-first, gate-verified and committed per module.
 4. After each module: run all nine gates (esp. `check_bodyprop`, `check_frame`,
    `check_overlap`, `verify_dom`) + eyeball a render of the touched figures; commit.
 
+## ⚠ FIGURE-NUMBER CAVEAT — locate by caption, not by number
+The per-module findings below number figures by their **position in the audit
+contact-sheet**, which does NOT equal document order (`<figure>` index) — e.g. m13
+"fig 15" = document svg #19. Some modules also draw bodies inside scaled/translated
+`<g>` groups, so a finding's coordinates are **post-transform** values that do not
+appear literally in the markup. Before editing any remaining figure: match it by
+its **aria-label / figcaption text**, and resolve the group transform (or replace
+the whole body group via `anatomy_kit.body_group`, as done for m11's empty bodies)
+rather than trusting raw coordinates. Mis-targeting by number will corrupt a
+correct figure.
+
 ## Root cause (one regression, many figures)
 
 The **biological-figure-realism pass** (commit `3fd6fbe`, 2026-07-20) rebuilt the
