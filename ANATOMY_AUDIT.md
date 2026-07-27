@@ -11,8 +11,15 @@ gradient) references.
 
 Fixes are underway, worst-first, gate-verified and committed per module.
 
-**Done & pushed:**
+**Done & pushed (~55 figures):**
 - **m03 f26** — clipped viewBox fixed (`8b1cdce`).
+- **m04 f15, m06 f21, m13 f4** — three named stroke-width slabs thinned (`f6d866c`).
+- **m13 f5/f9/f16/f23 — all four "trunk-column" no-legs figures REGENERATED** with
+  correct posed bodies (stair-climber, incline-walker, stairs up+down, slope
+  up+down) via `anatomy_kit.body_group` + feet on the treads/slopes
+  (`cd9bc84`/`f9c388e`/`4080630`/`10d601b`). Element-wise body-swap recipe: grab
+  the figure's 6 broken limb rects + spheres, blank them, replace the head circle
+  with a `body_group` posed to the scene's anchor; verify by render.
 - **m11** — 4 of the 5 defect classes cleared:
   - the **6 blank figures** (empty body `<g>`) now render correct Winter seated
     bodies via `anatomy_kit.body_group` + fig12 slab thinned (`81703fd`);
