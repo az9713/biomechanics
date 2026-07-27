@@ -30,12 +30,13 @@ needed** — just execute.
   body-swap preserving hip-shoulder-arm axes for overlay-bearing figures).
 
 **Update: m09 gown-bodies DONE (14/17/20/27/32); m10 slab bug DONE (~13 figs
-un-buried).** Now ~80 of ~90 figures fixed.
+un-buried); m01 backward knees DONE (3 figs, knee 135→152).** Now ~83 of ~90 fixed.
 
-**REMAINING (~10, bespoke correctness — start here next session):**
+**REMAINING (~7, bespoke correctness — start here next session):**
 - **Backward knees** (genuine incorrect-anatomy): m09 fig2 (5 running poses, per-gait
-  -phase — the biggest), m01 f13/f21 & m15 (inside scaled/translated groups —
-  resolve the transform first; audit coords are post-transform).
+  -phase — the biggest), m15 squat figure (inside scaled/translated groups —
+  resolve the transform first; audit coords are post-transform). *(m01 f13/f21/C7
+  DONE.)*
 - **Neck-less femurs** m02/m14 (femur head bolted on the shaft axis, no neck/greater
   trochanter): NOT a capsule+sphere — path/transform-based, locate by caption;
   reuse m14 fig1's correct proximal-femur shape; retarget the fall arrow to the
