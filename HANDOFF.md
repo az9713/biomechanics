@@ -18,17 +18,29 @@ the **problem-set body figures across modules 1–15 are broken** — **~90
 defect-level figures.** The audit is DONE and fully documented; **no re-auditing
 needed** — just execute.
 
-**FIX PROGRESS (2026-07-27, commits `8b1cdce`→`b8eedab`):** m03 f26 (clip); **m11
-DONE** (6 blank bodies emitted, 29 detached heads seated, 60 slabs thinned; residual
-minor: fig2 foot/hand, fig16/23 elbow posture, missing hands, faded IK branches);
-**m12 DONE** (7 heads seated, shoulder-ball gradient, slabs; residual: fig21 walker
-ground-slab, feet-past-floor, 5-digit hands). See `ANATOMY_AUDIT.md` PROGRESS +
-**PROVEN BATCH-FIX RECIPE** (emit body / seat-head-by-shared-coord / thin-slabs-by-
-0.3×length-ratio). **Remaining (harder, per-figure):** m13 (per-figure heads +
-trunk-column no-legs bodies), m07 (no-thigh bodies, hip hyperextension), m09/m10
-(broken gait bodies + slabs where **limbs are `#c98a5e` LINES** — exclude that colour
-or legs vanish), m01 (backward knees f13/f21), m02/m14 (femur necks), m15 (doubled
-body, backward knee). Continue worst-first; gate + commit per module.
+**FIX PROGRESS (2026-07-27, ~63 of ~90 figures, 19 commits `8b1cdce`→HEAD):**
+- **m11 DONE** (6 blank bodies emitted, 29 heads seated, 60 slabs thinned).
+- **m12 DONE** (7 heads seated, shoulder-ball gradient, slabs).
+- **m13 trunk-columns DONE** (f5/f9/f16/f23 no-legs bodies regenerated).
+- **m07 broken bodies DONE** (18/23/29/30/31/32 — 8 bodies regenerated, overlays
+  kept aligned).
+- **m03 f26 clip, m04 f15, m06 f21, m13 f4** slab/clip fixes.
+- See `ANATOMY_AUDIT.md` PROGRESS + the three **PROVEN RECIPES** (emit body /
+  seat-head-by-shared-coord / thin-slabs-by-0.3×length-ratio / element-wise
+  body-swap preserving hip-shoulder-arm axes for overlay-bearing figures).
+
+**REMAINING (~27, per-figure) — start here next session:**
+- **m09/m10** (biggest chunk): broken gait/gown bodies + slabs where **limbs are
+  `#c98a5e` LINES** (exclude that colour from the slab-thin, or legs vanish). These
+  bodies are line-based, not rect-based — remove the line body, insert a posed
+  `body_group` at the scene ground anchor.
+- **m13 remaining**: per-figure detached heads + missing feet + one-limb on the
+  C/D problem bodies (heads at varying coords — no shared template; add a foot at
+  each bare ankle, seat each head).
+- **m01 f13/f21, m15**: backward knees inside transformed groups (resolve transform
+  or body-swap). **m02/m14**: neck-less femurs. **m07** sheet-"fig16" hyperextension
+  (locate by caption — numbering mismatch). **m12** fig21 walker ground-slab.
+- Continue worst-first; gate (all nine) + render-verify + commit per figure/module.
 
 - **Work-list + root causes + fix order:** `ANATOMY_AUDIT.md` (repo root). Read it
   first, fix in the order it gives.
