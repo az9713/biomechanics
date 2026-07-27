@@ -299,8 +299,18 @@ circle with a posed `body_group`; verify by render):
 - **m13 remaining** (posed bodies, lower severity): detached heads + missing feet +
   one-limb on the C/D problem bodies — add a foot ellipse at each bare ankle and
   seat each head; per-figure (heads at varying coords, not a shared template).
-- **m09/m10**: broken gait bodies (gown legs, backward knees) + slabs where **limbs
-  are `#c98a5e` LINES** (exclude that colour from the slab-thin, or legs vanish).
+- **m09/m10 — ⚠ per-figure judgment required (spring/arc abstraction vs broken).**
+  Line-based bodies (`#c98a5e` limbs). **Not all "gown legs" are defects:** m09 fig14's
+  LEFT body is a legitimate compressed-runner-on-a-drawn-spring (correct, left
+  untouched); fig17/fig27 "vaulting COM on a circular arc" may likewise be
+  intentional arc abstractions. **Render each before fixing.** The genuinely broken
+  ones (two fat straight `#c98a5e` leg-lines hip→ground + zero-length "shank" lines +
+  no feet) get real legs: replace the fat lines with thigh+shank+knee+foot capsules
+  (recipe used on m09 fig14, commit after `e86dcef`). Broken: m09 fig14-right (DONE),
+  fig20 & fig32 (landings — need real legs), fig13 (arm through head, front leg no
+  knee), fig2 (5 poses, backward knees + no feet), fig1 (feet piled on one spot).
+  Also slabs where limbs are lines — exclude `#c98a5e` from the slab-thin or legs
+  vanish.
 - **m01 f13/f21, m15**: backward knees inside transformed groups — resolve the
   transform (or replace via body_group). **m02/m14**: neck-less femurs.
 
