@@ -4,43 +4,52 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last handoff written:** 2026-07-20 (session close — committed the realism pass).
+**Last handoff written:** 2026-07-27 (session close — course-wide anatomy audit
+complete; FIX PHASE PENDING).
 
 ---
 
-## Current state (as of latest push)
+## ⇒ RESUME HERE: execute the anatomy fixes in `ANATOMY_AUDIT.md`
 
-- **ENTIRE COURSE COMPLETE & LIVE:** modules 1–17 at
-  https://az9713.github.io/biomechanics/
-- **Remote tip = local tip = `3fd6fbe`** ("Course-wide biological figure
-  realism: anatomy_kit + data-driven figures"). Working tree **clean**; local
-  and `origin/main` match.
-- **The big prior open item is now resolved.** The "biological figure realism"
-  pass (Winter-proportion figures + `anatomy_kit/`) that the previous handoff
-  described as *"DONE but NOT committed"* is **committed and pushed** at `3fd6fbe`.
-  The live site now shows the realism figures (not the older chunky-pictogram set
-  from `f114a91`).
-- **Bugs fixed while committing:** the realism pass had left **9 truncated
-  `aria-label`s** sliced mid-`$…$` (unclosed inline math) — module11 ×8,
-  module16 ×1. All fixed (labels cut back to before the dangling `$`, ended with
-  an ellipsis; they're screen-reader text, never typeset). module16's odd parity
-  was caught by `checktex`; module11's even-parity pair only by `checklt`.
-- **Verified:** all 17 modules pass the **nine hard gates** — `checktex`,
-  `checklt`, `check_links`, `check_svg`, `check_code`, `verify_dom` (0 MathJax
-  errors), `check_overlap`, `check_frame`, `check_bodyprop`.
-- **`.gitignore` now excludes** `body_template.JPEG` (copyright reference image)
-  and `mcps/` (unrelated local MCP folders). Neither is on the public repo.
+A full coordinate-verified visual audit of every human-anatomy figure (2026-07-27,
+7 parallel agents) found a **course-wide regression from the realism pass
+(`3fd6fbe`)**: exposition figures are good (Winter `anatomy_kit.body_group`), but
+the **problem-set body figures across modules 1–15 are broken** — **~90
+defect-level figures.** The audit is DONE and fully documented; **no re-auditing
+needed** — just execute.
 
-## Next task
+- **Work-list + root causes + fix order:** `ANATOMY_AUDIT.md` (repo root). Read it
+  first, fix in the order it gives.
+- **Root-cause families** (fixing a few clears most figures): (A) annotation
+  `<line stroke-width>` set to ~0.3×length → 60–174px slabs burying anatomy
+  (m04/06/07/10/11/12/13); (B) detached head + oversized "neck-ball", no real neck
+  (m07/11/12/13); (C) footless shank stumps / one-leg / one-arm / no-thigh bodies;
+  (D) **6 m11 figures whose body `<g>` is EMPTY** (f8/11/12/38/39/45); (E) backward
+  knees (m01 f13/f21, m09 f2, m15 f3) & through-arm/wrong-way elbows (m11 f16/f23);
+  (F) `a_red`/siblings missing `markerUnits="userSpaceOnUse"` → wedge-blob heads;
+  (G) m13 f5/f9/f16/f23 = "trunk-column" bodies with NO legs.
+- **How to fix:** original generators are gone; bodies are baked static SVG.
+  Regenerate each from `anatomy_kit.body_group` posed to match, keep the physics
+  overlays, thin the annotation strokes, fix markers. After EACH module: run all
+  nine hard gates (esp. `check_bodyprop`, `check_frame`, `check_overlap`,
+  `verify_dom`) then commit+push that module.
+- **Audit tooling** (session-transient scratch, regenerate if gone):
+  `…/a21d973c-…/scratchpad/an.py` (`an.run('moduleNN.html',{figs})` → limb
+  endpoints/joints/fat-lines) and `render.py` (full-height per-figure renderer —
+  the truncation-safe replacement for the capped `build_sheets.py`).
 
-- **No committed-in next task — the course is complete and clean.** Start from
-  whatever the user brings next. If they ask for "more polish," the standing
-  optional tracks are: Servier/OpenStax "Real" plates for menisci / pennate
-  muscle; full Winter-pose regen of any remaining still-capsule-y problem-set
-  bodies. Neither is required.
-- **If the user asks for something else, that takes precedence.**
-- Any figure edit → re-run the hardening loop (all nine gates) before commit.
-  **Only commit on the user's explicit "commit push."**
+## Prior state (unchanged facts)
+
+- Modules 1–17 are LIVE at https://az9713.github.io/biomechanics/; remote tip =
+  local tip. The realism pass is committed at `3fd6fbe`. `.gitignore` excludes
+  `body_template.JPEG` and `mcps/`.
+- **Caution:** the nine hard gates previously reported "all green" but did NOT
+  catch these anatomy defects — they are geometric/semantic (backward knees,
+  detached heads, footless legs, fat annotation strokes, empty body groups) that
+  `check_bodyprop` (proportion-only) and the others do not test. Trust the audit
+  register, not a prior "green" claim.
+- **Only commit on the user's explicit "commit push."** (The audit docs were
+  committed as a completed work unit.)
 
 ## Recently explored & dropped (don't re-propose unprompted)
 
