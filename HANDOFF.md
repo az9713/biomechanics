@@ -29,18 +29,22 @@ needed** — just execute.
   seat-head-by-shared-coord / thin-slabs-by-0.3×length-ratio / element-wise
   body-swap preserving hip-shoulder-arm axes for overlay-bearing figures).
 
-**REMAINING (~27, per-figure) — start here next session:**
-- **m09/m10** (biggest chunk): broken gait/gown bodies + slabs where **limbs are
-  `#c98a5e` LINES** (exclude that colour from the slab-thin, or legs vanish). These
-  bodies are line-based, not rect-based — remove the line body, insert a posed
-  `body_group` at the scene ground anchor.
-- **m13 remaining**: per-figure detached heads + missing feet + one-limb on the
-  C/D problem bodies (heads at varying coords — no shared template; add a foot at
-  each bare ankle, seat each head).
-- **m01 f13/f21, m15**: backward knees inside transformed groups (resolve transform
-  or body-swap). **m02/m14**: neck-less femurs. **m07** sheet-"fig16" hyperextension
-  (locate by caption — numbering mismatch). **m12** fig21 walker ground-slab.
-- Continue worst-first; gate (all nine) + render-verify + commit per figure/module.
+**Update: m09 gown-bodies DONE (14/17/20/27/32); m10 slab bug DONE (~13 figs
+un-buried).** Now ~80 of ~90 figures fixed.
+
+**REMAINING (~10, bespoke correctness — start here next session):**
+- **Backward knees** (genuine incorrect-anatomy): m09 fig2 (5 running poses, per-gait
+  -phase — the biggest), m01 f13/f21 & m15 (inside scaled/translated groups —
+  resolve the transform first; audit coords are post-transform).
+- **Neck-less femurs** m02/m14 (femur head bolted on the shaft axis, no neck/greater
+  trochanter): NOT a capsule+sphere — path/transform-based, locate by caption;
+  reuse m14 fig1's correct proximal-femur shape; retarget the fall arrow to the
+  lateral greater trochanter.
+- **Minor/cosmetic:** m10 wishbone shoulders (arms from one midline point), m09
+  fig1 (feet piled) & fig13 (stance leg no knee), m13 remaining detached-heads/feet,
+  m07 sheet-"fig16" hyperextension (locate by caption), m12 fig21 walker ground-slab.
+- All specified in `ANATOMY_AUDIT.md`. Locate by CAPTION (numbering mismatch);
+  render-verify every fix; gate + commit per figure.
 
 - **Work-list + root causes + fix order:** `ANATOMY_AUDIT.md` (repo root). Read it
   first, fix in the order it gives.
