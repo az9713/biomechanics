@@ -309,9 +309,14 @@ circle with a posed `body_group`; verify by render):
   (recipe: `legs()` = capsule thigh+shank + knee sphere + foot ellipse, replacing
   the fat `#c98a5e` lines; keep head/trunk/arms/overlays).
   **m09 DONE:** fig14-right, fig17, fig20 (both bodies), fig27, fig32.
-  **m09 remaining:** **fig2** (5 running poses, backward knees at different gait
-  phases — intricate per-phase posing, do carefully/fresh), fig13 (stance leg no
-  knee — minor), fig1 (rect-based, feet piled on one spot — minor).
+  **m09 fig2 DONE** (5 backward knees reflected across each hip→ankle line — commit
+  after `10d601b`). **m09 remaining:** fig13 (stance leg no knee — minor), fig1
+  (rect-based, feet piled on one spot — minor).
+  **m15 fig4 (DELICATE, fresh):** render-confirmed a genuinely doubled body (doubled
+  head + piled trunk/arms), BUT the two copies have different proportions and the
+  hip/knee/ankle/toe markers must stay placed — delete the duplicate copy
+  element-by-element without disturbing the marker model. m15 squat figure + fig1
+  minor items also remain.
   **m10 SLAB BUG DONE:** 48 slab lines (ground sw 69–174, plumb/force sw 27–63)
   thinned across ~13 figures — the feet/legs/dynamics are now visible. **m10
   residual (minor):** the "wishbone" body template (both arms originate from one
