@@ -20,6 +20,15 @@ Fixes are underway, worst-first, gate-verified and committed per module.
   (`cd9bc84`/`f9c388e`/`4080630`/`10d601b`). Element-wise body-swap recipe: grab
   the figure's 6 broken limb rects + spheres, blank them, replace the head circle
   with a `body_group` posed to the scene's anchor; verify by render.
+- **m07 figs 18/23/29/30/31/32 — 8 broken inset/lifter bodies REGENERATED.** The
+  bent-forward lifters (18, 32) were replaced preserving the **hip/shoulder/arm
+  axes** so the L5/S1 pivot + erector-spinae/disc-compression/moment-arm overlays
+  stay aligned; the standing insets (23, 29, 30, 31 — one-legged, armless) got a
+  parametric standing `body_group`; fig31's stiffness "slab" bars + fig29's
+  hip-strategy arrow thinned (sparing the `#5a86a8` balance beams). All gates clean.
+  **m07 residual:** the sheet-numbered "fig16" hyperextension backbend could NOT be
+  located in document order (numbering mismatch) — left for careful fresh work;
+  fig2/3/15/40/48 are minor/clean.
 - **m11** — 4 of the 5 defect classes cleared:
   - the **6 blank figures** (empty body `<g>`) now render correct Winter seated
     bodies via `anatomy_kit.body_group` + fig12 slab thinned (`81703fd`);
