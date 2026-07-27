@@ -278,6 +278,23 @@ module affected except 16/17. Three-quarters trace to a handful of shared
 generator bugs (stroke-width-slab, detached-head/neck-ball, missing-neck, empty
 body group, non-Winter problem body, dangling/`markerUnits`-less arrow markers).
 
+## Remaining broken-body DOCUMENT indices (resolved past the sheet-number mismatch)
+Reconnoitered 2026-07-27 (heads+limb-rect counts). Fix via the element-wise
+body-swap recipe (grab the broken limb rects+spheres, blank them, replace the head
+circle with a posed `body_group`; verify by render):
+- **m07** (doc `<figure>` index): **18** (bent-forward lift: 1 leg no knee/foot, 1
+  arm no hand), **23** (broomstick balancer: 1 leg), **29** & **31** (two-body,
+  no-thigh), **30** (icy-patch: no-thigh), **32** (stoop-lift: 1 leg), **42** &
+  **52** (flexed-spine: hip hyperextension + no neck). fig3 is the clean Winter
+  body; fig2 is the pendulum schematic (leave).
+- **m13 remaining** (posed bodies, lower severity): detached heads + missing feet +
+  one-limb on the C/D problem bodies — add a foot ellipse at each bare ankle and
+  seat each head; per-figure (heads at varying coords, not a shared template).
+- **m09/m10**: broken gait bodies (gown legs, backward knees) + slabs where **limbs
+  are `#c98a5e` LINES** (exclude that colour from the slab-thin, or legs vanish).
+- **m01 f13/f21, m15**: backward knees inside transformed groups — resolve the
+  transform (or replace via body_group). **m02/m14**: neck-less femurs.
+
 ## ⚠ CRITICAL SAFETY CAVEAT (verified 2026-07-27) — do NOT blind-sweep stroke-width
 **Limbs are drawn as thick `<line>`s, not just rects.** A survey of every
 `<line stroke-width>15>` found that the SAME width range holds both the slab-bug
