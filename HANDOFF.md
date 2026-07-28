@@ -4,18 +4,26 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last handoff written:** 2026-07-27 (anatomy fix phase ~complete; ONE bespoke
-figure + cosmetics remain).
+**Last handoff written:** 2026-07-28 (anatomy fix phase COMPLETE — all ~90
+defect figures done incl. the last bespoke one; only optional cosmetics remain).
 
 ---
 
-## Current state (as of latest push `f6e7317`)
+## Current state (anatomy phase COMPLETE)
 
 The course-wide **anatomy regression** from the realism pass (`3fd6fbe`) is
-**fixed — ~89 of ~90 defect figures done**, every one gate-checked AND rendered,
-across ~36 commits (`8b1cdce` → `f6e7317`). All pushed to `main`; remote tip =
-local tip = `f6e7317`. Working tree clean apart from known-untracked tool dirs
-`.agents/` and `.codex/` (local scaffolding — leave untracked, like `mcps/`).
+**fully fixed — all ~90 defect figures done**, every one gate-checked AND
+rendered. The final bespoke figure (m02 fig1) is now corrected and pushed. All
+pushed to `main`; remote tip = local tip. Working tree clean apart from
+known-untracked tool dirs `.agents/` and `.codex/` (local scaffolding — leave
+untracked, like `mcps/`).
+
+**m02 fig1 — DONE (latest commit):** the hand-authored teaching-femur `<path>`
+drew a ~146° neck-shaft angle (coxa valga) against a caption stating ~125°.
+Rebuilt as a coherent single-outline proximal femur at 125° (head at (276,41),
+neck axis 55° off the vertical shaft, greater-trochanter bump, condyle base),
+fixed the dashed 125° guideline, and un-overlapped the GT / neck-shaft labels.
+Nine gates pass; render-verified in context (`scratchpad/fig1_ctx.png`).
 
 **What got fixed (all committed + render-verified):**
 - **Every broken body regenerated** via `anatomy_kit.body_group`: m11 (6 empty
@@ -28,33 +36,11 @@ local tip = `f6e7317`. Working tree clean apart from known-untracked tool dirs
   by the 0.3×length ratio, **excluding** `#c98a5e` limb-lines + wood-tone floor.
 - **m15 fig4** doubled-body — deleted the duplicate offset copy.
 
-## Next task — **m02 fig1 (the one real remaining figure)**
+## Next task — **cosmetic cleanup (optional, low priority; not incorrect-anatomy)**
 
-**Goal:** the teaching femur in `module02.html` fig1 is a single closed `<path>`
-whose neck-shaft angle reads ~146° (coxa valga) instead of the normal ~125°.
-Correct it to ~125°.
-
-**Why it was deferred, not skipped:** it is NOT a capsule+sphere body (the proven
-recipes don't apply) — it's one hand-authored closed outline. Fixing it means
-recomputing the head-arc centre + neck vertices of that path so the outline stays
-coherent, which needs **iterative render-verification** — and in the prior session
-Chrome renders had started timing out at 2 min, so a bone-outline edit could not
-be safely verified. A fresh session (renders working again) is the right place.
-
-**How to do it (est. ~10 min in a clean session):**
-1. Locate fig1 by caption (numbering mismatch — don't trust sheet-position numbers).
-2. Read the femur `<path d="…">`; identify the head-arc (`A rx ry …`) + the neck
-   segment feeding into the shaft. Reuse **m14 fig5's** now-correct proximal-femur
-   geometry (neck at ~125° off the shaft axis + a lateral greater trochanter) as
-   the shape reference.
-3. Recompute the head centre (medial-superior of the shaft top) and neck vertices;
-   edit the `d` in place. Retarget any fall/impact arrow to the **lateral greater
-   trochanter**, not the head.
-4. **Render-verify** (`shoot.py`) — confirm the outline is coherent and the angle
-   reads ~125°. Revert the edit if the outline breaks; do not ship unverified.
-5. Run all nine hard gates → commit + push that figure.
-
-## Then — cosmetic cleanup (optional, low priority; not incorrect-anatomy)
+The anatomy defect register is cleared. What remains is purely cosmetic — the
+bodies are already recognizable and anatomically correct; these are polish items.
+If the user brings something else, that takes precedence.
 - **m10** wishbone shoulders (both arms spring from one midline point).
 - **m09** fig1 (feet piled at one point), fig13 (stance leg has no knee).
 - **m13** any residual detached heads / missing feet after the trunk-column pass.
