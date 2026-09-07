@@ -4,83 +4,101 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last handoff written:** 2026-07-28 (anatomy fix phase COMPLETE — all ~90
-defect figures done incl. the last bespoke one; only optional cosmetics remain).
+**Last handoff written:** 2026-09-07 (editor phase: Modules 1 and 2 applied and
+pushed; Modules 3–17 not yet reviewed).
 
 ---
 
-## Current state (anatomy phase COMPLETE)
+## Current state — the EDITOR phase (the anatomy phase is closed)
 
-The course-wide **anatomy regression** from the realism pass (`3fd6fbe`) is
-**fully fixed — all ~90 defect figures done**, every one gate-checked AND
-rendered. The final bespoke figure (m02 fig1) is now corrected and pushed. All
-pushed to `main`; remote tip = local tip. Working tree clean apart from
-known-untracked tool dirs `.agents/` and `.codex/` (local scaffolding — leave
-untracked, like `mcps/`).
+The course-wide **anatomy regression** is fully fixed (~90 figures, all
+gate-checked and render-verified). That phase is done. What is running now is a
+**`science-editor` pass, module by module**: read a `moduleNN.html` against the
+five-part standard, write a report, then apply it.
 
-**m02 fig1 — DONE (latest commit):** the hand-authored teaching-femur `<path>`
-drew a ~146° neck-shaft angle (coxa valga) against a caption stating ~125°.
-Rebuilt as a coherent single-outline proximal femur at 125° (head at (276,41),
-neck axis 55° off the vertical shaft, greater-trochanter bump, condyle base),
-fixed the dashed 125° guideline, and un-overlapped the GT / neck-shaft labels.
-Nine gates pass; render-verified in context (`scratchpad/fig1_ctx.png`).
+| Module | Report | Applied | Commit |
+|---|---|---|---|
+| 1 | `editor-reports/module01.md` — 19 blocking, 15 style | yes | `3a4dae1` |
+| 2 | `editor-reports/module02.md` — 22 blocking, 20 style | yes | `ac93c14` |
+| 3–17 | not written | — | — |
 
-**What got fixed (all committed + render-verified):**
-- **Every broken body regenerated** via `anatomy_kit.body_group`: m11 (6 empty
-  `<g>` + 29 detached heads + 60 slabs), m12 (7 heads), m13 (4 trunk-columns),
-  m07 (8 bodies, overlays kept aligned), m09 (5 gown-legs).
-- **Every locatable backward knee:** m01 (f13/f21/C7), m09 fig2 (5 gait poses).
-- **Every neck-less femur reachable as capsule/sphere:** m14 (fig5/17/18/32) —
-  neck capsule + greater trochanter + retargeted fall arrow.
-- **Every slab-buried figure:** m10 (~13 figs), plus m04/06/07/11/12/13 — thinned
-  by the 0.3×length ratio, **excluding** `#c98a5e` limb-lines + wood-tone floor.
-- **m15 fig4** doubled-body — deleted the duplicate offset copy.
+Both reports are committed (`b59b44f`) and stay as the record of what was wrong.
+Working tree clean apart from the untracked tool dirs `.agents/` and `.codex/`
+(local scaffolding — leave untracked, like `mcps/`).
 
-## Next task — **cosmetic cleanup (optional, low priority; not incorrect-anatomy)**
+## Next task — the editor pass on `module03.html`
 
-The anatomy defect register is cleared. What remains is purely cosmetic — the
-bodies are already recognizable and anatomically correct; these are polish items.
-If the user brings something else, that takes precedence.
-- **m10** wishbone shoulders (both arms spring from one midline point).
-- **m09** fig1 (feet piled at one point), fig13 (stance leg has no knee).
-- **m13** any residual detached heads / missing feet after the trunk-column pass.
-Locate each by CAPTION; render-verify; gate + commit per figure. If the user
-brings something else, that takes precedence.
+Same two steps, same order:
+
+1. **Report.** Invoke the `science-editor` skill on `module03.html`, read against
+   `EDITOR_DOMAIN.md`. Output goes to `editor-reports/module03.md` and must give,
+   per defect: `module03.html:LINE`, the quoted text, the fault, and **the full
+   replacement HTML**. Extract and run every `<pre><code>` block; check each
+   printed number against the prose.
+2. **Apply.** See the pipeline below. Then commit and push.
+
+Module 3 is the largest so far (2176 lines, 322 KB) and its §9 holds 30 problems
+with figures, so expect a bigger report than Module 2's 22 defects.
+
+## The apply pipeline (proven on Modules 1 and 2 — reuse it)
+
+Write **one re-runnable `apply.py`** in the scratchpad. Do not hand-edit 40 places.
+
+- `rep(old, new, tag)` **asserts the anchor occurs exactly once**, then replaces;
+  the script logs every tag so you can check the log against B1..Bn.
+- New/repaired SVG bodies come from a `genfigs.py` → `figs.json`; `apply.py`
+  splices them in. Prose stays in the HTML, figures come from Python.
+- `git checkout -- moduleNN.html` is the reset. The loop is: edit `genfigs.py` →
+  rerun → `git checkout` → `python apply.py` → gates.
+- Run it against a **pristine** file. It is not idempotent.
+
+**Three traps that cost real time on Modules 1 and 2:**
+- In a Python **raw** string `\'` keeps the backslash, so `r'…\'…'` never matches
+  the file. This crashed `apply.py` silently — it died before its single
+  `write_text`, leaving the file untouched while the logs looked plausible.
+- A regex that maps `\beta`→`beta` **before** stripping `\\[a-zA-Z]+` glues
+  `\sin`+`beta` into `\sinbeta` and deletes it. Map function names first.
+- `check_overlap.py` tests text against curves and dashed lines, **not text
+  against text**. Legend-on-label collisions are invisible to it — look at the
+  renders.
 
 ## Where to read things (reference, don't re-derive)
-- `ANATOMY_AUDIT.md` (repo root) — the full defect register, the 4 proven fix
-  recipes, resolved document indices, and the safety caveats below. **Read it
-  before touching any figure.**
-- `CLAUDE.md` — standing conventions (build loop, nine hard gates, git/publish,
-  figure style, the "Standing rules (tutor)" block).
-- `anatomy_kit/README.md` — how `body_group` / `capsule` / `sphere` / `head` work.
-- `prompt.txt` — course structure source of truth.
 
-## Critical safety caveats (bit us this session)
-- **Limbs in m09/m10 are drawn as thick `#c98a5e` `<line>`s.** NEVER blind-sweep
-  stroke-width to thin slabs — you'll delete legs. Every slab fix excludes
-  `#c98a5e` (and wood-tone floor/chair lines).
-- **Figure numbering mismatch:** audit sheet-numbers ≠ document `<figure>` index.
-  Locate every figure by its **caption**.
-- **Some bodies sit in transformed `<g>`s** — audit coords are post-transform;
-  resolve the transform before trusting coordinates.
-- Spring/arc abstractions are NOT defects — render-and-judge, don't "fix" them.
-
-## Session-transient scratch (regenerate; durable record is the committed HTML)
-- Audit/render tooling lived in the OS scratchpad and is **gone** — none needed
-  to finish m02 fig1 (a direct `<path>` edit + `shoot.py` render is enough).
-  If you want the coordinate helpers back: `an.py` (`an.run('moduleNN.html',
-  {figs})` → limb endpoints/joints/fat-lines) + `render.py` (full-height
-  per-figure renderer) — regenerate from the pattern in `ANATOMY_AUDIT.md`.
+- `editor-reports/*.md` — what was wrong with each module and the exact fix.
+- `EDITOR_DOMAIN.md` — the domain brief the `science-editor` skill reads.
+- `CLAUDE.md` — standing conventions: build loop, the nine hard gates, git and
+  publish, figure style, math-in-HTML gotchas, the K-problem depth standard.
+- `ANATOMY_AUDIT.md` — the closed anatomy phase: defect register, four fix
+  recipes, and the safety caveats (thick `#c98a5e` limb lines, figures located by
+  caption not index, transformed `<g>`s).
+- `anatomy_kit/README.md` — `body_group` / `capsule` / `sphere` / `head`.
+- `prompt.txt` — course structure, source of truth.
 
 ## How to work (essentials — full detail in `CLAUDE.md`)
-- **Nine hard gates after every figure edit** (all 0): checktex, checklt,
-  check_links, check_svg, check_code, verify_dom, check_overlap, check_frame,
-  check_bodyprop. Then **render-verify** with `shoot.py` — don't trust gates alone
-  (they do NOT catch backward knees / detached heads / footless legs).
-- **Commit + push per figure**, as `az9713` / `az9713@users.noreply.github.com`,
+
+- **Nine hard gates after every edit pass**, all zero: `checktex`, `checklt`,
+  `check_links`, `check_svg`, `check_code`, `verify_dom`, `check_overlap`,
+  `check_frame`, `check_bodyprop`. Then read the advisories (`check_prose`,
+  `check_proofs`, `check_probfig`).
+- **Then render-verify with `shoot.py` and look at the PNGs.** Every real defect
+  found in the last two modules — a wedge cut on the wrong diagonal, a legend
+  printed through a number, a curve running off the top — passed all nine gates.
+  Gates are necessary and not sufficient.
+- **Commit + push per module**, as `az9713` / `az9713@users.noreply.github.com`,
   with the standard trailer block. Public repo — never reintroduce the private
-  `az9713@yahoo.com` email (it still lives in git history; needs a filter-repo
-  rewrite + force-push, coordinate with the user first).
-- **Keep the session small** — this handoff exists because the fix phase ran to
-  ~680k context. Finish m02 fig1, then stop or `/clear`.
+  `az9713@yahoo.com` email (it still lives in git history; a rewrite needs
+  filter-repo plus a force-push, so coordinate with the user first).
+- Subagents doing an apply should run **no writing git command**; the lead
+  commits after re-running the static gates.
+
+## Open items (small, not blocking)
+
+- **Cosmetic anatomy leftovers** (not incorrect anatomy): m10 wishbone shoulders,
+  m09 fig1 (feet piled at one point) and fig13 (stance leg has no knee), m13 any
+  residual detached head. Locate by caption; render-verify; gate; commit.
+- **A stroke-width gate for `check_svg.py`** was suggested while fixing the
+  Module 2 black bars — it would catch the "realism commit" failure class
+  mechanically. It lives in the shared `rigorous-explainer` skill, so it is a
+  change to the toolchain, not to a module.
+- `autoContinueAtUsageLimit: true` is now set in `~/.claude/settings.json`, so a
+  usage limit no longer ends a session's work — it waits and continues.
