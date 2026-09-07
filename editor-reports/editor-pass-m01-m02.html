@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Modules 1 &amp; 2 Editor Pass</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#f2f3f1;
+    --panel:#fbfbfa;
+    --ink:#16191c;
+    --ink-2:#3d4650;
+    --ink-3:#6b7681;
+    --rule:#d3d7d4;
+    --rule-2:#e3e6e3;
+    --mark:#a8231b;
+    --mark-soft:#f5e6e4;
+    --ok:#2c6248;
+    --ok-soft:#e2ece7;
+    --blue:#1f4e79;
+    --shadow:rgba(20,25,30,.09);
+  }
+  :root:not([data-theme="light"]){
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme:dark;
+      --ground:#14171a;
+      --panel:#1b1f23;
+      --ink:#e9ecea;
+      --ink-2:#b3bcc2;
+      --ink-3:#828e97;
+      --rule:#2e353b;
+      --rule-2:#242a2f;
+      --mark:#e8776c;
+      --mark-soft:#3a2320;
+      --ok:#79c3a2;
+      --ok-soft:#1e2f28;
+      --blue:#7fb0d8;
+      --shadow:rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --ground:#14171a;
+    --panel:#1b1f23;
+    --ink:#e9ecea;
+    --ink-2:#b3bcc2;
+    --ink-3:#828e97;
+    --rule:#2e353b;
+    --rule-2:#242a2f;
+    --mark:#e8776c;
+    --mark-soft:#3a2320;
+    --ok:#79c3a2;
+    --ok-soft:#1e2f28;
+    --blue:#7fb0d8;
+    --shadow:rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+    font-size:16.5px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px 96px}
+  h1,h2,h3,.disp{font-family:Spectral,Georgia,"Times New Roman",serif;text-wrap:balance}
+  a{color:var(--blue)}
+  code,.mono{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace}
+
+  /* ---------- masthead ---------- */
+  .mast{
+    border-bottom:2px solid var(--ink);
+    padding:52px 0 18px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:20px 32px;
+  }
+  .eyebrow{
+    font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--mark);font-weight:700;margin-bottom:12px;
+  }
+  h1{font-size:clamp(38px,6.2vw,62px);line-height:1.02;font-weight:700;margin:0;letter-spacing:-.015em}
+  h1 em{font-style:italic;color:var(--ink-2);font-weight:400}
+  .mast-meta{
+    font-size:12.5px;color:var(--ink-3);text-align:right;line-height:1.75;
+    font-family:"IBM Plex Mono",monospace;
+  }
+  .standfirst{
+    font-family:Spectral,Georgia,serif;
+    font-size:clamp(18px,2.1vw,21px);
+    line-height:1.58;color:var(--ink-2);
+    max-width:62ch;margin:26px 0 0;
+  }
+
+  /* ---------- counts ---------- */
+  .counts{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:0;margin:38px 0 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  }
+  .count{padding:18px 20px 16px;border-left:1px solid var(--rule-2)}
+  .count:first-child{border-left:none;padding-left:0}
+  .count b{
+    display:block;font-family:Spectral,serif;font-size:34px;line-height:1;
+    font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+  }
+  .count span{display:block;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-top:9px}
+
+  /* ---------- sections ---------- */
+  section{margin-top:64px}
+  h2{
+    font-size:27px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em;
+  }
+  .sect-note{color:var(--ink-3);font-size:14.5px;margin:0 0 26px;max-width:64ch}
+  p{max-width:66ch}
+
+  /* ---------- the corrections ---------- */
+  .fixes{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--rule)}
+  .fix{
+    display:grid;grid-template-columns:88px 1fr;gap:0 26px;
+    padding:26px 0;border-bottom:1px solid var(--rule-2);
+  }
+  .fix-id{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:500;
+    color:var(--mark);letter-spacing:.04em;padding-top:4px;
+  }
+  .fix-id small{display:block;color:var(--ink-3);font-weight:400;margin-top:4px;letter-spacing:.02em}
+  .fix h3{font-size:19.5px;font-weight:600;margin:0 0 8px;line-height:1.3}
+  .fix p{margin:0;color:var(--ink-2);font-size:15.5px}
+  .ba{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;
+  }
+  @media(max-width:660px){.ba{grid-template-columns:1fr}.fix{grid-template-columns:1fr;gap:10px}}
+  .ba div{
+    padding:11px 14px;border-radius:2px;font-size:14.5px;line-height:1.5;
+  }
+  .was{background:var(--mark-soft);border-left:2px solid var(--mark)}
+  .now{background:var(--ok-soft);border-left:2px solid var(--ok)}
+  .ba b{
+    display:block;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+    margin-bottom:5px;font-weight:700;
+  }
+  .was b{color:var(--mark)}
+  .now b{color:var(--ok)}
+
+  /* ---------- register ---------- */
+  .reg{display:grid;grid-template-columns:1fr 1fr;gap:0 44px}
+  @media(max-width:800px){.reg{grid-template-columns:1fr;gap:44px}}
+  .reg h3{
+    font-size:15px;font-weight:700;margin:0 0 4px;letter-spacing:.02em;
+    font-family:"Source Sans 3",sans-serif;
+  }
+  .reg .sub{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);margin:0 0 16px}
+  ol.items{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+  ol.items li{
+    display:grid;grid-template-columns:44px 1fr;gap:12px;
+    padding:9px 0;border-bottom:1px solid var(--rule-2);font-size:14.8px;line-height:1.45;
+  }
+  ol.items li span{
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);
+    padding-top:3px;
+  }
+  ol.items li.hot span{color:var(--mark);font-weight:500}
+
+  /* ---------- gates ---------- */
+  .gates{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:4px}
+  .gates th{
+    text-align:left;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--ink-3);font-weight:700;padding:0 14px 9px 0;border-bottom:1px solid var(--rule);
+  }
+  .gates td{padding:9px 14px 9px 0;border-bottom:1px solid var(--rule-2);font-variant-numeric:tabular-nums}
+  .gates td:first-child{font-family:"IBM Plex Mono",monospace;font-size:13px}
+  .gates td:last-child,.gates th:last-child{padding-right:0}
+  .zero{color:var(--ok);font-weight:700}
+
+  /* ---------- blind spot ---------- */
+  .blind{
+    background:var(--panel);border:1px solid var(--rule);border-radius:2px;
+    padding:30px 32px;box-shadow:0 1px 2px var(--shadow);
+  }
+  .blind ul{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+  .blind li{padding-left:20px;position:relative;color:var(--ink-2);font-size:15.5px;max-width:70ch}
+  .blind li::before{
+    content:"";position:absolute;left:0;top:.62em;width:8px;height:2px;background:var(--mark);
+  }
+  .pull{
+    font-family:Spectral,serif;font-style:italic;font-size:21px;line-height:1.45;
+    color:var(--ink);border-left:2px solid var(--mark);padding-left:22px;margin:26px 0 0;max-width:52ch;
+  }
+
+  /* ---------- line-by-line edits ---------- */
+  .grp{margin-top:38px}
+  .grp-h{
+    display:flex;align-items:baseline;gap:14px;
+    border-bottom:1px solid var(--ink);padding-bottom:7px;margin-bottom:2px;
+  }
+  .grp-h h3{
+    font-family:"Source Sans 3",sans-serif;font-size:14px;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;margin:0;
+  }
+  .grp-h em{font-style:normal;font-size:12px;color:var(--ink-3);font-family:"IBM Plex Mono",monospace}
+  .ed{
+    display:grid;grid-template-columns:190px 1fr;gap:0 24px;
+    padding:15px 0;border-bottom:1px solid var(--rule-2);
+  }
+  @media(max-width:720px){.ed{grid-template-columns:1fr;gap:9px}}
+  .ed-loc{
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);
+    padding-top:3px;line-height:1.5;word-break:break-all;
+  }
+  .ed-loc b{display:block;color:var(--mark);font-weight:500;letter-spacing:.03em}
+  .d{
+    font-size:14.5px;line-height:1.5;padding:8px 12px;border-radius:2px;margin-bottom:5px;
+  }
+  .d:last-child{margin-bottom:0}
+  .d b{
+    display:inline-block;font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+    font-weight:700;width:44px;flex:none;
+  }
+  .d{display:flex;gap:10px;align-items:baseline}
+  .d span{flex:1}
+  .was{background:var(--mark-soft)}
+  .was b{color:var(--mark)}
+  .now{background:var(--ok-soft)}
+  .now b{color:var(--ok)}
+  .ed-why{
+    margin:7px 0 0;font-size:13.5px;color:var(--ink-3);line-height:1.5;max-width:74ch;
+  }
+  .del{background:var(--mark-soft);padding:8px 12px;border-radius:2px;font-size:14.5px;display:flex;gap:10px}
+  .del b{color:var(--mark);display:inline-block;font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;width:44px;flex:none}
+  .swatch{
+    display:inline-block;vertical-align:-2px;height:12px;border-radius:6px;
+    background:var(--ink);margin:0 6px;min-width:3px;
+  }
+
+  footer{
+    margin-top:72px;padding-top:22px;border-top:2px solid var(--ink);
+    display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-3);
+  }
+  footer b{color:var(--ink-2);font-weight:500}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <div>
+      <div class="eyebrow">Science-editor pass &middot; 7 September 2026</div>
+      <h1>Modules 1 &amp; 2<br><em>editor pass</em></h1>
+    </div>
+    <div class="mast-meta">
+      module01.html &nbsp;+277 &minus;162<br>
+      module02.html &nbsp;+294 &minus;173<br>
+      3a4dae1 &nbsp;&middot;&nbsp; ac93c14
+    </div>
+  </header>
+
+  <p class="standfirst">Two modules of the quantitative musculoskeletal course were read against the
+  five-part standard: precise statement, every term defined, proof in the smallest setting, rescue or
+  limit case, tie to something concrete. Every Python block was extracted and run, and every printed
+  number compared with the prose. The mathematics held. What failed was around it.</p>
+
+  <div class="counts">
+    <div class="count"><b>41</b><span>Blocking defects</span></div>
+    <div class="count"><b>35</b><span>Style edits</span></div>
+    <div class="count"><b>190</b><span>Anchored edits</span></div>
+    <div class="count"><b>129</b><span>Numbers checked</span></div>
+    <div class="count"><b>9</b><span>Gates, all zero</span></div>
+  </div>
+
+  <section>
+    <h2>What was actually wrong</h2>
+    <p class="sect-note">Nine corrections of substance, drawn from the forty-one. Each one changed a
+    claim a reader would otherwise have carried away.</p>
+
+    <div class="fixes">
+
+      <div class="fix">
+        <div class="fix-id">M2 &middot; B1<small>K6, D5</small></div>
+        <div>
+          <h3>Elastic similarity drawn as constant stress</h3>
+          <p>K6 plotted a flat green line for bone stress across four decades of body mass. The module's
+          own scaling does not give that. Under elastic similarity, diameter goes as length to the 3/2,
+          so mass goes as length to the fourth and stress rises as the eighth root of body mass.</p>
+          <div class="ba">
+            <div class="was"><b>Was</b>&sigma; constant, &ldquo;near 50 MPa across four decades&rdquo; &mdash; a regime the module never derives.</div>
+            <div class="now"><b>Now</b>18.0 MPa at 0.02 kg &rarr; 85.3 MPa at 5000 kg. A factor 4.7 from shrew to elephant. Constant stress needs a third rule, <span class="mono">d &prop; L&sup2;</span>.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fix">
+        <div class="fix-id">M2 &middot; B1<small>D5 solution</small></div>
+        <div>
+          <h3>&ldquo;Similar bones bow to the same shape&rdquo;</h3>
+          <p>Same curvature is not the same shape. A beam of length L at curvature &kappa; sags by
+          &kappa;L&sup2;, so the sag relative to its own length grows linearly with size.</p>
+          <div class="ba">
+            <div class="was"><b>Was</b>&kappa; &prop; &lambda;&#8304;, therefore the same shape at every scale.</div>
+            <div class="now"><b>Now</b>&kappa; is scale-free but &delta;/L &prop; &lambda;. Human to elephant, &lambda; = 4.1: four times more sag for its length.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fix">
+        <div class="fix-id">M1 &middot; B1<small>Problem D4</small></div>
+        <div>
+          <h3>The elbow flexor pulled the wrong way</h3>
+          <p>D4's muscle force pulled the forearm <em>away</em> from the joint. Its conclusion that the
+          joint is in compression then followed from a sign error rather than from the mechanics.</p>
+        </div>
+      </div>
+
+      <div class="fix">
+        <div class="fix-id">M2 &middot; B2<small>Lab caption</small></div>
+        <div>
+          <h3>A caption four times slower than its own code</h3>
+          <p>The one numeric mismatch found in 129 checked numbers. The remodeling lab's caption stated a
+          timescale the integration beneath it contradicts.</p>
+          <div class="ba">
+            <div class="was"><b>Was</b>&ldquo;100 to 150 days&rdquo; to reach equilibrium.</div>
+            <div class="now"><b>Now</b>95% of the change in 24 and 36 days; linearized &tau; = 8.3 and 12.5 days.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fix">
+        <div class="fix-id">M2 &middot; B3<small>Law 6.1</small></div>
+        <div>
+          <h3>The fall-force law dropped the weight's work</h3>
+          <p>Asserted beside two proved siblings, and its energy balance omitted the work gravity does
+          during the compression itself &mdash; 15% of the energy, 8% of the force. Now Proposition 6.1
+          with a proof of matching weight, and the exact balance stated beside the boxed figure.</p>
+          <div class="ba">
+            <div class="was"><b>Was</b>3.7 kN, asserted.</div>
+            <div class="now"><b>Now</b>3.99 kN exact, proved, with the 3.7 kN approximation kept and named.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fix">
+        <div class="fix-id">M2 &middot; B4<small>Bending animation</small></div>
+        <div>
+          <h3>The compression fibre took the longest path</h3>
+          <p>The animation of a bending bone moved the fibre it labelled as compressed along the longest
+          arc of the three. Rebuilt as three concentric arcs &mdash; top 344 px, neutral 380 px, bottom
+          415 px &mdash; so the compressed fibre is visibly the shortest.</p>
+        </div>
+      </div>
+
+      <div class="fix">
+        <div class="fix-id">M1 &middot; B9<br>M2 &middot; B5<small>Figures</small></div>
+        <div>
+          <h3>Figures buried by the July realism commit</h3>
+          <p>Commit <span class="mono">3fd6fbe</span> thickened strokes course-wide. In Module 1 it turned
+          the forearm beam of two free-body diagrams into a 75&nbsp;px black pill and the muscle arrow into
+          a 144&nbsp;px wedge; in Module 2 it laid 36&nbsp;px and 18&nbsp;px black bars across both
+          mechanostat figures. Four figures were unreadable, not merely ugly.</p>
+        </div>
+      </div>
+
+      <div class="fix">
+        <div class="fix-id">M2 &middot; B11<small>K2</small></div>
+        <div>
+          <h3>An aging model that cannot age</h3>
+          <p>K2 asked for bone loss from a drifting setpoint, but modelled it with a law that was not the
+          module's own boxed remodeling rule. Under rule (7.1), with its lazy zone, a drifting setpoint
+          produces no bone loss at all &mdash; ever.</p>
+        </div>
+      </div>
+
+      <div class="fix">
+        <div class="fix-id">M1 &middot; B15<br>M2 &middot; B13<small>Problem sets</small></div>
+        <div>
+          <h3>Nine computational problems were arithmetic</h3>
+          <p>The course standard is that a computational problem must surface science the derivation did
+          not: numerical integration, an optimization, an inverse problem, a sensitivity sweep, or a
+          regime comparison. Substituting given numbers into a boxed formula is none of those.</p>
+          <div class="ba">
+            <div class="was"><b>Was</b>M1: K3, K4, K5, K8, K10. M2: K5, K6, K7, K8.</div>
+            <div class="now"><b>Now</b>All nine rewritten. K5's optimum is now searched on a fine grid &mdash; 23.6&deg;, matching the prose the coarse grid had contradicted.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>The register</h2>
+    <p class="sect-note">Every blocking defect, in the order the reports rank them: factual errors
+    first, then asserted results, then structure that stops the reader, then missing scaffolding, then
+    problem-set depth. Red marks a false statement rather than a gap.</p>
+
+    <div class="reg">
+      <div>
+        <h3>Module 1 &mdash; Mechanical Foundations</h3>
+        <p class="sub">19 blocking &middot; 15 style &middot; 92 edits &middot; 3a4dae1</p>
+        <ol class="items">
+          <li class="hot"><span>B1</span>D4's muscle pulls away from the joint &mdash; sign error</li>
+          <li><span>B2</span>&sect;6 compression asserted beside a proved sibling</li>
+          <li><span>B3</span>Definition 1.4 asserts the COM replaces distributed weight</li>
+          <li class="hot"><span>B4</span>C7 contradicts &sect;6 on halving the reach</li>
+          <li class="hot"><span>B5</span>C8's factor of four for the spinal torque</li>
+          <li class="hot"><span>B6</span>&ldquo;Misses&rdquo; table drops a force &sect;5 derives</li>
+          <li class="hot"><span>B7</span>K9's moment arm opposes K1's</li>
+          <li class="hot"><span>B8</span>K6 conflates centre of mass with centre of pressure</li>
+          <li class="hot"><span>B9</span>&sect;4 and &sect;5 free-body figures unreadable</li>
+          <li><span>B10</span>Lumbar figure stranded in the course map</li>
+          <li><span>B11</span>Appendix has no notation table</li>
+          <li><span>B12</span>Six empirical numbers in no table</li>
+          <li><span>B13</span>Symbol collisions</li>
+          <li><span>B14</span>Anatomical terms used before glossing</li>
+          <li><span>B15</span>Five plug-in computational problems</li>
+          <li class="hot"><span>B16</span>K7/D7 present an invented pulse as measurement</li>
+          <li><span>B17</span>&sect;0 states no question; &sect;10 no capability</li>
+          <li><span>B18</span>Law 1 uses the cross product before defining it</li>
+          <li><span>B19</span>Joint torque ranges with no source class</li>
+        </ol>
+      </div>
+
+      <div>
+        <h3>Module 2 &mdash; Bones as Load-Bearing Structures</h3>
+        <p class="sub">22 blocking &middot; 20 style &middot; 98 edits &middot; ac93c14</p>
+        <ol class="items">
+          <li class="hot"><span>B1</span>K6's flat stress line; D5's &ldquo;same shape&rdquo;</li>
+          <li class="hot"><span>B2</span>Lab caption 100&ndash;150 d vs 24&ndash;36 d computed</li>
+          <li class="hot"><span>B3</span>Fall law asserted; drops the weight's work</li>
+          <li class="hot"><span>B4</span>Animation moves compression along the longest arc</li>
+          <li class="hot"><span>B5</span>Both mechanostat figures under black bars</li>
+          <li class="hot"><span>B6</span>&sect;3 blurs joint torque with bending moment</li>
+          <li><span>B7</span>&sect;2 leans on a forward reference to Module 3</li>
+          <li><span>B8</span>45&deg; principal stress rests on an underived formula</li>
+          <li><span>B9</span>&sect;7 asserts equilibrium and stability</li>
+          <li><span>B10</span>Definition 3.1 assumes what Theorem 3.2 proves</li>
+          <li class="hot"><span>B11</span>K2's model is not the boxed law (7.1)</li>
+          <li class="hot"><span>B12</span>K4's code models a different problem than stated</li>
+          <li><span>B13</span>Four plug-in computational problems</li>
+          <li class="hot"><span>B14</span>K9 presents synthetic data as measurement</li>
+          <li class="hot"><span>B15</span>Two cross-references point at the wrong figure</li>
+          <li><span>B16</span>Appendix has no notation table</li>
+          <li><span>B17</span>~20 empirical numbers in no table</li>
+          <li><span>B18</span>Symbol collisions</li>
+          <li><span>B19</span>Terms used before glossing</li>
+          <li><span>B20</span>&sect;0 names no model level</li>
+          <li class="hot"><span>B21</span>&sect;5 contradicts itself on where 17 GPa sits</li>
+          <li><span>B22</span>C1(c) needs unstated knowledge</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Verification</h2>
+    <p class="sect-note">Nine hard gates on each final file, all zero. The five static gates were re-run
+    independently before each commit; the figures were the sole content of a separate render pass.</p>
+    <div style="overflow-x:auto">
+      <table class="gates">
+        <thead>
+          <tr><th>Gate</th><th>What it catches</th><th>Module 1</th><th>Module 2</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>checktex</td><td>Delimiter and brace balance; stray control characters</td><td>1008 seg, <span class="zero">0</span></td><td>1159 seg, <span class="zero">0</span></td></tr>
+          <tr><td>checklt</td><td>Raw &lt; or &gt; inside math</td><td><span class="zero">0</span></td><td><span class="zero">0</span></td></tr>
+          <tr><td>check_links</td><td>Broken and unlinked section references</td><td>86 links, <span class="zero">0</span></td><td>92 links, <span class="zero">0</span></td></tr>
+          <tr><td>check_svg</td><td>viewBox arity; literal sub/superscripts in text</td><td><span class="zero">0</span> hard</td><td><span class="zero">0</span> hard</td></tr>
+          <tr><td>check_code</td><td>Every Python block PEP 8</td><td>11 blocks, <span class="zero">0</span></td><td>11 blocks, <span class="zero">0</span></td></tr>
+          <tr><td>verify_dom</td><td>MathJax errors; sentences swallowed by math</td><td><span class="zero">0</span></td><td><span class="zero">0</span></td></tr>
+          <tr><td>check_overlap</td><td>Labels sitting on curves and dashed lines</td><td><span class="zero">0</span></td><td><span class="zero">0</span></td></tr>
+          <tr><td>check_frame</td><td>Content clipped past the viewBox edge</td><td><span class="zero">0</span> clipped</td><td><span class="zero">0</span> clipped</td></tr>
+          <tr><td>check_bodyprop</td><td>Hairline limbs on anatomical figures</td><td><span class="zero">clean</span></td><td><span class="zero">clean</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the gates could not see</h2>
+    <p class="sect-note">All nine gates returned zero while these were still in the files. They were
+    found by rendering each changed figure and looking at the image.</p>
+    <div class="blind">
+      <ul>
+        <li><b>A wedge cut on the wrong diagonal.</b> With the stated shear sense, the plane carrying
+        positive shear runs top-left to bottom-right. The dashed cut ran the other way, and the principal
+        stress arrow did not lie along the outward normal. Valid SVG throughout.</li>
+        <li><b>A legend printed through a number.</b> K2's &ldquo;69.7&rdquo; sat under legend text.
+        <span class="mono">check_overlap</span> compares text against curves and dashed reference lines
+        &mdash; it does not test text against text.</li>
+        <li><b>A curve leaving the top of its axes.</b> K4's &tau;<sub>r</sub>&thinsp;=&thinsp;7 trace ran
+        past the frame; the y-axis now reaches 1.45.</li>
+        <li><b>An optimum marked half a degree off.</b> K5's minimum was searched on a 0.5&deg; grid, so
+        the marker read 23.5&deg; while the prose, caption, aria-label and the module's own code all said
+        23.6&deg;. The true optimum is 23.578&deg;.</li>
+      </ul>
+      <p class="pull">Each gate tests one property. A wrong diagonal is valid SVG; a coarse grid is valid
+      Python. The gates are necessary and not sufficient.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>What already held</h2>
+    <p>The mathematics was sound in both modules and none of it was touched. Module 1's Propositions and
+    its section 8 worked example reproduce every figure they state &mdash; 18.9 N&middot;m, 631 N, 567 N,
+    12.9&times;, 0.83 body weights &mdash; and all sixty-five numbers checked against its code matched.
+    Module 2's Theorem 3.2, Proposition 3.3 and Proposition 4.1 each carry a proof of matching weight, and
+    its eleven code blocks print exactly what the text claims. One mismatch in one hundred and
+    twenty-nine numbers is a low rate; the failures were of statement, scaffolding and drawing, not of
+    calculation.</p>
+    <p>Two additions went beyond the reports and are recorded in the commits. Module 2's D7 figure was a
+    drawing of a Mohr's circle, and the report removes &ldquo;Mohr's circle&rdquo; from the text around
+    it; leaving the figure would have orphaned it, so it became a wedge-balance diagram &mdash; which is
+    where the wrong diagonal was found. Module 1's aria-label rewriter had been deleting
+    <span class="mono">\sin&thinsp;\beta</span> from one label, leaving a screen reader to announce
+    &ldquo;horizontal moment arms grow as .&rdquo;</p>
+  </section>
+
+  <section>
+    <h2>Every prose change</h2>
+    <p class="sect-note">All 35 style and clarity edits, at the line each was written against, plus the
+    prose rewritten inside the blocking defects. Line numbers are pre-edit: the counters shift as text
+    lands.</p>
+
+    <div class="grp">
+      <div class="grp-h"><h3>Filler and hedging deleted</h3><em>10 words, 11 sites</em></div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:201<b>style 1</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;the moment arm is <em>simply</em> the <em>horizontal</em> distance&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;the moment arm is the <em>horizontal</em> distance&rdquo;</span></div>
+          <p class="ed-why">Same deletion of &ldquo;simply&rdquo; at :323 (&ldquo;do not simply cancel&rdquo;), :575 (&ldquo;Proposition 3.1 simply carries&rdquo;) and :738.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:216<b>style 6</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;which is <em>precisely</em> the definition of the <em>centroid</em>&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;which is the definition of the <em>centroid</em>&rdquo;</span></div>
+          <p class="ed-why">Also deleted: &ldquo;exactly&rdquo; at :304, &ldquo;perfectly&rdquo; at :294, &ldquo;comfortably&rdquo; at :322, &ldquo;precisely&rdquo; at :521, &ldquo;simply&rdquo; at :553, &ldquo;far more&rdquo; at :729.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:222<b>style 7</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;The hollow bone is &sim;44% stronger in bending at no extra mass &mdash; the engineering reason long bones are tubes.&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;The hollow bone is 44% stronger in bending at no extra mass. That is the engineering reason long bones are tubes.&rdquo;</span></div>
+          <p class="ed-why">The tilde goes because the figure is exact; the dash splice becomes two sentences.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>Vague replaced by specific</h3><em>module 2</em></div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:94<b>style 1</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;The same femur routinely survives gait forces of several times body weight, millions of cycles per year, with a large margin to spare &mdash; yet&hellip;&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;The same femur carries gait forces of two to three times body weight, about a million cycles a year, with a large margin in compression; yet&hellip;&rdquo;</span></div>
+          <p class="ed-why">&ldquo;Routinely survives&rdquo;, &ldquo;several times&rdquo;, &ldquo;millions&rdquo; and &ldquo;to spare&rdquo; all become checkable. The margin is named as compressive, which is the whole point of the section that follows.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:157<b>style 3</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;Geometry heroes use typical adult dimensions&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;The drawn outlines use assumed adult dimensions&rdquo;</span></div>
+          <p class="ed-why">&ldquo;Geometry heroes&rdquo; is production slang. &ldquo;Typical&rdquo; claims a population the module never sampled; &ldquo;assumed&rdquo; is what the Appendix now classes it as.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:172<b>style 4</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;the rest of the module is bookkeeping of where in a loaded bone &sigma; is largest&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;the rest of the module asks where in a loaded bone &sigma; is largest&rdquo;</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:477<b>style 14</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;a drugs/aging-driven rise in the setpoint&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;a rise in the setpoint driven by drugs or aging&rdquo;</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:294<b>style 9</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;A planted foot while the trunk rotates &mdash; a ski catching an edge, a tackle, a stumble with a fixed shoe &mdash; applies&hellip;&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;A planted foot while the trunk rotates (a ski catching an edge, a tackle, a stumble with a fixed shoe) applies&hellip;&rdquo;</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>Numbers corrected in prose</h3><em>4 sites</em></div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:488<b>style 8</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;the same as adding &sim;1.5 kg at the original distance&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;the same as adding &sim;1.4 kg at the original distance&rdquo;</span></div>
+          <p class="ed-why">4.91 / 3.43 = 1.43.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:549<b>style 9</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;an &sim;8&times; amplification&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;a 6.6&times; amplification over the combined weight of trunk and box&rdquo;</span></div>
+          <p class="ed-why">The old figure had no stated denominator, so it could not be checked.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:179<b>style 5</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;F &asymp; 2.5 &times; 70 &times; 9.81 &asymp; 1715 N&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;&hellip; = 1717 N&rdquo;</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:233<b>style 8</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;and why the safety factor of &sim;1.3 &mdash; not &sim;1.8 &mdash; is the honest one&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;and why the safety factor is 1.3 (tensile), not 1.7 (compressive)&rdquo;</span></div>
+          <p class="ed-why">170 / 99 = 1.72, not 1.8. The parentheses also name which strength each ratio comes from, which the dash construction hid.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>One-line arguments inserted</h3><em>claims that were asserted now carry their reason</em></div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:167<b>style 2</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;&hellip;is the perpendicular distance from O to the force's line of action&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&hellip; + &ldquo;(drop a perpendicular from O to the line; its length is &lVert;r&rVert; sin &phi; by the right triangle with hypotenuse r)&rdquo;</span></div>
+          <p class="ed-why">Same line, second insertion: after &ldquo;reduces to the signed scalar M<sub>z</sub> = xF<sub>y</sub> &minus; yF<sub>x</sub>&rdquo; add &ldquo;(the z-component of r &times; F with r = (x,y,0), F = (F<sub>x</sub>,F<sub>y</sub>,0))&rdquo;.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:211<b>style 3</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;all gravitational moments share the same rotational sense (they pull the segment down)&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;&hellip; the same rotational sense because every mass lies on the same side of O (distal to the joint) and every weight points down&rdquo;</span></div>
+          <p class="ed-why">The parenthesis restated the conclusion. The replacement gives the two conditions the claim actually needs.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:371<b>style 4</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>Definition 7.2: &ldquo;&hellip;reproducing the true distribution's net force and moment&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&hellip; + &ldquo;(the net moment about the origin is &int; x p dA = x<sub>COP</sub> &int; p dA, by the definition of x<sub>COP</sub>, which is the moment of the resultant placed there)&rdquo;</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:373<b>style 5</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;pressure cannot be negative, so the resultant cannot act outside the contact patch&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;x<sub>COP</sub> is a weighted average of points of the patch with non-negative weights p dA, and such an average lies in the convex hull of those points&rdquo;</span></div>
+          <p class="ed-why">The original is the right intuition and not an argument. The replacement is the argument, and it names the object (convex hull) the later stability proposition uses.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:595<b>style 6</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>D6 solution: &ldquo;which (through moment balance about each foot) raises R<sub>R</sub> relative to R<sub>L</sub>&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&hellip; + &ldquo;moments about the left foot give R<sub>R</sub> = W<sub>tot</sub>(x<sub>COM</sub> &minus; x<sub>L</sub>)/(x<sub>R</sub> &minus; x<sub>L</sub>) and R<sub>L</sub> = W<sub>tot</sub> &minus; R<sub>R</sub>, so R<sub>R</sub> grows linearly as x<sub>COM</sub> moves right&rdquo;</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:444<b>style 13</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;Output (computed): increased load drives a +33% gain, disuse a &minus;50% loss, habitual load is a stable equilibrium &mdash; all from the single law (7.1).&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;Output (computed): the load increase settles at +33% (1.6 &times; 1250/1500), disuse at &minus;50% (0.4 &times; 1250/1000), and the habitual case does not move, all from the single law (7.1) and Lemma 7.2.&rdquo;</span></div>
+          <p class="ed-why">Each percentage now shows the arithmetic that produces it, and the stability claim is handed to the lemma that proves it rather than asserted in a caption.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>Captions cut back to captions</h3><em>4 deletions, 1 split</em></div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:156<b>style 2</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;A real femur is not a capsule. Left: &hellip; &mdash; the landmarks that matter for bending, torsion, and fall fracture&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;Left: &hellip; These landmarks set the lever arms for bending (&sect;3), torsion (&sect;4), and the fall (&sect;6).&rdquo;</span></div>
+          <p class="ed-why">Commentary on the drawing style belongs in the attribution note. The replacement points at the sections instead.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:309<b>style 10</b></div>
+        <div class="ed-body">
+          <div class="del"><b>Deleted</b><span>&ldquo;Geometry uses an anatomic lateral outline (neck-shaft &asymp; 125&deg;), not a featureless capsule.&rdquo;</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:559<b>style 16</b></div>
+        <div class="ed-body">
+          <div class="del"><b>Deleted</b><span>C10: &ldquo;Drawing the head as a sphere without the neck and acetabulum hides why orientation matters for fall fracture.&rdquo;</span></div>
+          <p class="ed-why">Three captions in one module were defending the illustration technique to the reader. A caption says what the figure shows.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:343<b>style 14</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>A seven-line caption ending &ldquo;Most limb muscles are third-class, but not all: &hellip;&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>The second-class-lever sentence moves out of the caption into the prose after the figure, as its own paragraph.</span></div>
+          <p class="ed-why">The caption was carrying the lever-class lesson that problem C4 then tests. A caption a reader must study is prose in the wrong place.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>Metaphor, hedges and forward promises</h3><em>module 1</em></div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:135<b>style 13</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;the price of the body's lever geometry&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;&hellip; (quantified in &sect;5 as the ratio r<sub>L</sub>/d<sub>m</sub>)&rdquo;</span></div>
+          <p class="ed-why">The metaphor is kept, because it pays for itself two sections later &mdash; and now says where.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:494<b>style 7</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;correct orders of magnitude with no fitting&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;orders of magnitude the validation protocol below can test, with no fitted parameter&rdquo;</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:404<b>style 10</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;roughly the force of hanging a 64 kg mass from the tendon&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;the weight of a 64 kg mass hung from the tendon&rdquo;</span></div>
+          <p class="ed-why">A mass is not a force. The comparison is exact once it says &ldquo;weight&rdquo;, so &ldquo;roughly&rdquo; goes too.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:387<b>style 11</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;beyond it the only recovery is a step&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;beyond it no admissible COP exists (Proposition 7.4) and the only recovery is a step&rdquo;</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:311<b>style 11</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;this idealized stout tube &mdash; real femora, with thinner cortices, fail nearer 140&ndash;180 N&middot;m, so&hellip;&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>&ldquo;this idealized stout tube; femora with thinner cortices are assumed to fail nearer 140 to 180 N&middot;m (Appendix), so&hellip;&rdquo;</span></div>
+          <p class="ed-why">&ldquo;Real femora&hellip; fail&rdquo; states a measurement the module has no source for. It is an assumption, now labelled and tabled.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:623<b>style 17</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;never substitution into a boxed formula&rdquo; &mdash; false for K5 to K8 as they stood</span></div>
+          <div class="d now"><b>Now</b><span>Sentence kept; K5&ndash;K8 rewritten so it becomes true.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:399<b>style 12</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;<em>The bone chases a target strain, not a target size.</em>&rdquo; sitting alone</span></div>
+          <div class="d now"><b>Now</b><span>Moved into the paragraph after Lemma 7.2, where the lemma has just proved it.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:753<b>style 18</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>A problem-solution number in a result box: &ldquo;&sim;1230 kg&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>Box removed. Boxes are for stated results, not for answers.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>Prose rewritten inside the blocking defects</h3><em>not counted among the 35</em></div>
+      <div class="ed">
+        <div class="ed-loc">both modules<b>B14 / B19</b></div>
+        <div class="ed-body">
+          <div class="d now"><b>Added</b><span>11 glosses at first use in Module 2; in Module 1: plantarflex, Achilles, plantarflexors, abducted, brachialis, antagonist, PCSA.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">both modules<b>B17 / B20</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&sect;0 named the phenomenon but not the question or the model level; the closing section did not say what the reader can now do.</span></div>
+          <div class="d now"><b>Now</b><span>Both open with the question and the level of description, and close with a capability list.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">both modules<b>B13 / B18</b></div>
+        <div class="ed-body">
+          <div class="d now"><b>Renamed</b><span>Module 2: 9 symbol collisions. Module 1: the K2 regression slope A &rarr; b, so A stays a point in D3.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html<b>self-flagged</b></div>
+        <div class="ed-body">
+          <div class="d now"><b>Reworded</b><span>One phrase written during the edit itself, flagged by <span class="mono">check_prose.py</span> and rewritten before the commit.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Every SVG change</h2>
+    <p class="sect-note">Stroke widths, markers, keyframes, redrawn figures, layout repairs, figure plumbing
+    and screen-reader labels. The first group is one regression, introduced course-wide by a single commit.</p>
+
+    <div class="grp">
+      <div class="grp-h"><h3>The stroke-width regression</h3><em>commit 3fd6fbe, 20 July 2026</em></div>
+      <p class="ed-why" style="margin:14px 0 4px">&ldquo;Course-wide biological figure realism&rdquo; thickened strokes across every module. In these
+      figures it did not make a line look real, it made a line into a solid block that hid the drawing
+      underneath. No gate measures stroke width, so all nine passed.</p>
+      <div class="ed">
+        <div class="ed-loc">module01.html:230<b>&sect;4 forearm beam</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span><span class="mono">stroke-width="74.8"</span> &mdash; a 75&nbsp;px black pill hiding the pivot, the COM dot, the dimension lines and the r<sub>s</sub> label</span></div>
+          <div class="d now"><b>Now</b><span><span class="mono">stroke-width="6"</span></span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:244<b>&sect;4 muscle force</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span><span class="mono">stroke-width="16.0"</span> with <span class="mono">markerUnits</span> at its default of <span class="mono">strokeWidth</span> &mdash; a 144&nbsp;px red wedge</span></div>
+          <div class="d now"><b>Now</b><span><span class="mono">stroke-width="3"</span></span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:278, 330, 334, 536<b>&sect;5 and lever bars</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>33.0 &middot; 79.2 &middot; 16.0 &middot; 25.5 and 20.2</span></div>
+          <div class="d now"><b>Now</b><span>6 &middot; 6 &middot; 3 &middot; 6</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:361, 548, 556, 566, 584, 588, 602<b>force arrows</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>Every <span class="mono">&lt;line&gt;</span> carrying <span class="mono">marker-end="url(#mRed)"</span> at 16.0</span></div>
+          <div class="d now"><b>Now</b><span>3. The tool handle at :566 (<span class="mono">#7c5a2e</span>) goes 16.0 &rarr; 8, since it is an object and not a vector.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:544, 598<b>ground reaction</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>19.2 and 17.7</span></div>
+          <div class="d now"><b>Now</b><span>3.4 &mdash; a heavier load may thicken the shaft modestly; the head does not follow, because <span class="mono">mPur</span> uses <span class="mono">userSpaceOnUse</span>.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:382<b>&sect;7 lazy zone</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span><span class="mono">stroke-width="36.4"</span><span class="swatch" style="width:36px"></span>hiding the strain axis, the rate axis, both threshold ticks, and the words &ldquo;lazy zone&rdquo; &mdash; black text on the black bar</span></div>
+          <div class="d now"><b>Now</b><span><span class="mono">stroke-width="2.4"</span><span class="swatch" style="width:3px"></span></span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:544<b>C7 lazy zone</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span><span class="mono">stroke-width="17.7"</span></span></div>
+          <div class="d now"><b>Now</b><span><span class="mono">stroke-width="2.4"</span></span></div>
+          <p class="ed-why">Two other thick strokes in the file &mdash; :593 at 10 and :822 at 9 &mdash; are beam bodies, render correctly, and were left alone.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>Arrowheads pinned to user space</h3><em>8 markers</em></div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:173, 174, 226, 227, 266, 327, 328</div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>Markers <span class="mono">m2arrow</span>, <span class="mono">m2arrowr</span>, <span class="mono">p4dn</span>, <span class="mono">p4up</span>, <span class="mono">a4dn</span>, <span class="mono">m5up</span>, <span class="mono">m5dn</span> at the default <span class="mono">markerUnits="strokeWidth"</span></span></div>
+          <div class="d now"><b>Now</b><span>All seven set <span class="mono">markerUnits="userSpaceOnUse"</span>, so a future stroke change cannot multiply the head into a wedge again.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:193</div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span><span class="mono">b3ar</span> &mdash; the one marker in the file without it</span></div>
+          <div class="d now"><b>Now</b><span><span class="mono">markerUnits="userSpaceOnUse"</span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>The bending animation</h3><em>module02.html:267&ndash;287</em></div>
+      <div class="ed">
+        <div class="ed-loc">three &lt;path&gt; keyframes<b>B4</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>All three fibres held the same 380&nbsp;px chord and the top fibre was given the <em>largest</em> sagitta (34 px against 30 and 26). Mid-keyframe arc lengths: top 388.0, neutral 386.2, bottom 384.7 px.</span></div>
+          <div class="d now"><b>Now</b><span>Concentric arcs about one centre. Top <span class="mono">M52,56 Q220,120 388,56</span>, neutral <span class="mono">M34,84 Q220,150 406,84</span>, bottom <span class="mono">M16,112 Q220,180 424,112</span>. Arc lengths: top 344.0, neutral 379.7, bottom 415.4 px.</span></div>
+          <p class="ed-why">The old animation showed the fibre labelled &ldquo;compression&rdquo; lengthening the most &mdash; the opposite of Theorem 3.2 and of its own caption. The endpoints move now, which is the point: a fibre in bending does not keep its chord.</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:287<b>caption</b></div>
+        <div class="ed-body">
+          <div class="d now"><b>Added</b><span>&ldquo;The three fibres are drawn as concentric arcs about one centre of curvature, so the top fibre shortens, the neutral fibre keeps its length, and the bottom fibre lengthens, as (3.1) requires.&rdquo;</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>Figures redrawn</h3><em>from the figure generator, not patched by hand</em></div>
+      <div class="ed">
+        <div class="ed-loc">module01.html<b>6 problem figures</b></div>
+        <div class="ed-body">
+          <div class="d now"><b>Redrawn</b><span>K3 tornado, K4 disc compression, K5 capacity, K8 stair power, K9 MVC fit, K10 regime map &mdash; the six problems rewritten from plug-in arithmetic, so their figures had to plot the new quantities.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html<b>K6 scaling plot</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>A flat green polyline encoded as <span class="mono">sig_ela = np.full_like(m, sig_ref)</span> &mdash; a regime the module never derives.</span></div>
+          <div class="d now"><b>Now</b><span>Three rules with their true exponents: geometric 1/3, elastic 1/8, stress 0.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:593<b>D5 moments &mdash; B15</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>Two straight downward force arrows, both labelled <em>M</em>. Two downward arrows at the ends read as a two-point load, not a couple.</span></div>
+          <div class="d now"><b>Now</b><span>Curved moment arrows: <span class="mono">M48,40 A16,16 0 0 1 72,52</span> at the left end, <span class="mono">M252,40 A16,16 0 0 0 228,52</span> at the right &mdash; opposite sweep flags, so the pair reads as equal and opposite. One centred &ldquo;M&rdquo; became one label per couple.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html<b>D7 wedge &mdash; beyond the report</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>A drawing of a Mohr's circle &mdash; and the report strips &ldquo;Mohr's circle&rdquo; from the caption, the probes and C4, which would have left the figure orphaned.</span></div>
+          <div class="d now"><b>Now</b><span>A wedge-balance diagram. Drawing it exposed a second fault: with top&rarr;right / bottom&rarr;left / right&rarr;up / left&rarr;down shear, the plane carrying positive shear runs top-left to bottom-right. The dashed cut ran the other way. Cut and wedge now agree, and the &sigma;<sub>1</sub> arrow lies along the outward normal.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>Layout repairs found in the renders</h3><em>every gate was green</em></div>
+      <div class="ed">
+        <div class="ed-loc">module01.html<b>K4 legend</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>Legend at <span class="mono">y=24</span>, with &ldquo;NIOSH 3.4 kN&rdquo; sitting on the &beta;=60&deg; polyline</span></div>
+          <div class="d now"><b>Now</b><span><span class="mono">y=120</span>, in the empty band below every curve. This was the one hit <span class="mono">check_overlap</span> did catch.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html<b>K5 minimum</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>Marker read 23.5&deg; &mdash; the curve was searched on a 0.5&deg; grid, while the prose, caption, aria-label and the module's own K5 code all said 23.6&deg;</span></div>
+          <div class="d now"><b>Now</b><span>Fine-grid search; the label reads 23.6&deg;. True optimum 23.578&deg;.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html<b>K2 legend</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;69.7&rdquo; printed through the legend text</span></div>
+          <div class="d now"><b>Now</b><span>Legend text made an obstacle for the auto-placer, so labels route around it. <span class="mono">check_overlap</span> tests text against curves and dashed lines &mdash; never text against text.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html<b>K4 axes</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>The &tau;<sub>r</sub>=7 curve ran off the top of the frame; the legend sat on the &tau;<sub>r</sub>=30 curve</span></div>
+          <div class="d now"><b>Now</b><span>y-axis extended to 1.45; legend moved.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:236<b>&sect;3 yield label</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>A pre-existing overlap on the stress-versus-moment plot</span></div>
+          <div class="d now"><b>Now</b><span>Yield label moved to the left end of its line.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>Figure plumbing</h3><em>placement, captions, numbering</em></div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:108<b>B10</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>A lumbar-stack figure was Fig. 1 of the module, sitting above the syllabus table &mdash; before &ldquo;lumbar&rdquo;, &ldquo;vertebral body&rdquo; or &ldquo;disc&rdquo; is glossed, and no prose referred to it.</span></div>
+          <div class="d now"><b>Now</b><span>Moved into &sect;6, after the new Proposition 6.1 proof, with the caption: &ldquo;The lumbar stack: vertebral bodies (bone) alternate with intervertebral discs (cartilage pads). The compression C of (6.1) passes through the lowest disc, L5/S1.&rdquo;</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:375, 386<b>B10</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>Bare <span class="mono">&lt;svg&gt;</span> elements &mdash; no <span class="mono">&lt;figure&gt;</span>, no caption, no number, so the prose could not cite them.</span></div>
+          <div class="d now"><b>Now</b><span>Both wrapped and captioned (quiet standing; leaning forward, with the COP sliding forward by Proposition 7.4), and cited from the prose at :373 and :385.</span></div>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:233, 307<b>B15</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>&ldquo;(Fig. 1)&rdquo; for the bending setup &mdash; Fig. 1 is the femur anatomy figure. &ldquo;(Fig. 4)&rdquo; for the spiral fracture &mdash; Fig. 4 is the bending animation.</span></div>
+          <div class="d now"><b>Now</b><span>Fig. 2 and Fig. 5. Both were re-checked after the insertions, because the counter renumbers every figure.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-h"><h3>Screen readers, and the gate's own blind spot</h3><em>the change that outlives this pass</em></div>
+      <div class="ed">
+        <div class="ed-loc">module01.html:524&ndash;610<b>19 labels</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>Every problem figure's <span class="mono">aria-label</span> was its problem statement sliced at 120 characters, raw TeX included &mdash; a screen reader announcing &ldquo;C1: A dumbbell is held with the forearm at $\theta=0$ and&rdquo;</span></div>
+          <div class="d now"><b>Now</b><span>One clause describing what is drawn, reusing the figcaption &mdash; &ldquo;Two elbow poses holding the same dumbbell, forearm horizontal and 60 degrees below horizontal, with muscle and load arrows.&rdquo;</span></div>
+          <p class="ed-why">The rewriter itself had a bug: it mapped <span class="mono">\beta</span>&rarr;beta before stripping commands, gluing <span class="mono">\sin</span>+beta into <span class="mono">\sinbeta</span>, which the strip then ate. One label read &ldquo;&hellip;horizontal moment arms grow as .&rdquo; Function names are mapped first now; exactly one of the 19 changed, to &ldquo;&hellip;grow as sin beta.&rdquo;</p>
+        </div>
+      </div>
+      <div class="ed">
+        <div class="ed-loc">module02.html:236, 267, 340, 447<b>style 20</b></div>
+        <div class="ed-body">
+          <div class="d was"><b>Was</b><span>The &sect;3 plot, the animation, the fall bar chart and the lab plot carried no <span class="mono">class="setupfig"</span>, so <span class="mono">check_overlap.py</span> had never inspected any of them.</span></div>
+          <div class="d now"><b>Now</b><span>Class added. Four figures move from unchecked to checked, permanently.</span></div>
+          <p class="ed-why">Module 2's aria-labels were already adequate one-clause descriptions and were left alone.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="pull" style="margin-top:34px">One recommendation from Module 1's report is still open: fail
+    <span class="mono">check_svg.py</span> on any stroke width above 8 on a line carrying a marker. That
+    would have caught the July regression in every module on the day it landed.</p>
+  </section>
+
+  <footer>
+    <div><b>Applied</b> &nbsp;editor-reports/module01.md &middot; editor-reports/module02.md</div>
+    <div><b>Commits</b> &nbsp;b59b44f &rarr; 3a4dae1 &rarr; ac93c14 &rarr; 0209bb1</div>
+    <div><b>Next</b> &nbsp;module03.html &mdash; report not yet written</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
