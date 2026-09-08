@@ -45,9 +45,9 @@ render-verify sweep.
 | 8 | report + 226 edits, no change log; open: a literal `_` in an SVG `<text>` (check_svg HARD) and K10's frame |
 | 10 | report written, apply NOT run; check_frame is the point of this module |
 | 15 | report + 298 edits; open: which listing prints what K2–K10 quote |
-| 17 | report + 362 edits; open: an unresolved `$I$` symbol collision |
+| **17** | **COMPLETE** — 63 edits; course closure verified |
 
-**Nine complete. Seven were relaunched 2026-09-08 with the defect each one's
+**Ten complete. Seven were relaunched 2026-09-08 with the defect each one's
 predecessor named in its dying words.**
 
 ## Next task — finish the seven, then promote
@@ -74,6 +74,14 @@ change-log row count, in order, and that each row's stated line is the anchor's
 true first line in the pristine file. This is the only way to know the script
 did not die before its single `write_text` — the failure that leaves the file
 untouched while the log still looks plausible.
+
+### A dying message names the NEXT step, not an undone one
+
+When relaunching a killed agent, do not build its instruction from its last
+words. m17 was told its `$I$` collision was unresolved because its predecessor
+died saying "now I'll write the rep() block for the unresolved $I$ collision" —
+but that work was already in `apply.py` and applied. **Read the files to
+establish state; use the dying message only as a hint about where to look.**
 
 ### Grep for residue after every apply
 
