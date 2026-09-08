@@ -515,6 +515,48 @@ Insert at the end of line 123, after "locates the walk-to-run transition.":
  Where this sits on the level ladder: the SLIP stance and flight of (2.1)-(2.3) are a Level-3 model - a nonlinear multi-degree-of-freedom system integrated in time, with no control and no actuator dynamics - while the Froude ceiling (4.2) is a Level-1 static balance and the impact law (9.1) a Level-2 linear oscillator. The module never mixes them: each result is used only at its own level, and the two places where a lower-level answer is handed to a higher-level question - the walk-to-run transition of <a class="secref" href="#flight">&#167;4</a> and the impact transient of <a class="secref" href="#impact">&#167;9</a> - say so explicitly.
 ```
 
+### B14 to B16. Three figures draw a curve their own text contradicts
+
+Found in a second pass that decoded every `<polyline>` point string back into
+data: calibrate from the figure's own tick `<text>` coordinates, invert the
+mapping, and compare the recovered numbers against the model the caption or the
+solution claims. All three passed all nine gates - a wrong-signed slope is not a
+delimiter error, not a label over a curve, and not a clipped viewBox.
+
+**B14. `module09.html:217` - Fig. 7's countermovement curve is still the
+superseded 34 cm.** B2 changed the figure's label (`CMJ &#8594; 34 cm`), its
+aria-label and its caption to the computed `32.0 cm`, but not the curve. Decoded
+against its own axis (`y = 260 - (220/3) F`, `x = 380 + 270 t/T_p`), the squat-jump
+curve reproduces Lab 2's `profile(1.0)` to within `0.018` BW and integrates to
+`170.0 N s` and `30.06 cm` - right. The CMJ curve matches no `profile(front)`
+(closest is `front = 0.8`, off by `0.28` BW) and integrates to `181.0 N s` and
+`34.06 cm`. The caption asserts "Both heights are computed from each curve's net
+impulse by Lab 2", which was false for one of the two curves. Replacement: the
+curve redrawn as Lab 2's own `profile(0.8)` on the same 80-point grid, which
+integrates to `175.5 N s` and `32.04 cm` - the prose's numbers exactly.
+
+**B15. `module09.html:518` - K6's figure draws the required stopping distance
+*falling* with drop height.** Its polyline is byte-identical to K3's descending
+sensitivity line at `:506`: a straight line from `(48,44)` to `(262,150)`, i.e.
+maximum give for the smallest drop. K6's own solution derives
+`d_s >= m g h_drop/(F_tol - mg) = h_drop/5`, which rises. The figure also carried
+no tick labels at all, so nothing on the plot could contradict it, and its
+aria-label still said "peak force" after B8d had renamed the quantity to the
+average. Replacement: the computed line `d_s = h_drop/5` from `(48,150)` to
+`(262,65.2)`, tick labels on both axes (`0, 0.5, 1.0 m`; `0, 10, 20 cm`), the
+five tabulated points `4, 8, 12, 16, 20 cm` marked, and a corrected aria-label.
+
+**B16. `module09.html:534` - K10's figure draws the running cost *falling* with
+speed.** The red curve runs from `(48,90)` to `(250,114)`: cost decreasing. The
+exercise's own model, which B6 put in the solution, is `C_run = 3.9 + 0.05 v` -
+rising slowly - crossing a walking cost `C_walk = 2 + 1.6 Fr^2/(1 - 0.85 Fr)`
+that rises steeply toward the Froude ceiling. A crossover between a rising and a
+falling curve is not the crossover the solution explains. Replacement: both
+curves computed from those two expressions over `v = 0.8` to `3.3 m/s`, the
+crossover marked at the computed `v = 2.62 m/s` (`Fr = 0.70`), speed ticks added,
+and the `Fr = 1` kinematic ceiling at `v = 3.13 m/s` drawn as a dashed line so
+the figure carries the one bound the exercise delivers without calibration.
+
 ## 3. Style and clarity edits
 
 Line-level. Apply in one pass.
@@ -692,8 +734,16 @@ Line-level. Apply in one pass.
 
 ## 6. Counts
 
-- Blocking defects: 13 (B1 to B13).
+- Blocking defects: 16 (B1 to B16; B14 to B16 came from the figure-decode
+  pass, which inverted every polyline back into data).
 - Style and clarity edits: 18.
+- Figures decoded back into data and checked against the model their caption or
+  solution claims: 32 (every figure carrying a polyline). Contradicted their own
+  text: 3 (B14, B15, B16). Reproduced it: 29, including Fig. 10's `1/d_s` curve
+  (`14.09` BW at the decoded `3.8 cm`, `1.98` BW at `50 cm`, against
+  `F/mg = 1 + v^2/2 g d_s` = `14.09` and `2.00`) and K1's rebuilt sweep
+  (`25.3, 93.3, 171.9, 234.5, 319.8 ms`, against the printed
+  `25.4, 93.2, 171.9, 234.5, 319.9`).
 - Numbers checked against code or hand derivation: 61. Mismatches: 1 (B2's
   34 cm against Lab 2's computed 32.0 cm). Unreproducible for want of a stated
   input: 9 (B3's six, B5's three). Claims contradicted by a run of the model: 2
@@ -707,10 +757,15 @@ Line-level. Apply in one pass.
 
 ## 7. Changes applied
 
-Applied by one re-runnable script, `m09/apply.py` (68 `rep`/`repline` calls, each
+Applied by one re-runnable script, `m09/apply.py` (80 `rep`/`repline` calls, each
 asserting its anchor occurs exactly once), against a pristine
 `edited/module09.html`. Line numbers are the ORIGINAL `module09.html` lines; the
-edited file is still 643 lines, because no edit adds or removes one.
+edited file is still 643 lines, because no edit adds or removes one. The script
+was re-run from a fresh `cp module09.html edited/module09.html` after the last
+change and printed all 80 tags, so the applied state is exactly what the script
+produces - not a partial run. The A tags take their geometry from
+`m09/figfix.py`, which computes every coordinate, asserts each anchor is unique
+in the pristine file, and writes `figfix.json`.
 
 Before applying, every number this report asserts was re-verified by re-running
 the three scratchpad scripts and all four of the module's own lab blocks.
@@ -772,9 +827,20 @@ was wrong or incomplete are listed under "Corrections to the report" below.
 | S16 | 546 | "What survives all of this is the essential physics" → "What survives is the physics the idealisations were chosen to keep". | "Essential" was doing no work. |
 | S18 | 591 | Parameter-table preamble gains "Values marked (assumed) are modelling choices, not measurements." | After B3b and B12 the table carries six such rows; the distinction is now stated once rather than inferred from parentheses. |
 
+| A1 | 217 | Fig. 7's CMJ force-time curve redrawn. The drawn curve integrated to `181.0 N s` and `34.06 cm` - the superseded number B2 had removed from every label around it. Replaced by Lab 2's own `profile(0.8)` on the same 80-point grid and the same axis calibration (`y = 260 - (220/3) F`), which integrates to `175.5 N s` and `32.04 cm`. The SJ curve was left alone: it already reproduced `profile(1.0)` to `0.018` BW and `30.06 cm`. | `m09/figfix.py` computes and prints the redraw (`J = 175.5 N.s, h = 32.04 cm, peak = 2.50 BW`); those are the `175.5 N s` and `32.0 cm` of `:219` and `:217`. The old curve was decoded from its own point string and integrated the same way. |
+| A2 | 518 | K6's figure rebuilt. The old polyline was byte-identical to K3's descending line at `:506`, so it drew the required stopping distance falling with drop height, against K6's own `d_s = h_drop/5`. New: the computed line `(48,150)` to `(262,65.2)`, tick labels `0 / 0.5 / 1.0 m` and `0 / 10 / 20 cm`, the five solution points `4, 8, 12, 16, 20 cm` marked, annotation `d_s = one fifth of the drop at a tolerance F-bar <= 6mg`, and the aria-label's "peak force" corrected to the average-force relation. | `m09/figfix.py` prints `d_s(1.0 m) = 20.0 cm`, the same `20 cm` K6's solution tabulates; the five marks are that same `h/5` evaluated at `0.2` to `1.0 m`. `check_overlap` 0, `check_frame` 0 clipped and no new wasted-margin advisory (18, the baseline count), `check_svg` 0/0. |
+| A3 | 534 | K10's figure rebuilt. The old red curve fell with speed; the exercise's model has `C_run = 3.9 + 0.05 v` rising. New: both curves computed from `C_walk = 2 + 1.6 Fr^2/(1 - 0.85 Fr)` and `C_run`, over `v = 0.8` to `3.3 m/s`, with speed ticks, the crossover marked at the computed point, and the `Fr = 1` ceiling drawn dashed at `v = 3.13 m/s`. | `m09/figfix.py` prints `crossover v = 2.622 m/s, Fr = 0.701; ceiling v = 3.132 m/s`, matching the `2.6 m/s`, `Fr = 0.71` and `sqrt(g L0) = 3.132` that `m09/genK.py` produced for B6's solution text. Curves decimated to 60 points to keep `check_svg` at 0 advisories. |
+| A4 | 413 | Fig. 13's stance leg gains a knee: the single hip-to-ground line is split into thigh `(80,120)-(91,145)` and shank `(91,145)-(96,168)` with a joint sphere at the knee, matching the swing leg's two-segment build. (First of the two `HANDOFF.md` anatomy leftovers.) | Rendered with `shoot.py` and read: the stance leg now flexes like the swing leg. `check_bodyprop` unchanged at its single baseline advisory; `check_frame` 0 clipped. |
+| A5a-A5e | 48 | Fig. 1's swing foot sat directly on top of the stance foot (swing ankle `(178.8,208.9)`, stance ankle `(180,220)`, ground line `y = 220`). The swing leg is re-posed with the hip fixed and both segment lengths preserved exactly (`61.9 px` each, checked on output): ankle moved to `(178,180)`, `40 px` of ground clearance, knee solved from the two-link constraint at `(229.5,145.7)`, foot rotated `8` degrees forward, and the knee and ankle spheres moved to match. (Second `HANDOFF.md` leftover.) | `m09/figfix.py` prints `knee (229.5, 145.7); thigh 61.9 px, shank 61.9 px, clearance 40`. Rendered and read: two feet, clearly separated, the pose reads as a runner's swing leg. `check_bodyprop` still one advisory (the same Fig. 1 thin-limb one as the pristine file), `check_frame` 0 clipped. |
+| A7 | 48 | Fig. 1's flight body had one foot `5.6 px` thick where every other foot in the figure is `10.0`; thickened to `10.0` about the same centre line (`y` `198.4` to `196.2`, `rx` `2.8` to `5.0`). This was the single `check_bodyprop` advisory the pristine file carried - not an arm and not a Winter-proportion question, just one mis-sized rect. | `check_bodyprop` on the edited file: "every body figure's limbs are template-thick", **0** advisories, against 1 on the pristine file. Rendered and read. |
+| A6a, A6b | 498 | K1's rebuilt figure had no y-axis scale, so the `163 ms` at the 3-BW limit could not be read off the plot. Three y ticks added (`0`, `170`, `340 ms`), the rotated axis title shifted from `x = 32` to `x = 26` to clear them, and the viewBox widened left from `20 30 280 152` to `14 30 286 152` so nothing is clipped. | Rendered and read. `check_frame` exit 0 with no clipping and no new advisory; `check_overlap` 0. |
+
 Style edits 3, 5 and 8 of section 3 are folded into B10, B2a and B4k respectively;
-edits 14 and 17 were "keep as it stands" and needed no change. That is all 13
-blocking defects and all 18 style edits.
+edits 14 and 17 were "keep as it stands" and needed no change. That is all 16
+blocking defects (B14 to B16 are the A1 to A3 rows) and all 18 style edits, plus
+the two anatomy repairs of `HANDOFF.md` (A4, A5), one readability fix to the
+figure B1b built (A6), and the mis-sized foot behind Fig. 1's `check_bodyprop`
+advisory (A7).
 
 ### Corrections to the report
 
@@ -842,7 +908,7 @@ is what that permitted. Depth was never the gap; verifiability was.
 | `verify_dom` | 0 mjx-merror, 0 broken, 6 stray `$` (adv.), **1 swallowed-prose (adv.)** | 0 mjx-merror, 0 broken, 6 stray `$` (adv.), **0 swallowed-prose** |
 | `check_overlap` | **0** label/curve overlaps | **0** |
 | `check_frame` | exit 0; 0 clipped; 18 wasted-margin advisories | exit 0; 0 clipped; 18 advisories |
-| `check_bodyprop` | exit 0; 1 thin-limb advisory (Fig. 1) | exit 0; 1 thin-limb advisory (Fig. 1) |
+| `check_bodyprop` | exit 0; 1 thin-limb advisory (Fig. 1) | exit 0; **0** advisories |
 
 Also re-run, though outside the nine: `check_probfig` 30/30 both before and
 after; `check_proofs` 0 asserted propositions both; `check_prose` 1 advisory both
@@ -852,6 +918,14 @@ X-is-X rule, left alone).
 All four lab blocks were re-extracted from the *edited* file and re-run: all four
 still execute clean and print the same numbers as before the pass.
 
+Every one of the nine was re-run a second time, on the file as it now stands
+after the A edits, and the "after" column above is that run. The two figures A2
+and A3 rebuilt were first drawn with a taller empty band, which pushed
+`check_frame`'s advisory count from 18 to 20; their annotations were moved into
+that band and the count is back at the baseline 18. The K10 curves were
+decimated from 200 points to 60 for the same reason on `check_svg`, whose
+heavy-polyline advisory had gone from 0 to 1.
+
 ### Not done, and why
 
 - **The five structural notes of section 4 were not applied.** They are notes,
@@ -860,8 +934,13 @@ still execute clean and print the same numbers as before the pass.
   are new figure work rather than an edit. B1's replacement does add its own
   figcaption, so K1 now carries one. Section 7's unquantified stretch reflex
   (`:250`) is likewise left as the report describes it.
-- **The two cosmetic anatomy leftovers named in `HANDOFF.md`** — Fig. 1's feet
-  piled at one point, and the knee-less stance leg in the Fig. 13 family — were
-  not fixed. Neither is a one-line edit: each needs the figure's limb geometry
-  recomputed, and `check_bodyprop`'s single advisory (Fig. 1, thin limb) is the
-  same one that was on the pristine file, so no gate moved. They remain open.
+- **The two cosmetic anatomy leftovers named in `HANDOFF.md` are now fixed**
+  (A4, A5), which supersedes this entry's earlier "not done". Both needed the
+  limb geometry recomputed rather than a one-line edit, so the coordinates come
+  from `m09/figfix.py`: Fig. 13's stance leg is split at a knee, and Fig. 1's
+  swing leg is re-posed from the two-link constraint with both segment lengths
+  preserved to `0.1 px`. `check_bodyprop` still reports its single baseline
+  advisory (Fig. 1, a thin limb against a head-sized circle) and no gate moved.
+- Nothing else is outstanding. Fig. 1's one long-standing `check_bodyprop`
+  advisory was traced to a single mis-sized foot and fixed too (A7), so that gate
+  now passes clean where the pristine file had one advisory.

@@ -4,7 +4,7 @@ Editorial pass. Standard: the five-part rule of the `science-editor` skill, read
 
 All eleven `<pre><code>` blocks in the file were extracted and run (scratchpad folder `m03/`: `extract.py`, `lab.py`, `verify.py`, `k2k10.py`, `hertz.py`). The §7.4 lab was re-implemented exactly as printed and instrumented with the prints it lacks; it reproduces the module's own headline numbers to three figures, so the model is sound and most of the prose numbers are right. Every number in a replacement below was printed by the code shown beside it.
 
-**Scope of this pass.** The whole module, in two passes. The first read sections 0 through 7, 9.1 (diagnostics), 9.4 (K1-K10), D2 and the Appendix, and produced B1-B13 and style edits 1-11. A second pass then read the roughly 400 lines the first had only grepped - section 8 (`module03.html:1476-1658`), the conceptual problems C1-C10 (`1693-1907`), and D1 and D3-D10 (`1908-1981`) - against the same standard, and produced **B14-B20 and style edits 12-18**, written up in the sections that follow B13. Every blocking defect and every style edit in this report has been applied to `edited/module03.html`; the ledger is section 6.
+**Scope of this pass.** The whole module, in two passes. The first read sections 0 through 7, 9.1 (diagnostics), 9.4 (K1-K10), D2 and the Appendix, and produced B1-B13 and style edits 1-11. A second pass then read the roughly 400 lines the first had only grepped - section 8 (`module03.html:1476-1658`), the conceptual problems C1-C10 (`1693-1907`), and D1 and D3-D10 (`1908-1981`) - against the same standard, and produced **B14-B20 and style edits 12-18**, written up in the sections that follow B13. A third pass then re-derived the section 7 lab by a wholly different method (joint-angle Lagrangian, RK45, no Baumgarte) and decoded the one regenerated figure back into data, which produced **B21** (the held mass has weight but no inertia, and nothing says so) and **B13d** (the hip marker sits 4 px off its own curve). Every blocking defect and every style edit in this report has been applied to `edited/module03.html`; the ledger is section 6.
 
 **What the lab actually prints** (release 40° off vertical, the module's own initial pose):
 
@@ -27,6 +27,8 @@ What stops the reader is elsewhere, and it is concentrated in the numbers rather
 The second pass, over section 8, C1-C10 and D1 and D3-D10, found seven more, and they are the same disease. **Three different bands are given for the same measured hip force** - $2$-$3\,W$ and $2.3$-$2.9\,W$ four lines apart in section 8, and $3$-$5\,W$ in section 4 - with nothing saying what distinguishes the conditions, and the reader is invited to compare all three against a static $2.5\,W$ that belongs to a different rung of the level ladder. **D3 introduces two symbols, $W_b$ and $W_b'$, that appear nowhere else in the module**, and a supported-weight fraction of $0.85$ where section 4.2 derives $\tfrac56=0.833$; its "$\approx0.85(3)\,W_b\approx2.5\,W_b$" rounds $2.55$ down to the number section 4.2 gets exactly. **C1(b) explains the swing of the section 7 limb by "gravity's along-rail component"** two sentences after stating that the rail is horizontal, so that component is exactly zero. **C2(a) says planar statics supplies two scalar equations**; it supplies three, and it is this problem's all-vertical geometry, not a general rule, that makes one of them vacuous. **K7 instructs the reader to find a turning point in a way that returns the wrong one** - the linkage is an offset slider-crank released just short of full reach, so the hand moves outward 1.6 mm first, the first velocity sign change is that start-up maximum at $t=0.07$ s, and doubling it gives $0.15$ s, not the $1.51$ s the solution quotes. **Section 8.2 calls muscular redundancy "kinematic redundancy"**, which is the name the module already uses correctly, for a different thing, in its own diagnostics. And **the module never places its models on the level ladder**, which `EDITOR_DOMAIN.md` requires and which Modules 1 and 2 both do - the omission that lets the static-versus-dynamic confusion above run unchallenged through four sections.
 
 What the second pass did *not* find is as informative. Every derivation in D1 and D4 through D10 was checked line by line and every one holds: the two-link mass matrix of D9 reproduces exactly when the kinetic energy is reformed by hand, the Grubler count of D6 is right in both cases, D8's rim-climb resolution is geometrically correct, and D7's Hertz exponents are right. C4 through C9 are sound. Section 8's audit of what the model leaves out is the best-organized passage in the module. The defects are concentrated in numbers and in names, not in arguments.
+
+A third pass, re-deriving the whole of section 7 by a method that shares no code with the module, found one more, and it is the only defect in this module that lies in the *physics* rather than in the numbers or the names. **The held mass of K1 and K2 has weight but no inertia.** `mL` enters the applied force $Q$ and never the mass matrix $M$, so K1's memorable claim - the contact rises by exactly $m_Lg$ while the joint reactions and the trajectory never move - is a property of that idealization and not of a limb carrying a bag. Put the load in $M$ as well and the peak shoulder reaction over the same sweep runs $32.6\to57.5\to79.7\ \mathrm N$ instead of staying at $32.6$: a factor of $2.4$ at $10$ kg. The exact case is genuinely exact and now carries its proof; what it lacked was the sentence saying what it costs.
 
 None of this touches the four proved results, which are sound. All of it is repairable, and all of it has now been repaired: see section 6.
 
@@ -483,10 +485,54 @@ Location: `module03.html:172` (the end of §0).
 `EDITOR_DOMAIN.md:73-75` is explicit: "Each module states which level its models sit on. A Level-1 statics estimate presented as a dynamic result is a defect." Module 3 states nothing, and it commits precisely the error the rule exists to prevent: §4.2's static $2.5\,W$ is set beside gait bands three times (B14) with no marker that it is a different kind of number. Modules 1 and 2 both carry the statement (`module01.html:135`, `module02.html:158`); Module 3 is the gap. Insert before the "Builds on" line at 172:
 
 ```html
-<p>The models here sit on three rungs of the course's level ladder, and it is worth fixing which is which before any number is quoted. <a class="secref" href="#config">§1</a> and <a class="secref" href="#taxonomy">§2</a> sit below the ladder entirely: they are kinematics, counting freedoms with no force in them at all. <a class="secref" href="#reaction">§4</a> and <a class="secref" href="#stability">§6</a> are <b>Level 1</b> (static equilibrium of rigid segments) — the $2.5\,W$ hip reaction and the stability ratio $S=\tan\beta$ are both single-instant force balances with every acceleration set to zero. <a class="secref" href="#contact">§5</a> is the elastic corner of <b>Level 6</b> (contact and lubrication), used only to convert a force into a peak pressure. <a class="secref" href="#forces">§3</a> and <a class="secref" href="#lab">§7</a> are <b>Level 3</b> (planar multibody link-segment models), and <a class="secref" href="#lab">§7</a> is the only section that integrates in time. Nothing here reaches <b>Level 5</b>: there is no muscle model anywhere in this module, only a muscle force taken as known. A static number read as a dynamic one is the standing hazard — <a class="secref" href="#reaction">§4</a> says so where it happens.</p>
+<p>The models here sit on three rungs of the course's level ladder, and it is worth fixing which model sits where before any number is quoted. <a class="secref" href="#config">§1</a> and <a class="secref" href="#taxonomy">§2</a> sit below the ladder entirely: they are kinematics, counting freedoms with no force in them at all. <a class="secref" href="#reaction">§4</a> and <a class="secref" href="#stability">§6</a> are <b>Level 1</b> (static equilibrium of rigid segments) — the $2.5\,W$ hip reaction and the stability ratio $S=\tan\beta$ are both single-instant force balances with every acceleration set to zero. <a class="secref" href="#contact">§5</a> is the elastic corner of <b>Level 6</b> (contact and lubrication), used only to convert a force into a peak pressure. <a class="secref" href="#forces">§3</a> and <a class="secref" href="#lab">§7</a> are <b>Level 3</b> (planar multibody link-segment models), and <a class="secref" href="#lab">§7</a> is the only section that integrates in time. Nothing here reaches <b>Level 5</b>: there is no muscle model anywhere in this module, only a muscle force taken as known. A static number read as a dynamic one is the standing hazard — <a class="secref" href="#reaction">§4</a> says so where it happens.</p>
 ```
 
 (Ladder rungs from `prompt.txt:286-296`: Level 1 static equilibrium, Level 3 multibody link-segment, Level 5 muscle-tendon actuator, Level 6 contact/friction/lubrication.)
+
+### B21. The held mass has weight but no inertia, and nothing says so
+
+Locations: `module03.html:2037` (K1's solution), `module03.html:1988-1992` (K1's code and statement), and the §9.4 preamble.
+
+Quoted (K1's solution, line 2037): "This is Problem&nbsp;1(a) made quantitative: the held weight is vertical, parallel to the rail's reaction direction, so the contact absorbs precisely $m_L g$ and the joints never feel it. The motion itself is also unchanged — the trajectory does not depend on $m_L$, only the contact force does."
+
+Missing part 4 of the standard, the limit case, and part 1, a precise statement. K1's code adds the held mass to the applied force only:
+
+```
+mL = 5.0                                   # held hand mass (kg)
+Q = np.array([0, -m1*g, 0, -(m2+mL)*g])
+```
+
+$M$ is left at $\mathrm{diag}(m_1,m_1,m_2,m_2)$. So `mL` is a *weight without inertia*, not a mass, and the headline claim — contact up by exactly $m_Lg$, joint reactions and trajectory untouched — is a property of that idealization rather than of a limb carrying a bag. Nothing in the module says so. The whole of K1, half of K2, and the K1 figure caption ("the joint reactions do not move") rest on it.
+
+Two independent re-implementations written for this pass settle both halves. Re-run with the load in $M$ as well (`M = np.diag([m1, m1, m2+mL, m2+mL])`), over the same $m_L=0,5,10$ kg sweep:
+
+| $m_L$ | rail peak $R_s$, weight-only | rail peak $R_s$, with inertia | rail peak contact, weight-only | with inertia |
+|---|---|---|---|---|
+| 0 kg | 32.61 N | 32.61 N | 22.32 N | 22.32 N |
+| 5 kg | 32.61 N | 57.45 N | 71.37 N | 74.95 N |
+| 10 kg | 32.61 N | 79.73 N | 120.42 N | 130.93 N |
+
+The invariance is gone: at 10 kg the shoulder sees 2.4 times what the module says it sees. The qualitative lesson (the rail carries far more of a vertical load than a wall can) survives and in fact strengthens, so the repair is not to delete K1 but to prove the exact case and then price it. The exact case *is* exact: the added force is $-m_Lg$ in the fourth slot of $Q$ and nowhere else, the rail's constraint gradient is $\nabla g_3=(0,0,0,1)$, so the addition equals $J_c^{\mathsf T}\delta$ with $\delta=(0,0,-m_Lg)$. Substituting a right-hand-side perturbation of that form into (7.6) leaves the acceleration block untouched and shifts only the multiplier, $\lambda_3\to\lambda_3+m_Lg$. A change in $M$ is *not* of that form, which is exactly why inertia breaks it.
+
+Replacement for K1's closing paragraph (line 2037), which now proves the cancellation and names what it costs:
+
+```html
+<p>This is Problem&nbsp;1(a) made quantitative, and the cancellation is exact rather than approximate. The held weight adds $-m_Lg$ to the fourth slot of $Q$ and to no other slot, while the rail's constraint gradient is $\nabla g_3=(0,0,0,1)$, which points into that slot and no other. The addition can therefore be written $J_c^{\mathsf T}\delta$ with $\delta=(0,0,-m_Lg)$, and substituting it into (7.6) leaves the acceleration block untouched and moves only the multiplier, $\lambda_3\to\lambda_3+m_Lg$. So the contact absorbs precisely $m_Lg$, the joints never feel it, and the trajectory does not depend on $m_L$ at all — which is why the table's increments are $5g$ and $10g$ exactly, not to two figures.</p>
+<p><b>What that exactness costs.</b> It belongs to the model, not to a real bag. As the preamble to these problems said, $m_L$ enters $Q$ but not $M$: this load has weight and no inertia, and the proof just given used precisely that, because a change in $M$ is not of the form $J_c^{\mathsf T}\delta$. Give the load its inertia as well — <code>M = np.diag([m1, m1, m2 + mL, m2 + mL])</code> — and the invariance goes. Over the same $m_L=0,\ 5,\ 10\ \mathrm{kg}$ sweep the peak shoulder reaction then runs $32.6\to57.5\to79.7\ \mathrm N$ and the peak contact $22.3\to75.0\to130.9\ \mathrm N$, because a heavier hand swings on a different trajectory and the $\dot J_c\dot q$ term of <a class="secref" href="#forces">§3.3</a> grows with it. The load-path lesson survives and sharpens; only the exact cancellation is a property of the inertia-free load, and anyone modelling a real carried bag must add $m_L$ in both places. <b>Going further:</b> swap the rail for a wall (constraint <code>x2 - xw</code>, Jacobian row <code>[0,0,1,0]</code>) and the same held weight drives the shoulder reaction up instead — Problem&nbsp;1(c), and K2 next.</p>
+```
+
+The §9.4 preamble's `mL` sentence gains the same statement in one clause, and K2's solution gains a parenthesis so that its flat $32.6\ \mathrm N$ carries the caveat where it is quoted.
+
+### B13d. The hip marker does not sit on its own curve
+
+Location: `module03.html:1146` (the marker circles of the §6.2 figure).
+
+Quoted: `<circle cx="352.5" cy="149.1" r="4" fill="#7a1f1f"/>`
+
+Factual error, found by decoding the figure rather than by reading it. Calibrating from the figure's own tick `<text>` elements — $x=60+6.5(\beta-10)$ from the five x ticks, $S=(250-y)/73.333$ from the four left ticks — the hip marker at $x=352.5$ sits at $\beta=55^\circ$, where $S=\tan 55^\circ=1.4281$ and the correct $y$ is $145.3$. At $y=149.1$ the marker reads $S=1.376$, which is $\beta=54^\circ$: it was placed at the neighbouring *polyline vertex* rather than on the curve at its own $x$. The dot therefore floats 4 px below the curve it is meant to mark, half a marker radius. The shoulder marker at $(138, 220.4)$ is correct because $x=138$ happens to be a vertex. Replacement: `cy="145.3"`.
+
+Both polylines in this figure were then decoded point by point against the same calibration (`decode_fig62.py`). The red curve reproduces $S=\tan\beta$ to $6\times10^{-4}$ and the regenerated blue curve reproduces $\mathrm{ROM}(\beta)/\mathrm{ROM}(10^\circ)=(150^\circ-\beta)/140^\circ$ to $2\times10^{-4}$, over all sixteen points, on one shared $x$ mapping.
 
 ## 3. Style and clarity edits
 
@@ -530,9 +576,29 @@ Line-level, applicable in one pass.
 
 ## 6. Changes applied
 
-All 20 blocking defects and all 18 style edits are applied to `edited/module03.html` by one re-runnable script, `scratchpad/m03/apply.py`, which asserts each of its 66 anchors occurs exactly once before it writes anything. The Python that the replacements splice into the page lives in `scratchpad/m03/codeblocks.py`; `scratchpad/m03/test_codeblocks.py` writes each block to disk, runs `pycodestyle` on it, executes it, and diffs stdout against the block's own `# ->` comment lines. All nine blocks pass both checks, so every number printed inside a code block in the shipped page is a number that block actually produces. The independent re-implementations that settled the disputed values are `lab.py` (the §7.4 lab as `run(L1, L2, m1, m2, mL, g, yh, amp, gd, gp, dt, nstep, wall, xw) -> dict of arrays`, building its release pose from the release angle), `verify.py`, `verify2.py` and `verify3.py`.
+All 21 blocking defects and all 18 style edits are applied to `edited/module03.html` by one re-runnable script, `scratchpad/m03/apply.py`, which asserts each of its 68 anchors occurs exactly once before it writes anything (70 logged edits: the 68 anchors plus the 18-site `secref` sweep and the inserted footnote). Reproduce the whole file with `cp module03.html edited/module03.html && python apply.py`; the script is deliberately not idempotent, so a second run fails its pre-flight rather than double-applying. The Python that the replacements splice into the page lives in `scratchpad/m03/codeblocks.py`; `scratchpad/m03/test_codeblocks.py` writes each block to disk, runs `pycodestyle` on it, executes it, and diffs stdout against the block's own `# ->` comment lines. All nine blocks pass both checks, so every number printed inside a code block in the shipped page is a number that block actually produces. The independent re-implementations that settled the disputed values are `lab.py` (the §7.4 lab as `run(L1, L2, m1, m2, mL, g, yh, amp, gd, gp, dt, nstep, wall, xw) -> dict of arrays`, building its release pose from the release angle), `verify.py`, `verify2.py` and `verify3.py`.
 
 Two numbers in the first draft of this report did not survive that re-verification and were corrected here: B7's peak forces (the elbow and wrist peaks were 41.46 N and 16.68 N, not 36.73 N and 10.88 N, and they must be read over the seated window that ends at $t=1.81$ s), and B13's mobility curve, which had to be regenerated rather than merely re-captioned.
+
+**A third, independent re-verification** was then run before the file was gated, because a re-implementation that shares the original's formulation cannot expose a defect in that formulation. `indep_all.py` re-derives the whole lab in joint-ANGLE coordinates: a numerically assembled mass matrix, an adaptive RK45 integrator, constraints satisfied exactly by construction with no Baumgarte term, and the joint forces recovered afterwards from Newton's equations on the point masses by least squares (maximum residual $3.9\times10^{-14}$ N, so the recovery is exact and over-determined). `indep_baum.py` independently re-types the module's own Cartesian KKT loop from the printed page. The two agree with each other, and with `lab.py`, to 0.01 N on every number in this report:
+
+```
+W_L 34.335 N;  Rs 11.640 N at release (0.3390 W_L), 32.605 N peak (0.9496 W_L), ratio 2.8012
+Re peak 11.605 N;  contact 17.561 N at release, 22.324 N peak, 6.216 N min
+x2 0.35839 -> 0.36000 (max, t=0.0731 s) -> -0.02729 m (min, t=0.7562 s);  period 1.5124 s
+L_com 0.4286 m -> simple-pendulum period 1.3133 s
+max |g| 1.0267e-06 stabilised / 2.1562e-05 unstabilised, ratio 21.00
+B7 three-link, release: Rs 19.06, Re 5.26, Rw 2.90, Nc 11.55 N;  lam4 < 0 from t = 1.8117 s
+   seated peaks: Rs 66.49, Re 41.45, Rw 16.67, Nc 19.87 N
+B9 Hertz: E* 6.667 MPa / 9.341 GPa (ratio 1401), a 17.955 mm, pi a^2 10.13 cm^2,
+   p0 2.54 MPa / 318.05 MPa, ratio 125.2
+B6 cane: F_ab 1.6667 -> 0.7667 W, R 2.5000 -> 1.4500 W, drop 1.0500 W
+B5 lean: b = 10 / 2.8 / 1.6 / 0 cm  ->  R = 2.500 / 1.300 / 1.100 / 0.833 W
+B2 elbow: Fm 629.67 N, R 565.67 N, 11.54x load;  d = 0.05 m -> 377.80 / 313.80 N, -40 %
+B12 mu/tan b = 0.350 % hip, 1.238 % shoulder;  S8 (20/19)^2 = +10.8 %, (7/6)^2 = +36.1 %
+```
+
+Every one of those matches what the applied file now says. The one thing the independent method did **not** confirm is B1's rail column, and that turned out to be a defect in the module rather than in the report: `indep_all.py` gives the held mass its inertia, the module's code does not, and the difference is a factor of 2.4 in the peak shoulder reaction at $m_L=10$ kg. That is the new **B21**, applied as tags B21a-c. The report's B1 numbers are correct *for the module's own model* and were left as they stand; B21 states that model and prices it. `decode_fig62.py` then inverted the one regenerated figure (B13) back into data, which surfaced **B13d**.
 
 | tag | line (original) | what changed | how verified |
 |---|---|---|---|
@@ -574,6 +640,7 @@ Two numbers in the first draft of this report did not survive that re-verificati
 | S18 | 1146 | the red "stability $S=\tan\beta$" label moved from $x=300$ to $x=232$, so the hip marker dot at $(352.5,149.1)$ no longer renders as the label's equals sign | figure rendered to PNG and read, then `check_overlap.py` = 0 |
 | B13b | 1149 | the mobility label moved from $(208,74)$ — which the regenerated curve passes through at $y\approx66$ — to $(150,162)$, in the empty band between the two curves | `check_overlap.py` = 0 on the whole page, and the figure rendered and read |
 | B13c | 1156 | the caption now states the function plotted, $\text{ROM}(\beta)=180^\circ-\beta-\theta_n$ with $\theta_n=30^\circ$ assumed, and reads the difference in curve shape as the content of the trade-off | true of the regenerated curve, by construction |
+| B13d | 1146 | the hip marker circle moved from $cy=149.1$ to $cy=145.3$: at its own $x=352.5$ ($\beta=55^\circ$) the curve is at $S=\tan55^\circ=1.4281$, and $149.1$ reads $S=1.376$, so the dot floated 4 px off the curve it marks | `decode_fig62.py`: both polylines and both markers inverted against the figure's own tick coordinates; red reproduces $\tan\beta$ to $6\times10^{-4}$, blue reproduces $(150^\circ-\beta)/140^\circ$ to $2\times10^{-4}$ |
 | B14a | 1487 | §8.1's telemetry band "roughly 2–3 $W$" → "$\approx2.3$–$2.9\,W$ in slow level walking", with the 3–5 $W$ of §4.3 reconciled as a faster condition and both marked as quoted, not derived | the two bands were already four lines apart in the file (1487 and 1491) |
 | B14b | 859 | §4.3's 3–5 $W$ marked assumed, set beside the telemetry band, and (4.1)'s $2.5\,W$ named a Level-1 static number | level ladder, `prompt.txt:287` |
 | B14c | 1394 | §7.5's "gait pushes the peak hip reaction to 3–5 $W$" → "walking and running push", so the band is not attributed to level walking | consistency with B14a |
@@ -588,6 +655,9 @@ Two numbers in the first draft of this report did not survive that re-verificati
 | B18b | 2053 | K7's solution states the turning time 0.756 s explicitly before doubling it to 1.51 s | same run |
 | B19 | 1551 | §8.2's "kinematic redundancy", used there for more muscles than freedoms, renamed *muscular redundancy* and distinguished from the kinematic redundancy of §9.1; "resolved only by optimization" replaced by the selection-criterion statement | the module uses "kinematic redundancy" correctly at line 1667 and for a different concept at 1551, and C10 (line 1904) cross-refers to §8 by the name §8 did not use |
 | B20 | 172 | a paragraph added at the end of §0 placing every section on the level ladder: §1–§2 kinematics, §4 and §6 Level 1, §5 Level 6, §3 and §7 Level 3, nothing at Level 5 | required by `EDITOR_DOMAIN.md:73-75`; rungs from `prompt.txt:286-296`; matches the form used at `module01.html:135` and `module02.html:158` |
+| B21a | 1984 | (folded into the B3d anchor) the §9.4 preamble's `mL` description now states that the held mass enters $Q$ but never $M$, which stays $\operatorname{diag}(m_1,m_1,m_2,m_2)$, and names it as the idealization K1's result depends on | `indep_baum.py` reruns the module's own KKT with `mL` in $M$ as well; see B21c's row |
+| B21b | 2037 | K1's closing paragraph replaced. The exact cancellation is now *proved* (the added force is $J_c^{\mathsf T}\delta$ with $\delta=(0,0,-m_Lg)$, so (7.6)'s acceleration block is untouched and only $\lambda_3$ moves by $m_Lg$), and a second paragraph prices the idealization with the inertial numbers | proof checked by hand and by perturbing $Q$ in `indep_baum.py`; the inertial sweep printed by two independent codes |
+| B21c | 2014 | (folded into the B1c anchor) K2's solution gains a parenthesis at the flat $32.6\ \mathrm N$: with $m_L$ given its inertia the rail figure rises to $32.6\to79.7\ \mathrm N$ | `indep_baum.py` (module KKT, semi-implicit Euler) 32.61 / 57.45 / 79.73 N and `indep_all.py` (angle-coordinate Lagrangian, RK45, Newton force recovery, residual $4\times10^{-14}$ N) 32.61 / 57.45 / 79.72 N |
 | S1 | 231 | Definition 1.2's "independent quantities that can be varied independently" de-duplicated | `check_prose.py` X-is-X class |
 | S2+S3 | 798 | "almost all of it (566 of the 630 N) is the muscle's doing" rewritten so $R$ no longer reads as a part of $F_m$; "twelve times that" → "eleven and a half times the load" | $566/49=11.55$ |
 | S4 | 857 | the bare range "$\approx2.6$–$2.8\,W$" given its source: $2.7\,W$ at $\alpha=30^\circ$, the spread being $\alpha$ from 20° to 40° | §4.2's own formula evaluated at the endpoints |
@@ -611,11 +681,11 @@ Nine gates, run on the pristine copy before any edit and again on the finished f
 
 | gate | baseline | after |
 |---|---|---|
-| `checktex` | 833 math segments, 0 issues | 993 math segments, 0 issues |
+| `checktex` | 833 math segments, 0 issues | 1033 math segments, 0 issues |
 | `checklt` | 0 | 0 |
-| `check_links` | 229 links, 0 broken, 0 unlinked | 257 links, 0 broken, 0 unlinked |
+| `check_links` | 229 links, 0 broken, 0 unlinked | 259 links, 0 broken, 0 unlinked |
 | `check_svg` | 0 hard, 3 advisory | 0 hard, the same 3 advisory |
-| `check_code` | 6 blocks, 0 issues | 9 blocks, 0 issues |
+| `check_code` | 6 blocks, 0 issues | 10 blocks, 0 issues |
 | `verify_dom` | 0 mjx-merror, 0 broken, 6 stray `$` (advisory), 0 swallowed prose | identical |
 | `check_overlap` | 0 | 0 |
 | `check_frame` | 0 clipped; 4 wasted-margin advisories | identical |
