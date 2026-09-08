@@ -223,7 +223,7 @@ window.MathJax = {
 <text x="60" y="33" font-size="10" fill="#2a6ca8">articular surface</text>
 <line x1="40" y1="100" x2="84" y2="92" stroke="#b08440" stroke-width="1"/><text x="38" y="98" font-size="10" fill="#9a6a20" text-anchor="end">collagen fibres</text><text x="38" y="98" dy="11" font-size="10" fill="#9a6a20" text-anchor="end">(carry tension)</text>
 <line x1="40" y1="175" x2="86" y2="162" stroke="#7d3c98" stroke-width="1"/><text x="38" y="172" font-size="10" fill="#7d3c98" text-anchor="end">proteoglycan</text><text x="38" y="172" dy="11" font-size="10" fill="#7d3c98" text-anchor="end">aggregate (fixed &#8722;)</text>
-<text x="232" y="118" font-size="10" fill="#2a6ca8" text-anchor="middle">interstitial water &#8776; 70&#8211;80%</text>
+<text x="232" y="118" font-size="10" fill="#2a6ca8" text-anchor="middle">interstitial water &#8776; 65&#8211;80%</text>
 <text x="120" y="48" font-size="9" fill="#8a7340" text-anchor="middle">chondrocyte</text>
 <text x="232" y="285" font-size="10" fill="#6b5a36" text-anchor="middle">subchondral bone</text>
 <text x="232" y="244" font-size="8.5" fill="#8a7350" text-anchor="middle">tidemark</text>
@@ -507,15 +507,15 @@ a <b>diffusion equation</b> with <b>consolidation diffusivity</b> $D=H_A k\;[\ma
 
 <p>This single boxed line is what Module&nbsp;3 deferred. A joint surface is not an elastic solid: it is a porous medium in which load, pressure, and deformation <em>spread by diffusion</em>. Everything in the rest of the module — load sharing, stress relaxation, creep, lubrication, even the failure cascade of osteoarthritis — is this diffusion equation seen from a different angle.</p>
 
-<p>"Diffusion" is meant literally: the equation is identical in form to heat conduction, with displacement playing the role of temperature and $D=H_Ak$ the role of thermal diffusivity. Everything you know about heat spreading carries over.</p>
+<p>"Diffusion" is meant literally: the equation is identical in form to heat conduction, with displacement playing the role of temperature $\Theta$ and $D=H_Ak$ the role of thermal diffusivity. Everything you know about heat spreading carries over.</p>
 
 <table>
 <thead><tr><th>Heat conduction</th><th>Cartilage consolidation</th></tr></thead>
 <tbody>
-<tr><td>$\partial T/\partial t=\alpha\,\partial^2 T/\partial z^2$</td><td>$\partial u/\partial t=D\,\partial^2 u/\partial z^2$</td></tr>
-<tr><td>temperature $T$</td><td>displacement $u$ (and pore pressure $p$)</td></tr>
+<tr><td>$\partial \Theta/\partial t=\alpha\,\partial^2 \Theta/\partial z^2$</td><td>$\partial u/\partial t=D\,\partial^2 u/\partial z^2$</td></tr>
+<tr><td>temperature $\Theta$</td><td>displacement $u$ (and pore pressure $p$)</td></tr>
 <tr><td>thermal diffusivity $\alpha$</td><td>consolidation diffusivity $D=H_A k$</td></tr>
-<tr><td>heat flux $-\kappa\,\partial T/\partial z$</td><td>fluid flux $q=-k\,\partial p/\partial z$ (Darcy)</td></tr>
+<tr><td>heat flux $-\kappa\,\partial \Theta/\partial z$</td><td>fluid flux $q=-k\,\partial p/\partial z$ (Darcy)</td></tr>
 <tr><td>spreads across $L$ in $\sim L^2/\alpha$</td><td>equilibrates across $h$ in $\sim h^2/D$</td></tr>
 </tbody>
 </table>
@@ -1854,8 +1854,8 @@ for k in (2e-15, 6e-15):
 <text x="237.0" y="246.0" font-size="8.5" fill="#7a1f1f" text-anchor="middle">0.2</text>
 </svg><figcaption><b>Charge loss is amplified.</b> Halving $c_F$ ($0.2\to0.1\ \mathrm M$) cuts the swelling pressure by $73\%$ ($0.156\to0.042\ \mathrm{MPa}$) — the dependence is steeper than linear near the operating point.</figcaption></figure>
 <details class="sol"><summary>solution</summary><div><p><b>(a)</b> $\sqrt{0.2^2+4(0.15)^2}=\sqrt{0.13}=0.3606\ \mathrm M$; minus $0.30=0.0606\ \mathrm M=60.6\ \mathrm{mol/m^3}$; $\pi=2577\times60.6=1.56\times10^5\ \mathrm{Pa}=0.156\ \mathrm{MPa}$.</p><p><b>(b)</b> $\sqrt{0.1^2+4(0.15)^2}=\sqrt{0.10}=0.3162\ \mathrm M$; minus $0.30=0.0162\ \mathrm M=16.2\ \mathrm{mol/m^3}$; $\pi=2577\times16.2=4.18\times10^4=0.042\ \mathrm{MPa}$. Loss $=(0.156-0.042)/0.156=73\%$.</p><p><b>(c)</b> Halving the charge cuts the swelling pre-stress by nearly three-quarters. The tissue loses the pre-stress that stiffens its surface and re-imbibes fluid, so both its instantaneous stiffness and its overnight recovery (C10) collapse — the entry point of the C8 cascade.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
-RgT, c0 = 8.314*310, 0.15
-def pi(cF): return RgT*(np.sqrt(cF**2 + 4*c0**2) - 2*c0)*1e3  # Pa
+RgTheta, c0 = 8.314*310, 0.15
+def pi(cF): return RgTheta*(np.sqrt(cF**2 + 4*c0**2) - 2*c0)*1e3  # Pa
 
 
 for cF in (0.2, 0.1):
@@ -1887,13 +1887,13 @@ print(f"loss = {100*(pi(0.2)-pi(0.1))/pi(0.2):.0f}%")
 <text x="400.8" y="80.1" font-size="9.5" fill="#2a6ca8" text-anchor="end">biphasic (flattened)</text>
 <text x="131.0" y="64.7" font-size="8.5" fill="#555" text-anchor="middle">same load ∫p·2πr dr</text>
 </svg><figcaption><b>Two routes to one mean pressure.</b> Hertz gives $a=18.0\ \mathrm{mm}$, $p_0=2.54\ \mathrm{MPa}$, $\bar p=1.69\ \mathrm{MPa}$ — the mean agrees with Module&nbsp;3's force-over-area estimate to two figures. Part&nbsp;(d) asks what that agreement does and does not establish.</figcaption></figure>
-<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $a=\big(3\cdot1715\cdot0.03/(4\cdot6.67\times10^6)\big)^{1/3}=(5.785\times10^{-6})^{1/3}=1.80\times10^{-2}\ \mathrm m=18.0\ \mathrm{mm}$.</p><p><b>(b)</b> $p_0=3\cdot1715/(2\pi(0.018)^2)=5145/(2.04\times10^{-3})=2.53\times10^6=2.53\ \mathrm{MPa}$.</p><p><b>(c)</b> $\bar p=1715/(\pi(0.018)^2)=1715/(1.02\times10^{-3})=1.69\times10^6=1.69\ \mathrm{MPa}$.</p><p>The Hertz mean ($1.69\ \mathrm{MPa}$) agrees with the Module&nbsp;3 force-over-area estimate ($1.7\ \mathrm{MPa}$) to two figures. The peak is $\tfrac32\times$ the mean; the biphasic flattening of C5 brings the true peak down toward $\approx2.0\ \mathrm{MPa}$.</p><p><b>(d)</b> From D7, $a\propto R_{\rm eff}^{1/3}$ at fixed load, so $\bar p=R/(\pi a^2)\propto R_{\rm eff}^{-2/3}$. A $20\%$ change in $\bar p$ therefore needs $R_{\rm eff}$ to change by $1.2^{-3/2}=0.76$ or $0.8^{-3/2}=1.40$ — that is, a condylar radius of $23$ or $42\ \mathrm{mm}$ instead of $30$, both inside the real anatomical spread. So (c) is a <em>consistency</em> check, not an independent confirmation: it says the two models are compatible given a plausible curvature, not that the curvature is right. The genuinely independent content of the Hertz calculation is the <em>shape</em> — the $\tfrac32$ peak-to-mean ratio, which follows from the cap alone and is untouched by $R_{\rm eff}$.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $a=\big(3\cdot1715\cdot0.03/(4\cdot6.67\times10^6)\big)^{1/3}=(5.785\times10^{-6})^{1/3}=1.795\times10^{-2}\ \mathrm m=18.0\ \mathrm{mm}$.</p><p><b>(b)</b> $p_0=3\cdot1715/(2\pi(1.795\times10^{-2})^2)=5145/(2.024\times10^{-3})=2.54\times10^6=2.54\ \mathrm{MPa}$.</p><p><b>(c)</b> $\bar p=1715/(\pi(1.795\times10^{-2})^2)=1715/(1.012\times10^{-3})=1.69\times10^6=1.69\ \mathrm{MPa}$.</p><p>The Hertz mean ($1.69\ \mathrm{MPa}$) agrees with the Module&nbsp;3 force-over-area estimate ($1.7\ \mathrm{MPa}$) to two figures. The peak is $\tfrac32\times$ the mean; the biphasic flattening of C5 brings the true peak down toward $\approx2.0\ \mathrm{MPa}$.</p><p><b>(d)</b> From D7, $a\propto R_{\rm eff}^{1/3}$ at fixed load, so $\bar p=R/(\pi a^2)\propto R_{\rm eff}^{-2/3}$. A $20\%$ change in $\bar p$ therefore needs $R_{\rm eff}$ to change by $1.2^{-3/2}=0.76$ or $0.8^{-3/2}=1.40$ — that is, a condylar radius of $23$ or $42\ \mathrm{mm}$ instead of $30$, both inside the real anatomical spread. So (c) is a <em>consistency</em> check, not an independent confirmation: it says the two models are compatible given a plausible curvature, not that the curvature is right. The genuinely independent content of the Hertz calculation is the <em>shape</em> — the $\tfrac32$ peak-to-mean ratio, which follows from the cap alone and is untouched by $R_{\rm eff}$.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 R, Reff, Estar = 1715.0, 0.03, 6.67e6
 a = (3*R*Reff/(4*Estar))**(1/3)
 p0 = 3*R/(2*np.pi*a**2)
 pbar = R/(np.pi*a**2)
 print(f"a={a*1e3:.1f} mm  p0={p0/1e6:.2f} MPa  pbar={pbar/1e6:.2f} MPa")
-# a=18.0 mm  p0=2.53 MPa  pbar=1.69 MPa</code></pre></div></div></details></div>
+# a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa</code></pre></div></div></details></div>
 
 <div class="qbox"><b>K4 &mdash; stress relaxation by finite differences.</b> <span class="small"><em>Probes: an explicit FD solution of the consolidation PDE; the undrained peak and the $h^2$ time (<a class="secref" href="#relaxlab">§5</a>).</em></span>
 <p>Solve the 1-D consolidation equation numerically (explicit finite differences) for a plug ramped to strain $\varepsilon_0$ and held. Confirm the stress decays from an undrained peak to $\sigma_\infty=H_A\varepsilon_0$ over a few $\tau$, and that the relaxation time scales as $h^2$.</p>
@@ -2061,18 +2061,11 @@ def frac(T): return 1 - np.sum(8/((2*n+1)**2*np.pi**2)*np.exp(-lam**2*T))
 
 
 Ts = np.linspace(1e-3, 2, 20000)
-T90 = Ts[np.argmin(np.abs([frac(T) for T in Ts] - np.full(len(Ts), 0.9)))]
-print(
-    f"eps_inf={
-        eps_inf:.2f}  T90={
-            T90:.3f}  t90={
-                T90 *
-                h**2 /
-                D:.0f} s = {
-                    T90 *
-                    h**2 /
-                    D /
-                    3600:.2f} h")
+curve = np.array([frac(T) for T in Ts])
+T90 = Ts[np.argmin(np.abs(curve - 0.9))]
+t90 = T90*h**2/D
+print(f"eps_inf={eps_inf:.2f}  T90={T90:.3f}"
+      f"  t90={t90:.0f} s = {t90/3600:.2f} h")
 # eps_inf=0.50  T90=0.848  t90=5654 s = 1.57 h</code></pre></div></div></details></div>
 
 <div class="qbox"><b>K8 &mdash; the thickness sweep.</b> <span class="small"><em>Probes: the $\tau\propto h^2$ law across the physiological thickness range (<a class="secref" href="#biphasic">§3</a>).</em></span>
@@ -2229,12 +2222,12 @@ for r in (1.0, 0.9, 0.8, 0.5, 0.2):
 <div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 from scipy.optimize import brentq
 
-RgT, c0, HA = 8.314*310, 0.15, 0.6e6          # J/mol, mol/L, Pa
+RgTheta, c0, HA = 8.314*310, 0.15, 0.6e6      # J/mol, mol/L, Pa
 
 
 def pi(cF):
     """Donnan swelling pressure [Pa]; cF, c0 in mol/L."""
-    return RgT*(np.sqrt(cF**2 + 4*c0**2) - 2*c0)*1e3
+    return RgTheta*(np.sqrt(cF**2 + 4*c0**2) - 2*c0)*1e3
 
 
 print(f"(a) pi(0.2 M) = {pi(0.2)/1e6:.4f} MPa   HA*0.10 = "

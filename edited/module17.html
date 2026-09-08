@@ -197,10 +197,10 @@ print("critical delay = %.1f ms" % (Dc*1000))
 <p><b>Problem.</b> How large is the knee extensor torque demanded by rising from a chair - the demand that thins to a failure with age (Module 13)? <b>Physical model.</b> A prescribed knee-extension trajectory driving an inverse-dynamics estimate of the joint torque (Module 15). <b>Mechanism.</b> The quadriceps (Module 5) extend the knee against the gravitational load of the head-arms-trunk (HAT).</p>
 
 <div class="def"><b>Model 3.1 (quasi-static knee torque of the rise).</b> With a prescribed knee angle $q(t)$ measured from full extension ($q=\pi/2$ seated, $q=0$ standing), the net knee extensor torque is
-$$\boxed{\;\tau_{\rm knee}(t)=m_{\rm HAT}\,g\,d_0\sin q+I\,\lvert\ddot q\rvert+\tau_0,\;}$$
-the sum of the gravitational load of the head-arms-trunk segment (HAT, the body above the hips) of mass $m_{\rm HAT}$ acting through the moment arm $d(q)=d_0\sin q$, which is largest in deep flexion and vanishes at full extension; an inertial term with $I$ the moment of inertia of the rising mass about the knee, taken in magnitude so that both the accelerating and the braking half of the movement count as demand; and a baseline $\tau_0$, the assumed patellofemoral and soft-tissue torque the extensors carry even at rest. The estimate is quasi-static in practice: at the parameters below the inertial term peaks at $0.48\ \mathrm{N\,m}$ against a gravitational $94.2\ \mathrm{N\,m}$, four parts in a thousand, so the answer is set almost entirely by posture. That puts Model 3.1 on <b>Level 1</b> of the course's level ladder, static equilibrium of rigid segments, and not on the full multi-segment Level 2 inverse dynamics of Module 15; it borrows Module 15's <em>pipeline</em>, kinematics in and joint torque out, at a single joint.</div>
+$$\boxed{\;\tau_{\rm knee}(t)=m_{\rm HAT}\,g\,d_0\sin q+I_{\rm k}\,\lvert\ddot q\rvert+\tau_0,\;}$$
+the sum of the gravitational load of the head-arms-trunk segment (HAT, the body above the hips) of mass $m_{\rm HAT}$ acting through the moment arm $d_0\sin q$, which is largest in deep flexion and vanishes at full extension; an inertial term with $I_{\rm k}$ the moment of inertia of the rising mass about the knee - subscripted to keep it distinct from the whole-body $I=mL^2$ about the ankle in <a class="secref" href="#standing">Section 2</a>, which is a different quantity about a different axis - taken in magnitude so that both the accelerating and the braking half of the movement count as demand; and a baseline $\tau_0$, the assumed patellofemoral and soft-tissue torque the extensors carry even at rest. The estimate is quasi-static in practice: at the parameters below the inertial term peaks at $0.48\ \mathrm{N\,m}$ against a gravitational $94.2\ \mathrm{N\,m}$, four parts in a thousand, so the answer is set almost entirely by posture. That puts Model 3.1 on <b>Level 1</b> of the course's level ladder, static equilibrium of rigid segments, and not on the full multi-segment Level 2 inverse dynamics of Module 15; it borrows Module 15's <em>pipeline</em>, kinematics in and joint torque out, at a single joint.</div>
 
-<div class="cap"><p class="small"><b>Assumptions:</b> planar, single knee joint, prescribed minimum-jerk knee trajectory over $T=1.5\ \mathrm{s}$, quasi-static gravity plus a negligible inertial term, moment arm $d(q)=d_0\sin q$. <b>Parameters:</b> $m_{\rm HAT}=48\ \mathrm{kg}$ ($0.69M$ for the $70\ \mathrm{kg}$ reference human), $d_0=0.20\ \mathrm{m}$ at seat-off, $I=0.12\ \mathrm{kg\,m^2}$, $\tau_0=0.15\,m_{\rm HAT}gd_0=14.1\ \mathrm{N\,m}$ (all assumed; <a class="secref" href="#appendix">Appendix</a>). <b>Validation:</b> the $1.55$ N&#183;m/kg peak matches instrumented sit-to-stand studies and Module 13's chair demand.</p></div>
+<div class="cap"><p class="small"><b>Assumptions:</b> planar, single knee joint, prescribed minimum-jerk knee trajectory over $T=1.5\ \mathrm{s}$, quasi-static gravity plus a negligible inertial term, moment arm $d_0\sin q$. <b>Parameters:</b> $m_{\rm HAT}=48\ \mathrm{kg}$ ($0.69M$ for the $70\ \mathrm{kg}$ reference human), $d_0=0.20\ \mathrm{m}$ at seat-off, $I_{\rm k}=0.12\ \mathrm{kg\,m^2}$, $\tau_0=0.15\,m_{\rm HAT}gd_0=14.1\ \mathrm{N\,m}$ (all assumed; <a class="secref" href="#appendix">Appendix</a>). <b>Validation:</b> the $1.55$ N&#183;m/kg peak matches instrumented sit-to-stand studies and Module 13's chair demand.</p></div>
 
 <div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 
@@ -209,10 +209,10 @@ t = np.linspace(0, T, 200)
 s = t/T
 q = (np.pi/2)*(1 - (10*s**3 - 15*s**4 + 6*s**5))   # knee 90 deg -&gt; 0 deg
 qdd = np.gradient(np.gradient(q, t), t)
-m_hat, d0, Iz = 48.0, 0.20, 0.12
+m_hat, d0, I_k = 48.0, 0.20, 0.12
 tau0 = 0.15*m_hat*g*d0                 # assumed baseline (Appendix)
-grav = m_hat*g*d0*np.sin(q)            # d(q) = d0 sin q
-iner = Iz*np.abs(qdd)
+grav = m_hat*g*d0*np.sin(q)            # moment arm d0 sin q
+iner = I_k*np.abs(qdd)
 tau = grav + iner + tau0
 print("peak knee torque = %.0f N m (%.2f N m/kg)" % (tau.max(), tau.max()/70))
 print("  gravity %.1f, inertia %.2f, baseline %.1f N m"
@@ -515,7 +515,7 @@ print("worst-joint torque falls %.0f%%"
 # -&gt; worst-joint torque falls 50%</code></pre></div></details></div>
 
 <div class="prob"><b>K4 - the knee-torque error bar (uncertainty).</b> Monte Carlo the sit-to-stand knee-torque estimate under body-segment-parameter and timing uncertainty, and report the band. <span class="small"><em>Probes: propagating uncertainty; <a class="secref" href="#validation">Section 9</a>, Module 15.</em></span>
-<details class="sol"><summary>Solution</summary><div>Draw the HAT mass and the moment arm from their $\pm10\%$ one-sigma ranges and the segment inertia from its $\pm20\%$ range, run the estimate on each draw, and collect the peak knee torque. Over $20\,000$ draws the mean is $108.6\ \mathrm{N\,m}$ with a one-sigma spread of $15.3\ \mathrm{N\,m}$, which is $14.1\%$, and a 95 percent interval of $80$ to $140\ \mathrm{N\,m}$, which is $\pm27\%$. Report the interval, and say which one it is: quoting "$\pm15\%$" without saying it is one sigma is the exact failure <a class="secref" href="#validation">Section 9</a> warns about, because a reader will take it for the range and be wrong by a factor of two on the tail. The spread is dominated by $m_{\rm HAT}$ and $d_0$, which enter as a product, and barely at all by $I$, which multiplies a term worth $0.5\ \mathrm{N\,m}$; that is the error budget's real lesson, and it says where a measurement would pay. Whether the interval clears a clinical threshold is the answer the honest report must give: a bare $109\ \mathrm{N\,m}$ hides it, and so does an unlabelled $\pm15\%$.</div>
+<details class="sol"><summary>Solution</summary><div>Draw the HAT mass and the moment arm from their $\pm10\%$ one-sigma ranges and the segment inertia from its $\pm20\%$ range, run the estimate on each draw, and collect the peak knee torque. Over $20\,000$ draws the mean is $108.6\ \mathrm{N\,m}$ with a one-sigma spread of $15.3\ \mathrm{N\,m}$, which is $14.1\%$, and a 95 percent interval of $80$ to $140\ \mathrm{N\,m}$, which is $\pm27\%$. Report the interval, and say which one it is: quoting "$\pm15\%$" without saying it is one sigma is the exact failure <a class="secref" href="#validation">Section 9</a> warns about, because a reader will take it for the range and be wrong by a factor of two on the tail. The spread is dominated by $m_{\rm HAT}$ and $d_0$, which enter as a product, and barely at all by $I_{\rm k}$, which multiplies a term worth $0.5\ \mathrm{N\,m}$; that is the error budget's real lesson, and it says where a measurement would pay. Whether the interval clears a clinical threshold is the answer the honest report must give: a bare $109\ \mathrm{N\,m}$ hides it, and so does an unlabelled $\pm15\%$.</div>
 <div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><span>Copy</span></button><pre><code>import numpy as np
 
 rng = np.random.default_rng(17)
@@ -525,10 +525,10 @@ s = t/T
 q = (np.pi/2)*(1 - (10*s**3 - 15*s**4 + 6*s**5))
 qdd = np.gradient(np.gradient(q, t), t)
 mh = rng.normal(48.0, 0.10*48.0, N)     # HAT mass, 10% (1 sigma)
-d = rng.normal(0.20, 0.10*0.20, N)      # moment arm, 10%
-Ii = rng.normal(0.12, 0.20*0.12, N)     # segment inertia, 20%
-pk = np.array([(mh[i]*g*d[i]*np.sin(q) + Ii[i]*np.abs(qdd)
-                + 0.15*mh[i]*g*d[i]).max() for i in range(N)])
+d0 = rng.normal(0.20, 0.10*0.20, N)     # moment arm, 10%
+I_k = rng.normal(0.12, 0.20*0.12, N)    # segment inertia, 20%
+pk = np.array([(mh[i]*g*d0[i]*np.sin(q) + I_k[i]*np.abs(qdd)
+                + 0.15*mh[i]*g*d0[i]).max() for i in range(N)])
 lo, hi = np.percentile(pk, [2.5, 97.5])
 print("mean %.1f N m, 1 sigma %.1f N m (%.1f%%)"
       % (pk.mean(), pk.std(), 100*pk.std()/pk.mean()))
@@ -559,12 +559,13 @@ print("95%% interval %.0f to %.0f N m (%.0f +/- %.0f%%)"
 <tr><td>$g$</td><td>gravitational acceleration, $9.81$</td><td>m s$^{-2}$</td><td><a class="secref" href="#standing">2</a></td></tr>
 <tr><td>$L$</td><td>pendulum height in <a class="secref" href="#standing">2</a>, stance-leg length in <a class="secref" href="#walk">4</a> (the same $1.0$ m)</td><td>m</td><td><a class="secref" href="#standing">2</a></td></tr>
 <tr><td>$\theta$, $\Delta$</td><td>lean angle; neural feedback delay</td><td>rad; s</td><td><a class="secref" href="#standing">2</a></td></tr>
-<tr><td>$I$</td><td>moment of inertia. Two values about two axes: $mL^2=70$ about the ankle in <a class="secref" href="#standing">2</a>, $0.12$ about the knee in <a class="secref" href="#sts">3</a></td><td>kg m$^2$</td><td><a class="secref" href="#standing">2</a></td></tr>
+<tr><td>$I$</td><td>whole-body moment of inertia about the ankle, $mL^2=70$</td><td>kg m$^2$</td><td><a class="secref" href="#standing">2</a></td></tr>
+<tr><td>$I_{\rm k}$</td><td>moment of inertia of the rising mass about the knee, $0.12$ - a different quantity about a different axis, subscripted so the two never share a symbol</td><td>kg m$^2$</td><td><a class="secref" href="#sts">3</a></td></tr>
 <tr><td>$k_p$, $k_d$</td><td>proportional and derivative ankle gains</td><td>N m; N m s</td><td><a class="secref" href="#standing">2</a></td></tr>
 <tr><td>$\omega_c$, $\Delta_c$</td><td>crossing frequency and critical delay (Proposition 2.2)</td><td>rad s$^{-1}$; s</td><td><a class="secref" href="#standing">2</a></td></tr>
 <tr><td>$q$, $\tau_{\rm knee}$, $\tau_0$</td><td>knee angle; net knee extensor torque; assumed baseline torque</td><td>rad; N m; N m</td><td><a class="secref" href="#sts">3</a></td></tr>
 <tr><td>$m_{\rm HAT}$</td><td>mass of the head-arms-trunk segment</td><td>kg</td><td><a class="secref" href="#sts">3</a></td></tr>
-<tr><td>$d_0$</td><td>knee moment arm at seat-off, with $d(q)=d_0\sin q$. Not the $d$ of <a class="secref" href="#jump">6</a></td><td>m</td><td><a class="secref" href="#sts">3</a></td></tr>
+<tr><td>$d_0$</td><td>knee moment arm at seat-off; at knee angle $q$ the arm is $d_0\sin q$. Not the $d$ of <a class="secref" href="#jump">6</a></td><td>m</td><td><a class="secref" href="#sts">3</a></td></tr>
 <tr><td>$\mathrm{Fr}$, $v$</td><td>Froude number $v^2/(gL)$; forward speed</td><td>-; m s$^{-1}$</td><td><a class="secref" href="#walk">4</a></td></tr>
 <tr><td>$F$</td><td>force. Ground reaction in <a class="secref" href="#walk">4</a> and <a class="secref" href="#run">5</a>, landing force in <a class="secref" href="#jump">6</a>, fall impact in <a class="secref" href="#fracture">7</a></td><td>N</td><td><a class="secref" href="#walk">4</a></td></tr>
 <tr><td>$k$, $\ell_0$, $\ell$</td><td>leg-spring stiffness; rest and instantaneous leg length</td><td>N m$^{-1}$; m; m</td><td><a class="secref" href="#run">5</a></td></tr>
@@ -587,7 +588,7 @@ print("95%% interval %.0f to %.0f N m (%.0f +/- %.0f%%)"
 <tr><td>$\omega_c$, $\Delta_c$</td><td>$2.404\ \mathrm{rad\,s^{-1}}$, $140.1\ \mathrm{ms}$</td><td>derived (Proposition 2.2)</td><td><a class="secref" href="#standing">2</a>, K1</td></tr>
 <tr><td>$m_{\rm HAT}$</td><td>$48\ \mathrm{kg}$ ($0.69M$)</td><td>assumed</td><td><a class="secref" href="#sts">3</a></td></tr>
 <tr><td>$d_0$</td><td>$0.20\ \mathrm{m}$</td><td>assumed</td><td><a class="secref" href="#sts">3</a></td></tr>
-<tr><td>$I$ (about the knee)</td><td>$0.12\ \mathrm{kg\,m^2}$</td><td>assumed</td><td><a class="secref" href="#sts">3</a></td></tr>
+<tr><td>$I_{\rm k}$ (about the knee)</td><td>$0.12\ \mathrm{kg\,m^2}$</td><td>assumed</td><td><a class="secref" href="#sts">3</a></td></tr>
 <tr><td>$\tau_0$</td><td>$0.15\,m_{\rm HAT}gd_0=14.1\ \mathrm{N\,m}$</td><td>assumed</td><td><a class="secref" href="#sts">3</a></td></tr>
 <tr><td>$\tau_{\rm knee}$ peak</td><td>$109\ \mathrm{N\,m}$, 95&#37; interval $80$-$140$</td><td>derived (K4)</td><td><a class="secref" href="#sts">3</a></td></tr>
 <tr><td>$v$ (walking)</td><td>$1.72\ \mathrm{m\,s^{-1}}$, so $\mathrm{Fr}=0.30$</td><td>assumed</td><td><a class="secref" href="#walk">4</a></td></tr>
