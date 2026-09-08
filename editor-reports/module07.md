@@ -538,7 +538,11 @@ byte-identical output (verified in §6).
 ## 6. Changes applied
 
 Applied by one re-runnable `apply.py` against a pristine `edited/module07.html`
-(71 tags, each anchor asserted to occur exactly once; the run is all-or-nothing).
+(83 tags, each anchor asserted to occur exactly once; the run is all-or-nothing).
+The script runs to completion from a pristine copy and two clean runs are
+byte-identical (md5 `ccdd536c5bb7f135fc9a200f1ac7668d`); it compiles with no
+`SyntaxWarning`, and a second run against an already-applied file aborts on
+its first anchor rather than half-applying.
 Line numbers are lines of the **original** `module07.html`.
 
 The `N` rows are defects found *after* the report was written, by re-running every
@@ -559,11 +563,11 @@ report, the re-run won and the report text above was corrected to match.
 | B4c | 879 | K8's left panel redrawn as the computed cheapest-$K_p$-vs-$\sigma$ curve with its vertical asymptote, replacing a schematic. | Polyline generated from `k8curve.npy` by `genfig.py`; re-decoded from the shipped SVG. |
 | B4d | 879 | K8's caption replaced to describe the new panel. | Read against the redrawn figure. |
 | B5a | 876 | K7's solution replaced: it quoted RMS values from no stated run. Now names the run (closed loop of Prop 6.1, $K_p=900$, $K_d=120$, $\Delta=0.12$ s, torque noise $0.35\ \mathrm{N\,m\,s^{1/2}}$, $dt=1$ ms, 600 s, first 30 s discarded) and its output. | `verifyK.py` reimplements exactly that run: COM RMS 4.41–4.91 mm, COP RMS 6.70–7.45 mm over three seeds; rightmost root $-0.0780\ \mathrm{s^{-1}}$. |
-| B5b | 875 | K7's figure bar heights rescaled to the computed 1.52 ratio. | Bar rect heights 77.1/50.7 → ratio 1.520. |
+| B5b | 875 | K7's figure bar heights rescaled so the drawn bars match the labels they carry. | Shipped rects are 77.1 px (COP) and 51 px (COM) on a shared baseline $y=145$: ratio 1.512, which is exactly the labels' own $6.8/4.5=1.511$. (The un-rounded run ratio is 1.520; the labels are quoted to 0.1 mm.) |
 | B5c | 875 | K7's figure label `COP 6.6` → `COP 6.8`, matching the run. | Same run as B5a. |
 | B6a | 862 | K4's problem statement now *states* the body model it needs ($\ell=0.55h-h_a$, $h_a=0.06$ m) instead of leaving the reader to guess a length the module has already fixed at 0.90 m. | The stated model returns $\ell=0.9025$ m at $h=1.75$ m, the module's own value. |
 | B6b | 864 | K4's solution rewritten around that model, and the ankle-offset effect ($9.6\%$ vs the $9.0\%$ of a pure $\sqrt h$ law) made explicit. | `verifyK.py`: $\omega_0=3.4588$ at 1.6 m, $3.1559$ at 1.9 m; $\sqrt{1.9/1.6}-1=8.97\%$. |
-| B6c, B6d | 863 | K4's figure labels `1.6 m: 3.34 s⁻¹` / `1.9 m: 3.06 s⁻¹` → `3.46` / `3.16`, and the curve regenerated for $\ell=0.55h-h_a$. | `genfig.py` prints 3.4588 / 3.1559; the shipped polyline re-decoded. |
+| B6c–B6e | 863 | K4's figure labels `1.6 m: 3.34 s⁻¹` / `1.9 m: 3.06 s⁻¹` → `3.46` / `3.16` (B6c, B6d), and the 61-point $\omega_0$-vs-$h$ polyline regenerated for $\ell=0.55h-h_a$ (B6e). | `genfig.py` prints 3.4588 / 3.1559. The shipped polyline decoded back with $x=55\to h=1.6$ m, $x=260\to h=1.9$ m and the two label values as the $y$ calibration reproduces $\omega_0=\sqrt{g/(0.55h-h_a)}$ to a maximum error of **0.065 px**; its midpoint returns $\ell(1.75)=0.9025$ m, the module's own value. |
 | B7a | 872 | K6's solution: the forward stability margin was called $d_{\text{toe}}$ (the *foot* extent, 0.12 m); it is $m_{\text{toe}}\approx0.10$ m, and the answer now says why the two differ. | `verifyK.py`: $M\omega_0 m_{\text{toe}}=70\times3.06\times0.10=21.42$ N·s, matching the stated 21.4. |
 | B7b | 957 | The Appendix row "Max recoverable impulse $M\omega_0 d_{\text{toe}}$" → $M\omega_0 m_{\text{toe}}$ with the value 21.4 N·s, so the row reproduces K6's own answer. | Same computation. |
 | B8 | 175 | §1's stability-margin box: margins now stated as $m_{\text{toe}}\approx0.10$ m / $m_{\text{heel}}$ consistent with the foot they are computed from. | Arithmetic on §1's own foot geometry (toe edge 0.12 m ahead of the ankle, COM 0.02 m ahead). |
@@ -599,6 +603,12 @@ report, the re-run won and the report text above was corrected to match.
 | **N7** | 703 | Lab 2's output excerpt omitted the `0.45 m → 14.5 kg` row that the sentence after it quotes (installed by B11). Row added, so every number in the prose is one the reader can see printed. | Ran the shipped block: it prints that row. |
 | **N8a–c** | 363 | **The §4 toppling curve was drawn at a growth rate of $3.100\ \mathrm{s^{-1}}$ against the module's own $\omega_0=3.0600$, and its one-e-fold marker sat at $t=0.3231$ s against $1/\omega_0=0.3268$ s.** Curve regenerated at 3.0600, marker and its axis tick moved to $x=201.6$, $y=213.7$; framing preserved ($t=0$ at $x=60$, $t=0.90$ s at $x=450$, curve topping out at $y=40$). | Log-linear fit of the *shipped* polyline gave rate 3.1004 (max residual 0.0034) before, 3.0595 after; max \|drawn − $\theta_0e^{\omega_0t}$\| fell from 7.4 px to **0.5 px**. Marker now sits at $\theta/\theta_0=2.709$ against $e=2.718$. |
 | **N9** | 871 | K6's left panel: its $y$ axis runs 0 at $y=154$ to 0.10 m at the toe-limit line $y=79.3$, so the `0.05` label belongs at baseline 119.6, not 117. | Linear inversion of the two fixed points; the curve itself decodes to $\xi=J/(M\omega_0)$ to within 0.00004 m. |
+| **N10** | 856 | K2's grid half rounded its own output *up* in every figure: `k2grid.py` prints 1,182,400 and 266,400 stable cells, ratio 4.4384, where the solution said $1.19\times10^6$, $2.67\times10^5$ and $4.45$. Now $1.18\times10^6$, $2.66\times10^5$, $4.44$. The closed-form half (1.189e6, 2.674e5, 4.446) was right and is untouched — the two halves agreeing to three figures is the point, so the text now says that instead of forcing one number. | `k2grid.py` and `k2area.py` re-run. |
+| **N11** | 494 | §5's figure drew the stable set as a **bounded** 92 × 200 px rectangle stopping short of both axis ends, although Proposition 5.1 — the only result the panel illustrates — gives the **unbounded** quadrant $K_p\gt Mg\ell$, $K_d\gt0$. (The closed island is §6's result; drawing it here pre-empts the delay argument and gets its shape wrong.) Fill extended to the top and right ends of the axes. | The figure's own `aria-label` already said "quadrant"; Prop 5.1's statement carries no upper bound. |
+| **N12** | 879 | **B4a replaced K8's problem statement but left the figure's `aria-label` carrying the superseded one** ("To stiffen from $K_p=Mg\ell$ to $K_p=1.5\,Mg\ell$ by co-contraction…"), so a screen-reader user was read a problem no longer on the page. Rebuilt on the module's own convention (first 120 characters of the statement, ellipsis, figure kind). | Machine-compared every `aria-label="[CDK]n: …"` against its own `<b>n.</b>` statement across the file: K8 was the only mismatch the edit pass introduced. The two remaining (C6, C9) are a pristine `'`-for-`"` glyph difference, unchanged from the baseline. |
+| **N13** | 855 | N10 settled K2's grid ratio at 4.44; the inset label still carried B9b's `4.45`, which is the rounded *closed-form* value. The inset draws the grid islands, so it takes the grid number. | $1{,}182{,}400/266{,}400=4.4384$. |
+| **N14** | 855 | **The same inset drew the two islands as 50 × 90 and 50 × 38 rectangles — an area ratio of 2.37 beside a label reading 4.44.** A schematic that states a ratio must draw it. The $\Delta=0.18$ rectangle is now 37 × 27.4 px (1013.8 px²) against the unchanged 50 × 90 (4500 px²), ratio 4.439, with the aspect ratio and the shared baseline $y=166$ preserved. | Areas computed from the shipped attributes; the drawn ratio now matches the label to three figures. `check_frame` and `check_overlap` unchanged. |
+| **N15** | 856 | K2's solution said a 50 % longer delay "costs $78\%$ of the usable gain space". Both halves of that same solution say otherwise. Now $77\%$. | $1-266{,}400/1{,}182{,}400=77.47\%$ (grid); $1-2.674\times10^5/1.189\times10^6=77.51\%$ (closed form). Both round to 77. |
 
 ### Gate results
 
@@ -606,7 +616,7 @@ Baseline is the pristine `module07.html`; both columns are `python $S/NAME.py ed
 
 | gate | baseline | after | |
 |---|---|---|---|
-| `checktex` | 683 segments, 0 issues | 790 segments, 0 issues | ✅ |
+| `checktex` | 683 segments, 0 issues | 789 segments, 0 issues | ✅ |
 | `checklt` | 0 | 0 | ✅ |
 | `check_links` | 187 links, 0 broken, 0 unlinked | 209 links, 0 broken, 0 unlinked | ✅ |
 | `check_svg` | 0 hard, 2 advisory | 0 hard, 2 advisory | ✅ |
