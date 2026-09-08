@@ -4,6 +4,8 @@ Editorial pass. Standard: the five-part rule of the `science-editor` skill, read
 
 All eleven `<pre><code>` blocks in the file were extracted and run (scratchpad folder `m03/`: `extract.py`, `lab.py`, `verify.py`, `k2k10.py`, `hertz.py`). The §7.4 lab was re-implemented exactly as printed and instrumented with the prints it lacks; it reproduces the module's own headline numbers to three figures, so the model is sound and most of the prose numbers are right. Every number in a replacement below was printed by the code shown beside it.
 
+**Scope of this pass.** Read against the five-part standard: sections 0 through 7, 9.1 (diagnostics), 9.4 (K1-K10), D2, and the Appendix. **Not yet read: section 8 (`module03.html:1476-1658`), the conceptual problems C1-C10 (`1693-1907`), and D1 and D3-D10 (`1908-1981`)** - those roughly 400 lines were only grepped for reused numbers, which is how B2 surfaced. They need a second pass before Module 3 is marked applied.
+
 **What the lab actually prints** (release 40° off vertical, the module's own initial pose):
 
 ```
@@ -53,12 +55,13 @@ from lab import run          # the section 7.4 script, wrapped as a function
 for mL in (0.0, 5.0, 10.0):
     rail = run(mL=mL)
     wall = run(mL=mL, wall=True, xw=0.30)
-    print(f"mL={mL:4.1f} kg | rail Rs peak {rail['Rs'].max():7.2f} N"
-          f" contact peak {rail['Nc'].max():7.2f} N"
-          f" | wall Rs peak {wall['Rs'].max():7.2f} N")
-# -&gt; mL= 0.0 kg | rail Rs peak   32.61 N contact peak   22.32 N | wall Rs peak   57.88 N
-# -&gt; mL= 5.0 kg | rail Rs peak   32.61 N contact peak   71.37 N | wall Rs peak  121.22 N
-# -&gt; mL=10.0 kg | rail Rs peak   32.61 N contact peak  120.42 N | wall Rs peak  187.28 N</code></pre></div>
+    print(f"mL={mL:4.1f} | rail Rs {rail['Rs'].max():7.2f}"
+          f" contact {rail['Nc'].max():7.2f}"
+          f" | wall Rs {wall['Rs'].max():7.2f}")
+# -&gt; mL= 0.0 | rail Rs   32.61 contact   22.32 | wall Rs   57.88
+# -&gt; mL= 5.0 | rail Rs   32.61 contact   71.37 | wall Rs  121.22
+# -&gt; mL=10.0 | rail Rs   32.61 contact  120.42 | wall Rs  187.28
+#    (newtons; peak over the swing)</code></pre></div>
 <details class="sol"><summary>Show solution</summary><div><p>The wall's constraint gradient is horizontal, so its reaction is horizontal. A vertical hand-load is now orthogonal to the only direction the contact can supply force in, so the surface takes none of it and the bones must carry all of it to the pin. The contrast is stark. On the rail the peak shoulder reaction is $32.6\ \mathrm N$ whatever the load — the contact swallows the whole of $m_Lg$, rising $22.3\to120.4\ \mathrm N$ as $m_L$ goes $0\to10\ \mathrm{kg}$. On the wall the peak shoulder reaction climbs $57.9\to121.2\to187.3\ \mathrm N$ over the same sweep, a factor of $3.2$. (The two runs start from different poses — hand on the rail at $x_2=0.358\ \mathrm m$, hand on the wall at $x_w=0.30\ \mathrm m$ — so compare the <em>trends</em>, not the two zero-load values.) The added $98.1\ \mathrm N$ of weight raises the peak shoulder reaction by $129.4\ \mathrm N$, more than the weight itself, because the heavier hand also swings harder and the $\dot J_c\dot q$ term of <a class="secref" href="#forces">§3.3</a> grows with it. This is problem C1(c) made quantitative, and it is the load-path principle as a design rule: <em>a constraint carries only what is aligned with its normal, and the skeleton carries the rest.</em></p></div></details>
 ```
 
@@ -110,7 +113,7 @@ and then overwrites all three on the next iteration. There is no `print`, no arr
 
 Five of the ten K snippets are worse: they are fragments referring to names the module never defines — `Rs_history` (K5), `release_pose` (K6), `time_of_first_turning_point` (K7), `solve_kkt` (K8), and a bare comment block (K10). Extracting and running all eleven blocks in order gives five `NameError`s.
 
-The repair is one change to §7.4 plus a stated contract for the K problems. Replacement for the tail of the §7.4 code block (from the `# released from rest` comment to the end of the block):
+The repair is one change to §7.4 plus a stated contract for the K problems. **The wrapped function must build its own release pose.** The hardcoded `q = np.array([0.193, -0.230, 0.358, -0.48])` is valid only for the default $L_2$, $y_h$ and 40-degree release, so `run(L2=0.40, yh=-0.56)` would start off the constraint surface and `run(amp=30)` would ignore its own argument. That is exactly why K4 and K6 cannot be run as shipped. Build $q$ from the release angle and solve $g(q)=0$ for the hand: $x_1=L_1\cos\theta$, $y_1=L_1\sin\theta$ with $\theta=-90^\circ+\text{amp}$, then $y_2=y_h$ and $x_2=x_1+\sqrt{L_2^2-(y_h-y_1)^2}$. Replacement for the tail of the §7.4 code block (from the `# released from rest` comment to the end of the block):
 
 ```html
 # released from rest, hand on rail
@@ -135,7 +138,8 @@ h = {k: np.array(v) for k, v in hist.items()}
 WL = (m1 + m2)*g
 print(f"limb weight W_L        = {WL:.2f} N")
 print(f"shoulder R_s at rest   = {h['Rs'][0]:.2f} N = {h['Rs'][0]/WL:.2f} W_L")
-print(f"shoulder R_s peak      = {h['Rs'].max():.2f} N = {h['Rs'].max()/WL:.2f} W_L")
+rs_pk = h['Rs'].max()
+print(f"shoulder R_s peak      = {rs_pk:.2f} N = {rs_pk/WL:.2f} W_L")
 print(f"elbow    R_e peak      = {h['Re'].max():.2f} N")
 print(f"contact  lam3 peak/min = {h['Nc'].max():.2f} / {h['Nc'].min():.2f} N")
 print(f"max constraint error   = {h['gerr'].max():.2e} m")
@@ -167,7 +171,8 @@ The five fragment snippets (K5, K6, K7, K8, K10) must each become a complete pro
 <div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><span>Copy</span></button><pre><code>h = run()                              # the section 7.4 script as a function
 WL = (2.0 + 1.5)*9.81
 print(f"at release (at rest): {h['Rs'][0]:.2f} N = {h['Rs'][0]/WL:.2f} W_L")
-print(f"peak mid-swing:      {h['Rs'].max():.2f} N = {h['Rs'].max()/WL:.2f} W_L")
+pk = h['Rs'].max()
+print(f"peak mid-swing:      {pk:.2f} N = {pk/WL:.2f} W_L")
 print(f"dynamic amplification: {h['Rs'].max()/h['Rs'][0]:.2f}")
 # -&gt; at release (at rest): 11.64 N = 0.34 W_L
 # -&gt; peak mid-swing:      32.61 N = 0.95 W_L
@@ -241,8 +246,9 @@ Q = np.array([0, -m[0]*g, 0, -m[1]*g, 0, -m[2]*g])
 # ... same loop as section 7.4, with lam of length 4 ...
 print(f"KKT is {6+4} x {6+4}; one solve returns 6 accelerations "
       f"and 4 multipliers")
-# -&gt; at release: shoulder 19.06 N  elbow 5.26 N  wrist 2.90 N  contact 11.55 N
-# -&gt; peaks:      shoulder 66.49 N  elbow 36.73 N  wrist 10.88 N  contact 19.87 N</code></pre></div>
+# -&gt; release: shoulder 19.06  elbow 5.26  wrist 2.90  contact 11.55
+# -&gt; peaks:   shoulder 66.49  elbow 36.73  wrist 10.88  contact 19.87
+#    (newtons)</code></pre></div>
 <details class="sol"><summary>Show solution</summary><div><p>Six coordinates and four constraints make the KKT matrix $10\times10$, and one solve returns <em>all</em> the forces at once: at release, shoulder $19.1\ \mathrm N$, elbow $5.3\ \mathrm N$, wrist $2.9\ \mathrm N$, contact $11.6\ \mathrm N$; over the swing the peaks are $66.5$, $36.7$, $10.9$ and $19.9\ \mathrm N$. The proximal-carries-more ranking of <a class="secref" href="#lab-results">§7.5</a> not only survives, it sharpens: each joint carries the weight and the inertia of everything distal to it, so the ordering shoulder $\gt$ elbow $\gt$ wrist is forced by the model, not observed in it. Note also that the peak shoulder reaction has doubled ($32.6\to66.5\ \mathrm N$) for a limb only 29 % heavier — the extra link swings on a longer arm, and its inertial contribution grows faster than its mass. Nothing about the <em>method</em> changed from <a class="secref" href="#lab">§7</a>; only the sizes of $M$, $J_c$ and the system. The same fifty lines scale from this toy to a research-grade model, and what changes is the realism of those matrices, the subject of <a class="secref" href="#model">§8</a>.</p></div></details>
 ```
 
@@ -364,7 +370,7 @@ Missing parts 1 and 3: a curve is drawn against a computed axis and captioned "(
 <figcaption>The mobility–stability trade-off along socket coverage $\beta$ (computed). Stability $S=\tan\beta$ (red) rises; mobility falls. The mobility curve is the geometric range of motion: the head swings until the bony neck, of assumed half-angle $\theta_n=30^\circ$, strikes the rim, so $\text{ROM}(\beta)=180^\circ-\beta-\theta_n$, normalized here by its value at $\beta=10^\circ$. The two curves have different <em>shapes</em>, and that is the whole content of the trade: mobility falls linearly in $\beta$ while stability rises faster than linearly, so every degree of coverage costs the same range but buys more security than the degree before it. The shoulder lives at the mobile, unstable end; the hip at the stable, restricted end. There is no socket depth that maximizes both — evolution placed each joint where its job demands.</figcaption>
 ```
 
-Add $\theta_n$ to the notation table and $\theta_n\approx30^\circ$ (assumed) to the parameter table. If the plotted blue curve is not $180^\circ-\beta-30^\circ$ normalized, regenerate it from that formula so the caption is true of the figure.
+Every replacement code block in this report is wrapped to 79 columns for the hard `check_code.py` gate; re-run `pycodestyle` on each after splicing, since the surrounding indentation can push a line over. Add $\theta_n$ to the notation table and $\theta_n\approx30^\circ$ (assumed) to the parameter table. If the plotted blue curve is not $180^\circ-\beta-30^\circ$ normalized, regenerate it from that formula so the caption is true of the figure.
 
 ## 3. Style and clarity edits
 

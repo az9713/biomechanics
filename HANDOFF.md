@@ -70,6 +70,14 @@ real proofs and all check. The damage is in the numbers:
   unused in the Appendix. The two gaps close each other.
 - **B13** §6.2's mobility curve is captioned "(computed)" with no equation.
 
+### Not yet reviewed — finish this before marking Module 3 applied
+
+The report covers §0–§7, §9.1, §9.4, D2 and the Appendix. It does **not**
+cover `module03.html:1476-1658` (§8, the captures/misses audit), `1693-1907`
+(C1–C10) or `1908-1981` minus D2 (D1, D3–D10). Those ~400 lines were only
+grepped for reused numbers. Read them against the five-part standard and append
+the findings to `editor-reports/module03.md` before or during the apply.
+
 ### Verification assets (regenerate; scratchpad is session-transient)
 
 `m03/lab.py` re-implements §7.4 as `run(L1,L2,m1,m2,mL,g,yh,amp,a,b,dt,nstep,
