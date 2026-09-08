@@ -208,10 +208,13 @@ When a module is signed off, promotion is `mv edited/moduleNN.html moduleNN.html
 - **`DEVELOPMENT_JOURNEY_2.md`** (and its dark-mode `.html`) — the full story of the
   editor pass: how it was run, what went wrong, and **90 before/after pairs across all
   fifteen modules** covering prose, math, figure geometry, notation and code. Read §4
-  first — it is why the nine gates were not enough. Caveat recorded in its §6.7: the
-  per-module quotes for Modules 8–17 come from the reports; only Modules 3–7 were
-  grep-verified against the HTML, and that verification found two places where the
-  applied text differs from the proposed text.
+  first — it is why the nine gates were not enough. Quote provenance, recorded in its
+  §6.7: Modules 3–7 were grep-verified against both `moduleNN.html` and
+  `edited/moduleNN.html`; Modules 8–12's "before" text comes from the pristine
+  `moduleNN.html` or from text the report marks as original; **Modules 13–17's quotes
+  come from the reports alone** and are the ones to re-check against the files if a
+  quote ever matters. The Modules 3–7 verification found two places where the applied
+  text differs from the proposed text, which is why the distinction is worth recording.
 
 ## How to work (essentials — full detail in `CLAUDE.md`)
 

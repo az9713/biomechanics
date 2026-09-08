@@ -362,9 +362,19 @@ wins — correct the report and say so.
 ### 6.7 A report describing an edit is not evidence the edit landed that way
 
 Found while writing this document. The three extraction agents were told to quote exact
-before/after text, and one of them grep-verified every quote against `moduleNN.html` and
-`edited/moduleNN.html` instead of trusting the report it was reading. That caught two
-places where the *applied* text differs from the *proposed* text:
+before/after text. They sourced it to three different standards, which is worth stating
+plainly so a reader knows how much weight each quote carries:
+
+- **Modules 3–7** — every Before and After grep-verified against both `moduleNN.html` and
+  `edited/moduleNN.html`, rather than taken on the report's word.
+- **Modules 8–12** — every Before taken from the pristine `moduleNN.html`, or from text
+  the report itself marks as original. Tags acting on already-edited text were excluded
+  rather than presented as before/after pairs.
+- **Modules 13–17** — quotes taken from the reports. Not independently checked against
+  the files. **These are the ones to re-verify if a specific quote ever matters.**
+
+The Modules 3–7 verification is what caught two places where the *applied* text differs
+from the *proposed* text:
 
 - Module 4's C5 caption shipped `2.54 MPa` / `23.3 mm` phrasing the report never printed.
 - Module 7's K2 solution shipped `4.44` where the report wrote `4.45`.
