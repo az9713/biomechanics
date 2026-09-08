@@ -39,7 +39,7 @@ render-verify sweep.
 | **13** | **COMPLETE** — 102 edits (`49ab3a3`) |
 | **14** | **COMPLETE** — 15 blocking, 13 style, 63 edits (`979bd0a`) |
 | **16** | **COMPLETE** — 17 blocking, 13 style, 55 edits (`979bd0a`) |
-| 4 | report + 523 edits; owed the nine-gate re-run |
+| **4** | **COMPLETE** — 17 blocking, 13 style, 107 edits |
 | 5 | report + 458 edits; report may be incomplete; Fig. 30 unverified |
 | 7 | report written; apply PARTIAL (175 lines) — reset and re-run |
 | 8 | report + 226 edits, no change log; open: a literal `_` in an SVG `<text>` (check_svg HARD) and K10's frame |
@@ -47,7 +47,7 @@ render-verify sweep.
 | 15 | report + 298 edits; open: which listing prints what K2–K10 quote |
 | 17 | report + 362 edits; open: an unresolved `$I$` symbol collision |
 
-**Eight complete. Seven were relaunched 2026-09-08 with the defect each one's
+**Nine complete. Seven were relaunched 2026-09-08 with the defect each one's
 predecessor named in its dying words.**
 
 ## Next task — finish the seven, then promote
@@ -127,8 +127,10 @@ green on each of these:
   a problem about slip; and a 737 N curve clipped flat against a 300 N axis.
 
 **The technique that caught them all: decode the `<polyline>` point strings back
-into data.** Calibrate from the tick `<text>` coordinates, invert the mapping,
-compare against the model. Carry this into every remaining module — it is
+into data.** Invert the axis mapping and compare against the model.
+**Calibrate from the axis `<line>` elements, not the tick `<text>` baselines** —
+m04 found those baselines sit 3 px low, and that offset alone shifts a recovered
+peak pressure by 0.065 MPa, i.e. it manufactures a discrepancy that is not there. Carry this into every remaining module — it is
 cheaper than a render sweep and it catches a different class of defect.
 
 Second recurring finding: **a module that claims "every number was produced by

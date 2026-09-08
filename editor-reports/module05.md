@@ -343,6 +343,11 @@ paragraph:
 <p>One number needs reconciling before we go on. <a class="secref" href="#origin">&#167;0</a> took the elbow flexor moment arm as $d_m\approx3\ \mathrm{cm}$, the constant Module&nbsp;1 carries for its reference human; here it is $4\ \mathrm{cm}$. Both are right, at different angles: Module&nbsp;1's $3\ \mathrm{cm}$ is a single value chosen to stand for the whole flexion range, while $4\ \mathrm{cm}$ is the peak of the angle-dependent curve of the next subsection, reached near $90^\circ$. Wherever this module quotes a single moment arm it means the value at the stated angle, and the curve $d_m(\theta)$ below supersedes the constant.</p>
 ```
 
+One place was missed on the first pass and is fixed as tag **B24**: Fig. 28's
+`<figcaption>` (`module05.html:1094`) still read "the much longer load moment
+arm $r_m$" after the body and the notation table had moved to $r_L$. With that
+row applied, `r_m` no longer occurs anywhere in the module.
+
 ### B13. §3's validation quotes a half-relaxation the model does not produce
 
 Location: `module05.html:857`.
@@ -428,13 +433,14 @@ Of the ten K solutions, only K2's and K10's mentioned any computation and neithe
 showed code; the module contains just two `<pre><code>` blocks in total, both in
 §9. This is the same defect class recorded for Module 14.
 
-Fix: nine new PEP8 code blocks spliced into K1, K2, K3, K4, K5, K6, K7, K8, K9
-and K10, each printing the numbers its solution quotes. `check_code.py` now
+Fix: ten new PEP8 code blocks spliced into K1, K2, K3, K4, K5, K6, K7, K8, K9
+and K10 &mdash; one per problem &mdash; each printing the numbers its solution
+quotes. `check_code.py` now
 reports 12 blocks, 0 issues. The header sentence is replaced with a claim that is
 true:
 
 ```html
-an inverse problem, or a sensitivity sweep &#8212; not substitution into a boxed formula. Every number below was printed by the code shown with the problem; the two that carry no code (K1's optimum and K9's endurance times) are closed forms derived in the solution and confirmed by the code in K3 and K9.</p>
+an inverse problem, or a sensitivity sweep &#8212; not substitution into a boxed formula. Every number below was printed by the code shown with the problem: each of K1&#8211;K10 now carries a runnable block, and each block prints the quantities its solution quotes.</p>
 ```
 
 ### B18. K9 asserts a threshold and two times with no derivation, and the threshold is wrong
@@ -539,7 +545,7 @@ making, and the replacement makes it.
   revisited.
 - **§7 is the module's summit and had no problem.** K7 now probes it. §5 still
   carries only K5; §2 only K6. The coverage table is now accurate about this.
-- **The `<details class="sol">` solutions are long.** Adding code to nine of them
+- **The `<details class="sol">` solutions are long.** Adding code to ten of them
   pushes the file from 388 KB to 419 KB, which trips `check_svg.py`'s new
   large-file advisory. That is the cost of making the "Python-verified" claim
   true, and I judged the trade worth it.
@@ -569,9 +575,81 @@ making, and the replacement makes it.
 ## 6. Changes applied
 
 Applied by `m05/apply.py` to a pristine copy at `edited/module05.html`
-(71 replacements, each anchor asserted unique). Line numbers are the anchor's
+(72 replacements, each anchor asserted unique). Line numbers are the anchor's
 position in the **original** `module05.html`. "Verified" names the script run or
 the hand derivation that settled the number.
 
 | tag | line (original) | what changed | how verified |
 |---|---|---|---|
+| B1a | 73 | The triceps-surae banner is unwrapped from `<figure>`/`<figcaption>` into a `<div>` plus an italic `<p class="small">`, so it no longer increments the stylesheet's `fig` counter | `grep -c '<figure'` falls 35 &rarr; 33; the highest in-text reference is Fig. 33 and there are now exactly 33 figures |
+| B1b | 93 | The pennation banner inside `<div class="toc">` is unwrapped the same way | Same count; with both banners out of the count every "Fig. N" now lands on the Nth `<figure>` |
+| B12a | 234 | §0 gains the level-ladder placement: every model here is **Level 5** (muscle&ndash;tendon actuator), the labs prescribe joint kinematics, and K7 is named as the one Level-2 planar rigid-body result | Required by `EDITOR_DOMAIN.md`; the claim is checked against §9's labs, which integrate no limb, and against K7, which does |
+| B2 | 826 | Modelling assumption 3.2 inserted, stating the calcium pulse $p(t)=p_{\max}^{-1}(1-e^{-t/\tau_r})e^{-t/\tau_d}$ and its four constants ($\tau_r=3.6$ ms, $\tau_d=18$ ms, $\mathrm{Ca}_{\text{rest}}=0.1\ \mu$M, $\mathrm{Ca}_{\text{peak}}=1.4\ \mu$M) plus $\tau_a=41$ ms, all labelled *assumed* | `ver2.py`/`ver3.py`: integrating this model gives peak $a=0.2248$, time-to-peak 24.82 ms, half-relaxation 38.07 ms, $a_\infty(1.4\ \mu\mathrm M)=0.7329$; features stable to 0.05 ms across step sizes 0.05 &rarr; 0.005 ms |
+| B7a | 794 | Proposition 3.1's "empirical fit &hellip; not proved" disclaimer is replaced by a `<div class="proof">` deriving $a_\infty=[\mathrm{Ca}]^n/(K_d+[\mathrm{Ca}]^n)$, $Ca_{50}=K_d^{1/n}$, from one all-or-none cooperative binding equilibrium, with the $n=1$ limit case | Hand derivation; sibling rule of `EDITOR_DOMAIN.md` (its peer, the sarcomere overlap law, is proved). `check_proofs.py` on the pristine file names exactly this one &mdash; `line 792: "Proposition 3.1 (steady-state activation)" has no `.proof` &mdash; and reports 0 asserted propositions on the edited file |
+| B7b | 1014 | Proposition 6.1 likewise gains a proof from Hill's own two measurements: shortening heat $a_Hv$ and the energy-rate law $Fv+a_Hv=b_H(F_0-F)$, which factor to $(F+a_H)(v+b_H)=(F_0+a_H)b_H$; the steady-shortening hypothesis is stated as the limit | Hand derivation, two lines. `check_proofs.py` names this one on the pristine file &mdash; `line 1012: "Proposition 6.1 (Hill\'s force-velocity equation, 1938)\" has no `.proof` &mdash; and reports 0 on the edited file. The equilibrium arrow is written `&#8652;` because `\rightleftharpoons` trips `checktex`'s `\left`/`\right` balance test; `checktex` reports 0 issues |
+| B8 | 1020 | The eccentric shape constant $k$, previously named and left blank, is derived from the module's own claim that eccentric force climbs twice as steeply as concentric force falls: $k=2(1+1/c)/(f_{\text{ecc}}-1)=20$ | `blocks_edit/blk06` (K4) prints the numerical slope ratio at $v\to0$ as 2.00; the force&ndash;velocity figure's eccentric branch decodes to 1.428 at $v=-0.3$ against the law's 1.4286 and 1.461 at $v=-0.55$ against 1.4615, both at $k=20$ |
+| B6 | 1064 | The parallel elastic element gains the constitutive law it was drawn and used without: boxed $F_{PE}/F_{\max}=(e^{k_{PE}(\ell/\ell_0-1)/\varepsilon_0}-1)/(e^{k_{PE}}-1)$ for $\ell>\ell_0$, with $k_{PE}=3$ and $\varepsilon_0=0.6$ labelled *assumed*, and a plain reading of both constants | The passive-force polyline decodes to exactly that law: 0.076 at $1.18\,\ell_0$ (law 0.0765), 0.201 at $1.32\,\ell_0$ (law 0.207), 1.000 at $1.6\,\ell_0$ (law 1.000) |
+| B14 | 1098 | §8's lever ratio "roughly a tenth &hellip; roughly tenfold" corrected to a seventh; the load arm renamed $r_m\to r_L$; and a paragraph added reconciling §0's $d_m\approx3$ cm (Module 1's single whole-range value) with §8's 4 cm (the peak of $d_m(\theta)$ near $90^\circ$) | Arithmetic: 30 cm / 4 cm = 7.5, and the two forces quoted in the same sentence, 147 N against 19.6 N, are themselves a factor 7.5 |
+| B13a | 1147 | Lab 1's parameter table gains the two laws that existed only inside the code: $\ell(\theta)/\ell_0=1-0.003(\theta^\circ-70)$ and $d_m(\theta)=1.8+2.2\sin\theta$ cm, both labelled *assumed* | The moment-arm figure decodes to the stated law: 1.80 cm at $0^\circ$, 3.64 cm at $57^\circ$ (law 3.645), 4.00 cm at $90^\circ$ |
+| B13b | 1143 | $F_{\max}=500$ N relabelled from "peak isometric force (§1)" to the peak isometric force of the *lumped* elbow flexor group, *assumed* | §1 computes 135 N for the biceps alone; 500 N can only be the biceps + brachialis + brachioradialis group, so the old citation pointed at a number four times smaller |
+| B4a | 1153 | A live `<a class="secref" href="#activation">§5</a>` tag inside Lab 1's `<pre><code>` becomes the plain comment `# activation ODE constants (s), sec. 5` | `extract.py` reports no live HTML tags in any block; `check_code.py` 12 blocks / 0 issues; `blk01` runs to completion |
+| B4b | 1158 | Same, in `def fL(L):` &rarr; `# length factor, sec. 2` | As B4a |
+| B4c | 1168 | Same, in `def fV(v):` &rarr; `# velocity factor, sec. 6` | As B4a |
+| B4d | 1172 | Same, in `def dm(th):` &rarr; `# moment arm (cm), sec. 8` | As B4a |
+| B4e | 1180 | Same, `# integrate activation, sec. 5` | As B4a |
+| B5 | 1197 | Lab 1's quoted output `peak torque 13.3 N m at t = 0.76 s` corrected to `13.4 N m` | `blk01_L1177.py` prints `peak torque 13.4 N m at t = 0.76 s`; the raw value 13.3504 is what the block's own `:.1f` renders as 13.4. The torque panel decodes to a peak of 13.34 N m at 0.752 s, so the figure agreed with the code and only the prose did not |
+| B15 | 1231 | Lab 2's sensitivity paragraph rewritten: $F_r/(F_r+F_f a)$ is named as the steady **capacity** $C_\infty$, and the steady **force** is $a\,C_\infty$ | $C_\infty=0.020/(0.020+0.018\times0.9)=0.5525$, force $0.9\times0.5525=0.497$. `blk02` prints 0.54 at 60 s because the hold ends before the capacity has settled &mdash; the point the replacement now makes |
+| S12a | 1229 | "sags to little more than half its start (to $\approx0.54$)" &rarr; "falls to $60\%$ of its starting value in one minute ($0.90$ to $0.54$)" | $0.543/0.90=0.604$; "little more than half" understated the retained force |
+| S12b | 1231 | "force sags to little more than half within a minute" &rarr; "force falls by $40\%$ within a minute" | Same arithmetic |
+| B9a | 1124 | Fig. 30's SVG regenerated from §1's own $F_{bi,\max}=135$ N and $F_{br,\max}=210$ N; the old constraint line and ellipses were drawn for a 1:2 ratio | Decoded from the new SVG: the constraint line runs $(0,235.5)$ to $(147.1,0)$, giving $\tau=0.025\times235.5=5.886$ N m; the innermost solid ellipse has intercepts 105.5 and 164.0 N, ratio 1.5545 against $210/135=1.5556$; the optimum marker sits at $(75.6,\,114.4)$ |
+| B9b | 1124 | Fig. 30's caption rewritten to state every input (135 / 210 N from §1, $d_{bi}=4.0$ and $d_{br}=2.5$ cm *assumed*, $\tau=5.89$ N m) and the corrected optimum 76 / 114 N at relative stresses 0.56 and 0.54; the old caption said 57 / 144 N | `genfigs.py`: solving $F_i\propto d_iF_{i,\max}^2$ against $d_{bi}F_{bi}+d_{br}F_{br}=5.886$ gives 75.65 and 114.41 N, stresses 0.560 and 0.545. Substituting into the drawn ellipse gives $0.7170^2+0.6976^2=1.0008$, so the marker is the tangency |
+| B9c | 1126 | A sentence added after Fig. 30: the pair carries $76+114=190$ N where a single muscle on the 4 cm arm would need 147 N &mdash; minimising stress is not minimising force | $5.886/0.04=147.1$ N |
+| B10a | 1293 | The coverage table's §7 row, previously "&mdash; &mdash; &mdash;", now reads K7 | Follows B10c: K7 is rewritten onto the §7 model |
+| B10b | 1294 | The coverage table's §8 row "K7, K8" reduced to "K8" | Same; K7 no longer probes §8 |
+| B10c | 1409 | K7's statement rewritten from a generic linear limb ($I\ddot\theta=a\tau_{\max}-k\theta-b\dot\theta$, which used no $f_L$, no $f_V$, no moment arm) into a regime comparison: integrate the assembled §7 model on the same limb and compare it with the constant-torque shortcut. $I_J=0.06\ \mathrm{kg\,m^2}$, $k_J=9.6$, $b_J=0.76$ all stated and labelled *assumed* | Meets the K-depth standard as a regime comparison, and §7 &mdash; the module's summit &mdash; had no problem at all before this |
+| B10d | 1411 | K7's solution replaced with `k7.py` and the comparison of the two regimes | `blk09_L1585.py` prints: shortcut equilibrium 50.1&deg;, overshoot 16.1%, settling 0.65 s; assembled model 63.4&deg;, overshoot 0.0%, settling 1.47 s; root-find equilibrium 63.45&deg;; torque-angle slope 5.24, effective stiffness 4.36 N m rad&#8315;&sup1;; $\zeta$ 0.50 against 0.74 |
+| B10e | 1410 | K7's figure regenerated to draw both trajectories | Decoded against the tick map (90.667 px/s, 1.334 px/deg): the constant-torque curve ends at 50.07&deg; with 16.2% overshoot, the Hill curve at 63.42&deg; with none &mdash; matching `blk09` to the drawing's resolution |
+| B3a | 1391 | K2's solution replaced with `k2.py` and the three trace means it reproduces | `blk04_L1439.py` prints mean $a$ = 0.147 / 0.380 / 0.688 at 10 / 25 / 60 Hz, ripple 138% / 28% / 1%, fusion 42.5 Hz fast and 17.0 Hz slow |
+| B3b | 1421 | K10's statement rewritten to name Modelling assumption 3.2's $\tau_a=41$ ms as the forward-model value the fit is to be compared against | Makes the inverse problem's "conditioned on what you froze" point checkable |
+| B3c | 1423 | K10's answer $\tau_a\approx41.5$ ms replaced with $43.7$ ms, with `k10.py` spliced in and a paragraph on what an inverse fit actually recovers | `blk12_L1703.py` prints `fitted tau_a = 43.7 ms` with `peak a 0.215, time to peak 25.2 ms, half-relaxation 40.0 ms`. 41.5 ms produces neither quoted feature; 43.7 ms produces both |
+| B3d | 1383 | §10's header claim "every answer is Python-verified", made above ten solutions of which eight carried no code, replaced by the specific claim that each of K1&ndash;K10 carries a runnable block | `check_code.py` reports 12 blocks, 0 issues (2 labs + 10 K). Mapping each `<pre><code>` offset against each `<b>KN.</b>` offset puts exactly one block inside each of K1&ndash;K10 |
+| B18 | 1407 | K6's stated reason for the strength peak &mdash; "the joint is strongest where *neither* factor alone is maximal" &mdash; replaced: $f_L$ is flat on the plateau $0.963\le\ell/\ell_0\le1$ across the whole interval $[70^\circ,82.3^\circ]$, so $f_L$ *is* at its maximum at the peak; a flat factor hands the choice of optimum to the other one | `blk08_L1552.py` prints `fL plateau spans theta = 70.0 to 82.3 deg`, `moment arm peaks at theta = 90 deg`, `strength peaks at theta = 82.3 deg, value 3.980 cm` |
+| B11a | 374 | §1's fibre force $F_f$ renamed $F_{\text{fibre}}$ in the resolution sentence, freeing $F_f$ for §9's fatigue rate | `grep` over the edited file: $F_f$ now occurs only in §9, D7, K9 and the appendix, always as the fatigue rate |
+| B11b | 342 | The same rename inside the pennation SVG's `aria-label` (plain text, no math) | As B11a |
+| B11c | 376 | "So each fibre delivers $F_t=F_f\cos\theta_p$" &rarr; "So each fibre delivers $F_{\text{fibre}}\cos\theta_p$" &mdash; this also removes the second collision, $F_t$ | `grep`: $F_t$ no longer occurs anywhere in the module |
+| B11d | 384 | The same rename in the Definition 1.3 back-reference | As B11a |
+| B11e | 1385 | K1's belly thickness $t$ renamed $h$ ($t$ is time in every other section) | `grep`; the notation table gains $h$ under B17n3 |
+| B11f | 1387 | The same rename in K1's second use, $\ell_f=h/\sin\theta_p$ | As B11e |
+| B11g | 1370 | D8's two distances $a$ and $b$ renamed $r_1$, $r_2$ ($a$ is activation and $b$ the Hill constant throughout) | `grep` over D8; the law-of-cosines derivation is unchanged apart from the symbols |
+| B11h | 1372 | The same rename through D8's solution, $L=\sqrt{r_1^2+r_2^2-2r_1r_2\cos\gamma}$ and $d_m=r_1r_2\sin\gamma/L$ | As B11g |
+| B11i | 1417 | K9's held force target $F_t$ renamed $F_{\text{hold}}$ | `grep`: $F_t$ is gone; the notation table gains $F_{\text{hold}}$ under B17n5 |
+| B11j | 1417 | The same rename in K9's closing sentence, "as a function of $F_{\text{hold}}/F_{\max}$" | As B11i |
+| B17k9 | 1419 | K9's asserted threshold and undrived endurance times replaced by the closed form: substituting $a=F_{\text{hold}}/C$ linearises the model to $\dot C=-F_fF_{\text{hold}}+F_r(1-C)$, giving $C_\infty=1-(F_f/F_r)F_{\text{hold}}$ and a sustainable region below $F_r/(F_r+F_f)=\mathbf{0.53}$, not the stated 0.5 | `blk11_L1675.py` prints `sustainable while F_hold < FR/(FR+FF) = 0.53` and endurance 67.5 / 32.3 / 16.3 / 6.6 s at $F_{\text{hold}}$ = 0.6 / 0.7 / 0.8 / 0.9, with simulation and closed form agreeing to the printed digit |
+| B19a | 1397 | K4's statement rewritten from two evaluations of the boxed $f_V$ at $|v|=0.3$ into a sweep of $|v|/v_{\max}$ across $[0,1]$ with both limit cases named | Meets the K-depth standard as a sensitivity sweep; the old form was exactly the plug-in substitution the §10 retrofit was meant to remove |
+| B19b | 1399 | K4's solution replaced with `k4.py`, the swept ratios and the two limits; the metabolic claim is kept but relabelled as an assumption imported from Hill's heat measurements, since the work per unit tension-time integral is $\lvert v\rvert v_{\max}$ in both directions | `blk06_L1499.py` prints ratio 2.07 / 4.49 / 8.73 / 18.58 / 67.79 at $\lvert v\rvert$ = 0.1 / 0.3 / 0.5 / 0.7 / 0.9, `ratio = 3 at |v| = 0.19`, `limit v -> 0 : 1.0015 (slope ratio 2.00)`, and divergence as $v\to v_{\max}$ |
+| B20a | 1320 | C6's figure replaced. The old one was a single monotone rise, shared byte-for-byte with C4, D6 and D10, showing neither the command nor the release C6 asks about; the new one draws the rectangular command (on 20&ndash;140 ms, blue) and the activation it produces (red, $\tau_{\text{act}}=10$ ms, $\tau_{\text{deact}}=40$ ms) | Decoded against the tick map (0.85 px/ms, 87 px per unit): $a(39.1\ \mathrm{ms})=0.864$ against the closed form $1-e^{-2}=0.865$; $a(159.1\ \mathrm{ms})=0.618$, on the $e^{-\Delta t/40}$ release tail |
+| B20b | 1313 | C4's `aria-label` "twitch relaxing toward ceiling", which described neither the figure nor C4, replaced with the climb the figure actually draws: successive twitches summing from 0.22 to the ceiling $a_\infty=0.73$ | Read against the figure's own dashed reference line at 0.73 and the single-twitch peak 0.2248 from `ver2.py` |
+| B21 | 1421 | K10's figure regenerated with the fitted curve and both fitted features marked; its label and `aria-label` said 41.5 ms | Decoded against the tick map (1.70 px/ms, 400 px per unit): peak $a=0.2150$ at 25.8 ms, half-relaxation 39.5 ms after the peak &mdash; `blk12`'s 0.215 / 25.2 / 40.0 to within one sample (1.4 ms) of the drawing |
+| B16a | 1468 | The appendix $F_{\max}$ row "biceps / quadriceps / gastrocnemius &mdash; $\sim135$ / $\sim10^3$ / $\sim10^3$ N" replaced with four muscles at 135 / 861 / 1360 / 4400 N computed from $\sigma\,\mathrm{PCSA}\cos\theta_p$, and twelve further rows added for numbers the text used with no table entry (PCSA values, muscle density, maximal elbow-flexion torque, filament lengths, resting and peak calcium, $\tau_r$, $\tau_d$, $\tau_a$, the three twitch features, the tetanus ceiling, $k=20$, $k_{PE}$, $\varepsilon_0$, and the fatigue rates flagged as rates) | Recomputed from §1's own PCSA and pennation table. The old quadriceps entry $\sim10^3$ N was out by a factor 4.4 against the module's own 4400 N |
+| B16b | 1475 | The appendix pennation row replaced with the same four muscles: $0^\circ$ / $17^\circ$ / $25^\circ$ / $12^\circ$ | Read straight off §1's table, which the old row did not match |
+| B17n1 | 1452 | The notation table gains $F_0$ (the $f_V=1$ isometric reference) and $k$ (the eccentric shape constant) | Each symbol is used in the prose; under `EDITOR_DOMAIN.md` a used symbol needs a row |
+| B17n2 | 1458 | The §8 notation row extended to $\theta$, and $r_L$, $\lambda$, $I_J$, $k_J$, $b_J$ added | As B17n1; $r_L$ is the symbol B14 and B24 renamed to |
+| B17n3 | 1438 | $m$, $V$, $\rho$, $L_f$ (eq. 1.2) and $h$ (K1's belly thickness) added | As B17n1; $h$ is B11e's rename |
+| B17n4 | 1446 | $p(t)$, $\tau_r$, $\tau_d$, $\tau_a$, and the recruitment circuit's $I$, $R$, $\Delta V$ added | As B17n1; $p(t)$, $\tau_r$, $\tau_d$ are Modelling assumption 3.2's constants from B2 |
+| B17n5 | 1460 | §9's row split: $C$ and $F_{\text{hold}}$ on one row, $F_f$ and $F_r$ on another explicitly marked *rates* (units $\mathrm{s^{-1}}$, not forces) | The old single row invited exactly the confusion B15 found in the prose |
+| B12b | 1252 | The captures/misses row for prescribed joint kinematics now names the level ladder: the module stays on Level 5 and computes no Level-2 planar rigid-body result except in K7 | Matches B12a; the two statements are the module's only ladder placements and now agree |
+| B22 | 857 | §3's validation "time-to-peak $\sim25$ ms and a half-relaxation of $\sim40$ ms" replaced with peak activation $a=0.22$, time-to-peak 24.8 ms, half-relaxation **38.1** ms, citing Modelling assumption 3.2 | `ver2.py`/`ver3.py` give 24.82 and 38.07 ms, stable across four step sizes; the twitch figure itself decodes to 38, not 40 |
+| S9a | 324 | "across mammalian skeletal muscle it is remarkably constant" &rarr; "it varies by less than a factor of two" | The module's own quoted range is 0.2&ndash;0.35 MPa, a factor 1.75 &mdash; so the original was hype laid over a spread it had just stated |
+| S9b | 904 | "and the remarkable thing is that the nervous system does not have to *arrange* it" &rarr; "and the nervous system does not have to arrange it" | Read aloud; the claim carries itself |
+| S9c | 914 | "Fine motor resolution is a free gift of $\Delta V=IR$." &rarr; "Fine motor resolution follows from $\Delta V=IR$ alone." | Read aloud |
+| S9d | 1036 | "which is precisely what gear ratios, crank lengths, and cadence choices exist to arrange" &rarr; "which is what &hellip;" | Read aloud |
+| S16 | 386 | §1's table intro gains a sentence naming which columns are measured and which is computed: PCSA and pennation are representative measured values (Appendix), $F_{\max}$ is computed from them by (1.3) | `EDITOR_DOMAIN.md`'s three-class rule &mdash; the table mixed a table parameter and a derived quantity with no marking |
+| S4 | 1395 | K3's "**nearly triples** peak power" &rarr; "multiplies peak power by **2.5** ($0.134/0.054$)" | `blk05_L1481.py` prints $P^\ast=0.054\,F_0v_{\max}$ at $c=0.10$ and $0.134$ at $c=0.50$; the ratio is 2.48 |
+| S14 | 1415 | K8's solution gains the totals it was missing: $86+126+139=351$ N against 250 N, so min-stress spends 40% more total force to hold all three at 0.17 / 0.18 / 0.15 | `blk10_L1653.py` prints `min stress : 86 126 139 N`, `relative stress: 0.17 0.18 0.15`, `total 351 N`, and `min effort : 250 0 0 N`, `total 250 N`, both checking $\tau=10.00$ N m |
+| S7a | 928 | §4's mean activation at 25 Hz, $\bar a\approx0.39$, corrected to $0.38$ | `blk04_L1439.py` prints `25 Hz: mean a 0.380` |
+| S7b | 938 | The fusion-frequency sentence now names K2's swept value, 42.5 Hz, beside the rounded 42 Hz | `blk04_L1439.py` prints `fast fibre: fusion frequency 42.5 Hz` |
+| B23a | 1387 | K1's solution gains `k1.py` | `blk03_L1414.py` prints `optimum pennation = 45.0 deg`, `force gain 20 deg -> optimum = 1.56x`, `fibre length ratio = 0.48` |
+| B23b | 1395 | K3's solution gains `k3.py` | `blk05_L1481.py` prints $v^\ast/v_{\max}$ = 0.23 / 0.31 / 0.37 and $P^\ast$ = 0.054 / 0.095 / 0.134 for $c$ = 0.10 / 0.25 / 0.50 |
+| B23c | 1403 | K5's solution gains `k5.py` | `blk07_L1531.py` prints `minimum rise time = 90 ms = 9 tau_act`, `command needed for a 20 ms ramp = 1.35`, and the full $T_r$&ndash;$u_{\text{peak}}$ table |
+| B23d | 1415 | K8's solution gains `k8.py` | `blk10_L1653.py`, as for S14 |
+| B24 | 1094 | Fig. 28's `<figcaption>` still read "the much longer load moment arm $r_m$" after B14 moved the body and the notation table to $r_L$; corrected | `grep` over the edited file: `r_m` no longer occurs anywhere. This was the one place the first pass missed, found by grepping for superseded symbols after the apply |

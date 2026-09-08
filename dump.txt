@@ -1,0 +1,7 @@
+549: [SVG]The passive dynamic walker: two rigid legs about a hip mass, rolling down a gentle slope with no motor. Gravity feeds in $MgL\sin\gamma$ per step and the heel strike dissipates $\tfrac12 Mv^2\sin^2 2\alpha$; their balance is the limit cycle of Proposition 9.1.
+550: 
+551: 
+552: 
+553: Let $\mathbf z_n=(\theta_n,\dot\theta_n)$ be the state just after heel strike on step $n$. One stride defines a map
+554: 
+555: 
