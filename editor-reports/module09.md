@@ -48,6 +48,15 @@ the Appendix records two of the three collisions in a single row rather than
 resolving them. None of this touches the derivations, which are correct as they
 stand.
 
+Three more defects of exactly K1's class surfaced only when every figure's
+polyline was decoded back into data and compared against the model its own text
+claims (B14 to B16): Figure 7's countermovement curve still integrated to the
+superseded 34 cm after every label around it had been corrected to 32.0, K6's
+figure drew the required stopping distance falling with drop height when its own
+solution derives a rise, and K10's drew the running cost falling with speed when
+its own model has it rise. All three passed all nine gates. A drawing is a
+claim, and it has to be checked like one.
+
 ## 2. Blocking defects
 
 Ranked by severity: a drawn result the model contradicts first, then numbers
@@ -847,10 +856,12 @@ advisory (A7).
 The report's *numbers* all held. Ten of its *replacements* were wrong or
 incomplete, and the applied text differs from it in these ways:
 
-1. **B2 missed two sites.** Besides `:217`'s caption and `:219`'s prose, Fig. 7
+1. **B2 missed three sites.** Besides `:217`'s caption and `:219`'s prose, Fig. 7
    carries `34 cm` in its own SVG label (`CMJ → 34 cm`) and in its aria-label
    ("34 versus 30 centimetres"). Both fixed (B2c, B2d). Without them the figure
-   would still have contradicted its caption.
+   would still have contradicted its caption. A third site, found only in the
+   figure-decode pass, was the *curve itself*, which no text search can reach:
+   integrated against its own axis it gave `34.06 cm`. Fixed as B14/A1.
 2. **B9's rename list omitted D10** (`:491` figure, `:492` solution), which is the
    problem that *derives* Prop 8.1. Renamed (B9f–B9i). A partial rename leaves
    the collision in place.

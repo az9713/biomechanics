@@ -6,13 +6,13 @@ Editorial pass. Standard: the five-part rule of the `science-editor` skill, read
 
 ## 1. Verdict
 
-Yes, after revision. A graduate reader with no biomechanics can learn from these pages why a body with more actuators than task constraints needs a selection principle, how minimum jerk, the LQR, impedance, internal models, and optimal feedback control each supply one, and why the last of them predicts the shape of motor variability rather than merely tolerating it. The derivational spine is genuinely sound: Lemma 2.1, Propositions 1.1, 3.1, 4.1, 5.1, 6.1, 6.2, 7.2, 8.1 and 8.2 all carry proofs of matching weight, `check_proofs.py` finds no asserted sibling, and the Euler-Poisson to minimum-jerk to 1.875 chain is the best-built passage in the module. What stopped the reader before this pass was elsewhere, and it was mostly arithmetic and notation rather than argument. Lab C computed the contact force against a *rigid* wall in prose and a *finite* one in code and reported a 25x ratio that is 23.9x, while its own script printed one number per controller and never the peak the figure drew. Three symbols carried two meanings each across sections: `K` was both the LQR gain and the oscillator coupling, `\tau` was both normalised movement time and the feedback delay, `\eta` was both the variational perturbation and the learning rate. The module promised three times that computational solutions quote numbers the code produces, and shipped ten K solutions with no code at all. Proposition 7.1 was stated as a paragraph of prose with a proof labelled "(Sketch)". The module never said where its models sit on the level ladder. Seven empirical counts (7 joint degrees of freedom, ~50 muscles, 80-90 % VAF, 3-5 synergies) were bare numbers in no table.
+Yes, after revision. A graduate reader with no biomechanics can learn from these pages why a body with more actuators than task constraints needs a selection principle, how minimum jerk, the LQR, impedance, internal models, and optimal feedback control each supply one, and why the last of them predicts the shape of motor variability rather than merely tolerating it. The derivational spine is genuinely sound: Lemma 2.1, Propositions 1.1, 3.1, 4.1, 5.1, 6.1, 6.2, 7.2, 8.1 and 8.2 all carry proofs of matching weight, `check_proofs.py` finds no asserted sibling, and the Euler-Poisson to minimum-jerk to 1.875 chain is the best-built passage in the module. What stopped the reader before this pass was elsewhere, and it was mostly arithmetic and notation rather than argument. Lab C computed the contact force against a *rigid* wall in prose and a *finite* one in code and reported a 25x ratio that is 23.9x, while its own script printed one number per controller and never the peak the figure drew. Three symbols carried two meanings each across sections: `K` was both the LQR gain and the oscillator coupling, `\tau` was both normalised movement time and the feedback delay, `\eta` was both the variational perturbation and the learning rate. The module promised three times that computational solutions quote numbers the code produces, and shipped ten K solutions with no code at all. Proposition 7.1 was stated as a paragraph of prose with a proof labelled "(Sketch)". The module never said where its models sit on the level ladder. Six empirical counts and ranges (7 joint degrees of freedom, ~50 muscles, motor units per muscle, 80-90 % VAF, 3-5 synergies, the 1.7-1.9 measured peak/mean ratio) were bare numbers in no table.
 
 The second pass found the residue the first one left, and it is the more interesting half. **Two figures contradicted their own text.** K6's figure drew the minimum-jerk bell (peak 1.874 at $\tau=0.50$, matching minimum jerk to 0.002) inside a problem whose solution says in as many words that the answer is *not* minimum jerk but 1.736 at $\tau=0.68$. Lab B's second figure plotted a settling time that reaches 17.9 s on an axis whose top tick was 10 s, so 40 % of the curve was drawn outside the plot frame; the viewBox had been stretched to `6 -81 488 339` to keep `check_frame` quiet, and the figure's own `aria-label` said both quantities fall when only one does. K5's figure showed a 60-trial schematic peaking at 0.719 beside a solution reporting a 340-trial run peaking at 0.811. Two further numbers were simply wrong: K9's "the fourth adds 0.0003, a factor 250 drop" is 0.000564 and a factor 130, and K4's "all three converge with aftereffect $-1.000$" is $-0.996$ for $\eta=0.2$ in the run the code prints. And D9's solution still stated the Adler equation with `K` after Proposition 8.2 had been renamed to $\kappa$, so the module gave one law two symbols. All nine gates were green on every one of these.
 
 ## 2. Blocking defects
 
-Ranked by severity: results that are wrong or unproved first, then figures that contradict their text, then symbol collisions, then unlabelled numbers, then missing scaffolding. Tags in brackets are the `apply.py` tags, which are also the rows of the change table in section 6.
+Ranked by severity: results that are wrong or unproved first, then figures that contradict their text, then symbol collisions, then unlabelled numbers, then missing scaffolding. **Each heading is named for its `apply.py` tag family, so a row of the change table in section 6 can be looked up directly here**; the headings are therefore not in numerical order. The first agent's tag sequence has no B3 or B4: whatever they were is either merged into B5 and B6 or was dropped before the apply, and cannot be recovered.
 
 ### B1. Lab C models a rigid wall in prose and a compliant one in code, and its stated 25x ratio is 23.9x  [B1a-B1g]
 
@@ -40,7 +40,7 @@ Missing part 5, the tie to something concrete, and a false claim besides. Not on
 
 The applied fix rewrites all ten solutions around a standalone, copy-buttoned Python block and quotes only numbers that block prints. Each rewrite also deepens the problem where it had drifted toward substitution: K3 now searches two inverse-kinematics branches and sweeps the co-contraction split at a fixed budget (posture buys a factor 5.0 in the along/across stiffness ratio, co-contraction only 1.19); K5 runs a 340-trial two-state model against a one-state control and shows the rebound one state cannot produce; K6 solves the constrained quadratic program for a concrete plant; K8 integrates the Adler equation across the locking edge and shows the lag sweeping the full quarter turn; K9 shows the 90 % threshold *understating* the true rank. Both promises are rewritten to the stronger, now-true form.
 
-### B3. Proposition 7.1 is a paragraph of prose with a proof labelled "(Sketch)"  [B5a, B5b]
+### B5. Proposition 7.1 is a paragraph of prose with a proof labelled "(Sketch)"  [B5a, B5b]
 
 Location: `module12.html:190` (statement), `:192` (proof).
 
@@ -52,7 +52,7 @@ The applied fix states the minimiser in closed form,
 $$u_k=\frac{x_T}{\sum_j b_j^2/w_j}\cdot\frac{b_k}{w_k},$$
 and proves it: strict convexity gives existence and uniqueness, the Lagrangian gives stationarity, and the optimal variance $c\,x_T^2/\sum_jb_j^2/w_j$ is exactly the Cauchy-Schwarz bound, so restricting the command to a subset $S$ of steps raises the variance by $\big(\sum_jb_j^2/w_j\big)/\big(\sum_{j\in S}b_j^2/w_j\big)\ge1$ - a burst is penalised in exact proportion to the weight it leaves unused. A following paragraph then says what the proposition does *not* give (the bell shape depends on the plant) and hands that step to K6 with its computed 1.736.
 
-### B4. Three symbols carry two meanings each across sections  [B6a1-B6a13, B6b1-B6b4, B6c1-B6c4]
+### B6. Three symbols carry two meanings each across sections  [B6a1-B6a13, B6b1-B6b4, B6c1-B6c4]
 
 `EDITOR_DOMAIN.md`: "a symbol means one thing for the whole module; a cross-section collision is a defect."
 
@@ -62,7 +62,7 @@ and proves it: strict convexity gives existence and uniqueness, the Lagrangian g
 
 (c) **$\eta$** was the admissible variation in Lemma 2.1 at `:92` and the learning rate in Proposition 6.2. Renamed to $\zeta$ in the lemma's proof, D1's solution and the D1 figure label, with a new Appendix row and a parenthetical naming the reservation.
 
-### B5. Three empirical counts and two population ranges are bare numbers  [B7a, B7b, B7c, B8]
+### B7 / B8. Three empirical counts and two population ranges are bare numbers  [B7a, B7b, B7c, B8]
 
 Location: `module12.html:65` (Definition 1 and the missing count), `:218` and `:411` (VAF and synergy count), `:560` (Appendix).
 
@@ -72,7 +72,7 @@ Quoted (line 218): "a handful typically account for $80$-$90\%$ of the variance 
 
 The applied fix adds a paragraph after Definition 1 that *counts* the seven (three glenohumeral, one elbow, one forearm rotation, two wrist), states $m=3$ for fingertip position and $m=6$ for full pose, and ends "These three counts are representative anatomical figures, listed in the Appendix parameter table; the argument needs only that each exceeds the count above it." Both population ranges are labelled representative and cross-linked to the K problem that recovers the quantity from data whose truth is known. Five new Appendix parameter rows carry the counts, the ranges, the Lab C stiffnesses (marked assumed) and K3's and K6's assumed constants.
 
-### B6. The module never places its models on the level ladder  [B9]
+### B9. The module never places its models on the level ladder  [B9]
 
 Location: `module12.html:57`.
 
@@ -80,19 +80,19 @@ Location: `module12.html:57`.
 
 The applied fix inserts a "Where these models sit on the level ladder" paragraph before the arc: Sections 1 and 3 are Level 1 (purely kinematic, no force is written); Sections 4, 5 and 7 are Level 2 and linearized; Sections 6 and 8 are single-state scalar models; nothing here computes a muscle force, and Module 5 owns the step from command to force.
 
-### B7. Definition 1 maps joint angles to "hand pose" and then sets $m=3$  [S2a, S2b, B10]
+### B10 / S2. Definition 1 maps joint angles to "hand pose" and then sets $m=3$  [S2a, S2b, B10]
 
 Location: `module12.html:65` and `:67` (the figure label), `:436` (the D5 figure label).
 
-Pose is position plus orientation, six numbers, not three. The map is to hand *position*; the pose count is the interesting aside, and B5's new paragraph now makes it explicitly ($m=6$ still leaves one freedom). Separately, the D5 figure rendered $K_x=J^{-\mathsf T}K_qJ^{-1}$ with a modifier small **b** instead of a superscript **T** (`&#7495;` for `&#7488;`), so the figure displayed a different operator from the boxed result it illustrates.
+Pose is position plus orientation, six numbers, not three. The map is to hand *position*; the pose count is the interesting aside, and the new counting paragraph of B8 now makes it explicitly ($m=6$ still leaves one freedom). Separately, the D5 figure rendered $K_x=J^{-\mathsf T}K_qJ^{-1}$ with a modifier small **b** instead of a superscript **T** (`&#7495;` for `&#7488;`), so the figure displayed a different operator from the boxed result it illustrates.
 
-### B8. D9's solution states the Adler equation with the LQR's symbol  [B11a, B11b]  *(second pass)*
+### B11. D9's solution states the Adler equation with the LQR's symbol  [B11a, B11b]  *(second pass)*
 
 Location: `module12.html:453` (D9 solution), `:222` (Figure 8's `aria-label`).
 
 Quoted (line 453): "Subtracting the two oscillator equations gives $\dot\psi=\Delta\omega-2K\sin\psi$ ... So oscillators within coupling bandwidth $2K$ synchronize at phase lag $\psi^\star=\arcsin(\Delta\omega/2K)$ (Proposition 8.2)."
 
-This is the collision of B4(a), surviving in the one place the first pass did not reach. It is worse than the original defect because the solution now cites a Proposition that uses $\kappa$ while itself using $K$, so the module states one law with two symbols on the same page. Figure 8's screen-reader label had the same residue ("delta-omega minus 2K sin psi") while its visible labels had been converted.
+This is the collision of B6(a), surviving in the one place the first pass did not reach. It is worse than the original defect because the solution now cites a Proposition that uses $\kappa$ while itself using $K$, so the module states one law with two symbols on the same page. Figure 8's screen-reader label had the same residue ("delta-omega minus 2K sin psi") while its visible labels had been converted.
 
 Replacement (D9 solution):
 
@@ -100,7 +100,7 @@ Replacement (D9 solution):
 <details class="sol"><summary>Solution</summary><div>Subtracting the two oscillator equations gives the Adler equation $\dot\psi=\Delta\omega-2\kappa\sin\psi$ ($\psi=\phi_2-\phi_1$, coupling strength $\kappa$). A locked state $\dot\psi=0$ needs $\sin\psi^\star=\Delta\omega/2\kappa$, solvable iff $|\Delta\omega|\le2\kappa$; linearising, $d\dot\psi/d\psi=-2\kappa\cos\psi^\star$, so the root with $\cos\psi^\star\gt 0$ is stable and the other unstable. Oscillators within the coupling bandwidth $2\kappa$ therefore synchronize at phase lag $\psi^\star=\arcsin(\Delta\omega/2\kappa)$ (Proposition 8.2).</div></details></div>
 ```
 
-### B9. K6's figure draws the minimum-jerk bell inside a problem whose answer is not minimum jerk  [B13a, B13b, B13c]  *(second pass)*
+### B13. K6's figure draws the minimum-jerk bell inside a problem whose answer is not minimum jerk  [B13a, B13b, B13c]  *(second pass)*
 
 Location: `module12.html:483` (the K6 figure), `:484` (the solution's closing paragraph).
 
@@ -110,7 +110,7 @@ This passed `checktex`, `checklt`, `check_links`, `check_svg`, `check_code`, `ve
 
 The applied fix regenerates the solid curve from the K6 solution's own script (`figgen.k6_speed()` runs the identical 100-step quadratic program), adds minimum jerk as a dashed grey comparison so the sentence "between 1.500 and 1.875" has a picture, and labels both: "min-variance optimum: peak 1.736 at $\tau$=0.68" and "dashed: minimum jerk, 1.875 at $\tau$=0.50". Decoding the delivered result gives 1.736 at $\tau=0.68$ for the solid curve and 1.875 at $\tau=0.50$ for the dashed one. The solution's closing paragraph is extended to read the figure: "the computed optimum (solid) is both lower and later than the minimum-jerk profile (dashed), because the command must stop pushing early enough for the $40\ \mathrm{ms}$ lag to bleed off before the hold window opens." The code's comparison line, which had the 1.736 typed in as a literal, now computes it.
 
-### B10. Lab B's second figure draws 40 % of its settling-time curve outside the plot frame  [B12a-B12g]  *(second pass)*
+### B12. Lab B's second figure draws 40 % of its settling-time curve outside the plot frame  [B12a-B12g]  *(second pass)*
 
 Location: `module12.html:310` (the figure), `:284` (Lab B Equations), `:303` (Lab B code).
 
@@ -118,7 +118,7 @@ Decoded from the delivered `<polyline>`: the blue curve is exactly $t_s=4\sqrt2\
 
 The applied fix rescales the axis to 20 s (the "5" and "10" ticks become "10" and "20", $7.725$ px per unit), regenerates both analytic curves on the new scale, moves the legend left so it clears the rescaled gain curve, retightens the viewBox to `26 32 452 218`, and rewrites the `aria-label` to "the gain falls as R rises, the settling time climbs". Decoding the delivered curves gives 0.104-9.994 for the gain against $R^{-1/2}$ (error 0.007) and 1.786-17.890 for the settling time against $4\sqrt2R^{1/4}$ (error 0.009), both wholly inside the frame. Because Section 10 claims "every plotted number below was produced by the code shown", Lab B's script now prints the closed-loop poles and $t_s$ as well as the gains, and the Equations line states the closed form the figure is drawn from.
 
-### B11. K5's figure is a 60-trial schematic beside a 340-trial solution  [B14a, B14b]  *(second pass)*
+### B14. K5's figure is a 60-trial schematic beside a 340-trial solution  [B14a, B14b]  *(second pass)*
 
 Location: `module12.html:479` (the K5 figure).
 
@@ -126,7 +126,7 @@ Decoded: 60 points on a trial axis labelled 0 / 30 / 60, peaking at **0.719 at t
 
 The applied fix draws the run the solution reports, from the solution's own recursion: both the two-state net command and the one-state control, decimated to 89 points (below `check_svg`'s 120-point advisory) with trials 199, 219, 220 and 231 forced into the sample so the transitions are exact, on a 0 / 170 / 340 axis with a zero reference line. Labels: "two states: peak 0.811, trough -0.284, rebound +0.254 at trial 231" and "dashed, one state: -0.733, no rebound". Decoding the delivered curves returns those values.
 
-### B12. Two numbers in applied solutions disagree with the code beside them  [B15a, B15b, B16a, B16b]  *(second pass)*
+### B15 / B16. Two numbers in applied solutions disagree with the code beside them  [B15a, B15b, B16a, B16b]  *(second pass)*
 
 Location: `module12.html:496` (K9 solution) and `:476` (K4 solution).
 
@@ -166,6 +166,7 @@ Line-level, applied in one pass. Locations are pristine line numbers.
 - **Section 7 is the hinge and now carries its weight.** Before this pass it opened by announcing a unification, stated its central proposition in prose, and sketched the proof. It now names the three loose ends, proves the proposition in closed form with the Cauchy-Schwarz gap as the burst penalty, and hands the bell-shape step to K6 with a computed number. Nothing else in the module needed restructuring.
 - **The problem set is the right shape and the K problems are not substitution.** All ten require an integration, an optimisation, an inverse solve, a sweep or a regime comparison, which is the `EDITOR_DOMAIN.md` standard; K3 (two branches plus a constrained split search) and K6 (a two-constraint quadratic program) are the deepest. The gap was never depth, it was that none of them shipped the code they claimed.
 - **What is still unproved is unproved deliberately, and says so.** Section 5's passivity argument is stated, not proved; that is correct at this level and the limitations table names it. The "what the model captures and misses" table is honest about inverse optimal control being open and about synergies being descriptive.
+- **One figure defect is logged and left.** K4's figure (`module12.html:476`) draws the $\eta=2.5$ divergence clamped to the frame edges, alternating between $+1.24$ and $-0.50$ on the plot's own scale while the true errors are $\pm1.5^{\,n}$ and reach $57.7$ by trial 10. I left it: the in-figure label says "$\eta=2.5$ diverges", the alternating sign is drawn, and a curve pinned to both frame edges reads as off-scale rather than as settled, so it is not the m14 failure (a runaway drawn flat under a caption claiming a runaway). A log-$|e|$ inset would make the $57.7$ readable and is the fix if the user wants it.
 - **The three figures redrawn in this pass are now generated from the same script as their numbers.** `figgen.py` re-runs K6's quadratic program, K5's two recursions and Lab B's closed forms and emits the polylines directly, so a future change to a solution's parameters cannot silently leave its picture behind. That is the pattern the rest of the module's computed figures already follow.
 
 ## 5. What already works

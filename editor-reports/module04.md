@@ -851,3 +851,169 @@ and both are solvable from the text.
 
 **Twelve of twelve code blocks run clean.** No exceptions, no undefined names, no
 imports missing, all PEP8. After Module 3, this is worth saying.
+
+## 6. Changes applied
+
+107 edits, applied by one re-runnable `apply.py` (scratchpad `m04/apply.py`) against a pristine copy. `replay.py` re-derives `edited/module04.html` from `module04.html` byte-for-byte, so this table is the complete change set.
+
+
+**Defect key** (the ranked entries of §2 and §3 above; `B14`–`B17` and `S13` were found after the report was written, by running the code and decoding the figures, and are described in full in the `apply.py` comment above each one):
+
+- **B1** — Terzaghi series averaged but never written down
+- **B2** — K9 abandoned its own recovery fraction and invented two constants
+- **B3** — models never placed on the level ladder
+- **B4** — tipping-point gain asserted, uncomputed, two symbols
+- **B5** — symbol collisions: F, T, W
+- **B6** — C5 and K3 applied Hertz to the hip, which §6 forbids
+- **B7** — D2's small-charge limit wrong by a factor 2
+- **B8** — K10 was two divisions — busywork at this level
+- **B9** — §5's peak-ratio scaling asserted with a tilde beside two proved siblings
+- **B10** — empirical numbers in none of the three admissible classes
+- **B11** — water fraction given as three different ranges
+- **B12** — the two flattened-peak numbers were unreproducible
+- **B13** — K4's code confirmed neither of K4's two claims; comments stated unprinted numbers
+- **B14** — K3's arithmetic does not reproduce; code comment states an unprinted peak — **NEW**, found by running the code
+- **B15** — K7's code is Python-3.12-only and unreadable — **NEW**, found by running the code
+- **B16** — C5/K3 figure's biphasic curve carries 1410 N, not the 1715 N its caption claims — **NEW**, found by decoding the polylines
+- **B17** — K4 figure's x-axis is not σ=0, so the peak reads 1.58× the plateau, not 2× — **NEW**, found by decoding the polylines
+- **S1** — §2's worked arithmetic did not reproduce
+- **S2** — line 1020's multiplication gave the wrong answer
+- **S3** — two footstep durations used without saying so
+- **S4** — §8's summary table quoted an uncomputed friction
+- **S5** — code comments carried live <a> anchors the copy button handed the reader
+- **S6** — mixed <summary> labels: 'Answer' and 'solution'
+- **S8** — C6's tensile-modulus range differed from the Appendix point value
+- **S9** — the same 'everything radiates from one equation' claim made twice
+- **S10** — §0 closed on an undefined, unquantified 'steel-on-PTFE' flourish
+- **S11** — six oversized viewBoxes; check_frame advisory
+- **S12** — two gel-time conventions used without stating which
+- **S13** — K2/K10 code still named the thermal energy RgT after B5 retired T — **NEW**
+
+### Gates (all nine, pristine baseline vs `edited/module04.html`)
+
+| gate | `module04.html` (baseline) | `edited/module04.html` |
+|---|---|---|
+| `checktex` | 1222 segments, 0 issues | 1494 segments, **0 issues** |
+| `checklt` | 0 | **0** |
+| `check_links` | 279 links, 0 broken, 0 unlinked | 307 links, **0 broken, 0 unlinked** |
+| `check_svg` | 0 hard, 3 advisory | 0 hard, **2 advisory** (the mixed-`<summary>` one is gone; the two left, "no Fig. N reference" and "19 heavy polylines", are pre-existing and module-wide) |
+| `check_code` | 12 blocks, 0 issues | 12 blocks, **0 issues** |
+| `verify_dom` | 0 `mjx-merror`, 0 broken links, 6 stray-`$` advisory, 0 swallowed prose | **identical** |
+| `check_overlap` | 0 | **0** |
+| `check_frame` | 6 wasted-margin advisories | **0** |
+| `check_bodyprop` | 1 advisory (the femoral-condyle sphere read as a head; a false positive) | **1**, the same false positive |
+
+Zero where the baseline was zero; better on `check_svg` and `check_frame`; worse nowhere.
+
+**S7 has no row of its own.** Its replacement text was folded into `B6i`, which
+rewrites the same clause of line 910 for the same reason.
+
+| tag | line (original) | what changed | how verified |
+|---|---|---|---|
+| B1a | 526 | `:</p>` &rarr; `, which we derive here rather than name:</p> ⏎ <div class="prop"><b>Proposition 3.1 (Terzaghi ser` | hand derivation of the eigenproblem; `checktex`/`check_links` 0 |
+| B1b | 596 | `already solved for $p(z,t)$ (the Terzaghi series). Averaging that series over the depth term b` &rarr; `solved for $p(z,t)$ in Proposition&nbsp;3.1. Averaging that series over the depth term by term` | hand derivation of the eigenproblem; `checktex`/`check_links` 0 |
+| B1c | 1629 | `For one-sided drainage (sealed base at $z=0$, drained at $z=h$), find the eigenfunctions and ei` &rarr; `Proposition&nbsp;3.1 quotes the mode set for one-sided drainage. Re-derive it from scratch: fin` | hand derivation of the eigenproblem; `checktex`/`check_links` 0 |
+| B1d | 1652 | `(inserted)` &rarr; `p><b>Why the others are invisible.</b> Mode $n$ decays as $e^{-\lambda_n^{2}T}$ with $\lambda_n` | hand derivation of the eigenproblem; `checktex`/`check_links` 0 |
+| B3 | 166 | `(inserted)` &rarr; `⏎ <p><b>Where this sits on the course's level ladder.</b> Almost everything here is <b>Level&nbs` | read-through against `EDITOR_DOMAIN.md`'s level ladder |
+| B5a | 315 | `F\psi$, where $R_g$ is the universal gas constant (written $R_g$ to keep it distinct from the` &rarr; `\mathcal F\psi$, where $R_g$ is the universal gas constant (written $R_g$ to keep it distinct` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5b | 316 | `(inserted)` &rarr; `\mathcal` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5c | 317 | `F\Delta\psi/R_gT}$; for $\mathrm{Cl^-}$ ($z=-1$): $c_- = c_0\,e^{+` &rarr; `\mathcal F\Delta\psi/R_gT}$; for $\mathrm{Cl^-}$ ($z=-1$): $c_- = c_0\,e^{+\mathcal` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5d | 331 | `T` &rarr; `\Theta` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5e | 335 | `T=310\ \mathrm K$ so $R_gT` &rarr; `\Theta=310\ \mathrm K$ so $R_g\Theta` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5e2 | 1817 | `T` &rarr; `\Theta` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5e3 | 1561 | `T` &rarr; `\Theta` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5f | 315-1850 | B5 (symbol collisions: F, T, W): every remaining `R_gT` in the §2 / D2 / K2 math rewritten `R_g\Theta` (23 occurrences) | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5g | 865 | `F=` &rarr; `(cut)` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5h | 869 | `F` &rarr; `R` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5i | 870 | `FR_{\rm eff}}{4E^{*}}\Big)^{1/3},\qquad p(r)=p_0\sqrt{1-\frac{r^{2}}{a^{2}}},\qquad p_0=\frac{3` &rarr; `RR_{\rm eff}}{4E^{*}}\Big)^{1/3},\qquad p(r)=p_0\sqrt{1-\frac{r^{2}}{a^{2}}},\qquad p_0=\frac{3` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5j | 871 | `F` &rarr; `R` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5k | 874 | `F` &rarr; `R` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5l | 875 | `F/(2\pi a^{2})$; since $\bar p=F` &rarr; `R/(2\pi a^{2})$; since $\bar p=R` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5m | 876 | `F/(2\pi a^{2})$ and solving for $a$ yields $a^{3}=\dfrac{3F` &rarr; `R/(2\pi a^{2})$ and solving for $a$ yields $a^{3}=\dfrac{3R` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5n | 885 | `F =` &rarr; `(cut)` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5o | 892 | `F=` &rarr; `(cut)` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5p | 894 | `F` &rarr; `R` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5q | 899 | `F=` &rarr; `(cut)` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5r | 905 | `F` &rarr; `R` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5s | 963 | `W` &rarr; `N` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5t | 964 | `load $W$` &rarr; `normal load $N$ (written $N$, not $W$, because $W$ is body weight in <a class="secref" href="#o` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5u | 1012 | `W` &rarr; `N` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5v | 1053 | `W` &rarr; `N` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5x | 1027 | `W` &rarr; `N` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5y | 1675 | `$ pressed with force $N$ into an elastic half-space of reduced modulus $E^*$, derive the scalin` &rarr; `_{\rm eff}$ pressed with force $N$ into an elastic half-space of reduced modulus $E^*$, derive` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5z1 | 2208 | `T` &rarr; `\Theta` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5z2 | 947 | `F` &rarr; `R` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5z3 | 986 | `W` &rarr; `N` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B7 | 1587 | `$\pi\approx R_g\Theta\,c_F^2/(2c_0)$ grows quadratically for $c_F\ll c_0$ — the rising curve of` &rarr; `for $c_F\ll c_0$ expanding the root gives $\pi=2R_g\Theta c_0\big[\sqrt{1+c_F^2/(4c_0^2)}-1\big` | hand derivation of the `c_F << c_0` expansion; matches K10's computed log-slope 1.986 at 0.05 M |
+| B9a | 816 | `wo` &rarr; `hree` | re-ran the module's own solver at N=50/100/200 -> 6.4941 / 6.5117 / 6.5140 against the analytic `2h/sqrt(pi*D*t0)=6.5147` |
+| B9b | 819 | `(inserted)` &rarr; `;</li> ⏎ <li>the height of the peak matches the analytic ramp estimate below, to within the discr` | re-ran the module's own solver at N=50/100/200 -> 6.4941 / 6.5117 / 6.5140 against the analytic `2h/sqrt(pi*D*t0)=6.5147` |
+| B9c | 821 | `by contrast, is <em>not</em> a fixed material number: it scales as $\sigma_{\rm peak}/\sigma_\i` &rarr; `unlike the equilibrium, is <em>not</em> a fixed material number — it belongs to the loading, an` | re-ran the module's own solver at N=50/100/200 -> 6.4941 / 6.5117 / 6.5140 against the analytic `2h/sqrt(pi*D*t0)=6.5147` |
+| B2a | 2070 | `. In each, loading drains fluid ($F$ drops) and unloading re-imbibes it by swelling. If healthy` &rarr; `by their fluid-support <em>deficit</em>. One loading of duration $t_{\rm load}$ opens a defici` | K9 block re-extracted and run: `F1=0.9862 F5=0.9862`, `F1=0.8618 F5=0.8273 F_inf=0.8273`, sweep `r=0.5 -> 2.00x` |
+| B2b | 2071 | `<figure><svg class="setupfig" viewBox="0 0 470 290" width="100%" role="img" aria-label="Peak fl` &rarr; `<figure><svg class="setupfig" viewBox="0 0 470 290" width="100%" role="img" aria-label="Peak fl` | K9 block re-extracted and run: `F1=0.9862 F5=0.9862`, `F1=0.8618 F5=0.8273 F_inf=0.8273`, sweep `r=0.5 -> 2.00x` |
+| B2c | 2089 | `<details class="sol"><summary>solution</summary><div><p>Let the peak support after cycle` &rarr; `<details class="sol"><summary>solution</summary><div><p><b>(a)</b> The recurrence $d_{n+1}=(1-r` | K9 block re-extracted and run: `F1=0.9862 F5=0.9862`, `F1=0.8618 F5=0.8273 F_inf=0.8273`, sweep `r=0.5 -> 2.00x` |
+| B2d | 2069 | `the cumulative sag.</b> <span class="small"><em>Probes: modelling cumulative loss of support wh` &rarr; `how far does incomplete recovery push the joint?</b> <span class="small"><em>Probes: solving a` | K9 block re-extracted and run: `F1=0.9862 F5=0.9862`, `F1=0.8618 F5=0.8273 F_inf=0.8273`, sweep `r=0.5 -> 2.00x` |
+| B4a | 1183 | `. Each pass multiplies the damage by some factor $g$. Healthy cartilage keeps $g\lt1$: its flui` &rarr; `, and one of its links is computable from what this module has already built. Write the loop as` | hand derivation of the loop gain; symbol swept to `G` everywhere (grep: 0 lowercase-`g` gain hits) |
+| B4b | 1756 | `— how strongly loss of support raises permeability, stress and wear, which in turn feed back t` &rarr; `, written in logarithmic variables so that each factor is a dimensionless elasticity: $$G=\frac` | hand derivation of the loop gain; symbol swept to `G` everywhere (grep: 0 lowercase-`g` gain hits) |
+| B6a | 1375 | `hip gives a peak pressure $p_0\approx2.5\ \mathrm{MPa}$. The real cartilage peak is lower and b` &rarr; `tibiofemoral (knee) contact of <a class="secref" href="#contact">§6</a> gives a peak pressure $` | K3 block run: `a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa` |
+| B6b | 1395 | `hip load $\int p\,\mathrm dA=R` &rarr; `knee load $\int p\,\mathrm dA=R=1715\ \mathrm N` | K3 block run: `a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa` |
+| B6c | 1396 | `(inserted)` &rarr; `p><b>Which applies to the hip.</b> Both, and the first far more strongly. The hip is a conformi` | K3 block run: `a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa` |
+| B6d | 1854 | `hip contact patch.</b> <span class="small"><em>Probes: computing contact radius, peak and mean` &rarr; `knee contact patch.</b> <span class="small"><em>Probes: computing contact radius, peak and mean` | K3 block run: `a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa` |
+| B6e | 1855 | `The hip reaction is $R=1715\ \mathrm N$ (<a class="secref" href="module03.html#contact">Module&` &rarr; `Carry the lower-limb joint reaction $R=1715\ \mathrm N$ (Module&nbsp;3) onto the tibiofemoral c` | K3 block run: `a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa` |
+| B6f | 1376 | `hip` &rarr; `knee` (2 places) | K3 block run: `a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa` |
+| B6g | 1875 | `models agree.</b> Hertz gives $a=18\ \mathrm{mm}$, $p_0=2.5\ \mathrm{MPa}$, $\bar p=1.7\ \mathr` &rarr; `routes to one mean pressure.</b> Hertz gives $a=18.0\ \mathrm{mm}$, $p_0=2.54\ \mathrm{MPa}$, $` | K3 block run: `a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa` |
+| B6h | 1876 | `matches the Module&nbsp;3 force-over-area estimate ($1.7\ \mathrm{MPa}$) — the contact model an` &rarr; `agrees with the Module&nbsp;3 force-over-area estimate ($1.7\ \mathrm{MPa}$) to two figures. Th` | K3 block run: `a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa` |
+| B6i | 910 | `matching its contact area and mean pressure — reassuring` &rarr; `consistent with its contact area and mean pressure given a plausible condylar radius (K3(d) qua` | K3 block run: `a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa` |
+| B8a | 2097 | `the composite's asymmetry in numbers.</b> <span class="small"><em>Probes: comparing tensile, co` &rarr; `how much charge can cartilage afford to lose?</b> <span class="small"><em>Probes: inverting the` | K10 block run: `pi(0.2)=0.1561 MPa`, `cF_crit=0.0844/0.1205/0.1489 M`, log-slopes `1.832/1.949/1.986` |
+| B8b | 2098 | `Cartilage tensile modulus is $E_{\rm tens}\approx12\ \mathrm{MPa}$, compressive aggregate modul` &rarr; `The resting swelling pre-stress $\pi(c_F)=R_g\Theta\big(\sqrt{c_F^2+4c_0^2}-2c_0\big)$ keeps th` | K10 block run: `pi(0.2)=0.1561 MPa`, `cF_crit=0.0844/0.1205/0.1489 M`, log-slopes `1.832/1.949/1.986` |
+| B8c | 2099 | `<figure><svg class="setupfig" viewBox="0 0 430 280"` &rarr; `<figure><svg class="setupfig" viewBox="0 0 450 285" width="100%" role="img" aria-label="Donnan` | K10 block run: `pi(0.2)=0.1561 MPa`, `cF_crit=0.0844/0.1205/0.1489 M`, log-slopes `1.832/1.949/1.986` |
+| B8d | 2123 | `<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $E_{\rm tens}/H_A=12/0.6=20$` &rarr; `<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $\pi(0.2\ \mathrm M)=0.1561\` | K10 block run: `pi(0.2)=0.1561 MPa`, `cF_crit=0.0844/0.1205/0.1489 M`, log-slopes `1.832/1.949/1.986` |
+| B10a | 995 | `(inserted)` &rarr; `Its three constants are <em>assumed</em>, not measured here: take $\mu_{\rm bl}=0.15$, the intr` | each number traced to the Appendix parameter table or relabelled an assumption; Appendix rows added |
+| B10b | 681 | `— an independent check on the picture equation&nbsp;(1) draws` &rarr; `. That figure is quoted from the experimental literature, not derived here and not checkable ag` | each number traced to the Appendix parameter table or relabelled an assumption; Appendix rows added |
+| B10c | 2218 | `(inserted)` &rarr; `⏎ <tr><td>boundary friction plateau (assumed)</td><td>$\mu_{\rm bl}$</td><td>$0.15$ (set equal t` | each number traced to the Appendix parameter table or relabelled an assumption; Appendix rows added |
+| B10d | 2221 | `(inserted)` &rarr; `⏎ <tr><td>dry-weight fractions</td><td>&mdash;</td><td>collagen $50$–$75\%$, proteoglycan $15$–$` | each number traced to the Appendix parameter table or relabelled an assumption; Appendix rows added |
+| B10e | 2179 | `(inserted)` &rarr; `⏎ <tr><td>$N$</td><td>normal load across the contact (written $N$, not $W$, because $W$ is body` | each number traced to the Appendix parameter table or relabelled an assumption; Appendix rows added |
+| B10f | 2273 | `T$</td><td>gas constant and absolute temperature ($R_g\Theta$ = thermal energy)</td><td><a clas` &rarr; `\Theta$</td><td>gas constant and absolute temperature ($R_g\Theta$ = thermal energy). Written $` | each number traced to the Appendix parameter table or relabelled an assumption; Appendix rows added |
+| B10g | 2159 | `time, $T=Dt/h^2$` &rarr; `(diffusion) time, $T=Dt/h^2$; the absolute temperature is $\Theta$, below` | each number traced to the Appendix parameter table or relabelled an assumption; Appendix rows added |
+| B11a | 256 | `7` &rarr; `6` | grep for the superseded `70-80%` / `0.75-0.80`: 0 hits after B11c |
+| B11b | 2220 | `70` &rarr; `65` | grep for the superseded `70-80%` / `0.75-0.80`: 0 hits after B11c |
+| B12a | 927 | `A load-conserving estimate — the same $F$ spread over a $\sim30\%$ wider patch — cuts the peak` &rarr; `Put a number on it. Hold the load fixed at $R$ and let the fluid pressurisation change the prof` | both polylines decoded and integrated: `2F/(pi a'^2)` at `a'=23.3 mm` = 2.011 MPa, `3R/(2 pi a^2)` at `a=16.0 mm` = 3.20 MPa; §8 figure back-integrates to 1710.5 / 1710.7 N |
+| B12b | 1164 | `a low, flat pressure (blue, $\approx2\ \mathrm{MPa}$, <a class="secref" href="#contact">§6</a>)` &rarr; `the low, flat parabolic profile of <a class="secref" href="#contact">§6</a> (blue, $p_{\max}=2R` | both polylines decoded and integrated: `2F/(pi a'^2)` at `a'=23.3 mm` = 2.011 MPa, `3R/(2 pi a^2)` at `a=16.0 mm` = 3.20 MPa; §8 figure back-integrates to 1710.5 / 1710.7 N |
+| B13a | 1902 | `<pre><code>import numpy as np ⏎ h, HA, k = 2e-3, 0.6e6, 1e-15 ⏎ D = HA*k ⏎ tau = h**2/D ⏎ N, r = 60, 0.` &rarr; `<pre><code>import numpy as np ⏎  ⏎ h0, HA, k, eps0 = 2e-3, 0.6e6, 1e-15, 0.10 ⏎ D = HA*k ⏎ # ONE fixed` | K4 block re-extracted and run: `tau=6667 s sigma_peak=0.119 sigma_end=0.0600`; `t_half/h^2 = 3.3352e+08` for h=1,2,4 mm |
+| B13b | 2033 | `3` &rarr; `4` | K4 block re-extracted and run: `tau=6667 s sigma_peak=0.119 sigma_end=0.0600`; `t_half/h^2 = 3.3352e+08` for h=1,2,4 mm |
+| B13c | 1902 | `+\langle p\rangle$, the spatial-mean pressure added to the drained elastic stress. The explicit` &rarr; `\big(1+\langle p\rangle\big)$ with the pressure normalised to its undrained value, so $\sigma$` | K4 block re-extracted and run: `tau=6667 s sigma_peak=0.119 sigma_end=0.0600`; `t_half/h^2 = 3.3352e+08` for h=1,2,4 mm |
+| S1a | 336 | `1\ \mathrm{mol/m^3},\qquad 361-300=61` &rarr; `0.6\ \mathrm{mol/m^3},\qquad 360.6-300=60.6` | hand arithmetic re-done |
+| S1b | 337 | `1` &rarr; `0.6` | hand arithmetic re-done |
+| S2 | 1020 | `When the fluid is pressurized ($F\approx0.99$ during a footstep), $\mu_{\rm eff}\approx0.15\tim` &rarr; `During a $1\ \mathrm s$ footstep $F=0.986$, so $\mu_{\rm eff}=0.15\times0.014=0.0021` | hand arithmetic: `0.15 x 0.014 = 0.0021`, and the Stribeck block prints `mu_eff=0.0021` at t=1 s |
+| S3 | 631 | `(inserted)` &rarr; `(A footstep here is the stance phase, not the whole gait cycle; the problems use $0.5\ \mathrm` | both durations traced to the blocks that use them (0.5 s in K1/K5, 1 s in §7 and K9) |
+| S4 | 1176 | `5$` &rarr; `2$ computed ($0.005$–$0.02$ measured)` | the quoted friction traced to `mu_eff = mu_eq(1-F)` with the block's own printed `F` |
+| S5a | 727 | `<a class="secref" href="#biphasic">§3</a>` &rarr; `section 3` | `extract.py` re-run on the edited file: no live HTML tag inside any of the 12 blocks |
+| S5b | 756 | `<a class="secref" href="#biphasic">§3</a> PDE` &rarr; `PDE of section 3` | `extract.py` re-run on the edited file: no live HTML tag inside any of the 12 blocks |
+| S5c | 1034 | `<a class="secref" href="#biphasic">§3</a>` &rarr; `section 3` | `extract.py` re-run on the edited file: no live HTML tag inside any of the 12 blocks |
+| S5d | 1038 | `<a class="secref" href="#fluidload">§4</a>` &rarr; `section 4` | `extract.py` re-run on the edited file: no live HTML tag inside any of the 12 blocks |
+| S6 | 5 places | `<summary>Answer</summary>` &rarr; `<summary>solution</summary>` (5 places) | `check_svg` advisory 'mixed disclosure labels' 3 -> 2 advisories (gone) |
+| S8 | 1416 | `sim10$–$15\ \mathrm{MPa}$` &rarr; `approx12\ \mathrm{MPa}$; Appendix, from a reported range of $10$–$15$` | Appendix row `E_tens ~ 12 MPa` cited in place |
+| S9 | 1196 | `Almost everything in this module radiates from the single governing equation of <a class="secre` &rarr; `Six phenomena, one equation. Load carried by fluid pressure in a low-permeability charged gel,` | read aloud; `check_prose` clean on the paragraph |
+| S10 | 102 | `out-performs steel-on-PTFE and never gets a` &rarr; `carries these pressures for decades, with a friction coefficient six times lower than ice on ic` | replaced with the module's own measured `mu ~ 0.005-0.02` comparison |
+| S11 (Confined-compression t) | figure | `viewBox="0 0 470 300"` &rarr; `viewBox="84 0 353 300"` | `check_frame` 6 wasted-margin advisories -> 0 |
+| S11 (Effective-stress parti) | figure | `viewBox="0 0 440 168"` &rarr; `viewBox="121 0 258 160"` | `check_frame` 6 wasted-margin advisories -> 0 |
+| S11 (Finite-difference grid) | figure | `viewBox="0 0 470 168"` &rarr; `viewBox="6 38 460 119"` | `check_frame` 6 wasted-margin advisories -> 0 |
+| S11 (Four lubrication regim) | figure | `viewBox="0 0 470 176"` &rarr; `viewBox="0 1 470 139"` | `check_frame` 6 wasted-margin advisories -> 0 |
+| S11 (A fluid-film bearing n) | figure | `viewBox="0 0 450 240"` &rarr; `viewBox="26 6 402 184"` | `check_frame` 6 wasted-margin advisories -> 0 |
+| S11 (A control slab of thic) | figure | `viewBox="0 0 450 230"` &rarr; `viewBox="115 15 328 183"` | `check_frame` 6 wasted-margin advisories -> 0 |
+| S12 | 575 | `(inserted)` &rarr; `<b>Convention for the rest of the module:</b> every quoted gel time is the scaling estimate $\` | both conventions checked against the blocks: `tau=h^2/D=6667 s` in every table, `4/pi^2` only in D1/D5 |
+| B11c | 225 | `70` &rarr; `65` | grep for the superseded `70-80%` / `0.75-0.80`: 0 hits after B11c |
+| B5aa1 | 514 | `T/\partial t=\alpha\,\partial^2 T` &rarr; `\Theta/\partial t=\alpha\,\partial^2 \Theta` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5aa2 | 515 | `T` &rarr; `\Theta` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5aa3 | 517 | `T` &rarr; `\Theta` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B5aa4 | 509 | `(inserted)` &rarr; `$\Theta$` | post-apply residue grep for every superseded spelling (`R_gT`, `$T$ the absolute`, `\eta U/W`, `F=1715`): 0 hits |
+| B14a | 1876 | `80\times10^{-2}\ \mathrm m=18.0\ \mathrm{mm}$.</p><p><b>(b)</b> $p_0=3\cdot1715/(2\pi(0.018)^2)` &rarr; `795\times10^{-2}\ \mathrm m=18.0\ \mathrm{mm}$.</p><p><b>(b)</b> $p_0=3\cdot1715/(2\pi(1.795\ti` | K3 block run prints `p0=2.54 MPa`; hand-checked `5145/2.024e-3 = 2.5414e6` and `1715/1.012e-3 = 1.6943e6` |
+| B14b | 1882 | `3` &rarr; `4` | K3 block run prints `p0=2.54 MPa`; hand-checked `5145/2.024e-3 = 2.5414e6` and `1715/1.012e-3 = 1.6943e6` |
+| B15 | 2020 | `T90 = Ts[np.argmin(np.abs([frac(T) for T in Ts] - np.full(len(Ts), 0.9)))] ⏎ print( ⏎     f"eps_inf` &rarr; `curve = np.array([frac(T) for T in Ts]) ⏎ T90 = Ts[np.argmin(np.abs(curve - 0.9))] ⏎ t90 = T90*h**2` | rewritten block run (prints the identical `eps_inf=0.50  T90=0.848  t90=5654 s = 1.57 h`); `pycodestyle` clean; `check_code` 0 |
+| S13a | 1843 | `, c0 = 8.314*310, 0.15 ⏎ def pi(cF): return RgT` &rarr; `heta, c0 = 8.314*310, 0.15 ⏎ def pi(cF): return RgTheta` | K2 and K10 blocks re-run after the rename; identical output; `check_code` 0 |
+| S13b | 2225 | `, c0, HA = 8.314*310, 0.15, 0.6e6` &rarr; `heta, c0, HA = 8.314*310, 0.15, 0.6e6` | K2 and K10 blocks re-run after the rename; identical output; `check_code` 0 |
+| S13c | 2230 | `(inserted)` &rarr; `heta` | K2 and K10 blocks re-run after the rename; identical output; `check_code` 0 |
+| B16a | 1380 | `87.1,225.0 88.6,222.5 90.1,220.1 91.6,217.7 93.1,215.3 94.7,212.9 96.2,210.6 97.7,208.3 99.2,20` &rarr; `72.1,225.0 73.7,222.5 75.4,220.1 77.1,217.6 78.7,215.2 80.4,212.9 82.0,210.5 83.7,208.2 85.4,20` (2 places) | polyline decoded and integrated before and after: 1410.1 N -> 1715.0 N (target 1715 N); the Hertz sibling was already 1715.6 N |
+| B16b | 1409 | `\approx2.5\ \mathrm{MPa}$) and the broader biphasic profile ($\approx2.0\ \mathrm{MPa}$) carry` &rarr; `=2.54\ \mathrm{MPa}$ over $a=18.0\ \mathrm{mm}$) and the broader biphasic parabola ($p_{\max}=2` | polyline decoded and integrated before and after: 1410.1 N -> 1715.0 N (target 1715 N); the Hertz sibling was already 1715.6 N |
+| B17a | 1889 | `65.0 65.3,71.4 66.5,74.7 67.7,77.3 69.0,79.5 70.2,81.4 71.4,83.2 72.6,84.8 73.8,86.3 75.0,87.7` &rarr; `56.0 65.3,65.2 66.5,69.9 67.7,73.7 69.0,76.8 70.2,79.6 71.4,82.2 72.6,84.5 73.8,86.6 75.0,88.6` | polyline decoded: the curve is exactly `1+F(T)` point by point, but measured off the drawn axis the ratio was 1.578; after the rescale it measures 2.000 |
+| B17b | 1890 | `26.2" x2="428" y2="126.2` &rarr; `44.0" x2="428" y2="144.0` | polyline decoded: the curve is exactly `1+F(T)` point by point, but measured off the drawn axis the ratio was 1.578; after the rescale it measures 2.000 |
+| B17c | 1891 | `21.2` &rarr; `39.0` | polyline decoded: the curve is exactly `1+F(T)` point by point, but measured off the drawn axis the ratio was 1.578; after the rescale it measures 2.000 |

@@ -12,7 +12,7 @@ Three results are wrong, and two of them are drawn into figures. Fig. 4 and §4 
 
 Below that: Model 3.1's boxed equation is not the equation that computed 109 N·m (the code carries an unexplained factor 0.6, an absolute value, and a baseline $\tau_0$ worth 13 percent of the answer and defined nowhere), while the inertial term the box leads with is worth 0.48 N·m, four parts in a thousand. The density-squared strength law is attributed to Module 2 three times and in the Appendix; Module 2 does not contain it, and a reader following the pointer finds nothing. It is Proposition 3.1 of Module 14. Model 6.1's boxed derivation is a non-sequitur and calls the mean force a peak. Two symbols, $d$ and $I$, carry two meanings each across sections while the module carefully flags the one collision ($k$ against $k_c$) that it did catch. And the four computational problems, which are the module's only exercises with numbers, carry no code and no computed value; K1's number is the wrong one, K2's three stated scalings are all wrong by a measurable amount, K3 asks for an optimisation over a variable Model 3.1 does not contain, and K4's "$\pm15\%$" is a one-sigma spread reported as though it were the band.
 
-None of this touches the module's argument. The template, the three principles, the validation ladder, the project catalog and the closing are sound and are what a reader takes away. Every defect below is repairable inside the existing structure, and fixing them makes the module practise its own Principle 1.3 instead of only stating it. Fourteen blocking defects and sixteen style edits follow.
+None of this touches the module's argument. The template, the three principles, the validation ladder, the project catalog and the closing are sound and are what a reader takes away. Every defect below is repairable inside the existing structure, and fixing them makes the module practise its own Principle 1.3 instead of only stating it. Fourteen blocking defects and seventeen style edits follow. Three of them - the residue of B8, the unresolved half of B9, and S17 - were found on a second pass over the edited file, by grepping for the superseded wording of every replacement already applied.
 
 ## 2. Blocking defects
 
@@ -334,11 +334,171 @@ Replacement for D2's solution (line 326):
 <details class="sol"><summary>Solution</summary><div>Falling from height $h$ gives impact speed $v=\sqrt{2gh}$, hence kinetic energy $\tfrac12mv^2=mgh$. Now apply work-energy between touchdown and the lowest point of the landing, over which the COM descends a further $d$. The kinetic energy goes to zero; gravity adds $mgd$; the ground force removes $F_{\rm avg}d$. Hence $F_{\rm avg}\,d=mgh+mgd$, so $F_{\rm avg}=mgh/d+mg$, which is the box of Model 6.1. Two readings matter. The $mgd$ term is the weight's work over the stroke and is exactly what produces the $+mg$ floor; dropping it leaves $mgh/d$, which falsely predicts an arbitrarily gentle landing for a long enough flexion. And $F_{\rm avg}$ is a mean, not a peak: the instantaneous force rises and falls within the stroke, so the peak is larger by the profile's peak-to-mean ratio, roughly $\pi/2$ for a half-sine. The key dependence is $F\propto1/d$ in the first term, a hyperbola in the cushioning distance.</div></details></div>
 ```
 
+**Residue of the rename, found on the second pass.** Renaming the box from
+$F_{\rm peak}$ to $F_{\rm avg}$ is not the whole fix. Five places outside the
+box still call that number a peak, and one of them is the figure's own y-axis,
+which a reader believes before they believe the prose. Left as shipped, a
+reader who compares this mean against a measured peak force will call the model
+wrong for the wrong reason, and the section would contradict its own box within
+two lines of it. The figure caption also names the wrong derivation: the box is
+work-energy (kinetic energy plus $mgd$ against $F_{\rm avg}d$), not
+impulse-momentum, and the two give different answers because only one of them
+carries the $+mg$ floor.
+
+`edited/module17.html:286` (the §6 code block's own print label):
+
+```html
+print("d=%.2f m -> mean force %.1f kN" % (d, F))
+```
+
+`:288`, the Fig. 5 y-axis label, where "peak" and "mean" are the same width so
+nothing else in the figure moves:
+
+```html
+transform="rotate(-90 38 117)">mean force (kN)</text>
+```
+
+`:288`, the Fig. 5 caption, which called the mean a peak twice, attributed the
+box to impulse-momentum, and left both endpoint numbers vague ("several
+kilonewtons", "about a third") when the section states them exactly:
+
+```html
+<figcaption>Capstone V. Mean landing force versus how far the landing is cushioned. Dropping from 0.4 m, the mean force over the cushioning stroke is the work-energy estimate F = mv&#178;/2d + mg of Model 6.1; the instantaneous peak exceeds it by the profile's peak-to-mean ratio, about &#960;/2 for a half-sine. A stiff, 5 cm landing gives 6.2 kN, while flexing to 20 cm cuts it to 2.1 kN. The hyperbola is why landing training teaches deep, soft flexion - the same energy absorbed over a longer distance is a smaller force (Module 9) - and the mg floor is why the returns diminish.</figcaption>
+```
+
+`:290`, the interpretation's opening verb and its validation clause. "Spikes"
+names a transient; the number is a stroke average, and the validation as
+shipped told the reader to compare it against a measured peak:
+
+```html
+A stiff, $5\ \mathrm{cm}$ landing averages $6.2\ \mathrm{kN}$ over the stroke, exactly nine body weights
+```
+
+```html
+<b>Validation:</b> compare the mean force over the stroke, and the stroke's duration, to instrumented drop landings, and check the measured peak against the predicted mean times the profile's peak-to-mean ratio;
+```
+
+`:394`, D2's statement, which still asked the reader to derive $F_{\rm peak}$
+while its own solution and the box both say the quantity is a mean:
+
+```html
+Derive $F_{\rm avg}\approx mgh/d+mg$ for a landing cushioned over distance $d$, and say why the instantaneous peak exceeds it.
+```
+
+`:545`, diagnostic 4, same word, same reason:
+
+```html
+<b>Cushioning.</b> Doubling the landing flexion distance changes the mean landing force how?
+```
+
+
 ### B9. Two symbols carry two meanings each, unflagged, in a module that flags a third
 
 Location: $d$ at `module17.html:170`, `:172` (knee moment arm, 0.20 m) against `:219`, `:221`, `:223` (landing cushioning distance, 0.05 to 0.30 m); $I$ at `:130` ($mL^2=70\ \mathrm{kg\,m^2}$ about the ankle) against `:170`, `:172` ($0.12\ \mathrm{kg\,m^2}$ about the knee).
 
-House convention: a symbol means one thing for the whole module, and a cross-section collision is a defect. The module demonstrates it knows the rule at line 241, where $k_c$ is introduced as "distinct from the leg-spring $k$ of Section 5", and again at line 207 where $\phi$ is defined locally. It does not apply the rule to $d$ or $I$, and $\phi$ is then reused a third time in K3 for the trunk lean. The fix is the one Module 2 used for $k$ against $k_s$: subscript the earlier one and say so. Renaming the knee moment arm to $d_0$ is already carried by the B4 replacements (box, parameter line, code); the notation table of B7 records both collisions explicitly, and the K3 replacement in B11 names $\phi$ as local to that problem.
+House convention: a symbol means one thing for the whole module, and a
+cross-section collision is a defect. Recording a collision in a notation table
+is not resolving it; the reader still meets one symbol carrying two values.
+The module demonstrates it knows the rule at line 241, where $k_c$ is
+introduced as "distinct from the leg-spring $k$ of Section 5", and again at
+line 207 where $\phi$ is defined locally. It does not apply the rule to $d$ or
+$I$, and $\phi$ is then reused a third time in K3 for the trunk lean. The fix
+is the one Module 2 used for $k$ against $k_s$: subscript one of the two and
+say so in both places.
+
+$\phi$ is settled by the K3 replacement in B11, which declares the trunk lean
+local to that problem. $d$ is settled by the B4 replacements, which rename the
+knee moment arm to $d_0$ - with one leftover: those replacements still wrote it
+as a *function* $d(q)=d_0\sin q$, so the bare letter $d$ still appeared in
+Section 3 beside the scalar $d$ of Section 6. Writing the arm as $d_0\sin q$
+and naming $q$ in words removes the last occurrence and costs nothing.
+
+$I$ was left colliding: $I=mL^2=70\ \mathrm{kg\,m^2}$ about the ankle in
+Section 2, and $I=0.12\ \mathrm{kg\,m^2}$ about the knee in Section 3, two
+quantities about two axes under one letter, with the notation table merely
+recording the fact. Section 2 keeps $I$, since it carries the pendulum equation
+and Proposition 2.2's whole proof; Section 3's becomes $I_{\rm k}$. Seven
+places in the prose and tables and two code variables change with it.
+
+The knee box, `edited/module17.html:200`:
+
+```html
+$$\boxed{\;\tau_{\rm knee}(t)=m_{\rm HAT}\,g\,d_0\sin q+I_{\rm k}\,\lvert\ddot q\rvert+\tau_0,\;}$$
+```
+
+The definition beside it, `:201`, which now also says why the subscript is
+there - the point a reader needs at exactly this line:
+
+```html
+an inertial term with $I_{\rm k}$ the moment of inertia of the rising mass about the knee - subscripted to keep it distinct from the whole-body $I=mL^2$ about the ankle in <a class="secref" href="#standing">Section 2</a>, which is a different quantity about a different axis - taken in magnitude
+```
+
+The two remaining $d(q)$ uses, `:201` and `:203`:
+
+```html
+the moment arm $d_0\sin q$, which is largest in deep flexion
+```
+
+```html
+moment arm $d_0\sin q$. <b>Parameters:</b>
+```
+
+The §3 parameter line, `:203`, and the notation-table row for $d_0$, `:567`:
+
+```html
+$d_0=0.20\ \mathrm{m}$ at seat-off, $I_{\rm k}=0.12\ \mathrm{kg\,m^2}$
+```
+
+```html
+<td>knee moment arm at seat-off; at knee angle $q$ the arm is $d_0\sin q$. Not the $d$ of <a class="secref" href="#jump">6</a></td>
+```
+
+K4's solution, `:518`, which reads the error budget off the symbol:
+
+```html
+barely at all by $I_{\rm k}$, which multiplies a term worth
+```
+
+The notation table's own row, `:562`, which was the flag standing in for the
+fix. One row becomes two, and neither now carries two values:
+
+```html
+<tr><td>$I$</td><td>whole-body moment of inertia about the ankle, $mL^2=70$</td><td>kg m$^2$</td><td><a class="secref" href="#standing">2</a></td></tr>
+<tr><td>$I_{\rm k}$</td><td>moment of inertia of the rising mass about the knee, $0.12$ - a different quantity about a different axis, subscripted so the two never share a symbol</td><td>kg m$^2$</td><td><a class="secref" href="#sts">3</a></td></tr>
+```
+
+The parameter-table row, `:590`:
+
+```html
+<tr><td>$I_{\rm k}$ (about the knee)</td>
+```
+
+And the two code blocks, so the variable names match the symbols the reader
+just learned. The §3 block, `:213`-`:215`:
+
+```html
+m_hat, d0, I_k = 48.0, 0.20, 0.12
+```
+
+```html
+grav = m_hat*g*d0*np.sin(q)            # moment arm d0 sin q
+iner = I_k*np.abs(qdd)
+```
+
+K4's Monte Carlo block, `:528`-`:531`, where `d` and `Ii` become `d0` and
+`I_k` (the comment column stays where it was, so the block is still PEP8):
+
+```html
+d0 = rng.normal(0.20, 0.10*0.20, N)     # moment arm, 10%
+I_k = rng.normal(0.12, 0.20*0.12, N)    # segment inertia, 20%
+pk = np.array([(mh[i]*g*d0[i]*np.sin(q) + I_k[i]*np.abs(qdd)
+                + 0.15*mh[i]*g*d0[i]).max() for i in range(N)])
+```
+
+After these, the only bare $I$ left in the module is Section 2's ankle inertia
+(lines 130-143 and D1's solution at 392) and the one explicit contrast at 201.
+Both code blocks were re-run and print exactly what they printed before: the
+rename moves no number.
 
 ### B10. The Froude transition at 0.5 is the number the module actually uses and is never explained
 
@@ -651,6 +811,22 @@ Line-level, applicable in one pass.
 **S15** (`:304`). "Twelve problems - four on the method, four on the capstone models, four computational extensions - plus five diagnostics." Accurate, but the module elsewhere implies the course's 30-problem standard. Add one clause making the choice explicit: "Twelve problems, fewer than the thirty a content module carries, because a capstone's exercise is the project itself: four on the method, four on the capstone models, four computational extensions, plus five diagnostics."
 
 **S16** (`:213`). "real tendons return $\sim$90%, not 100%, of the energy, Module 6". A bare number; it is also in the catalog at line 261. Add it to the parameter table (done in B7) and change the in-text mention to cite it: "$\sim$90% (Appendix; Module 6)".
+
+**S17** (`:518`, K4's solution; found on the second pass, as residue of S5).
+K4's solution warns against quoting a band without labelling it, and
+illustrates the trap with "$\pm15\%$". After S5 that number exists nowhere else
+in the module: the Monte Carlo prints a one-sigma spread of 14.1 percent, and
+the module now quotes $\pm14\%$ at both `:225` and `:350`. An illustration of
+mislabelling should use the module's own number, or the reader hunts for a
+$\pm15\%$ that is not there. Both occurrences in the sentence change:
+
+```html
+quoting "$\pm14\%$" without saying it is one sigma
+```
+
+```html
+hides it, and so does an unlabelled $\pm14\%$.
+```
 
 ## 4. Structural notes
 
