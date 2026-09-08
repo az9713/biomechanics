@@ -960,7 +960,12 @@ have to be corrected during apply, and are logged as such below (rows `S10`,
 | B16-neck-rise, -climb, -lift, -stumble | 53 | one neck capsule per vignette, computed with the `CLAUDE.md` bone generator from the existing shoulder and head coordinates and inserted inside the existing `<g filter="url(#b_sh)">` so the head circle overlaps its top — the four detached heads left open in `HANDOFF.md` | geometry re-derived from the SVG coordinates (rise: L = 27.43, angle −57.53° about (85, 97)), matching the report to 0.1 px; then rendered in headless Chrome (`shoot.py` → `m13/preview.png`) and looked at — all four heads now join their shoulders |
 | B16-stair-a, -b, -c | 53 | the three stair rectangles shortened to end at $y=212$ (heights 12, 28, 44 from unchanged tops 200, 184, 168) so the "climb" label at $y=226$ no longer sits inside a step | same render; the step tops are unchanged, so the figure still stands on its steps |
 
-**Gates, before and after.** Identical; nothing regressed.
+| B12-mu-174 | 174 | the last bare $\mu$ in §6's interpretation ("a rubber pad or a dry hand raises $\mu$") renamed to $\mu_{\rm lid}$ — B12's rename had missed it, leaving a symbol the notation table no longer defines | grep of the edited file for `\mu` not followed by `_`: 5 hits before this pass, 0 after |
+| B12-mu-D5 | 405 | D5's solution carried four more bare $\mu$; all four now $\mu_{\rm lid}$ | same grep |
+| B9-K3fig-aria | 460 | K3's figure was replaced by B9-K3fig but kept the aria-label of the problem it replaced — and that label was itself truncated mid-sentence with an ellipsis and quoted raw TeX (`$3400\ \mathrm{N}$`) at a screen reader. Rewritten to describe the three curves actually drawn, in words | read the label against the decoded polylines; `verify_dom`'s stray-`$` advisory fell 18 → 16 |
+| B14-params-mulid | 518 | the parameter table's skin-lid friction row carried a bare range and no symbol (the three cells read `Skin-lid friction`, `$0.5$-$1.0$`, `§6`) while its sibling $\mu_{\rm shoe}$ row carried symbol, value and an assumed marker. Upgraded in place to name $\mu_{\rm lid}$, give the three values §6 and K6 actually use, mark them assumed, and cite K6 as well as §6 | the values 0.5 / 0.7 / 1.0 are the ones §6's prose and `kblocks/K6.py` use; `check_links` still 106 links, 0 broken. A first attempt appended a *new* row and was withdrawn once the grep found the existing one — the file had it at `module13.html:518` all along |
+
+**Gates, before and after.** Identical on eight of nine; `verify_dom`'s stray-`$` advisory improved from 18 to 16 when B9-K3fig-aria removed the raw TeX from an aria-label. Nothing regressed.
 
 | gate | baseline (pristine) | after |
 |---|---|---|
@@ -969,7 +974,7 @@ have to be corrected during apply, and are logged as such below (rows `S10`,
 | `check_links` | 84 links, 0 broken, 0 unlinked | 106 links, 0 broken, 0 unlinked |
 | `check_svg` | 0 hard, 0 advisory | 0 hard, 0 advisory |
 | `check_code` | 4 blocks, 0 issues | 14 blocks, 0 issues |
-| `verify_dom` | 0 mjx-merror, 0 broken links, 18 stray-$ (advisory), 0 swallowed prose | 0 mjx-merror, 0 broken links, 18 stray-$ (advisory), 0 swallowed prose |
+| `verify_dom` | 0 mjx-merror, 0 broken links, 18 stray-$ (advisory), 0 swallowed prose | 0 mjx-merror, 0 broken links, **16** stray-$ (advisory), 0 swallowed prose |
 | `check_overlap` | 0 | 0 (this pass introduced 3; all 3 fixed) |
 | `check_frame` | exit 0; 0 clipped, 17 wasted-margin (advisory) | exit 0; 0 clipped, 17 wasted-margin (advisory) |
 | `check_bodyprop` | 1 advisory (Fig. 1 sit-to-stand, limb/head ratio 0.41) | 1 advisory, unchanged |
@@ -990,3 +995,63 @@ alone, since retightening is the judgement call `check_frame` declines to
 force. The `check_bodyprop` advisory on Fig. 1 is unchanged from the baseline:
 the 5.6 px element it flags is a forearm beside a 14 px head, which is anatomy,
 not a hairline limb.
+
+
+## 7. Verification pass
+
+A second agent re-ran the whole pass on the finished file. What it settled:
+
+- **The apply is reproducible and complete.** `cp module13.html
+  edited/module13.html && python apply.py` reproduces the edited file
+  byte-for-byte from the pristine one. No edit was made by hand outside the
+  script, so the table above is the complete list of changes. 102 `rep()` calls
+  (98 from the first pass, 4 from this one), every one covered by a table row.
+- **The four residual edits went through `apply.py` too**, and the file was rebuilt from pristine after each, so the byte-identical guarantee still holds: 102 `rep()` calls produce `edited/module13.html` from `module13.html`.
+- **All nine gates re-run on both files.** Baseline and edited agree exactly
+  except for the improved stray-`$` count; no gate is worse than the baseline
+  and no gate has a hard failure.
+- **All fourteen `<pre><code>` blocks re-extracted from the edited file and
+  re-run** (matplotlib forced to the `Agg` backend — four of them end in
+  `plt.show()`, which blocks on an interactive backend). All exit 0. Every
+  number the prose quotes beside a block is a number that block printed:
+  K1 0.191/0.127 m, K2 2.142/1.666 steps/s and 0.0184/0.0489, K3 35.0/23.2/
+  13.4/8.7/6.4 kg and 4.0x, K4 1.723/1.217 m/s and 29.3%, K5 135.2°/73.9°,
+  K6 1.05/2.10/2.52 N·m, K7 4.18/2.10/1.41 m/s and −49.8%, K8 109.9/127.8/
+  91.9 N·m (the "sixteen percent" of §0's level statement is 127.8/109.9 =
+  1.16), K9 29.43 N·m / 0.071 m / 588.6 N, K10 87.9/84.1/62.8/47.7/47.1%.
+- **The Module 1 cross-check passes.** Every value §4 borrows matches
+  `module01.html`: $m_{\rm ub}=0.60M=42$ kg (its Appendix row, marked "assumed
+  fraction"), $W_{\rm tr}=412$ N, $\ell_t=0.346$ m, $d_m=d_{\rm es}=0.05$ m,
+  the 20 kg box at 0.40 m from a $60^\circ$ stoop, $F_m=4040$ N, $F_{\rm comp}
+  \approx4.34$ kN, the 3400 N NIOSH limit, and body weight 687 N. The four
+  savings §4 quotes recompute from those values to 13.6%, 28.3%, 41.8% and the
+  20.6x amplification. The reference human's *upper-limb* values (elbow flexor
+  moment arm 0.03 m, forearm-plus-hand COM 0.116 m, grip at 0.35 m,
+  $m_s=1.54$ kg) are not used anywhere in Module 13, so there is nothing to
+  conflict.
+- **The level ladder is placed.** `edited/module13.html:58` states it (Level 1
+  throughout, quasi-static in §§2, 4, 6, 7; Level 1 dynamic in §§3 and 5; K8
+  the single Level 2 excursion), and `:603` holds §9 to the same statement.
+- **Every touched figure was decoded from its `<polyline>` points back into
+  data**, by calibrating on the tick `<text>` coordinates and inverting.
+  Lab A's torque line reads 82 N·m at $d=0.15$ and 153 N·m at $d=0.28$ against
+  the code's 82 and 154. Lab C's four compression curves read 3551/4923,
+  3110/3795, 2323/3694 and 1837/2524 N against the code's 3561/4934,
+  3120/3806, 2333/3706 and 1848/2535 — a uniform 11 N offset that is the
+  text-baseline allowance, so all four match. Its "squat crosses at 0.47 m"
+  label recomputes to 0.472 m. D8's two curves read 41.8 and 17.2 kg (squat)
+  and 16.1 and 6.2 kg (stoop) against 42.0/17.4 and 16.4/6.4. K3's three
+  curves add the $40^\circ$ case at 26.5 and 10.6 kg against 26.7 and 10.8.
+  K10's five bar widths are in the exact ratio of the five computed
+  percentages. No figure contradicts its caption or its code.
+- **No detached head remains.** Fig. 1 and Fig. 2 were re-rendered in headless
+  Chrome from the current edited file and looked at: all five bodies join head
+  to shoulder, and the "climb" label clears the shortened stair blocks. The
+  `check_bodyprop` advisory on Fig. 1 is the baseline one (a 5.6 px forearm
+  beside a 14 px head — anatomy, not a hairline limb). The `HANDOFF.md` open
+  item "m13 any residual detached head" is closed.
+
+Still not done, unchanged from the first pass: Fig. 2's "rise" vignette has no
+chair and none of the four vignettes have arms (both need the body kit, not a
+coordinate edit), the seventeen wasted-margin viewBoxes are left alone, and
+§4's structural notes remain notes.
