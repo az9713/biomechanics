@@ -42,12 +42,12 @@ render-verify sweep.
 | **4** | **COMPLETE** — 17 blocking, 13 style, 107 edits |
 | **5** | **COMPLETE** — 22 blocking, 11 style, 72 edits; Fig. 30 rebuilt and verified |
 | **7** | **COMPLETE** — 86 tags; K2's figure regenerated from the Hopf boundary |
-| 8 | report + 226 edits, no change log; open: a literal `_` in an SVG `<text>` (check_svg HARD) and K10's frame |
+| **8** | **COMPLETE** — 23 blocking, 15 style, 65 edits; the 3–5 W debt to m03 paid |
 | 10 | report written, apply NOT run; check_frame is the point of this module |
 | **15** | **COMPLETE** — 23 defects, 78 edits; 4 K problems given the code they claimed |
 | **17** | **COMPLETE** — 63 edits; course closure verified |
 
-**Thirteen complete. Seven were relaunched 2026-09-08 with the defect each one's
+**Fourteen complete. Seven were relaunched 2026-09-08 with the defect each one's
 predecessor named in its dying words.**
 
 ## Next task — finish the seven, then promote
@@ -91,7 +91,15 @@ superseded one. It surfaced by machine-comparing all 23 problem aria-labels
 against their statements. **Run that comparison after every apply** — residue is
 not only the module's pre-existing debt.
 
-### Never infer apply state from a proxy
+### Never infer a module's state from a proxy — three for three
+
+The lead sent a wrong premise to three separate agents, each time from a proxy
+rather than the files: m17 (from a dying message — the `$I$` collision was
+already applied), m07 (from a changed-line count — 175 lines looked partial;
+it was 79 complete edits), m08 (from a stated defect list — both "open"
+defects were already fixed inside the inherited `apply.py`). Each agent caught
+it by reading the files. **State the suspicion, never the conclusion**, and let
+the agent establish state by re-running from pristine and comparing bytes.
 
 Twice the lead mis-read a module's state and sent a wrong instruction: once from
 an agent's dying message, once from a changed-line count (175 lines looked
@@ -205,6 +213,12 @@ When a module is signed off, promotion is `mv edited/moduleNN.html moduleNN.html
   after re-running the gates.
 
 ## Open items (small, not blocking)
+
+- **DRIFT IN A COMMITTED MODULE, found by m08.** `edited/module03.html:858`
+  says the hip resultant is "2.6 to 2.8 W across 20° to 40°", but |R| at 40°
+  is **2.87 W**. A sibling agent's edit; m03 is already pushed, so this is live
+  in the drafts. Verify the 2.87 independently, then widen the stated range or
+  narrow the stated angle span.
 
 - **Cosmetic anatomy leftovers:** only **m10 wishbone shoulders** remains.
   m09's piled feet and knee-less stance leg are fixed and render-verified;

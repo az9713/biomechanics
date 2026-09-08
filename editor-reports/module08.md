@@ -1133,7 +1133,8 @@ it with nothing between. It reads as a smudge, not a body, and it is the failure
 `check_bodyprop` exists to catch — the gate passed only because the pieces are separate
 elements. Removed, and each viewBox retightened to its remaining content
 (`0 0 760 300 → 0 0 645 300`; `0 0 740 270 → 0 0 590 270`), which is what dropped
-`check_frame`'s advisory count from `8` to `4`.
+`check_frame`'s advisory count from `8` to `4` (and to `3` once K7's
+placeholder figure was replaced too).
 
 ### B20 — `module08.html:784`: K6 quotes three RMS values that no seed reproduces
 
@@ -1145,16 +1146,24 @@ ones", which is false in both directions: the analytic `0.154, 0.617, 2.469` lie
 all three sampled values. Fixed by naming the seed in the problem statement, quoting the
 three numbers the run prints, replacing the bracket claim with the true relation (the
 analytic form reproduces the sample to within `13 %` at every rate — verified:
-`12.7 %`, `11.0 %`, `0.03 %`), and correcting the downstream "even `2.7` N m is under
+`12.9 %`, `11.0 %`, `0.04 %`), and correcting the downstream "even `2.7` N m is under
 `3 %`" to `2.5` N m (`2.468 / 95.1 = 2.6 %`).
 
-### B21 — `module08.html:776`: K4's push-off reduction quoted to a digit it cannot hold
+### B21 — `module08.html:776`: K4's push-off reduction — checked, **not** a defect
 
-The stated `36.8 %` reduction at `f = 0.25` is `36.85 %` at the exact cost optimum
-`L* = 0.684379` m (`m08/vfy3.py`), so `36.9 %`. The value moves over `36.844–36.860 %`
-across the three roundings of `L*` the module quotes, which is worth knowing: the last
-digit is at the edge of what the input supports, and the figure's own label carries no
-third digit.
+Recorded here because a previous pass changed this number and this pass changed it back.
+The stated `36.8 %` reduction at `f = 0.25` sits on the boundary of its last digit: the
+value is `36.844 %` using Lab 2's printed optimum `L* = 0.6846734` m, `36.851 %` using
+the exact optimum `0.684379` m, and `36.860 %` using the `0.684` m the prose rounds to
+(`m08/vfy3.py` prints all three). A prior pass took the middle one and wrote `36.9 %`.
+
+That is the wrong tie-break for this module. The standard this pass works to is that
+every number is one a reader can print by running the module's own code, and the code is
+Lab 2, which prints `0.6846734`. Under that anchor the answer is `36.8 %`, which is what
+the pristine file already said. The edit is reverted; the file is unchanged here. The
+same anchor settles the module's other two boundary digits (K1's `+0.344 W` and §7's
+`+8.2 %`), so all three are now consistent with one another and with the code — which
+they were not while `36.9 %` stood.
 
 ### B22 — `module08.html:772`: K3's grid search finds a spurious edge minimum
 
@@ -1295,17 +1304,17 @@ copied between two sentences that divide by different denominators. Replacement:
 
 ## 6. Changes applied
 
-All 66 edits are applied by one re-runnable script,
+All 65 edits are applied by one re-runnable script,
 `scratchpad/m08/apply.py`, whose `rep(old, new, tag)` asserts that each anchor
 occurs **exactly once** before replacing it. The protocol is
 
 ```
 cp module08.html edited/module08.html
-python scratchpad/m08/apply.py     # prints "applied 66 edits:" and the tag list
+python scratchpad/m08/apply.py     # prints "applied 65 edits:" and the tag list
 ```
 
 Run twice from the pristine copy it produces a byte-identical file
-(`md5 7f78d195fc1aa432d8c501e98df9cfe0` both times). The ten figure bodies come
+(`md5 ccc08d7d6b4ce07995e415a683c51dce` both times). The ten figure bodies come
 from `genk.py → svgk.json`, which is itself deterministic (regenerating it
 reproduces the same file, and the same `nums_k.json`); the cost-of-transport
 figure comes from `fig7.py → fig7.json`. All of these now sit **beside**
@@ -1385,7 +1394,6 @@ the line of the block they sit inside.
 | B20c | 784 | The claim that the analytic values "bracket the sampled ones" deleted and replaced by the true relation: the analytic form reproduces the sample to within `13 %` at every rate. | Analytic `0.15432, 0.61727, 2.46909` lie **above** all three sampled values, so they bracket nothing. Ratios: `12.9 %`, `11.0 %`, `0.04 %`. |
 | B20d | 784 | The downstream comparison "even `2.7 N m` is under `3 %`" corrected to `2.5 N m`. | `2.468 / 95.097 = 2.6 %`, using Lab 3's verified peak ankle moment. |
 | B20e | 784 | The paragraph's closing sentence re-pointed at the quantity the calculation actually estimates (`Iθ̈`, true peak `0.48 N m`) rather than at the unrelated ankle moment. | `I = 0.48/(0.35·(2π)²) = 0.03474 kg m²`, consistent with `vfy.py`'s printed `0.4836 N m`. |
-| B21 | 776 | K4's push-off reduction at `f = 0.25` quoted as `36.8 %` changed to `36.9 %`. | `m08/vfy3.py`: `36.8517 %` at the exact optimum `L* = 0.684379` m. The value ranges over `36.844–36.860 %` across the three roundings of `L*` the module quotes, so the last digit is at the edge of what the inputs support — flagged in B21 rather than hidden. |
 | B23 | 522 | Prop 9.1's proof compared its small-angle speed with K9's exact one on the wrong base: "`1.31 m s⁻¹`, `5.2 %` higher" → "`5.5 %` higher". | `m08/vfy3.py`: small-angle `1.246035`, exact `1.314138`; the exact is `5.4656 %` higher. `5.2 %` is the reciprocal comparison (`5.18 %` lower), which is what K9's own solution at `:906` correctly states — that sentence is left alone. |
 | B22 | 772 | K3's robustness claim was written from a grid search that ran to the grid edge (`L* → 2ℓ = 1.600` m, not a gait) because the `κ = 0.15 m²` curve has no interior minimum above the `α = 45°` turnover. Restricted to the well-posed range; the surviving sentence about the *cost* scaling with `κ` is kept, since it does not depend on the bad branch. | `m08b/vfy.py` reproduces the edge minimum `1.6000`; `genk.py` on the restricted range gives the interior `0.80664` m, which the redrawn figure marks with a dot and the caption quotes. |
 
@@ -1458,18 +1466,25 @@ whoever owns Module 3: `:858` says the resultant is "`2.6` to `2.8 W` across the
 `α = 20°` to `40°` range", but `|R|` at `α = 40°` is `2.87 W`, which rounds to
 `2.9`, not `2.8`.
 
-### What this pass could not settle
+### Three boundary digits, and the one anchor that settles them
 
-Two numbers in the module are quoted to a digit their inputs do not support, and
-both are left as they stand with the reason recorded here rather than churned:
+Three numbers in the module land on the boundary of their last digit, because
+each depends on which rounding of the optimum step length it is evaluated at.
+They are recorded together because they must be settled the same way or they
+contradict each other:
 
-1. **K1's `+0.344 W` edge reaction at `v = 2.0 m s⁻¹`** is `0.34442` using Lab 2's
-   printed `L* = 0.6846734` m and `0.34462` using the exact optimum `0.684379` m
-   — `0.344` under one rounding and `0.345` under the other. Left at `0.344`,
-   which is what the figure's own generator computes.
-2. **The `+8.2 %` cost of a `20 %` shorter step** (§7, Lab 2 and K3) is `8.229 %`
-   about Lab 2's printed `L*` and `8.266 %` about the exact optimum. Left at
-   `8.2 %`, which is the value about the `L*` the prose actually quotes.
+| quantity | at Lab 2's printed `L* = 0.6846734` | at the exact optimum `0.684379` | ships as |
+|---|---|---|---|
+| K4's push-off reduction at `f = 0.25` | `36.844 %` | `36.851 %` | `36.8 %` |
+| K1's edge `F_y/W` at `v = 2.0 m s⁻¹` | `0.34442` | `0.34462` | `0.344` |
+| §7's cost of a `20 %` shorter step | `+8.229 %` | `+8.266 %` | `+8.2 %` |
 
-Both are noted so a later pass does not "fix" one of them into disagreement with
-the other places that quote it.
+The anchor is Lab 2's printed value, on the standard this whole pass works to:
+every number in the module must be one a reader can print by running the module's
+own code, and Lab 2 *is* that code (`blocks2/blk02_L684.py` prints
+`0.6846733668341708`). All three ship as the left-hand column. A prior pass took
+the middle column for the first row alone and wrote `36.9 %`; that edit is
+reverted (see B21), which is why the applied count is 65 and not 66.
+
+Noted here so a later pass does not "fix" one of the three into disagreement with
+the other two.
