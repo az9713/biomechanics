@@ -538,11 +538,11 @@ byte-identical output (verified in §6).
 ## 6. Changes applied
 
 Applied by one re-runnable `apply.py` against a pristine `edited/module07.html`
-(83 tags, each anchor asserted to occur exactly once; the run is all-or-nothing).
-The script runs to completion from a pristine copy and two clean runs are
-byte-identical (md5 `ccdd536c5bb7f135fc9a200f1ac7668d`); it compiles with no
-`SyntaxWarning`, and a second run against an already-applied file aborts on
-its first anchor rather than half-applying.
+(86 tags, each anchor asserted to occur exactly once; the run is all-or-nothing).
+The script runs to completion from a pristine copy and three clean runs are
+byte-identical (md5 `437582a3d56b7b8b7558b670d69464cf`); it compiles with no
+`SyntaxWarning`, and a second run against an already-applied file aborts on its
+first anchor rather than half-applying.
 Line numbers are lines of the **original** `module07.html`.
 
 The `N` rows are defects found *after* the report was written, by re-running every
@@ -609,6 +609,7 @@ report, the re-run won and the report text above was corrected to match.
 | **N13** | 855 | N10 settled K2's grid ratio at 4.44; the inset label still carried B9b's `4.45`, which is the rounded *closed-form* value. The inset draws the grid islands, so it takes the grid number. | $1{,}182{,}400/266{,}400=4.4384$. |
 | **N14** | 855 | **The same inset drew the two islands as 50 × 90 and 50 × 38 rectangles — an area ratio of 2.37 beside a label reading 4.44.** A schematic that states a ratio must draw it. The $\Delta=0.18$ rectangle is now 37 × 27.4 px (1013.8 px²) against the unchanged 50 × 90 (4500 px²), ratio 4.439, with the aspect ratio and the shared baseline $y=166$ preserved. | Areas computed from the shipped attributes; the drawn ratio now matches the label to three figures. `check_frame` and `check_overlap` unchanged. |
 | **N15** | 856 | K2's solution said a 50 % longer delay "costs $78\%$ of the usable gain space". Both halves of that same solution say otherwise. Now $77\%$. | $1-266{,}400/1{,}182{,}400=77.47\%$ (grid); $1-2.674\times10^5/1.189\times10^6=77.51\%$ (closed form). Both round to 77. |
+| **N16a–c** | 855 | **K2's left panel drew the two stable islands as freehand Béziers whose areas are in the ratio 1.74, beside an inset saying 4.44 and a solution computing 4.4384.** Both islands are now Proposition 6.2's own Hopf boundary, $K_p=(I\omega^2+Mg\ell)\cos\omega\Delta$, $K_d=(I\omega^2+Mg\ell)\sin(\omega\Delta)/\omega$, closed by the divergence line $K_p=Mg\ell$, mapped through **one** linear $(K_p,K_d)\to$ pixel transform ($K_p\,0..3000$ over $x\,65..275$; $K_d\,0..950$ over $y\,175..50$), so the drawn ratio is the true one by construction (N16a). The axes gain the ticks the panel needs to be read as a plot ($Mg\ell$, 1500, 3000; 400, 800) and the two in-island labels become a legend in the free strip above the curves. The `aria-label` suffix `(problem schematic)` → `(computed plot)` (N16b) and the caption now says the regions are drawn to a common scale (N16c). | `genk2.py` builds both boundaries and reports drawn areas 10949.0 / 2462.8 px², ratio **4.4458** against `k2area.py`'s closed-form **4.445831**. Re-decoded from the *shipped* SVG after rounding to 0.1 px: 10943.6 / 2459.7 px², ratio 4.4492 — a 0.08 % drift that is entirely coordinate rounding. Both islands lie inside the axes ($x\,108.3..262.6$, $y\,59.1..165.2$). `check_overlap` 0, `check_frame` 0 clipped, `check_probfig` still counts it a real plot; rendered and eyeballed. |
 
 ### Gate results
 
@@ -616,15 +617,18 @@ Baseline is the pristine `module07.html`; both columns are `python $S/NAME.py ed
 
 | gate | baseline | after | |
 |---|---|---|---|
-| `checktex` | 683 segments, 0 issues | 789 segments, 0 issues | ✅ |
+| `checktex` | 683 segments, 0 issues | 790 segments, 0 issues | ✅ |
 | `checklt` | 0 | 0 | ✅ |
 | `check_links` | 187 links, 0 broken, 0 unlinked | 209 links, 0 broken, 0 unlinked | ✅ |
 | `check_svg` | 0 hard, 2 advisory | 0 hard, 2 advisory | ✅ |
 | `check_code` | 2 blocks, 0 issues | 2 blocks, 0 issues | ✅ |
-| `verify_dom` | 0 mjx-merror, 0 broken, 28 stray `$`, 0 swallowed | 0 mjx-merror, 0 broken, 28 stray `$`, 0 swallowed | ✅ |
+| `verify_dom` | 0 mjx-merror, 0 broken, 28 stray `$`, 0 swallowed | 0 mjx-merror, 0 broken, **26** stray `$`, 0 swallowed | ✅ |
 | `check_overlap` | 0 | 0 | ✅ |
 | `check_frame` | 0 clipped, 12 margin advisories | 0 clipped, 12 margin advisories | ✅ |
 | `check_bodyprop` | 0 hard, 1 advisory (C1 juggler) | 0 hard, 1 advisory (C1 juggler) | ✅ |
+
+The two stray `$` that went away are N12's: the superseded K8 `aria-label` carried
+two `$...$` runs that MathJax never typesets inside an attribute.
 
 The two `check_svg` advisories and the 12 `check_frame` margin advisories are the
 baseline's and are left as §4 records. `check_probfig`, `check_proofs` and
@@ -644,3 +648,10 @@ propositions, 0 prose flags).
 - The three muscle-coloured (`#8a3d3d`) thick arrows at `:802`, `:844`, `:887`
   were left by B1 because there the thickness may be the muscle belly rather than
   an arrow shaft. They still want an eye.
+- **Two `aria-label`s still differ from their statement by a quote glyph** (C6, C9
+  use `'` where the statement uses `"`). Pre-existing, cosmetic, and unchanged from
+  the baseline; the machine comparison in N12 lists them so a later pass can
+  normalise all 23 labels at once.
+- **K2's inset bars and its left panel now say the same thing twice.** With the
+  islands drawn to scale the area-bar inset is redundant; it is kept because it
+  reads the ratio off directly, but a later pass may prefer to drop it.

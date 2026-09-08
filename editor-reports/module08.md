@@ -1098,6 +1098,82 @@ leans on the two assumed offsets.</p>
 
 ---
 
+### B18 — `module08.html:764-800`: nine K figures describe a plot that was never drawn
+
+Found by decoding, not by reading. Every K problem carried a `<figure>` whose
+`aria-label` promised a computed plot — "Froude number against walking speed for three
+leg lengths", "RMS torque error against sample rate on logarithmic axes" — while the
+`<svg>` body held a schematic with a placeholder `<figcaption>K2 figure.</figcaption>`
+and no axes, no ticks and no data. Six of the nine (K1, K2, K4, K6, K8, K9) were in that
+state; three more (K3, K5, K10) drew a number the solution contradicts.
+
+The standard this fails is *tie to something concrete*: a figure that names a quantity
+it does not plot is worse than no figure, because the reader believes the check has been
+done. Replacement: all nine redrawn by `m08b/genk.py` as framed plots with computed tick
+labels, and a real caption each. Every plotted vertex is the model evaluated at that
+abscissa, so the figures can be — and were — decoded back into data and compared with the
+solutions (`m08/decode.py`, `m08/decode2.py`). The nine decodes agree with `nums_k.json`
+to the 0.1-px rounding of the SVG coordinate: K1's midstance `Fy/W` reads `0.8188`
+against the model's `1 − Fr = 0.81866`; K3's three marked minima read `0.5767`, `0.6844`,
+`0.8067` against `0.57674`, `0.68438`, `0.80664`; K9's fixed-point ring reads
+`(60.4449, 60.4572)` against `E* = 60.4435` J; K10's six bars read `−1.48, −0.58, +2.68`
+and `+0.88, +0.35, +0.00` against elasticities I re-derived in closed form
+(`∂ξ/∂v = Δ + 1/ω₀`, `∂ξ/∂Δ = v`, `∂ξ/∂x_s = 0`).
+
+### B19 — `module08.html:432,460`: a decorative "walker" that renders as a beige slab
+
+Both regenerated plots carried an ornamental figure built from limb capsules at the
+right-hand margin. At the plot's scale it renders as a `23.9`-px beige bar with two
+lentil-shaped ellipses, and in the joint-power figure a head circle floats `130` px above
+it with nothing between. It reads as a smudge, not a body, and it is the failure mode
+`check_bodyprop` exists to catch — the gate passed only because the pieces are separate
+elements. Removed, and each viewBox retightened to its remaining content
+(`0 0 760 300 → 0 0 645 300`; `0 0 740 270 → 0 0 590 270`), which is what dropped
+`check_frame`'s advisory count from `8` to `4`.
+
+### B20 — `module08.html:784`: K6 quotes three RMS values that no seed reproduces
+
+"With a fixed seed the RMS torque error is `0.137`, `0.643` and `2.704` N m" — but the
+problem never says which seed, and no seed gives that triple. Re-running the described
+computation under `np.random.default_rng(0)` gives `0.13665`, `0.55621`, `2.46816`
+(`m08b/vfy.py`). The same paragraph then claimed the analytic values "bracket the sampled
+ones", which is false in both directions: the analytic `0.154, 0.617, 2.469` lie *above*
+all three sampled values. Fixed by naming the seed in the problem statement, quoting the
+three numbers the run prints, replacing the bracket claim with the true relation (the
+analytic form reproduces the sample to within `13 %` at every rate — verified:
+`12.7 %`, `11.0 %`, `0.03 %`), and correcting the downstream "even `2.7` N m is under
+`3 %`" to `2.5` N m (`2.468 / 95.1 = 2.6 %`).
+
+### B21 — `module08.html:776`: K4's push-off reduction quoted to a digit it cannot hold
+
+The stated `36.8 %` reduction at `f = 0.25` is `36.85 %` at the exact cost optimum
+`L* = 0.684379` m (`m08/vfy3.py`), so `36.9 %`. The value moves over `36.844–36.860 %`
+across the three roundings of `L*` the module quotes, which is worth knowing: the last
+digit is at the edge of what the input supports, and the figure's own label carries no
+third digit.
+
+### B22 — `module08.html:772`: K3's grid search finds a spurious edge minimum
+
+Swept over a wide `L` grid, the cost proxy's `κ = 0.15 m²` curve has no interior minimum
+below the `α = 45°` turnover — the search runs to the grid edge and returns
+`L* = 1.600` m, which is `L → 2ℓ` and not a gait. The solution's robustness claim was
+written from that run. Restricted to the well-posed range the minimum is interior at
+`0.80664` m, which is the value the redrawn figure marks with a dot and the caption
+quotes. The closing sentence about `κ`-sensitivity of the *cost* is kept, since it is
+true and does not depend on the bad branch.
+
+### B23 — `module08.html:522`: Prop 9.1's proof compares its two speeds on the wrong base
+
+"K9 solves the same energy balance without them and gets `1.31` m s⁻¹, `5.2 %` higher."
+The small-angle result is `1.246035` m s⁻¹ and K9's exact fixed point is `1.314138`
+m s⁻¹ (`m08/vfy3.py`), so the exact value is `5.466 %` **higher** than the small-angle
+one. `5.2 %` is the *other* comparison — the small-angle value is `5.18 %` *below* the
+exact — which is exactly what K9's own solution at `:906` correctly says. One number was
+copied between two sentences that divide by different denominators. Replacement:
+`$5.5\,\%$ higher`. K9's `:906` sentence is correct as written and is left alone.
+
+---
+
 ## 3. Style and clarity edits
 
 - **S1 `:243`** — "$v\approx\sqrt{0.5\,g\ell}\approx2.0\ \mathrm{m\,s^{-1}}$" understates
@@ -1110,7 +1186,8 @@ leans on the two assumed offsets.</p>
 - **S4 `:247`** — "Dynamic similarity" is boxed as a `.keyresult` with no statement of
   where it comes from. Prefix: "This is a corollary of Prop 2.2, not a new claim:".
 - **S5 `:452`** — `C` for cost collides visually with `c` for cadence (§1), and D8 uses
-  `a, b` for the same two constants §7 calls `A, B`. Unified on `½M` and `bM` in both
+  `a, b` for the same two constants §7 calls `A, B`. Unified on a single named
+  constant `κ` (the swing-cost coefficient, `0.09 m²`, labelled as assumed) in both
   places, so the proxy has one free constant with a name and a unit.
 - **S6 `:744`** — D8's cost proxy `C(L)=a sin²(...)+b/L²` is dimensionally different
   from §7's (`b/L²` against `bM(v/L)²`). Rewritten to match §7 exactly.
@@ -1123,9 +1200,12 @@ leans on the two assumed offsets.</p>
   claim. Replaced with what the labs actually do (applied with B1).
 - **S10 `:668-704`** — every C-problem solution is one sentence. C1, C3, C6 and C9 now
   end with the number the corresponding section computes, so a conceptual answer still
-  lands on something concrete: C3 gains "the exchange is 25.3 J per step against a
-  26.7 J transition loss", C6 gains "26.7 J to 7.7 J for a half-and-half split", C9
-  gains "19.3 J per step of slope work at γ = 0.05 rad".
+  lands on something concrete. The values that shipped are the ones the labs and the
+  figure generator print, not the draft estimates this bullet first carried: C3 gains
+  "the vault exchanges `Mg Δh = 43.8` J each way (Lab 1) while the transition destroys
+  `26.7` J", C6 gains "the per-step cost falls from `26.7` J to `8.8` J (Prop 5.2)",
+  C9 gains "the descent supplies `MgL sin γ = 19.3` J per step". All three were
+  reprinted from `blocks2/blk01_L660.py`, `vfy3.py` and `genk.py` before shipping.
 - **S11 `:832`** — the "First use" column is plain text where Module 4's Appendix links
   each symbol to its section. Converted to `<a class="secref">` links.
 - **S12 `:812`** — the diagnostics run together with no separator in the rendered text.
