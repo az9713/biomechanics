@@ -259,14 +259,21 @@ needed to reproduce the numbers at all — that the first and last eight
 samples are discarded because the zero-lag filter leaves an edge transient
 there.
 
-Figure 7 itself had a third fault, found by decoding rather than reading.
-Its vertical map was
-`np.clip(117.5 - v*12.92, 40, 195)` — a hard clip at ±6 N m — and the
-unfiltered curve reaches 6.06, so one sample of sixty-two was pinned flat
-against the ceiling. One point is not the "runaway clamped flat" pathology,
-but a clipped plot is a plot that can lie, and the fix costs nothing: the
-regenerated figure scales to the actual excursion (±6.5 N m), so no point is
-clipped, and the −5/0/5 ticks move with the scale. Decoding the result:
+Figure 7 is regenerated with the corrected curves. Decoding the shipped
+figure first showed why it had to be: through its own axes it drew a true
+peak of 3.54 N m and an unfiltered RMSE of 4.38, agreeing with neither the
+code nor the prose it sat under.
+
+Two faults in the *replacement* were caught the same way and are recorded
+here because they show what the decode is for. The first draft of the new
+figure emitted only the three polylines, so applying it stripped the
+figure's axes, ticks, tick labels and both axis titles — and all nine gates
+still passed, because no gate requires a plot to have an axis. The second
+was a hard `np.clip` at ±6 N m in the drafted vertical map, which pinned the
+one unfiltered sample at 6.06 flat against the ceiling. One point is not the
+"runaway clamped flat" pathology, but a clipped plot is a plot that can lie.
+The figure now carries its full scaffolding and scales to the actual
+excursion (±6.5 N m), and decodes to:
 
 ```
 unfiltered  -4.077 .. 6.065 N m   (computed -4.076 .. 6.062)
@@ -729,7 +736,7 @@ Line numbers are in the original `module15.html`.
 | B10i | 711 | C10 solution "Exactly the gravity torque $mgL$" → $mg\ell$ | symbol audit |
 | B10j | 560 | the C10 figure's own SVG label `τ = mgL` → `τ = mg&#8467;` | SVG `<text>` cannot carry MathJax, so the script ell goes in as an entity; `check_svg` 0 |
 | B4a | 354 | §7 headline numbers 0.08 / 6.8 N m → 0.07 / 1.70 N m on a 3.31 N m peak; adds the wide-vs-compact stencil distinction with 7.31 N m for the compact one, and the eight-sample edge trim | `nb1.py` 3.31 / 0.071 / 1.70; `v2.py` compact stencil 7.3080 |
-| B4b | 356 | Figure 7 regenerated whole: the three torque curves from the shipped pipeline, plus its axes, ticks, tick labels and both axis titles, and rescaled from a hard ±6 N m clip to the ±6.5 the data needs | the shipped figure decoded to a true peak of 3.54 N m and an unfiltered RMSE of 4.38, matching neither the code nor the prose; the new one decodes to −4.077..6.065 (unfiltered), −3.356..3.423 (filtered), ±3.314 (true) against computed −4.076..6.062, −3.357..3.424, 3.315, with 0 points pinned at the ceiling |
+| B4b | 356 | Figure 7 regenerated whole: the three torque curves from the shipped pipeline, its axes, ticks, tick labels and both axis titles, scaled to ±6.5 N m so no sample is clipped | the shipped figure decoded to a true peak of 3.54 N m and an unfiltered RMSE of 4.38, matching neither the code nor the prose; the replacement decodes to −4.077..6.065 (unfiltered), −3.356..3.423 (filtered), ±3.314 (true) against computed −4.076..6.062, −3.357..3.424, 3.315, with 0 points pinned. The first draft of this replacement lost the axes and clipped at ±6; both were caught by the decode after all nine gates had passed on it |
 | B4c | 628 | K4 solution: same two numbers corrected, $mg\ell$, and the compact-stencil figure added | `nb1.py`, `v2.py` |
 | B8 | 311 | §6 worked example completed: pose assumed at 75°, both moment arms resolved, both cross products taken, $M_p=72.4\ \mathrm{N\,m}$, and the observation that the inertial term is negligible beside the force-moment terms | `v4.py` exact: r_p=(0.0448,0.1673), r_d=(-0.0587,-0.2191), r_d×F_d=-37.2170, r_p×F_p=-27.0136, Iα=0.144, M_p=72.3746; retyping the printed 4-dp vectors gives 72.36, also 72.4 |
 | B13 | 295 | §5: residual "about 0.13" → "root-mean-square 0.12 m/s²"; peak "near 1.6" → "at 1.7"; "a few per cent" → "about seven per cent"; ties the residual to Lab D's assumed kinematic noise | `figchk.py` decodes Fig. 5: force-plate peak 1.730, drawn residual rms 0.123 |
@@ -788,3 +795,28 @@ pristine copy before any edit.
 | `check_bodyprop` | pass | **pass** |
 
 Zero everywhere the baseline was zero, and no gate worse anywhere.
+
+### Figure audit (what the gates do not see)
+
+Every `<polyline>` in the module was decoded back into data: the axis
+mapping was calibrated from the tick `<text>` coordinates (log where the
+tick values fit `px = A + B log10 v`, and corrected by the ~3 px offset
+between a text baseline and the gridline it labels), then inverted and
+compared against the model the caption claims. `scratchpad/m15/figaudit.py`
+does the sweep, `figaudit2.py` the five computed plots.
+
+| figure | decoded | model | agrees |
+|---|---|---|---|
+| Fig. 4 total | min 0.0206 rad/s at 3.02 Hz | 0.0205 at 3.02 Hz | max deviation 0.00040 |
+| Fig. 4 bias / noise | 0.0006..0.3917 / 0.0075..0.4187 | 0.0006..0.3917 / 0.0077..0.4185 | 0.00046 / 0.00019 |
+| Fig. 5 | peak 1.730 m/s², residual rms 0.123 | — | fixed the caption to it (B13) |
+| Fig. 7 | −4.077..6.065 / −3.356..3.423 / ±3.314 N m | −4.076..6.062 / −3.357..3.424 / 3.315 | 0 points clipped |
+| Fig. 8 bars | 0.4140 / 0.0587 / 0.2283 / 0.0039 | labels 0.414 / 0.059 / 0.228 / 0.004 | heights match their labels |
+| Lab A | knee marker at the computed median | 3.09 Hz | — |
+| Lab B | min 0.0217 at 3.43 Hz; 1.3358 at 30 Hz | 0.0218 at 3.43 Hz; 1.3358 | max deviation 0.00045 |
+| Lab C | interval [2.220, 4.534]; true marker 3.314 | [2.220, 4.534]; 3.315 | — |
+| Lab D | identified mass 69.76..70.25 kg over N = 20..200 | `nb5.py` 70.03..70.00 | within the drawn wobble |
+
+This is what found B16, and what found the two faults in the draft
+replacement for Fig. 7 (lost axes, clipped ceiling) after all nine gates had
+already passed on it. The gates see broken content, not wrong content.
