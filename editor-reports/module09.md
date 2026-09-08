@@ -538,7 +538,8 @@ aria-label and its caption to the computed `32.0 cm`, but not the curve. Decoded
 against its own axis (`y = 260 - (220/3) F`, `x = 380 + 270 t/T_p`), the squat-jump
 curve reproduces Lab 2's `profile(1.0)` to within `0.018` BW and integrates to
 `170.0 N s` and `30.06 cm` - right. The CMJ curve matches no `profile(front)`
-(closest is `front = 0.8`, off by `0.28` BW) and integrates to `181.0 N s` and
+(nearest is `front = 0.8`, off by `0.12` BW - seven times the SJ curve's
+residual) and integrates to `181.0 N s` and
 `34.06 cm`. The caption asserts "Both heights are computed from each curve's net
 impulse by Lab 2", which was false for one of the two curves. Replacement: the
 curve redrawn as Lab 2's own `profile(0.8)` on the same 80-point grid, which
@@ -565,6 +566,8 @@ curves computed from those two expressions over `v = 0.8` to `3.3 m/s`, the
 crossover marked at the computed `v = 2.62 m/s` (`Fr = 0.70`), speed ticks added,
 and the `Fr = 1` kinematic ceiling at `v = 3.13 m/s` drawn as a dashed line so
 the figure carries the one bound the exercise delivers without calibration.
+(Crossover as applied: `brentq` on the continuous cost difference gives
+`v = 2.639 m/s`, `Fr = 0.710`.)
 
 ## 3. Style and clarity edits
 
@@ -746,13 +749,15 @@ Line-level. Apply in one pass.
 - Blocking defects: 16 (B1 to B16; B14 to B16 came from the figure-decode
   pass, which inverted every polyline back into data).
 - Style and clarity edits: 18.
-- Figures decoded back into data and checked against the model their caption or
-  solution claims: 32 (every figure carrying a polyline). Contradicted their own
-  text: 3 (B14, B15, B16). Reproduced it: 29, including Fig. 10's `1/d_s` curve
-  (`14.09` BW at the decoded `3.8 cm`, `1.98` BW at `50 cm`, against
-  `F/mg = 1 + v^2/2 g d_s` = `14.09` and `2.00`) and K1's rebuilt sweep
-  (`25.3, 93.3, 171.9, 234.5, 319.8 ms`, against the printed
-  `25.4, 93.2, 171.9, 234.5, 319.9`).
+- Figures whose polylines were decoded back into data: 32 (every figure carrying
+  one). Three were fully inverted against their axis ticks and reproduced their
+  stated model: Fig. 10's `1/d_s` curve (`14.09` BW at the decoded `3.8 cm` and
+  `1.98` BW at `50 cm`, against `F/mg = 1 + v^2/2 g d_s` = `14.09` and `2.00`),
+  K1's rebuilt sweep (`25.3, 93.3, 171.9, 234.5, 319.8 ms` against the printed
+  `25.4, 93.2, 171.9, 234.5, 319.9`), and Fig. 7's two jump curves. The other 29
+  were checked for slope sign, monotonicity and endpoint values against what
+  their caption or solution says, which is what catches a wrong-signed law.
+  Contradicted their own text: 3 (B14, B15, B16).
 - Numbers checked against code or hand derivation: 61. Mismatches: 1 (B2's
   34 cm against Lab 2's computed 32.0 cm). Unreproducible for want of a stated
   input: 9 (B3's six, B5's three). Claims contradicted by a run of the model: 2
@@ -838,7 +843,7 @@ was wrong or incomplete are listed under "Corrections to the report" below.
 
 | A1 | 217 | Fig. 7's CMJ force-time curve redrawn. The drawn curve integrated to `181.0 N s` and `34.06 cm` - the superseded number B2 had removed from every label around it. Replaced by Lab 2's own `profile(0.8)` on the same 80-point grid and the same axis calibration (`y = 260 - (220/3) F`), which integrates to `175.5 N s` and `32.04 cm`. The SJ curve was left alone: it already reproduced `profile(1.0)` to `0.018` BW and `30.06 cm`. | `m09/figfix.py` computes and prints the redraw (`J = 175.5 N.s, h = 32.04 cm, peak = 2.50 BW`); those are the `175.5 N s` and `32.0 cm` of `:219` and `:217`. The old curve was decoded from its own point string and integrated the same way. |
 | A2 | 518 | K6's figure rebuilt. The old polyline was byte-identical to K3's descending line at `:506`, so it drew the required stopping distance falling with drop height, against K6's own `d_s = h_drop/5`. New: the computed line `(48,150)` to `(262,65.2)`, tick labels `0 / 0.5 / 1.0 m` and `0 / 10 / 20 cm`, the five solution points `4, 8, 12, 16, 20 cm` marked, annotation `d_s = one fifth of the drop at a tolerance F-bar <= 6mg`, and the aria-label's "peak force" corrected to the average-force relation. | `m09/figfix.py` prints `d_s(1.0 m) = 20.0 cm`, the same `20 cm` K6's solution tabulates; the five marks are that same `h/5` evaluated at `0.2` to `1.0 m`. `check_overlap` 0, `check_frame` 0 clipped and no new wasted-margin advisory (18, the baseline count), `check_svg` 0/0. |
-| A3 | 534 | K10's figure rebuilt. The old red curve fell with speed; the exercise's model has `C_run = 3.9 + 0.05 v` rising. New: both curves computed from `C_walk = 2 + 1.6 Fr^2/(1 - 0.85 Fr)` and `C_run`, over `v = 0.8` to `3.3 m/s`, with speed ticks, the crossover marked at the computed point, and the `Fr = 1` ceiling drawn dashed at `v = 3.13 m/s`. | `m09/figfix.py` prints `crossover v = 2.622 m/s, Fr = 0.701; ceiling v = 3.132 m/s`, matching the `2.6 m/s`, `Fr = 0.71` and `sqrt(g L0) = 3.132` that `m09/genK.py` produced for B6's solution text. Curves decimated to 60 points to keep `check_svg` at 0 advisories. |
+| A3 | 534 | K10's figure rebuilt. The old red curve fell with speed; the exercise's model has `C_run = 3.9 + 0.05 v` rising. New: both curves computed from `C_walk = 2 + 1.6 Fr^2/(1 - 0.85 Fr)` and `C_run`, over `v = 0.8` to `3.3 m/s`, with speed ticks, the crossover marked at the computed point, and the `Fr = 1` ceiling drawn dashed at `v = 3.13 m/s`. | `m09/figfix.py` prints `crossover v = 2.639 m/s, Fr = 0.710; ceiling v = 3.132 m/s`. The crossover is root-found with `brentq` on the continuous cost difference, not read off the plotting grid, so the marker sits at the `Fr = 0.71` its own label and B6's solution state; `sqrt(g L0) = 3.132` is `m09/genK.py`'s `v_ceiling`. Curves decimated to 60 points to keep `check_svg` at 0 advisories. |
 | A4 | 413 | Fig. 13's stance leg gains a knee: the single hip-to-ground line is split into thigh `(80,120)-(91,145)` and shank `(91,145)-(96,168)` with a joint sphere at the knee, matching the swing leg's two-segment build. (First of the two `HANDOFF.md` anatomy leftovers.) | Rendered with `shoot.py` and read: the stance leg now flexes like the swing leg. `check_bodyprop` unchanged at its single baseline advisory; `check_frame` 0 clipped. |
 | A5a-A5e | 48 | Fig. 1's swing foot sat directly on top of the stance foot (swing ankle `(178.8,208.9)`, stance ankle `(180,220)`, ground line `y = 220`). The swing leg is re-posed with the hip fixed and both segment lengths preserved exactly (`61.9 px` each, checked on output): ankle moved to `(178,180)`, `40 px` of ground clearance, knee solved from the two-link constraint at `(229.5,145.7)`, foot rotated `8` degrees forward, and the knee and ankle spheres moved to match. (Second `HANDOFF.md` leftover.) | `m09/figfix.py` prints `knee (229.5, 145.7); thigh 61.9 px, shank 61.9 px, clearance 40`. Rendered and read: two feet, clearly separated, the pose reads as a runner's swing leg. `check_bodyprop` still one advisory (the same Fig. 1 thin-limb one as the pristine file), `check_frame` 0 clipped. |
 | A7 | 48 | Fig. 1's flight body had one foot `5.6 px` thick where every other foot in the figure is `10.0`; thickened to `10.0` about the same centre line (`y` `198.4` to `196.2`, `rx` `2.8` to `5.0`). This was the single `check_bodyprop` advisory the pristine file carried - not an arm and not a Winter-proportion question, just one mis-sized rect. | `check_bodyprop` on the edited file: "every body figure's limbs are template-thick", **0** advisories, against 1 on the pristine file. Rendered and read. |

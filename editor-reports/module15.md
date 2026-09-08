@@ -259,6 +259,22 @@ needed to reproduce the numbers at all — that the first and last eight
 samples are discarded because the zero-lag filter leaves an edge transient
 there.
 
+Figure 7 itself had a third fault, found by decoding rather than reading.
+Its vertical map was
+`np.clip(117.5 - v*12.92, 40, 195)` — a hard clip at ±6 N m — and the
+unfiltered curve reaches 6.06, so one sample of sixty-two was pinned flat
+against the ceiling. One point is not the "runaway clamped flat" pathology,
+but a clipped plot is a plot that can lie, and the fix costs nothing: the
+regenerated figure scales to the actual excursion (±6.5 N m), so no point is
+clipped, and the −5/0/5 ticks move with the scale. Decoding the result:
+
+```
+unfiltered  -4.077 .. 6.065 N m   (computed -4.076 .. 6.062)
+filtered    -3.356 .. 3.423       (computed -3.357 .. 3.424)
+true        -3.314 .. 3.314       (computed peak 3.315)
+pinned at the ceiling: 0 points
+```
+
 ### B5. Lab C reports a one-sigma fraction as if it were the 95 % interval
 
 `module15.html:488` (caption) and `:491`.
@@ -713,7 +729,7 @@ Line numbers are in the original `module15.html`.
 | B10i | 711 | C10 solution "Exactly the gravity torque $mgL$" → $mg\ell$ | symbol audit |
 | B10j | 560 | the C10 figure's own SVG label `τ = mgL` → `τ = mg&#8467;` | SVG `<text>` cannot carry MathJax, so the script ell goes in as an entity; `check_svg` 0 |
 | B4a | 354 | §7 headline numbers 0.08 / 6.8 N m → 0.07 / 1.70 N m on a 3.31 N m peak; adds the wide-vs-compact stencil distinction with 7.31 N m for the compact one, and the eight-sample edge trim | `nb1.py` 3.31 / 0.071 / 1.70; `v2.py` compact stencil 7.3080 |
-| B4b | 356 | Figure 7 body regenerated from the shipped pipeline (true, filtered, unfiltered torque) | the shipped figure decoded to a true peak of 3.54 N m and an unfiltered RMSE of 4.38, matching neither the code nor the prose; regenerated from `nb1.py`'s arrays |
+| B4b | 356 | Figure 7 regenerated whole: the three torque curves from the shipped pipeline, plus its axes, ticks, tick labels and both axis titles, and rescaled from a hard ±6 N m clip to the ±6.5 the data needs | the shipped figure decoded to a true peak of 3.54 N m and an unfiltered RMSE of 4.38, matching neither the code nor the prose; the new one decodes to −4.077..6.065 (unfiltered), −3.356..3.423 (filtered), ±3.314 (true) against computed −4.076..6.062, −3.357..3.424, 3.315, with 0 points pinned at the ceiling |
 | B4c | 628 | K4 solution: same two numbers corrected, $mg\ell$, and the compact-stencil figure added | `nb1.py`, `v2.py` |
 | B8 | 311 | §6 worked example completed: pose assumed at 75°, both moment arms resolved, both cross products taken, $M_p=72.4\ \mathrm{N\,m}$, and the observation that the inertial term is negligible beside the force-moment terms | `v4.py` exact: r_p=(0.0448,0.1673), r_d=(-0.0587,-0.2191), r_d×F_d=-37.2170, r_p×F_p=-27.0136, Iα=0.144, M_p=72.3746; retyping the printed 4-dp vectors gives 72.36, also 72.4 |
 | B13 | 295 | §5: residual "about 0.13" → "root-mean-square 0.12 m/s²"; peak "near 1.6" → "at 1.7"; "a few per cent" → "about seven per cent"; ties the residual to Lab D's assumed kinematic noise | `figchk.py` decodes Fig. 5: force-plate peak 1.730, drawn residual rms 0.123 |

@@ -565,3 +565,13 @@ making, and the replacement makes it.
   B10 was recovered.
 - **The §0 motivation.** Four numbered failures of the cable picture, each one
   answered by a later section. It is the shape the domain brief asks for.
+
+## 6. Changes applied
+
+Applied by `m05/apply.py` to a pristine copy at `edited/module05.html`
+(71 replacements, each anchor asserted unique). Line numbers are the anchor's
+position in the **original** `module05.html`. "Verified" names the script run or
+the hand derivation that settled the number.
+
+| tag | line (original) | what changed | how verified |
+|---|---|---|---|
