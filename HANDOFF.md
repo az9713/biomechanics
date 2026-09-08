@@ -41,13 +41,13 @@ render-verify sweep.
 | **16** | **COMPLETE** — 17 blocking, 13 style, 55 edits (`979bd0a`) |
 | **4** | **COMPLETE** — 17 blocking, 13 style, 107 edits |
 | **5** | **COMPLETE** — 22 blocking, 11 style, 72 edits; Fig. 30 rebuilt and verified |
-| 7 | report written; apply PARTIAL (175 lines) — reset and re-run |
+| **7** | **COMPLETE** — 86 tags; K2's figure regenerated from the Hopf boundary |
 | 8 | report + 226 edits, no change log; open: a literal `_` in an SVG `<text>` (check_svg HARD) and K10's frame |
 | 10 | report written, apply NOT run; check_frame is the point of this module |
 | 15 | report + 298 edits; open: which listing prints what K2–K10 quote |
 | **17** | **COMPLETE** — 63 edits; course closure verified |
 
-**Eleven complete. Seven were relaunched 2026-09-08 with the defect each one's
+**Twelve complete. Seven were relaunched 2026-09-08 with the defect each one's
 predecessor named in its dying words.**
 
 ## Next task — finish the seven, then promote
@@ -74,6 +74,21 @@ change-log row count, in order, and that each row's stated line is the anchor's
 true first line in the pristine file. This is the only way to know the script
 did not die before its single `write_text` — the failure that leaves the file
 untouched while the log still looks plausible.
+
+### An edit pass can INTRODUCE residue
+
+m07 found a regression this project's own editor pass created: B4a rewrote
+K8's problem statement and left the figure's `aria-label` carrying the
+superseded one. It surfaced by machine-comparing all 23 problem aria-labels
+against their statements. **Run that comparison after every apply** — residue is
+not only the module's pre-existing debt.
+
+### Never infer apply state from a proxy
+
+Twice the lead mis-read a module's state and sent a wrong instruction: once from
+an agent's dying message, once from a changed-line count (175 lines looked
+partial; it was 79 complete edits). Neither is evidence. **The only test is to
+re-run the script from pristine and compare bytes.**
 
 ### A dying message names the NEXT step, not an undone one
 
