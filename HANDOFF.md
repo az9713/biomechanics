@@ -40,14 +40,14 @@ render-verify sweep.
 | **14** | **COMPLETE** — 15 blocking, 13 style, 63 edits (`979bd0a`) |
 | **16** | **COMPLETE** — 17 blocking, 13 style, 55 edits (`979bd0a`) |
 | **4** | **COMPLETE** — 17 blocking, 13 style, 107 edits |
-| 5 | report + 458 edits; report may be incomplete; Fig. 30 unverified |
+| **5** | **COMPLETE** — 22 blocking, 11 style, 72 edits; Fig. 30 rebuilt and verified |
 | 7 | report written; apply PARTIAL (175 lines) — reset and re-run |
 | 8 | report + 226 edits, no change log; open: a literal `_` in an SVG `<text>` (check_svg HARD) and K10's frame |
 | 10 | report written, apply NOT run; check_frame is the point of this module |
 | 15 | report + 298 edits; open: which listing prints what K2–K10 quote |
 | **17** | **COMPLETE** — 63 edits; course closure verified |
 
-**Ten complete. Seven were relaunched 2026-09-08 with the defect each one's
+**Eleven complete. Seven were relaunched 2026-09-08 with the defect each one's
 predecessor named in its dying words.**
 
 ## Next task — finish the seven, then promote
