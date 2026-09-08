@@ -44,10 +44,10 @@ render-verify sweep.
 | **7** | **COMPLETE** — 86 tags; K2's figure regenerated from the Hopf boundary |
 | 8 | report + 226 edits, no change log; open: a literal `_` in an SVG `<text>` (check_svg HARD) and K10's frame |
 | 10 | report written, apply NOT run; check_frame is the point of this module |
-| 15 | report + 298 edits; open: which listing prints what K2–K10 quote |
+| **15** | **COMPLETE** — 23 defects, 78 edits; 4 K problems given the code they claimed |
 | **17** | **COMPLETE** — 63 edits; course closure verified |
 
-**Twelve complete. Seven were relaunched 2026-09-08 with the defect each one's
+**Thirteen complete. Seven were relaunched 2026-09-08 with the defect each one's
 predecessor named in its dying words.**
 
 ## Next task — finish the seven, then promote
@@ -74,6 +74,14 @@ change-log row count, in order, and that each row's stated line is the anchor's
 true first line in the pristine file. This is the only way to know the script
 did not die before its single `write_text` — the failure that leaves the file
 untouched while the log still looks plausible.
+
+### Render at least once — check_overlap cannot see text on text
+
+m15 rendered its regenerated figures and found a crossover label sitting on
+another label, and an optimal curve hidden under the truth curve. Neither is
+visible to any gate: `check_overlap` tests text against curves and dashed
+lines, never text against text. Decoding polylines catches wrong data;
+rendering catches wrong *layout*. Do both on any figure you regenerate.
 
 ### An edit pass can INTRODUCE residue
 

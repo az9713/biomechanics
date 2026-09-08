@@ -1098,27 +1098,31 @@ leans on the two assumed offsets.</p>
 
 ---
 
-### B18 — `module08.html:764-800`: nine K figures describe a plot that was never drawn
+### B18 — `module08.html:764-800`: ten K figures describe a plot that was never drawn
 
 Found by decoding, not by reading. Every K problem carried a `<figure>` whose
 `aria-label` promised a computed plot — "Froude number against walking speed for three
 leg lengths", "RMS torque error against sample rate on logarithmic axes" — while the
 `<svg>` body held a schematic with a placeholder `<figcaption>K2 figure.</figcaption>`
-and no axes, no ticks and no data. Six of the nine (K1, K2, K4, K6, K8, K9) were in that
-state; three more (K3, K5, K10) drew a number the solution contradicts.
+and no axes, no ticks and no data. Six of them (K1, K2, K4, K6, K8, K9) were in that
+state; three more (K3, K5, K10) drew a number the solution contradicts; K7 drew a bare
+schematic and kept its `<figcaption>K7 figure.</figcaption>` placeholder.
 
 The standard this fails is *tie to something concrete*: a figure that names a quantity
 it does not plot is worse than no figure, because the reader believes the check has been
-done. Replacement: all nine redrawn by `m08b/genk.py` as framed plots with computed tick
+done. Replacement: all ten redrawn by `m08b/genk.py` as framed plots with computed tick
 labels, and a real caption each. Every plotted vertex is the model evaluated at that
 abscissa, so the figures can be — and were — decoded back into data and compared with the
-solutions (`m08/decode.py`, `m08/decode2.py`). The nine decodes agree with `nums_k.json`
+solutions (`m08/decode.py`, `m08/decode2.py`). The decodes agree with `nums_k.json`
 to the 0.1-px rounding of the SVG coordinate: K1's midstance `Fy/W` reads `0.8188`
 against the model's `1 − Fr = 0.81866`; K3's three marked minima read `0.5767`, `0.6844`,
 `0.8067` against `0.57674`, `0.68438`, `0.80664`; K9's fixed-point ring reads
 `(60.4449, 60.4572)` against `E* = 60.4435` J; K10's six bars read `−1.48, −0.58, +2.68`
 and `+0.88, +0.35, +0.00` against elasticities I re-derived in closed form
-(`∂ξ/∂v = Δ + 1/ω₀`, `∂ξ/∂Δ = v`, `∂ξ/∂x_s = 0`).
+(`∂ξ/∂v = Δ + 1/ω₀`, `∂ξ/∂Δ = v`, `∂ξ/∂x_s = 0`); K7's three minima all decode to
+`L = 0.6844` m at `29.22`, `49.41` and `74.89` J, which is the coincidence its solution
+claims. The redrawn figures were also rendered and looked at, not only gated
+(`m08/prevk7.py` → `prevk.png`).
 
 ### B19 — `module08.html:432,460`: a decorative "walker" that renders as a beige slab
 
@@ -1287,5 +1291,185 @@ copied between two sentences that divide by different denominators. Replacement:
 - **Prop 6.1's proof** correctly explains *why* the recursion starts at the foot (it is
   the free end, where the only external load is measured), which is the part of inverse
   dynamics students usually take on faith.
-
 ---
+
+## 6. Changes applied
+
+All 66 edits are applied by one re-runnable script,
+`scratchpad/m08/apply.py`, whose `rep(old, new, tag)` asserts that each anchor
+occurs **exactly once** before replacing it. The protocol is
+
+```
+cp module08.html edited/module08.html
+python scratchpad/m08/apply.py     # prints "applied 66 edits:" and the tag list
+```
+
+Run twice from the pristine copy it produces a byte-identical file
+(`md5 7f78d195fc1aa432d8c501e98df9cfe0` both times). The ten figure bodies come
+from `genk.py → svgk.json`, which is itself deterministic (regenerating it
+reproduces the same file, and the same `nums_k.json`); the cost-of-transport
+figure comes from `fig7.py → fig7.json`. All of these now sit **beside**
+`apply.py` in `scratchpad/m08/`, and `apply.py` loads `svgk.json` by
+`Path(__file__).with_name(...)`, so the pipeline no longer reaches into another
+agent's scratchpad folder to build. (`genk.py`, `svgk.json`, `nums_k.json` and
+`vfy.py` were originally authored in `scratchpad/m08b/`; identical copies remain
+there.)
+Line numbers below are lines of the **pristine** `module08.html`, computed
+programmatically by locating each anchor string in it
+(`scratchpad/m08/apply_map.py → tagmap.json`), not counted by hand. The tags
+that act on text an earlier edit created (`K*-fig`, `B20`–`B23`) are listed at
+the line of the block they sit inside.
+
+| tag | line (original) | what changed | how verified |
+|---|---|---|---|
+| B12a+S8 | 199 | §2's "often well approximated as a nearly rigid link" loses the double hedge and gains a forward pointer to §12: "well approximated as a rigid link of length `ℓ` from the contact point to the COM, an idealisation §12 returns to". | Prose only. `checktex` 0, `verify_dom` 0 `mjx-merror`; read aloud. |
+| B2 | 162 | The visual map's twelve figure cross-references were each off by one from Fig. 2 onward ("Fig. 2 derives the COM vault" when Fig. 2 is the stride timeline). All twelve clauses re-matched to the figures that exist. | Enumerated the `<figure>` elements in document order and matched each clause against that figure's `aria-label`. |
+| B9a | 219 | §2 gains the `ω₀` reconciliation with Module 7: there `ℓ = 0.9` m is the COM height above the **ankle** with `I ≈ 66 kg m²`, giving `ω₀ = √(Mgℓ/I) = 3.1 s⁻¹`; here the pivot is the ground contact point, `ℓ = 0.95` m, point mass, `ω₀ = √(g/ℓ) = 3.21 s⁻¹`. Both the pivot change and the body idealisation are named. | Both cited values checked in `module07.html:356` and its parameter table `:947`; recomputed `√(686.7·0.9/66) = 3.060` and `√(9.81/0.95) = 3.2135`. |
+| B9b+S1 | 243 | The Froude proof's "with `ℓ ≈ 0.9` m this is `v ≈ 2.0 m s⁻¹`" replaced by the module's own reference length: "with the module's reference `ℓ = 0.95` m this is `v = √(0.5 gℓ) = 2.16 m s⁻¹`". | `√(0.5 · 9.81 · 0.95) = 2.1585` (`m08/vfy3.py`). |
+| S4 | 247 | "Dynamic similarity" prefixed with "This is a corollary of Prop 2.2, not a new claim." | Read-through; no number touched. |
+| B3a | 387 | Prop 5.2 restated so the two accountings are separate: `n` equal inelastic collisions dissipate `n·½Mv²sin²(β/n) ≈ ½Mv²β²/n` (falls as `1/n`), while push-off plus one collision falls as `1/n²`. The exact `n = 2` ratio `tan²α/sin²2α = 1/(4cos⁴α)` is stated, `= 0.330` at `α = 21.1°`, not the textbook `¼`. | `m08b/vfy.py`: exact ratios `1.0000, 0.3301, 0.1685, 0.1026` for `n = 1…4`; closed form `1/(4cos⁴α) = 0.3301`. |
+| B3b | 391 | Its proof written out, including the step that shows steady state **forces** the half-and-half split (`cos(2α−φ) = cos φ ⇒ φ = α`), and the reference-gait numbers: collision-only `26.7` J against split `8.8` J, a saving of `3.03×` and not `4×`. | `m08b/vfy.py` prints `f = 0.00 → 26.7146 J`, `f = 0.50 → 8.8185 J`, ratio `0.3301`, `1/0.3301 = 3.03`. |
+| B9c+S7 | 522 | Prop 9.1's worked example unified on the reference `ℓ = 0.95` m; `α = 0.30` rad; `γ = 0.05` rad relabelled `2.87°` (it was called `3°`); result `v = 1.25 m s⁻¹`; and the small-angle substitutions named as doing real work at `2α = 34.4°`, with K9's exact answer cited. | `m08/vfy3.py`: `√(gℓ sin γ/α) = 1.246035 m s⁻¹`; `0.05 rad = 2.8648°`. |
+| B12b+B17b | 473 | Prop 8.1 restated with `H_G` for whole-body angular momentum. `L` is step length everywhere else in the module, so the old `L_G` was a live collision. | Symbol sweep of the whole file for `L` in both senses; `checktex` 0. |
+| B17c | 477 | The one surviving `\dot{\mathbf L}_G` inside Prop 8.1's proof changed to `\dot{\mathbf H}_G`. | Same sweep; `check_links`/`checktex` clean. |
+| B6a | 448 | §7 rewritten: it now fixes the **reference gait** (`M = 70` kg, `ℓ = 0.95` m, `v = 1.3 m s⁻¹`) that the rest of the module and every K problem use; names the swing-cost coefficient `κ = 0.09 m²` and labels it the section's single assumption (`κM = 6.3 kg m²` as an effective swing inertia); and quotes the computed optimum `L* = 0.684` m, `26.7 + 22.7 = 49.4` J, `α = 21.1°`, `c* = 1.90 s⁻¹ = 114` min⁻¹, `T = 1.053` s, plus the asymmetric flatness `+4.6 % / +8.2 %`. | Lab 2's block re-extracted from the **edited** file and run (`blocks2/blk02_L684.py`): `0.6846734, 26.7341, 22.7123, 49.4464, 1.89872, 1.05334`. Flatness recomputed about that `L*` in `m08/vfy3.py`: `+4.644 % / +8.229 %`. |
+| B6b+S14 | 460 | The cost-of-transport figure regenerated (its `v*` marker line previously had zero length and drew nothing), and its caption now derives both coefficients from the two stated calibration conditions instead of asserting them: `c_s = v*·CoT*/2 = 1.43`, `c_f = CoT*/(2v*) = 0.85`. | Decoded the shipped SVG back to data from its tick labels: the marker sits at `(1.3001, 2.2007)`, and the drawn curve's own minimum is `√(1.43/0.85) = 1.297` at `2√(1.43·0.85) = 2.205` — agreeing with the caption to the two significant figures it quotes. |
+| B15+B4 | 432 | Two changes in one anchor. (a) The joint-power caption now says the three curves are a **drawn template**, not a computation, gives the read-offs (ankle `3.0 W kg⁻¹` near `50 %`, knee `−1.2` at `16 %`, hip `1.0` at `14 %`), and names Lab 3's `3.06 W kg⁻¹` as the only independent check. (b) §6 gains the whole subsection "Worked number: the peak hip reaction in walking", which pays Module 3's debt: midstance trough `1 − Fr = 0.819 W = 562` N, redirection impulse `2Mv sin α = 65.6 N s` over `0.126` s giving `1.76 W` through double support, a periodicity check closing to `4.4 %`, and `R_peak ≈ (1.10–1.20)×(2.6–2.8) W = 2.9–3.4 W`. | (a) Decoded the three polylines from the shipped file: ankle max `2.981 W kg⁻¹` at `49.75 %`, knee min `−1.194` at `16.09 %`, hip max `0.997` at `14.07 %` — every read-off in the caption is what is drawn. (b) whole chain re-run in `m08b/vfy.py`: `562.17 N`, `65.5563 N s`, `518.86 N`, `1.7556 W`, `1.04352` (err `4.35 %`), `2.86–3.36 W`. |
+| S13 | 566 | §10's list of four risk variables gains a closing sentence with the computed margin: `0.155` m recoverable, of which a `0.20` s reaction delay alone spends `0.090` m. | Lab 4 run (`blocks2/blk04_L737.py`): capture `0.260` m against reach `0.415` m; `0.45 × 0.20 = 0.090` m. |
+| B5 | 570 | Prop 10.1 was boxed as a stability condition and never proved. Restated as a two-sided inequality `x_com + ẋ_com/ω₀ ≤ x_p ≤ x_s^max`, given a full proof from the linear inverted pendulum (the sign of `A` decides everything; the decaying mode can never carry the COM forward), tied to Module 7's Prop 4.2, and closed with the worked reference perturbation `0.030 + 0.090 + 0.140 = 0.260` m against a `0.415` m reach. | `ω₀ = √(9.81/0.95) = 3.21346`; `0.45/ω₀ = 0.140035`. Module 7's Prop 4.2 (`ξ = x_com + ẋ_com/ω₀`, `ξ̇ = ω₀(ξ − x_cop)`) confirmed verbatim at `module07.html:373`. |
+| B17a | 468 | §8's opening no longer calls arm swing "not irrelevant" without a number; it states the torque the section will produce, `≈10 N m` with the arms held still against `6.8 N m` with them swinging. | `m08/vfy3.py`: `2H/(T/2) = 10.014` and `6.824` N m. |
+| B17d | 481 | §8's closing computes the yaw-momentum budget from segment masses and offsets rather than asserting a percentage: legs `2.64 kg m² s⁻¹`, arms `0.84`, cancellation `32 %`, residual `1.80`, reversed twice per stride. The three masses and two offsets are labelled as the only assumptions. | `m08/vfy3.py`: `H_legs = 2.63718`, `H_arms = 0.84000`, residual `1.79718`, cancel `31.85 %`, `T/2 = 0.52667` s. |
+| B1a+S9 | 586 | §11's opening loses the self-assessment ("deliberately small but scientific") and states instead that all four labs run on one reference gait and that every number quoted after a block is that block's printed output. | Enforced by re-extracting all four blocks from the **edited** file and diffing every printed value against the prose. |
+| B1b | 596 | Lab 1 printed nothing usable. Rewritten to print the step half-angle, the COM rise, `MgΔh` and the Froude sweep; its paragraph now quotes them and contrasts the `43.8` J exchanged against the `26.7` J destroyed. | Ran `blocks2/blk01_L660.py`: `21.1228°`, `Δh = 0.0638304` m, `MgΔh = 43.8324` J, `Fr = 0.039, 0.069, 0.107, 0.155, 0.210, 0.275, 0.348`, reference `Fr = 0.1813`. |
+| B1c | 613 | Lab 2 rewritten to print the optimum, both cost terms, the cadence and the stride period; its paragraph quotes them and the flatness asymmetry. | Ran `blocks2/blk02_L684.py` (values above). |
+| B1d | 623 | Lab 3's heading changed from a name that promised inverse dynamics to "Lab 3: quasi-static ankle inverse dynamics", which is what the code does. | Read against the code it heads. |
+| B1e+S2 | 629 | Lab 3 did no inverse dynamics. Rewritten so the GRF **scale** is fixed by the impulse-momentum identity `∫F_y dt = WT/2` rather than assumed; the COP travel is §3's anatomy; `np.trapz` (deprecated, warns on every reader's run) replaced by `np.trapezoid`. Its paragraph separates the two assumptions (GRF shape, plantarflexion rate) from the one derived quantity (the amplitude). | Ran `blocks2/blk03_L708.py`: stance impulse `361.6796` = target `361.6796`, `peak F_y/W = 1.1024`, midstance `0.7523`, peak moment `95.0971 N m`, peak power `214.353 W = 3.0622 W kg⁻¹`, positive work `22.5224` J. No `DeprecationWarning`. `check_code` 0 (pycodestyle). |
+| B1f | 644 | Lab 4 rewritten to print the capture point at each reaction delay and count how many step reaches still recover; its paragraph quotes the whole sweep and draws the conclusion the sweep supports (delay alone is a weak predictor). | Ran `blocks2/blk04_L737.py`: `0.206 → 0.314` m across `0.08 → 0.32` s; `7/7` recover to `0.24` s, `6/7` from `0.28` s; failure margin `0.034` m at `0.32` s. |
+| C1 | 668 | C1's one-sentence answer now closes on the split's cost: the falling half is nearly conservative, the catching half is where Prop 5.1's `26.7` J per step leaves. | `m08b/vfy.py` `f = 0` value `26.7146` J. |
+| C3 | 676 | C3 now contrasts exchange with loss numerically: the vault exchanges `Mg Δh = 43.8` J each way (Lab 1) while the transition destroys `26.7` J. | Lab 1 and `vfy.py` runs above. |
+| C6 | 688 | C6 now states the size of the effect it describes: the per-step cost of the reference gait falls from `26.7` J to `8.8` J (Prop 5.2). | `m08b/vfy.py`: `26.7146 → 8.8185` J. |
+| C9 | 700 | C9 now gives the slope's energy supply: `MgL sin γ = 19.3` J per step at `γ = 0.05` rad, exactly what the collision destroys. | `m08b/genk.py` prints `b = MgL sin γ = 19.2707` J with `L = 2ℓ sin α = 0.56149` m. |
+| B13 | 680 | C4's figure had no caption at all. One added, defining the centre of pressure as the pressure-weighted mean of the contact pressure and stating the heel→ankle→toe travel. | Confirmed the `<figure>` carried no `<figcaption>` in the pristine file; `check_probfig`/`check_svg` clean after. |
+| D8 | 744 | D8's cost proxy was dimensionally different from §7's (`b/L²` against `κM(v/L)²`) and used unnamed `a, b`. Restated as §7's exact proxy with `κ`, and the solution now derives the first-order condition rather than quoting an optimum. | Consistency checked term-by-term against B6a's §7 text; the stationary condition re-derived and its root compared with the Lab 2 grid minimum `0.6846734` m. |
+| D9 | 748 | D9 asked for a derivation of a capture inequality written in bare `x`; restated in `x_com` and explicitly "from the linear inverted pendulum, rather than quoting it", with the solution supplying the `A`-sign argument. | Matches B5's proof line for line; symbols checked against Module 7's Prop 4.2. |
+| K1 | 764 | Was "simulate COM height … which step angle produces the largest exchange?" — geometry with no mechanics. Now: integrate the rigid vault's stance arc and get the **vertical ground reaction** `F_y(θ) = M cos θ (g cos θ − v(θ)²/ℓ)`, discover it predicts a single hump peaking at midstance, and confront that with the measured double hump. | Ran the model: midstance `F_y/W = 1 − Fr = 0.81866`; edge values `0.73665, 0.67523, 0.59928` at `α = 12°, 16°, 20°`; speed sweep edge values `0.5759, 0.3446, 0.2780, 0.1194` at `v = 1.3, 2.0, 2.16, 2.5 m s⁻¹` (`m08b/vfy.py`, re-derived in `m08/vfy3.py`). |
+| K2 | 768 | Was a forward Froude sweep only — substitution. Now adds the **inverse problem**: recover a leg length from a measured walk–run transition speed, and state the assumption that makes the inversion possible. | `m08b/vfy.py`: forward `Fr(1.3) = 0.2153, 0.1813, 0.1566`; `v(Fr = 0.5) = 1.9809, 2.1586, 2.3228`; inverse `ℓ = 0.8991` m at `2.1 m s⁻¹` and `0.7360` m at `1.9 m s⁻¹`. |
+| K3 | 772 | Was "optimize step length … at `v = 1.3`" — one number. Now adds a **sensitivity sweep** over the one assumed constant, `κ ∈ [0.05, 0.15] m²`, and asks whether the predicted step length is a model output or an artefact. | `m08b/genk.py`: minima `0.57674, 0.68438, 0.80664` m at `κ = 0.05, 0.09, 0.15`; the fourth-root scaling D8 derives. |
+| K4 | 776 | Was "compare loss before and after a push-off that reduces the angle by 25 %" — the small-angle limit of a question that can be posed exactly. Now a **regime comparison**: sweep `f ∈ [0,1)` with the exact simplest-walker geometry and compare against the small-angle `1/n²` law. | `m08b/vfy.py`: exact `26.7146, 16.8698, 8.8185, 2.7406` J at `f = 0, 0.25, 0.5, 0.75`; small-angle `26.736, 6.684, 2.971, 1.671` J. |
+| K5 | 780 | Was "from synthetic torque and velocity curves, integrate positive work" with no source for the curves. Now uses **Lab 3's own** moment and rate, and asks what fraction of the transition loss the ankle repays. | Ran `blocks2/blk03_L708.py`: `∫P⁺ dt = 22.5224` J, peak `214.353 W = 3.0622 W kg⁻¹` at `79.3 %` of stance; `22.52/26.71 = 84.3 %`. |
+| K6 | 784 | Was "add noise … and observe how torque changes" — no numbers to check. Now fully specified: `θ(t) = 0.35 sin 2πt`, `σ_θ = 2` mrad, `np.random.default_rng(0)`, `np.gradient` twice, at `60/120/240` Hz, with the `f_s²` scaling derived rather than observed. | `m08b/vfy.py` under that seed: `0.13665, 0.55621, 2.46816 N m`; analytic `0.15432, 0.61727, 2.46909 N m`; true segment torque `Iθ̈ = 0.4836 N m`. |
+| K7 | 788 | Was a single-speed cadence/step-length sweep. Now repeats it at `v = 1.0` and `1.6 m s⁻¹` and asks what the model predicts about **how** humans should change speed. | Cost proxy re-evaluated at the three speeds; the optimal `L*` is speed-independent in this proxy (`m08b/vfy.py` prints `L* = 0.68438` at `v = 1.0` and `1.6`), which is the point the problem now makes. |
+| K8 | 792 | Was "model arm swing as reducing amplitude by 30 percent" — the answer handed to the reader. Now builds the yaw momentum from segment masses and offsets, so the `≈32 %` is an **output**, and asks how hard it leans on the two assumed offsets. | `m08/vfy3.py`: `H_legs = 2.63718`, `H_arms = 0.84000`, cancellation `31.85 %`, residual `1.79718 kg m² s⁻¹`, trunk torque `10.014 → 6.824 N m`. |
+| K9 | 796 | Was "iterate `z_{n+1} = az_n + b` for different `a`" — a map with no physics behind it. Now **derives** the map from Prop 9.1 (`a = cos²2α`, `b = MgL sin γ`), finds the fixed point, cobwebs from a slow release, and compares the exact fixed-point speed with the small-angle estimate. | `m08b/genk.py`: `L = 0.561488` m, `a = 0.681179`, `b = 19.2707` J, `E* = 60.4435` J, `v* = 1.314138 m s⁻¹`, `E₈ = 57.8735` J (within `4.25 %`); e-folding `−1/ln a = 2.605` steps. |
+| K10 | 800 | Was "sweep three variables … which has the strongest effect?" with no metric. Now ranks them by a stated **elasticity** `∂ln m/∂ln(·)` at the Lab 4 reference point, and asks how the ranking changes if the capture point rather than the margin is differentiated. | Re-derived in closed form and matched to `nums_k.json`: `∂ξ/∂v = Δ + 1/ω₀`, `∂ξ/∂Δ = v`, `∂ξ/∂x_s = 0`; margin elasticities `−1.48445, −0.58078, +2.67804`; capture elasticities `+0.88463, +0.34611, 0`. Capture `0.260036` m, margin `0.154964` m. |
+| B16 | 820 | The "what the module captures / what it misses" table omitted the vault's most visible failure — that the rigid inverted pendulum predicts a single-hump ground reaction and measurement shows a double hump. Row added, pointing at K1. | The claim is K1's own result, verified above (`0.81866` peak at midstance against the template's `1.1024` at `28 %` and `72 %`). |
+| B14a+S11 | 832 | The Appendix's notation table omitted most of the module's symbols and gave no links. Rebuilt to cover every symbol used in §0–§12, each linked to the section of first use with `<a class="secref">`, matching Module 4's Appendix. | Cross-checked symbol-by-symbol against a sweep of the shipped file; `check_links` 108 internal links, 0 broken, 0 unlinked section refs. |
+| B14b+S3 | 836 | The Appendix had no parameter table, so several numbers in the body (the `62 %` stance fraction, `κ`, the segment mass fractions) had no admissible class. Table added with Symbol / Value / **Class** (derived, parameter, or assumption) / Where. | Every row's value re-derived or traced: the derived rows recomputed in `m08/vfy3.py`, the assumption rows marked as such. |
+| S15 | 840 | The closing paragraph listed forward references but never said what the reader can now do. Opening sentence added naming the four things the module makes computable. | Read-through; each of the four is a number this pass verified. |
+| K1-fig | 764 | K1's placeholder schematic replaced by the computed plot (three vault curves plus the measured double hump), with a real caption. | Decoded from the shipped SVG: midstance `0.8188`, edges `0.7362, 0.6751, 0.5994`, template peak `1.102` at `28.1 %`. |
+| K2-fig | 768 | K2's schematic replaced by the computed `Fr(v)` plot for three leg lengths, with the walk–run band, the `Fr* = 0.5` line, and a ring marking the inversion. | Decoded: curves read `Fr = v²/(gℓ)` exactly (`0.7341, 0.6179, 0.5336` at `v = 2.4`); the ring sits at `(2.0998, 0.4998)`. |
+| K3-fig | 772 | K3's schematic replaced by the computed cost proxy against `L` for three `κ`, each marked at its interior minimum. | Decoded: the three dots sit at `0.5767, 0.6844, 0.8067` m — `nums_k.json` to within `0.0001`. The polyline `argmin` differs by up to `0.02` m because the optimum is flat: `C(0.7849) = C(0.80664) = 62.28` J to four figures. |
+| K4-fig | 776 | K4's schematic replaced by the exact curve plus the small-angle points. Its annotation "the small-angle 6.68 J — 32 % low" was ambiguous and wrong under the natural reading; changed to "the small-angle 6.68 J, low by 24 %". | `(8.828 − 6.683)/8.828 = 24.3 %` low; the `32 %` was the reciprocal base (`exact is 32.1 % above small-angle`). Regenerated through `m08b/genk.py`, then re-decoded from the shipped SVG: dashed points `(0, 26.737), (0.5, 6.687), (0.667, 2.963), (0.75, 1.675)`. |
+| K5-fig | 780 | K5's schematic replaced by Lab 3's computed ankle-power curve with the positive area shaded. | Decoded: peak `214.30 W` at `79.3 %` of stance, matching the block's printed `214.353 W` at `79.33 %`. |
+| K6-fig | 784 | K6's schematic replaced by a log–log plot of RMS error against sample rate, with the slope-2 analytic line and the true segment torque marked. | Decoded on log axes: the three sampled points read `0.1369, 0.5563, 2.4669 N m`; the analytic line has slope 2 (`0.1073 @ 50 Hz → 3.8518 @ 300 Hz`, ratio `36 = 6²`). |
+| K7-fig | 788 | K7 was the one problem left with a bare schematic and the placeholder caption "K7 figure." — the gap B18 did not close on its first pass. Replaced by the cost proxy against step length at `v = 1.0, 1.3, 1.6 m s⁻¹`, each curve marked at its minimum, with the cadences `1.46, 1.90, 2.34 s⁻¹` in the legend and a caption that states the falsifiable prediction. | Decoded from the shipped SVG: the three dots read `L = 0.6844` m at `29.22`, `49.41`, `74.89` J — `nums_k.json`'s `0.68438` at `29.2235`, `49.4464`, `74.9010`. Removing this figure's placeholder also took `check_frame` from 4 wasted-margin advisories to 3. A first draft added a full-height dashed line at `L*`; `check_overlap` caught it crossing the note text, so the line was dropped and the gate is back to 0. |
+| K8-fig | 792 | K8's schematic replaced by the computed yaw-momentum traces over one stride with the residual shaded. | Decoded: legs `±2.639`, arms `±0.8395`, residual `±1.796 kg m² s⁻¹`, over `x ∈ [0, 1.053]` s — the stride period `T` this module computes. |
+| K9-fig | 796 | K9's schematic replaced by the stride map and its cobweb. | Decoded: the map line reads slope `0.6814`, intercept `19.27`; the fixed-point ring at `(60.4449, 60.4572)`; the staircase starts at `5.01` J and reaches `57.86` J. |
+| K10-fig | 800 | K10's schematic replaced by a signed elasticity bar chart of the margin and of the capture point. | Decoded the six bars: `−1.4824, −0.5818, +2.6791` and `+0.8856, +0.3460, −0.0461`(zero bar) — matching the closed-form elasticities above. |
+| B19a | 432 | The decorative "walker" removed from the joint-power figure: a `23.9`-px beige bar, two lentil ellipses and a head circle floating `130` px above them. | Rendered and looked at; `check_bodyprop` clean before and after (the gate cannot see it, because the pieces are separate elements). |
+| B19b | 432 | That figure's viewBox retightened `0 0 760 300 → 0 0 645 300`. | `check_frame`: this figure no longer appears in the wasted-margin list. |
+| B19c | 460 | The same decorative walker removed from the cost-of-transport figure. | As B19a. |
+| B19d | 460 | That figure's viewBox retightened `0 0 740 270 → 0 0 590 270`. | `check_frame` advisory count fell from `8` (pristine) to `4` here, and to `3` once `K7-fig` landed. |
+| B20a | 784 | K6's problem statement now names the seed, `np.random.default_rng(0)`. | Without it the stated RMS values are unreproducible by construction. |
+| B20b | 784 | The quoted RMS errors `0.137, 0.643, 2.704 N m` replaced by `0.137, 0.556, 2.468 N m`. | Ran the described computation under that seed (`m08b/vfy.py`): `0.13665, 0.55621, 2.46816`. |
+| B20c | 784 | The claim that the analytic values "bracket the sampled ones" deleted and replaced by the true relation: the analytic form reproduces the sample to within `13 %` at every rate. | Analytic `0.15432, 0.61727, 2.46909` lie **above** all three sampled values, so they bracket nothing. Ratios: `12.9 %`, `11.0 %`, `0.04 %`. |
+| B20d | 784 | The downstream comparison "even `2.7 N m` is under `3 %`" corrected to `2.5 N m`. | `2.468 / 95.097 = 2.6 %`, using Lab 3's verified peak ankle moment. |
+| B20e | 784 | The paragraph's closing sentence re-pointed at the quantity the calculation actually estimates (`Iθ̈`, true peak `0.48 N m`) rather than at the unrelated ankle moment. | `I = 0.48/(0.35·(2π)²) = 0.03474 kg m²`, consistent with `vfy.py`'s printed `0.4836 N m`. |
+| B21 | 776 | K4's push-off reduction at `f = 0.25` quoted as `36.8 %` changed to `36.9 %`. | `m08/vfy3.py`: `36.8517 %` at the exact optimum `L* = 0.684379` m. The value ranges over `36.844–36.860 %` across the three roundings of `L*` the module quotes, so the last digit is at the edge of what the inputs support — flagged in B21 rather than hidden. |
+| B23 | 522 | Prop 9.1's proof compared its small-angle speed with K9's exact one on the wrong base: "`1.31 m s⁻¹`, `5.2 %` higher" → "`5.5 %` higher". | `m08/vfy3.py`: small-angle `1.246035`, exact `1.314138`; the exact is `5.4656 %` higher. `5.2 %` is the reciprocal comparison (`5.18 %` lower), which is what K9's own solution at `:906` correctly states — that sentence is left alone. |
+| B22 | 772 | K3's robustness claim was written from a grid search that ran to the grid edge (`L* → 2ℓ = 1.600` m, not a gait) because the `κ = 0.15 m²` curve has no interior minimum above the `α = 45°` turnover. Restricted to the well-posed range; the surviving sentence about the *cost* scaling with `κ` is kept, since it does not depend on the bad branch. | `m08b/vfy.py` reproduces the edge minimum `1.6000`; `genk.py` on the restricted range gives the interior `0.80664` m, which the redrawn figure marks with a dot and the caption quotes. |
+
+### Figure decode (the check that found B18–B22)
+
+Every touched figure was decoded back into data from the **shipped** file rather
+than trusted from the generator: `m08/decode.py` reads each `<svg>`, fits the
+pixel→data map from its own tick `<text>` elements (linear or `log10`, whichever
+fits; residuals were `≤ 4×10⁻⁴` in every case except the deliberately log axes),
+and inverts every `<polyline>`, `<circle>` and `<rect>`. `m08/decode2.py` adds
+minima, markers and bar values. The ten K figures, the cost-of-transport figure
+and the joint-power figure all decode to the model within the `0.1`-px rounding
+of the SVG coordinates. No figure was found duplicated from another problem, no
+curve draws its own formula backwards, and no viewBox is stretched to hide
+out-of-frame content — `check_frame` reports no clipping and three wasted-margin
+advisories, all three inherited from the pristine file (C3, C8, D7). The
+regenerated figures were also rendered and read (`m08/prevk7.py` → `prevk.png`),
+because a decode confirms the numbers and not the legibility.
+
+### Gate results
+
+| gate | pristine `module08.html` | `edited/module08.html` |
+|---|---|---|
+| `checktex` | 268 segments, 0 issues | 891 segments, **0 issues** |
+| `checklt` | 0 | **0** |
+| `check_links` | 46 links, 0 broken, 0 unlinked | 108 links, **0 broken, 0 unlinked** |
+| `check_svg` | 0 hard, 1 advisory (4 polylines > 120 pts) | **0 hard**, 1 advisory (4 polylines > 120 pts) |
+| `check_code` | 4 blocks, 0 issues | 4 blocks, **0 issues** |
+| `verify_dom` | 0 `mjx-merror`, 36 stray `$`, 0 broken, 0 swallowed | **0 `mjx-merror`**, 24 stray `$`, 0 broken, 0 swallowed |
+| `check_overlap` | 0 | **0** |
+| `check_frame` | 0 clipped, 8 wasted-margin advisories | **0 clipped**, 3 wasted-margin advisories |
+| `check_bodyprop` | pass | **pass** |
+
+Zero where the baseline was zero, and better than the baseline on
+`check_frame` (8 → 3 advisories) and on `verify_dom`'s stray-`$` count
+(36 → 24). `check_svg`'s advisory count is held at the baseline's 4: the ten
+regenerated K figures would have taken it to 20, so `genk.py`'s `curve()` now
+subsamples any polyline to at most 100 vertices, keeping the endpoints and the
+global extrema, which leaves every plotted vertex exactly on the computed curve
+(the decode above was run on the subsampled figures that ship).
+
+### Cross-module check
+
+Module 3 forward-references this module for the peak hip reaction in gait. Every
+citation in the new §6 subsection was checked against the source:
+
+| claim in Module 8 | source | status |
+|---|---|---|
+| Module 3's (4.1) `R = W_s(1 + b/a)` with `W_s = ⅚W`, `a ≈ 5` cm, `b ≈ 10` cm, `= 2.5 W` | `module03.html:847,855` | verified verbatim |
+| Module 3's "honest resultant" `2.6–2.8 W`, accounting for the abductors' `30°` line of pull | `module03.html:857` | verified; recomputed `|R| = √(2.5² + (1.667 tan 30°)²) = 2.68 W` |
+| Module 3 states gait raises the peak to `3–5 W` and points here | `module03.html:859` ("pushing peak hip JRF to roughly `3`–`5 W` while walking and running") | verified |
+| Module 3's in-vivo telemetry `2.3–2.9 W` in slow level walking | `module03.html:857,1491` | verified |
+| `W = Mg = 686.7 N`, `R = 2.5 W = 1717 N` | this module | `70 × 9.81 = 686.7`; `× 2.5 = 1716.75` |
+| Module 8 delivers `R_peak ≈ 2.9–3.4 W` | `m08b/vfy.py` prints `2.86–3.36 W` | consistent with both Module 3 bands (bottom of `3–5`, overlapping `2.3–2.9`) |
+
+Module 7's numbers that §2 and §10 cite were checked the same way:
+`ℓ = 0.9` m, `I ≈ 66 kg m²`, `ω₀ = √(Mgℓ/I) ≈ 3.1 s⁻¹` at `module07.html:356,947`;
+`ω₀ = √(g/ℓ)` for the point-mass case at `:181,184`; Prop 4.2's
+`ξ = x_com + ẋ_com/ω₀` and `ξ̇ = ω₀(ξ − x_cop)` at `:373`. All four match.
+
+**One drift to report, not to fix.** A sibling pass has edited
+`edited/module03.html` since this module's §6 was written. Its `:862` now reads
+"an assumed `3`–`5 W` while walking and running (**Appendix**), against the
+`≈2.3`–`2.9 W` that telemetry reads", its `:1513` adds "the `3`–`5 W` of §4.3
+covers faster walking and running", and its Appendix `:2308` adds a row "Peak hip
+reaction, walking and running (assumed; **computed in Module 8**)". That makes
+the forward reference explicit and is *more* consistent with what this module now
+delivers, not less. One number in that sibling edit is worth a second look by
+whoever owns Module 3: `:858` says the resultant is "`2.6` to `2.8 W` across the
+`α = 20°` to `40°` range", but `|R|` at `α = 40°` is `2.87 W`, which rounds to
+`2.9`, not `2.8`.
+
+### What this pass could not settle
+
+Two numbers in the module are quoted to a digit their inputs do not support, and
+both are left as they stand with the reason recorded here rather than churned:
+
+1. **K1's `+0.344 W` edge reaction at `v = 2.0 m s⁻¹`** is `0.34442` using Lab 2's
+   printed `L* = 0.6846734` m and `0.34462` using the exact optimum `0.684379` m
+   — `0.344` under one rounding and `0.345` under the other. Left at `0.344`,
+   which is what the figure's own generator computes.
+2. **The `+8.2 %` cost of a `20 %` shorter step** (§7, Lab 2 and K3) is `8.229 %`
+   about Lab 2's printed `L*` and `8.266 %` about the exact optimum. Left at
+   `8.2 %`, which is the value about the `L*` the prose actually quotes.
+
+Both are noted so a later pass does not "fix" one of them into disagreement with
+the other places that quote it.
