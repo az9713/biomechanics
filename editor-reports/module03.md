@@ -2,7 +2,7 @@
 
 Editorial pass. Standard: the five-part rule of the `science-editor` skill, read against `EDITOR_DOMAIN.md`. Every location is `module03.html:LINE`. Every replacement is valid HTML with MathJax delimiters and uses only the box classes the stylesheet defines.
 
-All eleven `<pre><code>` blocks in the file were extracted and run (scratchpad folder `m03/`: `extract.py`, `lab.py`, `verify.py`, `k2k10.py`, `hertz.py`). The §7.4 lab was re-implemented exactly as printed and instrumented with the prints it lacks; it reproduces the module's own headline numbers to three figures, so the model is sound and most of the prose numbers are right. Every number in a replacement below was printed by the code shown beside it.
+All eleven `<pre><code>` blocks in the file were extracted and run (scratchpad folder `m03/`: `extract.py`, `codeblocks.py`, `test_codeblocks.py`, `lab.py`, `verify.py`, `verify2.py`, `verify3.py`, and the third-pass `indep_reduced.py`, `indep_all.py`, `indep_baum.py`, `indep_mech.py`, `decode_fig62.py`). The §7.4 lab was re-implemented exactly as printed and instrumented with the prints it lacks; it reproduces the module's own headline numbers to three figures, so the model is sound and most of the prose numbers are right. Every number in a replacement below was printed by the code shown beside it.
 
 **Scope of this pass.** The whole module, in two passes. The first read sections 0 through 7, 9.1 (diagnostics), 9.4 (K1-K10), D2 and the Appendix, and produced B1-B13 and style edits 1-11. A second pass then read the roughly 400 lines the first had only grepped - section 8 (`module03.html:1476-1658`), the conceptual problems C1-C10 (`1693-1907`), and D1 and D3-D10 (`1908-1981`) - against the same standard, and produced **B14-B20 and style edits 12-18**, written up in the sections that follow B13. A third pass then re-derived the section 7 lab by a wholly different method (joint-angle Lagrangian, RK45, no Baumgarte) and decoded the one regenerated figure back into data, which produced **B21** (the held mass has weight but no inertia, and nothing says so) and **B13d** (the hip marker sits 4 px off its own curve). Every blocking defect and every style edit in this report has been applied to `edited/module03.html`; the ledger is section 6.
 
@@ -681,9 +681,9 @@ Nine gates, run on the pristine copy before any edit and again on the finished f
 
 | gate | baseline | after |
 |---|---|---|
-| `checktex` | 833 math segments, 0 issues | 1033 math segments, 0 issues |
+| `checktex` | 833 math segments, 0 issues | 1037 math segments, 0 issues |
 | `checklt` | 0 | 0 |
-| `check_links` | 229 links, 0 broken, 0 unlinked | 259 links, 0 broken, 0 unlinked |
+| `check_links` | 229 links, 0 broken, 0 unlinked | 258 links, 0 broken, 0 unlinked |
 | `check_svg` | 0 hard, 3 advisory | 0 hard, the same 3 advisory |
 | `check_code` | 6 blocks, 0 issues | 10 blocks, 0 issues |
 | `verify_dom` | 0 mjx-merror, 0 broken, 6 stray `$` (advisory), 0 swallowed prose | identical |

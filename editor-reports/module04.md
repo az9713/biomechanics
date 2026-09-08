@@ -595,6 +595,16 @@ Quoted (line 1151): "the same $1715\ \mathrm N$ concentrates into a high, narrow
 (dark, $\approx3.2\ \mathrm{MPa}$) on a smaller, already-damaged patch. Both curves
 carry the identical load".
 
+*(Correction, added after the polyline decode of step 4: the next sentence is wrong
+for one of the four curves. The C5/K3 overlay — one `<svg>` used at BOTH C5 and K3 —
+draws its biphasic curve as a parabola of half-width `a' = 21.18 mm` at
+`p_max = 2.000 MPa`, which integrates to **1410 N**, not 1715 N, while the Hertz curve
+beside it carries 1716 N. So the figure showed the biphasic profile carrying 18 % less
+load than the dry one — the opposite of C5's point — and every one of the nine gates
+passed on it. It is now redrawn at section 6's own numbers, `a' = 23.3 mm` and
+`p_max = 2R/(pi a'^2) = 2.011 MPa`, which integrates to 1715.0 N; see **B16** in the
+change table below. The other three polylines are within 0.3 % of 1715 N.)*
+
 The figures are correct — I integrated all four polylines and they carry 1706, 1701,
 1702 and 1710 N against a target of 1715 N. But the prose gives the reader no way to
 get there. A 30 % wider patch reduces a *Hertz cap* to 1.50 MPa, not 2.0; 2.0 MPa
