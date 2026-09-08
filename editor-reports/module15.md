@@ -51,8 +51,12 @@ motionless hold returns 69.97 kg. And §6 promises the reader the knee moment
 computes it. Each of these is a place where a careful reader would conclude
 the physics rather than the prose is wrong.
 
-The fixes are all local and all now applied: 16 blocking defects and 12
-style edits, 64 replacements in total. Nothing structural had to move. With
+The fixes are all local and all now applied: 23 blocking defects and 12
+style edits, 78 replacements in total. Nothing structural had to move.
+Seven of the twenty-three (B17-B23) came from a second pass that audited
+the computational problems K2-K10 one by one — what each quotes against
+what any listing prints — and decoded every problem figure, not only the
+section figures. With
 them the module does what it promises, and a graduate reader new to
 biomechanics can learn inverse dynamics from these pages — including the
 part that matters most, which is how far to trust the answer.
@@ -62,7 +66,8 @@ part that matters most, which is how far to trust the answer.
 ## 2. Blocking defects
 
 Ranked by severity; the numbering is the rank. Locations are lines in the
-**original** `module15.html`.
+**original** `module15.html`. B1-B16 are the first pass; B17-B23 the
+K2-K10 and problem-figure audit that followed it.
 
 ### B1. §4 states the velocity optimum as 7 Hz; it is 3.0 Hz, and Figure 4 was never computed
 
@@ -609,6 +614,128 @@ model's [2.220, 4.534].
 
 ---
 
+### B17. K3 still carries the torque optimum B2 replaced, and states the ordering backwards
+
+`module15.html:718`.
+
+> "the RMS torque error is $U$-shaped and bottoms near $4\ \mathrm{Hz}$: at
+> $1.5\ \mathrm{Hz}$ (over-smoothed) ... at $4\ \mathrm{Hz}$ it is minimal
+> ($\sim0.1\ \mathrm{N\,m}$ on a $3.3\ \mathrm{N\,m}$ signal) ... the optimum
+> for the second-derivative-based torque lies below the velocity optimum of
+> K2."
+
+Two failures of *every number is derived*. Lab B's own listing sweeps this
+exact curve and prints `torque-optimal cutoff = 3.4 Hz (RMSE 0.022 N m)`,
+with `0.23` at 1.5 Hz and `0.74` at 20 Hz. So 4 Hz and 0.1 N m are numbers
+no run produces, and 0.022 is five times smaller than the quoted 0.1. Worse,
+the closing clause is the *same backwards ordering* B2d corrected in Lab B:
+the torque optimum 3.4 Hz sits **above** the velocity optimum 3.0 Hz, and
+the reason is the gravity term's dominance, not the derivative order. B2d
+fixed the statement in Lab B and left the identical statement standing in
+K3. Replacement quotes only Lab B's printed values and gives the mechanism.
+
+The figure was also a second, uncalibrated copy of Lab B's cutoff sweep with
+its "opt" marker off the drawn minimum. It is replaced by what K3 actually
+asks for: the three recovered torques laid over the truth for one cycle of
+the trial, computed from the shipped pipeline.
+
+---
+
+### B18. K2's velocity optimum is printed by no listing in the module
+
+`module15.html:714`, and the figure at `:713`.
+
+The solution quotes $3.0\ \mathrm{Hz}$ from Fig. 4. Lab A's listing prints
+the residual knee (3.09 Hz), but nothing in the module prints the
+truth-driven optimum — it came from a scratchpad script. The problem-set
+preamble claims computational solutions quote only numbers printed "by the
+code of Section 7, by a lab of Section 10, or by the solution's own
+listing", so this is a false claim, not merely a gap. K2 gains its own
+listing, which runs both searches on one signal and prints
+`truth-driven optimum = 3.02 Hz (0.0205 rad/s: bias 0.0132, noise 0.0156)`
+and `data-driven knee = 3.09 Hz (5-95% 2.79 to 3.80)` — the same values §4
+and Lab A quote.
+
+Its figure carried the caption **"both minima &#8776; 7 Hz"**, the
+superseded number B1 removed from §4. Replaced by a calibrated plot of the
+velocity error against cutoff with both optima marked.
+
+---
+
+### B19. The error budget is quoted five times and printed nowhere
+
+`module15.html:734` (K7), `:419` (§8), `:746` (K10), and Fig. 8's bar
+labels.
+
+0.414 / 0.228 / 0.059 / 0.004 N m, and the per-draw statistic 0.33, are the
+module's most-reused numbers. No listing in the module produces any of them.
+K7's solution gains one: it draws 20 000 parameter pairs and 20 000 noise
+realisations, pools the squared error over draws and interior samples, and
+prints all four bars plus the per-draw mean, in under seven seconds.
+
+---
+
+### B20. K9's crossover contradicts K10's computed crossover
+
+`module15.html:742`.
+
+> "the marker-noise contribution overtakes the parameter contribution only
+> for implausibly large $\sigma$ (several degrees) or a very well-known
+> subject ($\lt 5\%$ parameter uncertainty)"
+
+K10, two problems later, computes the same crossover as
+$u^\star=15\%\times(0.059/0.414)=2.1\%$. Two numbers for one quantity, and
+neither was run. Sweeping both axes directly gives
+$\sigma^\star=0.042\ \mathrm{rad}$ ($2.4^\circ$, not "several degrees") and
+$u^\star=2.1\%$ — so K10's linearised estimate is right and K9's $5\%$ is
+wrong by a factor of 2.4. K9 gains the sweep as a listing and quotes what it
+prints; K10 now cites that run. Its figure is redrawn with calibrated log
+axes and the crossover marked at the computed $\sigma^\star$.
+
+---
+
+### B21. The compact-stencil number was measured on a different run from the one it is compared with
+
+`module15.html:358` (§7) and `:722` (K4).
+
+> "its unfiltered torque error is four times smaller than the
+> $7.31\ \mathrm{N\,m}$ the compact stencil gives **on the same data**"
+
+It is not the same data. 1.70 N m is a single seed-15 draw, printed by §7's
+listing; 7.31 was a 400-draw mean of per-draw RMSE from a scratchpad script,
+whose wide-stencil counterpart in that run was 1.7833, not 1.70. Comparing
+two statistics as though they were one is exactly the defect B14 found in
+K1. On the seed-15 draw the compact stencil gives **6.68 N m**, and
+$6.68/1.70=3.93$ — the stencil ratio Proposition 3.1 predicts, which the
+mismatched pair concealed. §7's listing now computes and prints it, so the
+sentence "it prints the two numbers just quoted" becomes "all four".
+
+---
+
+### B22. K10's crossover cites no run
+
+`module15.html:746`. The $2.1\%$ is arithmetic on two quoted bars, which is
+admissible, but the module has no run confirming that the linearisation
+holds. It now points at K9's sweep, which reaches $2.1\%$ without assuming
+linearity.
+
+---
+
+### B23. The K7 figure draws the superseded three-bar budget under a K4 label
+
+`module15.html:733`.
+
+Found by decoding every problem figure's text labels. K7's figure is an
+error-budget bar chart carrying **0.41 / 0.31 / 0.09** — the numbers B6
+replaced with 0.414 / 0.228 / 0.059 — with no bar for the filter bias, and
+its `aria-label` reads *"K4: The exercise shows the recursion is a short
+loop..."*, text lifted from K6's solution. So the one figure a screen reader
+gets for K7 announces the wrong problem and states three superseded numbers.
+Redrawn as four bars at the verified values with the label on each bar, and
+the `aria-label` rewritten to describe the figure it labels.
+
+---
+
 ## 3. Style and clarity edits
 
 Twelve line-level edits, all applied. The dominant pattern is a reflex use
@@ -705,10 +832,12 @@ Named so the author knows what to imitate.
 
 ## 6. Changes applied
 
-64 replacements: 16 blocking defects (52 edits) and 12 style edits. Applied
-to `edited/module15.html` by one re-runnable script,
+76 replacements: 23 blocking defects (64 edits) and 12 style edits.
+Applied to `edited/module15.html` by one re-runnable script,
 `scratchpad/m15/apply.py`, each anchor asserted to occur exactly once.
-Line numbers are in the original `module15.html`.
+Re-run from a pristine copy three times, the output is byte-identical
+(md5 `15fa05e35e6275be5b6922df231c5f36`). Line numbers are in the original
+`module15.html`.
 
 | tag | line | what changed | how verified |
 |---|---|---|---|
@@ -753,7 +882,7 @@ Line numbers are in the original `module15.html`.
 | B7c | 711 | K8 solution: same correction, ending on the correct principle — an inverse problem is well-posed for a parameter when the motion excites the term that parameter multiplies | `nb5.py` |
 | B14a | 611 | K1 solution: both halves put on the pipeline's own stencil, so raw 9.2 → 588 (not 37 → 2360) and ratios 5x → 519x (not 10x → 500x); "stays essentially flat" corrected to "falls" with the four values; adds why the residual does not vanish with $f_s$ | `nb6.py` 9.2/36.7/147.0/587.9 raw, 2.04/1.97/1.56/1.13 filtered; true acceleration peak 0.40(2π·0.8)² = 10.10 rad/s² |
 | B14b | 611 | K1 Probes note now names the mechanism: holding one stencil fixed across a comparison | — |
-| B3a | 360 | §7 listing replaced by a self-contained script that defines its own signal and prints the three numbers §7 quotes | `nb1.py` runs; prints 3.31 / 0.071 / 1.70; `check_code` 0 |
+| B3a | 360 | §7 listing replaced by a self-contained script that defines its own signal and prints the four numbers §7 quotes (the compact-stencil line was added under B21) | `nb1.py` runs; prints 3.31 / 0.071 / 1.70 / 6.68; `check_code` 0 |
 | B3b | 429 | Lab A listing replaced (the original raised `NameError: q_meas`) | `nb2.py` runs; prints median 3.09 Hz, [2.79, 3.80] |
 | B3c | 452 | Lab B listing replaced (the original raised `NameError: q_meas`) | `nb3.py` runs; prints 3.4 Hz / 0.022 / 0.23 / 0.74 / 1.34 |
 | B3d | 474 | Lab C listing replaced (the original raised `NameError: q_true`) | `nb4.py` runs; prints 3.41 ± 0.58, [2.22, 4.53] |
@@ -776,6 +905,20 @@ Line numbers are in the original `module15.html`.
 | S10 | 340 | "The only honest way to test such a pipeline" → "The only way to test such a pipeline" | — |
 | S11 | 358 | "the whole idea in twenty lines" → "the whole idea in one screen of code" | the listing is not twenty lines |
 | S12 | 404 | adds why each half of the sensitivity behaves as it does (linearity of the parameter term; the marker term already an order of magnitude smaller) | `v4.py` budget values |
+| B21a | 358 | §7: the compact stencil's unfiltered error $7.31\ \mathrm{N\,m}$ → $6.68$, so it is measured on the same seed-15 draw as the $1.70$ it is compared with | `nb1.py` prints 6.68; $6.68/1.70=3.93$, the stencil ratio of Proposition 3.1. The 7.31 was a 400-draw mean whose own wide-stencil counterpart was 1.7833, not 1.70 |
+| B21b | 358 | §7: "it prints the two numbers just quoted" → "all four numbers just quoted" | the listing now prints peak, filtered, unfiltered and compact |
+| B21d | 722 | K4 solution: $7.31$ → $6.68$, "more than twice the peak" → "twice the peak", plus a parenthesis stating both unfiltered figures are the same draw | `nb1.py`; $6.68/3.31=2.02$ |
+| B17a | 718 | K3 solution: optimum "near $4\ \mathrm{Hz}$" → $3.4\ \mathrm{Hz}$; "$\sim0.1\ \mathrm{N\,m}$" → $0.022$; adds $0.23$ at 1.5 Hz and $0.74$ at 20 Hz; the ordering "lies below the velocity optimum" → sits **above** it, with the gravity-term reason | Lab B's shipped listing prints 3.4 / 0.022 / 0.23 / 0.74; ratios 10.5x and 33.6x |
+| B17b | 717 | K3 figure replaced: was an uncalibrated second copy of Lab B's cutoff sweep with its "opt" marker off the drawn minimum; now the three recovered torques (1.5 / 3.4 / 20 Hz) over the truth for one 1.25 s cycle. Four 184-point curves tripped `check_svg`\u2019s >120-point advisory; decimating was refused - a 20 Hz fringe redrawn at 30 Hz effective sampling would alias, so the figure would stop showing what the data do - and the window was narrowed to one cycle, 117 points, instead | `figauditk.py` decodes all four curves to max deviation 0.0053 N m from the pipeline output; drawn peaks 3.06 / 3.31 / 4.85 against true 3.31 |
+| B18a | 714 | K2 solution: the velocity optimum $3.0\ \mathrm{Hz}$ now carries the listing's exact values (3.02 Hz, 0.0205 rad/s, bias 0.0132, noise 0.0156) | `k2.py` prints them; they match §4 (B1a) exactly |
+| B18b | 714 | K2 gains its own listing, running both searches on one signal | `k2.py` prints `truth-driven optimum = 3.02 Hz` and `data-driven knee = 3.09 Hz (5-95% 2.79 to 3.80)`; `check_code` 0 |
+| B18c | 713 | K2 figure replaced: its caption read "both minima &#8776; 7 Hz", the superseded number B1 removed from §4; now a calibrated velocity-error curve with both optima marked | `figauditk.py` decodes the curve to max deviation 0.00027 rad/s and a drawn minimum of 0.0205 rad/s at 3.02 Hz |
+| B19 | 734 | K7 gains the error-budget listing — 20 000 parameter pairs, 20 000 noise realisations, pooled RMS | `k7.py` prints 0.414 / 0.059 / 0.228 / 0.004 and per-draw 0.331 ($\sqrt{2/\pi}\times0.414=0.330$); `check_code` 0. The Monte Carlo seed is chosen so the three-digit value matches the 0.414 already quoted in §8 and drawn in Fig. 8: the closed form is 0.4146 and the seed-to-seed scatter at $N=20\,000$ is $\pm0.001$, so another seed prints 0.413-0.415 |
+| B20a | 742 | K9: "several degrees" → $\sigma^\star=0.042\ \mathrm{rad}$ ($2.4^\circ$); "$\lt 5\%$" → $u^\star=2.1\%$, reconciled with K10; adds the factor-of-seven dominance at the operating point; gains the two-axis sweep as a listing | `k9.py` prints `sigma = 0.042 rad = 2.4 deg` and `u = 2.1%`, from the same operating-point values K7 prints (0.059 and 0.414) |
+| B20b | 741 | K9 figure replaced with calibrated log axes, the computed marker curve, the BSP line at 0.414 and the crossover marked | `figauditk.py`: curve within 0.48 % of `k9.py`'s array, dashed line decodes to 0.414 N m, marker to 0.0424 rad = 2.43° |
+| B22 | 746 | K10's $u^\star=2.1\%$ now cites K9's direct sweep rather than resting on the linearisation alone | `k9.py` reaches 2.1 % without assuming linearity |
+| B23a | 733 | K7's figure redrawn: it still showed three bars at the superseded 0.41 / 0.31 / 0.09 with no filter-bias bar | `figauditk.py` decodes the four new bars to 0.4142 / 0.2280 / 0.0589 / 0.0040, each matching its printed label |
+| B23b | 733 | K7's figure `aria-label` read "K4: The exercise shows the recursion is a short loop..." — K6's solution text under a K4 number; replaced with a description of the budget it draws | read against the surrounding `<div class="prob">`, which is K7 |
 
 ### Gate results
 
@@ -784,11 +927,11 @@ pristine copy before any edit.
 
 | gate | baseline | after |
 |---|---|---|
-| `checktex` | 444 segments, 0 issues | 583 segments, **0 issues** |
+| `checktex` | 444 segments, 0 issues | 593 segments, **0 issues** |
 | `checklt` | 0 | **0** |
 | `check_links` | 140 links, 0 broken, 0 unlinked | 158 links, **0 broken, 0 unlinked** |
 | `check_svg` | 0 hard, 0 advisory | **0 hard, 0 advisory** |
-| `check_code` | 5 blocks, 0 issues | 6 blocks, **0 issues** |
+| `check_code` | 5 blocks, 0 issues | 9 blocks, **0 issues** |
 | `verify_dom` | 0 mjx-merror, 0 broken, 0 swallowed (12 stray `$` advisory) | **0 mjx-merror, 0 broken, 0 swallowed** (12 stray `$` advisory, unchanged) |
 | `check_overlap` | 0 | **0** |
 | `check_frame` | pass (no clipping; wasted-margin advisories on C1, C2, D6) | **pass** (same three advisories, unchanged) |
@@ -816,7 +959,26 @@ does the sweep, `figaudit2.py` the five computed plots.
 | Lab B | min 0.0217 at 3.43 Hz; 1.3358 at 30 Hz | 0.0218 at 3.43 Hz; 1.3358 | max deviation 0.00045 |
 | Lab C | interval [2.220, 4.534]; true marker 3.314 | [2.220, 4.534]; 3.315 | — |
 | Lab D | identified mass 69.76..70.25 kg over N = 20..200 | `nb5.py` 70.03..70.00 | within the drawn wobble |
+| K2 (new) | min 0.0205 rad/s at 3.02 Hz; 60 pts | `k2.py` 0.0205 at 3.02 | max deviation 0.00027 |
+| K3 (new) | 4 curves x 117 pts, peaks 3.31 / 3.06 / 3.31 / 4.85 N m | the shipped pipeline at 1.5 / 3.4 / 20 Hz | max deviation 0.0053. The truth curve is the independent check (it has no seed); the three filtered rows are regenerated from the same seed-15 draw the generator used, so they confirm the calibration and the splice, not the draw |
+| K7 (new) | bars 0.4142 / 0.2280 / 0.0589 / 0.0040 | labels 0.414 / 0.228 / 0.059 / 0.004 | heights match their labels |
+| K9 (new) | curve within 0.48 %; BSP line 0.414; marker 0.0424 rad | `k9.py`; K7's 0.414 | 2.43° against the printed 2.4° |
 
 This is what found B16, and what found the two faults in the draft
 replacement for Fig. 7 (lost axes, clipped ceiling) after all nine gates had
 already passed on it. The gates see broken content, not wrong content.
+
+A second pass extended the sweep from the section figures to the thirty
+**problem** figures, decoding every `<text>` label as well as every
+polyline. That is what found B23 — K7's chart drawing 0.41 / 0.31 / 0.09
+under a K4 `aria-label` — and B18c, K2's "both minima &#8776; 7 Hz". Both
+had survived every gate and the first decode sweep, because the first sweep
+looked only at the figures the report had already touched. The four
+replacements above were then decoded out of the shipped HTML, calibrated
+from their own tick labels, so a figure spliced into the wrong slot could
+not pass by agreeing with itself. `scratchpad/m15/figauditk.py` does it.
+
+Two defects in the replacements were caught by *rendering* them, not by any
+gate or decode: K9's crossover label sat on top of its BSP label
+(`check_overlap` tests text against curves, never text against text), and
+K3's optimal curve was invisible under the truth curve drawn over it.
