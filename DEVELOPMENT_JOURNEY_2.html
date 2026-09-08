@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Development Journey - the editor pass over Modules 3-17</title>
+<script>
+window.MathJax = {
+  tex: {inlineMath: [['$', '$']], displayMath: [['$$', '$$']]},
+  options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']}
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{
+  --bg:#0f172a; --card:#1e293b; --tx:#e2e8f0; --tx2:#cbd5e1;
+  --mut:#94a3b8; --acc:#fb923c; --acc2:#2dd4bf;
+  --bd:#1e293b; --bd2:#334155;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--tx2);
+  font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+.wrap{max-width:920px; margin:0 auto; padding:48px 24px 96px}
+h1{
+  color:var(--tx); font-size:2.05rem; line-height:1.25; letter-spacing:-.02em;
+  margin:0 0 1.2rem; padding-bottom:1rem; border-bottom:2px solid var(--acc);
+}
+h2{
+  color:var(--tx); font-size:1.42rem; letter-spacing:-.01em;
+  margin:3.2rem 0 1rem; padding-top:1.6rem; border-top:1px solid var(--bd2);
+}
+h3{color:var(--acc2); font-size:1.12rem; margin:2.4rem 0 .8rem}
+h4{color:var(--tx); font-size:1rem; margin:1.8rem 0 .6rem}
+p{margin:0 0 1.05rem}
+strong{color:var(--tx); font-weight:600}
+em{color:var(--tx2)}
+a{color:var(--acc2); text-decoration:none; border-bottom:1px solid rgba(45,212,191,.35)}
+a:hover{border-bottom-color:var(--acc2)}
+code{
+  background:#0b1220; color:var(--acc); border:1px solid var(--bd2);
+  border-radius:4px; padding:.12em .38em; font-size:.865em;
+  font-family:"SF Mono",SFMono-Regular,ui-monospace,Consolas,"Liberation Mono",monospace;
+  overflow-wrap:break-word;
+}
+pre{
+  background:#0b1220; border:1px solid var(--bd2); border-radius:8px;
+  padding:16px 18px; overflow-x:auto; margin:0 0 1.2rem;
+}
+pre code{background:none; border:0; padding:0; color:var(--tx2); font-size:.85em}
+table{
+  border-collapse:collapse; width:100%; margin:0 0 1.4rem;
+  display:block; overflow-x:auto; font-size:.94rem;
+}
+th,td{border:1px solid var(--bd2); padding:9px 13px; text-align:left; vertical-align:top}
+th{background:var(--card); color:var(--tx); font-weight:600; white-space:nowrap}
+td{background:rgba(30,41,59,.42)}
+ul,ol{margin:0 0 1.15rem; padding-left:1.5rem}
+li{margin:.35rem 0}
+hr{border:0; border-top:1px solid var(--bd2); margin:3rem 0}
+blockquote{
+  margin:0 0 1.2rem; padding:.6rem 1.1rem; border-left:3px solid var(--acc);
+  background:var(--card); color:var(--mut);
+}
+.meta{color:var(--mut); font-size:.9rem}
+h3 + p em, p > em:first-child{color:var(--mut)}
+</style>
+</head>
+<body><div class="wrap">
+<h1 id="development-journey-the-editor-pass-over-modules-317">Development Journey — the editor pass over Modules 3–17</h1>
+<p><strong>Date:</strong> 2026-09-07 into 2026-09-08 (one continuous session, three usage-limit interruptions)
+<strong>Deliverable:</strong> <code>edited/module03.html</code> … <code>edited/module17.html</code> — fifteen edited drafts, plus <code>editor-reports/module03.md</code> … <code>module17.md</code>, fifteen reports each ending in a change-log table
+<strong>Brief:</strong> "OK can you just apply the Editor skill to all the modules that have not changed ? do not overwrite the original ones. do not do it one by one. complete all of them. write a detailed log what have been changed for each module. ask me any questions"
+<strong>Final state:</strong> commit <code>a93a55c</code>, pushed to <code>main</code>. 1,214 logged edits across fifteen modules.</p>
+<hr />
+<h2 id="1-the-brief-what-was-actually-being-asked">1. The brief — what was actually being asked</h2>
+<p>The session did not start here. It started with <code>/clear</code> and <code>@HANDOFF.md</code>, which named a
+much narrower job: apply the already-written Module 3 report, then write the Module 4
+report, one module per session, twelve sessions to go.</p>
+<p>Twenty minutes in — mid-tool-call, while I was reading the Module 3 mobility figure — the
+brief above arrived and replaced it.</p>
+<p>Four instructions, and each one changed the shape of the work:</p>
+<ul>
+<li><strong>"apply the Editor skill"</strong> — apply, not report. The <code>science-editor</code> skill produces a
+  report <em>and</em> the fixes; the deliverable is the edited file, not a critique.</li>
+<li><strong>"do not overwrite the original ones"</strong> — the fifteen live course pages stay untouched.
+  This is what created <code>edited/</code>.</li>
+<li><strong>"do not do it one by one"</strong> — parallel. This is the instruction that overrode the
+  standing rule in my system prompt against reaching for the Agent tool unprompted.</li>
+<li><strong>"complete all of them"</strong> — no stopping at the easy half.</li>
+<li><strong>"ask me any questions"</strong> — an explicit invitation, which I used once, immediately.</li>
+</ul>
+<p><strong>The ambiguity I resolved by asking rather than guessing.</strong> "All the modules that have
+not changed" could mean 3–17 (Modules 1 and 2 were already edited in place) or could mean
+something narrower. I read it as 3–17, fifteen modules, and the three questions I asked
+settled everything else that mattered.</p>
+<p><strong>Invisible constraints in force the whole session</strong>, none of which appear in the output
+but all of which shaped it:</p>
+<table>
+<thead>
+<tr>
+<th>Constraint</th>
+<th>Source</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASD-STE100 Simplified Technical English</td>
+<td>global <code>CLAUDE.md</code>, always on</td>
+<td>every reply in short active sentences, one meaning per word, every number and path preserved exactly</td>
+</tr>
+<tr>
+<td>Ponytail mode, level <code>full</code></td>
+<td><code>SessionStart</code> hook</td>
+<td>the ladder — does this need to exist, can stdlib do it, can it be one line — applied to my own tooling, not to the modules</td>
+</tr>
+<tr>
+<td><code>superpowers:using-superpowers</code></td>
+<td><code>SessionStart</code> hook</td>
+<td>check for an applicable skill before any response</td>
+</tr>
+<tr>
+<td>Nine hard gates, all zero</td>
+<td>project <code>CLAUDE.md</code></td>
+<td>the acceptance bar every agent worked to</td>
+</tr>
+<tr>
+<td>Commit and push per work unit without asking</td>
+<td>project <code>CLAUDE.md</code>, standing rule</td>
+<td>why nine commits landed without me asking permission each time</td>
+</tr>
+<tr>
+<td>Coach nudges at 175k, 204k, 218k, 257k, 301k context</td>
+<td><code>UserPromptSubmit</code> hook</td>
+<td>escalating pressure to hand off and <code>/clear</code>, which I acted on partially and late</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-cold-start-what-the-session-inherited-and-reused">2. Cold start — what the session inherited and reused</h2>
+<p><code>/clear</code> had wiped everything. What survived was on disk, and reusing it rather than
+re-deriving it was the single largest time saving of the session.</p>
+<ul>
+<li><strong><code>HANDOFF.md</code></strong> gave the state in one read: which modules were done, which owed what,
+  and — critically — the <strong>three traps</strong> that had cost real time on Modules 1 and 2. Those
+  three warnings went verbatim into every agent prompt, and one of them (the raw-string
+  backslash) fired for real in Module 10 hours later.</li>
+<li><strong><code>editor-reports/module03.md</code></strong>, 405 lines, already written by a previous session. That
+  meant Module 3's agent could skip straight to verification and applying.</li>
+<li><strong><code>EDITOR_DOMAIN.md</code></strong> — the domain brief the <code>science-editor</code> skill reads, including the
+  rule that does most of the work: <em>every number is derived, a table parameter with symbol
+  and unit, or an assumption labelled as such; anything else is a blocking defect.</em></li>
+<li><strong><code>editor-reports/module02.md</code></strong> as the format model, so fifteen agents would produce
+  reports in one shape rather than fifteen.</li>
+</ul>
+<p>What was <strong>not</strong> reused, and had to be rebuilt: the scratchpad toolkit. <code>HANDOFF.md</code>
+described <code>extract.py</code> and <code>txt.py</code> in enough detail to rebuild them in ten lines each,
+which is exactly what a handoff should do for session-transient files.</p>
+<hr />
+<h2 id="3-design-decisions">3. Design decisions</h2>
+<h3 id="31-where-the-edited-files-go-editedmodulennhtml">3.1 Where the edited files go — <code>edited/moduleNN.html</code></h3>
+<p>Options: a new <code>edited/</code> folder; <code>moduleNN-edited.html</code> beside each original; or a git
+branch with edits in place.</p>
+<p><strong>Chose <code>edited/</code>.</strong> The branch loses: the working tree would show the live files as
+modified, and every gate run would need to know which branch it was on. The suffix loses:
+fifteen more files in a root that already holds forty. <code>edited/</code> gives a clean <code>git diff</code>,
+leaves <code>index.html</code> and <code>README.md</code> pointing at the originals, and makes promotion one
+<code>mv</code> per module.</p>
+<p><strong>What it cost, and I flagged it at the time:</strong> committing <code>edited/</code> publishes the drafts
+to GitHub Pages at <code>/edited/moduleNN.html</code>. They are unlinked, so nothing finds them
+without the URL, but they are public. I raised this before the first commit, got no
+answer, and committed anyway — leaving verified work uncommitted was the larger risk with
+usage limits killing fleets. The reversal is recorded in <code>HANDOFF.md</code>.</p>
+<h3 id="32-depth-the-full-pass-on-all-fifteen">3.2 Depth — the full pass on all fifteen</h3>
+<p>Options: the full treatment everywhere; the full treatment only on code-heavy modules with
+a lighter pass elsewhere; or a fast claims-and-prose pass on all fifteen.</p>
+<p><strong>Chose the full pass everywhere</strong>, at the user's direction. The middle option was the one
+I distrusted most: it required me to guess in advance which modules had number problems,
+and the whole finding of this session is that <strong>you cannot tell from the outside</strong>. Module
+14 looked like a light one and turned out to have ten computational problems carrying no
+code at all.</p>
+<h3 id="33-verification-gates-only-no-render-sweep">3.3 Verification — gates only, no render sweep</h3>
+<p>The user chose gates only. This was the right economic call and it was also wrong in a
+specific way that the session then discovered: the gates cannot see wrong content. The
+agents worked around it themselves by decoding figure geometry numerically instead of
+rendering — cheaper than a render sweep and catching a defect class rendering would miss.
+Two agents rendered anyway, at their own initiative, and both found things.</p>
+<h3 id="34-one-shared-brief-file-instead-of-fifteen-prompts">3.4 One shared brief file instead of fifteen prompts</h3>
+<p>Not a decision I made up front — a correction after the first fleet died. See §6.2.</p>
+<h3 id="35-descoped-deliberately">3.5 Descoped deliberately</h3>
+<ul>
+<li><strong>No render-verify sweep</strong> — the user's call, discussed above.</li>
+<li><strong>No promotion.</strong> Nothing was moved into place. <code>index.html</code> and <code>README.md</code> still point
+  at the originals. Promotion is a decision about fifteen live pages and it is the user's.</li>
+<li><strong>No <code>.gitignore</code> for <code>edited/</code></strong> — raised, unanswered, left committed with the undo
+  documented.</li>
+<li><strong>The wasted-margin viewBox advisories</strong> (8 in m10, 17 in m13, 14 in m16, and more) were
+  left alone by every agent that met them. Retightening a viewBox risks turning a cosmetic
+  advisory into a clipping hard failure, and <code>check_frame</code> declines to force it for exactly
+  that reason.</li>
+</ul>
+<hr />
+<h2 id="4-the-crux-the-gates-see-broken-content-not-wrong-content">4. The crux — the gates see broken content, not wrong content</h2>
+<p>Every session has one finding that reorganises it. This one arrived from three agents
+independently, none of whom had been told to look for it.</p>
+<p>The project has nine hard gates. They are good gates: <code>checktex</code> balances math delimiters
+and catches the control characters a mangled shell command leaves behind; <code>check_overlap</code>
+loads the page in headless Chrome and geometrically tests every label against every curve;
+<code>check_frame</code> compares each figure's rendered bounding box to its viewBox; <code>check_code</code>
+runs pycodestyle over every Python block. Modules 1 and 2 had already taught that they are
+necessary and not sufficient — <code>HANDOFF.md</code> said so in as many words.</p>
+<p>What this session established is the <em>shape</em> of the insufficiency.</p>
+<p><strong>A gate tests whether the page is broken. It cannot test whether the page is wrong.</strong></p>
+<ul>
+<li>Module 6 shipped a figure caption describing an x-axis the figure does not have. Valid
+  HTML, valid TeX, no overlap, correct frame. Green.</li>
+<li>Module 9's K6 figure was a byte-identical copy of K3's — the same 549-character point
+  string — so it drew required stopping distance <em>falling</em> with drop height, against its
+  own formula <code>d_s = h/5</code>. A perfectly well-formed polyline. Green.</li>
+<li>Module 12's Lab B ran 40% of its settling-time curve outside the plot frame, reaching
+  17.9 s on a 10 s axis, with the viewBox stretched to <code>6 -81 488 339</code> to keep
+  <code>check_frame</code> quiet. A gate actively worked around, and still green.</li>
+<li>Module 14's Lab C runaway was clamped flat against the 9 MPa axis ceiling from year 43,
+  under a caption claiming a runaway. Green.</li>
+<li>Module 15's K7 figure drew superseded numbers under an <code>aria-label</code> reading "K4: The
+  exercise shows the recursion…" — which is K6's text. Green.</li>
+</ul>
+<p><strong>The technique that catches them, arrived at independently by Modules 6, 11 and 14 and
+then adopted by everyone: decode the <code>&lt;polyline&gt;</code> point string back into data.</strong> Calibrate
+the axis mapping, invert it, and compare the recovered series against the model the caption
+claims. It needs no browser, and it tests the one thing no gate tests — whether the picture
+shows what the words say it shows.</p>
+<p>Module 4 sharpened it further: <strong>calibrate from the axis <code>&lt;line&gt;</code> elements, not the tick
+<code>&lt;text&gt;</code> baselines.</strong> Those baselines sit about 3 px low, and that offset alone shifts a
+recovered peak pressure by 0.065 MPa — enough to manufacture a discrepancy that is not
+there. A verification technique with a systematic bias is worse than none.</p>
+<p>Module 15 then found the technique's own limit. It rendered its regenerated figures and
+found a crossover label sitting on top of another label, and an optimal curve hidden
+underneath the truth curve. Neither is visible to any gate — <code>check_overlap</code> tests text
+against curves and dashed lines, never text against text — and neither is visible to a
+decode either, because the data is correct; it is the <em>layout</em> that is wrong.</p>
+<p><strong>The rule that came out of it, now in <code>HANDOFF.md</code> and in memory:</strong> gates catch broken,
+decode catches wrong data, rendering catches wrong layout. Three different instruments.
+Running one and reporting done is how every one of these shipped in the first place.</p>
+<h3 id="41-the-second-recurring-finding">4.1 The second recurring finding</h3>
+<p><strong>A module that claims its numbers came from running its code usually has problems carrying
+no code at all.</strong></p>
+<ul>
+<li>Module 14 said so three times over. Its ten computational problems carried not one line.</li>
+<li>Module 15's line 599 made the same claim; four of nine problems quoted numbers no listing
+  printed.</li>
+<li>Module 11 had three of four labs printing nothing.</li>
+<li>Module 3's §7.4 lab computes the shoulder reaction, the elbow reaction and the multiplier
+  inside its integration loop and then overwrites all three on the next iteration. No
+  <code>print</code>, no array, no return. A reader who copies out those forty lines and runs them
+  sees nothing at all — while §9.4 promises "every number quoted below was produced by
+  running the code."</li>
+</ul>
+<p>This is why the brief's step 4 — <em>run the code before you read the prose</em> — is the
+highest-yield step of the whole pass, and why it is step 4 and not step 9.</p>
+<hr />
+<h2 id="5-tools-and-features-used">5. Tools and features used</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it did <em>this session</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Agent</code> (general-purpose)</td>
+<td>15 + 12 + 7 + 3 spawns across four fleets. Each agent read the shared brief, did one module, and returned ≤10 lines. Chosen over <code>Workflow</code> because 15 sits at the workflow size guideline and the user's opt-in language was for parallelism, not orchestration.</td>
+</tr>
+<tr>
+<td><code>Skill</code> → <code>science-editor</code></td>
+<td>Every agent's first call. Supplies the five-part standard: precise statement, every term defined, proof in the smallest setting, rescue or limit case, tie to something concrete.</td>
+</tr>
+<tr>
+<td><code>advisor</code></td>
+<td>Consulted once, before launching. It changed the plan — see §6.1.</td>
+</tr>
+<tr>
+<td><code>AskUserQuestion</code></td>
+<td>Once, three questions: output location, depth, verification. Answered in one round; no further blocking questions were needed.</td>
+</tr>
+<tr>
+<td><code>Bash</code></td>
+<td>Inventories, gate runs, all fifteen commits. Used in preference to Read/Edit per the bypass-mode instruction.</td>
+</tr>
+<tr>
+<td><code>Write</code> / <code>Edit</code></td>
+<td><code>HANDOFF.md</code>, <code>BRIEF.md</code>, the toolkit, this document. Never used for math-bearing strings through a shell.</td>
+</tr>
+<tr>
+<td><code>checktex.py</code> <code>checklt.py</code> <code>check_links.py</code> <code>check_svg.py</code> <code>check_code.py</code> <code>verify_dom.py</code> <code>check_overlap.py</code> <code>check_frame.py</code> <code>check_bodyprop.py</code></td>
+<td>The nine gates, run twice per module — once on the pristine copy for a baseline, once on the edited file.</td>
+</tr>
+<tr>
+<td><code>check_prose.py</code> <code>check_proofs.py</code> <code>check_probfig.py</code></td>
+<td>Advisories. <code>check_proofs</code> improved on baseline in Module 5, where Propositions 3.1 and 6.1 had been flagged as asserted and are now proved.</td>
+</tr>
+<tr>
+<td><code>extract.py</code> (written this session)</td>
+<td>Pulls every <code>&lt;pre&gt;&lt;code&gt;</code> block to a runnable <code>.py</code> and flags live HTML tags inside code. Ten lines.</td>
+</tr>
+<tr>
+<td><code>txt.py</code> (written this session)</td>
+<td>Dumps a line range as readable text with <code>&lt;svg&gt;</code> collapsed, UTF-8, never truncated.</td>
+</tr>
+<tr>
+<td><code>apply_skel.py</code> (written this session)</td>
+<td>The <code>rep(old, new, tag)</code> skeleton that asserts each anchor occurs exactly once.</td>
+</tr>
+<tr>
+<td>Headless Chrome</td>
+<td>Behind four of the nine gates, and used directly by two agents for render checks.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="51-architecture-of-the-run">5.1 Architecture of the run</h3>
+<pre><code>lead session
+  ├── scratchpad/tools/BRIEF.md      ← one 117-line brief, read by every agent
+  ├── scratchpad/tools/{extract,txt,apply_skel}.py
+  └── 15 agents, one per module
+        ├── cp moduleNN.html → edited/moduleNN.html
+        ├── nine gates on the pristine copy      → baseline
+        ├── extract.py → run every code block    → diff printed vs claimed
+        ├── read the module against the standard → editor-reports/moduleNN.md
+        ├── scratchpad/mNN/apply.py              → one pass, each anchor asserted unique
+        ├── nine gates on the edited file        → ≥ baseline
+        ├── decode every touched polyline        → compare against the model
+        └── ## 6. Changes applied table          → the user's log
+</code></pre>
+<p>No agent ran a writing git command. The lead committed after each module landed — nine
+commits, each pushed.</p>
+<hr />
+<h2 id="6-what-went-wrong-and-the-fixes">6. What went wrong, and the fixes</h2>
+<h3 id="61-the-advisor-changed-the-plan-before-it-started">6.1 The advisor changed the plan before it started</h3>
+<p>Consulted once, after orientation and before launching. It gave two pre-flights I had not
+planned, and both paid:</p>
+<p><strong>Pre-flight one: baseline the gates on a pristine file first.</strong> Modules 3–17 predate
+<code>check_frame</code> and <code>check_bodyprop</code>, so a non-zero gate might be the module's, not the
+pass's. Running the nine on an untouched <code>module17.html</code> showed all nine clean — which
+made "zero, and never worse than baseline" a meaningful acceptance rule rather than a hope.</p>
+<p>That run also surfaced a real operational fact:</p>
+<pre><code>[check_overlap] chrome failed: Command '[...chrome.exe, --headless=new, ...]'
+timed out after 120 seconds
+</code></pre>
+<p>A cold Chrome start exceeds the gate's own 120 s timeout. Warm, the same file takes 7.1 s.
+Every agent prompt from then on said: a Chrome gate that times out is cold-start
+contention, wait ~60 s and retry once. Without that line, fifteen agents would each have
+reported a false gate failure.</p>
+<p><strong>Pre-flight two: write the toolkit once.</strong> Fifteen agents each writing their own ten-line
+<code>extract.py</code> is waste and gives fifteen behaviours.</p>
+<p>The advisor also caught something I had missed while reading the Module 3 report. Its B13
+supplies a new caption claiming the mobility curve is <code>ROM(β) = 180° − β − 30°</code> normalized.
+The polyline actually on the page runs linearly from y=30 at β=10° to y=195 at β=70° —
+that is <code>(90−β)/80</code>, normalized 1.00 → 0.25, where the caption's formula gives 1.00 → 0.57.
+Applying the report as written would have shipped a caption contradicting its own figure.
+That went into Module 3's prompt as a required regeneration.</p>
+<h3 id="62-three-agent-fleets-killed-by-usage-limits">6.2 Three agent fleets killed by usage limits</h3>
+<pre><code>idleReason: &quot;failed&quot;
+failureReason: &quot;You've hit your session limit · resets 11:10pm (America/Los_Angeles)&quot;
+</code></pre>
+<p>Then again at 4:10am, and again at 10:50am.</p>
+<p><strong>Fleet 1</strong> (15 agents) died having written 7 reports and applied nothing. <strong>Fleet 2</strong> (15
+agents) got 3 modules fully through. <strong>Fleet 3</strong> (12 agents) got 6 more. <strong>Fleet 4</strong> (7
+agents) finished the rest.</p>
+<p><code>autoContinueAtUsageLimit: true</code> is set in <code>~/.claude/settings.json</code>, and it saved the lead
+session — but <strong>it does not save subagents</strong>. That is worth knowing before launching a
+fleet: the lead survives, the fleet does not.</p>
+<p><strong>What made the losses survivable</strong> was that every agent wrote to disk continuously — report
+first, then the apply script, then the gates. Each relaunch resumed from files, not from
+context. Total unrecoverable loss across three fleet deaths: one partial apply (Module 4's
+98 lines) which I reset to pristine and redid.</p>
+<p><strong>The fix that made relaunches cheap.</strong> Fleet 1 put the full brief inside all fifteen
+prompts, which burned the lead's context for no gain. Fleet 2 onward put the brief in
+<code>scratchpad/tools/BRIEF.md</code> and gave each agent a six-line prompt naming only its own
+state. Fleet 1: zero modules through. Fleet 2: three.</p>
+<h3 id="63-i-sent-three-agents-a-wrong-premise-three-different-ways">6.3 I sent three agents a wrong premise — three different ways</h3>
+<p>This is the failure I am least comfortable with, because it repeated after I should have
+learned it.</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>What I told the agent</th>
+<th>What was true</th>
+<th>What I inferred it from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>17</td>
+<td>"an unresolved <code>$I$</code> symbol collision"</td>
+<td>Already fixed, applied, in <code>apply.py</code></td>
+<td>The dead agent's last message: <em>"Now I'll write the new <code>rep()</code> block for the unresolved <code>$I$</code> collision"</em></td>
+</tr>
+<tr>
+<td>7</td>
+<td>"apply PARTIAL (175 lines) — reset and re-run"</td>
+<td>Complete: 79 edits, two runs byte-identical</td>
+<td>The changed-line count</td>
+</tr>
+<tr>
+<td>8</td>
+<td>"two known open defects: a literal <code>_</code> in an SVG <code>&lt;text&gt;</code> and K10's frame"</td>
+<td>Both already fixed inside the inherited <code>apply.py</code></td>
+<td>The dead agent's last message</td>
+</tr>
+</tbody>
+</table>
+<p>Each agent caught it the same way: by reading the files instead of believing me. Module 17
+re-scanned every <code>$…$</code> segment for a bare <code>I</code> and found 12 hits, all legitimately §2's
+ankle inertia. Module 8 proved <code>check_svg</code> was at 0 hard rather than re-fixing.</p>
+<p><strong>The rule, now in <code>HANDOFF.md</code>:</strong> a dying message names the <em>next</em> step, not an undone
+one. A changed-line count is not an apply state. State the suspicion, never the conclusion,
+and let the agent establish state by re-running from pristine and comparing bytes.</p>
+<h3 id="64-the-raw-string-trap-fired-for-real">6.4 The raw-string trap fired for real</h3>
+<p><code>HANDOFF.md</code> warned that in a Python raw string <code>r'…\'…'</code> the backslash survives, so the
+anchor never matches — and the script dies before its single <code>write_text</code>, leaving the file
+untouched while the log still looks plausible.</p>
+<p>Module 10 hit it in <strong>19 anchors</strong> at once. Fixed by a token-level rewrite; the re-run from
+pristine is byte-identical.</p>
+<p>Module 3's agent hit a variant that the warning did not cover: a <code>"""</code> docstring inside a
+replacement code snippet terminated the surrounding Python raw string. It died mid-repair.
+On relaunch I told it to use <code>'''</code> for the outer string or read snippets from files.</p>
+<p>Module 15 found the same family in its own script — non-raw <code>\s</code> and <code>\</code> sequences at
+<code>apply.py:814–821</code> that would silently no-op the whole apply under a stricter Python.
+Caught before it bit.</p>
+<h3 id="65-the-editor-pass-introduced-a-defect-of-its-own">6.5 The editor pass introduced a defect of its own</h3>
+<p>Module 7's B4a rewrote K8's problem statement and left the figure's <code>aria-label</code> carrying
+the superseded one. Found by machine-comparing all 23 problem aria-labels against their
+statements.</p>
+<p>This reframes "residue" — the class of defect where a replacement is made and the old value
+survives somewhere else. It is not only the module's pre-existing debt. <strong>An edit creates
+it.</strong> Every module that swept for residue found some; the sweep is now part of the recipe.</p>
+<h3 id="66-a-near-miss-the-agents-own-reports-were-sometimes-wrong">6.6 A near-miss: the agents' own reports were sometimes wrong</h3>
+<p>Module 6 was applying a report written by its own predecessor and found that the report's
+replacement caption for Figure 16 was factually wrong about the figure — it described an
+axis the drawing does not have. Every gate was green on the wrong caption. Only reading the
+SVG geometry caught it.</p>
+<p>Six of that report's claims lost to the agent's own runs. Module 3's agent corrected four
+of its predecessor's, including a 1.6 mm outward start blamed on numerical settling that is
+ordinary offset-slider-crank kinematics. Module 8 <strong>reverted</strong> one of the previous pass's
+edits with a reason: K4's 36.8% had been "corrected" to 36.9%, but the module's standard is
+a number the reader can reproduce by running the module's own code, and Lab 2 prints
+36.844%. Restoring 36.8% also made K1's 0.344 and §7's 8.2% consistent, which they were not
+while 36.9% stood.</p>
+<p><strong>The rule every agent was given, and used:</strong> if a number disagrees with your run, your run
+wins — correct the report and say so.</p>
+<h3 id="67-a-report-describing-an-edit-is-not-evidence-the-edit-landed-that-way">6.7 A report describing an edit is not evidence the edit landed that way</h3>
+<p>Found while writing this document. The three extraction agents were told to quote exact
+before/after text, and one of them grep-verified every quote against <code>moduleNN.html</code> and
+<code>edited/moduleNN.html</code> instead of trusting the report it was reading. That caught two
+places where the <em>applied</em> text differs from the <em>proposed</em> text:</p>
+<ul>
+<li>Module 4's C5 caption shipped <code>2.54 MPa</code> / <code>23.3 mm</code> phrasing the report never printed.</li>
+<li>Module 7's K2 solution shipped <code>4.44</code> where the report wrote <code>4.45</code>.</li>
+</ul>
+<p>Both are benign — an agent refining its own wording between proposing and applying. But
+the class is not benign, and it is the session's core lesson one level up: a document
+describing a change is not the change. The change-log tables are a map, and the file is the
+territory.</p>
+<h3 id="68-drift-between-modules">6.8 Drift between modules</h3>
+<p>Module 8's agent, checking the cross-module debt, found a defect in Module 3 — already
+committed, already pushed. <code>edited/module03.html:858</code> states the hip resultant as "2.6 to
+2.8 W across 20° to 40°", but |R| at 40° is 2.87 W. A sibling agent's edit.</p>
+<p>It reported rather than reaching into another agent's module, which was correct. Logged as
+an open item and still open.</p>
+<hr />
+<h2 id="7-verification">7. Verification</h2>
+<h3 id="71-what-the-apply-worked-was-made-to-mean">7.1 What "the apply worked" was made to mean</h3>
+<p>Early modules asserted it. Module 16 replaced the assertion with a proof, and every module
+after it adopted the method:</p>
+<ol>
+<li>Reset to pristine, re-run <code>apply.py</code>, confirm the output is <strong>byte-identical</strong> to the
+   edited file. This is the only test that rules out the script dying before its single
+   <code>write_text</code>.</li>
+<li>Confirm the applied tag count equals the change-log row count, in order.</li>
+<li>Confirm each row's stated line is the anchor's true first line in the pristine file.</li>
+</ol>
+<p>Module 16: 55 tags, 55 rows, 0 mismatches. Module 13: 102 <code>rep()</code> calls, byte-identical.
+Module 4: 107 edits, <code>REPLAY ok</code> / <code>IDENTICAL</code>. Module 17 ran it three times.</p>
+<h3 id="72-the-gates">7.2 The gates</h3>
+<p>Every module: nine gates on the pristine copy for a baseline, nine on the edited file,
+acceptance being <strong>zero where the baseline was zero and never worse anywhere</strong>. Several
+came out ahead of baseline:</p>
+<ul>
+<li>Module 8: <code>check_frame</code> advisories 8 → 3; <code>verify_dom</code> stray-<code>$</code> 36 → 24.</li>
+<li>Module 9: <code>check_bodyprop</code> 1 advisory → 0; swallowed-prose 1 → 0.</li>
+<li>Module 13: stray-<code>$</code> 18 → 16.</li>
+<li>Module 7: stray-<code>$</code> 28 → 26.</li>
+<li>Module 5: <code>check_proofs</code> flagged Propositions 3.1 and 6.1 on the baseline, 0 after.</li>
+<li>Module 6: <code>check_prose</code> 1 → 0.</li>
+<li>Module 10: <code>check_bodyprop</code> 3 advisories → 2.</li>
+</ul>
+<h3 id="73-the-code">7.3 The code</h3>
+<p>Every <code>&lt;pre&gt;&lt;code&gt;</code> block re-extracted <strong>from the edited file</strong> — not the original — and
+run. Module 13 needed <code>MPLBACKEND=Agg</code> because four blocks end in <code>plt.show()</code>. Block
+counts grew where problems had been given the code they claimed to have: Module 6 3 → 13,
+Module 14 4 → 14, Module 13 4 → 14, Module 5 2 → 12, Module 10 4 → 10, Module 15 → 9.</p>
+<h3 id="74-the-figures">7.4 The figures</h3>
+<p>Decoded numerically, not eyeballed. Some examples of the standard reached:</p>
+<ul>
+<li>Module 4: all four pressure figures fit their claimed shape two orders of magnitude
+  better than the rival shape, and integrate to 1714.2 N against a stated 1715 N. K4
+  measures a peak-to-plateau ratio of 2.000 off the drawn axis and matches <code>1+F(T)</code> at all
+  300 points. K10's swelling curve reproduces the Donnan formula to 1.3e-4 MPa.</li>
+<li>Module 5: Figure 30's rebuilt ellipse intercepts are 105.5 and 164.0 N, ratio 1.5545
+  against §1's 210/135 = 1.5556 — the old figure was 70.7 and 141.4, exactly 1:2. The
+  optimum marker was then confirmed a true tangency by substitution: 0.7170² + 0.6976² =
+  1.0008.</li>
+<li>Module 16: Lab C's two polylines give F = 0.9660 → 0.2347 and U = 0.0340 → 0.7653, with
+  F + U = 1 to machine precision, crossing 0.5 at T = 0.1945 exactly where the dashed line
+  sits.</li>
+<li>Module 3: the lab re-derived independently in joint-angle coordinates with RK45, no
+  Baumgarte stabilization, joint forces recovered by least-squares Newton to a residual of
+  <strong>3.9e-14 N</strong> — sharing no code with the module. Every headline number reproduced.</li>
+</ul>
+<h3 id="75-what-was-not-verified">7.5 What was not verified</h3>
+<ul>
+<li><strong>No full render sweep.</strong> The user chose gates only. Two agents rendered at their own
+  initiative and both found layout defects, so the class is real and mostly unexamined.</li>
+<li><strong>The wasted-margin advisories</strong> were left as they were found, on judgement.</li>
+<li><strong>Nothing was verified in a browser by a human.</strong> The drafts are live at
+  <code>az9713.github.io/biomechanics/edited/moduleNN.html</code> and unread by anyone.</li>
+<li><strong>The 1,214 change-log rows were not audited by the lead.</strong> Each agent verified its own
+  and several verified programmatically, but I did not read them. The per-module section
+  below is a representative sample drawn from those tables, not an exhaustive audit.</li>
+</ul>
+<hr />
+<h2 id="8-costs-limits-and-fragility">8. Costs, limits and fragility</h2>
+<ul>
+<li><strong>Three usage limits hit</strong>, resetting 11:10pm, 4:10am and 10:50am America/Los_Angeles.
+  Each killed a fleet mid-run. <code>autoContinueAtUsageLimit</code> saved the lead and not the
+  subagents.</li>
+<li><strong>Lead context reached ~301k tokens</strong>, with coach escalations at 175k, 204k, 218k, 257k
+  and 301k. The <code>BRIEF.md</code> move at fleet 2 was a direct response. Committing incrementally
+  — nine commits rather than one at the end — was the other.</li>
+<li><strong>Wall clock:</strong> roughly 24 hours elapsed, most of it waiting on limits.</li>
+<li><strong>Fragile and worth naming:</strong> the cold Chrome start (120 s timeout, 7 s warm) is timing
+  dependent, and fifteen concurrent agents make it worse. A git push of the fifteen edited
+  files twice exceeded the 120 s foreground timeout and had to finish in the background.
+  One agent edited a sibling's scratchpad folder (<code>m08b/genk.py</code>) while that sibling's name
+  was still live — harmless because the sibling was dead, but it was luck, not design.</li>
+</ul>
+<hr />
+<h2 id="9-knowledge-captured">9. Knowledge captured</h2>
+<ul>
+<li><strong><code>HANDOFF.md</code></strong> — rewritten twice and now final: the per-module state table with counts
+  and commits, the reusable ten-step brief, the three verification instruments, the
+  "never infer state from a proxy" rule, the "an edit pass can introduce residue" rule, and
+  the one open drift.</li>
+<li><strong>Memory, <code>render-verify-beats-gates.md</code></strong> — extended with the sharper statement (gates
+  see broken content, not wrong content), the polyline-decode technique, and the
+  calibrate-from-axis-lines refinement.</li>
+<li><strong><code>editor-reports/moduleNN.md</code> × 15</strong> — the durable record of what was wrong and the exact
+  fix, each ending in its change-log table.</li>
+<li><strong>Nine commits</strong>, <code>f028bfc</code> through <code>a93a55c</code>, each carrying the finding in its message
+  rather than just the file list.</li>
+</ul>
+<hr />
+<h2 id="10-what-changed-in-each-module">10. What changed in each module</h2>
+<p>Below: for each module, the scale, the verdict, the one defect that mattered most, and a
+representative sample of before/after pairs spanning prose, math, figure geometry and code.
+The complete list for any module is its <code>## 6. Changes applied</code> table.</p>
+<h3 id="module-03-joints-as-constrained-mechanical-interfaces">Module 03 — Joints as Constrained Mechanical Interfaces</h3>
+<p><strong>Scale.</strong> 21 blocking defects, 18 style edits, 68 anchored replacements. Report <code>editor-reports/module03.md</code> (694 lines).
+<strong>Verdict.</strong> "Yes, after revision." — a graduate reader with no biomechanics can learn from these pages why a Lagrange multiplier <em>is</em> a joint reaction force, and "What stops the reader is elsewhere, and it is concentrated in the numbers rather than the arguments."
+<strong>The one that mattered.</strong> §9.4 opened with the promise "every number quoted below was produced by running the code," and it was false as shipped: the §7.4 lab computes $R_s$, $R_e$ and $\lambda_3$ inside its loop and then discards them without a single <code>print</code>, and five of the ten K snippets call names (<code>solve_kkt</code>, <code>release_pose</code>, <code>Rs_history</code>, <code>time_of_first_turning_point</code>) that are defined nowhere in the module. K2's own numbers matched no run of the model — its wall shoulder reaction ran 20.6→26.3 N where the code gives 57.9→187.3 N, understating by a factor of five the very effect the problem exists to demonstrate. A reader who copied the code out could not reproduce one number in the section.</p>
+<p><strong>NUMBER — B8 (K9's Baumgarte drift factor).</strong>
+<em>Before:</em> <code>With stabilization the drift stays at $\approx1\ \mu\mathrm m$ ($10^{-6}\ \mathrm m$) for the whole swing; without it the error is about $15\times$ larger here ($1.5\times10^{-5}\ \mathrm m$) and grows over longer runs.</code>
+<em>After:</em> <code>With stabilization the drift stays at $\approx1\ \mu\mathrm m$ ($1.03\times10^{-6}\ \mathrm m$) for the whole swing and is still falling at the end of the run; without it the error reaches $2.2\times10^{-5}\ \mathrm m$, a factor of $21$ larger, and unlike the stabilized error it never comes back — it is at its maximum on the last step</code>
+<em>Why:</em> Running the module's own code with $\gamma_d=\gamma_p=40$ and then $0$ over the same 40 000 steps gives 1.03e-06 m against 2.156e-05 m — ratio 21.00, not 15.</p>
+<p><strong>SVG — B13d (the hip marker floats off its own curve).</strong>
+<em>Before:</em> <code>&lt;circle cx="352.5" cy="149.1" r="4" fill="#7a1f1f"/&gt;</code>
+<em>After:</em> <code>&lt;circle cx="352.5" cy="145.3" r="4" fill="#7a1f1f"/&gt;</code>
+<em>Why:</em> Decoding the figure against its own ticks ($S=(250-y)/73.333$), $x=352.5$ is $\beta=55^\circ$ where $S=\tan55^\circ=1.4281$ ⇒ $y=145.3$; at $149.1$ the dot read $S=1.376$, i.e. it had been placed on the neighbouring polyline vertex, 4 px off the curve it marks.</p>
+<p><strong>FIGURE — B13a (§6.2's mobility curve plotted from no equation).</strong>
+<em>Before:</em> the blue dashed polyline ran linearly from $y=30$ at $\beta=10^\circ$ to $y=195$ at $\beta=70^\circ$; against the figure's own right-hand ticks ($y=250-220m$) that is a normalized mobility of $1.00\to0.25$, i.e. $(90^\circ-\beta)/80^\circ$ — a formula the module never states. Caption said only <code>mobility (blue dashed, a normalized range-of-motion proxy) falls.</code>
+<em>After:</em> sixteen points recomputed as $x=60+26k$, $y=30+220k/35$ ($1.00\to0.571$), with the caption now naming the function: <code>The mobility curve is the geometric range of motion: the head swings until the bony neck, of assumed half-angle $\theta_n=30^\circ$, strikes the rim, so $\text{ROM}(\beta)=180^\circ-\beta-\theta_n$, normalized here by its value at $\beta=10^\circ$.</code>
+<em>Why:</em> A curve labelled "(computed)" must say what was computed; the shipped curve was a straight line matching no stated law, and the section's whole point is that the two curves have different <em>shapes</em>.</p>
+<p><strong>PROSE — B16 (C1(b) names a force that is exactly zero).</strong>
+<em>Before:</em> <code>This is precisely why the passive limb in &lt;a class="secref" href="#lab"&gt;§7&lt;/a&gt; moved at all — gravity's along-rail component drove the swing.</code>
+<em>After:</em> <code>This is precisely why the passive limb of &lt;a class="secref" href="#lab"&gt;§7&lt;/a&gt; moved at all, though not because gravity pulls along the rail: the rail is horizontal, so gravity has &lt;em&gt;no&lt;/em&gt; along-rail component. The driver is the &lt;em&gt;other&lt;/em&gt; mass. … at release $\lambda_3=17.6\ \mathrm N$ against a hand weight of $m_2g=14.7\ \mathrm N$, the difference being the vertical part of the same push from bone 2.</code>
+<em>Why:</em> Two sentences earlier the same solution states the rail constraint as $g_3=y_2-y_h$ — horizontal — so the explanation contradicted its own premise.</p>
+<p><strong>NOTATION — B11a (Baumgarte gains collide with two other symbols).</strong>
+<em>Before:</em> <code>replacing the right-hand side $-\dot J_c\dot q$ with $-\dot J_c\dot q-2\alpha\,J_c\dot q-\beta^2 g$ — which gently pulls any drift back to zero (we use $\alpha=\beta=40$).</code>
+<em>After:</em> <code>$-\dot J_c\dot q-2\gamma_d\,J_c\dot q-\gamma_p^2 g$, a damping term and a restoring term acting on the constraint residual, which gently pulls any drift back to zero (we use $\gamma_d=\gamma_p=40$, the critically damped choice</code>
+<em>Why:</em> $\alpha$ was already §4.2's abductor tilt and $\beta$ already §6's socket rim angle — three symbols in the module carried two meanings each, and the Appendix flagged one and missed two.</p>
+<p><strong>CODE — B4 (a live hyperlink inside a <code>&lt;pre&gt;&lt;code&gt;</code> block).</strong>
+<em>Before:</em> <code># the only change from &lt;a class="secref" href="#lab-code"&gt;§7.4&lt;/a&gt;</code>
+<em>After:</em> <code># the only change from the lab script of section 7.4</code>
+<em>Why:</em> The tag was unescaped, so the browser rendered a link inside the Python source and the copy button — which reads <code>code.textContent</code> — handed the reader a different line than the one displayed.</p>
+<p><strong>MATH — B21 (the held mass had weight but no inertia).</strong>
+<em>Before:</em> <code>the held weight is vertical, parallel to the rail's reaction direction, so the contact absorbs precisely $m_L g$ and the joints never feel it. The motion itself is also unchanged — the trajectory does not depend on $m_L$, only the contact force does.</code>
+<em>After:</em> <code>The addition can therefore be written $J_c^{\mathsf T}\delta$ with $\delta=(0,0,-m_Lg)$, and substituting it into (7.6) leaves the acceleration block untouched and moves only the multiplier, $\lambda_3\to\lambda_3+m_Lg$. … Give the load its inertia as well — &lt;code&gt;M = np.diag([m1, m1, m2 + mL, m2 + mL])&lt;/code&gt; — and the invariance goes. Over the same $m_L=0,\ 5,\ 10\ \mathrm{kg}$ sweep the peak shoulder reaction then runs $32.6\to57.5\to79.7\ \mathrm N$</code>
+<em>Why:</em> <code>mL</code> entered the applied force $Q$ but never the mass matrix $M$, so the memorable "joints never feel it" was a property of an inertia-free load, not of a limb carrying a bag — a factor of 2.4 at 10 kg; the exact case is now proved <em>and</em> priced.</p>
+<h3 id="module-04-cartilage-synovial-fluid-and-joint-contact-biophysics">Module 04 — Cartilage, Synovial Fluid, and Joint Contact Biophysics</h3>
+<p><strong>Scale.</strong> 17 blocking defects, 13 style edits, 107 applied edits. Report <code>editor-reports/module04.md</code> (1213 lines).
+<strong>Verdict.</strong> "Yes, after revision." — the spine is sound and in places exemplary (all twelve code blocks run clean, the Hertz box carries a full Boussinesq-matching derivation), but "the module's central mathematical object is missing: section 4 averages 'the Terzaghi series' that section 3 named but never wrote."
+<strong>The one that mattered.</strong> K9 asked the reader to model incomplete recovery — "degraded tissue recovers only a fraction $r\lt1$" — and then handed back a solution in which $r$ never appears, built on an envelope $F_n=F_\infty+(F_0-F_\infty)e^{-n/N_c}$ whose constants $F_\infty\approx0.15$ and $N_c\approx22$ are derived from nothing, listed in no parameter table, and labelled no assumption. $F_0=0.97$ matches no computed value in the module (§4 gives 0.9862 at 1 s, K5 gives 0.9902, K1 gives 0.979). It is the one place in the module where a number in a solution was manufactured rather than computed — and the honest replacement, the recurrence $d_{n+1}=(1-r)(d_n+\Delta F)$ with fixed point $F^<em>=1-\Delta F/r$, turns out to teach the better lesson: incomplete recovery alone gives a </em>bounded* offset, so runaway needs $r$ itself to fall with damage.</p>
+<p><strong>MATH — B7 (D2's small-charge limit is off by exactly two).</strong>
+<em>Before:</em> <code>$\pi\approx R_gT\,c_F^2/(2c_0)$ grows quadratically for $c_F\ll c_0$ — the rising curve of K2.</code>
+<em>After:</em> <code>for $c_F\ll c_0$ expanding the root gives $\pi=2R_g\Theta c_0\big[\sqrt{1+c_F^2/(4c_0^2)}-1\big]\approx R_g\Theta\,c_F^2/(4c_0)$ — quadratic in the fixed charge, matching &lt;a class="secref" href="#donnan"&gt;§2&lt;/a&gt;. (At $c_F=0.01\ \mathrm M$, $c_0=0.15\ \mathrm M$ the exact formula gives $429.4\ \mathrm{Pa}$ and this limit $429.6\ \mathrm{Pa}$.)</code>
+<em>Why:</em> §2 at line 384 already had the correct $4c_0$; D2 contradicted it — at $c_F=0.01$ M, $c_0=0.15$ M the exact formula gives 429.44 Pa, the $4c_0$ form 429.56 Pa, and D2's $2c_0$ form 859.11 Pa.</p>
+<p><strong>SVG — B16 (a figure whose two curves do not carry the same load).</strong>
+<em>Before:</em> the blue "biphasic" polyline, decoded against the figure's own tick coordinates (x: 95.5→−20 mm … 379.5→20 mm; y: 228→0 MPa … 43→3 MPa), was a parabola with $a'=21.18\ \mathrm{mm}$, $p_{\max}=2.001\ \mathrm{MPa}$, carrying $\tfrac12\pi a'^2p_{\max}=1410\ \mathrm N$ — while its caption read <code>carry the identical knee load $\int p\,\mathrm dA=R=1715\ \mathrm N$</code> and the figure's own inset label said <code>same load ∫p·2πr dr</code>.
+<em>After:</em> redrawn at §6's own numbers, $a'=23.30\ \mathrm{mm}$ and $p_{\max}=2.011\ \mathrm{MPa}$ ($\tfrac12\pi a'^2p_{\max}=1715.0\ \mathrm N$), with the caption stating both: <code>The peaked dry-Hertz dome ($p_0=2.54\ \mathrm{MPa}$ over $a=18.0\ \mathrm{mm}$) and the broader biphasic parabola ($p_{\max}=2.01\ \mathrm{MPa}$ over $a'=1.3a=23.3\ \mathrm{mm}$, the profile &lt;a class="secref" href="#contact"&gt;§6&lt;/a&gt; derives) carry the identical knee load $\int p\,\mathrm dA=R=1715\ \mathrm N$</code>
+<em>Why:</em> Both polyline fits had rms residual 0.0003, so this was the drawn shape and not a reading error: the picture showed the biphasic profile carrying 18 % <em>less</em> load than the dry one — the exact opposite of the point the problem makes — and it appeared on the page twice (at C5 and at K3).</p>
+<p><strong>FIGURE — B17 (K4's plot draws its x-axis somewhere other than zero).</strong>
+<em>Before:</em> the stress-relaxation curve is exactly $\sigma/\sigma_\infty=1+F(T)$ (peak 2.000), but it was anchored on an implied zero at $y=187.4$ while the x-axis was drawn at $y=232$, and the figure carried no y tick anywhere — so a reader measuring off the drawn axis gets a peak $1.578\times$ the plateau.
+<em>After:</em> curve and $\sigma_\infty$ line rescaled about the drawn axis so the axis <em>is</em> $\sigma=0$ — $\sigma_\infty$ from $y=126.2$ to $y=144.0$, the peak from $y=65.0$ to $y=56.0$ — re-decoded to measure $2.000\times$ the plateau off the page.
+<em>Why:</em> K4's own solution two lines above says "$\sigma$ starts at $2H_A\varepsilon_0$" and its own code prints <code>sigma_peak=0.119 MPa</code> / <code>sigma_end=0.0600 MPa</code>; the picture disagreed with both.</p>
+<p><strong>CODE — B15 (K7's block only parses on Python 3.12).</strong>
+<em>Before:</em> a <code>print(</code> whose f-string carried the replacement fields split across eleven physical lines — <code>f"eps_inf={</code> newline <code>eps_inf:.2f}  T90={</code> newline <code>T90:.3f} …</code>
+<em>After:</em> one named intermediate plus an implicitly concatenated f-string, printing the identical <code>eps_inf=0.50  T90=0.848  t90=5654 s = 1.57 h</code>
+<em>Why:</em> A multi-line expression inside an f-string replacement field is PEP 701 syntax, accepted only from 3.12; the page gives the block a copy button, so a reader on 3.11 gets a <code>SyntaxError</code> on paste — and <code>check_code</code> passed it, because pycodestyle checks layout, not language version.</p>
+<p><strong>NOTATION — B5 (three symbols, eight meanings).</strong>
+<em>Before:</em> <code>$F$ the Faraday constant</code> (line 315), <code>$p_0=\frac{3F}{2\pi a^2}$</code> and <code>Same load $F=1715\ \mathrm N$</code> (§6), and <code>F(t)</code> the fluid load support fraction (§§4, 7, 8 and eleven problems) — with the Appendix recording only the third. Likewise <code>$R_g,\ T$ gas constant and absolute temperature</code> sat eight rows from <code>$T$ dimensionless time, $T=Dt/h^2$</code> in the same table, and <code>$W$</code> was body weight in §0 and load in <code>$S=\frac{\eta\,U}{W}$</code> at line 963, with no Appendix row at all.
+<em>After:</em> the signature symbols keep their letters and the intruders move — dimensionless time keeps $T$ (it is in every code block) and temperature becomes $\Theta$; fluid support keeps $F$ and the contact load and Faraday constant move. In code, <code>RgT</code> became <code>RgTheta</code> in the K2 and K10 blocks (S13, found by grepping the superseded value after the apply).
+<em>Why:</em> §2 already shows the module knows how to do this — it writes $R_g$ "to keep it distinct from the joint reaction $R$ of §0" — so this was inconsistency, not oversight; and the standard is explicit that flagging a collision is not resolving it.</p>
+<p><strong>NUMBER — S2 (§7's friction product prints a different answer from the one shown).</strong>
+<em>Before:</em> <code>When the fluid is pressurized ($F\approx0.99$ during a footstep), $\mu_{\rm eff}\approx0.15\times0.01\approx0.002$ — the measured value — and it needs &lt;em&gt;no sliding speed at all&lt;/em&gt;.</code>
+<em>After:</em> <code>During a $1\ \mathrm s$ footstep $F=0.986$, so $\mu_{\rm eff}=0.15\times0.014=0.0021$ — the measured value — and it needs &lt;em&gt;no sliding speed at all&lt;/em&gt;.</code>
+<em>Why:</em> The shown product $0.15\times0.01$ is $0.0015$, not $0.002$; the printed answer was right and the factor wrong, because $1-F$ at a 1 s footstep is $0.014$, not $0.01$.</p>
+<h3 id="module-05-muscles-as-chemo-electro-mechanical-actuators">Module 05 — Muscles as Chemo-Electro-Mechanical Actuators</h3>
+<p><strong>Scale.</strong> 22 blocking defects, 11 style edits, 72 anchored replacements. Report <code>editor-reports/module05.md</code> (655 lines).
+<strong>Verdict.</strong> "Yes, after revision." — the spine is sound and in places exemplary (decoding every polyline confirmed all eleven curves agree with the models the prose states), but "the module computes with models it never writes down": a reader cannot reproduce a single §3, §4, §7 or §9 number from the page.
+<strong>The one that mattered.</strong> Two decorative <code>&lt;figure&gt;</code> banners sat before the first <code>&lt;h2&gt;</code> — a triceps-surae graphic and a pennation graphic, neither referenced from the prose. The stylesheet numbers every <code>&lt;figure&gt;</code> with a CSS counter, so the first <em>referenced</em> figure rendered as "Fig. 3" while the prose called it Fig. 1, and the offset carried through all 33 references. Every single figure citation in the module pointed the reader two figures earlier than the one being discussed — a defect invisible to every automated gate and to anyone reading the source rather than the rendered page.</p>
+<p><strong>FIGURE — B3 (Fig. 30 answers a different problem from the one the module set).</strong>
+<em>Before:</em> the optimisation figure's blue constraint line ran $(0,235)$ to $(147,0)$ and its innermost gold cost ellipse had decoded semi-axes 70.7 N and 141.4 N — a maximal-force ratio of exactly 1:2 — giving the tangency $(57.4, 143.6)$ that the caption quotes: <code>Here that puts more force on the stronger brachialis ($F_{br}\approx144$&amp;nbsp;N) than the biceps ($F_{bi}\approx57$&amp;nbsp;N)</code>
+<em>After:</em> regenerated from §1's own numbers, $F_{bi,\max}=135\ \mathrm N$ and $F_{br,\max}=210\ \mathrm N$: <code>Solving $F_i\propto d_iF_{i,\max}^2$ against the constraint gives $F_{bi}=76$&amp;nbsp;N and $F_{br}=114$&amp;nbsp;N, leaving both at nearly the same relative stress ($0.56$ and $0.54$).</code>
+<em>Why:</em> §1 computes a maximal-force ratio of 1:1.56, not 1:2, so the drawn ellipses belonged to a different muscle pair; the corrected figure also earned a new sentence the original never drew — 76+114 = 190 N against the 147 N a single muscle would need, because minimising stress is not minimising force.</p>
+<p><strong>NUMBER — B4 (K10's fitted time constant is not what its own fit returns).</strong>
+<em>Before:</em> <code>recovers $\boxed{\tau_a\approx41.5\ \mathrm{ms}}$ (giving $t_{\text{pk}}=25.2$, $t_{\text{half}}=40.0\ \mathrm{ms}$)</code> — with the figure's label and <code>aria-label</code> repeating "41.5 ms"
+<em>After:</em> <code>which prints &lt;code&gt;fitted tau_a = 43.7 ms&lt;/code&gt; … So $\boxed{\tau_a\approx43.7\ \mathrm{ms}}$, against the $41.0\ \mathrm{ms}$ Modelling assumption 3.2 assumed — a $6.6\%$ discrepancy, and it is not numerical error … what you recover is the parameter &lt;em&gt;conditioned on everything you froze&lt;/em&gt;, and reporting it without that condition overstates what the twitch measured.</code>
+<em>Why:</em> Minimising $(t_{\text{pk}}-25)^2+(t_{\text{half}}-40)^2$ over $\tau_a$ returns 43.71 ms, and 43.71 ms is what produces the quoted features; 41.5 ms produces neither — a factual error inside the one problem whose subject is parameter estimation.</p>
+<p><strong>PROSE — B5 (K6 gives the wrong reason for the strength peak).</strong>
+<em>Before:</em> <code>The joint is therefore strongest where &lt;em&gt;neither&lt;/em&gt; factor alone is maximal</code>
+<em>After:</em> <code>on $[70^\circ,82.3^\circ]$ the product is $1\times d_m(\theta)$, still rising, and beyond $82.3^\circ$ the falling $f_L$ beats the flattening $d_m$: the strength peaks at $\boxed{82.3^\circ}$ … The lesson is not that neither factor is maximal there — $f_L$ &lt;em&gt;is&lt;/em&gt; at its maximum across the whole plateau — but that a flat factor hands the choice of optimum entirely to the other one.</code>
+<em>Why:</em> With $\ell(\theta)/\ell_0=1-0.003(\theta^\circ-70)$ the fibre sits on the length-tension plateau ($0.963\le\ell/\ell_0\le1$) across the whole interval, so $f_L$ <em>is</em> maximal at the peak — the solution taught the wrong lesson from the right answer.</p>
+<p><strong>MATH — B12 (§8's lever ratio, and a load arm colliding with §0).</strong>
+<em>Before:</em> <code>the muscle's moment arm is roughly a tenth of the load's, so it pays roughly tenfold in force.</code> (load arm written $r_m$, colliding with §0's $r_L$)
+<em>After:</em> ratio corrected to a seventh, arm renamed $r_L$, plus a reconciliation paragraph: <code>&lt;a class="secref" href="#origin"&gt;&amp;#167;0&lt;/a&gt; took the elbow flexor moment arm as $d_m\approx3\ \mathrm{cm}$ … here it is $4\ \mathrm{cm}$. Both are right, at different angles: Module&amp;nbsp;1's $3\ \mathrm{cm}$ is a single value chosen to stand for the whole flexion range, while $4\ \mathrm{cm}$ is the peak of the angle-dependent curve … reached near $90^\circ$.</code>
+<em>Why:</em> With $d_m=4$ cm and $r=30$ cm the ratio is a seventh, and the two forces quoted in the same sentence — 147 N against 19.6 N — are themselves a factor 7.5.</p>
+<p><strong>CODE — B7 (live HTML inside Lab 1's <code>&lt;pre&gt;&lt;code&gt;</code>).</strong>
+<em>Before:</em> <code># activation ODE constants (s), &lt;a class="secref" href="#activation"&gt;§5&lt;/a&gt;</code> (and four more at <code>module05.html:1158, 1168, 1172, 1180</code>)
+<em>After:</em> <code># activation ODE constants (s), sec. 5</code> (and <code>sec. 2</code>, <code>sec. 6</code>, <code>sec. 8</code>, <code>sec. 5</code>)
+<em>Why:</em> Five <code>&lt;a&gt;</code> tags sat unescaped inside the code block, so the copy button handed the reader text that is not Python.</p>
+<p><strong>NUMBER — B6 (Lab 1's quoted output is not what Lab 1 prints).</strong>
+<em>Before:</em> <code>&lt;code&gt;peak torque 13.3 N m at t = 0.76 s&lt;/code&gt;</code>
+<em>After:</em> <code>&lt;code&gt;peak torque 13.4 N m at t = 0.76 s&lt;/code&gt;</code>
+<em>Why:</em> The block gives 13.3504 N m, which its own <code>f"{...:.1f}"</code> renders as 13.4; decoding the Fig. 34 lower panel independently gives 13.34 N m at 0.752 s — so the figure agreed with the code and only the prose did not.</p>
+<h3 id="module-06-tendons-ligaments-fascia-and-elastic-energy-storage">Module 06 — Tendons, Ligaments, Fascia, and Elastic Energy Storage</h3>
+<p><strong>Scale.</strong> 17 blocking defects, 15 style edits, 52 anchored replacements. Report <code>editor-reports/module06.md</code> (918 lines).
+<strong>Verdict.</strong> "Yes, after revision." — "Every proposition carries a real proof, and every proof I followed with a pen checks out … The damage is in the numbers, and it is of one kind." The module told the reader twice that its computational answers were "Python-verified" and then shipped no code with any of the thirty problems.
+<strong>The one that mattered.</strong> §6 and §7 say a tendon's relaxation time is "seconds to minutes" — that is what puts gait on the low-loss side of the loss peak, and it is the module's headline explanation of why a tendon makes a good spring. But the Appendix and every lab and K problem use $\tau_\sigma=0.05$ s, which puts the loss peak at 2.25 Hz, i.e. running cadence, as K7 itself computes. The module's own parameters put gait <em>on</em> the peak while its prose says gait sits far past it, and Fig. 16 shades the gait band as $\omega\tau_\sigma\gg1$ using the very $\tau_\sigma$ that makes it false. A reader checking the central claim against the module's own numbers would find it inverted.</p>
+<p><strong>MATH — B2 (the relaxation time that contradicts the headline claim).</strong>
+<em>Before:</em> <code>A tendon's relaxation time $\tau_\sigma$ is of order seconds to minutes, while walking and running load it at a few hertz. The product $\omega\tau_\sigma$ is therefore &lt;em&gt;large&lt;/em&gt;</code>
+<em>After:</em> <code>Real tendon has a spectrum, not one time constant: the Appendix records a span from $10^{-2}$ to $10^{3}\ \text{s}$. The fast end, $\tau_\sigma\approx0.05\ \text{s}$, is the mode the labs of &lt;a class="secref" href="#labs"&gt;§9&lt;/a&gt; use … taken alone it would put $\omega^\ast\approx14\ \text{rad/s}$, or $2.25\ \text{Hz}$ (K7), squarely at running cadence. … A tendon is a low-loss spring in the regime it works in because its dominant loss peak is parked decades below the operating frequency, not because it has no loss peak.</code>
+<em>Why:</em> At a 2.6 Hz cadence, $\omega\tau_\sigma=16.34\times0.05=0.82$ — not large; the two statements could not both stand, and the one the figure was drawn with was the one the prose denied.</p>
+<p><strong>NUMBER — B3 (a "tendon" that stretches 61 %).</strong>
+<em>Before:</em> <code>kT = 1.7e4  # leg (series-tendon) stiffness (N/m)</code> with the prose <code>the tendon stores $\approx197\ \text{J}$ over the bounce</code>
+<em>After:</em> <code># an elastic leg spring. Assumed values; kT is a WHOLE-LEG series</code> / <code># stiffness, not the 4.2e5 N/m free Achilles of section 2.</code> and <code>kT = 1.7e4  # leg (series) spring stiffness (N/m)</code>, with the prose stating <code>A hop compresses the leg by about $16\ \text{cm}$, and no single tendon stretches that far; the lumped leg spring rolls the Achilles together with the arch, the knee and hip tissues</code>
+<em>Why:</em> §2 computes the free Achilles at $4.16\times10^{5}$ N/m — 24 times stiffer — and instrumenting the block gives a peak ground reaction of 2591 N, so the labelled "tendon" stretched 152.4 mm, which on §2's own 250 mm Achilles is 61 % strain against a 9 % rupture strain; the stiffness was right for a whole-leg SLIP spring and only the <em>label</em> was wrong.</p>
+<p><strong>PROSE — B5 ("near-isometric" contradicted by the simulation meant to prove it).</strong>
+<em>Before:</em> <code>$\sim97\%$ of the push-off is elastic recoil, the muscle merely holding force</code>
+<em>After:</em> <code>Be exact about &lt;em&gt;near-isometric&lt;/em&gt;, because the simulation is: the fibre is not still. It shortens $18\ \text{mm}$ over the stance, a third of its optimal length $\ell_0$, and its length factor $f_L$ falls from $1.00$ to $0.58$ on the way. What is near zero is its &lt;em&gt;velocity at push-off&lt;/em&gt;, $0.30$ of the spring's recoil speed.</code>
+<em>Why:</em> Isometric means constant length, and the Lab 2 fibre shortens 55.0 mm → 36.6 mm (33.5 % of $\ell_0$); the true statement — a velocity ratio, not a length one — strengthens the catapult argument rather than weakening it.</p>
+<p><strong>FIGURE-LABEL — B16 (Fig. 9's "about 6×" contradicted by the module's own simulation).</strong>
+<em>Before:</em> <code>the tendon recoils about $6\times$ faster than the fibre. Derived from the constraint (4.1) and the tendon law, as ultrasound fascicle measurements confirm.</code>
+<em>After:</em> <code>The split drawn here is &lt;em&gt;prescribed&lt;/em&gt;, to show what Eq.&amp;nbsp;(4.4) allows rather than to predict a value; the ratio computed from the coupled dynamics is $3.3\times$ (Lab&amp;nbsp;2, &lt;a class="secref" href="#labs"&gt;§9&lt;/a&gt;). Ultrasound fascicle tracking reports the same qualitative pattern (unverified here: no source is checked in this repo).</code>
+<em>Why:</em> No code in the module produces the 6, the module's own dynamic simulation of the same effect gets 3.3, and the caption attached an unverified ultrasound citation to a number the module had invented.</p>
+<p><strong>MATH — B8 (a boxed law fed an angle where it wants a length).</strong>
+<em>Before:</em> <code>$+\,R\,F_{\text{lig}}\big(\theta-\theta_{\text{hi}}\big)$</code>
+<em>After:</em> the corrected equation restated inside a Lemma with a proof, supplying the missing arc-length relation $x=R\,\Delta\theta$ — which is also exactly where the moment arm $R$ enters twice, once to convert the rotation to an elongation and once to convert the tension back to a torque.
+<em>Why:</em> $F_{\text{lig}}$ is Eq. (2.1)'s structural law $F(x)=A_0\sigma(x/L_0)$, whose argument is an elongation in metres; handed $\theta-\theta_{\text{hi}}$ in radians the expression is dimensionally meaningless — and Lab 3 inherited it, making <code>k = 4.5e6</code> a quantity in N/rad² that no comment declared.</p>
+<p><strong>NUMBER — B17 (§2's own range excludes §2's own answer).</strong>
+<em>Before:</em> <code>in the measured range for the free Achilles ($\sim150$–$400\ \text{N/mm}$…)</code> and <code>consistent with the $\sigma_f\approx100\ \text{MPa}$ of §1 ($\sigma_f A_0\approx7.8\ \text{kN}$)</code>
+<em>After:</em> <code>just above the measured range for the free Achilles ($\sim150$&amp;#8211;$400\ \text{N/mm}$ … ) which is what a model that ignores the aponeurosis in series should give. … whose model failure stress is $\sigma_f=97.5\ \text{MPa}$ and gives $\sigma_f A_0=7.8\ \text{kN}$ (the round $100\ \text{MPa}$ would give $8.0\ \text{kN}$).</code>
+<em>Why:</em> The computed $k_{\text{lin}}=416$ N/mm is <em>above</em> the quoted 150–400 N/mm band, and $100\ \mathrm{MPa}\times80\ \mathrm{mm^2}=8.0$ kN, not 7.8 — the 7.8 comes from the model's own 97.5 MPa, which is the honest number to name.</p>
+<h3 id="module-07-standing-posture-and-load-bearing">Module 07 — Standing, Posture, and Load Bearing</h3>
+<p><strong>Scale.</strong> 19 blocking defects, 11 style edits, 86 anchored replacements. Report <code>editor-reports/module07.md</code> (657 lines).
+<strong>Verdict.</strong> "Yes, after revision — and the revision is larger than it looks." — "The mathematical spine of this module is the best in the course so far. Ten propositions, every one proved, and the proofs are real … None of this touches the derivations. Fix the figures, fix the eight numbers, and this is a chapter that teaches."
+<strong>The one that mattered.</strong> Ten problem figures drew their axes as 20–60 px black slabs. <code>stroke-width="49.2"</code> on an x-axis renders as a solid black rectangle across the lower left of the plot, swallowing the axis title, the tick labels and the first third of the curve; C5's dashed reference line at <code>stroke-width="57.6" stroke-dasharray="5 4"</code> rendered as a picket fence of red bars over the whole panel, and D2's two eigenlines at <code>stroke-width="50.0"</code> turned a saddle's stable and unstable manifolds into two crossed slabs. Every one of the nine hardening gates passed the file, because <code>getBBox()</code> ignores stroke width and <code>check_overlap</code> excludes solid lines by design. The reader would have seen ten ruined figures that no automated check could see.</p>
+<p><strong>SVG — B1 (axes drawn as slabs).</strong>
+<em>Before:</em> <code>&lt;line x1="55" y1="155" x2="260" y2="155" stroke="#333" stroke-width="49.2"/&gt;</code> and <code>&lt;line x1="55" y1="155" x2="55"  y2="50"  stroke="#333" stroke-width="25.2"/&gt;</code> — 22 axis lines carrying <code>stroke-width</code> between 21.6 and 62.4
+<em>After:</em> every <code>&lt;line stroke="#333"&gt;</code> with <code>stroke-width</code> ≥ 10 thinned to <code>stroke-width="1.2"</code>; C5's dashed reference line to <code>1.6</code>; D2's eigenlines to <code>2.6</code>; and 31 vector shafts carrying <code>stroke-width</code> between 12 and 56.6 set to <code>3</code>
+<em>Why:</em> The same generator bug that fattened the axes fattened every arrow shaft — a 20 px shaft behind a fixed 10–13 px <code>markerUnits="userSpaceOnUse"</code> head reads as "a brick with a notch, not an arrow"; the fix left 26 thick lines alone because there the thickness <em>is</em> the anatomy (limbs <code>#c98a5e</code>, feet <code>#5a86a8</code>, muscle bellies <code>#8a3d3d</code>).</p>
+<p><strong>FIGURE-LABEL — B12 (the D1 figure states the equation of motion with the wrong sign).</strong>
+<em>Before:</em> <code>I&amp;#952;&amp;#776; = Mg&amp;#8467; sin&amp;#952; + &amp;#964;</code> (rendered <code>Iθ̈ = Mgℓ sinθ + τ</code>)
+<em>After:</em> <code>I&amp;#952;&amp;#776; = Mg&amp;#8467; sin&amp;#952; &amp;#8722; &amp;#964;</code>
+<em>Why:</em> Proposition 3.1 and the D1 solution directly beneath both give $I\ddot\theta = Mg\ell\sin\theta - \tau$, and the sign of $\tau$ is the entire point of the problem — the ankle torque restores, gravity topples.</p>
+<p><strong>NUMBER — B3 (K5's "optimum" is not the optimum, and its decay rate is 2.3× too small).</strong>
+<em>Before:</em> <code>the optimum sits near $K_p\approx940$, $K_d\approx260\ \mathrm{N\,m\,s\,rad^{-1}}$, with a decay rate of ${\approx}\,1.5\ \mathrm{s^{-1}}$ (recovery time constant ${\approx}\,0.7$&amp;nbsp;s)</code>
+<em>After:</em> <code>the decay rate peaks at $K_p\approx785\ \mathrm{N\,m\,rad^{-1}}$ (that is $1.27\,Mg\ell$) and $K_d\approx256\ \mathrm{N\,m\,s\,rad^{-1}}$, giving $\sigma_{\max}\approx3.42\ \mathrm{s^{-1}}$ and a recovery time constant $1/\sigma\approx0.29$&amp;nbsp;s, about twice the delay. The optimum is exactly where three real characteristic roots coalesce, the delayed analogue of critical damping: it solves $f(s)=f'(s)=f''(s)=0$</code>
+<em>Why:</em> A Chebyshev discretisation of the delay differential equation gives a grid maximum $\sigma=3.4206$ at $K_p=785$, and the triple-root pair $(784.879,\,256.449)$ gives 3.4204; the stated $(940,260)$ gives 1.4583 — so the old answer was a real point on the island, but not the fastest one, and the recovery-time claim was off by a factor 2.3.</p>
+<p><strong>NUMBER — B9 (K2's area ratio, repeated wrong inside the figure).</strong>
+<em>Before:</em> the solution's stated ratio and the <code>fig44</code> label <code>stable area ratio &amp;#8776;4.6</code>
+<em>After:</em> <code>Testing stability on a grid over $(K_p,K_d)$ and summing the stable cells gives $1.18\times10^6$ for $\Delta=0.12$&amp;nbsp;s against $2.66\times10^5$ for $\Delta=0.18$&amp;nbsp;s, a ratio of $4.44$.</code>, and the figure label <code>stable area ratio &amp;#8776;4.44</code>
+<em>Why:</em> Two independent computations agreed against the module — Green's theorem on the Hopf boundary of Proposition 6.2 gives 4.4458, and a $160\times160$ grid tested with the Chebyshev rightmost root gives 4.453 — and the wrong number was baked into the picture as well as the prose.</p>
+<p><strong>CODE — B19 (the reader-facing lab code is formatter-damaged).</strong>
+<em>Before:</em></p>
+<pre><code>print(
+    f&quot;critical delay : simulation {
+        1e3 *
+        Dcrit:5.1f} ms   theory {
+            1e3 *
+            Dtheory:5.1f} ms&quot;)
+</code></pre>
+<p><em>After:</em> both lab blocks rewritten to readable, 79-column, Python-3.8-compatible form, printing byte-identical output
+<em>Why:</em> A multi-line expression inside an f-string is PEP 701, i.e. 3.12 and later, so a reader on 3.11 gets a <code>SyntaxError</code> from a block the module tells them to copy and run; the same pass had mangled <code>acc = (Mgl*th[k] - Kp*thd - Kd*wd) / \</code> onto a backslash continuation and broken a Lab 2 generator expression across five lines — and both blocks were PEP8-clean, "which is exactly why nothing caught it."</p>
+<p><strong>FIGURE — B2 (every numbered figure reference points at the wrong figure).</strong>
+<em>Before:</em> an uncited lumbar-spine <code>&lt;figure&gt;</code> sat at the top of §0, incrementing the stylesheet's CSS counter before the first figure the prose actually names
+<em>After:</em> the lumbar-vertebrae figure moved out of §0 and into §8 as Fig. 17, where §8 gains a sentence citing it for the short erector lever; K9's <code>envelope of &lt;b&gt;Fig. 20&lt;/b&gt;</code> renumbered to <code>Fig. 21</code>
+<em>Why:</em> One uncited figure shifted the counter by one, so every numbered reference in the module landed on its neighbour — the same class of defect as Module 5's two-figure offset, from the same cause.</p>
+<h3 id="module-08-walking-biomechanics">Module 08 — Walking Biomechanics</h3>
+<p><strong>Scale.</strong> 22 blocking defects (B1–B23; 17 in the first pass, 6 more from a figure decode, B21 checked and cleared), 15 style edits, 65 anchored replacements. Report <code>editor-reports/module08.md</code> (1490 lines).
+<strong>Verdict.</strong> "Yes, after revision — and the revision is substantial": the argument structure is sound and nothing in it is faked, but "a graduate reader would follow the derivations and then be unable to reproduce a single computed number in the module."
+<strong>The one that mattered.</strong> All four labs ran, and not one number any of them printed appeared anywhere in the module — the section opened by claiming each lab "varies a parameter and asks what mechanism changes" and then showed four bare code blocks with no result and no interpretation. Worse, Lab 3 was titled "inverse-dynamics estimate" and did no inverse dynamics at all: it asserted a Gaussian ankle torque and multiplied it by an asserted Gaussian angular velocity. A reader copying that block would learn the shape of two curves someone typed in, not how a joint moment is recovered from ground reaction and geometry.</p>
+<p><strong>MATH — B9c+S7 (Prop 9.1's worked example).</strong>
+<em>Before:</em> <code>For $\ell=0.9$&amp;nbsp;m, a step half-angle $\alpha\approx0.3$&amp;nbsp;rad and a gentle slope $\gamma\approx0.05$&amp;nbsp;rad ($3^\circ$), this gives $v\approx1.2\ \mathrm{m\,s^{-1}}$ — a realistic walking speed from gravity alone.</code>
+<em>After:</em> <code>For the module's reference $\ell=0.95$&amp;nbsp;m, a step half-angle $\alpha=0.30$&amp;nbsp;rad and a gentle slope $\gamma=0.05$&amp;nbsp;rad ($2.87^\circ$), this gives $v=1.25\ \mathrm{m\,s^{-1}}$, a realistic walking speed from gravity alone. The two small-angle substitutions just made are doing real work at $2\alpha=34.4^\circ$: K9 solves the same energy balance without them and gets $1.31\ \mathrm{m\,s^{-1}}$, $5.5\,\%$ higher.</code>
+<em>Why:</em> The leg length silently switched to <code>0.9</code> m from the module's own reference <code>0.95</code> m, and <code>0.05</code> rad was labelled <code>3°</code> when it is <code>2.8648°</code>.</p>
+<p><strong>NUMBER — B3a/B3b (Prop 5.2).</strong>
+<em>Before:</em> <code>Splitting a velocity redirection of total angle $\beta$ into $n$ equal sequential impulses reduces the collision loss from $\tfrac12 Mv^2\beta^2$ to $\tfrac12 Mv^2\beta^2/n$. … it powers the same transition with one-quarter of the work required if the collision is left to dissipate</code>
+<em>After:</em> <code>$$\boxed{\;E_{\rm step}\;=\;\tfrac12 Mv^2\sin^2\!\frac{\beta}{n}\;\approx\;\frac{1}{n^{2}}\cdot\tfrac12 Mv^2\beta^2\;}$$ … $$\frac{\tan^2\alpha}{\sin^2 2\alpha}=\frac{1}{4\cos^{4}\alpha}.$$ That tends to $\tfrac14$ as $\alpha\to0$, which is the classic one-quarter, but it equals $0.330$ at this module's reference half-angle $\alpha=21.1^\circ$.</code>
+<em>Why:</em> The proposition proved a <code>1/n</code> law and then concluded with the textbook one-quarter, which needs <code>1/n²</code>; the true reference-gait saving is <code>26.7</code> J → <code>8.8</code> J, a factor <code>3.03×</code>, not <code>4×</code>.</p>
+<p><strong>PROSE — B12a (<code>module08.html:199</code>).</strong>
+<em>Before:</em> <code>In single support, the stance leg is often well a\approximated as a nearly rigid link of length $\ell$ from the contact point to the COM.</code>
+<em>After:</em> <code>In single support, the stance leg is well approximated as a rigid link of length $\ell$ from the contact point to the COM, an idealisation &lt;a class="secref" href="#problems"&gt;section 12&lt;/a&gt; returns to.</code>
+<em>Why:</em> A literal <code>a\approximated</code> rendered as backslash garbage on the page, and the double hedge "often well … nearly" was replaced by a forward pointer to where the idealisation is actually questioned.</p>
+<p><strong>NOTATION — B12b+B17b/B17c (<code>module08.html:473,477</code>).</strong>
+<em>Before:</em> <code>About the whole-body COM, the angular momentum satisfies $$\dot{\mathbf L}_G=\sum \mathbf M_G^{\rm ext}.$$ If external moments about the COM are small over part of the stride, arm and leg angular momenta must a\approximately cancel within the body.</code>
+<em>After:</em> <code>About the whole-body COM, the angular momentum satisfies $$\dot{\mathbf H}_G=\sum \mathbf M_G^{\rm ext}.$$ If external moments about the COM are small over part of the stride, arm and leg angular momenta must approximately cancel within the body.</code>
+<em>Why:</em> <code>L</code> is step length everywhere else in the module, so <code>L_G</code> was a live symbol collision; renamed to <code>H_G</code> throughout Prop 8.1 and its proof.</p>
+<p><strong>SVG — B19a/B19b (the joint-power figure, <code>module08.html:432</code>).</strong>
+<em>Before:</em> A decorative "walker" drawn as <code>&lt;line x1="656" y1="250" x2="748" y2="250" stroke="#c9b79a" stroke-width="23.9"/&gt;</code> — a 92 px × 23.9 px beige slab — with two lentil feet <code>&lt;ellipse cx="701" cy="237" rx="6" ry="2"/&gt;</code>, <code>&lt;ellipse cx="711" cy="236" rx="6" ry="2"/&gt;</code> and a head <code>&lt;circle cx="702" cy="119" r="14.3"/&gt;</code> floating about 118 px above them. Figure <code>viewBox="0 0 760 300"</code>.
+<em>After:</em> All four elements deleted; <code>viewBox="0 0 645 300"</code>.
+<em>Why:</em> The pieces read as a beige slab with a detached head, not a walker; <code>check_bodyprop</code> could not see it because the parts were separate elements, so it took a human render to catch.</p>
+<p><strong>CODE — B1e+S2 (Lab 3, <code>module08.html:629-633</code>).</strong>
+<em>Before:</em> <code>ankle = 70*np.exp(-((t-0.55)/0.09)**2) - 15*np.exp(-((t-0.12)/0.08)**2)</code> / <code>omega_a = 2.0*np.exp(-((t-0.58)/0.10)**2)</code> / <code>work_ankle = np.trapz(np.maximum(power, 0), t)</code>
+<em>After:</em> <code>Fy = shape*(W*T/2)/np.trapezoid(shape, t)   # scale set by impulse-momentum</code> / <code>x_cop = -0.06 + 0.25*s                      # heel-to-toe COP, ankle at x=0</code> / <code>tau = Fy*x_cop                              # quasi-static ankle moment</code>
+<em>Why:</em> The ankle moment is now derived — the ground-reaction scale is fixed by <code>∫F_y dt = WT/2</code> and multiplied by the section's own COP travel — instead of asserted, and <code>np.trapz</code> (deprecated; warns on every reader's run) became <code>np.trapezoid</code>.</p>
+<h3 id="module-09-running-and-jumping">Module 09 — Running and Jumping</h3>
+<p><strong>Scale.</strong> 16 blocking defects (B1–B16; B14–B16 came from the figure-decode pass), 18 style edits, 80 anchored replacements. Report <code>editor-reports/module09.md</code> (966 lines).
+<strong>Verdict.</strong> "Yes, after revision." The derivational spine is sound — fifteen propositions each carry a proof of matching weight and re-deriving every one by hand found no mathematical error — but "what stops the reader is the problem set and the numbers around it."
+<strong>The one that mattered.</strong> K1 told the reader to find the leg stiffness that maximises flight time "and explain why an interior optimum exists"; its figure drew a hump labelled <code>optimum kleg ≈ 18 kN/m</code>, and its solution supplied a mechanism for the hump. None of it was real. Integrating the module's own SLIP equation with RK4 from the touchdown state K1 itself specifies, flight time rises strictly monotonically across the whole admissible band — <code>25.4 → 93.2 → 171.9 → 234.5 → 319.9 ms</code> as <code>k_leg</code> runs <code>12 → 40 kN/m</code>, increasing at all 59 grid points. The reader was being asked to explain a feature the model does not have, and the offered explanation inverted the physics: at a fixed touchdown state the energy is fixed, so a stiffer leg does not store less, it returns more of the same energy vertically and pays in forward speed (<code>v_x</code> falls <code>4.20 → 3.60 m/s</code>).</p>
+<p><strong>MATH — B1 (K1 statement and solution, <code>module09.html:497-499</code>).</strong>
+<em>Before:</em> <code>Find the stiffness that maximises flight time, and explain why an interior optimum exists rather than &amp;quot;stiffer is always better.&amp;quot;</code> … <code>Flight time peaks at an intermediate stiffness: too soft a leg over-compresses and spends the stance redirecting rather than rebounding, while too stiff a leg barely compresses and stores little elastic energy to launch with.</code>
+<em>After:</em> <code>Report the flight time and the peak vertical GRF together, and decide from the sweep whether flight time has an interior optimum or whether the useful stiffness is set by a constraint instead. Then find, by root-finding, the softest leg that still produces flight and the stiffest one that keeps the peak below $3$ body weights.</code> … <code>The useful stiffness is set by a constraint, not by an optimum, and the sweep is the only way to see that.</code>
+<em>Why:</em> The real bounds are constraints found by root-finding — <code>k_leg = 11.09 kN/m</code> below which there is no flight at all, and <code>k_leg = 19.3 kN/m</code> where the peak vertical GRF reaches 3 body weights (<code>t_f = 163 ms</code>).</p>
+<p><strong>NUMBER — B2 (<code>module09.html:217,219</code>).</strong>
+<em>Before:</em> <code>The CMJ reliably wins - by a few centimetres, here $34$ against $30\ \mathrm{cm}$ (Fig. 7, right).</code> and the caption <code>~34 cm against ~30 cm. Heights are computed from each curve's impulse</code>
+<em>After:</em> <code>The CMJ reliably wins, and the same computation that produced Fig. 7 says by how much: $32.0$ against $30.0\ \mathrm{cm}$, a gain of $2.0\ \mathrm{cm}$ from a net impulse that is only $3.3\%$ larger ($175.5$ against $169.9\ \mathrm{N\,s}$).</code>
+<em>Why:</em> Lab 2 — the module's own stated source for the number — prints <code>countermovement (front) h = 32 cm</code>, and no member of its <code>profile(front)</code> family reaches 34 cm (the family maxes at 32.4 cm).</p>
+<p><strong>SVG — B15 (K6's figure, <code>module09.html:518</code>).</strong>
+<em>Before:</em> K6's polyline was byte-identical to K3's descending sensitivity line at <code>:506</code> — both the same 549-character point string running <code>48.0,44.0 52.5,46.2 … 257.5,147.8 262.0,150.0</code>, i.e. a straight descent. It drew the required stopping distance <em>falling</em> with drop height, and carried no tick labels at all, so nothing on the plot could contradict it.
+<em>After:</em> The computed line <code>d_s = h_drop/5</code> from <code>(48,150)</code> to <code>(262,65.2)</code>, tick labels on both axes (<code>0, 0.5, 1.0 m</code>; <code>0, 10, 20 cm</code>), and the five tabulated points <code>4, 8, 12, 16, 20 cm</code> marked.
+<em>Why:</em> K6's own solution derives <code>d_s &gt;= m g h_drop/(F_tol - mg) = h_drop/5</code>, which rises — the figure drew the opposite of the answer printed beneath it.</p>
+<p><strong>SVG — B14 (Fig. 7's countermovement curve, <code>module09.html:217</code>).</strong>
+<em>Before:</em> The CMJ curve matched no <code>profile(front)</code> from Lab 2 (nearest is <code>front = 0.8</code>, off by <code>0.12</code> BW — seven times the squat-jump curve's residual) and integrated to <code>181.0 N s</code> and <code>34.06 cm</code>, while every label around it had already been corrected to <code>32.0</code>.
+<em>After:</em> The curve redrawn as Lab 2's own <code>profile(0.8)</code> on the same 80-point grid, integrating to <code>175.5 N s</code> and <code>32.04 cm</code>.
+<em>Why:</em> The caption asserted "Both heights are computed from each curve's net impulse by Lab 2", which was false for one of the two curves — the number was fixed and the drawing was not.</p>
+<p><strong>NOTATION — B4 (<code>module09.html:267,440,442,517,519</code>).</strong>
+<em>Before:</em> <code>by the work-energy form of (5.1), the peak force is F&amp;#8776;&amp;#189;m vland&amp;#178;/d+mg</code> and, in C8, <code>the peak force is $\bar F\approx\tfrac12 m v_{\rm land}^2/d + mg$</code>
+<em>After:</em> <code>by the work-energy form of (5.1), the average force over the stop is F&amp;#772;=&amp;#189;m vland&amp;#178;/d&amp;#8347;+mg … The brief spike at first contact is higher still, and is the subject of section 9.</code>
+<em>Why:</em> Proposition 8.1 derives an <em>average</em> and says so twice; four places called it the peak, contradicting the one distinction §9 is built on — and C8's <code>$\bar F$</code> already carried the overbar while its prose said "peak."</p>
+<h3 id="module-10-balance-stability-and-sensorimotor-control">Module 10 — Balance, Stability, and Sensorimotor Control</h3>
+<p><strong>Scale.</strong> 16 blocking defects, 8 style edits (6 applied as their own tags, 2 folded into blocking fixes), 62 anchored replacements. Report <code>editor-reports/module10.md</code> (683 lines).
+<strong>Verdict.</strong> "Yes, after revision. The mathematical spine is the best in the course so far" — every proposition carries a correct proof — but "what blocks it is a set of defects that every gate is blind to, and one of them is a contradiction between two boxed results of the module's own."
+<strong>The one that mattered.</strong> Proposition 1.2 boxes <code>J_max = m·ω₀·b = 21.7 N s</code> as the largest push a person can arrest without stepping, and Proposition 7.1 proves the ankle's authority is bounded by the length of the foot. Lab A then simulated an <em>unbounded</em> ankle, reported arresting <code>32.4 N s</code>, and K1 told the reader that number was the boxed budget "eroded by the whole delayed transient." It is not eroded — it is 49 % larger, because the simulated controller drives the centre of pressure outside the foot, which the module's own Proposition 7.1 forbids. A reader would have taken the lab as confirming the theory it silently contradicts.</p>
+<p><strong>CODE — B1 (Lab A, <code>module10.html:360-375</code>).</strong>
+<em>Before:</em> <code>om[i+1] = om[i] + dt*(w0*w0*th[i] - kp*thd - kd*omd)</code>
+<em>After:</em> <code>u_max = w0*w0*theta_edge  # bounded ankle authority, Prop. 7.1 (rad/s^2)</code> … <code>u = np.clip(-(kp*thd + kd*omd), -u_max, u_max)</code>
+<em>Why:</em> Saturating the command at <code>|u| ≤ ω₀²(b/ℓ) = 0.961 rad/s²</code> makes the bisection return <code>21.6 N s</code> as <code>τ → 0</code> against the boxed <code>21.7</code>, falling monotonically to <code>18.5, 15.5, 0.8 N s</code> at <code>50, 100, 150 ms</code> — the lab now confirms the theory instead of contradicting it.</p>
+<p><strong>MATH — B5 (Proposition 7.1's proof, <code>module10.html:277</code>).</strong>
+<em>Before:</em> <code>$\ddot x_{\rm com}=\tfrac{g}{\ell}(x_{\rm cop}-x_{\rm com})$ in the linearised pendulum (dividing the restoring moment $mg(x_{\rm cop}-x_{\rm com})$ by the moment of inertia $m\ell^2$ and multiplying by the lever $\ell$ to get a linear acceleration)</code>
+<em>After:</em> <code>$$\ddot x_{\rm com}=\frac{g}{\ell}\big(x_{\rm com}-x_{\rm cop}\big),$$ the linear inverted-pendulum law: the COM accelerates &lt;em&gt;away&lt;/em&gt; from the COP, so a forward lean is arrested by driving the COP forward, past the COM.</code>
+<em>Why:</em> The sign was reversed and contradicted the module's own §1 (<code>x_cop = 0</code> giving <code>ẍ = +ω₀²x</code>); the parenthetical recipe got the right magnitude by accident and hid the argument, which is angular momentum taken about the COP.</p>
+<p><strong>NUMBER — B6 (K3's solution, <code>module10.html:606</code>).</strong>
+<em>Before:</em> <code>The fastest settling ($\approx0.5\ \mathrm{s}$) sits at high $k_p\approx27$ with strong damping $k_d\approx6.8$ - pressed against the island edge. The optimum is a corner solution bounded by the delay, not an interior one</code>
+<em>After:</em> <code>the fastest recovery is $0.50\ \mathrm{s}$ at $k_p=28.0\ \mathrm{s^{-2}}$, $k_d=8.0\ \mathrm{s^{-1}}$ … The optimum is &lt;em&gt;interior&lt;/em&gt;, and that is the point. The stability island of Proposition 4.2 at $k_d=8.1$ and $\tau=0.10$ does not close until $k_p=57.0\ \mathrm{s^{-2}}$, so the best gains sit at half the ceiling</code>
+<em>Why:</em> The stated gains sat at 51 % of the island ceiling, not against it; the true lesson is the opposite of the one printed — delay bounds the <em>useful</em> gain long before it bounds the <em>stable</em> gain.</p>
+<p><strong>FIGURE-LABEL — B10 (Fig. 7's caption, <code>module10.html:231</code>).</strong>
+<em>Before:</em> <code>a simulated sway trace wanders like a damped random walk, staying within the $\pm\sigma$ band set by the stationary variance of Proposition 5.1 (dashed).</code>
+<em>After:</em> <code>crossing the $\pm\sigma$ band of Proposition 5.1 (dashed) on about a third of its samples and peaking near $3\sigma$, as a Gaussian process must; what the theory fixes is not a bound but the trace's RMS, which matches the band's own value.</code>
+<em>Why:</em> Decoding the 2400-point trace against its own ticks gives a band at <code>±0.340 deg</code>, trace RMS <code>0.358 deg</code>, <code>33.9 %</code> of samples outside it in 14 excursions, peak <code>0.944 deg = 2.8σ</code> — the drawing was right and the caption taught the reader that sigma is a bound.</p>
+<p><strong>SVG — B11 (Fig. 8's Kalman-gain label, <code>module10.html:263</code>).</strong>
+<em>Before:</em> <code>K = σ²ₖ/(σ²ₖ+σ²ₘ) = 0.74</code> (SVG <code>&lt;text&gt;</code>, subscript entity <code>&amp;#8342;</code>)
+<em>After:</em> subscript entity <code>&amp;#8346;</code> in both occurrences, and <code>K</code> renamed <code>K_f</code>.
+<em>Why:</em> Proposition 6.1 boxes <code>K = σ_p²/(σ_p² + σ_m²)</code> with <code>p</code> for prediction; the figure wrote a subscript <code>k</code> that appears nowhere in the module — while its geometry was exactly right (<code>σ_p = 0.998</code>, <code>σ_m = 0.600</code>, fused <code>σ = 0.514</code> against the theoretical <code>0.515</code>).</p>
+<p><strong>NUMBER — B15 (§1's concrete tie-in, <code>module10.html:105</code>).</strong>
+<em>Before:</em> <code>$J_{\max}\approx70\times3.1\times0.10\approx22\ \mathrm{N\,s}$ - about the impulse of a firm shove or a $3\ \mathrm{kg}$ mass swung at walking speed.</code>
+<em>After:</em> <code>- the momentum of a $16\ \mathrm{kg}$ mass moving at walking speed ($1.4\ \mathrm{m\,s^{-1}}$), or of your own $70\ \mathrm{kg}$ brought to $0.31\ \mathrm{m\,s^{-1}}$, which is a firm shove and not a gentle one.</code>
+<em>Why:</em> A 3 kg mass at 1.4 m/s carries <code>4.2 N s</code>, a fifth of 22 — and the anchor number is the one the reader remembers.</p>
+<h3 id="module-11-reaching-waving-holding-gripping-and-manipulation">Module 11 — Reaching, Waving, Holding, Gripping, and Manipulation</h3>
+<p><strong>Scale.</strong> 19 blocking defects (B1–B19), 15 style edits, 60 anchored replacements. Report <code>editor-reports/module11.md</code> (480 lines).
+<strong>Verdict.</strong> "Yes, after revision." Nine propositions each carry a correct proof and "the mathematics is the strongest part of the module" — "what stops the reader is the arithmetic and the provenance"; "none of this touches a proof. Every fix below is arithmetic, provenance, a label, or a table row."
+<strong>The one that mattered.</strong> Lab A's inverse-kinematics helper had its two elbow branches labelled backwards: the docstring said <code>elbow=+1 up</code>, but under the module's own angle convention <code>+1</code> puts the elbow <em>below</em> the shoulder-to-hand line, and the array named <code>down</code> held the elbow-up solution. That error then walked downstream — K6 states an elbow-down pose and quotes <code>34.5 N</code>, which is the elbow-<em>up</em> number (the genuine elbow-down pose gives <code>52.29 N</code>). A reader tracing the figure back to the code would have found the code, the plot label, and the problem statement all agreeing with each other and all naming the wrong arm posture.</p>
+<p><strong>NUMBER — B1 (<code>module11.html:173</code>).</strong>
+<em>Before:</em> <code>Add the arm's own weight (Module 1's segment masses, restored in the inverse dynamics of Section 6) and these roughly double.</code>
+<em>After:</em> <code>Add the arm's own weight and these grow by much more than the cup alone suggests: … $(m_1\ell_{c1}+m_2\ell_1)g+m_2\ell_{c2}g=7.95+3.56=11.51\ \mathrm{N\,m}$ at the shoulder and $m_2\ell_{c2}g=3.56\ \mathrm{N\,m}$ at the elbow, so the totals are $14.45$ and $5.33\ \mathrm{N\,m}$ - the cup's torque multiplied by $4.9$ and $3.0$. The limb is the load; the mug is the surcharge.</code>
+<em>Why:</em> Evaluating the module's own Proposition 6.1 gravity vector with its own Appendix segment values gives factors of <code>4.91</code> and <code>3.02</code>, not "roughly double".</p>
+<p><strong>CODE — B2a/B2b (<code>module11.html:292,303</code>).</strong>
+<em>Before:</em> <code>"""Inverse kinematics; elbow=+1 up, -1 down. Returns (th1, th2)."""</code> and <code>down = np.array([ik(px, py, elbow=-1) for px, py in path])</code>
+<em>After:</em> <code>"""Inverse kinematics. elbow=+1 puts the elbow BELOW the straight</code> / <code>shoulder-to-hand line (elbow-down); -1 puts it above (elbow-up).</code> / <code>Returns (th1, th2)."""</code> and <code>down = np.array([ik(px, py, elbow=+1) for px, py in path])</code> / <code>up = np.array([ik(px, py, elbow=-1) for px, py in path])</code>, with a print of both sweeps added — <code>elbow-up: shoulder sweep 62.8 deg, elbow sweep 36.6 deg</code> / <code>elbow-down: shoulder sweep 109.1 deg, elbow sweep 36.6 deg</code>.
+<em>Why:</em> At the goal <code>(0.45,0.10)</code>, <code>elbow=+1</code> gives <code>θ₁=-56.3°, θ₂=+107.2°</code> with the elbow at <code>y=-0.250 m</code> (below the line) — the opposite of what the docstring claimed.</p>
+<p><strong>SVG — B8 (K10's figure, <code>module11.html:562</code>).</strong>
+<em>Before:</em> The plot's y axis ran 0 to 300 N (<code>y = 165 - 0.4W</code>) while the solution reports a power-grip capacity of <code>593 N</code> at <code>μ=0.8</code> and the sweep reaches <code>μ=0.85</code>, where the model gives <code>736.7 N</code>. The polyline was clamped flat at <code>y=45.0</code> — the axis top — over roughly the last third of the sweep.
+<em>After:</em> Regenerated on the same axis box with <code>y = 165 - 0.15W</code>, tick labels <code>0 / 400 / 800</code>, both polylines recomputed, and the two curve labels moved off the curves.
+<em>Why:</em> The figure read "300 N" where its own text said 593 N, and the flat clipped segment looked like a real plateau in the capstan law.</p>
+<p><strong>SVG — B5 (K8's figure, <code>module11.html:554</code>).</strong>
+<em>Before:</em> Decoding the two polylines against the figure's own axes (<code>y = 165 - 7.5F</code>): the red curve runs <code>4.91 → 9.41 N</code>, the true load; the blue curve runs <code>6.37 → 12.23 N</code>, which is <code>1.3×</code> the <strong>true</strong> load rather than the feedforward grip <code>1.3×0.5(g+1.5p)</code> (peak <code>7.35 N</code>). The blue curve therefore never dips below the red one — the figure drew a grip that never fails while a marker on it claimed a slip at <code>0.43 s</code>, and that marker sat on neither curve.
+<em>After:</em> Regenerated at the same viewBox and axis box: red = load, blue = feedforward grip capacity switching to <code>1.3×</code> the instantaneous load at <code>t_reflex</code>, marker at the true crossing <code>t = 0.488 s</code>.
+<em>Why:</em> The quoted slip time was wrong too (<code>0.488 s</code>, not <code>0.425 s</code>, so the reflex lands at <code>0.558 s</code>, not <code>0.495 s</code>), and the drawing hid the very failure the problem is about.</p>
+<p><strong>NOTATION — B12 (<code>module11.html:230,507,508,561,563</code>).</strong>
+<em>Before:</em> <code>β</code> was both the resultant angle <code>β = arctan(F_t/F_c)</code> of Proposition 7.1 and the capstan wrap angle in <code>e^{μβ}</code>, with the notation table recording neither use. The SVG text read <code>resultant β</code> and <code>seated iff β ≤ α ⟹ …</code>.
+<em>After:</em> The wrap angle keeps <code>β</code> (as the capstan law is universally written) and the local resultant angle becomes <code>ψ</code>; three prose occurrences and both SVG <code>&lt;text&gt;</code> bodies changed, and both symbols added to the notation table.
+<em>Why:</em> One symbol meaning two things in one module, in a subject where the reader is already tracking a Jacobian's worth of indices.</p>
+<p><strong>PROSE — B3a (<code>module11.html:280</code>).</strong>
+<em>Before:</em> <code>every plotted number below was produced by these scripts</code>
+<em>After:</em> <code>each script prints the numbers its caption and interpretation quote</code>
+<em>Why:</em> Three of the four lab scripts printed nothing at all — only Lab D printed (<code>manipulability=0.1350</code>, which matches) — so the provenance claim was false of Labs A, B and C until each gained the prints its captions had been quoting.</p>
+<h3 id="module-12-whole-body-coordination-and-motor-control">Module 12 — Whole-Body Coordination and Motor Control</h3>
+<p><strong>Scale.</strong> 14 blocking defects (B1, B2, B5–B16; the first agent's tag sequence has no B3 or B4), 22 style edits, 96 anchored replacements. Report <code>editor-reports/module12.md</code> (298 lines). The first agent on this module applied 76 edits and died before writing anything down, so sections 2–5 of the report are reconstructed from the applied diff — verified by checking that <code>cp module12.html edited/module12.html &amp;&amp; python apply.py</code> reproduces the delivered file byte for byte.
+<strong>Verdict.</strong> "Yes, after revision." Ten propositions and a lemma all carry proofs of matching weight and "the Euler-Poisson to minimum-jerk to 1.875 chain is the best-built passage in the module"; "what stopped the reader before this pass was elsewhere, and it was mostly arithmetic and notation rather than argument."
+<strong>The one that mattered.</strong> K6's figure drew the minimum-jerk bell — decoded from its own polyline, it peaks at <code>1.874 at τ=0.496</code> and matches <code>1.875 τ²(1-τ)²/(1/16)</code> to 0.002 at every one of 120 points — inside a problem whose solution, three lines below, says the answer is <em>not</em> minimum jerk but <code>1.736 at τ=0.68</code>. The figure drew the very thing the problem exists to distinguish itself from, so a reader who trusts the picture learns the opposite of the result. It passed all nine gates; it was found only by decoding the point string.</p>
+<p><strong>SVG — B13 (K6's figure, <code>module12.html:483-484</code>).</strong>
+<em>Before:</em> A 120-point polyline peaking at <code>1.874 at τ=0.496</code>, matching the minimum-jerk profile <code>1.875 τ²(1-τ)²/(1/16)</code> to 0.002 over every point, beside a solution reading "peaking at $1.389\ \mathrm{m/s}$ at $\tau=0.68$ with a peak-to-mean ratio of $1.736$ - between minimum acceleration's $1.500$ and minimum jerk's $1.875$".
+<em>After:</em> The solid curve regenerated from the K6 solution's own script (<code>figgen.k6_speed()</code> runs the identical 100-step quadratic program), with minimum jerk added as a dashed grey comparison and both labelled: "min-variance optimum: peak 1.736 at $\tau$=0.68" and "dashed: minimum jerk, 1.875 at $\tau$=0.50".
+<em>Why:</em> Decoding the delivered result now returns <code>1.736 at τ=0.68</code> for the solid curve and <code>1.875 at τ=0.50</code> for the dashed one — the sentence "between 1.500 and 1.875" finally has a picture.</p>
+<p><strong>SVG — B12 (Lab B's second figure, <code>module12.html:310</code>).</strong>
+<em>Before:</em> The blue curve is exactly <code>t_s = 4√2 R^(1/4)</code> (max deviation 0.009 s over 40 points) and runs from <code>1.79 s</code> to <code>17.89 s</code>, but the y-axis top tick was <code>10</code> and the axis line stopped at <code>y=40</code>, which is <code>11.0</code> on that scale. Everything past <code>log₁₀R ≈ 1.19</code> — about 40 % of the curve — was drawn above the frame in blank space with no gridline or tick to read it against. <code>check_frame</code> did not fire because the viewBox had been widened to <code>6 -81 488 339</code>, 81 user units of empty space above the plot, so nothing was technically clipped. The <code>aria-label</code> read "Position gain and settling time versus the effort weight R on a log axis, <strong>both falling</strong> as effort is priced higher."
+<em>After:</em> Axis rescaled to 20 s (the <code>5</code> and <code>10</code> ticks become <code>10</code> and <code>20</code>, <code>7.725</code> px per unit), both analytic curves regenerated on the new scale, legend moved left, viewBox retightened to <code>26 32 452 218</code>, and the <code>aria-label</code> rewritten to "the gain falls as R rises, the settling time climbs".
+<em>Why:</em> An oversized viewBox turned a clipping bug into a silent one — the gate saw empty margin, the reader saw a curve leaving the plot — and the screen-reader label asserted the opposite of the figure's own caption.</p>
+<p><strong>NUMBER — B1 (Lab C, <code>module12.html:315,337,339</code>).</strong>
+<em>Before:</em> <code>the steady force they press with is $K(x_{\rm des}-x_{\rm wall})$: the impedance controller settles at $200\times0.05=10\ \mathrm{N}$, the stiff servo at $5000\times0.05=250\ \mathrm{N}$ - $25\times$ larger</code>
+<em>After:</em> <code>The impedance controller peaks at $21\ \mathrm{N}$ and settles at $9.98\ \mathrm{N}$; the position servo peaks at $388\ \mathrm{N}$ and settles at $238.10\ \mathrm{N}$ - a factor $23.9$ in the settled force and $18.6$ in the peak … The settled values are the closed-form $K_ck_w(x_{\rm des}-x_w)/(K_c+k_w)$ of the Model line, and the code prints that prediction beside the simulation to confirm it.</code>
+<em>Why:</em> The prose modelled a rigid wall while the code gave the wall a finite stiffness <code>kw</code>; the rigid-wall estimate is exact for the compliant controller and 5 % high for the stiff one — which is the physical point the section was reaching for and missed. The figure had also been drawn on a 300 N axis while the servo trace reaches 388 N.</p>
+<p><strong>MATH — B5 (Proposition 7.1, <code>module12.html:190,192</code>).</strong>
+<em>Before:</em> <code>&lt;div class="proof"&gt;(Sketch; the quadratic-program step below is exact, and the bell shape follows once the plant's command-to-force smoothing is included.) ... by Lagrange multipliers its solution spreads the command smoothly over the whole movement (each $u_k\propto b_k/w_k$) rather than concentrating it in large, noisy bursts.</code>
+<em>After:</em> The minimiser stated in closed form, $$u_k=\frac{x_T}{\sum_j b_j^2/w_j}\cdot\frac{b_k}{w_k},$$ with existence and uniqueness from strict convexity, stationarity from the Lagrangian, and the optimal variance <code>c x_T²/Σ_j b_j²/w_j</code> shown to be exactly the Cauchy-Schwarz bound — so restricting the command to a subset <code>S</code> raises the variance by <code>(Σ_j b_j²/w_j)/(Σ_{j∈S} b_j²/w_j) ≥ 1</code>.
+<em>Why:</em> The load-bearing proposition of §7 asserted a qualitative conclusion and announced its own incompleteness, while sitting beside nine proved siblings; a burst is now penalised in exact proportion to the weight it leaves unused.</p>
+<p><strong>NOTATION — B11 (D9's solution, <code>module12.html:453</code>, and Fig. 8's aria-label at <code>:222</code>).</strong>
+<em>Before:</em> <code>Subtracting the two oscillator equations gives $\dot\psi=\Delta\omega-2K\sin\psi$ ... So oscillators within coupling bandwidth $2K$ synchronize at phase lag $\psi^\star=\arcsin(\Delta\omega/2K)$ (Proposition 8.2).</code>
+<em>After:</em> <code>Subtracting the two oscillator equations gives the Adler equation $\dot\psi=\Delta\omega-2\kappa\sin\psi$ ($\psi=\phi_2-\phi_1$, coupling strength $\kappa$) … synchronize at phase lag $\psi^\star=\arcsin(\Delta\omega/2\kappa)$ (Proposition 8.2).</code>
+<em>Why:</em> <code>K</code> was both the LQR feedback gain and the oscillator coupling; after the rename to <code>κ</code> this one surviving <code>K</code> made the solution cite a Proposition in one symbol while writing the same law in another — one law, two symbols, on the same page.</p>
+<p><strong>NUMBER — B15/B16 (K9 and K4 solutions, <code>module12.html:496,476</code>).</strong>
+<em>Before:</em> <code>The third component adds $0.074$ and the fourth adds $0.0003$, a factor $250$ drop</code> and, in K4, <code>all three converge to $u_\infty=p=1$ with aftereffect $-1.000$ … $2.5\times10^{4}$ by trial $25$.</code>
+<em>After:</em> <code>The per-component increments the code prints are $0.7453$, $0.1787$, $0.0736$, $0.000564$, $0.000512$: the third component adds $0.0736$ and the fourth adds $0.000564$, a factor $130$ drop, after which every further increment is flat at the $5\times10^{-4}$ noise floor.</code> and, in K4, <code>after $25$ trials the code prints $-1.000$ for $\eta=0.5$ and $\eta=1.0$ but only $-0.996$ for $\eta=0.2$, because $0.80^{25}=3.8\times10^{-3}$ of the perturbation is still unlearned.</code>
+<em>Why:</em> The fourth VAF increment is <code>0.000564</code>, a factor <code>130</code> drop, not <code>0.0003</code> and <code>250</code>; and at <code>η=0.2</code> the run has not converged — the aftereffect is <code>-0.996</code>, because <code>0.80²⁵ = 3.8×10⁻³</code> of the perturbation is still unlearned.</p>
+<h3 id="module-13-daily-life-movement-case-studies">Module 13 — Daily-Life Movement Case Studies</h3>
+<p><strong>Scale.</strong> 17 blocking defects, 22 style edits, 102 anchored replacements. Report <code>editor-reports/module13.md</code> (1057 lines).
+<strong>Verdict.</strong> "Yes, after revision. The mechanics is right and the six propositions are all genuinely proved: 2.1, 3.1, 4.1, 5.1, 6.1 and 7.1 each carry an adjacent <code>.proof</code> that derives the boxed result rather than restating it."
+<strong>The one that mattered.</strong> Section 4 re-analysed the exact stooped lift Module 1 had already worked — same 20 kg box, same 0.40 m reach, same 0.30 m trunk arm, same 0.05 m muscle arm — but quietly used an upper body of 0.50 M instead of Module 1's 0.60 M. The same lift therefore came out at 3630 N in Module 13 and 4040 N in Module 1, with no word about the difference. A reader who trusted both pages would have two spinal compression forces for one movement and no way to tell which is the course's answer.</p>
+<p><strong>NUMBER — B2 (running example diverges from Module 1).</strong>
+<em>Before:</em> <code>For a $20\ \mathrm{kg}$ load at $d_L=0.40\ \mathrm{m}$, trunk mass $W_{\rm tr}=0.5mg$ at $d_{\rm tr}=0.30\ \mathrm{m}$, and $d_m=0.05\ \mathrm{m}$: $F_m\approx3630\ \mathrm{N}$ and $F_{\rm comp}\approx4200\ \mathrm{N}$ (a conservative upper bound - see the proof)</code>
+<em>After:</em> Proposition 4.1 rebuilt on Module 1's parameters — <code>$W_{\rm tr}=412$ N</code> (0.60 M), <code>$\ell_t=0.346$ m</code>, <code>$d_{\rm tr}=\ell_t\sin\phi$</code> — giving stoop 4040 N / 4350 N and squat 2530 N; the <code>$\cos\phi\le1$</code> hedge deleted.
+<em>Why:</em> <code>cascade.py</code> recomputes $F_m=4041.7$ N and $F_{\rm comp}=4345.8$ N, matching <code>module01.html</code>'s published 4040 N and 4346 N to the newton.</p>
+<p><strong>MATH — B6 (K2's sensitivity runs the wrong way).</strong>
+<em>Before:</em> <code>the sensitivity $\partial f_{\max}/\partial m=-250/(m^2gh)$ steepens at low power ceilings.</code>
+<em>After:</em> <code>The sensitivity is $\partial f_{\max}/\partial m=-P/(m^2gh)$, proportional to the ceiling itself: at $70\ \mathrm{kg}$ it is $0.018\ \mathrm{steps\,s^{-1}kg^{-1}}$ for a $150\ \mathrm{W}$ ceiling and $0.049$ for a $400\ \mathrm{W}$ one.</code>
+<em>Why:</em> Burying the constant 250 inside the derivative hid the very dependence the sentence claimed, and inverted it — the sensitivity steepens at <em>high</em> ceilings, 0.0184 at 150 W against 0.0489 at 400 W.</p>
+<p><strong>NOTATION — B12 plus its two follow-up rows (the rename that missed five).</strong>
+<em>Before:</em> One <code>$\mu$</code> for skin-on-lid friction (§6, C7, K6) and shoe-on-floor friction (K5), both given 0.7 so the collision never showed; one <code>$d$</code> for the chair arm (Appendix <code>:499</code>) and the door arm (§6 <code>:175</code>, C8 <code>:364</code>).
+<em>After:</em> <code>$\mu_{\rm lid}$</code>, <code>$\mu_{\rm shoe}$</code>, <code>$d_{\rm hinge}$</code>, each with its own notation-table row — but the first pass left five bare <code>\mu</code> behind, one in §6's interpretation (<code>a rubber pad or a dry hand raises $\mu$</code>) and four more inside D5's solution.
+<em>Why:</em> A grep for <code>\mu</code> not followed by <code>_</code> found 5 hits after the "complete" rename and 0 after the repair; a symbol the notation table no longer defines is worse than the collision it replaced.</p>
+<p><strong>SVG — B16 (four heads floating off four bodies).</strong>
+<em>Before:</em> In each of Fig. 2's four vignettes the head circle floats clear of the shoulder sphere with no neck — <code>rise</code> a 10.1 px gap, <code>climb</code> 6.4 px, <code>lift</code> and <code>catch a stumble</code> 9.5 px each; and the <code>climb</code> label at (190,226) sat inside stair rectangles running to <code>y=240</code>.
+<em>After:</em> One neck capsule per vignette, computed with the <code>CLAUDE.md</code> bone generator from the existing coordinates and inserted inside the existing <code>&lt;g filter="url(#b_sh)"&gt;</code> so the head overlaps its top — e.g. rise: <code>x="71.3" y="92.5" width="27.4" height="9" rx="4.5" rotate(-57.5 85 97)</code>; the three stair rectangles shortened to end at <code>y=212</code> (heights 12, 28, 44 from unchanged tops 200, 184, 168).
+<em>Why:</em> It passed all nine gates — a gap is not a clipped bounding box, a label over a curve, or a hairline limb — so only a render and a human eye could catch it.</p>
+<p><strong>FIGURE-LABEL — B9-K3fig-aria and B8-K10fig (figures describing the wrong problem).</strong>
+<em>Before:</em> K10's figure was byte-for-byte K1's chair-torque-versus-$d$ plot but for its aria-label (2590 vs 2591 chars), so a problem about ranking five tasks showed a plot of one; and K3's replacement figure kept the aria-label of the problem it replaced — itself truncated mid-sentence with an ellipsis and reading raw TeX (<code>$3400\ \mathrm{N}$</code>) aloud to a screen reader.
+<em>After:</em> K10 gets a ranking bar chart whose five bars are <code>kblocks/K10.py</code>'s five computed percentages (87.9 / 84.1 / 62.8 / 47.7 / 47.1); K3's label rewritten to describe the three curves actually drawn, in words.
+<em>Why:</em> <code>verify_dom</code>'s stray-<code>$</code> advisory fell from 18 to 16 once the raw TeX left the label — the only gate that noticed either defect at all.</p>
+<p><strong>CODE — B5 (the module promised code four times and shipped none).</strong>
+<em>Before:</em> <code>every proposition proved, every figure computed, every number reproduced by the code shown.</code> — while <code>K1</code> through <code>K10</code> contained no <code>&lt;pre&gt;&lt;code&gt;</code> block at all, and Lab A's 82, 154 and 0.19 and Lab D's 1.72 appeared in captions printed by no code.
+<em>After:</em> Ten blocks written, run and <code>pycodestyle</code>-clean, spliced into their solutions; Lab D gains <code>print("max recoverable speed with no delay: %.2f m/s" % (w0*(max_step - x0)))</code>, which prints <code>max recoverable speed with no delay: 1.72 m/s</code>.
+<em>Why:</em> The fix is to write the code, not to withdraw the claim — the edited file's 14 blocks were all extracted and re-run, and every one prints the numbers the prose beside it quotes.</p>
+<h3 id="module-14-aging-injury-degeneration-and-adaptation">Module 14 — Aging, Injury, Degeneration, and Adaptation</h3>
+<p><strong>Scale.</strong> 16 blocking defects, 11 style edits, 63 anchored replacements. Report <code>editor-reports/module14.md</code> (380 lines).
+<strong>Verdict.</strong> "Yes, after revision. … Propositions 2.1, 3.1, 3.2, 5.1, 6.1 and 7.1 are each short, correct and genuinely proved. What stops the reader is the problem set and two claims that the module's own arithmetic contradicts."
+<strong>The one that mattered.</strong> K3 asked where cartilage stops maintaining itself and answered "a threshold between 0.4 and 0.6". Run with the module's own constants, the saddle-node sits at L* = 0.211 — half the lower bound claimed — and <em>both</em> of the loads the solution called stable run away, in 153.5 and 84.0 years. The "stable h ≈ 1.2 mm" a reader would have taken as an equilibrium is just where a different load happens to be passing at year 60. The wrong number sat under the module's whole osteoarthritis argument.</p>
+<p><strong>NUMBER — B2 (K3's threshold, its regime labels and its "stable thickness").</strong>
+<em>Before:</em> <code>at full load ($L=1.0$) and at $L=0.6$ the cartilage runs away to zero, but at $L=0.4$ it settles to a stable $h\approx1.2\ \mathrm{mm}$ - a threshold between $0.4$ and $0.6$ separating a degenerating joint from a maintained one.</code>
+<em>After:</em> <code>saddle-node at L* = 0.211, h* = 0.824 mm</code> / <code>L=0.40: cartilage spent (h=0.30 mm) at t = 153.5 yr</code> / <code>L=0.60: cartilage spent (h=0.30 mm) at t =  84.0 yr</code> / <code>L=1.00: cartilage spent (h=0.30 mm) at t =  44.5 yr</code>
+<em>Why:</em> Setting $dh/dt=0$ gives $L_{\rm eq}(h)=\beta(h_0-h)/[\kappa p_0(h_0/h)^{n_{\rm c}}]$, whose maximum <em>is</em> the saddle-node — the module's own Lab C code settles it with $\kappa=\beta=0.010$, $p_0=3$ MPa, $h_0=2$ mm, $n_{\rm c}=0.7$.</p>
+<p><strong>MATH — B4 (Proposition 4.1's proof assumes its conclusion).</strong>
+<em>Before:</em> <code>Modelling the area's thickness dependence as a power law $A\propto h^{n_{\rm c}}$ yields $p_{\rm peak}=p_0(h_0/h)^{n_{\rm c}}$; the loss of interstitial fluid pressurisation as proteoglycan is lost … plac[es] $n_{\rm c}$ toward the upper end of its range.</code>
+<em>After:</em> Two solvable limits of the same geometry bracket the exponent — a Winkler compressible thin layer giving <code>$p_{\rm peak}=(H'/h)\delta_0=\sqrt{PH'/(\pi Rh)}\propto h^{-1/2}$</code>, i.e. <code>$n_{\rm c}=\tfrac12$</code>, and a bonded incompressible layer giving <code>$p_{\rm peak}\propto G^{1/3}R^{-1/3}P^{2/3}h^{-1}$</code>, i.e. <code>$n_{\rm c}=1$</code>; the fluid-loss direction reversed, since losing pressurisation moves $n_{\rm c}$ <em>down</em> toward $\tfrac12$.
+<em>Why:</em> The step from "a thinner layer has a smaller contact area" to $A\propto h^{n_{\rm c}}$ was the entire content of the proposition, and it was assumed — while that exponent drives §4's feedback loop, Lab C and K3 alike.</p>
+<p><strong>SVG — B10 (Lab C's runaway drawn as a plateau).</strong>
+<em>Before:</em> Caption: <code>a fully loaded joint's peak stress climbs into a runaway</code> — but the y-axis ended at 9.0 MPa, the model crosses 9.0 MPa at year 43, and the generator clamped $h$ at 0.05 mm, so from year 43 to year 60 the drawn curve is a horizontal line at the ceiling.
+<em>After:</em> y-axis to 12 MPa, integration stopped at <code>$h=0.30$ mm</code> (taken as spent) instead of clamping, curve ending at a marked point; the $L=1$ curve climbs 3.0 → 11.32 MPa and reaches 0.30 mm at $t=44.5$ yr.
+<em>Why:</em> A reader saw a stress that rises and then settles — the opposite of the caption and of the physics — and it passed every one of the nine gates, because a clamped curve is not a clipped bounding box.</p>
+<p><strong>FIGURE-LABEL — B2c (an axis label naming a quantity the curve does not plot).</strong>
+<em>Before:</em> K3's figure plotted <code>$L\!\cdot\!p$</code> on an axis labelled <code>peak stress (MPa)</code>, so its $t=0$ value read 1.2 MPa where the module's own $p_0=3.0$ MPa; and it drew the $L=0.4$ transient as the "low: stable" curve.
+<em>After:</em> Replaced by a bifurcation diagram — $L_{\rm eq}(h)$ against $h$, maximum marked at <code>$L^\star=0.211$, $h^\star=0.82$ mm</code>, annotated "above: no steady state, runaway" and "below: maintained".
+<em>Why:</em> Recovered by calibrating the old axis from its tick <code>&lt;text&gt;</code> coordinates and inverting — a load-weighted stress wearing a peak-stress label is invisible to every automated check and to a casual look at the render.</p>
+<p><strong>FIGURE — B3 (a K5 figure that simulates nothing).</strong>
+<em>Before:</em> Reading the polylines back, muscle falls <strong>linearly</strong> to 0.875 over forty years — <code>$0.31\%$/yr, not the module's $1\%$/yr</code> — and bone is flat for 15 years then linear to 0.783, while the caption claimed "the two curves lock together and steepen".
+<em>After:</em> Regenerated from a new Proposition 8.1, <code>$C_{\rm b}(t)=1-\tfrac12 k_{\rm ad}r\,t^{2}$</code> — linear muscle, quadratic bone, dashed fracture-density line at 0.79 with the crossing marked at 36.5 yr.
+<em>Why:</em> A mechanostat integrating a linear stimulus deficit gives a quadratic, not a straight line, so no coupled model produces the picture that shipped — and the claimed steepening does not occur anywhere in it.</p>
+<p><strong>NUMBER — B6 ("two hundred years of headroom", in a law capped at 100).</strong>
+<em>Before:</em> <code>two extra reserve units at $r=0.01$ is two hundred years of headroom in the linear model, i.e. the crossing never comes within a lifespan.</code>
+<em>After:</em> <code>Since $a^\star-a_0=\frac1r(1-D/\tau_p)$ and $D/\tau_p\gt 0$, no starting reserve can push the crossing further than $1/r=100$ years past $a_0$; going from a starting reserve of $\tau_p/D=1$ to $3$ buys $\frac1r(1-\tfrac13)=66.7$ years</code>
+<em>Why:</em> The 200 came from extrapolating the local slope $1/[r(\tau_p/D)^2]$ from its value at $\tau_p/D=1$ — but that slope falls as $(\tau_p/D)^{-2}$, to 39.5 at the module's own reference 1.59 and 11.1 at 3.</p>
+<h3 id="module-15-measurement-estimation-and-inverse-dynamics">Module 15 — Measurement, Estimation, and Inverse Dynamics</h3>
+<p><strong>Scale.</strong> 23 blocking defects, 12 style edits, 78 anchored replacements. Report <code>editor-reports/module15.md</code> (984 lines).
+<strong>Verdict.</strong> "Yes, after revision — and the revision is not cosmetic. This module has the best architecture of any in the second half of the course. … What fails is the arithmetic layer, and it fails systematically."
+<strong>The one that mattered.</strong> The module told the reader three times that every quoted number is reproduced by the code shown. Four of its five shipped listings raise <code>NameError</code> on the first run — they use <code>q_meas</code>, <code>q_true</code> and <code>a_com_kin</code>, none of which the reader is ever given — and the fifth runs and prints nothing. So a reader who did exactly what the module asked, run the code and check the numbers, could not verify a single figure in it. In a module whose whole subject is how far to trust an inferred number, that is the worst possible place to lose the ground truth.</p>
+<p><strong>CODE — B3 (the listings the module stakes its credibility on).</strong>
+<em>Before:</em></p>
+<pre><code>blk01_L360.py  (Sec 7 pipeline)  runs, prints NOTHING
+blk02_L429.py  (Lab A)   NameError: name 'q_meas' is not defined
+blk03_L452.py  (Lab B)   NameError: name 'q_meas' is not defined
+blk04_L474.py  (Lab C)   NameError: name 'q_true' is not defined
+blk05_L495.py  (Lab D)   NameError: name 'a_com_kin' is not defined
+</code></pre>
+<p><em>After:</em> Five self-contained PEP8 fixed-seed scripts that define what they use and print what the prose quotes — <code>nb1.py  true peak torque 3.31 N m / filtered 0.071 / unfiltered 1.70</code>, <code>nb2.py  chosen cutoff: median 3.09 Hz, 5-95% [2.79, 3.80]</code>, <code>nb3.py  torque-optimal cutoff 3.4 Hz (RMSE 0.022 N m); 1.5 -&gt; 0.23; 30 -&gt; 1.34</code>, <code>nb4.py  peak 3.41 +/- 0.58 N m (1 sd); 95% CI [2.22, 4.53]; true 3.31</code>, <code>nb5.py  identified M: 70.03 (N=20) ... 70.00 (N=200); static hold 69.97</code> — and the three claims narrowed to "every quoted number is printed by the code shown, which is self-contained and runs as printed with no other input."
+<em>Why:</em> The code blocks are the only ground truth the domain brief recognises for a computed number.</p>
+<p><strong>NUMBER — B21 (two statistics compared as if they were one).</strong>
+<em>Before:</em> <code>its unfiltered torque error is four times smaller than the $7.31\ \mathrm{N\,m}$ the compact stencil gives **on the same data**</code>
+<em>After:</em> On the seed-15 draw the compact stencil gives <strong>6.68 N m</strong>, and <code>$6.68/1.70=3.93$</code> — the stencil ratio Proposition 3.1 predicts.
+<em>Why:</em> It was not the same data: 1.70 was a single seed-15 draw from §7's own listing, while 7.31 was a 400-draw mean from a scratchpad script whose wide-stencil counterpart in that run was 1.7833 — and the mismatched pair concealed the exact ratio the module's own proposition predicts.</p>
+<p><strong>MATH — B1 (a stated optimum that was never computed).</strong>
+<em>Before:</em> <code>Figure 4 is this proposition computed for the Section 3 signal: the bias falls and the variance rises with $f_c$, and their sum bottoms out near $f_c^\star\approx7\ \mathrm{Hz}$</code>
+<em>After:</em> <code>fc* = 3.02 Hz   bias 0.0132   noise 0.0156   total 0.0205 rad/s</code> / <code>fc = 7 Hz  -&gt;   total 0.0497 rad/s          (2.4x the minimum)</code>
+<em>Why:</em> Decoding the figure's polylines back through its own axes gives curves that no bias-variance calculation on any signal in the module produces — and 7 Hz is not the optimum of either candidate signal (the §3 signal's is 3.36 Hz).</p>
+<p><strong>NOTATION — B10 (one letter, two lengths, a factor 0.43 apart).</strong>
+<em>Before:</em> Definition 2.2 fixes <code>$L_i$</code> as the segment length with <code>$\rho_i$</code> the COM fraction, so joint-to-COM is <code>$\rho_iL_i$</code> — yet every torque formula writes <code>$\tau=I\ddot q+mgL\sin q$</code> with <code>$L=0.25\ \mathrm{m}$</code>, which is the distance to the COM. Ten sites plus one SVG label.
+<em>After:</em> The second meaning gets its own symbol, <code>$\ell=\rho_iL_i$</code>, throughout — the §7 model, the §8 partials (<code>$\partial\tau/\partial m=g\ell\sin q$</code>), the D9 linearisation, the limit cases, K4's parameter block, C10 and C10's figure label, which becomes <code>τ = mgℓ</code> (the entity <code>&amp;#8467;</code>, since MathJax does not typeset inside <code>&lt;svg&gt;&lt;text&gt;</code>).
+<em>Why:</em> A factor $\rho\approx0.43$ hidden inside a reused letter, in the one module whose subject is getting the gravity term right.</p>
+<p><strong>FIGURE-LABEL — B23 (a figure announcing a different problem).</strong>
+<em>Before:</em> K7's error-budget bar chart carried <strong>0.41 / 0.31 / 0.09</strong> — numbers B6 had already replaced with 0.414 / 0.228 / 0.059 — with no bar for the filter bias, and its <code>aria-label</code> read <em>"K4: The exercise shows the recursion is a short loop..."</em>, text lifted from K6's solution.
+<em>After:</em> Four bars redrawn at the verified values with the label on each bar, and the <code>aria-label</code> rewritten to describe the figure it labels.
+<em>Why:</em> The one representation a screen-reader user gets for K7 named the wrong problem and quoted three superseded numbers; it was found by decoding every problem figure's text labels, not by reading.</p>
+<p><strong>SVG — B16 (a fix that created its own defect).</strong>
+<em>Before:</em> <code>drawn [2.28, 4.51]   vs   caption and code [2.22, 4.53]</code> — Lab C's green "95 % interval" bar was still drawn from the superseded run after B5 corrected the caption to what the shipped code prints.
+<em>After:</em> Histogram, true-value marker and interval bar all redrawn from the same 2000 draws the listing prints, keeping the axis calibration <code>$x = 75 + 105.38\,(v-1.5)$</code> so the tick labels still land on their ticks; decoding the new figure returns [2.220, 4.534] against the model's [2.220, 4.534].
+<em>Why:</em> A figure that disagrees with its own caption is a factual error — and here the correction to B5 is what created it, which is why the figure decode has to be re-run after every caption fix.</p>
+<h3 id="module-16-continuum-and-finite-element-style-tissue-models">Module 16 — Continuum and Finite-Element-Style Tissue Models</h3>
+<p><strong>Scale.</strong> 17 blocking defects, 13 style edits, 55 anchored replacements. Report <code>editor-reports/module16.md</code> (679 lines).
+<strong>Verdict.</strong> "Yes, after revision. … The theoretical spine is genuinely good: Propositions 1.1, 2.1, 3.1, 4.1, 5.1, 6.1 and 7.1 each carry a proof that a reader can reproduce with a pen. … What stops the reader is the second half."
+<strong>The one that mattered.</strong> Lab C did not perform the experiment it described. The code solves Terzaghi consolidation under a step <em>load</em>, where the total stress is constant by construction and nothing relaxes — while the heading, the caption and K8 all describe step-<em>strain</em> stress relaxation, a different boundary-value problem with a different eigenseries. The figure papered over the mismatch by drawing the layer-averaged pore pressure, relabelling the axis "normalised stress", and standing it on an equilibrium floor of 0.35 that appears in no table, no derivation and no assumption. A reader would have taken a load-partition curve as proof of a relaxation law.</p>
+<p><strong>SVG — B1 (a curve wearing another quantity's label, on an invented floor).</strong>
+<em>Before:</em> Decoded against its own axis calibration (0.35 at <code>$y=185.3$</code>, 1.0 at <code>$y=59.4$</code>; ticks 0, 248, 495 on $x$), the plotted curve is <code>$0.35+0.65\langle p\rangle$</code>, matching the module's own solver to a maximum deviation of 0.0011 over all 100 points — under an axis labelled "normalised stress" with a floor labelled "equilibrium (matrix)".
+<em>After:</em> Two computed polylines, the fluid share <code>$F(T)=\langle p\rangle/\sigma_0$</code> and the matrix share <code>$U(T)=1-F(T)$</code> against <code>$T=c_vt/L^2$</code>, with a dashed reference at the crossing <code>$T_{1/2}=0.195$</code>; the interpretation's <code>$\approx0.24$</code> corrected to the printed <code>0.2347</code>.
+<em>Why:</em> The 0.35 existed only to make an affine rescaling of the mean pore pressure look like a stress-relaxation curve; decoding the new figure returns exactly the numbers the solver prints.</p>
+<p><strong>FIGURE-LABEL — S13 (a figure still quoting the number its solution no longer says).</strong>
+<em>Before:</em> K6's schematic carried the label <code>ratio &amp;#8776; 12&amp;#215;</code>.
+<em>After:</em> <code>ratio &amp;#8776; 12.5&amp;#215;</code>
+<em>Why:</em> The solution had been corrected to compute 12.5 (<code>anisotropy ratio E(0)/E(90) = 12.5</code>), and the Appendix restated to match — the figure was the one place the superseded 12 survived, found only by sweeping every number printed inside a problem figure's <code>&lt;text&gt;</code> against that problem's solution.</p>
+<p><strong>MATH — B10 (the law the figure already draws, never stated).</strong>
+<em>Before:</em> <code>The effective stiffness is highest at $0^\circ$ (load along fibres, $\approx1.5\ \mathrm{GPa}$) and lowest at $90^\circ$ (across, $\approx0.12\ \mathrm{GPa}$), an anisotropy ratio $\approx12$. Sweeping the angle traces the fall governed by the $\mathbf a\otimes\mathbf a$ fibre term, which contributes only its projection onto the load direction.</code>
+<em>After:</em> <code>$$\boxed{\;E(\theta)=E_m+E_f\cos^4\theta.\;}$$</code> — the fibre resolves the strain once, <code>$\varepsilon_a=\varepsilon\cos^2\theta$</code>, and reading the stress back along the load direction resolves it a second time; sweeping gives <code>$1.500$, $1.321$, $0.896$, $0.465$, $0.206$ and $0.120$ GPa</code> at 0, 15, 30, 45, 60, 90 degrees, halving by <code>$34.7^\circ$</code>.
+<em>Why:</em> Fitting Fig. 7's own polyline gives $E(\theta)=0.129+1.377\cos^4\theta$ with an RMS residual of 0.0052 GPa, against 0.118 for $\cos^2\theta$ — the figure had been drawn from the $\cos^4$ law all along, and "contributes only its projection" was the wrong count of projections.</p>
+<p><strong>PROOF — B4 (Cauchy's theorem asserted inside a definition).</strong>
+<em>Before:</em> <code>Cauchy's theorem states that this dependence on $\mathbf n$ is &lt;em&gt;linear&lt;/em&gt;: there is a single second-order tensor $\boldsymbol\sigma$, the &lt;b&gt;Cauchy stress&lt;/b&gt;, with</code> — followed by the boxed <code>$\mathbf t(\mathbf n)=\boldsymbol\sigma\mathbf n$</code>, inside <code>Definition 2.1</code>.
+<em>After:</em> Split into a traction-only Definition 2.1 and a new <strong>Proposition 2.1</strong> with a tetrahedron proof — <code>$$\mathbf t(\mathbf n)\,A-\sum_j\mathbf t^{(j)}An_j+\mathbf b\,V=\rho V\ddot{\mathbf x},$$</code> with surface terms $\sim h^2$ and volume terms $\sim h^3$, so body force and inertia die as $V/A\sim h$; the symmetry result renumbered Proposition 2.2 across <code>:150</code>, <code>:454</code>, <code>:504</code>.
+<em>Why:</em> Linearity in $\mathbf n$ is the least obvious claim in the module — nothing about "force per unit area across a cut" says nine numbers fix the traction on infinitely many cut orientations — and the proof was not missing, it sat unused in problem D3, eight sections after the reader was asked to accept the result.</p>
+<p><strong>NUMBER — correction 1 (a cartilage clock wrong by three orders of magnitude).</strong>
+<em>Before:</em> K8's cartilage clock used <code>$c_v\sim10^{-6}\ \mathrm{m^2\,s^{-1}}$</code>, giving <code>$t_{1/2}\approx0.8\ \mathrm s$</code> and the conclusion "standing still for a minute leaves the load on the matrix".
+<em>After:</em> Module 4's own table (<code>module04.html:566-568</code>) gives <code>$H_A=0.6\ \mathrm{MPa}$, $k=1\times10^{-15}$</code>, so <code>$c_v=6\times10^{-10}$</code>; the run prints <code>t_half = 1300 s = 22 min</code> and fluid shares <code>0.986 / 0.893 / 0.214</code> at 1 s / 60 s / 1 h — flipping the conclusion: a footstep <em>and</em> a minute of standing are both fluid-borne.
+<em>Why:</em> The unsourced $10^{-6}$ was itself the bare-number defect class the report calls blocking — and this correction was made to the report during the apply, not to the manuscript before it.</p>
+<p><strong>CODE — B9 (a problem that asks an element to detect its own blind spot).</strong>
+<em>Before:</em> <code>As the beam is made stubbier (small $L/h$), shear deformation the Euler-Bernoulli model omits grows and the two disagree, marking the slender-body limit where Module 2's beam theory is valid. The finite element reproduces the analytic model and shows exactly where it breaks.</code>
+<em>After:</em> The run shows the element and the formula agree at every aspect ratio — <code># -&gt; one beam element : tip deflection = 0.333333333333</code> / <code># -&gt; Euler-Bernoulli  : P L^3/(3 EI)   = 0.333333333333</code> / <code># -&gt; difference       = 0.00e+00</code> — so the problem now asks for the Timoshenko shear term as a third quantity, <code>$\delta_s/\delta_b=\tfrac{E}{4\kappa G}(h/L)^2$</code>, printing <code># -&gt; L/h = 20: shear adds  0.20% that neither model contains</code> down to <code>L/h = 2: shear adds 19.50%</code>.
+<em>Why:</em> An Euler-Bernoulli element contains no shear flexibility, so it can never disagree with Euler-Bernoulli — the problem as written asked for a difference that is identically zero.</p>
+<h3 id="module-17-capstone-modeling-projects">Module 17 — Capstone Modeling Projects</h3>
+<p><strong>Scale.</strong> 14 blocking defects, 17 style edits, 42 anchored replacements. Report <code>editor-reports/module17.md</code> (1094 lines).
+<strong>Verdict.</strong> "Yes, after revision. … What stops the reader is that the capstone module is the one module that does not hold itself to the standard it preaches. Principle 1.3 says an answer without an error bar is not a result; the module reports fourteen headline numbers without one."
+<strong>The one that mattered.</strong> Section 4 and Fig. 4 credited the inverted-pendulum vault with walking's twin-peaked M-shaped ground force. The model cannot produce it: for a rigid vault $\ddot y_{\rm COM}&lt;0$ throughout single support, so $F\le mg$ at every instant, and the force is <em>largest</em> at mid-stance — a single hump, the exact inverse of the curve drawn. The two 1.18 BW peaks belong to the step-to-step transition, which the same paragraph lists among the model's omissions two sentences later. A reader would have taken a borrowed shape as a derived prediction.</p>
+<p><strong>SVG — B1 (a figure crediting a model with a shape it inverts).</strong>
+<em>Before:</em> <code>The vault produces the M-shaped vertical force of Fig. 4 (blue): a loading peak as the COM rises, a mid-stance dip &lt;em&gt;below&lt;/em&gt; body weight as it crests the arc (centripetal unloading), and a push-off peak.</code>
+<em>After:</em> <code>The vault earns exactly one number, the mid-stance &lt;em&gt;value&lt;/em&gt; … Integrating a rigid vault gives $F\le mg$ at every instant, because $\ddot y_{\rm COM}\lt0$ throughout the arc, and the force is &lt;em&gt;largest&lt;/em&gt; at mid-stance, falling to $0.49$ BW by $\pm20^\circ$ of leg sweep: the model draws a single hump, the inverse of the measured $\cup$ … That is the honest reading of Fig. 4: one number earned, the shape borrowed.</code>
+<em>Why:</em> Decoding Fig. 4 from its own y-ticks (195.0, 139.6, 84.3 for 0, 1, 2 BW; least-squares fit <code>$y=-55.350\,\mathrm{BW}+194.983$</code>, residual 0.033 px) gives peaks of 1.183 BW and a mid-stance value of 0.701 BW — matching $mg(1-\mathrm{Fr})=0.698$ BW at $\mathrm{Fr}=0.302$, which is the one thing the model does own.</p>
+<p><strong>NUMBER — B2 (an asserted stability boundary, wrong and uncomputed).</strong>
+<em>Before:</em> <code>A $200\ \mathrm{ms}$ delay is past the critical delay $\Delta_c\approx150\ \mathrm{ms}$</code> — stated in four places, derived nowhere, in no table, labelled no assumption.
+<em>After:</em> A new Proposition 2.2 with proof: <code>$$\boxed{\;\Delta_c=\frac{1}{\omega_c}\arctan\!\Big(\frac{k_d\,\omega_c}{k_p}\Big).\;}$$</code> With the module's own $I=70\ \mathrm{kg\,m^2}$, $mgL=686.70$ N·m, $k_p=1030.05$ N·m, $k_d=150$ N·m·s the quadratic <code>$4900u^2+73638u-589446=0$</code> gives <code>omega_c = 2.404 rad/s (period 2.61 s)</code> and <code>critical delay = 140.1 ms</code>; the shipped integrator bisects to <code>-&gt; bisected critical delay = 140.2 ms</code>.
+<em>Why:</em> The qualitative conclusion survives (140 ms is still above the human 100 ms) but the number changes status from asserted to derived — $\Delta_c=150$ ms would have needed $k_d=161.8$ N·m·s.</p>
+<p><strong>MATH — B3 (a box whose own derivation misses it by a factor of four).</strong>
+<em>Before:</em> <code>set by an impulse balance: the stance impulse must reverse the vertical flight momentum, $\int F\,dt=2m v_{\rm land}$, and spread over the short contact time $t_c$ this gives a peak of order $2m v_{\rm land}/t_c\approx2.5\text{-}3\,mg$.</code> — with the parameter line admitting <code>leg stiffness tuned so the peak is $\approx2.6$ BW</code>.
+<em>After:</em> <code>$$\boxed{\;F_{\rm peak}\approx\frac{\pi}{2}\,\frac{mg}{\beta},\qquad \beta=\frac{t_c}{t_{\rm step}}.\;}$$</code> — with <code>$\beta=0.606$</code>, a mean stance force of <code>$1133\ \mathrm N=1.65$ BW</code> and a peak of <code>$1780\ \mathrm N=2.59$ BW</code>.
+<em>Why:</em> The stated quantity evaluates to 343–515 N, i.e. 0.50–0.75 mg, low by about four: the chain dropped the weight impulse $mg\,t_c$, the duty factor, and the peak-to-mean shape factor $\pi/2$ — and the stiffness that was "tuned" to the answer never enters the balance at all.</p>
+<p><strong>NOTATION — B9 (one letter, two axes, two inertias).</strong>
+<em>Before:</em> <code>$I=mL^2=70\ \mathrm{kg\,m^2}$</code> about the ankle at <code>:130</code>, against <code>$I=0.12\ \mathrm{kg\,m^2}$</code> about the knee at <code>:170</code>, <code>:172</code> — with the notation table merely recording the collision.
+<em>After:</em> Section 2 keeps <code>$I$</code>, since it carries the pendulum equation and the whole of Proposition 2.2's proof; Section 3's becomes <code>$I_{\rm k}$</code>.
+<em>Why:</em> Recording a collision in a notation table is not resolving it — and the module proves it knows the rule at <code>:241</code>, where <code>$k_c$</code> is introduced as "distinct from the leg-spring $k$ of Section 5"; it simply never applied that rule to $d$, $I$ or $\phi$.</p>
+<p><strong>FIGURE-LABEL — B13 (an axis that misreports its own scale).</strong>
+<em>Before:</em> <code>&lt;line x1="66" y1="117.5" x2="70" y2="117.5" stroke="#333"/&gt;</code> labelled <code>8</code>, and <code>&lt;line x1="66" y1="47.8" x2="70" y2="47.8" stroke="#333"/&gt;</code> labelled <code>14</code>.
+<em>After:</em> <code>y1="113.1"</code> and <code>y1="51.7"</code> respectively, with the <code>8</code> label's <code>y="120.5"</code> moved to <code>y="116.1"</code> and the <code>14</code> label's <code>y="50.8"</code> to <code>y="54.7"</code>.
+<em>Why:</em> Fitting the drawn polyline against <code>$F(d)=mv^2/2d+mg$</code> over its 100 points gives <code>$y=-10.2375\,F_{\rm kN}+195.002$</code> with a 0.15 px residual, so the curve itself calibrates the axis: the tick labelled 8 actually marked 7.57 kN (low by 5.4%) and the one labelled 14 marked 14.38 kN (high by 2.7%).</p>
+<p><strong>REFERENCE — B5 (a law attributed to a module that does not contain it).</strong>
+<em>Before:</em> <code>The femoral neck (Module 16's bone continuum) fails when the impact stress exceeds its strength, which falls as the square of bone density (Module 2).</code> and <code>the femoral strength scales as $S=S_0(\rho/\rho_0)^2$ (Module 2).</code>
+<em>After:</em> Repointed to Proposition 3.1 of Module 14, <code>module14.html#osteoporosis</code>: "If bone compressive strength follows $S=S_0(\rho/\rho_0)^{n_{\rm b}}$ with exponent $n_{\rm b}\approx2$…", which carries an adjacent proof.
+<em>Why:</em> <code>grep -c 'rho_0\|\\rho/\\rho\|apparent density' module02.html</code> returns 0 — and $\rho$ in Module 2 is the radial coordinate of the polar second moment $J=\int_A\rho^2\,dA$, a different quantity entirely, so a reader following the pointer three times over finds nothing.</p>
+<hr />
+<h2 id="11-unfinished-business">11. Unfinished business</h2>
+<ul>
+<li><strong>Nothing is promoted.</strong> All fifteen edits live in <code>edited/</code>. <code>index.html</code> and
+  <code>README.md</code> still point at the originals, and the live course pages are exactly as they
+  were. Promotion is one <code>mv edited/moduleNN.html moduleNN.html</code> per module. The
+  deliverable stands without it — the reports and drafts are complete and reviewable — but
+  no reader of the course sees any of this work until that decision is made.</li>
+<li><strong>One drift, open.</strong> <code>edited/module03.html:858</code> states the hip resultant as "2.6 to
+  2.8 W across 20° to 40°", where |R| at 40° is 2.87 W. Found by Module 8's agent in
+  Module 3's already-committed work. Fix: verify the 2.87 independently, then widen the
+  range or narrow the angle span.</li>
+<li><strong>The <code>edited/</code> publication question, unanswered.</strong> Raised before the first commit, never
+  resolved. The drafts are public at <code>az9713.github.io/biomechanics/edited/moduleNN.html</code>,
+  unlinked. Undo is <code>.gitignore</code> plus <code>git rm -r --cached edited</code>, at the cost of the
+  drafts no longer being backed up.</li>
+<li><strong>Structural notes left as notes.</strong> Several modules' reports carry recommendations that
+  are new content rather than edits — Module 3's suggested §6 sensitivity problem, Module
+  17's twelve missing problem figures, Module 13's chair-less "rise" vignette, Module 4's
+  scope rewrites. Each is logged in its report's §4 with a reason. An editor pass fixes
+  what is there; it does not write what is missing.</li>
+<li><strong>Two <code>check_bodyprop</code> advisories in Module 10</strong> are correct as drawn and were left: C9
+  is a head alone because the problem is about the semicircular canals, and C3's "thin
+  limb" measures against the vestibular head at r=14 rather than that body's own r=6.3.</li>
+<li><strong><code>check_svg</code>'s "Answer"/"solution" summary-label advisory</strong> is a course-wide convention
+  question, not a module defect. Unresolved.</li>
+</ul>
+<hr />
+<h2 id="12-where-things-stand">12. Where things stand</h2>
+<p>Fifteen modules edited, reported and gated. 1,214 logged edits. Every module's nine gates
+sit at or above its pristine baseline, and seven modules came out ahead.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Edited drafts</td>
+<td><code>edited/module03.html</code> … <code>edited/module17.html</code></td>
+</tr>
+<tr>
+<td>Reports and change logs</td>
+<td><code>editor-reports/module03.md</code> … <code>module17.md</code></td>
+</tr>
+<tr>
+<td>Live drafts (unlinked)</td>
+<td><code>https://az9713.github.io/biomechanics/edited/moduleNN.html</code></td>
+</tr>
+<tr>
+<td>Resume point</td>
+<td><code>HANDOFF.md</code></td>
+</tr>
+<tr>
+<td>Final commit</td>
+<td><code>a93a55c</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Next steps, as options rather than promises:</strong></p>
+<ol>
+<li>Read a report or two — Module 12's and Module 14's are the ones where the audit found
+   the most that the first pass had missed.</li>
+<li>Fix the Module 3 drift.</li>
+<li>Decide on promotion: all fifteen at once, or module by module as you sign each off.</li>
+<li>Decide whether <code>edited/</code> stays public.</li>
+<li>If promotion happens, re-run the nine gates on the promoted files in place before
+   pushing — the gates were run against <code>edited/</code> paths, and <code>check_links</code> resolves
+   cross-module hrefs relative to the file's own directory.</li>
+</ol>
+<p><strong>One thing worth carrying into the next project.</strong> The gates were built over three months
+and they are good. They caught nothing in this pass that a reader would have noticed,
+because they were built to catch broken pages and the pages were not broken. What they
+missed — a figure drawing the reciprocal of its own formula, a caption naming an axis that
+is not there, a proof assuming its conclusion, ten problems claiming code that does not
+exist — is the whole of what an editor pass is for. Adding a tenth gate would not have
+helped. Reading the file, running the code, and decoding the picture did.</p>
+</div></body>
+</html>
