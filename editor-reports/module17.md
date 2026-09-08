@@ -937,11 +937,13 @@ convergence cautions (B11a), and Fig. 5's misread-value figure (B13).
 
 ### Gate results, baseline against final
 
-Run as `python $S/NAME.py edited/module17.html`. The baseline is the pristine copy.
+Run as `python $S/NAME.py edited/module17.html`. The baseline is the pristine
+copy. Every figure in the table below was re-run after the second pass (B8c-B8i,
+B9a-B9l, S17a-S17b), not carried over from the first.
 
 | gate | baseline | final | verdict |
 |---|---|---|---|
-| `checktex` | 0 issues, 498 segments | 0 issues, 510 segments | clean |
+| `checktex` | 0 issues, 498 segments | 0 issues, 514 segments | clean |
 | `checklt` | 0 | 0 | clean |
 | `check_links` | 41 links, 0 broken, 0 unlinked | 124 links, 0 broken, 0 unlinked | clean; the link count rose with the two Appendix tables |
 | `check_svg` | 0 hard, 0 advisory | 0 hard, 0 advisory | clean |
@@ -951,29 +953,63 @@ Run as `python $S/NAME.py edited/module17.html`. The baseline is the pristine co
 | `check_frame` | 0 | 0 | clean |
 | `check_bodyprop` | clean | clean | clean |
 
-Beyond the gates, all **9** `<pre><code>` blocks were extracted from the edited
-file and executed: every one exits 0 and prints stdout matching its `# ->`
-comments verbatim (`m17/runblocks.py`, "ALL MATCH"). Whole-file `<div>` balance
-is 59 open and 59 close.
+**The apply script is the file.** `edited/module17.html` was reset from the
+pristine copy with `cp module17.html edited/module17.html` and rebuilt from
+`m17/apply.py` in one run: **63 edits, 0 misses**. Before the second pass the
+same procedure reproduced the then-current file byte-for-byte (`diff` reported
+IDENTICAL), which is what makes the tag list below a complete account of the
+difference between the two files rather than a description of it.
+
+**The code was run, not read.** All **9** `<pre><code>` blocks were extracted
+from the edited file after the last edit and executed: every one exits 0 and
+prints stdout matching its `# ->` comments verbatim (`m17/runblocksF.py`,
+"ALL MATCH"). The §6 block carries no `# ->` comments; its two printed values,
+`6.2 kN` and `2.1 kN`, are the two the interpretation and the new Fig. 5
+caption quote. Whole-file `<div>` balance is 59 open and 59 close.
+
+**Every plotted figure was decoded back into data** (`m17/decode.py`): each
+figure's tick `<text>` positions give a least-squares pixel-to-value map, the
+`<polyline>` point string is inverted through it, and the result is compared
+against the model the caption claims. Six of the seven figures carry data
+(Fig. 1 is a schematic of the course arc; Fig. 7 is a labelled schematic of a
+validation band with no axis scale).
+
+| figure | decoded | against | agreement |
+|---|---|---|---|
+| Fig. 2 (delayed pendulum) | ticks $175.6/117.5/59.4$ px for $-30/0/30^\circ$, residual 0.000 | the §2 block's own integration | green trace peaks at $2.89^\circ$ against the block's printed $2.9$; red trace runs to $34.29^\circ$ at $t=4.67$ s and stops, which is exactly the truncation B2c's caption now admits |
+| Fig. 3 (knee torque) | ticks $195/117.5/40$ px for $0/60/120$ N·m | Model 3.1 | drawn peak $108.54$ N·m, model $108.69$; drawn start $108.31$, model $108.31$. The $0.15$ N·m gap is the factor $0.6$ B4c removed from the inertial term, worth $0.03$ px - below the width of the stroke, and both round to the quoted $109$ |
+| Fig. 4 (GRF) | least-squares $y=-55.350\,\mathrm{BW}+194.983$, residual 0.0006 BW | Model 4.1 | walking peaks $1.183$ BW and mid-stance $0.70$ BW against the model's $mg(1-\mathrm{Fr})=0.6984$; running peak $2.600$ BW against the derived $2.592$. These are the numbers B1e's caption now quotes |
+| Fig. 5 (landing) | ticks $195/113.1/51.7$ px for $0/8/14$ kN, after B13 | $F(d)=mv^2/2d+mg$ | 100 drawn points, maximum deviation **0.016 kN** across $d=0.02$ to $0.30$ m; the tick fix landed and the curve is the model |
+| Fig. 6 (fracture margin) | ticks $195/103.8/49.1$ px for $0/1/1.6$ | $S/F=(S_0/F)(\rho/\rho_0)^2$ | 100 points, maximum deviation **0.006** in margin; the drawn crossing of margin $=1$ sits at $\rho/\rho_0=0.7929$ against the computed $0.7915$, and the figure's own label reads "fracture below 79%" |
 
 ### Does it close the course?
 
 Yes, with one gap that is a build task rather than an editorial one.
 
 - **Inbound pointers all land.** No module in `module01` to `module16` uses a
-  `module17.html#fragment` link, so there is nothing to break; `index.html`
-  carries the single plain link to `module17.html` and it resolves. Every `id`
-  the new Appendix tables and the closing line reference (`#appendix`,
-  `#standing`, `#sts`, `#walk`, `#run`, `#jump`, `#fracture`, `#catalog`,
-  `#validation`, `#problems`) exists in the edited file, and `check_links`
-  reports 0 broken.
-- **The promises made to Module 17 are kept.** `module15.html:678` and
-  `module16.html:357` promise that the capstones take one block of the
-  framework each and turn it on a complete question; the six worked capstones
-  and the nine briefs do exactly that, and `prompt.txt`'s fifteen suggested
-  projects all appear. `prompt.txt:887`'s stride-length comparison, previously
-  missing, is added by B1f. `prompt.txt:908`'s per-capstone parameter table is
-  supplied by B7.
+  `module17.html#fragment` link, so there is nothing to break; `index.html:62`
+  carries the single plain link to `module17.html`, `README.md:27` carries its
+  live URL, and both resolve. Every `id` the new Appendix tables and the closing
+  line reference (`#appendix`, `#standing`, `#sts`, `#walk`, `#run`, `#jump`,
+  `#fracture`, `#catalog`, `#validation`, `#problems`) exists in the edited
+  file, and `check_links` reports 124 internal links, 0 broken, 0 unlinked.
+- **The promises made to Module 17 are kept.** Only two modules name it in
+  prose. `module15.html:678` and `module16.html:357` promise that the capstones
+  take one block of the framework each - "a continuum tissue, an
+  inverse-dynamics torque, a control loop" - and turn it on a complete
+  question; the six worked capstones and the nine briefs do exactly that, and
+  `prompt.txt`'s fifteen suggested projects all appear. `module16.html:591`
+  promises specifically that Module 17 uses "the inverse dynamics of Module 15,
+  the control loops of Module 10, and the tissue laws of this module": the
+  first two are Capstones II and I, and the third is carried by the *briefs*
+  (Cartilage stress relaxation, Tendon hysteresis) rather than a worked
+  capstone, with the continuum named where it belongs, in §7's limitation
+  ("the lumped-scalar model hides the true stress field, which the continuum of
+  Module 16 would resolve"). That is a fair reading of the promise, but it is
+  the one promise the module keeps at brief strength rather than at worked
+  strength. `prompt.txt:887`'s stride-length comparison, previously missing, is
+  added by B1f. `prompt.txt:908`'s per-capstone parameter table is supplied by
+  B7.
 - **The one gap left.** No problem carries a figure, against the house standard
   of a figure per problem. Twelve figures is a build task, not an editorial
   one, and it is logged in §4 above as the largest remaining item.

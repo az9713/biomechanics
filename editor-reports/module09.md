@@ -563,7 +563,7 @@ rising slowly - crossing a walking cost `C_walk = 2 + 1.6 Fr^2/(1 - 0.85 Fr)`
 that rises steeply toward the Froude ceiling. A crossover between a rising and a
 falling curve is not the crossover the solution explains. Replacement: both
 curves computed from those two expressions over `v = 0.8` to `3.3 m/s`, the
-crossover marked at the computed `v = 2.62 m/s` (`Fr = 0.70`), speed ticks added,
+crossover marked at the computed `v = 2.64 m/s` (`Fr = 0.71`), speed ticks added,
 and the `Fr = 1` kinematic ceiling at `v = 3.13 m/s` drawn as a dashed line so
 the figure carries the one bound the exercise delivers without calibration.
 (Crossover as applied: `brentq` on the continuous cost difference gives
@@ -934,8 +934,12 @@ X-is-X rule, left alone).
 All four lab blocks were re-extracted from the *edited* file and re-run: all four
 still execute clean and print the same numbers as before the pass.
 
-Every one of the nine was re-run a second time, on the file as it now stands
-after the A edits, and the "after" column above is that run. The two figures A2
+Every one of the nine was re-run on the file as it now stands after the A edits,
+and the "after" column above is that run. K1's new caption states its touchdown
+state as Lab 1's; Lab 1's own call is `slip_stance(m, g, L0, k, 70, 4.0, -0.7)`,
+so `alpha_0 = 70` degrees, `v_x = 4.0` and `v_y = -0.7 m/s` are the lab's
+constants, not the caption's invention. The polyline B15 calls a copy of K3's
+line is byte-identical to it: both point strings are the same 549 characters. The two figures A2
 and A3 rebuilt were first drawn with a taller empty band, which pushed
 `check_frame`'s advisory count from 18 to 20; their annotations were moved into
 that band and the count is back at the baseline 18. The K10 curves were

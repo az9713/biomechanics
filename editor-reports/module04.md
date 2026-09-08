@@ -715,6 +715,120 @@ Replacement for K7's comment line (line 2033):
 # eps_inf=0.50  T90=0.848  t90=5654 s = 1.57 h
 ```
 
+## 2b. Blocking defects found during the apply
+
+These five were not in the ranked list above. Two came from running all twelve code
+blocks out of the *edited* file and diffing every printed number against the prose
+beside it (the brief's step 4); two came from decoding each touched figure's
+`<polyline>` point string back into data and comparing it with the model its caption
+claims; one is residue of `B5`. All nine gates pass on every one of them, before and
+after — none of these is a defect a script can see.
+
+### B14. K3's worked arithmetic does not reproduce, and its code comment states a peak the code does not print
+
+Location: `module04.html:1876` (solution parts (b) and (c)) and `module04.html:1882`
+(code comment).
+
+Quoted (1876): "**(b)** $p_0=3\cdot1715/(2\pi(0.018)^2)=5145/(2.04\times10^{-3})=2.53\times10^6=2.53\ \mathrm{MPa}$. **(c)** $\bar p=1715/(\pi(0.018)^2)=1715/(1.02\times10^{-3})=1.69\times10^6=1.69\ \mathrm{MPa}$."
+
+Quoted (1882): "`# a=18.0 mm  p0=2.53 MPa  pbar=1.69 MPa`".
+
+The contact radius is $1.7952\times10^{-2}\ \mathrm m$. Rounding it to $0.018$ and then
+quoting the *unrounded* answers gives two lines that reproduce neither on a pen nor in
+the code: $5145/(2.04\times10^{-3})=2.52\times10^6$, and $1715/(1.02\times10^{-3})=
+1.68\times10^6$, not the $2.53$ and $1.69$ printed. Worse, the block prints
+`p0=2.54 MPa` and the figure caption beside it already says $2.54\ \mathrm{MPa}$, so
+the solution, the comment and the caption gave three answers for one quantity. This
+fails part 3 of the standard — a reader must be able to reproduce every line — and it
+is the same defect `B13` raised against K4.
+
+Fix: carry $a=1.795\times10^{-2}\ \mathrm m$ through both steps and set the comment to
+the printed value. Verified by running the block: `a=18.0 mm  p0=2.54 MPa
+pbar=1.69 MPa`; by hand, $5145/(2.024\times10^{-3})=2.5414\times10^6$ and
+$1715/(1.012\times10^{-3})=1.6943\times10^6$.
+
+### B15. K7's code block is Python-3.12-only and unreadable
+
+Location: `module04.html:2020` (the `print` statement in K7's block).
+
+Quoted: a `print(` whose f-string carries the replacement fields split across eleven
+physical lines — `f"eps_inf={` newline `eps_inf:.2f}  T90={` newline `T90:.3f} …`.
+
+A multi-line expression inside an f-string replacement field is PEP 701 syntax,
+accepted only from Python 3.12. The page gives this block a copy button, so a reader on
+3.11 or earlier gets a `SyntaxError` on paste — and no reader of any version can read
+it. (It looks like the residue of an automatic line-length fix.) `check_code` passes
+because `pycodestyle` checks layout, not language version, and it never runs the code.
+
+Fix: one named intermediate plus an implicitly concatenated f-string. Verified by
+running the rewritten block: it prints the identical
+`eps_inf=0.50  T90=0.848  t90=5654 s = 1.57 h`, and `check_code` stays at 0.
+
+### B16. The C5/K3 pressure figure draws a biphasic curve carrying 1410 N, not the 1715 N its caption claims
+
+Location: `module04.html:1380` (the `<svg>`, which occurs **twice** — once at C5 and
+once at K3) and `module04.html:1409` (the C5 caption).
+
+Quoted (1409): "The peaked dry-Hertz dome ($p_0\approx2.5\ \mathrm{MPa}$) and the
+broader biphasic profile ($\approx2.0\ \mathrm{MPa}$) carry the identical knee load
+$\int p\,\mathrm dA=R=1715\ \mathrm N$"; and inside the figure itself, the label
+"same load ∫p·2πr dr".
+
+Calibrating from the tick `<text>` coordinates (x: 95.5→−20 mm … 379.5→20 mm;
+y: 228→0 MPa … 43→3 MPa) and inverting both polylines: the dark curve is a Hertz cap,
+$a=17.95\ \mathrm{mm}$, $p_0=2.541\ \mathrm{MPa}$, carrying $\tfrac23\pi a^2p_0=
+1715.6\ \mathrm N$ — correct. The blue curve is a parabola, $a'=21.18\ \mathrm{mm}$,
+$p_{\max}=2.001\ \mathrm{MPa}$, carrying $\tfrac12\pi a'^2p_{\max}=\mathbf{1410\ N}$.
+Both fits have rms residual $0.0003$, so these are the drawn shapes, not a reading
+error. The figure therefore shows the biphasic profile carrying 18 % *less* load than
+the dry one — the exact opposite of the point C5 makes — and it does so on the page
+twice. It also disagrees with §6, which derives $a'=1.3a=23.3\ \mathrm{mm}$ (`B12`).
+
+Fix: redraw the blue curve at §6's own numbers, $a'=23.3\ \mathrm{mm}$ and
+$p_{\max}=2R/(\pi a'^2)=2.011\ \mathrm{MPa}$, which conserve the load exactly
+($\tfrac12\pi a'^2p_{\max}=1715.0\ \mathrm N$); and state both numbers in the caption
+so the claim is checkable. Verified by re-decoding the redrawn polyline: $a'=23.30\
+\mathrm{mm}$, $p_{\max}=2.011\ \mathrm{MPa}$, load $1715.0\ \mathrm N$. For
+completeness, the other two pressure overlays were decoded the same way and are sound:
+§6's pair carries 1714.2 N and 1714.2 N, §8's carries 1710.5 N and 1710.7 N.
+
+### B17. K4's figure draws its x-axis where $\sigma\neq0$, so the peak reads 1.58× the plateau instead of 2×
+
+Location: `module04.html:1889-1891` (the curve, the equilibrium line, its label).
+
+The curve itself is right: decoded point by point it is exactly
+$\sigma/\sigma_\infty=1+F(T)$, peak $2.000$, decaying on §4's own series (drawn 2.000,
+1.368, 1.160, 1.070, 1.031 against the series' 1.963, 1.355, 1.155, 1.068, 1.030 at
+$T=0,\ 0.33,\ 0.67,\ 1.00,\ 1.34$). But it is anchored on an implied zero at $y=187.4$
+while the x-axis is drawn at $y=232$, and the figure carries **no y tick anywhere**.
+A reader measuring off the drawn axis gets a peak $1.578\times$ the plateau — against
+the "$\sigma$ starts at $2H_A\varepsilon_0$" of K4's own solution two lines above and
+the `sigma_peak=0.119 MPa` / `sigma_end=0.0600 MPa` its own code prints.
+
+Fix: rescale the curve and the $\sigma_\infty$ line about the drawn axis so that the
+axis *is* $\sigma=0$ ($\sigma_\infty$ moves from $y=126.2$ to $y=144.0$, the peak from
+$y=65.0$ to $y=56.0$). Verified by re-decoding: the peak now measures $2.000\times$ the
+plateau off the page, and by rendering the figure (`shoot.py`) to confirm the
+"undrained peak" label still clears the curve.
+
+### S13. Two code blocks still name the thermal energy `RgT` after `B5` retired `T`
+
+Location: `module04.html:1843`, `module04.html:2225`, `module04.html:2230` (the K2 and
+K10 blocks).
+
+`B5` moved the absolute temperature off $T$ and onto $\Theta$ throughout the
+mathematics, because $T$ is the module's dimensionless time $Dt/h^2$. The two code
+blocks that compute the Donnan pressure were missed, so the reader copies out a
+variable spelled with the symbol the module has just retired. Renamed `RgTheta`;
+verified by re-running both blocks (identical output) and `check_code` (0).
+
+Two smaller residues of the same kind were found by grepping the superseded values
+after the apply and are in the change table: **B11c** (`module04.html:225`, the §1
+figure still labelled "interstitial water ≈ 70–80 %" after `B11` unified the prose,
+table and Appendix on 65–80 %) and **B5aa** (`module04.html:509-517`, the
+heat-conduction analogy table reintroducing $T$ as *temperature* in §3 — the same
+section into which `B1` had just inserted the Terzaghi series $e^{-\lambda_n^2T}$).
+
 ## 3. Style and clarity edits
 
 **S1. Section 2's worked arithmetic does not reproduce with a pen.** Line 336 rounds
