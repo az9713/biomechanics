@@ -4,172 +4,156 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last handoff written:** 2026-09-07 (editor phase: Modules 1 and 2 applied and
-pushed; the Module 3 REPORT is written but NOT YET APPLIED; Modules 4–17 queued.
-The user has asked for the editor pass on ALL remaining modules, 3 through 17.)
+**Last handoff written:** 2026-09-08 (editor phase, Modules 3–17, run as fifteen
+parallel agents. 3 modules complete, 9 applied but owing gates or a change log,
+3 not started. Last commit `f028bfc`, pushed.)
 
 ---
 
-## Current state — the EDITOR phase (the anatomy phase is closed)
+## Current state — the EDITOR phase, run in parallel
 
-The course-wide **anatomy regression** is fully fixed (~90 figures, all
-gate-checked and render-verified). That phase is done. What is running now is a
-**`science-editor` pass, module by module**: read a `moduleNN.html` against the
-five-part standard, write a report, then apply it.
+The anatomy regression is closed. What is running now is a **`science-editor`
+pass on every module the phase had not yet reached**: read `moduleNN.html`
+against the five-part standard, write a report, apply it, gate it, log it.
 
-| Module | Report | Applied | Commit |
-|---|---|---|---|
-| 1 | `editor-reports/module01.md` — 19 blocking, 15 style | yes | `3a4dae1` |
-| 2 | `editor-reports/module02.md` — 22 blocking, 20 style | yes | `ac93c14` |
-| 3 | `editor-reports/module03.md` — 13 blocking, 11 style | **NO** | report only |
-| 4–17 | not written | — | — |
+**The user's instruction that set this shape (2026-09-08):** do all remaining
+modules, **not one by one**, **never overwrite the originals**, and **write a
+detailed log of what changed for each module**. Three decisions they made:
+output goes to `edited/moduleNN.html`; every module gets the full pass (extract
+and run every code block, re-derive every number); gates only, no per-module
+render-verify sweep.
 
-All three reports are committed and stay as the record of what was wrong
-(`b59b44f` for m01/m02, `7aa9295` + `795866b` for m03). Working tree clean at
-`795866b`, local and remote matching. If `.agents/` or `.codex/` reappear, leave
-them untracked — local scaffolding, like `mcps/`.
+### Where each module stands
 
-## Next task — APPLY `editor-reports/module03.md`, then report on `module04.html`
+`edited` = lines differing from the original. `log` = the report carries its
+`## 6. Changes applied` table.
 
-The Module 3 report is done and committed. It was written against a full
-re-implementation of the §7.4 lab, so its numbers are computed, not recalled.
-**Step 1 is to apply it** with the pipeline below, then commit, push and gate.
-**Step 2 is the Module 4 report**, then Modules 5 through 17, one per session.
+| Module | edited | report | log | gates | State |
+|---|---|---|---|---|---|
+| 1, 2 | applied in place | yes | yes | pass | done earlier (`3a4dae1`, `ac93c14`) |
+| **6** | 345 | 918 ln | yes | **all 9 pass** | **COMPLETE** — 17 blocking, 15 style, 52 edits |
+| **11** | 129 | 480 ln | yes | **all 9 pass** | **COMPLETE** — 19 blocking, 15 style, 60 edits |
+| **14** | 324 | 380 ln | yes | **all 9 pass** | **COMPLETE** — 15 blocking, 13 style, 63 edits |
+| 3 | 355 | 624 ln | yes | not run | **RESET AND RE-APPLY** — see below |
+| 4 | 480 | 853 ln | no | not run | applied; owes gates + log |
+| 7 | 168 | 536 ln | no | not run | partway through the apply |
+| 8 | 226 | 1211 ln | no | passed once | owes log; agent died checking a figure |
+| 9 | 108 | 867 ln | yes | not run | owes the final gate run |
+| 12 | 391 | none | no | not run | 76 edits applied; owes report, gates, log |
+| 13 | 325 | 992 ln | yes | not run | owes gates |
+| 16 | 362 | 672 ln | yes | passed | owes only the log write-out |
+| 17 | 357 | 770 ln | yes | not run | owes two residual claim fixes + gates |
+| 5, 10, 15 | 0 | none | no | — | **NOT STARTED** |
 
-### What the Module 3 report found (13 blocking, 11 style)
+## Next task — finish the twelve
 
-The arguments are sound — Theorem 3.1, Proposition 3.2, (4.1) and (6.1) all carry
-real proofs and all check. The damage is in the numbers:
+Three jobs, in this order. They are independent; run them in parallel again.
 
-- **B1** K2's five numbers reproduce from no run of the model (rail $R_s$ 19.7 N vs
-  a computed 32.6 N; wall $R_s$ 20.6→26.3 N vs a computed 57.9→187.3 N). Full
-  replacement with verified numbers is in the report.
-- **B2** Two mutually inconsistent elbow examples: §4.1 uses Module 1's reference
-  human (3 cm arm, 630 N, 566 N); D2 (`:1928`, `:1931`) and the Appendix (`:2131`)
-  use a 5 cm arm and 401 N / 336 N. The Appendix records only the wrong one.
-- **B3** §9.4 claims every number was produced by running the code. The §7.4 lab
-  computes $R_s,R_e,\lambda_3$ and never prints them, and 5 of the 10 K snippets
-  call names defined nowhere (`solve_kkt`, `release_pose`, `Rs_history`,
-  `time_of_first_turning_point`). Running all 11 blocks gives 5 `NameError`s.
-- **B4** A live `<a>` tag sits inside a `<pre><code>` block at `:1989`.
-- **B5** §4.3 gives the leaned hip load as 1.3 W (plot) and 1.1 W (caption).
-- **B6** The cane claim is qualitative with a bare "~1 body weight". Verified: a
-  0.15 W cane at 0.30 m removes 1.05 W. Arithmetic supplied.
-- **B7** K10's four forces are unreproducible and their ordering (wrist 11 N above
-  elbow 2 N) inverts §7.5's own proximal-carries-more finding. Computed with the
-  Appendix's own $L_3,m_3$: 19.1 / 5.3 / 2.9 / 11.6 N.
-- **B8** K9 says 15× and 1.5e-5 m; computed 21× and 2.2e-5 m.
-- **B9** §5.3's stated ν≈0.5 gives $E^*=6.67$ MPa, not the stated 6; ν_bone is
-  never given. The fix also *derives* §5.1's asserted $A_c≈10$ cm² (Hertz gives
-  a=17.9 mm → 10.1 cm²).
-- **B10** ~12 bare empirical numbers with no table row (β=55°/22°, both moduli,
-  the damage threshold — drawn as both "15" and "15–25" MPa, R_eff, 3–5 W gait,
-  ~240 body DOF). Ten Appendix rows supplied.
-- **B11** α and $a$ each carry two or three meanings; the Appendix flags neither.
-  Rename the Baumgarte gains to γ_d, γ_p.
-- **B12** (6.1) silently assumes a frictionless rigid socket, while μ≈0.005 sits
-  unused in the Appendix. The two gaps close each other.
-- **B13** §6.2's mobility curve is captioned "(computed)" with no equation.
+1. **Reset and re-apply Module 3.** Its agent died mid-repair of its own
+   `apply.py` (a `"""` docstring inside a replacement snippet terminated the
+   surrounding raw string). The script is **not idempotent**, so
+   `edited/module03.html` may hold a partial apply. Do
+   `cp module03.html edited/module03.html`, fix the script, run it once.
+2. **Gates + change log** for 4, 7, 8, 9, 12, 13, 16, 17. Most of the work is
+   done; what is owed is the nine gates and the `## 6. Changes applied` table.
+   Module 12 also owes its report; Module 17 owes two residual claim fixes.
+3. **Full pass** for 5, 10, 15 — all ten brief steps.
 
-### Not yet reviewed — finish this before marking Module 3 applied
+### The reusable brief (this is the important artifact)
 
-The report covers §0–§7, §9.1, §9.4, D2 and the Appendix. It does **not**
-cover `module03.html:1476-1658` (§8, the captures/misses audit), `1693-1907`
-(C1–C10) or `1908-1981` minus D2 (D1, D3–D10). Those ~400 lines were only
-grepped for reused numbers. Read them against the five-part standard and append
-the findings to `editor-reports/module03.md` before or during the apply.
+**`scratchpad/tools/BRIEF.md`** is the 117-line agent brief that produced the
+three complete modules. It is session-transient — **rebuild it from this
+description**, or better, promote it into the repo next session:
 
-### The editor-pass toolkit (reusable for Modules 4–17; scratchpad is transient)
+Ten steps. (0) Load `science-editor`, then `EDITOR_DOMAIN.md`, `HANDOFF.md`,
+`CLAUDE.md`, and `editor-reports/module02.md` as the format model. (1) Never
+touch the original; write only `edited/moduleNN.html`; **run no git command at
+all** — the reset is `cp`, not `git checkout`. (2) Record the nine-gate baseline
+on the pristine copy first; the end rule is *zero where the baseline was zero,
+never worse anywhere*; a Chrome gate that times out is cold-start contention, so
+retry once. (3) Shared tools, own scratchpad folder per agent. (4) **Run the
+code before reading the prose** — highest-yield step. (5) Read the whole module
+against the five-part standard plus the house rules. (6) Write the report shaped
+like `module02.md`. (7) One re-runnable `apply.py`, `rep()` asserting each anchor
+is unique, plus the three known traps. (8) Author math only via Write/Edit or a
+Python raw string, never a double-quoted shell arg. (9) Re-gate, then write the
+change table. (10) Report back in ten lines.
 
-Two throwaway scripts made every Module 3 finding possible. Rebuild them first
-for each new module — they are ten lines each:
+Also in `scratchpad/tools/`: `extract.py` (every `<pre><code>` block out to a
+runnable `.py`, flagging live HTML tags inside code), `txt.py` (dump a line
+range, `<svg>` collapsed, UTF-8, never truncated), `apply_skel.py`.
 
-- `extract.py` — regex `<pre><code>(.*?)</code></pre>` over `moduleNN.html`,
-  `html.unescape` each match, write to `blkNN_L<line>.py`, then run every one and
-  diff the printed numbers against the prose. **This is the highest-yield step of
-  the whole pass.** On Module 3 it found that the lab prints nothing, that five
-  of ten K snippets call undefined names, and that one block contains a live
-  `<a>` tag.
-- `txt.py A B` — dump lines A..B with `<svg>...</svg>` collapsed to `[SVG]` and
-  tags stripped, written to a UTF-8 file (printing to a cp1252 console dies on
-  Unicode subscripts). Do not truncate lines: an early 900-char cap made a proof
-  look truncated when it was not.
+**Give each agent a short prompt pointing at the brief plus its own state.** The
+first launch put the whole brief in fifteen prompts and burned the lead session's
+context for no gain.
 
-Then re-implement the module's lab as a parameterised function and run it. Do
-not trust the prose numbers; do not trust the snippets either.
+## The lesson the three completed modules all reported
 
-### Module 3 verification assets
+**The nine gates do not see wrong content, only broken content.** Every gate was
+green on each of these:
 
-`m03/lab.py` re-implements §7.4 as `run(L1,L2,m1,m2,mL,g,yh,amp,a,b,dt,nstep,
-wall,xw) -> dict of arrays`. It reproduces the module exactly: W_L=34.335 N,
-R_s 11.64 N at release and 32.61 N peak (ratio 2.80), contact peak 22.32 N and
-min 6.21 N, R_e peak 11.61 N, x2 0.358→-0.027 m, max|g| 1.03e-6 m. `verify.py`
-sweeps K1–K9; `k2k10.py` does the wall case and a 3-link version; `hertz.py`
-does §5 and the cane. Rebuild these before applying, and re-check any number.
+- m06: the report's own replacement caption for Fig. 16 described an x-axis the
+  figure does not have (it plots the dimensionless $\omega\tau_\sigma$; the peak
+  vertex is at 0.74 and the band spans 8–90).
+- m14: a curve plotting $L\cdot p$ on an axis labelled "peak stress"; a muscle
+  drifting at 0.31 %/yr under a module claiming 1 %/yr; a runaway clamped flat
+  at the 9 MPa axis ceiling from year 43, under a caption claiming a runaway.
+- m11: a grip curve drawn at 1.3× the true load, so the figure showed no slip in
+  a problem about slip; and a 737 N curve clipped flat against a 300 N axis.
 
-## The apply pipeline (proven on Modules 1 and 2 — reuse it)
+**The technique that caught them all: decode the `<polyline>` point strings back
+into data.** Calibrate from the tick `<text>` coordinates, invert the mapping,
+compare against the model. Carry this into every remaining module — it is
+cheaper than a render sweep and it catches a different class of defect.
 
-Write **one re-runnable `apply.py`** in the scratchpad. Do not hand-edit 40 places.
+Second recurring finding: **a module that claims "every number was produced by
+running the code" usually has problems carrying no code at all.** m14's ten K
+problems had none, while the module said so three times. m11 had three of four
+labs printing nothing. m03's §7.4 lab computes its headline forces and prints
+none of them.
 
-- `rep(old, new, tag)` **asserts the anchor occurs exactly once**, then replaces;
-  the script logs every tag so you can check the log against B1..Bn.
-- New/repaired SVG bodies come from a `genfigs.py` → `figs.json`; `apply.py`
-  splices them in. Prose stays in the HTML, figures come from Python.
-- `git checkout -- moduleNN.html` is the reset. The loop is: edit `genfigs.py` →
-  rerun → `git checkout` → `python apply.py` → gates.
-- Run it against a **pristine** file. It is not idempotent.
+## Open decision for the user
 
-**Three traps that cost real time on Modules 1 and 2:**
-- In a Python **raw** string `\'` keeps the backslash, so `r'…\'…'` never matches
-  the file. This crashed `apply.py` silently — it died before its single
-  `write_text`, leaving the file untouched while the logs looked plausible.
-- A regex that maps `\beta`→`beta` **before** stripping `\\[a-zA-Z]+` glues
-  `\sin`+`beta` into `\sinbeta` and deletes it. Map function names first.
-- `check_overlap.py` tests text against curves and dashed lines, **not text
-  against text**. Legend-on-label collisions are invisible to it — look at the
-  renders.
+`edited/` is committed and pushed, so the drafts are reachable on Pages at
+`https://az9713.github.io/biomechanics/edited/moduleNN.html`. They are **not**
+linked from `index.html` or `README.md`, so nothing finds them without the URL.
+If that is unwanted, add `edited/` to `.gitignore` and `git rm -r --cached
+edited` — but then the drafts stop being backed up.
+
+When a module is signed off, promotion is `mv edited/moduleNN.html moduleNN.html`.
 
 ## Where to read things (reference, don't re-derive)
 
-- `editor-reports/*.md` — what was wrong with each module and the exact fix.
+- `editor-reports/*.md` — what was wrong with each module, the exact fix, and
+  (where present) the `## 6. Changes applied` table.
 - `EDITOR_DOMAIN.md` — the domain brief the `science-editor` skill reads.
 - `CLAUDE.md` — standing conventions: build loop, the nine hard gates, git and
   publish, figure style, math-in-HTML gotchas, the K-problem depth standard.
-- `ANATOMY_AUDIT.md` — the closed anatomy phase: defect register, four fix
-  recipes, and the safety caveats (thick `#c98a5e` limb lines, figures located by
-  caption not index, transformed `<g>`s).
-- `anatomy_kit/README.md` — `body_group` / `capsule` / `sphere` / `head`.
+- `ANATOMY_AUDIT.md` — the closed anatomy phase.
 - `prompt.txt` — course structure, source of truth.
 
 ## How to work (essentials — full detail in `CLAUDE.md`)
 
 - **Extract and RUN every `<pre><code>` block before reading for rigor.**
-  Number mismatches are the largest defect class in this phase and they are
-  free to find. A module can claim "every number was produced by running the
-  code" while its lab prints nothing (Module 3, §9.4).
 - **Nine hard gates after every edit pass**, all zero: `checktex`, `checklt`,
   `check_links`, `check_svg`, `check_code`, `verify_dom`, `check_overlap`,
-  `check_frame`, `check_bodyprop`. Then read the advisories (`check_prose`,
-  `check_proofs`, `check_probfig`).
-- **Then render-verify with `shoot.py` and look at the PNGs.** Every real defect
-  found in the last two modules — a wedge cut on the wrong diagonal, a legend
-  printed through a number, a curve running off the top — passed all nine gates.
-  Gates are necessary and not sufficient.
-- **Commit + push per module**, as `az9713` / `az9713@users.noreply.github.com`,
-  with the standard trailer block. Public repo — never reintroduce the private
-  `az9713@yahoo.com` email (it still lives in git history; a rewrite needs
-  filter-repo plus a force-push, so coordinate with the user first).
-- Subagents doing an apply should run **no writing git command**; the lead
-  commits after re-running the static gates.
+  `check_frame`, `check_bodyprop`. Then read the advisories.
+- **Then look at the figures** — decode the polylines, or render. Gates are
+  necessary and not sufficient.
+- **Commit + push per module**, as `az9713` /
+  `az9713@users.noreply.github.com`, with the standard trailer block. Public
+  repo — never reintroduce the private `az9713@yahoo.com` address.
+- Subagents doing an apply run **no writing git command**; the lead commits
+  after re-running the gates.
 
 ## Open items (small, not blocking)
 
-- **Cosmetic anatomy leftovers** (not incorrect anatomy): m10 wishbone shoulders,
-  m09 fig1 (feet piled at one point) and fig13 (stance leg has no knee), m13 any
-  residual detached head. Locate by caption; render-verify; gate; commit.
-- **A stroke-width gate for `check_svg.py`** was suggested while fixing the
-  Module 2 black bars — it would catch the "realism commit" failure class
-  mechanically. It lives in the shared `rigorous-explainer` skill, so it is a
-  change to the toolchain, not to a module.
-- `autoContinueAtUsageLimit: true` is now set in `~/.claude/settings.json`, so a
-  usage limit no longer ends a session's work — it waits and continues.
+- **Cosmetic anatomy leftovers:** m10 wishbone shoulders, m09 fig1 (feet piled
+  at one point) and fig13 (stance leg has no knee), m13 any residual detached
+  head. Locate by caption; render-verify; gate; commit.
+- **A stroke-width gate for `check_svg.py`** would catch the "realism commit"
+  failure class mechanically. It lives in the shared `rigorous-explainer` skill,
+  so it is a toolchain change, not a module change.
+- Two full agent fleets were lost to usage limits mid-run. `autoContinueAtUsage
+  Limit: true` is set in `~/.claude/settings.json`, but it did not save the
+  subagents — only the lead. Launch fleets early in a limit window.
