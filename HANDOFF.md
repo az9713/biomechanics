@@ -4,9 +4,11 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last handoff written:** 2026-09-08 (editor phase, Modules 3–17, run as fifteen
-parallel agents. **8 complete**; 7 relaunched and in flight. Last commit
-pushed; see the table below for each module's commit.)
+**Last handoff written:** 2026-09-08. **The editor pass is COMPLETE: all fifteen
+modules, 3 through 17.** Every one has a report, an applied draft in `edited/`,
+all nine gates at or better than its pristine baseline, and a change-log table.
+Modules 1 and 2 were done earlier, in place. **Next decision is promotion —
+see below.**
 
 ---
 
@@ -43,27 +45,33 @@ render-verify sweep.
 | **5** | **COMPLETE** — 22 blocking, 11 style, 72 edits; Fig. 30 rebuilt and verified |
 | **7** | **COMPLETE** — 86 tags; K2's figure regenerated from the Hopf boundary |
 | **8** | **COMPLETE** — 23 blocking, 15 style, 65 edits; the 3–5 W debt to m03 paid |
-| 10 | report written, apply NOT run; check_frame is the point of this module |
+| **10** | **COMPLETE** — 16 blocking, 6 style, 62 edits; wishbone shoulders fixed |
 | **15** | **COMPLETE** — 23 defects, 78 edits; 4 K problems given the code they claimed |
 | **17** | **COMPLETE** — 63 edits; course closure verified |
 
-**Fourteen complete. Seven were relaunched 2026-09-08 with the defect each one's
+**ALL FIFTEEN COMPLETE. Seven were relaunched 2026-09-08 with the defect each one's
 predecessor named in its dying words.**
 
-## Next task — finish the seven, then promote
+## Next task — PROMOTION, and one drift to fix first
 
-1. **Wait on the seven in flight** (4, 5, 7, 8, 10, 15, 17). Each was relaunched
-   with the exact defect its predecessor named. If a fleet dies again, relaunch
-   from the table above — every entry names what that module still owes.
-2. **Module 7 needs a reset, not a resume.** Its apply is partial (175 lines)
-   and the script is not idempotent. Its failure was an anchor written with an
-   HTML entity where the file holds the literal character (`·` U+00B7). Check
-   every anchor for entity-vs-literal mismatch: `·`, `≈`, `−` (U+2212, not a
-   hyphen), `°`, `×`, Greek, and the Unicode subscripts the house style uses in
-   SVG `<text>`.
-3. **Then promote.** When a module is signed off, `mv edited/moduleNN.html
-   moduleNN.html`. Decide with the user whether to promote all at once or
-   module by module.
+The pass is done. What remains is a decision and a small repair.
+
+1. **Fix the m03 drift** listed under Open items — `edited/module03.html:858`
+   states a range that its own equation contradicts at one endpoint.
+2. **Decide with the user how to promote.** Each signed-off module is
+   `mv edited/moduleNN.html moduleNN.html`. All at once, or module by module
+   after the user reads each report. Nothing is promoted yet; `edited/` and the
+   originals both sit in the repo, and `index.html` / `README.md` still point at
+   the originals.
+3. **After promotion**, re-run the nine gates on the promoted files in place and
+   push.
+
+### What the pass cost and produced
+
+Fifteen modules, roughly 1000 anchored edits, ~14 000 lines of report. Three
+agent fleets were killed by usage limits mid-run; every one resumed from files
+on disk with nothing lost but the applies in flight. Every module's report ends
+in a `## 6. Changes applied` table — that is the detailed log the user asked for.
 
 ### Prove the apply, don't read it
 

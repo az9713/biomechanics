@@ -1,9 +1,0 @@
-84: 
-85: Dynamic stability condition (the capturability result imported from Module 7; Proposition 1.1 supplies the divergent coordinate, while the sufficiency of a bounded ankle/hip torque to arrest it is Module 7's reachability argument, not re-derived here). A standing body can be brought to rest by a bounded fixed-support (ankle/hip) response, without stepping, precisely when its extrapolated centre of mass lies inside the base of support:
-86: $$\xi\in[\,x_{\rm heel},\,x_{\rm toe}\,].$$
-87: When $\xi$ leaves the base a step is mandatory - a change of the base itself (Section 7).
-88: 
-89: [SVG]The margin of stability as a recovery budget. The centre of mass projects to xcom on the ground; its forward velocity adds a lead ẋ/ω0 to give the extrapolated centre of mass ξ. The margin b is the distance still left from ξ to the front edge of the base of support - the amount of extra lean or impulse a fixed-support (ankle/hip) response can still arrest before a step becomes mandatory. A forward impulse J moves ξ toward the edge; when it would carry ξ past it, b is spent.
-90: 
-91: The slack in this inequality is the quantity we will track through every later section. Measured toward the edge the body is moving against, it is the margin of stability.
-92: 
