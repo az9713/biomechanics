@@ -5,8 +5,8 @@ This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
 **Last handoff written:** 2026-09-08 (editor phase, Modules 3–17, run as fifteen
-parallel agents. 3 modules complete, 9 applied but owing gates or a change log,
-3 not started. Last commit `f028bfc`, pushed.)
+parallel agents. **8 complete**; 7 relaunched and in flight. Last commit
+pushed; see the table below for each module's commit.)
 
 ---
 
@@ -28,36 +28,61 @@ render-verify sweep.
 `edited` = lines differing from the original. `log` = the report carries its
 `## 6. Changes applied` table.
 
-| Module | edited | report | log | gates | State |
-|---|---|---|---|---|---|
-| 1, 2 | applied in place | yes | yes | pass | done earlier (`3a4dae1`, `ac93c14`) |
-| **6** | 345 | 918 ln | yes | **all 9 pass** | **COMPLETE** — 17 blocking, 15 style, 52 edits |
-| **11** | 129 | 480 ln | yes | **all 9 pass** | **COMPLETE** — 19 blocking, 15 style, 60 edits |
-| **14** | 324 | 380 ln | yes | **all 9 pass** | **COMPLETE** — 15 blocking, 13 style, 63 edits |
-| 3 | 355 | 624 ln | yes | not run | **RESET AND RE-APPLY** — see below |
-| 4 | 480 | 853 ln | no | not run | applied; owes gates + log |
-| 7 | 168 | 536 ln | no | not run | partway through the apply |
-| 8 | 226 | 1211 ln | no | passed once | owes log; agent died checking a figure |
-| 9 | 108 | 867 ln | yes | not run | owes the final gate run |
-| 12 | 391 | none | no | not run | 76 edits applied; owes report, gates, log |
-| 13 | 325 | 992 ln | yes | not run | owes gates |
-| 16 | 362 | 672 ln | yes | passed | owes only the log write-out |
-| 17 | 357 | 770 ln | yes | not run | owes two residual claim fixes + gates |
-| 5, 10, 15 | 0 | none | no | — | **NOT STARTED** |
+| Module | State |
+|---|---|
+| 1, 2 | done in place (`3a4dae1`, `ac93c14`) |
+| **3** | **COMPLETE** — 21 blocking, 18 style, 70 edits (`2f7e8a4`) |
+| **6** | **COMPLETE** — 17 blocking, 15 style, 52 edits (`f028bfc`) |
+| **9** | **COMPLETE** — 16 blocking, 18 style, 80 tags |
+| **11** | **COMPLETE** — 19 blocking, 15 style, 60 edits (`f028bfc`) |
+| **12** | **COMPLETE** — 12 blocking, 22 style, 96 edits (`d48bfc8`) |
+| **13** | **COMPLETE** — 102 edits (`49ab3a3`) |
+| **14** | **COMPLETE** — 15 blocking, 13 style, 63 edits (`979bd0a`) |
+| **16** | **COMPLETE** — 17 blocking, 13 style, 55 edits (`979bd0a`) |
+| 4 | report + 523 edits; owed the nine-gate re-run |
+| 5 | report + 458 edits; report may be incomplete; Fig. 30 unverified |
+| 7 | report written; apply PARTIAL (175 lines) — reset and re-run |
+| 8 | report + 226 edits, no change log; open: a literal `_` in an SVG `<text>` (check_svg HARD) and K10's frame |
+| 10 | report written, apply NOT run; check_frame is the point of this module |
+| 15 | report + 298 edits; open: which listing prints what K2–K10 quote |
+| 17 | report + 362 edits; open: an unresolved `$I$` symbol collision |
 
-## Next task — finish the twelve
+**Eight complete. Seven were relaunched 2026-09-08 with the defect each one's
+predecessor named in its dying words.**
 
-Three jobs, in this order. They are independent; run them in parallel again.
+## Next task — finish the seven, then promote
 
-1. **Reset and re-apply Module 3.** Its agent died mid-repair of its own
-   `apply.py` (a `"""` docstring inside a replacement snippet terminated the
-   surrounding raw string). The script is **not idempotent**, so
-   `edited/module03.html` may hold a partial apply. Do
-   `cp module03.html edited/module03.html`, fix the script, run it once.
-2. **Gates + change log** for 4, 7, 8, 9, 12, 13, 16, 17. Most of the work is
-   done; what is owed is the nine gates and the `## 6. Changes applied` table.
-   Module 12 also owes its report; Module 17 owes two residual claim fixes.
-3. **Full pass** for 5, 10, 15 — all ten brief steps.
+1. **Wait on the seven in flight** (4, 5, 7, 8, 10, 15, 17). Each was relaunched
+   with the exact defect its predecessor named. If a fleet dies again, relaunch
+   from the table above — every entry names what that module still owes.
+2. **Module 7 needs a reset, not a resume.** Its apply is partial (175 lines)
+   and the script is not idempotent. Its failure was an anchor written with an
+   HTML entity where the file holds the literal character (`·` U+00B7). Check
+   every anchor for entity-vs-literal mismatch: `·`, `≈`, `−` (U+2212, not a
+   hyphen), `°`, `×`, Greek, and the Unicode subscripts the house style uses in
+   SVG `<text>`.
+3. **Then promote.** When a module is signed off, `mv edited/moduleNN.html
+   moduleNN.html`. Decide with the user whether to promote all at once or
+   module by module.
+
+### Prove the apply, don't read it
+
+Four agents converged on the same check independently, and it should now be
+standard: reset to pristine, re-run `apply.py`, and confirm the output is
+**byte-identical** to the edited file. Then confirm the tag count equals the
+change-log row count, in order, and that each row's stated line is the anchor's
+true first line in the pristine file. This is the only way to know the script
+did not die before its single `write_text` — the failure that leaves the file
+untouched while the log still looks plausible.
+
+### Grep for residue after every apply
+
+Every module that looked for it found some: a replacement made in one place and
+the superseded value left standing elsewhere. m16's K6 figure label still read
+"ratio 12×" after its solution had been corrected to 12.5. m13's μ rename left
+five bare `\mu` behind after the notation table had stopped defining one.
+m09's Fig. 7 still integrated to 181.0 N·s after every label around it read
+32.0.
 
 ### The reusable brief (this is the important artifact)
 
@@ -148,9 +173,9 @@ When a module is signed off, promotion is `mv edited/moduleNN.html moduleNN.html
 
 ## Open items (small, not blocking)
 
-- **Cosmetic anatomy leftovers:** m10 wishbone shoulders, m09 fig1 (feet piled
-  at one point) and fig13 (stance leg has no knee), m13 any residual detached
-  head. Locate by caption; render-verify; gate; commit.
+- **Cosmetic anatomy leftovers:** only **m10 wishbone shoulders** remains.
+  m09's piled feet and knee-less stance leg are fixed and render-verified;
+  m13's figures re-rendered with no detached head. Locate by caption.
 - **A stroke-width gate for `check_svg.py`** would catch the "realism commit"
   failure class mechanically. It lives in the shared `rigorous-explainer` skill,
   so it is a toolchain change, not a module change.
