@@ -205,6 +205,13 @@ When a module is signed off, promotion is `mv edited/moduleNN.html moduleNN.html
   publish, figure style, math-in-HTML gotchas, the K-problem depth standard.
 - `ANATOMY_AUDIT.md` — the closed anatomy phase.
 - `prompt.txt` — course structure, source of truth.
+- **`DEVELOPMENT_JOURNEY_2.md`** (and its dark-mode `.html`) — the full story of the
+  editor pass: how it was run, what went wrong, and **90 before/after pairs across all
+  fifteen modules** covering prose, math, figure geometry, notation and code. Read §4
+  first — it is why the nine gates were not enough. Caveat recorded in its §6.7: the
+  per-module quotes for Modules 8–17 come from the reports; only Modules 3–7 were
+  grep-verified against the HTML, and that verification found two places where the
+  applied text differs from the proposed text.
 
 ## How to work (essentials — full detail in `CLAUDE.md`)
 
