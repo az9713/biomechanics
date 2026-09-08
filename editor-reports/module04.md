@@ -1141,3 +1141,73 @@ rewrites the same clause of line 910 for the same reason.
 | B17a | 1889 | `65.0 65.3,71.4 66.5,74.7 67.7,77.3 69.0,79.5 70.2,81.4 71.4,83.2 72.6,84.8 73.8,86.3 75.0,87.7` &rarr; `56.0 65.3,65.2 66.5,69.9 67.7,73.7 69.0,76.8 70.2,79.6 71.4,82.2 72.6,84.5 73.8,86.6 75.0,88.6` | polyline decoded: the curve is exactly `1+F(T)` point by point, but measured off the drawn axis the ratio was 1.578; after the rescale it measures 2.000 |
 | B17b | 1890 | `26.2" x2="428" y2="126.2` &rarr; `44.0" x2="428" y2="144.0` | polyline decoded: the curve is exactly `1+F(T)` point by point, but measured off the drawn axis the ratio was 1.578; after the rescale it measures 2.000 |
 | B17c | 1891 | `21.2` &rarr; `39.0` | polyline decoded: the curve is exactly `1+F(T)` point by point, but measured off the drawn axis the ratio was 1.578; after the rescale it measures 2.000 |
+
+
+## 7. Independent verification of the applied file
+
+Re-run from scratch on the finished `edited/module04.html`, not carried over
+from the pass that wrote it.
+
+**The apply is complete and reproducible.** `scratchpad/m04/replay.py` re-runs
+`apply.py` against the *pristine* `module04.html` and compares the result with
+`edited/module04.html`: `REPLAY ok, 107 edits` / `IDENTICAL`. The script did
+not die before its single `write_text`; the 107 rows of the table above are the
+whole change set, and nothing was hand-edited outside it.
+
+**All nine gates re-run on both files.** Identical to the table in §6: baseline
+`check_frame` 6 wasted-margin advisories &rarr; **0**; `check_svg` 3 advisory
+&rarr; **2**; every other gate 0 on both, `check_bodyprop`'s single false
+positive (the femoral condyle read as a head) unchanged, `verify_dom` 6
+stray-`$` on both. Zero where the baseline was zero, worse nowhere.
+
+**All twelve code blocks re-extracted from the edited file and run.** No
+exception, no undefined name. Every number they print matches the prose beside
+it: `blk05` `a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa` (the `B14` fix);
+`blk06` `sigma_peak=0.119  sigma_end=0.0600`, `t_half/h^2 = 3.3352e+08` at
+$h=1,2,4\ \mathrm{mm}$; `blk09` `eps_inf=0.50  T90=0.848  t90=5654 s = 1.57 h`
+(the `B15` fix); `blk11` `F1=0.8618  F5=0.8273  F_inf=0.8273`; `blk12`
+`pi=0.1561 MPa`, `ratio 2.60`, `cF_crit=0.1205 M (60% of healthy)`, slope
+`1.832`. Section 5's grid-convergence claim was re-run at four grids:
+`N=50 -> 6.4941`, `100 -> 6.5117`, `200 -> 6.5139`, `400 -> 6.5145`, against the
+analytic $2h/\sqrt{\pi Dt_0}=6.5147$ — the "6.494 / 6.512 / 6.514 / 6.515" of
+line 831 is right in every digit.
+
+**Every touched figure decoded back into data.** Each `<polyline>` was
+calibrated from the axis `<line>` elements (not the tick `<text>` baselines,
+which sit 3 px low) and inverted, then fitted in two parameters to the model its
+caption names:
+
+| figure | curve | fit | load $\int p\,\mathrm dA$ |
+|---|---|---|---|
+| §6, lines 939–957 | dark | Hertz, $a=17.95$ mm, $p_0=2.540$ MPa, rms $0.0006$ | **1714.2 N** |
+| §6 | blue | parabola, $a'=23.34$ mm, $p_{\max}=2.004$ MPa, rms $0.0005$ | **1714.2 N** |
+| §8, lines 1161–1174 | blue | parabola, $a'=23.27$ mm, $p_{\max}=2.011$ MPa, rms $0.0007$ | **1710.4 N** |
+| §8 | dark | Hertz, $a=15.98$ mm, $p_0=3.199$ MPa, rms $0.0016$ | **1710.7 N** |
+| C5 (1390–1409) and K3 (1870–1889), byte-identical | dark | Hertz, $a=17.955$ mm, $p_0=2.541$ MPa, rms $0.0009$ | **1715.4 N** |
+| C5 / K3 | blue | parabola, $a'=23.300$ mm, $p_{\max}=2.011$ MPa, rms $0.0006$ | **1714.5 N** |
+
+All four pressure figures conserve the $R=1715\ \mathrm N$ load to within
+$0.3\%$, and each curve fits the shape its caption claims two orders of
+magnitude better than the rival shape — so `B16` is fixed in **both** copies of
+that figure, not one.
+
+The K4 relaxation curve (1903–1905) measures $\sigma_{\rm peak}/\sigma_\infty=
+(232-56)/(232-144)=\mathbf{2.000}$ off the drawn axis, and matches
+$1+F(T)$ with $T$ read straight off the axis to $\lt0.01$ at every one of its
+300 points — consistent with K4's own `tau = h**2/D`, which is the convention
+`S12` fixed on. The rebuilt K10 figures decode to the numbers their captions
+and their code print: healthy $F=0.9862$ flat; degraded $0.8618\to0.8273$ in
+five cycles, the dashed plateau at $1-\Delta F/r=0.82722$; and the swelling
+curve reproduces $\pi=R_g\Theta(\sqrt{c_F^2+4c_0^2}-2c_0)$ to $1.3\times10^{-4}$
+MPa over the whole $0$–$0.3$ M range, with its two dashed markers landing on
+$0.0600$ MPa and $c_F=0.1204$ M.
+
+**Residue sweep, independent of the first one.** Every numeric literal that an
+edit removed was re-grepped across the finished file (15 candidates); the seven
+that still occur are all unrelated — SVG coordinates (`361`, `12.0`, `0.48`,
+`21.2`), the ionic strength `0.15`, the footstep `0.5`, and the Hertz peak
+`2.5`, which the fitted curve confirms at $2.541$. `R_gT`, `1410`, `2.53`,
+`70&ndash;80`, `Answer</summary>`, `steel-on-PTFE`, `\eta U/W` and `$T$ the
+absolute`: **0 hits each**. `RgT` survives only inside `RgTheta` (`S13`). All
+fourteen mentions of the hip now read as the load source, never the geometry
+(`B6`). Nothing superseded is left standing.

@@ -495,6 +495,17 @@ pk = np.array([(mh[i]*g*d0[i]*np.sin(q) + I_k[i]*np.abs(qdd)
                 + 0.15*mh[i]*g*d0[i]).max() for i in range(N)])
 ```
 
+**Confirmed independently after the apply.** Every `$…$` and `$$…$$` segment in
+the edited file was pulled and matched against a bare $I$ (no preceding letter
+or backslash, no following letter or underscore). Twelve hits, all one quantity:
+Section 2's ankle inertia at lines 130, 131 (×2), 133, 138, 140 and 143, the
+single explicit contrast at 201, D1's restatement of the same equation at 392
+(×3), and the notation row at 562. No bare $I$ survives in Section 3, in any
+problem statement or solution, in the catalog table, or in any SVG `<text>`
+label; `Ii` is gone from the code entirely and `I_k` appears four times against
+`Iz`'s seven, which are all Section 2's and D1's. The collision is resolved, not
+flagged.
+
 After these, the only bare $I$ left in the module is Section 2's ankle inertia
 (lines 130-143 and D1's solution at 392) and the one explicit contrast at 201.
 Both code blocks were re-run and print exactly what they printed before: the
@@ -955,10 +966,24 @@ B9a-B9l, S17a-S17b), not carried over from the first.
 
 **The apply script is the file.** `edited/module17.html` was reset from the
 pristine copy with `cp module17.html edited/module17.html` and rebuilt from
-`m17/apply.py` in one run: **63 edits, 0 misses**. Before the second pass the
-same procedure reproduced the then-current file byte-for-byte (`diff` reported
-IDENTICAL), which is what makes the tag list below a complete account of the
-difference between the two files rather than a description of it.
+`m17/apply.py` in one run: **63 edits, 0 misses**. The reset-and-rebuild was
+then run twice more from the pristine copy and the two outputs compared with
+`cmp`: byte-identical to each other, and byte-identical to the file the pass had
+already produced. The script is therefore idempotent and total - it is not a
+description of the difference between the two files, it *is* the difference, and
+the tag list below is a complete account of it.
+
+**Every applied edit has a change-log row, and every row is an applied edit.**
+The check was run in both directions: the 63 tags `apply.py` logs were matched
+against the tag column of the table in section 6, and neither direction leaves a
+remainder. The report names four things it does *not* apply, and each is
+accounted for rather than dropped: B14's fix is carried by the B2 replacements,
+S14's by the B6 replacement, S13's by B1f (verified in the edited file - the
+$\ell_{\rm stride}=2L\sin\theta_{\max}$ clause is present in §4's extension),
+and S11 is an explicit "keep it, no change" on the module's best sentence.
+S10 and S16 are applied inside the composite tag `B3c-S10-S16`, and B12a inside
+the two new code blocks logged under B3b and B6d. There is no `B1c`; the B1
+lettering skips it.
 
 **The code was run, not read.** All **9** `<pre><code>` blocks were extracted
 from the edited file after the last edit and executed: every one exits 0 and
@@ -970,9 +995,40 @@ caption quote. Whole-file `<div>` balance is 59 open and 59 close.
 **Every plotted figure was decoded back into data** (`m17/decode.py`): each
 figure's tick `<text>` positions give a least-squares pixel-to-value map, the
 `<polyline>` point string is inverted through it, and the result is compared
-against the model the caption claims. Six of the seven figures carry data
-(Fig. 1 is a schematic of the course arc; Fig. 7 is a labelled schematic of a
-validation band with no axis scale).
+against the model the caption claims. Five of the seven figures carry
+calibrated data (Fig. 1 is a schematic of the course arc with no `<polyline>`
+at all; Fig. 7 draws a 7-point validation band whose axes carry no numeric
+ticks, so there is nothing to calibrate against).
+
+A second, independent decode (`m17/decode2.py`) re-derived every calibration
+from the tick `<text>` elements instead of hard-coded pixel values, and added
+two checks the first pass did not make. **No two `<polyline>` point strings in
+the file are byte-identical**, so no figure is a copy of another's data. And
+every curve was compared against its *axis* span rather than its viewBox.
+**Three curves run past their outermost labelled tick, and all three are
+honest**: Fig. 2's red trace to $34.29^\circ$ past the $30^\circ$ tick (the
+truncation its caption now states, ending at $t=4.670$ s exactly as the caption
+says), Fig. 4's running peak to $2.600$ BW past the $2$ BW tick (the $2.6$ BW
+the caption quotes), and Fig. 5's curve to $14.42$ kN past the $14$ kN tick (the
+model's own value at $d=0.02$ m). `check_frame` reports 0 clipped figures, so
+none of the three leaves its frame. A fourth flag was a parser artefact and not
+a finding: Fig. 2's axis is signed and its lower tick is written with a Unicode
+minus (`&#8722;30`), which the auto-calibrator's numeric pattern did not match,
+so it fit the axis as $0$ to $30$ and called the green trace's $-1.65^\circ$ an
+excursion. Against the real $-30$ to $30$ axis that trace is well inside.
+
+Two curve-versus-model checks were tightened on this pass. Fig. 2 was re-run
+against the **shipped block's own integrator verbatim** (200 Hz, $\theta_0=0.05$
+rad) rather than a re-implementation: the green trace then agrees to
+$0.030^\circ$ and the red to $0.49^\circ$ over the whole drawn range, and the
+red trace's last point is $34.286^\circ$ at $t=4.670$ s. Fig. 4's mid-stance
+*dip minimum* (not the value at the 50 % gridline) decodes to $0.7010$ BW at
+44.5 % of stance against the model's $mg(1-\mathrm{Fr})=0.6984$ BW, a $0.14$ px
+gap, which is what makes the interpretation's "$0.70$ BW, which is what Fig. 4
+draws there" literally true. Fig. 6, which the first decode did not cover, was
+decoded in full: 100 points, maximum deviation $0.0059$ in margin from
+$(S_0/F)(\rho/\rho_0)^2$, crossing margin $=1$ at $\rho/\rho_0=0.7929$ against
+the computed $\sqrt{F/S_0}=0.7915$.
 
 | figure | decoded | against | agreement |
 |---|---|---|---|
@@ -1010,6 +1066,29 @@ Yes, with one gap that is a build task rather than an editorial one.
   strength. `prompt.txt:887`'s stride-length comparison, previously missing, is
   added by B1f. `prompt.txt:908`'s per-capstone parameter table is supplied by
   B7.
+- **`prompt.txt`'s twelve-element checklist, audited per capstone.** All fifteen
+  suggested projects are present by name (six worked, nine as catalog briefs),
+  and each of the six worked capstones now carries every element: problem,
+  physical model, mechanism, equations, assumptions, a parameter line, plots,
+  interpretation, limits, validation and extension. §7's parameter line reads
+  "Parameters (all from Module 14; Appendix)" rather than the bare
+  "Parameters:" the other five use, which is the same element with its source
+  named. **Five of the six carry code; Capstone III does not**, and that is the
+  correct outcome rather than a residual gap: after B1's rewrite the vault's
+  only prediction is the closed form $mg(1-\mathrm{Fr})$, the shape of Fig. 4's
+  walking curve is explicitly disowned as borrowed from Module 8, and there is
+  no longer a simulation for the section to run. B12b's replacement is what
+  makes this honest, restating the closing claim so that the module no longer
+  says every number was reproduced by code shown.
+
 - **The one gap left.** No problem carries a figure, against the house standard
   of a figure per problem. Twelve figures is a build task, not an editorial
   one, and it is logged in §4 above as the largest remaining item.
+
+- **One sub-pixel residue, recorded rather than chased.** Fig. 3's polyline was
+  drawn before B4c removed a factor $0.6$ from Model 3.1's inertial term, so the
+  drawn peak is $108.54$ N·m against the corrected model's $108.69$. The gap is
+  $0.15$ N·m in $109$, which is $0.03$ px - a quarter of the stroke width - and
+  both values round to the $109$ the box, the caption and the code all quote.
+  Regenerating the figure would change no readable pixel and would put five
+  green gates back at risk, so the residue is logged here instead.
