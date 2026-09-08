@@ -563,8 +563,13 @@ Left: uncontrolled, upright is a saddle. The two eigendirections of Proposition 
 - `check_bodyprop` flags a floating bust in C9's figure (a head with no limb) and
   two thin limbs beside a head-gradient circle. C9 is about the semicircular
   canals, so a head alone is the right drawing. The HANDOFF note about "m10
-  wishbone shoulders" refers to the Section 0 body figure and the C3 body; both
-  are cosmetic and neither is worth a regeneration pass in this edit.
+  wishbone shoulders" turns out to name the **Fig. 5 sensor body and the C3
+  body**, not the Section 0 figure (which is a lateral view and reads correctly
+  when rendered). In both, the two arms leave the same point at the base of the
+  neck, so four limbs radiate from one vertex and the torso reads as a teardrop.
+  Both are fixed in the applied edit (W1, W2): each arm now hangs from its own
+  shoulder at a top corner of the torso capsule. This closes the last cosmetic
+  anatomy leftover on the HANDOFF list.
 
 ## 5. What already works
 
