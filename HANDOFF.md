@@ -24,9 +24,10 @@ five-part standard, write a report, then apply it.
 | 3 | `editor-reports/module03.md` — 13 blocking, 11 style | **NO** | report only |
 | 4–17 | not written | — | — |
 
-Both reports are committed (`b59b44f`) and stay as the record of what was wrong.
-Working tree clean apart from the untracked tool dirs `.agents/` and `.codex/`
-(local scaffolding — leave untracked, like `mcps/`).
+All three reports are committed and stay as the record of what was wrong
+(`b59b44f` for m01/m02, `7aa9295` + `795866b` for m03). Working tree clean at
+`795866b`, local and remote matching. If `.agents/` or `.codex/` reappear, leave
+them untracked — local scaffolding, like `mcps/`.
 
 ## Next task — APPLY `editor-reports/module03.md`, then report on `module04.html`
 
@@ -78,7 +79,26 @@ cover `module03.html:1476-1658` (§8, the captures/misses audit), `1693-1907`
 grepped for reused numbers. Read them against the five-part standard and append
 the findings to `editor-reports/module03.md` before or during the apply.
 
-### Verification assets (regenerate; scratchpad is session-transient)
+### The editor-pass toolkit (reusable for Modules 4–17; scratchpad is transient)
+
+Two throwaway scripts made every Module 3 finding possible. Rebuild them first
+for each new module — they are ten lines each:
+
+- `extract.py` — regex `<pre><code>(.*?)</code></pre>` over `moduleNN.html`,
+  `html.unescape` each match, write to `blkNN_L<line>.py`, then run every one and
+  diff the printed numbers against the prose. **This is the highest-yield step of
+  the whole pass.** On Module 3 it found that the lab prints nothing, that five
+  of ten K snippets call undefined names, and that one block contains a live
+  `<a>` tag.
+- `txt.py A B` — dump lines A..B with `<svg>...</svg>` collapsed to `[SVG]` and
+  tags stripped, written to a UTF-8 file (printing to a cp1252 console dies on
+  Unicode subscripts). Do not truncate lines: an early 900-char cap made a proof
+  look truncated when it was not.
+
+Then re-implement the module's lab as a parameterised function and run it. Do
+not trust the prose numbers; do not trust the snippets either.
+
+### Module 3 verification assets
 
 `m03/lab.py` re-implements §7.4 as `run(L1,L2,m1,m2,mL,g,yh,amp,a,b,dt,nstep,
 wall,xw) -> dict of arrays`. It reproduces the module exactly: W_L=34.335 N,
@@ -123,6 +143,10 @@ Write **one re-runnable `apply.py`** in the scratchpad. Do not hand-edit 40 plac
 
 ## How to work (essentials — full detail in `CLAUDE.md`)
 
+- **Extract and RUN every `<pre><code>` block before reading for rigor.**
+  Number mismatches are the largest defect class in this phase and they are
+  free to find. A module can claim "every number was produced by running the
+  code" while its lab prints nothing (Module 3, §9.4).
 - **Nine hard gates after every edit pass**, all zero: `checktex`, `checklt`,
   `check_links`, `check_svg`, `check_code`, `verify_dom`, `check_overlap`,
   `check_frame`, `check_bodyprop`. Then read the advisories (`check_prose`,
