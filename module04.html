@@ -99,7 +99,7 @@ window.MathJax = {
 
 <figure><svg class="setupfig" viewBox="-7.0 1.0 434.0 260.0" width="100%" role="img" aria-label="Osteochondral unit: subchondral bone, calcified cartilage, hyaline cartilage, synovial fluid."><rect x="40" y="140" width="340" height="81.6" fill="url(#b_bone)" stroke="#8a7350"/><text x="210" y="165" font-size="12" fill="#555" text-anchor="middle">subchondral bone</text><rect x="40" y="120" width="340" height="20" fill="#c2ae84" stroke="#8a7350"/><text x="210" y="134" font-size="11" fill="#555" text-anchor="middle">calcified cartilage</text><rect x="40" y="70" width="340" height="50" fill="#e8f0f8" stroke="#5a86a8"/><text x="210" y="100" font-size="12" fill="#2a6ca8" text-anchor="middle">hyaline cartilage (porous, charged)</text><rect x="40" y="40" width="340" height="30" fill="#d6eaf8" fill-opacity="0.5" stroke="#2a6ca8" stroke-dasharray="4 2"/><text x="210" y="60" font-size="12" fill="#2a6ca8" text-anchor="middle">synovial fluid</text><line x1="40" y1="40" x2="40" y2="180" stroke="#333" stroke-width="1"/></svg><figcaption>Osteochondral unit in load-bearing order: fluid, hyaline cartilage, calcified cartilage, subchondral bone. Biphasic and Donnan physics live in the cartilage layer; the sequence is anatomy, not decoration.</figcaption></figure>
 
-<p>Hold the numbers up to the light and they should look impossible. The cartilage layer is only about <b>2–4 mm thick</b>. It carries $\approx1.7\ \mathrm{MPa}$ — and far more in a stumble or a jump, where hip forces reach $8$–$10\,W$ — not once, but on the order of <b>a million loading cycles a year</b>, and it does so for <em>decades</em> in most people without being replaced (mature cartilage has no blood supply and barely any cells). And it slides against its partner surface at a friction coefficient of about $\mu\approx0.005$ — lower than the $\mu\approx0.03$ of an ice skate on ice, lower than any bearing a mechanical engineer can buy. A soft, thin, living gasket that out-performs steel-on-PTFE and never gets a service interval: that is the object of this module.</p>
+<p>Hold the numbers up to the light and they should look impossible. The cartilage layer is only about <b>2–4 mm thick</b>. It carries $\approx1.7\ \mathrm{MPa}$ — and far more in a stumble or a jump, where hip forces reach $8$–$10\,W$ — not once, but on the order of <b>a million loading cycles a year</b>, and it does so for <em>decades</em> in most people without being replaced (mature cartilage has no blood supply and barely any cells). And it slides against its partner surface at a friction coefficient of about $\mu\approx0.005$ — lower than the $\mu\approx0.03$ of an ice skate on ice, lower than any bearing a mechanical engineer can buy. A soft, thin, living gasket that carries these pressures for decades, with a friction coefficient six times lower than ice on ice and no service interval: that is the object of this module.</p>
 
 <figure><svg class="setupfig" viewBox="0 0 460 326" width="100%" role="img" aria-label="Cross-section of a synovial joint: two bone ends each capped with a thin articular-cartilage layer, meeting in a contact zone, with a large vertical load arrow pressing down and a small horizontal sliding-friction arrow.">
   <defs>
@@ -164,6 +164,7 @@ window.MathJax = {
 </ul>
 
 <p>By the end you will be able to take the lone number $R\approx1715\ \mathrm N$ that Module&nbsp;3 handed us and predict, from tissue properties, how the pressure is distributed across the contact, how it is split between fluid and solid, how it relaxes over time, why the joint is so slippery, and what tips that whole balance into degeneration. We begin with the material itself.</p>
+<p><b>Where this sits on the course's level ladder.</b> Almost everything here is <b>Level&nbsp;3</b> — a continuum field theory with a governing partial differential equation, solved in one spatial dimension: the consolidation equation of <a class="secref" href="#biphasic">§3</a>, its series solution in <a class="secref" href="#fluidload">§4</a>, and the finite-difference lab of <a class="secref" href="#relaxlab">§5</a> are all of that kind. Two sections sit lower on purpose. <a class="secref" href="#donnan">§2</a> is <b>Level&nbsp;0</b>, a scalar equilibrium estimate with no space and no time in it. <a class="secref" href="#contact">§6</a> is <b>Level&nbsp;1</b>: a static contact solution that takes the joint reaction of Module&nbsp;3 as a given load and returns a pressure distribution, with no inertia anywhere. Nothing in this module is dynamic — no term in any equation here contains an acceleration, and the quasi-static assumption that removes them is stated where it is used (<a class="secref" href="#biphasic">§3</a>, eq.&nbsp;5). The <b>Level&nbsp;10</b> question this module opens and does not answer — how the chondrocyte reads these stresses and remodels the matrix — is named in <a class="secref" href="#synthesis">§9</a> and handed to Module&nbsp;14.</p>
 
 <hr>
 
@@ -222,7 +223,7 @@ window.MathJax = {
 <text x="60" y="33" font-size="10" fill="#2a6ca8">articular surface</text>
 <line x1="40" y1="100" x2="84" y2="92" stroke="#b08440" stroke-width="1"/><text x="38" y="98" font-size="10" fill="#9a6a20" text-anchor="end">collagen fibres</text><text x="38" y="98" dy="11" font-size="10" fill="#9a6a20" text-anchor="end">(carry tension)</text>
 <line x1="40" y1="175" x2="86" y2="162" stroke="#7d3c98" stroke-width="1"/><text x="38" y="172" font-size="10" fill="#7d3c98" text-anchor="end">proteoglycan</text><text x="38" y="172" dy="11" font-size="10" fill="#7d3c98" text-anchor="end">aggregate (fixed &#8722;)</text>
-<text x="232" y="118" font-size="10" fill="#2a6ca8" text-anchor="middle">interstitial water &#8776; 70&#8211;80%</text>
+<text x="232" y="118" font-size="10" fill="#2a6ca8" text-anchor="middle">interstitial water &#8776; 65&#8211;80%</text>
 <text x="120" y="48" font-size="9" fill="#8a7340" text-anchor="middle">chondrocyte</text>
 <text x="232" y="285" font-size="10" fill="#6b5a36" text-anchor="middle">subchondral bone</text>
 <text x="232" y="244" font-size="8.5" fill="#8a7350" text-anchor="middle">tidemark</text>
@@ -253,7 +254,7 @@ window.MathJax = {
 <li>an <b>interstitial fluid</b> (water + mobile ions), with <em>fluid volume fraction</em> $\varphi^w$, also intrinsically incompressible.</li>
 </ul>
 The tissue is <b>saturated</b> — pores hold only fluid, no gas — so the volume fractions fill all space:
-$$\varphi^s+\varphi^w=1,\qquad \text{with typically }\varphi^w\approx0.75\text{–}0.80.$$
+$$\varphi^s+\varphi^w=1,\qquad \text{with typically }\varphi^w\approx0.65\text{–}0.80.$$
 "Incompressible constituents" does <em>not</em> mean the tissue cannot change volume: it shrinks precisely by the volume of fluid that flows out. That single bookkeeping fact becomes the governing equation in <span class="secref"><a class="secref" href="#biphasic">§3</a></span>.</div>
 
 <p>A caution before we build on it. This lumped, single-property matrix is <em>homogeneous</em> and <em>isotropic</em>, whereas the figure above shows cartilage is neither: the collagen weave, water content, and fixed charge all vary with depth (the superficial, middle, and deep zones) and have a built-in fibre direction. The toy model we develop in <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#relaxlab">§5</a></span> deliberately ignores that, because the depth-averaged version already captures the headline physics — fluid pressurisation and load sharing — with one tractable equation. The depth-dependence and anisotropy are real and matter for where cartilage actually fails; we reintroduce them qualitatively in <span class="secref"><a class="secref" href="#contact">§6</a></span> and <span class="secref"><a class="secref" href="#degeneration">§8</a></span>, and defer the full continuum treatment to Module&nbsp;16. With the cast of characters and the idealisation fixed, the first thing to compute is the one effect the dry models entirely missed: the swelling pressure that the fixed charge $c_F$ creates. That is <span class="secref"><a class="secref" href="#donnan">§2</a></span>.</p>
@@ -312,9 +313,9 @@ $$c_+ = c_- + c_F. \tag{1}$$
 <p><b>Condition 2 — Donnan equilibrium.</b> At equilibrium each mobile ion has the same electrochemical potential inside and outside. As derived just below, the electric potential cancels out of the <em>product</em> of the two mobile-ion concentrations, leaving the <b>Donnan condition</b></p>
 $$c_+\,c_- = c_0^{\,2}. \tag{2}$$
 
-<div class="proof">Give each mobile ion $i$ of valence $z_i$ the electrochemical potential $\mu_i = \mu_i^\circ + R_gT\ln c_i + z_i F\psi$, where $R_g$ is the universal gas constant (written $R_g$ to keep it distinct from the joint reaction $R$ of <a class="secref" href="#origin">§0</a>), $T$ the absolute temperature, $F$ the Faraday constant, and $\psi$ the local electric potential. Equilibrium sets $\mu_i$ equal inside and out; with the Donnan potential difference $\Delta\psi=\psi^{\mathrm{in}}-\psi^{\mathrm{out}}$,
-$$\frac{c_i^{\mathrm{in}}}{c_i^{\mathrm{out}}}=\exp\!\Big(\!-\frac{z_i F\,\Delta\psi}{R_gT}\Big).$$
-For $\mathrm{Na^+}$ ($z=+1$): $c_+ = c_0\,e^{-F\Delta\psi/R_gT}$; for $\mathrm{Cl^-}$ ($z=-1$): $c_- = c_0\,e^{+F\Delta\psi/R_gT}$. Multiplying, the exponentials cancel, giving $c_+c_- = c_0^{2}$ — the unknown Donnan potential never has to be found. <span class="qed">∎</span></div>
+<div class="proof">Give each mobile ion $i$ of valence $z_i$ the electrochemical potential $\mu_i = \mu_i^\circ + R_g\Theta\ln c_i + z_i \mathcal F\psi$, where $R_g$ is the universal gas constant (written $R_g$ to keep it distinct from the joint reaction $R$ of <a class="secref" href="#origin">§0</a>), $\Theta$ the absolute temperature (written $\Theta$, not $T$, because $T$ is the dimensionless time of <a class="secref" href="#fluidload">§4</a>), $\mathcal F$ the Faraday constant (written $\mathcal F$, not $F$, because $F$ is the fluid load support fraction of <a class="secref" href="#fluidload">§4</a>), and $\psi$ the local electric potential. Equilibrium sets $\mu_i$ equal inside and out; with the Donnan potential difference $\Delta\psi=\psi^{\mathrm{in}}-\psi^{\mathrm{out}}$,
+$$\frac{c_i^{\mathrm{in}}}{c_i^{\mathrm{out}}}=\exp\!\Big(\!-\frac{z_i \mathcal F\,\Delta\psi}{R_g\Theta}\Big).$$
+For $\mathrm{Na^+}$ ($z=+1$): $c_+ = c_0\,e^{-\mathcal F\Delta\psi/R_g\Theta}$; for $\mathrm{Cl^-}$ ($z=-1$): $c_- = c_0\,e^{+\mathcal F\Delta\psi/R_g\Theta}$. Multiplying, the exponentials cancel, giving $c_+c_- = c_0^{2}$ — the unknown Donnan potential never has to be found. <span class="qed">∎</span></div>
 
 <p><b>Solve.</b> Put $c_-=c_+-c_F$ from (1) into (2): $c_+(c_+-c_F)=c_0^2$, a quadratic $c_+^2-c_Fc_+-c_0^2=0$ whose positive root is</p>
 $$c_+=\tfrac12\Big(c_F+\sqrt{c_F^2+4c_0^2}\Big),\qquad c_-=\tfrac12\Big(\sqrt{c_F^2+4c_0^2}-c_F\Big). \tag{3}$$
@@ -322,19 +323,19 @@ $$c_+=\tfrac12\Big(c_F+\sqrt{c_F^2+4c_0^2}\Big),\qquad c_-=\tfrac12\Big(\sqrt{c_
 
 <h3>From ion imbalance to swelling pressure</h3>
 
-<p>That excess of dissolved particles is what pulls water in. By <b>van't Hoff's law</b> for a dilute ideal solution, osmotic pressure equals $R_gT$ times solute-particle concentration; the <em>net</em> osmotic pressure across the boundary — the <b>swelling pressure</b> $\pi$ — is $R_gT$ times the <em>excess</em> particle concentration inside over outside:</p>
-$$\pi = R_gT\big[(c_++c_-)-2c_0\big].$$
+<p>That excess of dissolved particles is what pulls water in. By <b>van't Hoff's law</b> for a dilute ideal solution, osmotic pressure equals $R_g\Theta$ times solute-particle concentration; the <em>net</em> osmotic pressure across the boundary — the <b>swelling pressure</b> $\pi$ — is $R_g\Theta$ times the <em>excess</em> particle concentration inside over outside:</p>
+$$\pi = R_g\Theta\big[(c_++c_-)-2c_0\big].$$
 <p>Only the mobile ions enter: the fixed charges belong to the solid and do not float in the water. Substituting $c_++c_-=\sqrt{c_F^2+4c_0^2}$ yields the result this section was after.</p>
 
 <div class="thm"><b>Donnan swelling pressure.</b> A charged, fully hydrated tissue of fixed charge density $c_F$, in equilibrium with a $1\!:\!1$ salt bath of concentration $c_0$, carries a resting osmotic swelling pressure
-$$\boxed{\;\pi = R_gT\Big(\sqrt{c_F^{2}+4c_0^{2}}\;-\;2c_0\Big)\;}$$
-with $R_g=8.314\ \mathrm{J\,mol^{-1}K^{-1}}$ the universal gas constant and $T$ the absolute temperature. It exists with <em>no external load</em> — it is the tissue's resting pre-stress.</div>
+$$\boxed{\;\pi = R_g\Theta\Big(\sqrt{c_F^{2}+4c_0^{2}}\;-\;2c_0\Big)\;}$$
+with $R_g=8.314\ \mathrm{J\,mol^{-1}K^{-1}}$ the universal gas constant and $\Theta$ the absolute temperature. It exists with <em>no external load</em> — it is the tissue's resting pre-stress.</div>
 
-<div class="proof">Combine the two equilibrium conditions: substituting $c_-=c_+-c_F$ from electroneutrality&nbsp;(1) into the Donnan condition&nbsp;(2) gives the quadratic $c_+^2-c_Fc_+-c_0^2=0$, whose positive roots are&nbsp;(3), so the interior mobile-ion total is $c_++c_-=\sqrt{c_F^{2}+4c_0^{2}}$ (against $2c_0$ in the bath). Van't Hoff's law sets the swelling pressure equal to $R_gT$ times the <em>excess</em> particle concentration inside over the bath, $\pi=R_gT\big[(c_++c_-)-2c_0\big]$; inserting the total yields the boxed $\pi=R_gT\big(\sqrt{c_F^{2}+4c_0^{2}}-2c_0\big)$. <span class="qed">∎</span></div>
+<div class="proof">Combine the two equilibrium conditions: substituting $c_-=c_+-c_F$ from electroneutrality&nbsp;(1) into the Donnan condition&nbsp;(2) gives the quadratic $c_+^2-c_Fc_+-c_0^2=0$, whose positive roots are&nbsp;(3), so the interior mobile-ion total is $c_++c_-=\sqrt{c_F^{2}+4c_0^{2}}$ (against $2c_0$ in the bath). Van't Hoff's law sets the swelling pressure equal to $R_g\Theta$ times the <em>excess</em> particle concentration inside over the bath, $\pi=R_g\Theta\big[(c_++c_-)-2c_0\big]$; inserting the total yields the boxed $\pi=R_g\Theta\big(\sqrt{c_F^{2}+4c_0^{2}}-2c_0\big)$. <span class="qed">∎</span></div>
 
-<p><b>Put numbers in.</b> Take healthy values $c_F\approx0.2\ \mathrm{M}=200\ \mathrm{mol/m^3}$, bath $c_0\approx0.15\ \mathrm{M}=150\ \mathrm{mol/m^3}$, and body temperature $T=310\ \mathrm K$ so $R_gT=2577\ \mathrm{J/mol}$:</p>
-$$\sqrt{200^2+4(150)^2}=\sqrt{1.30\times10^5}=361\ \mathrm{mol/m^3},\qquad 361-300=61\ \mathrm{mol/m^3},$$
-$$\pi = 2577\times61 \approx 1.56\times10^5\ \mathrm{Pa} \approx 0.16\ \mathrm{MPa}.$$
+<p><b>Put numbers in.</b> Take healthy values $c_F\approx0.2\ \mathrm{M}=200\ \mathrm{mol/m^3}$, bath $c_0\approx0.15\ \mathrm{M}=150\ \mathrm{mol/m^3}$, and body temperature $\Theta=310\ \mathrm K$ so $R_g\Theta=2577\ \mathrm{J/mol}$:</p>
+$$\sqrt{200^2+4(150)^2}=\sqrt{1.30\times10^5}=360.6\ \mathrm{mol/m^3},\qquad 360.6-300=60.6\ \mathrm{mol/m^3},$$
+$$\pi = 2577\times60.6 \approx 1.56\times10^5\ \mathrm{Pa} \approx 0.16\ \mathrm{MPa}.$$
 <p>About a sixth of the $1.7\ \mathrm{MPa}$ mean contact pressure (<a class="secref" href="module03.html#contact">Module&nbsp;3</a>) is already standing in the <em>unloaded</em> tissue. The collagen network carries the matching tension that keeps the swelling from running away (<a class="secref" href="#composite">§1</a>'s "inflated structure"): cartilage rests turgid and pre-stressed.</p>
 
 <figure><svg class="setupfig" viewBox="0 0 470 300" width="100%" role="img" aria-label="Computed Donnan swelling pressure versus fixed charge density: pressure rises with fixed charge, the healthy operating point sits near 0.16 MPa, and raising the bath salt concentration lowers the curve (charge screening).">
@@ -380,9 +381,9 @@ $$\pi = 2577\times61 \approx 1.56\times10^5\ \mathrm{Pa} \approx 0.16\ \mathrm{M
 <p>Three limits, each a real effect:</p>
 
 <ul>
-<li><b>No charge</b> ($c_F\to0$): $\pi\to R_gT(2c_0-2c_0)=0$. Strip the proteoglycan charge and the swelling vanishes — the tissue loses its resting pre-stress. This is the direction degeneration pushes (<span class="secref"><a class="secref" href="#degeneration">§8</a></span>).</li>
-<li><b>Salt screening</b> (raise $c_0$): for $c_0\gg c_F$, expanding the root gives $\pi\approx R_gT\,c_F^2/(4c_0)\to0$. Add salt and the tissue de-swells and softens — the lower dashed curve above, and a genuine laboratory effect (why cartilage tests must fix the ionic strength of the bath).</li>
-<li><b>More proteoglycan</b> ($c_F\gg c_0$): $\pi\approx R_gT\,(c_F-2c_0)$, climbing almost linearly with fixed charge. More charge $\Rightarrow$ more swelling pressure $\Rightarrow$ stiffer resistance to compression. This near-linear dependence is the lever <span class="secref"><a class="secref" href="#degeneration">§8</a></span>'s degeneration runs in reverse.</li>
+<li><b>No charge</b> ($c_F\to0$): $\pi\to R_g\Theta(2c_0-2c_0)=0$. Strip the proteoglycan charge and the swelling vanishes — the tissue loses its resting pre-stress. This is the direction degeneration pushes (<span class="secref"><a class="secref" href="#degeneration">§8</a></span>).</li>
+<li><b>Salt screening</b> (raise $c_0$): for $c_0\gg c_F$, expanding the root gives $\pi\approx R_g\Theta\,c_F^2/(4c_0)\to0$. Add salt and the tissue de-swells and softens — the lower dashed curve above, and a genuine laboratory effect (why cartilage tests must fix the ionic strength of the bath).</li>
+<li><b>More proteoglycan</b> ($c_F\gg c_0$): $\pi\approx R_g\Theta\,(c_F-2c_0)$, climbing almost linearly with fixed charge. More charge $\Rightarrow$ more swelling pressure $\Rightarrow$ stiffer resistance to compression. This near-linear dependence is the lever <span class="secref"><a class="secref" href="#degeneration">§8</a></span>'s degeneration runs in reverse.</li>
 </ul>
 
 <p>The swelling pressure is the <em>resting</em> state, but cartilage's real job is to carry <em>transient</em> loads many times larger. To see how, we now let the tissue deform and force water to actually flow through it — the biphasic model of <span class="secref"><a class="secref" href="#biphasic">§3</a></span>, where this osmotic $\pi$ reappears as a pre-stress riding underneath the fluid pressure that does the heavy lifting.</p>
@@ -400,7 +401,7 @@ $$\pi = 2577\times61 \approx 1.56\times10^5\ \mathrm{Pa} \approx 0.16\ \mathrm{M
 
 <p>To isolate the physics, load the tissue the simplest way that forces fluid through solid: <b>confined compression</b>. A cylindrical plug of cartilage of thickness $h$ sits in a rigid, impermeable, frictionless-walled chamber, pressed from above by a <b>porous platen</b> that lets fluid escape but transmits the load. The rigid base and side walls let nothing through; everything — deformation and flow — happens along one axis $z$, measured from the impermeable base ($z=0$) up to the draining platen ($z=h$). One spatial dimension, two phases.</p>
 
-<figure><svg class="setupfig" viewBox="0 0 470 300" width="100%" role="img" aria-label="Confined-compression test: a cartilage plug of thickness h in a rigid impermeable chamber, loaded from above by a porous platen that lets interstitial fluid escape upward; the impermeable base sits at z=0 and the draining platen at z=h, with applied total stress on top and pore pressure inside.">
+<figure><svg class="setupfig" viewBox="84 0 353 300" width="100%" role="img" aria-label="Confined-compression test: a cartilage plug of thickness h in a rigid impermeable chamber, loaded from above by a porous platen that lets interstitial fluid escape upward; the impermeable base sits at z=0 and the draining platen at z=h, with applied total stress on top and pore pressure inside.">
 <rect x="150" y="72" width="15" height="172" fill="#bcbcbc" stroke="#8a8a8a" stroke-width="0.8"/>
 <rect x="315" y="72" width="15" height="172" fill="#bcbcbc" stroke="#8a8a8a" stroke-width="0.8"/>
 <rect x="150" y="232" width="180" height="12" fill="#bcbcbc" stroke="#8a8a8a" stroke-width="0.8"/>
@@ -463,7 +464,7 @@ $$\frac{\partial u}{\partial t}=k\,\frac{\partial p}{\partial z}. \tag{3}$$
 $$\sigma=\sigma_E-p,\qquad \sigma_E=H_A\,\frac{\partial u}{\partial z}, \tag{4}$$
 <p>where the second relation is the matrix's linear elastic law in confined compression (effective stress proportional to strain, constant of proportionality $H_A$).</p>
 
-<figure><svg class="setupfig" viewBox="0 0 440 168" width="92%" role="img" aria-label="Effective-stress partition: the total stress applied to a tissue slice is shared between the solid matrix, drawn as a spring carrying effective stress, and the interstitial fluid, carrying pore pressure.">
+<figure><svg class="setupfig" viewBox="121 0 258 160" width="92%" role="img" aria-label="Effective-stress partition: the total stress applied to a tissue slice is shared between the solid matrix, drawn as a spring carrying effective stress, and the interstitial fluid, carrying pore pressure.">
 <line x1="170" y1="14" x2="170" y2="44" stroke="#7a1f1f" stroke-width="2.4" marker-end="url(#a_red)"/>
 <line x1="205" y1="14" x2="205" y2="44" stroke="#7a1f1f" stroke-width="2.4" marker-end="url(#a_red)"/>
 <line x1="240" y1="14" x2="240" y2="44" stroke="#7a1f1f" stroke-width="2.4" marker-end="url(#a_red)"/>
@@ -506,15 +507,15 @@ a <b>diffusion equation</b> with <b>consolidation diffusivity</b> $D=H_A k\;[\ma
 
 <p>This single boxed line is what Module&nbsp;3 deferred. A joint surface is not an elastic solid: it is a porous medium in which load, pressure, and deformation <em>spread by diffusion</em>. Everything in the rest of the module — load sharing, stress relaxation, creep, lubrication, even the failure cascade of osteoarthritis — is this diffusion equation seen from a different angle.</p>
 
-<p>"Diffusion" is meant literally: the equation is identical in form to heat conduction, with displacement playing the role of temperature and $D=H_Ak$ the role of thermal diffusivity. Everything you know about heat spreading carries over.</p>
+<p>"Diffusion" is meant literally: the equation is identical in form to heat conduction, with displacement playing the role of temperature $\Theta$ and $D=H_Ak$ the role of thermal diffusivity. Everything you know about heat spreading carries over.</p>
 
 <table>
 <thead><tr><th>Heat conduction</th><th>Cartilage consolidation</th></tr></thead>
 <tbody>
-<tr><td>$\partial T/\partial t=\alpha\,\partial^2 T/\partial z^2$</td><td>$\partial u/\partial t=D\,\partial^2 u/\partial z^2$</td></tr>
-<tr><td>temperature $T$</td><td>displacement $u$ (and pore pressure $p$)</td></tr>
+<tr><td>$\partial \Theta/\partial t=\alpha\,\partial^2 \Theta/\partial z^2$</td><td>$\partial u/\partial t=D\,\partial^2 u/\partial z^2$</td></tr>
+<tr><td>temperature $\Theta$</td><td>displacement $u$ (and pore pressure $p$)</td></tr>
 <tr><td>thermal diffusivity $\alpha$</td><td>consolidation diffusivity $D=H_A k$</td></tr>
-<tr><td>heat flux $-\kappa\,\partial T/\partial z$</td><td>fluid flux $q=-k\,\partial p/\partial z$ (Darcy)</td></tr>
+<tr><td>heat flux $-\kappa\,\partial \Theta/\partial z$</td><td>fluid flux $q=-k\,\partial p/\partial z$ (Darcy)</td></tr>
 <tr><td>spreads across $L$ in $\sim L^2/\alpha$</td><td>equilibrates across $h$ in $\sim h^2/D$</td></tr>
 </tbody>
 </table>
@@ -523,7 +524,13 @@ a <b>diffusion equation</b> with <b>consolidation diffusivity</b> $D=H_A k\;[\ma
 
 <p>Two predictions matter, and the rest of the module rides on them.</p>
 
-<p><b>(i) Pressure diffuses out of the tissue.</b> Apply the load $\sigma_0$ suddenly. At the first instant ($t=0^+$) no fluid has had time to move, and an incompressible mixture with nowhere for fluid to go cannot change volume: the strain is zero, so by (4) the solid carries nothing ($\sigma_E=0$) and the <em>fluid carries the entire load</em>, $p=\sigma_0$ throughout. That is the diffusion equation's initial condition. Thereafter pressure bleeds off through the drained platen ($p=0$ at $z=h$) and the profile relaxes — exactly the Terzaghi solution of the consolidation equation:</p>
+<p><b>(i) Pressure diffuses out of the tissue.</b> Apply the load $\sigma_0$ suddenly. At the first instant ($t=0^+$) no fluid has had time to move, and an incompressible mixture with nowhere for fluid to go cannot change volume: the strain is zero, so by (4) the solid carries nothing ($\sigma_E=0$) and the <em>fluid carries the entire load</em>, $p=\sigma_0$ throughout. That is the diffusion equation's initial condition. Thereafter pressure bleeds off through the drained platen ($p=0$ at $z=h$) and the profile relaxes — exactly the Terzaghi solution of the consolidation equation, which we derive here rather than name:</p>
+<div class="prop"><b>Proposition 3.1 (Terzaghi series).</b> Under a total stress $\sigma_0$ applied suddenly at $t=0$ to the confined layer above, with sealed base ($\partial p/\partial z=0$ at $z=0$) and drained platen ($p=0$ at $z=h$), the pore pressure is
+$$p(z,t)=\sigma_0\sum_{n=0}^{\infty}\frac{2(-1)^{n}}{\lambda_n}\,\cos\!\big(\lambda_n Z\big)\,e^{-\lambda_n^{2}T},\qquad Z=\frac zh,\quad T=\frac{Dt}{h^{2}},\quad \lambda_n=\frac{(2n+1)\pi}{2}.$$</div>
+<div class="proof">The pore pressure obeys the same diffusion equation as $u$ (boxed result above). Separate variables, $p=\sigma_0\,\zeta(z)\,e^{-D\mu^{2}t}$, so that $\zeta''+\mu^{2}\zeta=0$. The sealed base gives $\zeta'(0)=0$, selecting $\zeta=\cos(\mu z)$; the drained platen gives $\zeta(h)=0$, so $\cos(\mu h)=0$ and $\mu_n h=(2n+1)\pi/2\equiv\lambda_n$. These eigenfunctions are orthogonal on $Z\in[0,1]$ with $\int_0^1\cos^{2}(\lambda_n Z)\,\mathrm dZ=\tfrac12$. The initial condition is uniform, $p(z,0)=\sigma_0$, because no fluid has yet moved, so its coefficients are
+$$a_n=\frac{\int_0^1\cos(\lambda_n Z)\,\mathrm dZ}{\int_0^1\cos^{2}(\lambda_n Z)\,\mathrm dZ}=\frac{(-1)^{n}/\lambda_n}{1/2}=\frac{2(-1)^{n}}{\lambda_n},$$
+using $\int_0^1\cos(\lambda_n Z)\,\mathrm dZ=\sin\lambda_n/\lambda_n=(-1)^{n}/\lambda_n$. Each mode decays at its own rate $e^{-D\mu_n^{2}t}=e^{-\lambda_n^{2}T}$, which assembles the stated series. Setting $T=0$ recovers $p=\sigma_0$ at every depth, and setting $Z=1$ gives $p=0$ at the platen for all $t$, as required. <span class="qed">&#8718;</span></div>
+<p>The figure plots it.</p>
 
 <figure><svg class="setupfig" viewBox="0 0 472 300" width="100%" role="img" aria-label="Computed consolidation: pore-pressure depth profiles at increasing dimensionless times. Initially the fluid carries the full applied stress at every depth; pressure then diffuses out through the drained platen at the top, decaying toward zero over the gel time.">
 <line x1="90" y1="36" x2="410" y2="36" stroke="#f0f0f0" stroke-width="1"/>
@@ -572,7 +579,7 @@ $$\boxed{\;\tau\sim\frac{h^2}{D}=\frac{h^2}{H_A k}\;}$$
 </tbody>
 </table>
 
-<p>The number is decisive: the gel time is thousands of seconds — hours — while a footstep lasts about a second. (Solving the equation exactly, the slowest relaxation mode decays in $(4/\pi^2)\,h^2/D\approx2.7\times10^3\ \mathrm s\approx45\ \mathrm{min}$; same order, same conclusion.) During the second that you stand on a joint, almost no fluid escapes: the tissue never gets near its gel time, the pressure of the first instant barely relaxes, and the <em>fluid</em> carries the load. That mismatch — load time $\ll\tau$ — is precisely why cartilage survives, and it is the subject of <span class="secref"><a class="secref" href="#fluidload">§4</a></span>. Over the same diffusion equation run forward to $t\sim\tau$, we instead get stress relaxation and creep, simulated in <span class="secref"><a class="secref" href="#relaxlab">§5</a></span>.</p>
+<p>The number is decisive: the gel time is thousands of seconds — hours — while a footstep lasts about a second. (Solving the equation exactly, the slowest relaxation mode decays in $(4/\pi^2)\,h^2/D\approx2.7\times10^3\ \mathrm s\approx45\ \mathrm{min}$; same order, same conclusion. <b>Convention for the rest of the module:</b> every quoted gel time is the scaling estimate $\tau=h^2/D$; the exact slowest-mode constant $4/\pi^2=0.405$ is carried only where a mode is being solved for, in D1 and D5.) During the second that you stand on a joint, almost no fluid escapes: the tissue never gets near its gel time, the pressure of the first instant barely relaxes, and the <em>fluid</em> carries the load. That mismatch — load time $\ll\tau$ — is precisely why cartilage survives, and it is the subject of <span class="secref"><a class="secref" href="#fluidload">§4</a></span>. Over the same diffusion equation run forward to $t\sim\tau$, we instead get stress relaxation and creep, simulated in <span class="secref"><a class="secref" href="#relaxlab">§5</a></span>.</p>
 
 <hr>
 
@@ -593,7 +600,7 @@ with $\langle p\rangle$ the average pore pressure. $F=1$ means the fluid carries
 
 <h3>Computing $F(t)$ from the consolidation solution</h3>
 
-<p><a class="secref" href="#biphasic">§3</a> already solved for $p(z,t)$ (the Terzaghi series). Averaging that series over the depth term by term — each cosine integrates to $\int_0^1\cos(\lambda_n Z)\,\mathrm dZ=(-1)^n/\lambda_n$ — collapses every spatial factor and leaves a pure function of the dimensionless time $T=Dt/h^2$:</p>
+<p><a class="secref" href="#biphasic">§3</a> solved for $p(z,t)$ in Proposition&nbsp;3.1. Averaging that series over the depth term by term — each cosine contributes $\int_0^1\cos(\lambda_n Z)\,\mathrm dZ=(-1)^{n}/\lambda_n$, which cancels the $(-1)^{n}$ in the coefficient and leaves $2/\lambda_n^{2}$ — collapses every spatial factor and leaves a pure function of the dimensionless time $T=Dt/h^2$:</p>
 $$F(T)=\sum_{n=0}^{\infty}\frac{2}{\lambda_n^{2}}\,e^{-\lambda_n^{2}T},\qquad \lambda_n=\tfrac{(2n+1)\pi}{2}. \tag{1}$$
 <p>At the instant of loading ($T=0$) every exponential is $1$, and the coefficients sum to exactly one — $\sum_n 2/\lambda_n^2=\tfrac{8}{\pi^2}\sum_n(2n+1)^{-2}=\tfrac{8}{\pi^2}\cdot\tfrac{\pi^2}{8}=1$:</p>
 
@@ -628,7 +635,7 @@ $$F(T)=\sum_{n=0}^{\infty}\frac{2}{\lambda_n^{2}}\,e^{-\lambda_n^{2}T},\qquad \l
 
 <h3>Why this saves the joint</h3>
 
-<p>Now put the two timescales side by side. A footstep loads the joint for $t_{\rm load}\sim1\ \mathrm s$; in units of the gel time that is $T=t_{\rm load}/\tau\sim1.5\times10^{-4}$ — negligible. The fluid has no time to leave, so equation&nbsp;(1) gives</p>
+<p>Now put the two timescales side by side. A footstep loads the joint for $t_{\rm load}\sim1\ \mathrm s$; in units of the gel time that is $T=t_{\rm load}/\tau\sim1.5\times10^{-4}$ — negligible. (A footstep here is the stance phase, not the whole gait cycle; the problems use $0.5\ \mathrm s$ for a brisk walk, which moves $F$ only in the third decimal, from $0.986$ to $0.990$.) The fluid has no time to leave, so equation&nbsp;(1) gives</p>
 $$F(1\ \mathrm s)=0.986.$$
 <p>During the second you stand on a joint, interstitial fluid carries $\approx99\%$ of the load and the solid matrix feels $\approx1\%$.</p>
 
@@ -678,7 +685,7 @@ $$F(1\ \mathrm s)=0.986.$$
 <text x="170" y="238" font-size="10" fill="#9a6a20" text-anchor="middle">t ~ &#964;:  matrix carries the load<animate attributeName="opacity" values="0;0;0;0.4;0.8;1;1;1" keyTimes="0;0.12;0.25;0.4;0.55;0.7;0.85;1" dur="6s" repeatCount="indefinite"/></text>
 </svg><figcaption><b>Fluid pressurization under a held load</b> (the <a class="secref" href="#biphasic">§3</a> consolidation equation, animated). The fluid starts pressurized (blue) and carries the load, then exudes through the platen (arrows) as the platen settles, until the matrix carries it and the pressure is gone. Read the loop as the gait cycle: on unloading, the osmotic pressure of <a class="secref" href="#donnan">§2</a> re-imbibes fluid and re-pressurizes the tissue — so in walking the support never runs down.</figcaption></figure>
 
-<p>Loading and recovery together keep $F$ high indefinitely. This is not just theory: direct measurements with pressure transducers in loaded cartilage find interstitial fluid sustaining <b>$85$–$95\%$</b> of the load through normal cyclic activity — an independent check on the picture equation&nbsp;(1) draws.</p>
+<p>Loading and recovery together keep $F$ high indefinitely. This is not just theory: direct measurements with pressure transducers in loaded cartilage find interstitial fluid sustaining <b>$85$–$95\%$</b> of the load through normal cyclic activity. That figure is quoted from the experimental literature, not derived here and not checkable against any source in this course, so treat it as an external empirical value (Appendix); it is nonetheless an independent check on the picture equation&nbsp;(1) draws, and equation&nbsp;(1)'s own footstep prediction of $F=0.986$ sits just above it, as it should, since a transducer averages over the whole cycle including the unloaded phase.</p>
 
 <p>Hold the load instead of releasing it — drive the same diffusion equation all the way to $t\sim\tau$ — and the fluid support bleeds away while the solid takes over: at fixed strain the tissue's stress <em>relaxes</em>, at fixed load it <em>creeps</em>. That is the experiment <span class="secref"><a class="secref" href="#relaxlab">§5</a></span> simulates directly from the <a class="secref" href="#biphasic">§3</a> equation. And because the fluid carries the load with almost no shear resistance, the same pressurization is the key to cartilage's astonishingly low friction (<span class="secref"><a class="secref" href="#lubrication">§7</a></span>). Lose it — through proteoglycan loss and rising permeability — and the solid is no longer shielded: the degeneration spiral of <span class="secref"><a class="secref" href="#degeneration">§8</a></span>.</p>
 
@@ -702,7 +709,7 @@ $$\sigma(t)=H_A\,\frac{\partial u}{\partial z}\bigg|_{z=h}, \tag{1}$$
 <p>To compute the whole curve, discretize <a class="secref" href="#biphasic">§3</a>'s equation $\partial u/\partial t=D\,\partial^2u/\partial z^2$ (with $D=H_Ak$). Split $[0,h]$ into $N$ intervals of width $\Delta z=h/N$, step time by $\Delta t$, and replace the derivatives by differences — the second space derivative by the symmetric three-point stencil $(u_{i-1}-2u_i+u_{i+1})/\Delta z^2$, the time derivative forward. The result is an <b>explicit</b> update for each interior node $i$:</p>
 $$u_i^{\,n+1}=u_i^{\,n}+r\big(u_{i-1}^{\,n}-2u_i^{\,n}+u_{i+1}^{\,n}\big),\qquad r\equiv\frac{D\,\Delta t}{\Delta z^{2}}. \tag{2}$$
 
-<figure><svg class="setupfig" viewBox="0 0 470 168" width="100%" role="img" aria-label="Finite-difference grid for the cartilage layer: nodes from the fixed base to the driven platen, with the three-point stencil that updates an interior node from its two neighbours.">
+<figure><svg class="setupfig" viewBox="6 38 460 119" width="100%" role="img" aria-label="Finite-difference grid for the cartilage layer: nodes from the fixed base to the driven platen, with the three-point stencil that updates an interior node from its two neighbours.">
 <line x1="44" y1="72" x2="424" y2="72" stroke="#ccc" stroke-width="1"/>
 <g fill="#9a9a9a"><circle cx="82" cy="72" r="4"/><circle cx="120" cy="72" r="4"/><circle cx="158" cy="72" r="4"/><circle cx="310" cy="72" r="4"/><circle cx="348" cy="72" r="4"/><circle cx="386" cy="72" r="4"/></g>
 <circle cx="196" cy="72" r="5" fill="#2a7d2a"/><circle cx="234" cy="72" r="5.5" fill="#2a7d2a"/><circle cx="272" cy="72" r="5" fill="#2a7d2a"/>
@@ -724,7 +731,7 @@ $$u_i^{\,n+1}=u_i^{\,n}+r\big(u_{i-1}^{\,n}-2u_i^{\,n}+u_{i+1}^{\,n}\big),\qquad
 h = 2e-3  # layer thickness            [m]
 HA = 0.6e6  # aggregate modulus          [Pa]
 k = 1e-15  # hydraulic permeability     [m^4/(N s)]
-# consolidation diffusivity [m^2/s], <a class="secref" href="#biphasic">§3</a>
+# consolidation diffusivity [m^2/s], section 3
 D = HA * k
 
 # ---- loading: ramp to a held strain, then hold (confined compression) ----
@@ -754,7 +761,7 @@ for n in range(int(tmax / dt) + 1):
     t_hist.append(t)
     sig_hist.append(sigma)
     # explicit update of every interior node -- the discretized
-    # <a class="secref" href="#biphasic">§3</a> PDE
+    # PDE of section 3
     u[1:N] += r * (u[2:N+1] - 2*u[1:N] + u[0:N-1])
 
 sig = np.array(sig_hist)
@@ -813,12 +820,15 @@ print("gel time  tau = h^2 / D         =", h**2 / D, "s")</code></pre></div>
 <text x="20" y="171" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 20 171)">stress  &#963; / &#963;<tspan baseline-shift="sub" font-size="8">&#8734;</tspan></text>
 </svg><figcaption><b>Computed stress relaxation.</b> The platen is ramped to $\varepsilon_0=0.10$ and held (top). The stress (bottom) spikes to $\approx6.5\,\sigma_\infty$ at the end of the ramp — the transient fluid pressurization of <a class="secref" href="#fluidload">§4</a>, the tissue resisting as a pressurized solid — then relaxes over the gel time to $\sigma_\infty=H_A\varepsilon_0=0.06\ \mathrm{MPa}$, the stiffness of the <em>drained</em> matrix alone. The strain never changes; only the load-sharing does.</figcaption></figure>
 
-<p><b>Two independent checks</b> that the simulation is right, not merely plausible — the kind of validation a model owes you:</p>
+<p><b>Three independent checks</b> that the simulation is right, not merely plausible — the kind of validation a model owes you:</p>
 <ul>
 <li>the equilibrium the curve settles to equals $H_A\varepsilon_0$ <em>exactly</em> — the finite-difference scheme returns the drained modulus we put in;</li>
-<li>the relaxation timescale matches the closed-form gel time $\tau=h^2/(H_Ak)=6.7\times10^3\ \mathrm s$ from <a class="secref" href="#biphasic">§3</a>, with no fitting parameter.</li>
+<li>the relaxation timescale matches the closed-form gel time $\tau=h^2/(H_Ak)=6.7\times10^3\ \mathrm s$ from <a class="secref" href="#biphasic">§3</a>, with no fitting parameter;</li>
+<li>the height of the peak matches the analytic ramp estimate below, to within the discretisation error of the grid.</li>
 </ul>
-<p>The peak, by contrast, is <em>not</em> a fixed material number: it scales as $\sigma_{\rm peak}/\sigma_\infty\sim h/\sqrt{D\,t_0}$ — ramp faster (smaller $t_0$) and the fluid is trapped harder, so the spike is taller. The equilibrium is the material; the peak is the loading rate.</p>
+<p>The peak, unlike the equilibrium, is <em>not</em> a fixed material number — it belongs to the loading, and it has a closed form. During a ramp short against $\tau$, only a diffusion boundary layer near the platen has drained; by the similarity solution of D4 its depth is $\sqrt{\pi Dt_0}/2$, and the whole imposed displacement $\varepsilon_0h$ is taken up across it. The surface strain is that displacement divided by that depth, so</p>
+$$\frac{\sigma_{\rm peak}}{\sigma_\infty}\;\simeq\;\frac{2h}{\sqrt{\pi D\,t_0}}.$$
+<p>For the lab's parameters ($h=2\ \mathrm{mm}$, $D=6\times10^{-10}\ \mathrm{m^2/s}$, $t_0=200\ \mathrm s$) this is $6.515$. The solver prints $6.494$ on the $N=50$ grid of the code above; refining to $N=100$ and $N=200$ gives $6.512$ and $6.514$, converging on the analytic value. So the spike is neither a numerical artefact nor a material property: ramp faster (smaller $t_0$) and the ratio grows as $t_0^{-1/2}$, because the fluid is trapped in a thinner layer. The equilibrium is the material; the peak is the loading rate, and the exponent $-\tfrac12$ is the diffusion signature of D4 seen once more.</p>
 
 <p><b>A caveat on the strain level.</b> The held strain is $\varepsilon_0=0.10$, a full $10\%$ compaction — chosen for a clean, well-separated relaxation signal, but it sits <em>at the upper edge of the small-strain regime the linear biphasic theory formally assumes</em>. The matrix law $\sigma_E=H_A\varepsilon$ of <a class="secref" href="#biphasic">§3</a> is an infinitesimal-strain (first-order) relation, and it treats the permeability $k$ as constant; at $10\%$ strain the pores narrow enough that $k$ measurably drops with compaction and the stress–strain law stiffens, both neglected here. The linear model still captures faithfully what this lab is built to test — the relaxation <em>timescale</em> $\tau$ and the fluid-to-solid load handoff — but the quantitative response at $10\%$ strain would need the strain-dependent permeability $k(\varepsilon)$ and finite-strain kinematics repaid in <span class="secref">Module&nbsp;16</span> (see the limitations table in <a class="secref" href="#synthesis">§9</a>). Read $\varepsilon_0=0.10$ here as a controlled illustration, not a claim that the tissue is linear that far.</p>
 
@@ -862,18 +872,18 @@ print("gel time  tau = h^2 / D         =", h**2 / D, "s")</code></pre></div>
 
 <h3>The elastic baseline: Hertz contact</h3>
 
-<p>Model the loaded joint as two elastic bodies pressed together — the classic <b>Hertz elastic contact</b> (introduced in <a class="secref" href="module03.html#contact">Module&nbsp;3</a>'s contact section, and derived in full below). We carry forward the joint-reaction <em>magnitude</em> $F=R\approx1715\ \mathrm N$ from Module&nbsp;3's hip as a representative lower-limb joint load, and apply it to a <b>tibiofemoral (knee) contact</b>: a rounded femoral condyle of <b>effective radius</b> $R_{\rm eff}$ (the combined curvature of the two surfaces) bearing on the cartilage of the tibial plateau. The knee is used here deliberately — it is the cleaner <em>non-conforming</em>, convex-on-flat geometry that Hertz assumes, whereas the hip of <a class="secref" href="#origin">§0</a> is a <em>conforming</em> ball-in-socket for which Hertz is only a reference (we return to this in the caveat below).</p>
+<p>Model the loaded joint as two elastic bodies pressed together — the classic <b>Hertz elastic contact</b> (introduced in <a class="secref" href="module03.html#contact">Module&nbsp;3</a>'s contact section, and derived in full below). We carry forward the joint-reaction <em>magnitude</em> $R\approx1715\ \mathrm N$ from Module&nbsp;3's hip as a representative lower-limb joint load, and apply it to a <b>tibiofemoral (knee) contact</b>: a rounded femoral condyle of <b>effective radius</b> $R_{\rm eff}$ (the combined curvature of the two surfaces) bearing on the cartilage of the tibial plateau. The knee is used here deliberately — it is the cleaner <em>non-conforming</em>, convex-on-flat geometry that Hertz assumes, whereas the hip of <a class="secref" href="#origin">§0</a> is a <em>conforming</em> ball-in-socket for which Hertz is only a reference (we return to this in the caveat below).</p>
 
 <p>Under a fast load the cartilage responds with its <b>instantaneous</b> (undrained) Young's modulus $E\approx10\ \mathrm{MPa}$ and Poisson ratio $\nu\approx0.5$ — nearly incompressible, because the fluid of <a class="secref" href="#fluidload">§4</a> is trapped and stiffens it. Combine the two like surfaces into a <b>reduced modulus</b> $E^{*}$ via $1/E^{*}=2(1-\nu^{2})/E$. Here $E$ is the tissue's isotropic Young's modulus for fast loading — distinct from the confined aggregate modulus $H_A$ of <a class="secref" href="#biphasic">§3</a>, which governs one-dimensional drainage, not contact.</p>
 
-<div class="prop" id="hertz"><b>Hertz contact (sphere on an elastic half-space).</b> A convex body of effective radius $R_{\rm eff}$ pressed by a normal force $F$ against an elastic half-space of reduced modulus $E^{*}$ (with $1/E^{*}=2(1-\nu^{2})/E$ for two like cartilage surfaces) makes a circular contact of radius $a$ carrying a hemispherical pressure cap:
-$$\boxed{\;a=\Big(\frac{3FR_{\rm eff}}{4E^{*}}\Big)^{1/3},\qquad p(r)=p_0\sqrt{1-\frac{r^{2}}{a^{2}}},\qquad p_0=\frac{3F}{2\pi a^{2}}=\tfrac32\,\bar p\;}\tag{1}$$
-with $r$ the distance from the contact centre, $\bar p=F/(\pi a^{2})$ the mean pressure, and $p_0$ the peak at the centre.</div>
+<div class="prop" id="hertz"><b>Hertz contact (sphere on an elastic half-space).</b> A convex body of effective radius $R_{\rm eff}$ pressed by a normal force $R$ against an elastic half-space of reduced modulus $E^{*}$ (with $1/E^{*}=2(1-\nu^{2})/E$ for two like cartilage surfaces) makes a circular contact of radius $a$ carrying a hemispherical pressure cap:
+$$\boxed{\;a=\Big(\frac{3RR_{\rm eff}}{4E^{*}}\Big)^{1/3},\qquad p(r)=p_0\sqrt{1-\frac{r^{2}}{a^{2}}},\qquad p_0=\frac{3R}{2\pi a^{2}}=\tfrac32\,\bar p\;}\tag{1}$$
+with $r$ the distance from the contact centre, $\bar p=R/(\pi a^{2})$ the mean pressure, and $p_0$ the peak at the centre.</div>
 
 <div class="proof"><b>Peak-to-mean (exact).</b> Integrate the cap over the circular patch. With $s=r/a$,
-$$F=\int_0^a p_0\sqrt{1-\tfrac{r^{2}}{a^{2}}}\,2\pi r\,\mathrm dr=2\pi p_0 a^{2}\!\int_0^1 s\sqrt{1-s^{2}}\,\mathrm ds=2\pi p_0a^{2}\cdot\tfrac13=\tfrac23\pi a^{2}p_0,$$
-so $p_0=3F/(2\pi a^{2})$; since $\bar p=F/(\pi a^{2})$, this is $p_0=\tfrac32\bar p$ — the peak is exactly half again the mean, whatever the load or contact size.
-<br><b>Contact radius.</b> The cap is the pressure that a paraboloid presses into the half-space: Boussinesq's half-space solution gives the surface normal displacement under $p(r)$ as $u_z(r)=\dfrac{\pi p_0}{4E^{*}a}\big(2a^{2}-r^{2}\big)$ for $r\le a$. Inside the contact the two surfaces conform to the local gap, $u_z(r)=\delta-\dfrac{r^{2}}{2R_{\rm eff}}$, with $\delta$ the indentation depth (the rigid-body approach of the two bodies' centres); matching the $r^{2}$ coefficients gives $\dfrac{\pi p_0}{4E^{*}a}=\dfrac{1}{2R_{\rm eff}}$, i.e. $p_0=\dfrac{2E^{*}a}{\pi R_{\rm eff}}$. Equating this to $p_0=3F/(2\pi a^{2})$ and solving for $a$ yields $a^{3}=\dfrac{3FR_{\rm eff}}{4E^{*}}$. <span class="qed">∎</span></div>
+$$R=\int_0^a p_0\sqrt{1-\tfrac{r^{2}}{a^{2}}}\,2\pi r\,\mathrm dr=2\pi p_0 a^{2}\!\int_0^1 s\sqrt{1-s^{2}}\,\mathrm ds=2\pi p_0a^{2}\cdot\tfrac13=\tfrac23\pi a^{2}p_0,$$
+so $p_0=3R/(2\pi a^{2})$; since $\bar p=R/(\pi a^{2})$, this is $p_0=\tfrac32\bar p$ — the peak is exactly half again the mean, whatever the load or contact size.
+<br><b>Contact radius.</b> The cap is the pressure that a paraboloid presses into the half-space: Boussinesq's half-space solution gives the surface normal displacement under $p(r)$ as $u_z(r)=\dfrac{\pi p_0}{4E^{*}a}\big(2a^{2}-r^{2}\big)$ for $r\le a$. Inside the contact the two surfaces conform to the local gap, $u_z(r)=\delta-\dfrac{r^{2}}{2R_{\rm eff}}$, with $\delta$ the indentation depth (the rigid-body approach of the two bodies' centres); matching the $r^{2}$ coefficients gives $\dfrac{\pi p_0}{4E^{*}a}=\dfrac{1}{2R_{\rm eff}}$, i.e. $p_0=\dfrac{2E^{*}a}{\pi R_{\rm eff}}$. Equating this to $p_0=3R/(2\pi a^{2})$ and solving for $a$ yields $a^{3}=\dfrac{3RR_{\rm eff}}{4E^{*}}$. <span class="qed">∎</span></div>
 
 <figure><svg class="setupfig" viewBox="-59.0 -60.0 601.0 462.0" width="100%" role="img" aria-label="A femoral condyle pressing on the cartilage-covered tibial plateau: the joint reaction pushes the rounded bone end into a thin cartilage layer, forming a contact patch of width 2a much larger than the layer thickness h.">
 <rect x="200" y="6" width="70" height="64" rx="32" fill="url(#b_bone)" filter="url(#b_sh)"/>
@@ -882,32 +892,32 @@ so $p_0=3F/(2\pi a^{2})$; since $\bar p=F/(\pi a^{2})$, this is $p_0=\tfrac32\ba
 <rect x="45" y="236" width="380" height="16" fill="url(#b_cart)" stroke="#7fc6e0" stroke-width="0.6"/>
 <ellipse cx="235" cy="236" rx="62" ry="7" fill="#b03a2e" opacity="0.28"/>
 <line x1="235" y1="22" x2="235" y2="62" stroke="#7a1f1f" stroke-width="3" marker-end="url(#a_red)"/>
-<text x="138" y="32" font-size="10.5" fill="#7a1f1f" text-anchor="middle" font-weight="bold">F = R &#8776; 1715 N</text>
+<text x="138" y="32" font-size="10.5" fill="#7a1f1f" text-anchor="middle" font-weight="bold">R &#8776; 1715 N</text>
 <line x1="173" y1="230" x2="173" y2="242" stroke="#2a6ca8" stroke-width="1"/><line x1="297" y1="230" x2="297" y2="242" stroke="#2a6ca8" stroke-width="1"/><line x1="173" y1="236" x2="297" y2="236" stroke="#2a6ca8" stroke-width="1"/>
 <line x1="315" y1="145" x2="356" y2="140" stroke="#8a7350" stroke-width="0.8"/><text x="360" y="143" font-size="9.5" fill="#6b5a36">femoral condyle</text>
 <line x1="120" y1="244" x2="92" y2="224" stroke="#2a6ca8" stroke-width="0.8"/><text x="88" y="221" font-size="9.5" fill="#2a6ca8" text-anchor="end">articular cartilage</text>
 <line x1="425" y1="236" x2="425" y2="252" stroke="#2a7d2a" stroke-width="1"/><text x="430" y="247" font-size="9" fill="#2a7d2a">h &#8776; 2 mm</text>
 <text x="235" y="270" font-size="9" fill="#f4efe0" text-anchor="middle" class="onfill">subchondral bone</text>
 <text x="235" y="298" font-size="9.5" fill="#2a6ca8" text-anchor="middle">contact width 2a &#8776; 36 mm  (a &#8776; 18 mm)  &#8594;  a / h &#8776; 9</text>
-</svg><figcaption><b>The contact.</b> The joint reaction $F=R$ presses the rounded condyle into a thin ($h\approx2\ \mathrm{mm}$) cartilage layer on rigid bone, forming a contact patch of radius $a$. Because $a\approx18\ \mathrm{mm}\gg h$, the cartilage is a <em>thin layer</em>, not the deep half-space Hertz assumes — the point we return to below.</figcaption></figure>
+</svg><figcaption><b>The contact.</b> The joint reaction $R$ presses the rounded condyle into a thin ($h\approx2\ \mathrm{mm}$) cartilage layer on rigid bone, forming a contact patch of radius $a$. Because $a\approx18\ \mathrm{mm}\gg h$, the cartilage is a <em>thin layer</em>, not the deep half-space Hertz assumes — the point we return to below.</figcaption></figure>
 
-<p><b>Put numbers in.</b> With $F=1715\ \mathrm N$, a representative condylar curvature $R_{\rm eff}\approx30\ \mathrm{mm}$, and $E^{*}=6.67\ \mathrm{MPa}$:</p>
+<p><b>Put numbers in.</b> With $R=1715\ \mathrm N$, a representative condylar curvature $R_{\rm eff}\approx30\ \mathrm{mm}$, and $E^{*}=6.67\ \mathrm{MPa}$:</p>
 
 <table>
 <thead><tr><th>Quantity</th><th>Symbol</th><th>Value</th></tr></thead>
 <tbody>
-<tr><td>joint reaction (load)</td><td>$F=R$</td><td>$1715\ \mathrm N$ (<a class="secref" href="module03.html#contact">Module&nbsp;3</a>)</td></tr>
+<tr><td>joint reaction (load)</td><td>$R$</td><td>$1715\ \mathrm N$ (<a class="secref" href="module03.html#contact">Module&nbsp;3</a>)</td></tr>
 <tr><td>effective radius</td><td>$R_{\rm eff}$</td><td>$30\ \mathrm{mm}$</td></tr>
 <tr><td>instantaneous modulus</td><td>$E,\;\nu$</td><td>$10\ \mathrm{MPa},\;0.5$</td></tr>
 <tr><td>reduced modulus</td><td>$E^{*}$</td><td>$6.67\ \mathrm{MPa}$</td></tr>
 <tr><td>contact radius</td><td>$a$</td><td>$18\ \mathrm{mm}$</td></tr>
 <tr><td>contact area</td><td>$A_c=\pi a^{2}$</td><td>$10\ \mathrm{cm^2}$ &nbsp;(Module&nbsp;3: $\approx10$)</td></tr>
-<tr><td>mean pressure</td><td>$\bar p=F/A_c$</td><td>$1.7\ \mathrm{MPa}$ &nbsp;(Module&nbsp;3: $\approx1.7$)</td></tr>
+<tr><td>mean pressure</td><td>$\bar p=R/A_c$</td><td>$1.7\ \mathrm{MPa}$ &nbsp;(Module&nbsp;3: $\approx1.7$)</td></tr>
 <tr><td>peak pressure (Hertz)</td><td>$p_0=\tfrac32\bar p$</td><td>$2.5\ \mathrm{MPa}$</td></tr>
 </tbody>
 </table>
 
-<p>With no tuning the elastic estimate lands on the same order as Module&nbsp;3's hip: $a\approx18\ \mathrm{mm}$ gives $A_c\approx10\ \mathrm{cm^2}$ and $\bar p\approx1.7\ \mathrm{MPa}$, matching its contact area and mean pressure — reassuring, since a healthy knee and hip carry comparable loads over comparable areas. What Hertz <em>adds</em> is the distribution — a peak $p_0\approx2.5\ \mathrm{MPa}$ at the centre, half again the mean, tailing to zero at the rim (the dark curve below).</p>
+<p>With no tuning the elastic estimate lands on the same order as Module&nbsp;3's hip: $a\approx18\ \mathrm{mm}$ gives $A_c\approx10\ \mathrm{cm^2}$ and $\bar p\approx1.7\ \mathrm{MPa}$, consistent with its contact area and mean pressure given a plausible condylar radius (K3(d) quantifies what that agreement is worth), since a healthy knee and hip carry comparable loads over comparable areas. What Hertz <em>adds</em> is the distribution — a peak $p_0\approx2.5\ \mathrm{MPa}$ at the centre, half again the mean, tailing to zero at the rim (the dark curve below).</p>
 
 <p><b>Where classical Hertz is stretched.</b> Equation&nbsp;(1) rests on three assumptions, and a real joint strains all three — each in the direction that <em>lowers and broadens</em> the true peak below the Hertz cap, so the elastic estimate is a conservative (over-)estimate of the peak:</p>
 <ul>
@@ -924,7 +934,7 @@ so $p_0=3F/(2\pi a^{2})$; since $\bar p=F/(\pi a^{2})$, this is $p_0=\tfrac32\ba
 <li><b>The fluid carries the load</b> (<a class="secref" href="#fluidload">§4</a>). Under fast load the interstitial fluid supports $85$–$95\%$ of the pressure, and a fluid pressure is smooth and broad, not peaked. Held longer, creep (<a class="secref" href="#relaxlab">§5</a>) exudes fluid and spreads the contact further, lowering the peak again.</li>
 </ul>
 
-<p>A load-conserving estimate — the same $F$ spread over a $\sim30\%$ wider patch — cuts the peak from the Hertzian $2.5\ \mathrm{MPa}$ toward $\approx2.0\ \mathrm{MPa}$ and lifts the edges (blue curve). The real joint runs even gentler than the elastic estimate.</p>
+<p>Put a number on it. Hold the load fixed at $R$ and let the fluid pressurisation change the profile's <em>shape</em> as well as its width: replace the Hertzian cap $p\propto\sqrt{1-(r/a)^2}$ with the flatter parabola $p=p_{\max}\big(1-(r/a')^2\big)$, which has the plateau-like interior a broad pressure field produces. Load conservation then fixes the peak, since $\int_0^{a'}p\,2\pi r\,\mathrm dr=\tfrac12\pi a'^2p_{\max}$, giving $p_{\max}=2R/(\pi a'^2)$ — note the factor $2$ where the cap gave $\tfrac32$. Spreading the contact by $30\%$ ($a'=1.3a=23.3\ \mathrm{mm}$) therefore yields $p_{\max}=2(1715)/(\pi\cdot0.0233^2)=2.0\ \mathrm{MPa}$ against the Hertzian $2.5\ \mathrm{MPa}$, with the edges correspondingly lifted (blue curve). The real joint runs gentler than the elastic estimate, and it does so by changing the shape of the pressure field, not merely its footprint.</p>
 
 <figure><svg class="setupfig" viewBox="0 0 470 290" width="100%" role="img" aria-label="Computed contact pressure across the contact: the Hertz elastic distribution peaks at 2.5 MPa at the centre, while the biphasic thin-layer distribution is lower and wider, both averaging to Module 3's 1.7 MPa mean.">
 <line x1="70" y1="104" x2="430" y2="104" stroke="#f4f4f4" stroke-width="1"/>
@@ -944,7 +954,7 @@ so $p_0=3F/(2\pi a^{2})$; since $\bar p=F/(\pi a^{2})$, this is $p_0=\tfrac32\ba
 <text x="20" y="136" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 20 136)">contact pressure  p  (MPa)</text>
 <g font-size="9"><line x1="316" y1="52" x2="336" y2="52" stroke="#7a1f1f" stroke-width="2.4"/><text x="340" y="55" fill="#333">Hertz (dry elastic)</text>
 <line x1="316" y1="66" x2="336" y2="66" stroke="#2a6ca8" stroke-width="2.2"/><text x="340" y="69" fill="#333">biphasic + thin layer</text></g>
-</svg><figcaption><b>The pressure field.</b> Same load $F=1715\ \mathrm N$, two models. The Hertz elastic cap (dark) peaks at $2.5\ \mathrm{MPa}$; the biphasic thin-layer distribution (blue) is lower and wider. Both enclose the same area — Module&nbsp;3's mean $\bar p\approx1.7\ \mathrm{MPa}$ (gold line) — but the biphasic joint carries it with a gentler peak. Measured peak pressures in real joints, a few MPa, sit right here.</figcaption></figure>
+</svg><figcaption><b>The pressure field.</b> Same load $R=1715\ \mathrm N$, two models. The Hertz elastic cap (dark) peaks at $2.5\ \mathrm{MPa}$; the biphasic thin-layer distribution (blue) is lower and wider. Both enclose the same area — Module&nbsp;3's mean $\bar p\approx1.7\ \mathrm{MPa}$ (gold line) — but the biphasic joint carries it with a gentler peak. Measured peak pressures in real joints, a few MPa, sit right here.</figcaption></figure>
 
 <p>So the refinement runs the safe way. Stop at dry Hertz and the true peak ($2.5\ \mathrm{MPa}$) is half again Module&nbsp;3's mean; add the thin layer and the fluid and that peak is pulled back down and spread out — the very fluid-pressurization shielding of <a class="secref" href="#fluidload">§4</a>, now expressed in the geometry of a loaded joint. It is also why articular contact is so forgiving of <em>incongruence</em>: whatever peak the geometry tries to raise, the fluid and the thin layer smear out.</p>
 
@@ -960,10 +970,10 @@ so $p_0=3F/(2\pi a^{2})$; since $\bar p=F/(\pi a^{2})$, this is $p_0=\tfrac32\ba
 <h3>Classical lubrication and the Stribeck number</h3>
 
 <p>The <b>friction coefficient</b> is $\mu=(\text{tangential force})/(\text{normal load})$. Classical lubrication of <em>any</em> bearing — a hip, a crankshaft — is organised by one dimensionless group, the <b>Stribeck number</b> (or Hersey number)</p>
-$$S=\frac{\eta\,U}{W},$$
-<p>viscosity $\eta$ times sliding speed $U$ over load $W$. Sweep $S$ and $\mu$ traces the <b>Stribeck curve</b> through three regimes: <b>boundary</b> (low $S$ — slow or heavily loaded), <b>mixed</b>, and <b>fluid-film</b> (high $S$ — fast or lightly loaded).</p>
+$$S=\frac{\eta\,U}{N},$$
+<p>viscosity $\eta$ times sliding speed $U$ over normal load $N$ (written $N$, not $W$, because $W$ is body weight in <a class="secref" href="#origin">§0</a>). Sweep $S$ and $\mu$ traces the <b>Stribeck curve</b> through three regimes: <b>boundary</b> (low $S$ — slow or heavily loaded), <b>mixed</b>, and <b>fluid-film</b> (high $S$ — fast or lightly loaded).</p>
 
-<figure><svg class="setupfig" viewBox="0 0 470 176" width="100%" role="img" aria-label="Four lubrication regimes between a sliding surface and cartilage: boundary (adsorbed molecular layers bear the load), mixed (part film part contact), fluid-film (a full fluid layer separates the surfaces), and biphasic (interstitial fluid pressurization carries the load).">
+<figure><svg class="setupfig" viewBox="0 1 470 139" width="100%" role="img" aria-label="Four lubrication regimes between a sliding surface and cartilage: boundary (adsorbed molecular layers bear the load), mixed (part film part contact), fluid-film (a full fluid layer separates the surfaces), and biphasic (interstitial fluid pressurization carries the load).">
 <g font-size="10" font-weight="bold" fill="#333" text-anchor="middle"><text x="61" y="16">Boundary</text><text x="177" y="16">Mixed</text><text x="293" y="16">Fluid-film</text><text x="409" y="16">Biphasic</text></g>
 <line x1="30" y1="28" x2="92" y2="28" stroke="#555" stroke-width="1" marker-end="url(#a_grn)"/><text x="20" y="31" font-size="8" fill="#555" text-anchor="end">U</text>
 <!-- panel 1 boundary -->
@@ -983,7 +993,7 @@ $$S=\frac{\eta\,U}{W},$$
 <rect x="246" y="92" width="94" height="11" fill="url(#b_cart)"/>
 <rect x="246" y="54" width="94" height="38" fill="#bfe3f2"/>
 <g stroke="#2a6ca8" stroke-width="1.2" marker-end="url(#a_blu)"><line x1="262" y1="73" x2="300" y2="73"/></g>
-<text x="293" y="120" font-size="9" fill="#333" text-anchor="middle">&#956; &#8733; &#951;U/W</text><text x="293" y="132" font-size="7.5" fill="#777" text-anchor="middle">full fluid film</text>
+<text x="293" y="120" font-size="9" fill="#333" text-anchor="middle">&#956; &#8733; &#951;U/N</text><text x="293" y="132" font-size="7.5" fill="#777" text-anchor="middle">full fluid film</text>
 <!-- panel 4 biphasic -->
 <rect x="362" y="34" width="94" height="8" fill="#a89a86"/>
 <rect x="362" y="92" width="94" height="11" fill="url(#b_cart)"/>
@@ -992,7 +1002,7 @@ $$S=\frac{\eta\,U}{W},$$
 <text x="409" y="120" font-size="9" fill="#333" text-anchor="middle">&#956; &#8776; 0.005</text><text x="409" y="132" font-size="7.5" fill="#2a6ca8" text-anchor="middle">fluid carries load (<a class="secref" href="#fluidload">§4</a>)</text>
 </svg><figcaption><b>Lubrication regimes.</b> A surface slides (speed $U$) over cartilage. <em>Boundary</em>: surfaces nearly touch; adsorbed molecular layers (lubricin, hyaluronic acid) bear the load. <em>Mixed</em>: patches of film and contact. <em>Fluid-film</em>: a full fluid layer separates the surfaces, and friction is viscous drag. <em>Biphasic</em>: the interstitial fluid inside the porous cartilage is pressurized (<a class="secref" href="#fluidload">§4</a>) and carries the load, so almost no stress reaches the solid contact — the dominant mode in real joints.</figcaption></figure>
 
-<p>A compact model captures the first three: $\mu(S)=\mu_{\rm bl}/\big(1+(S/S_0)^2\big)+\alpha S$ — a <b>boundary term</b> $\mu_{\rm bl}$ that rules when slow/heavy, plus a <b>hydrodynamic term</b> $\alpha S$ that rules when fast/light. Compute it:</p>
+<p>A compact model captures the first three: $\mu(S)=\mu_{\rm bl}/\big(1+(S/S_0)^2\big)+\alpha S$ — a <b>boundary term</b> $\mu_{\rm bl}$ that rules when slow/heavy, plus a <b>hydrodynamic term</b> $\alpha S$ that rules when fast/light. Its three constants are <em>assumed</em>, not measured here: take $\mu_{\rm bl}=0.15$, the intrinsic drained friction $\mu_{\rm eq}$ of the boxed law below, so that both models share one boundary value; and choose $S_0=0.5$ and $\alpha=0.012$ to put the film minimum near $\mu\approx0.03$, a representative engineered bearing (Appendix). Nothing in the argument turns on their exact values — what matters is the <em>shape</em>, and specifically that the curve rises steeply at low $S$. Compute it:</p>
 
 <figure><svg class="setupfig" viewBox="0 0 470 278" width="100%" role="img" aria-label="Computed Stribeck curve: friction stays near 0.15 at low Stribeck number (boundary regime), dips to about 0.03 in the mixed regime, then rises again as a fluid film builds; a joint spends much of its time at low Stribeck number where classical friction would be high.">
 <rect x="78" y="40" width="212" height="192" fill="#faf3f3"/>
@@ -1009,7 +1019,7 @@ $$S=\frac{\eta\,U}{W},$$
 <line x1="78" y1="232" x2="432" y2="232" stroke="#333" stroke-width="1.4"/>
 <g font-size="9" fill="#555" text-anchor="end"><text x="72" y="235">0</text><text x="72" y="182">0.05</text><text x="72" y="128">0.10</text><text x="72" y="75">0.15</text></g>
 <g font-size="9" fill="#555" text-anchor="middle"><text x="78" y="246">10&#8315;&#8308;</text><text x="148.8" y="246">10&#8315;&#179;</text><text x="219.6" y="246">10&#8315;&#178;</text><text x="290.4" y="246">10&#8315;&#185;</text><text x="361.2" y="246">1</text><text x="432" y="246">10</text></g>
-<text x="255" y="262" font-size="10.5" fill="#333" text-anchor="middle">Stribeck number  S = &#951;U/W  (log scale)</text>
+<text x="255" y="262" font-size="10.5" fill="#333" text-anchor="middle">Stribeck number  S = &#951;U/N  (log scale)</text>
 <text x="22" y="136" font-size="10.5" fill="#333" text-anchor="middle" transform="rotate(-90 22 136)">friction  &#956;</text>
 </svg><figcaption><b>The Stribeck curve (computed).</b> Friction is high ($\mu\approx0.15$) at low $S$ — no film, load on the boundary layers — dips to $\approx0.03$ as a film builds, then rises with viscous drag at high $S$. A bearing wants to run in the valley. <b>The problem:</b> a joint spends much of its time at <em>low</em> $S$ — standing, slow loading, every heel-strike — exactly where classical friction should be $\sim0.15$, thirty times what cartilage actually shows. Fluid-film lubrication alone cannot keep it slippery.</figcaption></figure>
 
@@ -1017,25 +1027,25 @@ $$S=\frac{\eta\,U}{W},$$
 
 <p>What carries the load when there is no film is the <em>interstitial fluid of <a class="secref" href="#fluidload">§4</a></em>. Friction acts on solid–solid contact; but the fluid pressurization carries a fraction $F$ of the load, leaving only $(1-F)$ on the solid. So the effective friction coefficient is the intrinsic (drained) solid friction $\mu_{\rm eq}$ scaled by the solid's share of the load:</p>
 $$\boxed{\;\mu_{\rm eff}(t)=\mu_{\rm eq}\,\big(1-F(t)\big)\;}$$
-<p>with $F(t)$ the fluid load support fraction of <a class="secref" href="#fluidload">§4</a>. When the fluid is pressurized ($F\approx0.99$ during a footstep), $\mu_{\rm eff}\approx0.15\times0.01\approx0.002$ — the measured value — and it needs <em>no sliding speed at all</em>. Cartilage is slippery not because a film floats the surfaces, but because the fluid inside it carries the load. Both curves come from one short program:</p>
+<p>with $F(t)$ the fluid load support fraction of <a class="secref" href="#fluidload">§4</a>. During a $1\ \mathrm s$ footstep $F=0.986$, so $\mu_{\rm eff}=0.15\times0.014=0.0021$ — the measured value — and it needs <em>no sliding speed at all</em>. Cartilage is slippery not because a film floats the surfaces, but because the fluid inside it carries the load. Both curves come from one short program:</p>
 
 <div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 
 # ---------- (1) classical Stribeck curve  mu(S) ----------
 # boundary level, transition, film slope
 mu_bl, S0, alpha = 0.15, 0.5, 0.012
-S = np.logspace(-4, 1, 300)  # Stribeck number  S = eta*U/W
+S = np.logspace(-4, 1, 300)  # Stribeck number  S = eta*U/N
 mu = mu_bl/(1 + (S/S0)**2) + alpha*S  # boundary term + hydrodynamic term
 print("min mu =", round(mu.min(), 3), "at S =", round(S[mu.argmin()], 2))
 
 # ---------- (2) biphasic friction  mu_eff = mu_eq (1 - F) ----------
 h, HA, k = 2e-3, 0.6e6, 1e-15
 D = HA*k
-tau = h**2/D  # gel time (<a class="secref" href="#biphasic">§3</a>)  ~ 6667 s
+tau = h**2/D  # gel time (section 3)  ~ 6667 s
 mu_eq = 0.15  # intrinsic (drained) solid friction
 
 
-def F(t, N=1500):  # fluid support, <a class="secref" href="#fluidload">§4</a>
+def F(t, N=1500):  # fluid support, section 4
     T = D*t/h**2
     lam = (2*np.arange(N) + 1)*np.pi/2
     return np.sum(2/lam**2 * np.exp(-lam**2 * T))
@@ -1050,7 +1060,7 @@ for t in [1, 60, 3600, 20000]:
 <tbody>
 <tr><td>friction coefficient (measured)</td><td>$\mu$</td><td>$0.005$–$0.02$ (below ice)</td></tr>
 <tr><td>friction force at $R=1715\ \mathrm N$</td><td>$\mu R$</td><td>$\sim10\ \mathrm N$</td></tr>
-<tr><td>Stribeck number</td><td>$S=\eta U/W$</td><td>dimensionless</td></tr>
+<tr><td>Stribeck number</td><td>$S=\eta U/N$</td><td>dimensionless</td></tr>
 <tr><td>boundary / intrinsic friction</td><td>$\mu_{\rm bl},\;\mu_{\rm eq}$</td><td>$\approx0.15$</td></tr>
 <tr><td>synovial viscosity</td><td>$\eta$</td><td>$0.01$–$1\ \mathrm{Pa\,s}$ (shear-thinning)</td></tr>
 <tr><td>fluid load support</td><td>$F(t)$</td><td><a class="secref" href="#fluidload">§4</a> ($\to1$ under fast load)</td></tr>
@@ -1091,7 +1101,7 @@ for t in [1, 60, 3600, 20000]:
 <p>It begins with the proteoglycans. Enzymes (aggrecanases and MMPs — matrix-degrading proteins, up-regulated by injury, inflammation, or age) cleave aggrecan, and the fixed charge density $c_F$ falls. Two consequences follow, and they are the two load-bearing struts of the whole module.</p>
 
 <ul>
-<li><b>The swelling pre-stress is lost (<a class="secref" href="#donnan">§2</a>).</b> The Donnan pressure $\pi=R_gT\big(\sqrt{c_F^2+4c_0^2}-2c_0\big)$ falls with $c_F$. Cartilage loses the resting turgor that kept it inflated and pre-loaded the collagen; it softens, and more load falls on the collagen network — which frays (<em>fibrillation</em>, the surface splitting seen in early OA).</li>
+<li><b>The swelling pre-stress is lost (<a class="secref" href="#donnan">§2</a>).</b> The Donnan pressure $\pi=R_g\Theta\big(\sqrt{c_F^2+4c_0^2}-2c_0\big)$ falls with $c_F$. Cartilage loses the resting turgor that kept it inflated and pre-loaded the collagen; it softens, and more load falls on the collagen network — which frays (<em>fibrillation</em>, the surface splitting seen in early OA).</li>
 <li><b>The fluid seal is broken (<a class="secref" href="#biphasic">§3</a>–<a class="secref" href="#fluidload">§4</a>).</b> The proteoglycans were also what made the matrix nearly impermeable. Lose them and the permeability $k$ rises. By <a class="secref" href="#biphasic">§3</a> the gel time $\tau=h^2/(H_Ak)$ falls in proportion; by <a class="secref" href="#fluidload">§4</a> the fluid load support $F$ then collapses sooner. The tissue can no longer carry load as a pressurised fluid — the weakened solid matrix must take the stress.</li>
 </ul>
 
@@ -1161,7 +1171,7 @@ for t in [1, 60, 3600, 20000]:
 <g font-size="9" fill="#555" text-anchor="middle"><text x="132" y="224">&#8722;20</text><text x="191" y="224">&#8722;10</text><text x="250" y="224">0</text><text x="309" y="224">10</text><text x="368" y="224">20</text></g>
 <text x="240" y="238" font-size="10" fill="#333" text-anchor="middle">radial position  r  (mm)</text>
 <text x="20" y="123" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 20 123)">contact pressure  p  (MPa)</text>
-</svg><figcaption><b>Same load, redistributed.</b> With fluid support intact the load spreads into a low, flat pressure (blue, $\approx2\ \mathrm{MPa}$, <a class="secref" href="#contact">§6</a>); once it is lost the same $1715\ \mathrm N$ concentrates into a high, narrow peak (dark, $\approx3.2\ \mathrm{MPa}$) on a smaller, already-damaged patch. Both curves carry the identical load — degeneration does not add force, it <em>focuses</em> it.</figcaption></figure>
+</svg><figcaption><b>Same load, redistributed.</b> With fluid support intact the load spreads into the low, flat parabolic profile of <a class="secref" href="#contact">§6</a> (blue, $p_{\max}=2R/(\pi a'^2)=2.0\ \mathrm{MPa}$ over $a'=23.3\ \mathrm{mm}$); once support is lost the profile reverts to a Hertzian cap on a contact shrunk by wear to $a\approx16\ \mathrm{mm}$, and the same $1715\ \mathrm N$ concentrates into $p_0=3R/(2\pi a^2)=3.2\ \mathrm{MPa}$ (dark). Both curves integrate to the identical $1715\ \mathrm N$ — degeneration does not add force, it <em>focuses</em> it.</figcaption></figure>
 
 <p>Abrasion and overload drive still more proteoglycan loss and collagen damage — and the loop is closed. Read the whole march in one place:</p>
 
@@ -1173,14 +1183,18 @@ for t in [1, 60, 3600, 20000]:
 <tr><td>permeability $k$</td><td>$\sim10^{-15}$</td><td>rises $10$–$1000\times$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
 <tr><td>gel time $\tau=h^2/H_Ak$</td><td>$\sim6700\ \mathrm s$</td><td>falls (to seconds)</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
 <tr><td>fluid load support $F(1\,\mathrm s)$</td><td>$\sim0.99$</td><td>falls (toward $0.5$)</td><td><a class="secref" href="#fluidload">§4</a></td></tr>
-<tr><td>friction $\mu_{\rm eff}$</td><td>$\sim0.005$</td><td>rises (toward $0.1$)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>friction $\mu_{\rm eff}$</td><td>$\sim0.002$ computed ($0.005$–$0.02$ measured)</td><td>rises (toward $0.1$)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
 <tr><td>contact peak $p_0$</td><td>$\sim2\ \mathrm{MPa}$</td><td>rises ($\gtrsim3\ \mathrm{MPa}$)</td><td><a class="secref" href="#contact">§6</a></td></tr>
 </tbody>
 </table>
 
 <h3>Why it has a threshold</h3>
 
-<p>Why doesn't a healthy joint spiral like this on its own? Because the loop has a <b>gain</b>. Each pass multiplies the damage by some factor $g$. Healthy cartilage keeps $g\lt1$: its fluid-support margin is enormous ($F\approx0.99$ leaves vast headroom before the solid is overloaded), and chondrocytes slowly repair the matrix, so a perturbation <em>damps</em> out. Degeneration raises $g$ toward and past $1$ — and a loop with $g\gt1$ runs away. That is why osteoarthritis has a <b>tipping point</b>: below it the joint self-corrects, above it the same physics that protected the tissue now destroys it, marching to bone-on-bone. It is also why intervention works best <em>early</em>, while $g$ is still under one and the fluid-support margin can still be defended.</p>
+<p>Why doesn't a healthy joint spiral like this on its own? Because the loop has a <b>gain</b>, and one of its links is computable from what this module has already built. Write the loop as a map on the fluid-support deficit $d=1-F$: extra permeability raises $d$; the extra solid stress and friction that follow abrade the matrix; and the abrasion raises the permeability again. In logarithmic variables the per-pass amplification is the product of the links' sensitivities,</p>
+$$G=\underbrace{\frac{\partial\ln d}{\partial\ln k}}_{\text{this module}}\;\cdot\;\underbrace{\frac{\partial\ln(\text{wear rate})}{\partial\ln d}\cdot\frac{\partial\ln k}{\partial\ln(\text{wear})}}_{\text{assumed here; Module 14}},$$
+<p>and a perturbation heals if $G\lt1$ and runs away if $G\gt1$ (D10).</p>
+<p>The first factor is exact. The short-time law of D4 gives $d=2\sqrt{T/\pi}$ with $T=H_Akt/h^2$, so $d\propto\sqrt k$ and $$\frac{\partial\ln d}{\partial\ln k}=\frac12.$$ Checked against the full series at $t=1\ \mathrm s$, the deficit runs $0.0138\to0.0437\to0.1382\to0.4369$ as $k$ rises by successive factors of ten — a ratio of $3.162$ per decade, which is $\sqrt{10}$ to four figures. So the mechanical link <em>attenuates</em>: a decade of extra permeability costs only a $\sqrt{10}$-fold loss of support. That half-power is the whole margin. For the loop to close with $G\gt1$, the two biological links — how strongly lost support drives wear, and how strongly wear opens the matrix — must together supply a gain above $2$. This module cannot measure those; they are the mechanobiology of Module&nbsp;14, and they are assumptions here, not results.</p>
+<p>Two consequences follow. First, the tipping point is not a critical permeability or a critical pressure — it is a condition on a <em>product of sensitivities</em>, so one joint can sit at a frankly degraded $k$ and stay stable while another tips at a milder one because its biological links are steeper. Second, every intervention that works acts on a factor of $G$ rather than on the current state: unloading lowers the wear driven by a given deficit, and restoring charge and $F$ lowers the deficit itself. That is why intervention works best <em>early</em> — not because the damage is small then, but because $G$ is still under one and the fluid-support margin can still be defended.</p>
 
 <p>The biological triggers — ageing, obesity (which raises the load $W$ and hence the peak), acute injury, genetics — enter through <span class="secref">Module&nbsp;14</span>. Mechanically, though, the lesson of this module is now complete: <b>cartilage survives because the interstitial fluid carries the load, and it fails when it can no longer do so.</b> What this biphasic picture captures, and what it still leaves out — full three-dimensional contact, collagen anisotropy, finite deformation, the living chondrocyte — is the accounting of <span class="secref"><a class="secref" href="#synthesis">§9</a></span>.</p>
 
@@ -1193,7 +1207,7 @@ for t in [1, 60, 3600, 20000]:
 
 <h3>What the model captures</h3>
 
-<p>Almost everything in this module radiates from the single governing equation of <a class="secref" href="#biphasic">§3</a>. One idea — load carried by fluid pressure in a low-permeability charged gel, draining on a timescale $\tau=h^2/(H_Ak)$ — produced, in turn, every phenomenon around it:</p>
+<p>Six phenomena, one equation. Load carried by fluid pressure in a low-permeability charged gel, draining on a timescale $\tau=h^2/(H_Ak)$, produced in turn every phenomenon around it:</p>
 
 <figure><svg class="setupfig" viewBox="0 0 470 300" width="100%" role="img" aria-label="Hub diagram: a charged, fluid-filled porous solid governed by the consolidation equation at the centre, with arrows radiating out to the six phenomena it explains — resting swelling pressure, fluid load support, stress relaxation and creep, flattened contact pressure, low friction, and osteoarthritis as loss of fluid support.">
 <g stroke="#2a6ca8" stroke-width="1.8" fill="none" marker-end="url(#a_blu)">
@@ -1241,15 +1255,15 @@ for t in [1, 60, 3600, 20000]:
 
 <ol>
 <li>At the instant a load is applied, what fraction does the interstitial fluid carry, and why?
-<details class="sol"><summary>answer</summary><div>Essentially all of it: $F(0)=1$. With no fluid yet displaced, the incompressible, saturated mixture cannot change volume, so the strain — and hence the solid effective stress $\sigma_E=H_A\varepsilon$ — is zero. The fluid carries the whole load (<a class="secref" href="#fluidload">§4</a>).</div></details></li>
+<details class="sol"><summary>solution</summary><div>Essentially all of it: $F(0)=1$. With no fluid yet displaced, the incompressible, saturated mixture cannot change volume, so the strain — and hence the solid effective stress $\sigma_E=H_A\varepsilon$ — is zero. The fluid carries the whole load (<a class="secref" href="#fluidload">§4</a>).</div></details></li>
 <li>Why is cartilage slippery even at <em>zero</em> sliding speed (standing still)?
-<details class="sol"><summary>answer</summary><div>Because friction acts only on the solid-borne share $(1-F)$ of the load: $\mu_{\rm eff}=\mu_{\rm eq}(1-F)$. The fluid pressurisation carries the load regardless of speed, so $\mu$ is low with no hydrodynamic film needed (<a class="secref" href="#lubrication">§7</a>) — unlike a classical bearing, which needs speed to build a film.</div></details></li>
+<details class="sol"><summary>solution</summary><div>Because friction acts only on the solid-borne share $(1-F)$ of the load: $\mu_{\rm eff}=\mu_{\rm eq}(1-F)$. The fluid pressurisation carries the load regardless of speed, so $\mu$ is low with no hydrodynamic film needed (<a class="secref" href="#lubrication">§7</a>) — unlike a classical bearing, which needs speed to build a film.</div></details></li>
 <li>A joint is loaded for $1\ \mathrm s$ (a step), and separately held for $2\ \mathrm h$. Which load is borne by fluid, which by solid?
-<details class="sol"><summary>answer</summary><div>$1\ \mathrm s\ll\tau$ ⇒ fluid ($F\approx1$); $2\ \mathrm h\gtrsim\tau$ ⇒ solid ($F\to0$). The divider is the gel time $\tau\sim h^2/(H_Ak)\sim10^3$–$10^4\ \mathrm s$ (<a class="secref" href="#biphasic">§3</a>).</div></details></li>
+<details class="sol"><summary>solution</summary><div>$1\ \mathrm s\ll\tau$ ⇒ fluid ($F\approx1$); $2\ \mathrm h\gtrsim\tau$ ⇒ solid ($F\to0$). The divider is the gel time $\tau\sim h^2/(H_Ak)\sim10^3$–$10^4\ \mathrm s$ (<a class="secref" href="#biphasic">§3</a>).</div></details></li>
 <li>Two plugs of the same tissue, thicknesses $h$ and $2h$. Ratio of their gel times?
-<details class="sol"><summary>answer</summary><div>$\tau\propto h^2$, so the thicker plug relaxes $4\times$ slower.</div></details></li>
+<details class="sol"><summary>solution</summary><div>$\tau\propto h^2$, so the thicker plug relaxes $4\times$ slower.</div></details></li>
 <li>Why does the dry-elastic Hertz calculation <em>overestimate</em> the true contact peak?
-<details class="sol"><summary>answer</summary><div>Real cartilage is a thin layer ($a\gg h$) bonded to bone, and the interstitial fluid pressurisation is broad, not peaked — both flatten and spread the pressure below the Hertz cap (<a class="secref" href="#contact">§6</a>).</div></details></li>
+<details class="sol"><summary>solution</summary><div>Real cartilage is a thin layer ($a\gg h$) bonded to bone, and the interstitial fluid pressurisation is broad, not peaked — both flatten and spread the pressure below the Hertz cap (<a class="secref" href="#contact">§6</a>).</div></details></li>
 </ol>
 
 <h3>Problems</h3>
@@ -1350,7 +1364,7 @@ for t in [1, 60, 3600, 20000]:
 
 <div class="qbox"><b>C4 &mdash; slippery standing still.</b> <span class="small"><em>Probes: that biphasic lubrication needs no sliding speed, unlike a fluid-film bearing (<a class="secref" href="#lubrication">§7</a>).</em></span>
 <p>A journal bearing is only slippery once it spins fast enough to float on an oil film; at rest it is metal-on-metal and stiff to start. Cartilage is slippery even when you have been standing still. Explain the difference.</p>
-<figure><svg class="setupfig" viewBox="0 0 450 240" width="100%" role="img" aria-label="A fluid-film bearing needs sliding speed to build a load-bearing film, so it is high-friction at rest; cartilage is already pressurised by trapped interstitial fluid, so it is low-friction even at zero speed.">
+<figure><svg class="setupfig" viewBox="26 6 402 184" width="100%" role="img" aria-label="A fluid-film bearing needs sliding speed to build a load-bearing film, so it is high-friction at rest; cartilage is already pressurised by trapped interstitial fluid, so it is low-friction even at zero speed.">
 <text x="112" y="24" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">fluid-film bearing</text>
 <text x="338" y="24" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">cartilage (biphasic)</text>
 <!-- bearing: at v=0 metal-metal -->
@@ -1372,12 +1386,12 @@ for t in [1, 60, 3600, 20000]:
 <details class="sol"><summary>solution</summary><div><p>In a hydrodynamic bearing the load-bearing film is <em>generated by motion</em>: oil entrained into a converging wedge builds the pressure, so at $v=0$ there is no film and friction is high. Cartilage does not rely on entrainment. Its load-bearing pressure is the interstitial fluid pressurisation, which exists whenever the tissue is freshly loaded ($F\approx1$), speed or no speed.</p><p>Friction acts only on the solid-borne fraction: $\mu_{\mathrm{eff}}=\mu_{\mathrm{eq}}(1-F)$ (<a class="secref" href="#lubrication">§7</a>). With $F\approx1$ at rest, $\mu_{\mathrm{eff}}\approx0$. Only if you stand long enough for the fluid to drain ($F\to0$, minutes–hours, C1) does $\mu$ climb toward the intrinsic $\mu_{\mathrm{eq}}$. Cartilage is a <em>pre-charged</em> pressurised bearing, not a speed-dependent one.</p></div></details></div>
 
 <div class="qbox"><b>C5 &mdash; why the dry calculation is too harsh.</b> <span class="small"><em>Probes: why a thin bonded layer and broad fluid pressurisation flatten the peak below the dry-Hertz cap (<a class="secref" href="#contact">§6</a>).</em></span>
-<p>A dry-elastic (Hertz) contact calculation for the hip gives a peak pressure $p_0\approx2.5\ \mathrm{MPa}$. The real cartilage peak is lower and broader. Give two <em>independent</em> reasons the dry calculation overestimates the true peak.</p>
-<figure><svg class="setupfig" viewBox="0 0 450 290" width="100%" role="img" aria-label="Two contact-pressure profiles carrying the same hip load: the peaked dry-Hertz profile at 2.5 megapascal and the broader flattened biphasic profile at about 2 megapascal.">
+<p>A dry-elastic (Hertz) contact calculation for the tibiofemoral (knee) contact of <a class="secref" href="#contact">§6</a> gives a peak pressure $p_0\approx2.5\ \mathrm{MPa}$. The real cartilage peak is lower and broader. Give two independent reasons the dry calculation overestimates the true peak, and say which of them would <em>also</em> apply, more strongly, to the conforming hip.</p>
+<figure><svg class="setupfig" viewBox="0 0 450 290" width="100%" role="img" aria-label="Two contact-pressure profiles carrying the same knee load: the peaked dry-Hertz profile at 2.5 megapascal and the broader flattened biphasic profile at about 2 megapascal.">
 <line x1="60" y1="40" x2="60" y2="225" stroke="#333" stroke-width="1.4"/>
 <line x1="60" y1="225" x2="415" y2="225" stroke="#333" stroke-width="1.4"/>
 <polyline points="110.0,225.0 111.3,202.8 112.6,193.7 113.9,186.8 115.2,181.0 116.4,176.0 117.7,171.4 119.0,167.3 120.3,163.4 121.6,159.9 122.9,156.5 124.1,153.4 125.4,150.4 126.7,147.6 128.0,144.9 129.3,142.3 130.5,139.8 131.8,137.4 133.1,135.1 134.4,132.9 135.7,130.8 136.9,128.7 138.2,126.7 139.5,124.8 140.8,122.9 142.1,121.1 143.3,119.4 144.6,117.7 145.9,116.0 147.2,114.4 148.5,112.9 149.8,111.4 151.0,109.9 152.3,108.4 153.6,107.0 154.9,105.7 156.2,104.4 157.4,103.1 158.7,101.8 160.0,100.6 161.3,99.4 162.6,98.3 163.8,97.1 165.1,96.0 166.4,94.9 167.7,93.9 169.0,92.9 170.2,91.9 171.5,90.9 172.8,90.0 174.1,89.1 175.4,88.2 176.7,87.3 177.9,86.5 179.2,85.7 180.5,84.9 181.8,84.1 183.1,83.3 184.3,82.6 185.6,81.9 186.9,81.2 188.2,80.5 189.5,79.9 190.7,79.2 192.0,78.6 193.3,78.0 194.6,77.5 195.9,76.9 197.1,76.4 198.4,75.9 199.7,75.4 201.0,74.9 202.3,74.4 203.6,74.0 204.8,73.5 206.1,73.1 207.4,72.7 208.7,72.4 210.0,72.0 211.2,71.7 212.5,71.3 213.8,71.0 215.1,70.8 216.4,70.5 217.6,70.2 218.9,70.0 220.2,69.8 221.5,69.6 222.8,69.4 224.0,69.2 225.3,69.0 226.6,68.9 227.9,68.8 229.2,68.6 230.5,68.5 231.7,68.5 233.0,68.4 234.3,68.4 235.6,68.3 236.9,68.3 238.1,68.3 239.4,68.3 240.7,68.4 242.0,68.4 243.3,68.5 244.5,68.5 245.8,68.6 247.1,68.8 248.4,68.9 249.7,69.0 251.0,69.2 252.2,69.4 253.5,69.6 254.8,69.8 256.1,70.0 257.4,70.2 258.6,70.5 259.9,70.8 261.2,71.0 262.5,71.3 263.8,71.7 265.0,72.0 266.3,72.4 267.6,72.7 268.9,73.1 270.2,73.5 271.4,74.0 272.7,74.4 274.0,74.9 275.3,75.4 276.6,75.9 277.9,76.4 279.1,76.9 280.4,77.5 281.7,78.0 283.0,78.6 284.3,79.2 285.5,79.9 286.8,80.5 288.1,81.2 289.4,81.9 290.7,82.6 291.9,83.3 293.2,84.1 294.5,84.9 295.8,85.7 297.1,86.5 298.3,87.3 299.6,88.2 300.9,89.1 302.2,90.0 303.5,90.9 304.8,91.9 306.0,92.9 307.3,93.9 308.6,94.9 309.9,96.0 311.2,97.1 312.4,98.3 313.7,99.4 315.0,100.6 316.3,101.8 317.6,103.1 318.8,104.4 320.1,105.7 321.4,107.0 322.7,108.4 324.0,109.9 325.2,111.4 326.5,112.9 327.8,114.4 329.1,116.0 330.4,117.7 331.7,119.4 332.9,121.1 334.2,122.9 335.5,124.8 336.8,126.7 338.1,128.7 339.3,130.8 340.6,132.9 341.9,135.1 343.2,137.4 344.5,139.8 345.7,142.3 347.0,144.9 348.3,147.6 349.6,150.4 350.9,153.4 352.1,156.5 353.4,159.9 354.7,163.4 356.0,167.3 357.3,171.4 358.6,176.0 359.8,181.0 361.1,186.8 362.4,193.7 363.7,202.8 365.0,225.0" fill="none" stroke="#b03a2e" stroke-width="2.6"/>
-<polyline points="87.1,225.0 88.6,222.5 90.1,220.1 91.6,217.7 93.1,215.3 94.7,212.9 96.2,210.6 97.7,208.3 99.2,206.0 100.7,203.7 102.2,201.5 103.7,199.2 105.2,197.0 106.8,194.9 108.3,192.7 109.8,190.6 111.3,188.5 112.8,186.5 114.3,184.4 115.8,182.4 117.3,180.4 118.8,178.4 120.4,176.5 121.9,174.6 123.4,172.7 124.9,170.8 126.4,169.0 127.9,167.1 129.4,165.4 130.9,163.6 132.4,161.8 134.0,160.1 135.5,158.4 137.0,156.8 138.5,155.1 140.0,153.5 141.5,151.9 143.0,150.3 144.5,148.8 146.1,147.3 147.6,145.8 149.1,144.3 150.6,142.9 152.1,141.4 153.6,140.0 155.1,138.7 156.6,137.3 158.1,136.0 159.7,134.7 161.2,133.4 162.7,132.2 164.2,131.0 165.7,129.8 167.2,128.6 168.7,127.5 170.2,126.3 171.7,125.2 173.3,124.2 174.8,123.1 176.3,122.1 177.8,121.1 179.3,120.1 180.8,119.2 182.3,118.3 183.8,117.4 185.4,116.5 186.9,115.6 188.4,114.8 189.9,114.0 191.4,113.3 192.9,112.5 194.4,111.8 195.9,111.1 197.4,110.4 199.0,109.8 200.5,109.1 202.0,108.5 203.5,108.0 205.0,107.4 206.5,106.9 208.0,106.4 209.5,105.9 211.0,105.5 212.6,105.1 214.1,104.7 215.6,104.3 217.1,103.9 218.6,103.6 220.1,103.3 221.6,103.0 223.1,102.8 224.7,102.6 226.2,102.4 227.7,102.2 229.2,102.0 230.7,101.9 232.2,101.8 233.7,101.7 235.2,101.7 236.7,101.7 238.3,101.7 239.8,101.7 241.3,101.7 242.8,101.8 244.3,101.9 245.8,102.0 247.3,102.2 248.8,102.4 250.3,102.6 251.9,102.8 253.4,103.0 254.9,103.3 256.4,103.6 257.9,103.9 259.4,104.3 260.9,104.7 262.4,105.1 264.0,105.5 265.5,105.9 267.0,106.4 268.5,106.9 270.0,107.4 271.5,108.0 273.0,108.5 274.5,109.1 276.0,109.8 277.6,110.4 279.1,111.1 280.6,111.8 282.1,112.5 283.6,113.3 285.1,114.0 286.6,114.8 288.1,115.6 289.6,116.5 291.2,117.4 292.7,118.3 294.2,119.2 295.7,120.1 297.2,121.1 298.7,122.1 300.2,123.1 301.7,124.2 303.3,125.2 304.8,126.3 306.3,127.5 307.8,128.6 309.3,129.8 310.8,131.0 312.3,132.2 313.8,133.4 315.3,134.7 316.9,136.0 318.4,137.3 319.9,138.7 321.4,140.0 322.9,141.4 324.4,142.9 325.9,144.3 327.4,145.8 328.9,147.3 330.5,148.8 332.0,150.3 333.5,151.9 335.0,153.5 336.5,155.1 338.0,156.8 339.5,158.4 341.0,160.1 342.6,161.8 344.1,163.6 345.6,165.4 347.1,167.1 348.6,169.0 350.1,170.8 351.6,172.7 353.1,174.6 354.6,176.5 356.2,178.4 357.7,180.4 359.2,182.4 360.7,184.4 362.2,186.5 363.7,188.5 365.2,190.6 366.7,192.7 368.2,194.9 369.8,197.0 371.3,199.2 372.8,201.5 374.3,203.7 375.8,206.0 377.3,208.3 378.8,210.6 380.3,212.9 381.9,215.3 383.4,217.7 384.9,220.1 386.4,222.5 387.9,225.0" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<polyline points="72.1,225.0 73.7,222.5 75.4,220.1 77.1,217.6 78.7,215.2 80.4,212.9 82.0,210.5 83.7,208.2 85.4,205.9 87.0,203.6 88.7,201.3 90.4,199.1 92.0,196.9 93.7,194.7 95.3,192.6 97.0,190.4 98.7,188.3 100.3,186.3 102.0,184.2 103.7,182.2 105.3,180.2 107.0,178.2 108.6,176.2 110.3,174.3 112.0,172.4 113.6,170.5 115.3,168.7 117.0,166.8 118.6,165.0 120.3,163.3 121.9,161.5 123.6,159.8 125.3,158.1 126.9,156.4 128.6,154.7 130.3,153.1 131.9,151.5 133.6,149.9 135.2,148.4 136.9,146.9 138.6,145.4 140.2,143.9 141.9,142.4 143.6,141.0 145.2,139.6 146.9,138.2 148.6,136.9 150.2,135.5 151.9,134.2 153.5,133.0 155.2,131.7 156.9,130.5 158.5,129.3 160.2,128.1 161.9,126.9 163.5,125.8 165.2,124.7 166.8,123.6 168.5,122.6 170.2,121.6 171.8,120.6 173.5,119.6 175.2,118.6 176.8,117.7 178.5,116.8 180.1,115.9 181.8,115.1 183.5,114.2 185.1,113.4 186.8,112.7 188.5,111.9 190.1,111.2 191.8,110.5 193.4,109.8 195.1,109.2 196.8,108.5 198.4,107.9 200.1,107.4 201.8,106.8 203.4,106.3 205.1,105.8 206.7,105.3 208.4,104.9 210.1,104.4 211.7,104.0 213.4,103.6 215.1,103.3 216.7,103.0 218.4,102.7 220.0,102.4 221.7,102.1 223.4,101.9 225.0,101.7 226.7,101.5 228.4,101.4 230.0,101.3 231.7,101.2 233.3,101.1 235.0,101.0 236.7,101.0 238.3,101.0 240.0,101.0 241.7,101.1 243.3,101.2 245.0,101.3 246.6,101.4 248.3,101.5 250.0,101.7 251.6,101.9 253.3,102.1 255.0,102.4 256.6,102.7 258.3,103.0 259.9,103.3 261.6,103.6 263.3,104.0 264.9,104.4 266.6,104.9 268.3,105.3 269.9,105.8 271.6,106.3 273.2,106.8 274.9,107.4 276.6,107.9 278.2,108.5 279.9,109.2 281.6,109.8 283.2,110.5 284.9,111.2 286.5,111.9 288.2,112.7 289.9,113.4 291.5,114.2 293.2,115.1 294.9,115.9 296.5,116.8 298.2,117.7 299.8,118.6 301.5,119.6 303.2,120.6 304.8,121.6 306.5,122.6 308.2,123.6 309.8,124.7 311.5,125.8 313.1,126.9 314.8,128.1 316.5,129.3 318.1,130.5 319.8,131.7 321.5,133.0 323.1,134.2 324.8,135.5 326.4,136.9 328.1,138.2 329.8,139.6 331.4,141.0 333.1,142.4 334.8,143.9 336.4,145.4 338.1,146.9 339.8,148.4 341.4,149.9 343.1,151.5 344.7,153.1 346.4,154.7 348.1,156.4 349.7,158.1 351.4,159.8 353.1,161.5 354.7,163.3 356.4,165.0 358.0,166.8 359.7,168.7 361.4,170.5 363.0,172.4 364.7,174.3 366.4,176.2 368.0,178.2 369.7,180.2 371.3,182.2 373.0,184.2 374.7,186.3 376.3,188.3 378.0,190.4 379.7,192.6 381.3,194.7 383.0,196.9 384.6,199.1 386.3,201.3 388.0,203.6 389.6,205.9 391.3,208.2 393.0,210.5 394.6,212.9 396.3,215.2 397.9,217.6 399.6,220.1 401.3,222.5 402.9,225.0" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
 <text x="95.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">-20</text>
 <text x="166.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">-10</text>
 <text x="237.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
@@ -1392,8 +1406,8 @@ for t in [1, 60, 3600, 20000]:
 <text x="237.5" y="62.3" font-size="9.5" fill="#b03a2e" text-anchor="middle">dry Hertz  p₀=2.5 MPa</text>
 <text x="400.8" y="80.1" font-size="9.5" fill="#2a6ca8" text-anchor="end">biphasic (flattened)</text>
 <text x="131.0" y="64.7" font-size="8.5" fill="#555" text-anchor="middle">same load ∫p·2πr dr</text>
-</svg><figcaption><b>Same load, two profiles.</b> The peaked dry-Hertz dome ($p_0\approx2.5\ \mathrm{MPa}$) and the broader biphasic profile ($\approx2.0\ \mathrm{MPa}$) carry the identical hip load $\int p\,\mathrm dA=R$; the thin bonded layer and the plateau-like fluid pressurisation spread it wider and lower the peak.</figcaption></figure>
-<details class="sol"><summary>solution</summary><div><p><b>(1) Geometry — a thin bonded layer.</b> Hertz assumes two elastic half-spaces free to bulge. Cartilage is a thin layer ($a\gg h$) firmly bonded to stiff subchondral bone, which cannot bulge sideways as a half-space would; the confinement spreads the contact wider and lowers the peak.</p><p><b>(2) Biphasic pressurisation.</b> On the loading timescale the load is carried by interstitial pressure, which is a broad, plateau-like field, not a sharp Hertzian dome.</p><p>Both effects redistribute the <em>same</em> total load ($\int p\,2\pi r\,\mathrm dr=R$) over a larger area, so the peak drops (here $\approx2.5\to\approx2.0\ \mathrm{MPa}$) while the mean is essentially unchanged. The figure overlays the two profiles carrying the identical load.</p></div></details></div>
+</svg><figcaption><b>Same load, two profiles.</b> The peaked dry-Hertz dome ($p_0=2.54\ \mathrm{MPa}$ over $a=18.0\ \mathrm{mm}$) and the broader biphasic parabola ($p_{\max}=2.01\ \mathrm{MPa}$ over $a'=1.3a=23.3\ \mathrm{mm}$, the profile <a class="secref" href="#contact">§6</a> derives) carry the identical knee load $\int p\,\mathrm dA=R=1715\ \mathrm N$ — both curves as drawn integrate to $1715\ \mathrm N$ to within $0.1\%$. The thin bonded layer and the plateau-like fluid pressurisation spread the load wider and lower the peak.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>(1) Geometry — a thin bonded layer.</b> Hertz assumes two elastic half-spaces free to bulge. Cartilage is a thin layer ($a\gg h$) firmly bonded to stiff subchondral bone, which cannot bulge sideways as a half-space would; the confinement spreads the contact wider and lowers the peak.</p><p><b>(2) Biphasic pressurisation.</b> On the loading timescale the load is carried by interstitial pressure, which is a broad, plateau-like field, not a sharp Hertzian dome.</p><p>Both effects redistribute the <em>same</em> total load ($\int p\,2\pi r\,\mathrm dr=R$) over a larger area, so the peak drops (here $\approx2.5\to\approx2.0\ \mathrm{MPa}$) while the mean is essentially unchanged. The figure overlays the two profiles carrying the identical load.</p><p><b>Which applies to the hip.</b> Both, and the first far more strongly. The hip is a conforming ball-in-socket, so its surfaces are congruent over a large area before any load is applied; Hertz, which assumes two convex bodies touching at a point, under-predicts that area badly and over-predicts the peak correspondingly. That is why <a class="secref" href="#contact">§6</a> works the knee — a genuine convex-on-flat contact — and carries over only the load magnitude from Module&nbsp;3's hip.</p></div></details></div>
 
 <div class="qbox"><b>C6 &mdash; one tissue, two moduli.</b> <span class="small"><em>Probes: the composite origin of cartilage's very different tensile and compressive stiffness (<a class="secref" href="#composite">§1</a>).</em></span>
 <p>Cartilage is roughly $20\times$ stiffer in tension than in compression. What microstructural feature accounts for each, and why does the asymmetry make sense for a bearing surface?</p>
@@ -1413,7 +1427,7 @@ for t in [1, 60, 3600, 20000]:
 <text x="325" y="188" font-size="9.5" fill="#333" text-anchor="middle">soft: H<tspan baseline-shift="sub" font-size="0.7em">A</tspan> ≈ 0.6 MPa</text>
 <text x="220" y="214" font-size="9.5" fill="#7a1f1f" text-anchor="middle">tension stiffness ≫ compression stiffness (≈ 20×)</text>
 </svg><figcaption><b>Fibres pull, gel squishes.</b> Tension is carried by the stiff collagen network ($E_{\mathrm{tens}}\sim12\ \mathrm{MPa}$); compression by the soft proteoglycan gel and its swelling ($H_A\sim0.6\ \mathrm{MPa}$). Soft to squeeze, stiff to stretch.</figcaption></figure>
-<details class="sol"><summary>solution</summary><div><p><b>Tension</b> is resisted by the <b>collagen fibril network</b> — stiff, high-tensile-modulus fibres ($E_{\mathrm{tens}}\sim10$–$15\ \mathrm{MPa}$) that carry pull like the cords in a tyre. <b>Compression</b> is resisted by the <b>proteoglycan gel</b> and its Donnan swelling — a soft, drained aggregate modulus $H_A\sim0.6\ \mathrm{MPa}$. Fibres buckle under compression but pull taut under tension, so the tissue is soft to squeeze but stiff to stretch.</p><p>For a bearing this is ideal: the soft compressive response lets the surfaces <em>conform</em> and spread contact (lowering peak pressure, C5), while the stiff tensile skin resists the hoop and tensile stresses that a conforming, pressurised layer generates — holding the tissue together under the very loads its softness invites.</p></div></details></div>
+<details class="sol"><summary>solution</summary><div><p><b>Tension</b> is resisted by the <b>collagen fibril network</b> — stiff, high-tensile-modulus fibres ($E_{\mathrm{tens}}\approx12\ \mathrm{MPa}$; Appendix, from a reported range of $10$–$15$) that carry pull like the cords in a tyre. <b>Compression</b> is resisted by the <b>proteoglycan gel</b> and its Donnan swelling — a soft, drained aggregate modulus $H_A\sim0.6\ \mathrm{MPa}$. Fibres buckle under compression but pull taut under tension, so the tissue is soft to squeeze but stiff to stretch.</p><p>For a bearing this is ideal: the soft compressive response lets the surfaces <em>conform</em> and spread contact (lowering peak pressure, C5), while the stiff tensile skin resists the hoop and tensile stresses that a conforming, pressurised layer generates — holding the tissue together under the very loads its softness invites.</p></div></details></div>
 
 <div class="qbox"><b>C7 &mdash; relaxation versus creep.</b> <span class="small"><em>Probes: that stress-relaxation (fixed strain) and creep (fixed load) are the same biphasic physics under two boundary conditions (<a class="secref" href="#relaxlab">§5</a>).</em></span>
 <p>Compress a plug to a fixed depth and hold: the force you must apply slowly falls. Instead hang a fixed weight on it: the plug slowly sinks. Are these two different material behaviours? Explain both with one mechanism.</p>
@@ -1558,7 +1572,7 @@ for t in [1, 60, 3600, 20000]:
 <details class="sol"><summary>solution</summary><div><p>The pressure obeys $\partial p/\partial t=D\,\partial^2p/\partial z^2$; the slowest (fundamental) relaxation mode sets the gel time, $\tau=1/(D\lambda_1^2)$, where $\lambda_1$ is the smallest eigenvalue admitted by the boundary conditions.</p><p><b>One-sided</b> (impermeable base $\partial p/\partial z=0$ at $z=0$, drained $p=0$ at $z=h$): admissible modes are $\cos(\lambda z)$ with $\lambda_n=(2n+1)\pi/2h$; the fundamental is $\lambda_1=\pi/2h$, giving $\tau_1=1/(D\lambda_1^2)=4h^2/(\pi^2D)$.</p><p><b>Two-sided</b> (drained at both $z=0$ and $z=h$): modes are $\sin(n\pi z/h)$ with $\lambda_n=n\pi/h$; the fundamental is $\lambda_1=\pi/h$, giving $\tau_2=1/(D\lambda_1^2)=h^2/(\pi^2D)$.</p><p>$$\frac{\tau_2}{\tau_1}=\frac{(\pi/2h)^2}{(\pi/h)^2}=\frac14.$$</p><p>Draining both faces makes the tissue relax <b>four times faster</b>. Physically, fluid now escapes from both surfaces, so the farthest any fluid must travel to a drain is halved ($h\to h/2$); since $\tau\propto(\text{drainage path})^2$, the time drops by $4$.</p></div></details></div>
 
 <div class="qbox"><b>D2 &mdash; derive the swelling pressure.</b> <span class="small"><em>Probes: Donnan equilibrium plus electroneutrality &#8594; the ideal osmotic swelling pressure (<a class="secref" href="#donnan">§2</a>).</em></span>
-<p>A charged tissue with fixed-charge density $c_F$ (per unit fluid volume) sits in a bath of monovalent salt at concentration $c_0$. Assuming ideal (dilute) solutions, derive the interstitial swelling pressure $\pi$, and evaluate it for $c_F=0.2\ \mathrm M$, $c_0=0.15\ \mathrm M$, $T=310\ \mathrm K$.</p>
+<p>A charged tissue with fixed-charge density $c_F$ (per unit fluid volume) sits in a bath of monovalent salt at concentration $c_0$. Assuming ideal (dilute) solutions, derive the interstitial swelling pressure $\pi$, and evaluate it for $c_F=0.2\ \mathrm M$, $c_0=0.15\ \mathrm M$, $\Theta=310\ \mathrm K$.</p>
 <figure><svg class="setupfig" viewBox="0 0 450 230" width="100%" role="img" aria-label="Two compartments across a membrane: the charged tissue with fixed charge and mobile ions on the left, the bath on the right; Donnan equilibrium and electroneutrality fix the ion excess that produces the swelling pressure.">
 <rect x="40" y="46" width="170" height="150" fill="#f2ecf7" stroke="#b89ccf" stroke-width="1.2"/>
 <rect x="240" y="46" width="150" height="150" fill="#eaf4f9" stroke="#8fc7dc" stroke-width="1.2"/>
@@ -1576,12 +1590,12 @@ for t in [1, 60, 3600, 20000]:
 <text x="315" y="150" font-size="9" fill="#2a6ca8" text-anchor="middle">π = R<tspan baseline-shift="sub" font-size="0.7em">g</tspan>T·Δc<tspan baseline-shift="sub" font-size="0.7em">ion</tspan></text>
 <line x1="405" y1="70" x2="405" y2="120" stroke="#7a1f1f" stroke-width="2.4" marker-end="url(#a_red)"/>
 <text x="420" y="98" font-size="9" fill="#7a1f1f" text-anchor="middle">π</text>
-</svg><figcaption><b>Two conditions fix the ion excess.</b> Electroneutrality ($c_+=c_-+c_F$) and Donnan equilibrium ($c_+c_-=c_0^2$) give the interior ion concentrations; the excess over the bath sets $\pi=R_gT[\sqrt{c_F^2+4c_0^2}-2c_0]$.</figcaption></figure>
-<details class="sol"><summary>solution</summary><div><p>Let the interstitial mobile cation and anion concentrations be $c_+,c_-$. Two conditions apply.</p><p><b>Electroneutrality</b> inside (the fixed charge is negative): $c_+=c_-+c_F$.</p><p><b>Donnan equilibrium</b> (salt chemical potential equal inside and out): $c_+c_-=c_0^2$.</p><p>Eliminate: $c_-(c_-+c_F)=c_0^2\Rightarrow c_-=\tfrac12(\sqrt{c_F^2+4c_0^2}-c_F)$ and $c_+=\tfrac12(\sqrt{c_F^2+4c_0^2}+c_F)$.</p><p>The osmotic (swelling) pressure is the van&nbsp;'t&nbsp;Hoff pressure of the <em>excess</em> total mobile-ion concentration inside relative to the bath:</p><p>$$\boxed{\;\pi=R_gT\big[(c_++c_-)-2c_0\big]=R_gT\big[\sqrt{c_F^2+4c_0^2}-2c_0\big].\;}$$</p><p><b>Numbers:</b> $\sqrt{0.2^2+4(0.15)^2}=\sqrt{0.13}=0.3606\ \mathrm M$; minus $0.30\ \mathrm M=0.0606\ \mathrm M=60.6\ \mathrm{mol/m^3}$. With $R_gT=8.314\times310=2577\ \mathrm{J/mol}$: $\pi=2577\times60.6\approx1.56\times10^5\ \mathrm{Pa}\approx0.16\ \mathrm{MPa}$.</p><p><b>Check</b> the limits: $\pi\to0$ as $c_F\to0$ (an uncharged gel does not swell), and $\pi\approx R_gT\,c_F^2/(2c_0)$ grows quadratically for $c_F\ll c_0$ — the rising curve of K2.</p></div></details></div>
+</svg><figcaption><b>Two conditions fix the ion excess.</b> Electroneutrality ($c_+=c_-+c_F$) and Donnan equilibrium ($c_+c_-=c_0^2$) give the interior ion concentrations; the excess over the bath sets $\pi=R_g\Theta[\sqrt{c_F^2+4c_0^2}-2c_0]$.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p>Let the interstitial mobile cation and anion concentrations be $c_+,c_-$. Two conditions apply.</p><p><b>Electroneutrality</b> inside (the fixed charge is negative): $c_+=c_-+c_F$.</p><p><b>Donnan equilibrium</b> (salt chemical potential equal inside and out): $c_+c_-=c_0^2$.</p><p>Eliminate: $c_-(c_-+c_F)=c_0^2\Rightarrow c_-=\tfrac12(\sqrt{c_F^2+4c_0^2}-c_F)$ and $c_+=\tfrac12(\sqrt{c_F^2+4c_0^2}+c_F)$.</p><p>The osmotic (swelling) pressure is the van&nbsp;'t&nbsp;Hoff pressure of the <em>excess</em> total mobile-ion concentration inside relative to the bath:</p><p>$$\boxed{\;\pi=R_g\Theta\big[(c_++c_-)-2c_0\big]=R_g\Theta\big[\sqrt{c_F^2+4c_0^2}-2c_0\big].\;}$$</p><p><b>Numbers:</b> $\sqrt{0.2^2+4(0.15)^2}=\sqrt{0.13}=0.3606\ \mathrm M$; minus $0.30\ \mathrm M=0.0606\ \mathrm M=60.6\ \mathrm{mol/m^3}$. With $R_g\Theta=8.314\times310=2577\ \mathrm{J/mol}$: $\pi=2577\times60.6\approx1.56\times10^5\ \mathrm{Pa}\approx0.16\ \mathrm{MPa}$.</p><p><b>Check</b> the limits: $\pi\to0$ as $c_F\to0$ (an uncharged gel does not swell), and for $c_F\ll c_0$ expanding the root gives $\pi=2R_g\Theta c_0\big[\sqrt{1+c_F^2/(4c_0^2)}-1\big]\approx R_g\Theta\,c_F^2/(4c_0)$ — quadratic in the fixed charge, matching <a class="secref" href="#donnan">§2</a>. (At $c_F=0.01\ \mathrm M$, $c_0=0.15\ \mathrm M$ the exact formula gives $429.4\ \mathrm{Pa}$ and this limit $429.6\ \mathrm{Pa}$; a $2c_0$ denominator would give $859\ \mathrm{Pa}$, twice too much.) The healthy operating point $c_F=0.2\ \mathrm M$ is <em>not</em> in that regime — it sits above $c_0$ — which is why K10 finds a local log-slope of $1.83$ there rather than the asymptotic $2$.</p></div></details></div>
 
 <div class="qbox"><b>D3 &mdash; derive the consolidation equation.</b> <span class="small"><em>Probes: mass balance + Darcy + linear elasticity &#8594; the governing diffusion PDE (<a class="secref" href="#biphasic">§3</a>).</em></span>
 <p>For 1-D confined compression along $z$, with solid displacement $u(z,t)$, derive the governing equation $\partial u/\partial t=H_Ak\,\partial^2u/\partial z^2$. State each assumption.</p>
-<figure><svg class="setupfig" viewBox="0 0 450 230" width="100%" role="img" aria-label="A control slab of thickness dz inside the cartilage: Darcy fluid flux enters the bottom and leaves the top, mass conservation relates the flux gradient to the rate of strain, and Darcy plus the elastic constitutive law close the diffusion equation.">
+<figure><svg class="setupfig" viewBox="115 15 328 183" width="100%" role="img" aria-label="A control slab of thickness dz inside the cartilage: Darcy fluid flux enters the bottom and leaves the top, mass conservation relates the flux gradient to the rate of strain, and Darcy plus the elastic constitutive law close the diffusion equation.">
 <rect x="150" y="40" width="150" height="150" fill="url(#b_cart)" stroke="#8fc7dc" stroke-width="1.2"/>
 <rect x="150" y="104" width="150" height="30" fill="#bfe3ef" stroke="#5fa6c4" stroke-width="1.3"/>
 <text x="316" y="122" font-size="9" fill="#2a6ca8" text-anchor="start">dz</text>
@@ -1626,7 +1640,7 @@ for t in [1, 60, 3600, 20000]:
 <details class="sol"><summary>solution</summary><div><p>At short time only a thin drained boundary layer near the permeable surface has formed; the rest of the plug is still fully pressurised. The diffusion penetration depth grows as $\delta\sim\sqrt{Dt}$ (the similarity solution of the half-space diffusion problem).</p><p>The lost support is proportional to the drained fraction $\delta/h\sim\sqrt{Dt}/h=\sqrt T$. Evaluating the half-space surface deficit gives the constant $2/\sqrt\pi$, so $$F\approx1-2\sqrt{T/\pi}.$$</p><p>The $\sqrt T$ (not $T$) is the fingerprint of diffusion: distance grows as the square root of time, so the drained layer — and the support deficit — grows as $\sqrt t$. The figure shows this line hugging the exact series near the origin and parting later.</p></div></details></div>
 
 <div class="qbox"><b>D5 &mdash; the eigenvalue series.</b> <span class="small"><em>Probes: separation of variables giving the mode set and the slowest-mode gel time (<a class="secref" href="#fluidload">§4</a>).</em></span>
-<p>For one-sided drainage (sealed base at $z=0$, drained at $z=h$), find the eigenfunctions and eigenvalues of the pressure diffusion problem, and hence the series $F(T)=\sum_n 2/\lambda_n^2\,e^{-\lambda_n^2T}$ and the gel time.</p>
+<p>Proposition&nbsp;3.1 quotes the mode set for one-sided drainage. Re-derive it from scratch: find the eigenfunctions and eigenvalues of the pressure diffusion problem, show that the depth-average of the series is $F(T)=\sum_n 2/\lambda_n^2\,e^{-\lambda_n^2T}$, and identify which single mode sets the gel time and why the others are invisible after a fraction of one $\tau$.</p>
 <figure><svg class="setupfig" viewBox="0 0 430 290" width="100%" role="img" aria-label="The first three cosine eigenmodes of the drainage problem; the slowest n equals zero mode peaks at the sealed base and sets the gel time.">
 <line x1="70" y1="58" x2="70" y2="232" stroke="#333" stroke-width="1.4"/>
 <line x1="70" y1="232" x2="360" y2="232" stroke="#333" stroke-width="1.4"/>
@@ -1649,7 +1663,7 @@ for t in [1, 60, 3600, 20000]:
 <line x1="234" y1="46" x2="250" y2="46" stroke="#2a7d2a" stroke-width="2.3"/>
 <text x="254.0" y="49.0" font-size="8.5" fill="#2a7d2a" text-anchor="start">n=2</text>
 </svg><figcaption><b>Cosine modes.</b> $Z=\cos(\mu z)$ with $\mu_n h=(2n+1)\pi/2$; the slowest ($n=0$, $\lambda_0=\pi/2$) gives $\tau=4h^2/(\pi^2D)$. The figure shows the first three modes.</figcaption></figure>
-<details class="sol"><summary>solution</summary><div><p>Separate $p=Z(z)\,e^{-D\mu^2t}$: then $Z''+\mu^2Z=0$. The boundary conditions select the modes:</p><p>$Z'(0)=0$ (no flux at the sealed base) $\Rightarrow Z=\cos(\mu z)$; $Z(h)=0$ (drained) $\Rightarrow \cos(\mu h)=0\Rightarrow \mu_nh=(2n+1)\tfrac\pi2$, i.e. $\lambda_n\equiv\mu_nh=(2n+1)\pi/2$, $n=0,1,2,\dots$</p><p>Expanding the uniform initial pressure in these modes and integrating over depth to get the load support gives the coefficients $2/\lambda_n^2$, so $$F(T)=\sum_n\frac{2}{\lambda_n^2}\,e^{-\lambda_n^2T},\qquad T=\frac{Dt}{h^2}.$$</p><p>Late in time the slowest mode dominates: $n=0$, $\lambda_0=\pi/2$, giving $\tau=1/(D\mu_0^2)=4h^2/(\pi^2D)$ — the gel time of D1. The figure plots the first three cosine modes; the flat $n=0$ mode (peak at the sealed base) is the long-lived one.</p></div></details></div>
+<details class="sol"><summary>solution</summary><div><p>Separate $p=Z(z)\,e^{-D\mu^2t}$: then $Z''+\mu^2Z=0$. The boundary conditions select the modes:</p><p>$Z'(0)=0$ (no flux at the sealed base) $\Rightarrow Z=\cos(\mu z)$; $Z(h)=0$ (drained) $\Rightarrow \cos(\mu h)=0\Rightarrow \mu_nh=(2n+1)\tfrac\pi2$, i.e. $\lambda_n\equiv\mu_nh=(2n+1)\pi/2$, $n=0,1,2,\dots$</p><p>Expanding the uniform initial pressure in these modes and integrating over depth to get the load support gives the coefficients $2/\lambda_n^2$, so $$F(T)=\sum_n\frac{2}{\lambda_n^2}\,e^{-\lambda_n^2T},\qquad T=\frac{Dt}{h^2}.$$</p><p>Late in time the slowest mode dominates: $n=0$, $\lambda_0=\pi/2$, giving $\tau=1/(D\mu_0^2)=4h^2/(\pi^2D)$ — the gel time of D1. The figure plots the first three cosine modes; the flat $n=0$ mode (peak at the sealed base) is the long-lived one.</p><p><b>Why the others are invisible.</b> Mode $n$ decays as $e^{-\lambda_n^{2}T}$ with $\lambda_n^{2}=(2n+1)^{2}\pi^{2}/4$, so at $T=1$ the $n=1$ mode is down by $e^{-(9-1)\pi^{2}/4}=e^{-19.7}\approx3\times10^{-9}$ relative to $n=0$. After a fraction of a gel time the series <em>is</em> a single exponential; that is why $\tau=4h^{2}/(\pi^{2}D)$ is a sharp number and not a fitted one.</p></div></details></div>
 
 <div class="qbox"><b>D6 &mdash; why $\tau$ scales as $h^2$.</b> <span class="small"><em>Probes: nondimensionalising the PDE shows $\tau$ is a fixed value of $T=Dt/h^2$ (<a class="secref" href="#relaxlab">§5</a>).</em></span>
 <p>Without solving the series, show from the governing equation alone that the gel time must scale as $h^2/D$, and that changing $h$ only rescales the time axis.</p>
@@ -1672,7 +1686,7 @@ for t in [1, 60, 3600, 20000]:
 <details class="sol"><summary>solution</summary><div><p>Nondimensionalise. Let $\zeta=z/h$ and $T=Dt/h^2$. Then $\partial u/\partial t=D\,\partial^2u/\partial z^2$ becomes $$\frac{\partial u}{\partial T}=\frac{\partial^2u}{\partial\zeta^2},$$ with <em>no parameters left</em> — $h$ and $D$ have vanished. So the entire relaxation history is a universal function of $T$ only, $F=\Phi(T)$.</p><p>The gel time is defined by some fixed fraction of relaxation (say $F=\tfrac12$), reached at a fixed $T=T_0$ (a pure number). Undoing the scaling, $t_{1/2}=T_0\,h^2/D$, i.e. $\tau\propto h^2/D$.</p><p>Doubling $h$ stretches the physical time axis by $4$ with the curve otherwise unchanged: every thickness collapses onto one master curve in $T$ (the figure) — the $\tau\propto h^2$ result, obtained without any series.</p></div></details></div>
 
 <div class="qbox"><b>D7 &mdash; the Hertz exponents.</b> <span class="small"><em>Probes: the sphere-on-plane scaling of contact radius and peak pressure with load and radius (<a class="secref" href="#contact">§6</a>).</em></span>
-<p>For a rigid sphere of effective radius $R$ pressed with force $N$ into an elastic half-space of reduced modulus $E^*$, derive the scalings $a\propto(NR/E^*)^{1/3}$ and $p_0\propto N/a^2$, and hence how $a$ and $p_0$ change if $R$ doubles at fixed $N$.</p>
+<p>For a rigid sphere of effective radius $R_{\rm eff}$ pressed with force $N$ into an elastic half-space of reduced modulus $E^*$, derive the scalings $a\propto(NR_{\rm eff}/E^*)^{1/3}$ and $p_0\propto N/a^2$, and hence how $a$ and $p_0$ change if $R_{\rm eff}$ doubles at fixed $N$.</p>
 <figure><svg class="setupfig" viewBox="0 0 460 280" width="100%" role="img" aria-label="Hertz scaling at fixed load: contact radius grows slowly as the cube root of radius while peak pressure falls as the inverse cube root.">
 <line x1="64" y1="40" x2="64" y2="220" stroke="#333" stroke-width="1.4"/>
 <line x1="64" y1="220" x2="428" y2="220" stroke="#333" stroke-width="1.4"/>
@@ -1753,7 +1767,7 @@ for t in [1, 60, 3600, 20000]:
 <text x="396" y="168" font-size="8" fill="#2a7d2a" text-anchor="middle">G&lt;1 heals</text>
 <text x="392" y="200" font-size="8" fill="#333" text-anchor="middle">time →</text>
 </svg><figcaption><b>Threshold at $G=1$.</b> A deficit obeys $x_{n+1}=G\,x_n$, so $x_n=G^nx_0$: $G\lt1$ decays (heals), $G\gt1$ grows (runaway OA). $G$ is the product of sensitivities around the loop.</figcaption></figure>
-<details class="sol"><summary>solution</summary><div><p>Let the perturbation to the fluid-support deficit after $n$ cycles be $x_n$. Each pass round the loop multiplies it: $$x_{n+1}=G\,x_n\quad\Rightarrow\quad x_n=G^n\,x_0.$$</p><p>If $G\lt1$ the deficit decays geometrically — the tissue heals and returns to homeostasis. If $G\gt1$ it grows without bound — runaway degeneration. The threshold is $G=1$.</p><p>The loop gain is the product of the sensitivities around the cycle — how strongly loss of support raises permeability, stress and wear, which in turn feed back to lower support: $$G=\frac{\partial(\text{damage})}{\partial(\downarrow F)}\cdot\frac{\partial k}{\partial(\text{damage})}\cdot\frac{\partial(\text{stress})}{\partial k}\cdot\frac{\partial(\downarrow F)}{\partial(\text{stress})}\cdots$$</p><p>Interventions — lower load, restore charge and $F$, reduce friction — all act by pushing $G$ below $1$. The inset contrasts a decaying ($G\lt1$) and a growing ($G\gt1$) response.</p></div></details></div>
+<details class="sol"><summary>solution</summary><div><p>Let the perturbation to the fluid-support deficit after $n$ cycles be $x_n$. Each pass round the loop multiplies it: $$x_{n+1}=G\,x_n\quad\Rightarrow\quad x_n=G^n\,x_0.$$</p><p>If $G\lt1$ the deficit decays geometrically — the tissue heals and returns to homeostasis. If $G\gt1$ it grows without bound — runaway degeneration. The threshold is $G=1$.</p><p>The loop gain is the product of the sensitivities around the cycle, written in logarithmic variables so that each factor is a dimensionless elasticity: $$G=\frac{\partial\ln d}{\partial\ln k}\cdot\frac{\partial\ln(\text{wear rate})}{\partial\ln d}\cdot\frac{\partial\ln k}{\partial\ln(\text{wear})},\qquad d\equiv1-F.$$Only the first factor belongs to this module, and it is exact: D4 gives $d=2\sqrt{H_Akt/(\pi h^2)}\propto\sqrt k$, so $\partial\ln d/\partial\ln k=\tfrac12$ (<a class="secref" href="#degeneration">§8</a> checks it against the full series). The other two are mechanobiological and are assumed, not derived, here; $G\gt1$ therefore requires them to supply a combined gain above $2$.</p><p>Interventions — lower load, restore charge and $F$, reduce friction — all act by pushing $G$ below $1$. The inset contrasts a decaying ($G\lt1$) and a growing ($G\gt1$) response.</p></div></details></div>
 
 <h3 id="computational">Computational problems</h3>
 <p>Ten to compute — every number is reproduced by the copy-buttoned Python beneath its solution.</p>
@@ -1814,7 +1828,7 @@ for k in (2e-15, 6e-15):
 # k=6e-15  tau=   469 s  F(0.5 s)=0.963</code></pre></div></div></details></div>
 
 <div class="qbox"><b>K2 &mdash; the swelling pressure and its collapse.</b> <span class="small"><em>Probes: the Donnan formula; the fast (super-linear) sensitivity to charge loss (<a class="secref" href="#donnan">§2</a>).</em></span>
-<p>Using $\pi=R_gT[\sqrt{c_F^2+4c_0^2}-2c_0]$ with $c_0=0.15\ \mathrm M$, $T=310\ \mathrm K$: <b>(a)</b> compute $\pi$ for healthy $c_F=0.2\ \mathrm M$. <b>(b)</b> Degeneration halves the fixed charge to $c_F=0.1\ \mathrm M$; recompute and give the fractional loss of swelling pressure. <b>(c)</b> Comment on the mechanical consequence.</p>
+<p>Using $\pi=R_g\Theta[\sqrt{c_F^2+4c_0^2}-2c_0]$ with $c_0=0.15\ \mathrm M$, $\Theta=310\ \mathrm K$: <b>(a)</b> compute $\pi$ for healthy $c_F=0.2\ \mathrm M$. <b>(b)</b> Degeneration halves the fixed charge to $c_F=0.1\ \mathrm M$; recompute and give the fractional loss of swelling pressure. <b>(c)</b> Comment on the mechanical consequence.</p>
 <figure><svg class="setupfig" viewBox="0 0 440 290" width="100%" role="img" aria-label="Donnan swelling pressure rising with fixed-charge density; cartilage operating point near 0.2 molar giving about 0.16 megapascal.">
 <line x1="64" y1="40" x2="64" y2="232" stroke="#333" stroke-width="1.4"/>
 <line x1="64" y1="232" x2="410" y2="232" stroke="#333" stroke-width="1.4"/>
@@ -1840,8 +1854,8 @@ for k in (2e-15, 6e-15):
 <text x="237.0" y="246.0" font-size="8.5" fill="#7a1f1f" text-anchor="middle">0.2</text>
 </svg><figcaption><b>Charge loss is amplified.</b> Halving $c_F$ ($0.2\to0.1\ \mathrm M$) cuts the swelling pressure by $73\%$ ($0.156\to0.042\ \mathrm{MPa}$) — the dependence is steeper than linear near the operating point.</figcaption></figure>
 <details class="sol"><summary>solution</summary><div><p><b>(a)</b> $\sqrt{0.2^2+4(0.15)^2}=\sqrt{0.13}=0.3606\ \mathrm M$; minus $0.30=0.0606\ \mathrm M=60.6\ \mathrm{mol/m^3}$; $\pi=2577\times60.6=1.56\times10^5\ \mathrm{Pa}=0.156\ \mathrm{MPa}$.</p><p><b>(b)</b> $\sqrt{0.1^2+4(0.15)^2}=\sqrt{0.10}=0.3162\ \mathrm M$; minus $0.30=0.0162\ \mathrm M=16.2\ \mathrm{mol/m^3}$; $\pi=2577\times16.2=4.18\times10^4=0.042\ \mathrm{MPa}$. Loss $=(0.156-0.042)/0.156=73\%$.</p><p><b>(c)</b> Halving the charge cuts the swelling pre-stress by nearly three-quarters. The tissue loses the pre-stress that stiffens its surface and re-imbibes fluid, so both its instantaneous stiffness and its overnight recovery (C10) collapse — the entry point of the C8 cascade.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
-RgT, c0 = 8.314*310, 0.15
-def pi(cF): return RgT*(np.sqrt(cF**2 + 4*c0**2) - 2*c0)*1e3  # Pa
+RgTheta, c0 = 8.314*310, 0.15
+def pi(cF): return RgTheta*(np.sqrt(cF**2 + 4*c0**2) - 2*c0)*1e3  # Pa
 
 
 for cF in (0.2, 0.1):
@@ -1851,13 +1865,13 @@ print(f"loss = {100*(pi(0.2)-pi(0.1))/pi(0.2):.0f}%")
 # c_F=0.1 M  pi=0.042 MPa
 # loss = 73%</code></pre></div></div></details></div>
 
-<div class="qbox"><b>K3 &mdash; the hip contact patch.</b> <span class="small"><em>Probes: computing contact radius, peak and mean pressure, and validating against Module&nbsp;3 (<a class="secref" href="#contact">§6</a>).</em></span>
-<p>The hip reaction is $R=1715\ \mathrm N$ (<a class="secref" href="module03.html#contact">Module&nbsp;3</a>). Model the contact as a sphere of effective radius $R_{\rm eff}=30\ \mathrm{mm}$ on cartilage of reduced modulus $E^*=6.67\ \mathrm{MPa}$. Compute <b>(a)</b> the contact radius $a=(3RR_{\rm eff}/4E^*)^{1/3}$, <b>(b)</b> the peak Hertz pressure $p_0=3R/(2\pi a^2)$, <b>(c)</b> the mean pressure $\bar p=R/(\pi a^2)$, and compare $\bar p$ with the Module&nbsp;3 estimate of $1.7\ \mathrm{MPa}$.</p>
-<figure><svg class="setupfig" viewBox="0 0 450 290" width="100%" role="img" aria-label="Two contact-pressure profiles carrying the same hip load: the peaked dry-Hertz profile at 2.5 megapascal and the broader flattened biphasic profile at about 2 megapascal.">
+<div class="qbox"><b>K3 &mdash; the knee contact patch.</b> <span class="small"><em>Probes: computing contact radius, peak and mean pressure, and testing them against Module&nbsp;3 (<a class="secref" href="#contact">§6</a>).</em></span>
+<p>Carry the lower-limb joint reaction $R=1715\ \mathrm N$ (Module&nbsp;3) onto the tibiofemoral contact of <a class="secref" href="#contact">§6</a>: a condyle of effective radius $R_{\rm eff}=30\ \mathrm{mm}$ on cartilage of reduced modulus $E^*=6.67\ \mathrm{MPa}$. Compute <b>(a)</b> the contact radius $a=(3RR_{\rm eff}/4E^*)^{1/3}$, <b>(b)</b> the peak Hertz pressure $p_0=3R/(2\pi a^2)$, <b>(c)</b> the mean pressure $\bar p=R/(\pi a^2)$, and compare $\bar p$ with the Module&nbsp;3 estimate of $1.7\ \mathrm{MPa}$. <b>(d)</b> $R_{\rm eff}$ was <em>chosen</em> as a representative condylar curvature, not measured. Using D7's exponents, say how far $R_{\rm eff}$ would have to be wrong to move $\bar p$ by $20\%$, and hence how much the agreement in (c) is worth.</p>
+<figure><svg class="setupfig" viewBox="0 0 450 290" width="100%" role="img" aria-label="Two contact-pressure profiles carrying the same knee load: the peaked dry-Hertz profile at 2.5 megapascal and the broader flattened biphasic profile at about 2 megapascal.">
 <line x1="60" y1="40" x2="60" y2="225" stroke="#333" stroke-width="1.4"/>
 <line x1="60" y1="225" x2="415" y2="225" stroke="#333" stroke-width="1.4"/>
 <polyline points="110.0,225.0 111.3,202.8 112.6,193.7 113.9,186.8 115.2,181.0 116.4,176.0 117.7,171.4 119.0,167.3 120.3,163.4 121.6,159.9 122.9,156.5 124.1,153.4 125.4,150.4 126.7,147.6 128.0,144.9 129.3,142.3 130.5,139.8 131.8,137.4 133.1,135.1 134.4,132.9 135.7,130.8 136.9,128.7 138.2,126.7 139.5,124.8 140.8,122.9 142.1,121.1 143.3,119.4 144.6,117.7 145.9,116.0 147.2,114.4 148.5,112.9 149.8,111.4 151.0,109.9 152.3,108.4 153.6,107.0 154.9,105.7 156.2,104.4 157.4,103.1 158.7,101.8 160.0,100.6 161.3,99.4 162.6,98.3 163.8,97.1 165.1,96.0 166.4,94.9 167.7,93.9 169.0,92.9 170.2,91.9 171.5,90.9 172.8,90.0 174.1,89.1 175.4,88.2 176.7,87.3 177.9,86.5 179.2,85.7 180.5,84.9 181.8,84.1 183.1,83.3 184.3,82.6 185.6,81.9 186.9,81.2 188.2,80.5 189.5,79.9 190.7,79.2 192.0,78.6 193.3,78.0 194.6,77.5 195.9,76.9 197.1,76.4 198.4,75.9 199.7,75.4 201.0,74.9 202.3,74.4 203.6,74.0 204.8,73.5 206.1,73.1 207.4,72.7 208.7,72.4 210.0,72.0 211.2,71.7 212.5,71.3 213.8,71.0 215.1,70.8 216.4,70.5 217.6,70.2 218.9,70.0 220.2,69.8 221.5,69.6 222.8,69.4 224.0,69.2 225.3,69.0 226.6,68.9 227.9,68.8 229.2,68.6 230.5,68.5 231.7,68.5 233.0,68.4 234.3,68.4 235.6,68.3 236.9,68.3 238.1,68.3 239.4,68.3 240.7,68.4 242.0,68.4 243.3,68.5 244.5,68.5 245.8,68.6 247.1,68.8 248.4,68.9 249.7,69.0 251.0,69.2 252.2,69.4 253.5,69.6 254.8,69.8 256.1,70.0 257.4,70.2 258.6,70.5 259.9,70.8 261.2,71.0 262.5,71.3 263.8,71.7 265.0,72.0 266.3,72.4 267.6,72.7 268.9,73.1 270.2,73.5 271.4,74.0 272.7,74.4 274.0,74.9 275.3,75.4 276.6,75.9 277.9,76.4 279.1,76.9 280.4,77.5 281.7,78.0 283.0,78.6 284.3,79.2 285.5,79.9 286.8,80.5 288.1,81.2 289.4,81.9 290.7,82.6 291.9,83.3 293.2,84.1 294.5,84.9 295.8,85.7 297.1,86.5 298.3,87.3 299.6,88.2 300.9,89.1 302.2,90.0 303.5,90.9 304.8,91.9 306.0,92.9 307.3,93.9 308.6,94.9 309.9,96.0 311.2,97.1 312.4,98.3 313.7,99.4 315.0,100.6 316.3,101.8 317.6,103.1 318.8,104.4 320.1,105.7 321.4,107.0 322.7,108.4 324.0,109.9 325.2,111.4 326.5,112.9 327.8,114.4 329.1,116.0 330.4,117.7 331.7,119.4 332.9,121.1 334.2,122.9 335.5,124.8 336.8,126.7 338.1,128.7 339.3,130.8 340.6,132.9 341.9,135.1 343.2,137.4 344.5,139.8 345.7,142.3 347.0,144.9 348.3,147.6 349.6,150.4 350.9,153.4 352.1,156.5 353.4,159.9 354.7,163.4 356.0,167.3 357.3,171.4 358.6,176.0 359.8,181.0 361.1,186.8 362.4,193.7 363.7,202.8 365.0,225.0" fill="none" stroke="#b03a2e" stroke-width="2.6"/>
-<polyline points="87.1,225.0 88.6,222.5 90.1,220.1 91.6,217.7 93.1,215.3 94.7,212.9 96.2,210.6 97.7,208.3 99.2,206.0 100.7,203.7 102.2,201.5 103.7,199.2 105.2,197.0 106.8,194.9 108.3,192.7 109.8,190.6 111.3,188.5 112.8,186.5 114.3,184.4 115.8,182.4 117.3,180.4 118.8,178.4 120.4,176.5 121.9,174.6 123.4,172.7 124.9,170.8 126.4,169.0 127.9,167.1 129.4,165.4 130.9,163.6 132.4,161.8 134.0,160.1 135.5,158.4 137.0,156.8 138.5,155.1 140.0,153.5 141.5,151.9 143.0,150.3 144.5,148.8 146.1,147.3 147.6,145.8 149.1,144.3 150.6,142.9 152.1,141.4 153.6,140.0 155.1,138.7 156.6,137.3 158.1,136.0 159.7,134.7 161.2,133.4 162.7,132.2 164.2,131.0 165.7,129.8 167.2,128.6 168.7,127.5 170.2,126.3 171.7,125.2 173.3,124.2 174.8,123.1 176.3,122.1 177.8,121.1 179.3,120.1 180.8,119.2 182.3,118.3 183.8,117.4 185.4,116.5 186.9,115.6 188.4,114.8 189.9,114.0 191.4,113.3 192.9,112.5 194.4,111.8 195.9,111.1 197.4,110.4 199.0,109.8 200.5,109.1 202.0,108.5 203.5,108.0 205.0,107.4 206.5,106.9 208.0,106.4 209.5,105.9 211.0,105.5 212.6,105.1 214.1,104.7 215.6,104.3 217.1,103.9 218.6,103.6 220.1,103.3 221.6,103.0 223.1,102.8 224.7,102.6 226.2,102.4 227.7,102.2 229.2,102.0 230.7,101.9 232.2,101.8 233.7,101.7 235.2,101.7 236.7,101.7 238.3,101.7 239.8,101.7 241.3,101.7 242.8,101.8 244.3,101.9 245.8,102.0 247.3,102.2 248.8,102.4 250.3,102.6 251.9,102.8 253.4,103.0 254.9,103.3 256.4,103.6 257.9,103.9 259.4,104.3 260.9,104.7 262.4,105.1 264.0,105.5 265.5,105.9 267.0,106.4 268.5,106.9 270.0,107.4 271.5,108.0 273.0,108.5 274.5,109.1 276.0,109.8 277.6,110.4 279.1,111.1 280.6,111.8 282.1,112.5 283.6,113.3 285.1,114.0 286.6,114.8 288.1,115.6 289.6,116.5 291.2,117.4 292.7,118.3 294.2,119.2 295.7,120.1 297.2,121.1 298.7,122.1 300.2,123.1 301.7,124.2 303.3,125.2 304.8,126.3 306.3,127.5 307.8,128.6 309.3,129.8 310.8,131.0 312.3,132.2 313.8,133.4 315.3,134.7 316.9,136.0 318.4,137.3 319.9,138.7 321.4,140.0 322.9,141.4 324.4,142.9 325.9,144.3 327.4,145.8 328.9,147.3 330.5,148.8 332.0,150.3 333.5,151.9 335.0,153.5 336.5,155.1 338.0,156.8 339.5,158.4 341.0,160.1 342.6,161.8 344.1,163.6 345.6,165.4 347.1,167.1 348.6,169.0 350.1,170.8 351.6,172.7 353.1,174.6 354.6,176.5 356.2,178.4 357.7,180.4 359.2,182.4 360.7,184.4 362.2,186.5 363.7,188.5 365.2,190.6 366.7,192.7 368.2,194.9 369.8,197.0 371.3,199.2 372.8,201.5 374.3,203.7 375.8,206.0 377.3,208.3 378.8,210.6 380.3,212.9 381.9,215.3 383.4,217.7 384.9,220.1 386.4,222.5 387.9,225.0" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<polyline points="72.1,225.0 73.7,222.5 75.4,220.1 77.1,217.6 78.7,215.2 80.4,212.9 82.0,210.5 83.7,208.2 85.4,205.9 87.0,203.6 88.7,201.3 90.4,199.1 92.0,196.9 93.7,194.7 95.3,192.6 97.0,190.4 98.7,188.3 100.3,186.3 102.0,184.2 103.7,182.2 105.3,180.2 107.0,178.2 108.6,176.2 110.3,174.3 112.0,172.4 113.6,170.5 115.3,168.7 117.0,166.8 118.6,165.0 120.3,163.3 121.9,161.5 123.6,159.8 125.3,158.1 126.9,156.4 128.6,154.7 130.3,153.1 131.9,151.5 133.6,149.9 135.2,148.4 136.9,146.9 138.6,145.4 140.2,143.9 141.9,142.4 143.6,141.0 145.2,139.6 146.9,138.2 148.6,136.9 150.2,135.5 151.9,134.2 153.5,133.0 155.2,131.7 156.9,130.5 158.5,129.3 160.2,128.1 161.9,126.9 163.5,125.8 165.2,124.7 166.8,123.6 168.5,122.6 170.2,121.6 171.8,120.6 173.5,119.6 175.2,118.6 176.8,117.7 178.5,116.8 180.1,115.9 181.8,115.1 183.5,114.2 185.1,113.4 186.8,112.7 188.5,111.9 190.1,111.2 191.8,110.5 193.4,109.8 195.1,109.2 196.8,108.5 198.4,107.9 200.1,107.4 201.8,106.8 203.4,106.3 205.1,105.8 206.7,105.3 208.4,104.9 210.1,104.4 211.7,104.0 213.4,103.6 215.1,103.3 216.7,103.0 218.4,102.7 220.0,102.4 221.7,102.1 223.4,101.9 225.0,101.7 226.7,101.5 228.4,101.4 230.0,101.3 231.7,101.2 233.3,101.1 235.0,101.0 236.7,101.0 238.3,101.0 240.0,101.0 241.7,101.1 243.3,101.2 245.0,101.3 246.6,101.4 248.3,101.5 250.0,101.7 251.6,101.9 253.3,102.1 255.0,102.4 256.6,102.7 258.3,103.0 259.9,103.3 261.6,103.6 263.3,104.0 264.9,104.4 266.6,104.9 268.3,105.3 269.9,105.8 271.6,106.3 273.2,106.8 274.9,107.4 276.6,107.9 278.2,108.5 279.9,109.2 281.6,109.8 283.2,110.5 284.9,111.2 286.5,111.9 288.2,112.7 289.9,113.4 291.5,114.2 293.2,115.1 294.9,115.9 296.5,116.8 298.2,117.7 299.8,118.6 301.5,119.6 303.2,120.6 304.8,121.6 306.5,122.6 308.2,123.6 309.8,124.7 311.5,125.8 313.1,126.9 314.8,128.1 316.5,129.3 318.1,130.5 319.8,131.7 321.5,133.0 323.1,134.2 324.8,135.5 326.4,136.9 328.1,138.2 329.8,139.6 331.4,141.0 333.1,142.4 334.8,143.9 336.4,145.4 338.1,146.9 339.8,148.4 341.4,149.9 343.1,151.5 344.7,153.1 346.4,154.7 348.1,156.4 349.7,158.1 351.4,159.8 353.1,161.5 354.7,163.3 356.4,165.0 358.0,166.8 359.7,168.7 361.4,170.5 363.0,172.4 364.7,174.3 366.4,176.2 368.0,178.2 369.7,180.2 371.3,182.2 373.0,184.2 374.7,186.3 376.3,188.3 378.0,190.4 379.7,192.6 381.3,194.7 383.0,196.9 384.6,199.1 386.3,201.3 388.0,203.6 389.6,205.9 391.3,208.2 393.0,210.5 394.6,212.9 396.3,215.2 397.9,217.6 399.6,220.1 401.3,222.5 402.9,225.0" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
 <text x="95.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">-20</text>
 <text x="166.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">-10</text>
 <text x="237.5" y="239.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
@@ -1872,23 +1886,23 @@ print(f"loss = {100*(pi(0.2)-pi(0.1))/pi(0.2):.0f}%")
 <text x="237.5" y="62.3" font-size="9.5" fill="#b03a2e" text-anchor="middle">dry Hertz  p₀=2.5 MPa</text>
 <text x="400.8" y="80.1" font-size="9.5" fill="#2a6ca8" text-anchor="end">biphasic (flattened)</text>
 <text x="131.0" y="64.7" font-size="8.5" fill="#555" text-anchor="middle">same load ∫p·2πr dr</text>
-</svg><figcaption><b>Two models agree.</b> Hertz gives $a=18\ \mathrm{mm}$, $p_0=2.5\ \mathrm{MPa}$, $\bar p=1.7\ \mathrm{MPa}$ — the mean matches Module&nbsp;3's force/area estimate exactly, an independent check.</figcaption></figure>
-<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $a=\big(3\cdot1715\cdot0.03/(4\cdot6.67\times10^6)\big)^{1/3}=(5.785\times10^{-6})^{1/3}=1.80\times10^{-2}\ \mathrm m=18.0\ \mathrm{mm}$.</p><p><b>(b)</b> $p_0=3\cdot1715/(2\pi(0.018)^2)=5145/(2.04\times10^{-3})=2.53\times10^6=2.53\ \mathrm{MPa}$.</p><p><b>(c)</b> $\bar p=1715/(\pi(0.018)^2)=1715/(1.02\times10^{-3})=1.69\times10^6=1.69\ \mathrm{MPa}$.</p><p>The Hertz mean ($1.69\ \mathrm{MPa}$) matches the Module&nbsp;3 force-over-area estimate ($1.7\ \mathrm{MPa}$) — the contact model and the joint-reaction model agree. The peak is $\approx1.5\times$ the mean; the biphasic flattening of C5 brings the <em>true</em> peak down toward $\approx2.0\ \mathrm{MPa}$.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+</svg><figcaption><b>Two routes to one mean pressure.</b> Hertz gives $a=18.0\ \mathrm{mm}$, $p_0=2.54\ \mathrm{MPa}$, $\bar p=1.69\ \mathrm{MPa}$ — the mean agrees with Module&nbsp;3's force-over-area estimate to two figures. Part&nbsp;(d) asks what that agreement does and does not establish.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $a=\big(3\cdot1715\cdot0.03/(4\cdot6.67\times10^6)\big)^{1/3}=(5.785\times10^{-6})^{1/3}=1.795\times10^{-2}\ \mathrm m=18.0\ \mathrm{mm}$.</p><p><b>(b)</b> $p_0=3\cdot1715/(2\pi(1.795\times10^{-2})^2)=5145/(2.024\times10^{-3})=2.54\times10^6=2.54\ \mathrm{MPa}$.</p><p><b>(c)</b> $\bar p=1715/(\pi(1.795\times10^{-2})^2)=1715/(1.012\times10^{-3})=1.69\times10^6=1.69\ \mathrm{MPa}$.</p><p>The Hertz mean ($1.69\ \mathrm{MPa}$) agrees with the Module&nbsp;3 force-over-area estimate ($1.7\ \mathrm{MPa}$) to two figures. The peak is $\tfrac32\times$ the mean; the biphasic flattening of C5 brings the true peak down toward $\approx2.0\ \mathrm{MPa}$.</p><p><b>(d)</b> From D7, $a\propto R_{\rm eff}^{1/3}$ at fixed load, so $\bar p=R/(\pi a^2)\propto R_{\rm eff}^{-2/3}$. A $20\%$ change in $\bar p$ therefore needs $R_{\rm eff}$ to change by $1.2^{-3/2}=0.76$ or $0.8^{-3/2}=1.40$ — that is, a condylar radius of $23$ or $42\ \mathrm{mm}$ instead of $30$, both inside the real anatomical spread. So (c) is a <em>consistency</em> check, not an independent confirmation: it says the two models are compatible given a plausible curvature, not that the curvature is right. The genuinely independent content of the Hertz calculation is the <em>shape</em> — the $\tfrac32$ peak-to-mean ratio, which follows from the cap alone and is untouched by $R_{\rm eff}$.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 R, Reff, Estar = 1715.0, 0.03, 6.67e6
 a = (3*R*Reff/(4*Estar))**(1/3)
 p0 = 3*R/(2*np.pi*a**2)
 pbar = R/(np.pi*a**2)
 print(f"a={a*1e3:.1f} mm  p0={p0/1e6:.2f} MPa  pbar={pbar/1e6:.2f} MPa")
-# a=18.0 mm  p0=2.53 MPa  pbar=1.69 MPa</code></pre></div></div></details></div>
+# a=18.0 mm  p0=2.54 MPa  pbar=1.69 MPa</code></pre></div></div></details></div>
 
 <div class="qbox"><b>K4 &mdash; stress relaxation by finite differences.</b> <span class="small"><em>Probes: an explicit FD solution of the consolidation PDE; the undrained peak and the $h^2$ time (<a class="secref" href="#relaxlab">§5</a>).</em></span>
 <p>Solve the 1-D consolidation equation numerically (explicit finite differences) for a plug ramped to strain $\varepsilon_0$ and held. Confirm the stress decays from an undrained peak to $\sigma_\infty=H_A\varepsilon_0$ over a few $\tau$, and that the relaxation time scales as $h^2$.</p>
 <figure><svg class="setupfig" viewBox="0 0 460 290" width="100%" role="img" aria-label="Confined-compression stress relaxation: stress jumps to an undrained peak then decays to the drained equilibrium H_A epsilon over a few gel times.">
 <line x1="64" y1="40" x2="64" y2="232" stroke="#333" stroke-width="1.4"/>
 <line x1="64" y1="232" x2="428" y2="232" stroke="#333" stroke-width="1.4"/>
-<polyline points="64.1,65.0 65.3,71.4 66.5,74.7 67.7,77.3 69.0,79.5 70.2,81.4 71.4,83.2 72.6,84.8 73.8,86.3 75.0,87.7 76.3,89.1 77.5,90.3 78.7,91.5 79.9,92.7 81.1,93.8 82.3,94.9 83.6,95.9 84.8,96.9 86.0,97.9 87.2,98.8 88.4,99.7 89.6,100.6 90.9,101.4 92.1,102.2 93.3,103.0 94.5,103.7 95.7,104.5 97.0,105.2 98.2,105.9 99.4,106.5 100.6,107.2 101.8,107.8 103.0,108.4 104.3,109.0 105.5,109.5 106.7,110.1 107.9,110.6 109.1,111.1 110.3,111.6 111.6,112.1 112.8,112.5 114.0,113.0 115.2,113.4 116.4,113.8 117.6,114.2 118.9,114.6 120.1,115.0 121.3,115.4 122.5,115.7 123.7,116.1 124.9,116.4 126.2,116.7 127.4,117.0 128.6,117.3 129.8,117.6 131.0,117.9 132.2,118.2 133.5,118.4 134.7,118.7 135.9,118.9 137.1,119.2 138.3,119.4 139.6,119.6 140.8,119.8 142.0,120.0 143.2,120.2 144.4,120.4 145.6,120.6 146.9,120.8 148.1,121.0 149.3,121.1 150.5,121.3 151.7,121.5 152.9,121.6 154.2,121.8 155.4,121.9 156.6,122.1 157.8,122.2 159.0,122.3 160.2,122.5 161.5,122.6 162.7,122.7 163.9,122.8 165.1,122.9 166.3,123.0 167.5,123.1 168.8,123.2 170.0,123.3 171.2,123.4 172.4,123.5 173.6,123.6 174.8,123.7 176.1,123.8 177.3,123.9 178.5,123.9 179.7,124.0 180.9,124.1 182.1,124.1 183.4,124.2 184.6,124.3 185.8,124.3 187.0,124.4 188.2,124.5 189.5,124.5 190.7,124.6 191.9,124.6 193.1,124.7 194.3,124.7 195.5,124.8 196.8,124.8 198.0,124.9 199.2,124.9 200.4,125.0 201.6,125.0 202.8,125.0 204.1,125.1 205.3,125.1 206.5,125.2 207.7,125.2 208.9,125.2 210.1,125.3 211.4,125.3 212.6,125.3 213.8,125.4 215.0,125.4 216.2,125.4 217.4,125.4 218.7,125.5 219.9,125.5 221.1,125.5 222.3,125.5 223.5,125.6 224.7,125.6 226.0,125.6 227.2,125.6 228.4,125.6 229.6,125.7 230.8,125.7 232.0,125.7 233.3,125.7 234.5,125.7 235.7,125.7 236.9,125.8 238.1,125.8 239.4,125.8 240.6,125.8 241.8,125.8 243.0,125.8 244.2,125.8 245.4,125.9 246.7,125.9 247.9,125.9 249.1,125.9 250.3,125.9 251.5,125.9 252.7,125.9 254.0,125.9 255.2,125.9 256.4,126.0 257.6,126.0 258.8,126.0 260.0,126.0 261.3,126.0 262.5,126.0 263.7,126.0 264.9,126.0 266.1,126.0 267.3,126.0 268.6,126.0 269.8,126.0 271.0,126.0 272.2,126.1 273.4,126.1 274.6,126.1 275.9,126.1 277.1,126.1 278.3,126.1 279.5,126.1 280.7,126.1 281.9,126.1 283.2,126.1 284.4,126.1 285.6,126.1 286.8,126.1 288.0,126.1 289.3,126.1 290.5,126.1 291.7,126.1 292.9,126.1 294.1,126.1 295.3,126.1 296.6,126.1 297.8,126.1 299.0,126.1 300.2,126.2 301.4,126.2 302.6,126.2 303.9,126.2 305.1,126.2 306.3,126.2 307.5,126.2 308.7,126.2 309.9,126.2 311.2,126.2 312.4,126.2 313.6,126.2 314.8,126.2 316.0,126.2 317.2,126.2 318.5,126.2 319.7,126.2 320.9,126.2 322.1,126.2 323.3,126.2 324.5,126.2 325.8,126.2 327.0,126.2 328.2,126.2 329.4,126.2 330.6,126.2 331.9,126.2 333.1,126.2 334.3,126.2 335.5,126.2 336.7,126.2 337.9,126.2 339.2,126.2 340.4,126.2 341.6,126.2 342.8,126.2 344.0,126.2 345.2,126.2 346.5,126.2 347.7,126.2 348.9,126.2 350.1,126.2 351.3,126.2 352.5,126.2 353.8,126.2 355.0,126.2 356.2,126.2 357.4,126.2 358.6,126.2 359.8,126.2 361.1,126.2 362.3,126.2 363.5,126.2 364.7,126.2 365.9,126.2 367.1,126.2 368.4,126.2 369.6,126.2 370.8,126.2 372.0,126.2 373.2,126.2 374.4,126.2 375.7,126.2 376.9,126.2 378.1,126.2 379.3,126.2 380.5,126.2 381.8,126.2 383.0,126.2 384.2,126.2 385.4,126.2 386.6,126.2 387.8,126.2 389.1,126.2 390.3,126.2 391.5,126.2 392.7,126.2 393.9,126.2 395.1,126.2 396.4,126.2 397.6,126.2 398.8,126.2 400.0,126.2 401.2,126.2 402.4,126.2 403.7,126.2 404.9,126.2 406.1,126.2 407.3,126.2 408.5,126.2 409.7,126.2 411.0,126.2 412.2,126.2 413.4,126.2 414.6,126.2 415.8,126.2 417.0,126.2 418.3,126.2 419.5,126.2 420.7,126.2 421.9,126.2 423.1,126.2 424.3,126.2 425.6,126.2 426.8,126.2 428.0,126.2" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
-<line x1="64" y1="126.2" x2="428" y2="126.2" stroke="#2a7d2a" stroke-width="1" stroke-dasharray="5 3"/>
-<text x="424.0" y="121.2" font-size="9" fill="#2a7d2a" text-anchor="end">equilibrium σ∞ = H<tspan baseline-shift="sub" font-size="0.7em">A</tspan> ε₀</text>
+<polyline points="64.1,56.0 65.3,65.2 66.5,69.9 67.7,73.7 69.0,76.8 70.2,79.6 71.4,82.2 72.6,84.5 73.8,86.6 75.0,88.6 76.3,90.7 77.5,92.4 78.7,94.1 79.9,95.8 81.1,97.4 82.3,99.0 83.6,100.4 84.8,101.9 86.0,103.3 87.2,104.6 88.4,105.9 89.6,107.2 90.9,108.3 92.1,109.5 93.3,110.6 94.5,111.6 95.7,112.8 97.0,113.8 98.2,114.8 99.4,115.7 100.6,116.7 101.8,117.5 103.0,118.4 104.3,119.3 105.5,120.0 106.7,120.8 107.9,121.6 109.1,122.3 110.3,123.0 111.6,123.7 112.8,124.3 114.0,125.0 115.2,125.6 116.4,126.2 117.6,126.7 118.9,127.3 120.1,127.9 121.3,128.5 122.5,128.9 123.7,129.5 124.9,129.9 126.2,130.3 127.4,130.8 128.6,131.2 129.8,131.6 131.0,132.1 132.2,132.5 133.5,132.8 134.7,133.2 135.9,133.5 137.1,133.9 138.3,134.2 139.6,134.5 140.8,134.8 142.0,135.1 143.2,135.4 144.4,135.7 145.6,135.9 146.9,136.2 148.1,136.5 149.3,136.7 150.5,137.0 151.7,137.2 152.9,137.4 154.2,137.7 155.4,137.8 156.6,138.1 157.8,138.2 159.0,138.4 160.2,138.7 161.5,138.8 162.7,139.0 163.9,139.1 165.1,139.3 166.3,139.4 167.5,139.5 168.8,139.7 170.0,139.8 171.2,140.0 172.4,140.1 173.6,140.3 174.8,140.4 176.1,140.5 177.3,140.7 178.5,140.7 179.7,140.8 180.9,141.0 182.1,141.0 183.4,141.1 184.6,141.3 185.8,141.3 187.0,141.4 188.2,141.6 189.5,141.6 190.7,141.7 191.9,141.7 193.1,141.8 194.3,141.8 195.5,142.0 196.8,142.0 198.0,142.1 199.2,142.1 200.4,142.3 201.6,142.3 202.8,142.3 204.1,142.4 205.3,142.4 206.5,142.6 207.7,142.6 208.9,142.6 210.1,142.7 211.4,142.7 212.6,142.7 213.8,142.8 215.0,142.8 216.2,142.8 217.4,142.8 218.7,143.0 219.9,143.0 221.1,143.0 222.3,143.0 223.5,143.1 224.7,143.1 226.0,143.1 227.2,143.1 228.4,143.1 229.6,143.3 230.8,143.3 232.0,143.3 233.3,143.3 234.5,143.3 235.7,143.3 236.9,143.4 238.1,143.4 239.4,143.4 240.6,143.4 241.8,143.4 243.0,143.4 244.2,143.4 245.4,143.6 246.7,143.6 247.9,143.6 249.1,143.6 250.3,143.6 251.5,143.6 252.7,143.6 254.0,143.6 255.2,143.6 256.4,143.7 257.6,143.7 258.8,143.7 260.0,143.7 261.3,143.7 262.5,143.7 263.7,143.7 264.9,143.7 266.1,143.7 267.3,143.7 268.6,143.7 269.8,143.7 271.0,143.7 272.2,143.9 273.4,143.9 274.6,143.9 275.9,143.9 277.1,143.9 278.3,143.9 279.5,143.9 280.7,143.9 281.9,143.9 283.2,143.9 284.4,143.9 285.6,143.9 286.8,143.9 288.0,143.9 289.3,143.9 290.5,143.9 291.7,143.9 292.9,143.9 294.1,143.9 295.3,143.9 296.6,143.9 297.8,143.9 299.0,143.9 300.2,144.0 301.4,144.0 302.6,144.0 303.9,144.0 305.1,144.0 306.3,144.0 307.5,144.0 308.7,144.0 309.9,144.0 311.2,144.0 312.4,144.0 313.6,144.0 314.8,144.0 316.0,144.0 317.2,144.0 318.5,144.0 319.7,144.0 320.9,144.0 322.1,144.0 323.3,144.0 324.5,144.0 325.8,144.0 327.0,144.0 328.2,144.0 329.4,144.0 330.6,144.0 331.9,144.0 333.1,144.0 334.3,144.0 335.5,144.0 336.7,144.0 337.9,144.0 339.2,144.0 340.4,144.0 341.6,144.0 342.8,144.0 344.0,144.0 345.2,144.0 346.5,144.0 347.7,144.0 348.9,144.0 350.1,144.0 351.3,144.0 352.5,144.0 353.8,144.0 355.0,144.0 356.2,144.0 357.4,144.0 358.6,144.0 359.8,144.0 361.1,144.0 362.3,144.0 363.5,144.0 364.7,144.0 365.9,144.0 367.1,144.0 368.4,144.0 369.6,144.0 370.8,144.0 372.0,144.0 373.2,144.0 374.4,144.0 375.7,144.0 376.9,144.0 378.1,144.0 379.3,144.0 380.5,144.0 381.8,144.0 383.0,144.0 384.2,144.0 385.4,144.0 386.6,144.0 387.8,144.0 389.1,144.0 390.3,144.0 391.5,144.0 392.7,144.0 393.9,144.0 395.1,144.0 396.4,144.0 397.6,144.0 398.8,144.0 400.0,144.0 401.2,144.0 402.4,144.0 403.7,144.0 404.9,144.0 406.1,144.0 407.3,144.0 408.5,144.0 409.7,144.0 411.0,144.0 412.2,144.0 413.4,144.0 414.6,144.0 415.8,144.0 417.0,144.0 418.3,144.0 419.5,144.0 420.7,144.0 421.9,144.0 423.1,144.0 424.3,144.0 425.6,144.0 426.8,144.0 428.0,144.0" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<line x1="64" y1="144.0" x2="428" y2="144.0" stroke="#2a7d2a" stroke-width="1" stroke-dasharray="5 3"/>
+<text x="424.0" y="139.0" font-size="9" fill="#2a7d2a" text-anchor="end">equilibrium σ∞ = H<tspan baseline-shift="sub" font-size="0.7em">A</tspan> ε₀</text>
 <text x="64.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
 <text x="155.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">1</text>
 <text x="246.0" y="246.0" font-size="8.5" fill="#333" text-anchor="middle">2</text>
@@ -1899,23 +1913,52 @@ print(f"a={a*1e3:.1f} mm  p0={p0/1e6:.2f} MPa  pbar={pbar/1e6:.2f} MPa")
 <circle cx="64.1" cy="65.0" r="3" fill="#b03a2e"/>
 <text x="77.7" y="60.8" font-size="9" fill="#b03a2e" text-anchor="start">undrained peak</text>
 </svg><figcaption><b>Peak, then decay.</b> The stress starts elevated (undrained pressurisation) and relaxes to the drained $\sigma_\infty=H_A\varepsilon_0$ over a few gel times; doubling $h$ shifts the curve right by $4$ in real time, unchanged in $T$.</figcaption></figure>
-<details class="sol"><summary>solution</summary><div><p>Discretise $\partial p/\partial t=D\,\partial^2p/\partial z^2$ on $N$ depth nodes with $p=0$ at the drained face and $\partial p/\partial z=0$ (a mirror node) at the sealed base. The total stress is $\sigma(t)=H_A\varepsilon_0+\langle p\rangle$, the spatial-mean pressure added to the drained elastic stress. The explicit step is stable for $r=D\,\mathrm dt/\mathrm dz^2\le\tfrac12$.</p><p>The stress starts elevated (undrained, the pressure supports extra load), then $\langle p\rangle\to0$ and $\sigma\to H_A\varepsilon_0$. Because the equation is parameter-free in $T=Dt/h^2$ (D6), doubling $h$ quadruples the real relaxation time while leaving the shape fixed. The figure shows the peak-then-decay.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
-h, HA, k = 2e-3, 0.6e6, 1e-15
+<details class="sol"><summary>solution</summary><div><p>Discretise $\partial p/\partial t=D\,\partial^2p/\partial z^2$ on $N$ depth nodes with $p=0$ at the drained face and $\partial p/\partial z=0$ (a mirror node) at the sealed base. The total stress is $\sigma(t)=H_A\varepsilon_0\big(1+\langle p\rangle\big)$ with the pressure normalised to its undrained value, so $\sigma$ starts at $2H_A\varepsilon_0$ and falls to $H_A\varepsilon_0$. The explicit step is stable for $r=D\,\mathrm dt/\mathrm dz^2\le\tfrac12$. Running it: $\sigma$ starts at $0.119\ \mathrm{MPa}$ and ends at $0.0600\ \mathrm{MPa}=H_A\varepsilon_0$ exactly. Because the three thicknesses share one time step in seconds, they are three genuinely different computations (Courant number $r=0.4,\ 0.1,\ 0.025$), and yet the half-relaxation time divided by $h^2$ comes out at $3.3352\times10^{8}\ \mathrm{s/m^2}$ for $h=1,2$ and $4\ \mathrm{mm}$ alike — the $h^2$ law to five figures, computed rather than asserted.</p><p>The stress starts elevated (undrained, the pressure supports extra load), then $\langle p\rangle\to0$ and $\sigma\to H_A\varepsilon_0$. Because the equation is parameter-free in $T=Dt/h^2$ (D6), doubling $h$ quadruples the real relaxation time while leaving the shape fixed. The figure shows the peak-then-decay.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+h0, HA, k, eps0 = 2e-3, 0.6e6, 1e-15, 0.10
 D = HA*k
-tau = h**2/D
-N, r = 60, 0.4
-dz = h/N
-dt = r*dz**2/D
-p = np.ones(N+1)  # uniform initial pressure (undrained)
-p[-1] = 0.0  # drained top face
-tsteps = int(3*tau/dt)
-for _ in range(tsteps):
-    lap = p[2:] - 2*p[1:-1] + p[:-2]
-    p[1:-1] += r*lap
-    p[0] = p[1]  # sealed base: zero-flux (mirror)
-    p[-1] = 0.0
-print(f"tau={tau:.0f} s;  mean p after 3*tau = {p.mean():.3f} (-&gt; 0)")
-# tau=6667 s;  mean p after 3*tau = 0.0xx  (stress -&gt; HA*eps0)</code></pre></div></div></details></div>
+# ONE fixed time step in seconds, used at every h, so that the three runs
+# below are genuinely different computations and not one rescaled.
+DT = 0.4*(1e-3/60)**2/D
+
+
+def relax(h, N=60, ncycle=3.0):
+    """Confined relaxation at held strain eps0: (t, sigma, tau)."""
+    tau = h**2/D
+    dz = h/N
+    r = D*DT/dz**2          # 0.4, 0.1, 0.025 for h = 1, 2, 4 mm; all &lt;= 1/2
+    p = np.ones(N + 1)      # uniform initial pressure (undrained)
+    p[-1] = 0.0             # drained top face
+    t, sig = [], []
+    for n in range(int(ncycle*tau/DT) + 1):
+        t.append(n*DT)
+        # total stress = drained elastic stress + mean pore pressure,
+        # both referred to the held strain eps0
+        sig.append(HA*eps0*(1.0 + p.mean()))
+        lap = p[2:] - 2*p[1:-1] + p[:-2]
+        p[1:-1] += r*lap
+        p[0] = p[1]         # sealed base: zero flux (mirror node)
+        p[-1] = 0.0
+    return np.array(t), np.array(sig), tau
+
+
+# (i) the stress decays from an undrained peak to HA*eps0
+t, sig, tau = relax(h0)
+print(f"tau={tau:.0f} s  sigma_peak={sig[0]/1e6:.3f} MPa  "
+      f"sigma_end={sig[-1]/1e6:.4f} MPa  HA*eps0={HA*eps0/1e6:.4f} MPa")
+
+# (ii) the relaxation time scales as h^2
+print("h (mm)   t_half (s)   t_half / h^2")
+for h in (1e-3, 2e-3, 4e-3):
+    t, sig, tau = relax(h)
+    half = sig[-1] + 0.5*(sig[0] - sig[-1])
+    th = t[np.argmax(sig &lt;= half)]
+    print(f"  {h*1e3:.0f}      {th:8.1f}      {th/h**2:.4e}")
+# tau=6667 s  sigma_peak=0.119 MPa  sigma_end=0.0600 MPa  HA*eps0=0.0600 MPa
+# h (mm)   t_half (s)   t_half / h^2
+#   1         333.5      3.3352e+08
+#   2        1334.1      3.3352e+08
+#   4        5336.3      3.3352e+08</code></pre></div></div></details></div>
 
 <div class="qbox"><b>K5 &mdash; footstep versus a long stand.</b> <span class="small"><em>Probes: evaluating $F$ for two very different loading durations (<a class="secref" href="#fluidload">§4</a>).</em></span>
 <p>For healthy cartilage ($h=2\ \mathrm{mm}$, $H_A=0.6\ \mathrm{MPa}$, $k=10^{-15}\ \mathrm{m^4/(N\,s)}$), compute the fluid load support $F$ for <b>(a)</b> a $0.5\ \mathrm s$ footstep and <b>(b)</b> a $1\ \mathrm h$ stand, using $F(T)=\sum 2/\lambda_n^2e^{-\lambda_n^2T}$, $\lambda_n=(2n+1)\pi/2$, $T=Dt/h^2$.</p>
@@ -2018,19 +2061,12 @@ def frac(T): return 1 - np.sum(8/((2*n+1)**2*np.pi**2)*np.exp(-lam**2*T))
 
 
 Ts = np.linspace(1e-3, 2, 20000)
-T90 = Ts[np.argmin(np.abs([frac(T) for T in Ts] - np.full(len(Ts), 0.9)))]
-print(
-    f"eps_inf={
-        eps_inf:.2f}  T90={
-            T90:.3f}  t90={
-                T90 *
-                h**2 /
-                D:.0f} s = {
-                    T90 *
-                    h**2 /
-                    D /
-                    3600:.2f} h")
-# eps_inf=0.50  T90=0.848  t90=5653 s = 1.57 h</code></pre></div></div></details></div>
+curve = np.array([frac(T) for T in Ts])
+T90 = Ts[np.argmin(np.abs(curve - 0.9))]
+t90 = T90*h**2/D
+print(f"eps_inf={eps_inf:.2f}  T90={T90:.3f}"
+      f"  t90={t90:.0f} s = {t90/3600:.2f} h")
+# eps_inf=0.50  T90=0.848  t90=5654 s = 1.57 h</code></pre></div></div></details></div>
 
 <div class="qbox"><b>K8 &mdash; the thickness sweep.</b> <span class="small"><em>Probes: the $\tau\propto h^2$ law across the physiological thickness range (<a class="secref" href="#biphasic">§3</a>).</em></span>
 <p>For $D=6\times10^{-10}\ \mathrm{m^2/s}$, tabulate the gel time $\tau=h^2/D$ for $h=0.5,1,2,4\ \mathrm{mm}$ and confirm the slope-2 law (each doubling multiplies $\tau$ by $4$).</p>
@@ -2066,65 +2102,158 @@ for h in (0.5e-3, 1e-3, 2e-3, 4e-3):
 # h=2.0 mm  tau=   6667 s = 111.1 min
 # h=4.0 mm  tau=  26667 s = 444.4 min</code></pre></div></div></details></div>
 
-<div class="qbox"><b>K9 &mdash; the cumulative sag.</b> <span class="small"><em>Probes: modelling cumulative loss of support when overnight recovery is incomplete (<a class="secref" href="#degeneration">§8</a>).</em></span>
-<p>Model repeated load/unload cycles. In each, loading drains fluid ($F$ drops) and unloading re-imbibes it by swelling. If healthy tissue fully recovers each cycle but degraded tissue recovers only a fraction $r\lt1$, show how peak $F$ evolves and contrast the two after $20$ cycles.</p>
-<figure><svg class="setupfig" viewBox="0 0 470 290" width="100%" role="img" aria-label="Peak fluid support over successive loading cycles: healthy tissue holds near 0.97, degraded tissue sags cycle by cycle as drainage outpaces osmotic recovery.">
-<line x1="60" y1="40" x2="60" y2="224" stroke="#333" stroke-width="1.4"/>
-<line x1="60" y1="224" x2="438" y2="224" stroke="#333" stroke-width="1.4"/>
-<text x="55.0" y="227.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
-<text x="55.0" y="135.0" font-size="8.5" fill="#333" text-anchor="end">0.5</text>
-<text x="55.0" y="43.0" font-size="8.5" fill="#333" text-anchor="end">1</text>
-<polyline points="60.0,17.9 78.9,25.9 97.8,33.4 116.7,40.7 135.6,47.6 154.5,54.2 173.4,60.5 192.3,66.6 211.2,72.3 230.1,77.8 249.0,83.1 267.9,88.1 286.8,93.0 305.7,97.6 324.6,101.9 343.5,106.1 362.4,110.2 381.3,114.0 400.2,117.6 419.1,121.1" fill="none" stroke="#b03a2e" stroke-width="2.4"/>
-<polyline points="60.0,45.5 78.9,45.5 97.8,45.5 116.7,45.5 135.6,45.5 154.5,45.5 173.4,45.5 192.3,45.5 211.2,45.5 230.1,45.5 249.0,45.5 267.9,45.5 286.8,45.5 305.7,45.5 324.6,45.5 343.5,45.5 362.4,45.5 381.3,45.5 400.2,45.5 419.1,45.5" fill="none" stroke="#2a6ca8" stroke-width="2.2" stroke-dasharray="6 4"/>
-<text x="60.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">0</text>
-<text x="154.5" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">5</text>
-<text x="249.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">10</text>
-<text x="343.5" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">15</text>
+<div class="qbox"><b>K9 &mdash; how far does incomplete recovery push the joint?</b> <span class="small"><em>Probes: solving a linear recurrence for its fixed point, and finding what incomplete recovery can and cannot cause (<a class="secref" href="#degeneration">§8</a>).</em></span>
+<p>Model repeated load/unload cycles by their fluid-support <em>deficit</em>. One loading of duration $t_{\rm load}$ opens a deficit $\Delta F=1-F(t_{\rm load})$; the following unloaded interval re-imbibes a fraction $r$ of the accumulated deficit, so $d_{n+1}=(1-r)\,(d_n+\Delta F)$ with $d_0=0$. <b>(a)</b> Solve the recurrence for the steady-state peak support $F_\infty$ in closed form. <b>(b)</b> Evaluate it for healthy tissue ($k=10^{-15}$, full recovery $r=1$) and for degraded tissue ($k=10^{-13}$, $r=0.8$), taking $t_{\rm load}=1\ \mathrm s$, $h=2\ \mathrm{mm}$, $H_A=0.6\ \mathrm{MPa}$, and contrast them at cycles $1$, $5$ and $20$. <b>(c)</b> Sweep $r$ and find the recovery fraction at which the steady-state friction $\mu_{\rm eff}=\mu_{\rm eq}(1-F_\infty)$ is twice its single-step value. <b>(d)</b> Say what this model does <em>not</em> predict, and what would have to change for it to.</p>
+<figure><svg class="setupfig" viewBox="0 0 470 290" width="100%" role="img" aria-label="Peak fluid support over twenty loading cycles: healthy tissue holds a flat 0.986, degraded tissue starts at 0.862 and settles onto a plateau at 0.827 within about five cycles.">
+<line x1="62.0" y1="179.0" x2="438.0" y2="179.0" stroke="#f2f2f2" stroke-width="1"/>
+<line x1="62.0" y1="134.0" x2="438.0" y2="134.0" stroke="#f2f2f2" stroke-width="1"/>
+<line x1="62.0" y1="89.0" x2="438.0" y2="89.0" stroke="#f2f2f2" stroke-width="1"/>
+<line x1="62.0" y1="44.0" x2="62.0" y2="224.0" stroke="#333" stroke-width="1.4"/><line x1="62.0" y1="224.0" x2="438.0" y2="224.0" stroke="#333" stroke-width="1.4"/>
+<line x1="62.0" y1="121.7" x2="438.0" y2="121.7" stroke="#b03a2e" stroke-width="1" stroke-dasharray="5 3"/>
+<polyline points="62.0,50.2 81.8,50.2 101.6,50.2 121.4,50.2 141.2,50.2 160.9,50.2 180.7,50.2 200.5,50.2 220.3,50.2 240.1,50.2 259.9,50.2 279.7,50.2 299.5,50.2 319.3,50.2 339.1,50.2 358.8,50.2 378.6,50.2 398.4,50.2 418.2,50.2 438.0,50.2" fill="none" stroke="#2a6ca8" stroke-width="2.4"/>
+<polyline points="62.0,106.2 81.8,118.6 101.6,121.1 121.4,121.6 141.2,121.7 160.9,121.7 180.7,121.7 200.5,121.7 220.3,121.7 240.1,121.7 259.9,121.7 279.7,121.7 299.5,121.7 319.3,121.7 339.1,121.7 358.8,121.7 378.6,121.7 398.4,121.7 418.2,121.7 438.0,121.7" fill="none" stroke="#b03a2e" stroke-width="2.4"/>
+<circle cx="62.0" cy="106.2" r="2" fill="#b03a2e"/>
+<circle cx="81.8" cy="118.6" r="2" fill="#b03a2e"/>
+<circle cx="101.6" cy="121.1" r="2" fill="#b03a2e"/>
+<circle cx="121.4" cy="121.6" r="2" fill="#b03a2e"/>
+<circle cx="141.2" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="160.9" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="180.7" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="200.5" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="220.3" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="240.1" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="259.9" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="279.7" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="299.5" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="319.3" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="339.1" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="358.8" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="378.6" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="398.4" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="418.2" cy="121.7" r="2" fill="#b03a2e"/>
+<circle cx="438.0" cy="121.7" r="2" fill="#b03a2e"/>
+<text x="56.0" y="227.0" font-size="8.5" fill="#333" text-anchor="end">0.6</text>
+<text x="56.0" y="182.0" font-size="8.5" fill="#333" text-anchor="end">0.7</text>
+<text x="56.0" y="137.0" font-size="8.5" fill="#333" text-anchor="end">0.8</text>
+<text x="56.0" y="92.0" font-size="8.5" fill="#333" text-anchor="end">0.9</text>
+<text x="56.0" y="47.0" font-size="8.5" fill="#333" text-anchor="end">1.0</text>
+<text x="62.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">1</text>
+<text x="141.2" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">5</text>
+<text x="240.1" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">10</text>
+<text x="339.1" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">15</text>
 <text x="438.0" y="238.0" font-size="8.5" fill="#333" text-anchor="middle">20</text>
-<text x="249.0" y="256.0" font-size="10" fill="#333" text-anchor="middle">loading cycle number</text>
-<text x="26.0" y="132.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 132.0)">peak fluid support F</text>
-<text x="249.0" y="41.8" font-size="9" fill="#2a6ca8" text-anchor="middle">healthy: full overnight re-imbibition</text>
-<text x="286.8" y="132.0" font-size="9" fill="#b03a2e" text-anchor="middle">degraded: drains faster than it swells back</text>
-</svg><figcaption><b>The step number lied.</b> Both tissues pass the single-step test (K1/K5); over $20$ cycles healthy holds $F\approx0.97$ while degraded — draining faster than it re-imbibes — sags to $F\approx0.48$.</figcaption></figure>
-<details class="sol"><summary>solution</summary><div><p>Let the peak support after cycle $n$ be $F_n$. <b>Healthy</b> tissue recovers fully, so $F_n=F_0\approx0.97$ (flat). <b>Degraded</b> tissue re-imbibes incompletely, draining a little more each cycle; a simple envelope is $F_n=F_\infty+(F_0-F_\infty)e^{-n/N_c}$, with $F_\infty$ the drained floor.</p><p>With $F_0=0.97$, $F_\infty\approx0.15$, $N_c\approx22$: after $20$ cycles the healthy tissue is still $\approx0.97$ but the degraded tissue has fallen to $F_{20}=0.15+0.82\,e^{-20/22}=0.48$.</p><p>The single-step number (K1, K5) looked safe for both; it is the <em>cumulative</em> failure to re-imbibe — lost swelling pressure (K2) unable to pull water back between loadings — that separates them. The figure shows the two envelopes diverging cycle by cycle.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
-F0, Finf, Nc = 0.97, 0.15, 22
-for n in (0, 5, 10, 20):
-    dg = Finf + (F0 - Finf)*np.exp(-n/Nc)
-    print(f"cycle {n:2d}: healthy F={F0:.2f}  degraded F={dg:.2f}")
-# cycle  0:  healthy F=0.97   degraded F=0.97
-# cycle 20:  healthy F=0.97   degraded F=0.48</code></pre></div></div></details></div>
+<text x="250.0" y="256.0" font-size="10" fill="#333" text-anchor="middle">loading cycle number</text>
+<text x="26.0" y="134.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 134.0)">peak fluid support  F</text>
+<text x="240.1" y="41.2" font-size="9" fill="#2a6ca8" text-anchor="middle">healthy (r = 1): F = 0.986, flat</text>
+<text x="299.5" y="137.7" font-size="9" fill="#b03a2e" text-anchor="middle">degraded (k ×100, r = 0.8)</text>
+<text x="434.0" y="115.7" font-size="8.5" fill="#b03a2e" text-anchor="end">plateau  F∞ = 1 − ΔF/r = 0.827</text>
+<text x="68.0" y="98.2" font-size="8.5" fill="#b03a2e" text-anchor="start">cycle 1: 0.862</text>
+</svg><figcaption><b>Incomplete recovery is bounded, not runaway.</b> Peak fluid support cycle by cycle. Healthy tissue ($r=1$) holds $F=0.9862$ indefinitely. Degraded tissue ($k=10^{-13}$, $r=0.8$) starts a step at $F=0.8618$ and settles onto the plateau $F_\infty=1-\Delta F/r=0.8273$ (dashed) within about five cycles — worse, but stable. Reaching runaway needs $r$ itself to fall as damage accumulates, which is D10's loop gain.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>(a)</b> The recurrence $d_{n+1}=(1-r)(d_n+\Delta F)$ is affine with ratio $(1-r)$, so for $r\gt0$ it converges to the fixed point $d_*=(1-r)\Delta F/r$. The deficit <em>at peak load</em> in the steady state is $d_*+\Delta F=\Delta F\big[(1-r)/r+1\big]=\Delta F/r$, so</p>
+$$\boxed{\;F_\infty=1-\frac{\Delta F}{r}\;}$$
+<p>Incomplete recovery multiplies the single-step deficit by exactly $1/r$ — and by nothing more. The approach is geometric with ratio $(1-r)$, so for $r=0.8$ the plateau is reached to within $1\%$ by cycle&nbsp;3.</p><p><b>(b)</b> With $D=H_Ak$ and $T=Dt_{\rm load}/h^2$, the series gives $\Delta F=1-F(1\ \mathrm s)=0.0138$ for healthy tissue and $0.1382$ for the hundred-fold-more-permeable degraded tissue (the short-time law of D4 reproduces both exactly: $\Delta F=2\sqrt{T/\pi}$). Healthy tissue has $r=1$, so $d_*=0$ and $F_n=0.9862$ at every cycle — flat. Degraded tissue with $r=0.8$ starts at $F_1=0.8618$ and settles at $F_\infty=1-0.1382/0.8=0.8273$, reached by cycle&nbsp;5 and unchanged at cycle&nbsp;20.</p><p><b>(c)</b> Since the steady-state deficit is $\Delta F/r$ and the single-step deficit is $\Delta F$, the friction ratio is exactly $1/r$. It reaches $2$ at $r=0.500$ and $5$ at $r=0.2$: $F_\infty=0.7236$ ($\mu_{\rm eff}=0.0415$) and $F_\infty=0.3090$ ($\mu_{\rm eff}=0.1036$) respectively.</p><p><b>(d)</b> What this model does <em>not</em> predict is runaway. With $r$ fixed, the deficit is bounded by $\Delta F/r$ however many cycles you run, so incomplete recovery alone produces a worse but <em>stable</em> joint. Runaway needs the loop of D10: the raised solid stress and friction must themselves degrade the matrix, lowering $r$ and raising $k$ on later cycles. That is the difference between a joint that is merely stiff and sore and one that is progressing, and it is why <a class="secref" href="#degeneration">§8</a>'s threshold is a statement about a gain rather than about a number of steps.</p>
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
 
-<div class="qbox"><b>K10 &mdash; the composite's asymmetry in numbers.</b> <span class="small"><em>Probes: comparing tensile, compressive, and swelling contributions (<a class="secref" href="#composite">§1</a>).</em></span>
-<p>Cartilage tensile modulus is $E_{\rm tens}\approx12\ \mathrm{MPa}$, compressive aggregate modulus $H_A\approx0.6\ \mathrm{MPa}$, swelling pre-stress $\pi\approx0.16\ \mathrm{MPa}$. <b>(a)</b> Compute the tension/compression stiffness ratio. <b>(b)</b> What fraction of the extra effective stress at $10\%$ compression does the swelling pre-stress represent? <b>(c)</b> Interpret.</p>
-<figure><svg class="setupfig" viewBox="0 0 430 280" width="100%" role="img" aria-label="Bar chart: cartilage tensile modulus about 12 megapascal dwarfs its compressive aggregate modulus 0.6 and the swelling pre-stress 0.16 megapascal.">
-<line x1="70" y1="40" x2="70" y2="220" stroke="#333" stroke-width="1.4"/>
-<line x1="70" y1="220" x2="410" y2="220" stroke="#333" stroke-width="1.4"/>
-<text x="64.0" y="223.0" font-size="8.5" fill="#333" text-anchor="end">0</text>
-<text x="64.0" y="178.0" font-size="8.5" fill="#333" text-anchor="end">5</text>
-<text x="64.0" y="133.0" font-size="8.5" fill="#333" text-anchor="end">10</text>
-<text x="64.0" y="88.0" font-size="8.5" fill="#333" text-anchor="end">15</text>
-<text x="64.0" y="43.0" font-size="8.5" fill="#333" text-anchor="end">20</text>
-<text x="26.0" y="130.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 130.0)">modulus (MPa)</text>
-<rect x="103.5" y="112.0" width="52.0" height="108.0" fill="#2a7d2a" opacity="0.85"/>
-<text x="129.5" y="106.0" font-size="9" fill="#2a7d2a" text-anchor="middle">12</text>
-<text x="129.5" y="234.0" font-size="8.3" fill="#333" text-anchor="middle">tensile</text>
-<text x="129.5" y="245.0" font-size="8.3" fill="#333" text-anchor="middle">(collagen)</text>
-<rect x="205.5" y="214.6" width="52.0" height="5.4" fill="#2a6ca8" opacity="0.85"/>
-<text x="231.5" y="208.6" font-size="9" fill="#2a6ca8" text-anchor="middle">0.6</text>
-<text x="231.5" y="234.0" font-size="8.3" fill="#333" text-anchor="middle">compressive</text>
-<text x="231.5" y="245.0" font-size="8.3" fill="#333" text-anchor="middle">(aggregate H<tspan baseline-shift="sub" font-size="0.7em">A</tspan>)</text>
-<rect x="307.5" y="218.6" width="52.0" height="1.4" fill="#7d3c98" opacity="0.85"/>
-<text x="333.5" y="212.6" font-size="9" fill="#7d3c98" text-anchor="middle">0.16</text>
-<text x="333.5" y="234.0" font-size="8.3" fill="#333" text-anchor="middle">swelling π</text>
-<text x="333.5" y="245.0" font-size="8.3" fill="#333" text-anchor="middle">pre-stress</text>
-<text x="215.0" y="266.0" font-size="8" fill="#333" text-anchor="middle"></text>
-<text x="240.0" y="67.0" font-size="9" fill="#333" text-anchor="middle">tension ≫ compression: the fibre–gel asymmetry</text>
-</svg><figcaption><b>Stiff skin, pre-loaded core.</b> Tension is $20\times$ stiffer than compression ($12/0.6$); the resting swelling pre-stress ($0.16\ \mathrm{MPa}$) is $\approx2.7\times$ the extra stress of a $10\%$ squeeze — the tissue is genuinely pre-loaded, not slack.</figcaption></figure>
-<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $E_{\rm tens}/H_A=12/0.6=20$: twenty-fold stiffer in tension than compression.</p><p><b>(b)</b> The extra effective stress to compress by $10\%$ is $H_A\cdot0.1=0.06\ \mathrm{MPa}$; the swelling pre-stress $\pi=0.16\ \mathrm{MPa}$ is $0.16/0.06\approx2.7\times$ that — the resting osmotic pre-stress exceeds the added stress of a moderate compression.</p><p><b>(c)</b> The numbers encode the bearing design of C6: a stiff tensile collagen skin over a soft, compressible proteoglycan core held in osmotic pre-tension. Soft enough to conform and spread load, stiff and pre-stressed enough to hold together and spring back. The figure compares the three moduli as bars.</p><div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>E_tens, HA, pi = 12.0, 0.6, 0.16  # MPa
-print(f"tension/compression = {E_tens/HA:.0f}x")
-print(f"pi / (HA*0.1)       = {pi/(HA*0.1):.1f}x")
-# tension/compression = 20x
-# pi / (HA*0.1)       = 2.7x</code></pre></div></div></details></div>
+h, HA, mu_eq = 2e-3, 0.6e6, 0.15
+lam = (2*np.arange(4000) + 1)*np.pi/2
+
+
+def deficit(k, t=1.0):
+    """1 - F(t): the fluid support lost in one loading."""
+    return 1 - np.sum(2/lam**2 * np.exp(-lam**2 * HA*k*t/h**2))
+
+
+def cycles(k, r, n=20):
+    """Peak support at the end of each of n load/unload cycles."""
+    dF, d, out = deficit(k), 0.0, []
+    for _ in range(n):
+        out.append(1 - (d + dF))
+        d = (1 - r)*(d + dF)
+    return np.array(out)
+
+
+for name, k, r in (("healthy ", 1e-15, 1.0), ("degraded", 1e-13, 0.8)):
+    Fc = cycles(k, r)
+    print(f"{name} dF={deficit(k):.4f}  F1={Fc[0]:.4f}  F5={Fc[4]:.4f}"
+          f"  F20={Fc[19]:.4f}  F_inf={1 - deficit(k)/r:.4f}")
+
+print("sweep r -> steady-state support and friction")
+dFd = deficit(1e-13)
+for r in (1.0, 0.9, 0.8, 0.5, 0.2):
+    Finf = 1 - dFd/r
+    print(f"  r={r:.1f}  F_inf={Finf:.4f}  mu_eff={mu_eq*(1 - Finf):.4f}"
+          f"  ({1/r:.2f}x the single-step value)")
+# healthy  dF=0.0138  F1=0.9862  F5=0.9862  F20=0.9862  F_inf=0.9862
+# degraded dF=0.1382  F1=0.8618  F5=0.8273  F20=0.8273  F_inf=0.8273
+# sweep r -> steady-state support and friction
+#   r=1.0  F_inf=0.8618  mu_eff=0.0207  (1.00x the single-step value)
+#   r=0.9  F_inf=0.8464  mu_eff=0.0230  (1.11x the single-step value)
+#   r=0.8  F_inf=0.8273  mu_eff=0.0259  (1.25x the single-step value)
+#   r=0.5  F_inf=0.7236  mu_eff=0.0415  (2.00x the single-step value)
+#   r=0.2  F_inf=0.3090  mu_eff=0.1036  (5.00x the single-step value)</code></pre></div></div></details></div>
+
+<div class="qbox"><b>K10 &mdash; how much charge can cartilage afford to lose?</b> <span class="small"><em>Probes: inverting the Donnan formula for a mechanical criterion, and measuring the amplification K2 asserts (<a class="secref" href="#donnan">§2</a>, <a class="secref" href="#degeneration">§8</a>).</em></span>
+<p>The resting swelling pre-stress $\pi(c_F)=R_g\Theta\big(\sqrt{c_F^2+4c_0^2}-2c_0\big)$ keeps the matrix turgid; the extra effective stress needed to squeeze the drained matrix by a strain $\varepsilon$ is $H_A\varepsilon$. Call the tissue <em>pre-stress-dominated</em> while $\pi\gt H_A\varepsilon$. With $c_0=0.15\ \mathrm M$, $\Theta=310\ \mathrm K$, $H_A=0.6\ \mathrm{MPa}$: <b>(a)</b> verify that healthy cartilage ($c_F=0.2\ \mathrm M$) is pre-stress-dominated at $\varepsilon=0.10$, and by what factor. <b>(b)</b> Solve $\pi(c_F)=H_A\varepsilon$ numerically for the critical fixed-charge density $c_F^{\rm crit}$ at $\varepsilon=0.05,\,0.10,\,0.15$, and express each as a percentage of healthy. <b>(c)</b> Compute the logarithmic sensitivity $\partial\ln\pi/\partial\ln c_F$ at $c_F=0.2,\,0.1,\,0.05\ \mathrm M$ and reconcile it with D2's asymptotic limit and with K2's claim that the dependence is "steeper than linear". <b>(d)</b> Interpret: does losing charge degrade the tissue gracefully or abruptly?</p>
+<figure><svg class="setupfig" viewBox="0 0 450 285" width="100%" role="img" aria-label="Donnan swelling pressure against fixed-charge density, crossing the 0.06 megapascal stress of a ten per cent compression at a fixed charge of 0.12 molar, sixty per cent of the healthy 0.2 molar operating point.">
+<line x1="66.0" y1="161.3" x2="420.0" y2="161.3" stroke="#f2f2f2" stroke-width="1"/>
+<line x1="66.0" y1="102.7" x2="420.0" y2="102.7" stroke="#f2f2f2" stroke-width="1"/>
+<line x1="66.0" y1="44.0" x2="66.0" y2="220.0" stroke="#333" stroke-width="1.4"/><line x1="66.0" y1="220.0" x2="420.0" y2="220.0" stroke="#333" stroke-width="1.4"/>
+<line x1="66.0" y1="184.8" x2="420.0" y2="184.8" stroke="#9a6a20" stroke-width="1.4" stroke-dasharray="6 3"/>
+<text x="416.0" y="178.8" font-size="8.5" fill="#9a6a20" text-anchor="end">Hₐε = 0.06 MPa  (10 % squeeze)</text>
+<polyline points="66.0,220.0 69.0,220.0 71.9,219.9 74.9,219.9 77.9,219.7 80.9,219.6 83.8,219.4 86.8,219.2 89.8,219.0 92.8,218.7 95.7,218.4 98.7,218.1 101.7,217.7 104.7,217.3 107.6,216.9 110.6,216.4 113.6,215.9 116.6,215.4 119.5,214.8 122.5,214.3 125.5,213.6 128.5,213.0 131.4,212.3 134.4,211.6 137.4,210.9 140.4,210.1 143.3,209.3 146.3,208.5 149.3,207.6 152.3,206.7 155.2,205.8 158.2,204.9 161.2,203.9 164.2,202.9 167.1,201.8 170.1,200.8 173.1,199.7 176.1,198.6 179.0,197.4 182.0,196.3 185.0,195.1 188.0,193.8 190.9,192.6 193.9,191.3 196.9,190.0 199.9,188.7 202.8,187.3 205.8,185.9 208.8,184.5 211.8,183.0 214.7,181.6 217.7,180.1 220.7,178.6 223.7,177.0 226.6,175.5 229.6,173.9 232.6,172.3 235.6,170.6 238.5,169.0 241.5,167.3 244.5,165.6 247.5,163.9 250.4,162.1 253.4,160.4 256.4,158.6 259.4,156.7 262.3,154.9 265.3,153.0 268.3,151.2 271.3,149.3 274.2,147.3 277.2,145.4 280.2,143.4 283.2,141.5 286.1,139.4 289.1,137.4 292.1,135.4 295.1,133.3 298.0,131.2 301.0,129.1 304.0,127.0 307.0,124.9 309.9,122.7 312.9,120.6 315.9,118.4 318.9,116.2 321.8,113.9 324.8,111.7 327.8,109.4 330.8,107.2 333.7,104.9 336.7,102.6 339.7,100.2 342.7,97.9 345.6,95.6 348.6,93.2 351.6,90.8 354.6,88.4 357.5,86.0 360.5,83.5 363.5,81.1 366.5,78.6 369.4,76.2 372.4,73.7 375.4,71.2 378.4,68.7 381.3,66.1 384.3,63.6 387.3,61.0 390.3,58.5 393.2,55.9 396.2,53.3 399.2,50.7 402.2,48.1 405.1,45.4 408.1,42.8 411.1,40.1 414.1,37.5 417.0,34.8 420.0,32.1" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<line x1="208.1" y1="184.8" x2="208.1" y2="220.0" stroke="#b03a2e" stroke-width="1" stroke-dasharray="4 3"/>
+<circle cx="208.1" cy="184.8" r="3.4" fill="#b03a2e"/>
+<text x="208.1" y="246.0" font-size="8.5" fill="#b03a2e" text-anchor="middle">cᶠᶜʳⁱᵗ = 0.120 M  (60 % of healthy)</text>
+<circle cx="302.0" cy="128.4" r="3.4" fill="#2a7d2a"/>
+<text x="296.0" y="120.4" font-size="8.5" fill="#2a7d2a" text-anchor="end">healthy  cᶠ = 0.2 M,  π = 0.156 MPa</text>
+<text x="366.9" y="144.4" font-size="8.5" fill="#2a7d2a" text-anchor="middle">slope d ln π / d ln cᶠ = 1.83</text>
+<text x="60.0" y="223.0" font-size="8.5" fill="#333" text-anchor="end">0.0</text>
+<text x="60.0" y="164.3" font-size="8.5" fill="#333" text-anchor="end">0.1</text>
+<text x="60.0" y="105.7" font-size="8.5" fill="#333" text-anchor="end">0.2</text>
+<text x="60.0" y="47.0" font-size="8.5" fill="#333" text-anchor="end">0.3</text>
+<text x="66.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0.0</text>
+<text x="184.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0.1</text>
+<text x="302.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0.2</text>
+<text x="420.0" y="234.0" font-size="8.5" fill="#333" text-anchor="middle">0.3</text>
+<text x="243.0" y="266.0" font-size="10" fill="#333" text-anchor="middle">fixed-charge density  cᶠ  (M)</text>
+<text x="26.0" y="132.0" font-size="10" fill="#333" text-anchor="middle" transform="rotate(-90 26.0 132.0)">swelling pressure  π  (MPa)</text>
+</svg><figcaption><b>The curve steepens as it falls.</b> Swelling pre-stress $\pi(c_F)$ against the $H_A\varepsilon=0.06\ \mathrm{MPa}$ needed for a $10\%$ squeeze. Healthy cartilage sits $2.6\times$ above the line; the crossing is at $c_F=0.12\ \mathrm M$, only $60\%$ of healthy. The local log-slope rises from $1.83$ at the operating point toward $2$ as charge is lost, so each further loss costs more than the last.</figcaption></figure>
+<details class="sol"><summary>solution</summary><div><p><b>(a)</b> $\pi(0.2\ \mathrm M)=0.1561\ \mathrm{MPa}$ against $H_A\varepsilon=0.6\times0.10=0.060\ \mathrm{MPa}$: the resting pre-stress is $2.60\times$ the stress a $10\%$ squeeze adds. Healthy cartilage is comfortably pre-stress-dominated — a pre-loaded structure, not a slack one.</p><p><b>(b)</b> Root-finding $\pi(c_F)=H_A\varepsilon$ (the function is monotone in $c_F$, so bisection converges immediately): $c_F^{\rm crit}=0.0844\ \mathrm M$ at $\varepsilon=0.05$ ($42\%$ of healthy), $0.1205\ \mathrm M$ at $\varepsilon=0.10$ ($60\%$), $0.1489\ \mathrm M$ at $\varepsilon=0.15$ ($74\%$). Against a $10\%$ working strain the tissue crosses out of pre-stress dominance having lost only $40\%$ of its fixed charge — well inside the range K2's degeneration scenario covers.</p><p><b>(c)</b> $\partial\ln\pi/\partial\ln c_F=1.832$ at $c_F=0.2\ \mathrm M$, $1.949$ at $0.1\ \mathrm M$, $1.986$ at $0.05\ \mathrm M$. The exponent climbs toward $2$ as $c_F$ falls, which is exactly D2's asymptotic limit $\pi\approx R_g\Theta c_F^2/(4c_0)$ reasserting itself once $c_F\ll c_0$. K2's "steeper than linear" is correct and now has a number: near the operating point the elasticity is $1.83$, so halving the charge costs a factor $2^{1.83}\approx3.6$ of swelling pressure — the $73\%$ loss K2 computes.</p><p><b>(d)</b> Abruptly, and worse than abruptly: the sensitivity <em>increases</em> as the tissue degrades. The first $10\%$ of charge lost costs about $18\%$ of the pre-stress; by the time half is gone, each further increment costs nearly the square. A tissue losing charge slides down a curve that steepens under it. That is the osmotic half of <a class="secref" href="#degeneration">§8</a>'s loop, and it is why the swelling pre-stress is the strut that fails first.</p>
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+from scipy.optimize import brentq
+
+RgTheta, c0, HA = 8.314*310, 0.15, 0.6e6      # J/mol, mol/L, Pa
+
+
+def pi(cF):
+    """Donnan swelling pressure [Pa]; cF, c0 in mol/L."""
+    return RgTheta*(np.sqrt(cF**2 + 4*c0**2) - 2*c0)*1e3
+
+
+print(f"(a) pi(0.2 M) = {pi(0.2)/1e6:.4f} MPa   HA*0.10 = "
+      f"{HA*0.10/1e6:.3f} MPa   ratio {pi(0.2)/(HA*0.10):.2f}")
+
+print("(b) critical fixed charge where pi = HA*eps")
+for eps in (0.05, 0.10, 0.15):
+    cc = brentq(lambda c: pi(c) - HA*eps, 1e-4, 1.0)
+    print(f"    eps={eps:.2f}: cF_crit={cc:.4f} M  "
+          f"({cc/0.2*100:.0f}% of healthy)")
+
+print("(c) logarithmic sensitivity  d ln(pi) / d ln(cF)")
+for cF in (0.2, 0.1, 0.05):
+    dc = 1e-6
+    num = np.log(pi(cF + dc)) - np.log(pi(cF - dc))
+    den = np.log(cF + dc) - np.log(cF - dc)
+    print(f"    cF={cF:.2f} M: {num/den:.3f}")
+# (a) pi(0.2 M) = 0.1561 MPa   HA*0.10 = 0.060 MPa   ratio 2.60
+# (b) critical fixed charge where pi = HA*eps
+#     eps=0.05: cF_crit=0.0844 M  (42% of healthy)
+#     eps=0.10: cF_crit=0.1205 M  (60% of healthy)
+#     eps=0.15: cF_crit=0.1489 M  (74% of healthy)
+# (c) logarithmic sensitivity  d ln(pi) / d ln(cF)
+#     cF=0.20 M: 1.832
+#     cF=0.10 M: 1.949
+#     cF=0.05 M: 1.986</code></pre></div></div></details></div>
 
 <p>That closes the mechanics. The <a class="secref" href="#appendix">Appendix</a> collects the notation and the parameter values used throughout; from here the course carries cartilage's stress, pressure, and flow fields forward into the full continuum treatment of <span class="secref">Module&nbsp;16</span> and the aging biology of <span class="secref">Module&nbsp;14</span>.</p>
 
@@ -2156,14 +2285,16 @@ print(f"pi / (HA*0.1)       = {pi/(HA*0.1):.1f}x")
 <tr><td>$D$</td><td>consolidation diffusivity, $D=H_Ak$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
 <tr><td>$\tau$</td><td>gel (consolidation) time, $\tau=h^2/D$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
 <tr><td>$F$</td><td>fluid load support fraction, $F(0)=1$</td><td><a class="secref" href="#fluidload">§4</a></td></tr>
-<tr><td>$T$</td><td>dimensionless time, $T=Dt/h^2$</td><td><a class="secref" href="#fluidload">§4</a></td></tr>
+<tr><td>$T$</td><td>dimensionless (diffusion) time, $T=Dt/h^2$; the absolute temperature is $\Theta$, below</td><td><a class="secref" href="#fluidload">§4</a></td></tr>
 <tr><td>$\lambda_n$</td><td>drainage eigenvalues, $\lambda_n=(2n+1)\pi/2$ (one-sided)</td><td><a class="secref" href="#fluidload">§4</a></td></tr>
 <tr><th colspan="3">Charge and osmotic (Donnan)</th></tr>
 <tr><td>$c_F$</td><td>fixed-charge density on the proteoglycans</td><td><a class="secref" href="#donnan">§2</a></td></tr>
 <tr><td>$c_0$</td><td>bath (external) salt concentration</td><td><a class="secref" href="#donnan">§2</a></td></tr>
 <tr><td>$c_\pm$</td><td>interstitial mobile cation / anion concentrations</td><td><a class="secref" href="#donnan">§2</a></td></tr>
 <tr><td>$\pi$</td><td>Donnan swelling (pre-stress) pressure</td><td><a class="secref" href="#donnan">§2</a></td></tr>
-<tr><td>$R_g,\ T$</td><td>gas constant and absolute temperature ($R_gT$ = thermal energy)</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>$R_g,\ \Theta$</td><td>gas constant and absolute temperature ($R_g\Theta$ = thermal energy). Written $\Theta$, not $T$, because $T$ is the dimensionless time above</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>$\mathcal F$</td><td>Faraday constant. Written $\mathcal F$, not $F$, because $F$ is the fluid load support fraction above</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>$W$</td><td>body weight ($\approx686\ \mathrm N$ for the $70\ \mathrm{kg}$ reference human); joint loads are quoted as multiples of it</td><td><a class="secref" href="#origin">§0</a></td></tr>
 <tr><th colspan="3">Contact and elasticity</th></tr>
 <tr><td>$R$</td><td>joint reaction force (from <a class="secref" href="module03.html">Module&nbsp;3</a>)</td><td><a class="secref" href="#origin">§0</a></td></tr>
 <tr><td>$R_{\rm eff}$</td><td>effective (relative) radius of curvature of the contact</td><td><a class="secref" href="#contact">§6</a></td></tr>
@@ -2177,6 +2308,11 @@ print(f"pi / (HA*0.1)       = {pi/(HA*0.1):.1f}x")
 <tr><td>$\mu_{\rm eff}$</td><td>effective friction, $\mu_{\rm eff}=\mu_{\rm eq}(1-F)$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
 <tr><td>$S$</td><td>Stribeck number (bearing regime parameter)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
 <tr><td>$\eta$</td><td>synovial fluid viscosity (shear-thinning)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>$N$</td><td>normal load across the contact (written $N$, not $W$, because $W$ is body weight)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>$\mu_{\rm bl},\ S_0,\ \alpha$</td><td>boundary plateau, transition and hydrodynamic slope of the classical Stribeck fit (all assumed)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td class="grp" colspan="3"><b>Degeneration</b></td></tr>
+<tr><td>$d$</td><td>fluid-support deficit, $d=1-F$</td><td><a class="secref" href="#degeneration">§8</a></td></tr>
+<tr><td>$G$</td><td>degeneration loop gain; the joint heals if $G\lt1$ and runs away if $G\gt1$</td><td><a class="secref" href="#degeneration">§8</a></td></tr>
 </tbody>
 </table>
 
@@ -2205,7 +2341,7 @@ print(f"pi / (HA*0.1)       = {pi/(HA*0.1):.1f}x")
 <tr><td>fixed-charge density</td><td>$c_F$</td><td>$\approx 0.2\ \mathrm M$</td><td><a class="secref" href="#donnan">§2</a></td></tr>
 <tr><td>bath concentration</td><td>$c_0$</td><td>$\approx 0.15\ \mathrm M$</td><td><a class="secref" href="#donnan">§2</a></td></tr>
 <tr><td>swelling pressure</td><td>$\pi$</td><td>$\approx 0.16\ \mathrm{MPa}$</td><td><a class="secref" href="#donnan">§2</a>, K2</td></tr>
-<tr><td>thermal energy ($T=310\ \mathrm K$)</td><td>$R_gT$</td><td>$\approx 2577\ \mathrm{J/mol}$</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>thermal energy ($\Theta=310\ \mathrm K$)</td><td>$R_g\Theta$</td><td>$\approx 2577\ \mathrm{J/mol}$</td><td><a class="secref" href="#donnan">§2</a></td></tr>
 <tr><th colspan="4">Loads and pressures</th></tr>
 <tr><td>joint reaction (single-leg stance)</td><td>$R$</td><td>$\approx 1715\ \mathrm N$</td><td><a class="secref" href="module03.html">Mod&nbsp;3</a>, <a class="secref" href="#origin">§0</a></td></tr>
 <tr><td>mean contact pressure</td><td>$\bar p$</td><td>$\approx 1.7\ \mathrm{MPa}$</td><td><a class="secref" href="#origin">§0</a>, K3</td></tr>
@@ -2216,9 +2352,18 @@ print(f"pi / (HA*0.1)       = {pi/(HA*0.1):.1f}x")
 <tr><td>measured friction</td><td>$\mu$</td><td>$\approx 0.005$–$0.02$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
 <tr><td>intrinsic (drained) friction</td><td>$\mu_{\rm eq}$</td><td>$\approx 0.15$</td><td><a class="secref" href="#lubrication">§7</a>, K6</td></tr>
 <tr><td>synovial viscosity (shear-thinning)</td><td>$\eta$</td><td>$\approx 0.01$–$1\ \mathrm{Pa\,s}$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>boundary friction plateau (assumed)</td><td>$\mu_{\rm bl}$</td><td>$0.15$ (set equal to $\mu_{\rm eq}$)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>Stribeck transition (assumed)</td><td>$S_0$</td><td>$0.5$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>hydrodynamic slope (assumed)</td><td>$\alpha$</td><td>$0.012$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>fluid-support deficit; loop gain</td><td>$d=1-F$; $G$</td><td>$0.0138$ at $1\ \mathrm s$ (healthy); $G\lt1$ if stable</td><td><a class="secref" href="#degeneration">§8</a></td></tr>
 <tr><th colspan="4">Composition (by wet weight)</th></tr>
-<tr><td>water</td><td>$\varphi^w$</td><td>$\approx 70$–$80\%$</td><td><a class="secref" href="#composite">§1</a></td></tr>
+<tr><td>water</td><td>$\varphi^w$</td><td>$\approx 65$–$80\%$</td><td><a class="secref" href="#composite">§1</a></td></tr>
 <tr><td>cells (chondrocytes)</td><td>—</td><td>$\lt 10\%$</td><td><a class="secref" href="#composite">§1</a></td></tr>
+<tr><td>dry-weight fractions</td><td>&mdash;</td><td>collagen $50$–$75\%$, proteoglycan $15$–$30\%$</td><td><a class="secref" href="#composite">§1</a></td></tr>
+<tr><td colspan="4"><b>External empirical values (quoted, not derived in this course)</b></td></tr>
+<tr><td>measured fluid load support</td><td>&mdash;</td><td>$85$–$95\%$ under cyclic load</td><td><a class="secref" href="#fluidload">§4</a></td></tr>
+<tr><td>ice on ice, for comparison</td><td>&mdash;</td><td>$\mu\approx0.03$</td><td><a class="secref" href="#origin">§0</a></td></tr>
+<tr><td>peak hip load, stumble or jump</td><td>&mdash;</td><td>$8$–$10\,W$</td><td><a class="secref" href="#origin">§0</a></td></tr>
 </tbody>
 </table>
 
