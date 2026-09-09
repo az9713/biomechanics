@@ -82,7 +82,23 @@ must contain an `<a href>`; state `measured` must give a reason. One declaration
 symbol per module, first use recommended. The `.prov` CSS rule is in the skill
 template so it renders visibly rather than only parsing.
 
-### Phase B step 1 — Module 0 §0: DONE (`d985962`)
+### Phase B step 1 — Module 0 §0: DONE (`d985962`, `54bd525`, `b849a77`)
+
+**A `rigor-reviewer` pass ran and returned NEEDS-FIXES; all its findings are
+applied (`b849a77`).** Rigor parity and K-depth passed; prose and
+self-containment failed. The severe one was a **circularity I wrote**: §0 claimed
+the mineral and collagen moduli "fall out of the ladder", but the ladder's `k`
+column is *defined* as the `k` for which `E = k/r₀` holds, so 25 and 0.30 N/m had
+been calibrated **from** Module 2 §5's measured moduli. §0 now says so and carries
+`.prov` markers for `E_apatite` and `E_collagen`. **Lesson for §2 and for every
+later trace: a calibrated parameter dressed as a derived one passes every gate.**
+The reviewer also caught a wrong formula (the Coulomb curvature of the attractive
+term alone is negative and is not a bond stiffness; the Born result is
+`k = (n−1)C/r₀³`) and three over-claims. Run the reviewer on every section.
+
+Reviewer note carried forward: the plan's `data-sym` table has **no entry for bond
+stiffness `k`**, which collides with Module 2's remodeling gain and Module 4's
+permeability. §0 names it `k_bond` in-text; the Appendix must register it.
 
 `module00.html` exists and is live, wired into `index.html` and `README.md`. §0
 ("why a bond energy sets a bone's stiffness") is complete: the three-layer opening,
