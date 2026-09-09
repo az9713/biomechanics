@@ -82,33 +82,61 @@ must contain an `<a href>`; state `measured` must give a reason. One declaration
 symbol per module, first use recommended. The `.prov` CSS rule is in the skill
 template so it renders visibly rather than only parsing.
 
-### Phase B step 1 onward — NOT STARTED
+### Phase B step 1 — Module 0 §0: DONE (`d985962`)
 
-`module00.html` does not exist. No chemistry prose has been written anywhere.
+`module00.html` exists and is live, wired into `index.html` and `README.md`. §0
+("why a bond energy sets a bone's stiffness") is complete: the three-layer opening,
+the $E\sim k/r_0$ scaling bridge, the four-rung stiffness ladder that recovers Module
+2 §5's two end members (104 GPa, 1.07 GPa), the $k_BT$ ruler, and the roadmap table
+naming the debt each of §1–§9 repays. Numbers Python-verified. All thirteen gates
+green; `check_provenance` reports 6 assignments / 1 declaration / 0 issues — the
+course's first live `.prov` marker (`E` for cortical bone, state `measured`).
+
+**`checktex.py` was fixed in the same commit.** `\left`/`\right` now count only when
+a *delimiter* follows; a letter means a named arrow or harpoon. So
+`\rightleftharpoons` (needed for every chemical equilibrium) and the
+`\leftrightarrow` false positive `CLAUDE.md` documents both stop firing. Re-run over
+all 17 existing modules: 0 issues, no regression. The script is still outside git.
+
+**Open checkpoint — the figure style is NOT yet approved.** §0's Fig. 1 (three-panel
+zoom: femur → mineralised fibril → one Ca–O bond as a spring) is the representative
+molecular figure `CLAUDE.md` requires be signed off before the rest are drawn. It was
+shown to the user marked *veto this before I draw the rest*. Do not mass-produce
+Module 0 figures until they answer. The style lives in scratchpad `fig0lib.py`
+(shared `m0*` defs: `m0bone/m0sph/m0coll/m0apat`, atom gradients `m0aCa/m0aO/m0aC/
+m0aN/m0aP`, markers `m0red/m0blu/m0grn/m0gry`; helpers `bone/atom/spring/arrow/txt/
+zoomwedge`) and is already spliced into `module00.html` between the `<!-- DEFS0 -->`
+and `<!-- FIG1 -->` marker pairs by `assemble0.py` (idempotent).
+
+### Phase B step 1 remainder onward — NOT STARTED
+
+Module 0 §1–§9 and its Appendix are unwritten; no chemistry prose exists in Modules
+1–17 yet.
 
 ---
 
 ## Next task
 
-**Build `module00.html` §0** (Chemical Foundations — motivation), section by section
-under the standing convention: build one section → report with a short summary and
-two `★ Insight` bullets → user reviews → commit and push.
+**Build `module00.html` §1** — the mole, concentration, and the $k_BT$ / $R_gT$
+bridge — section by section under the standing convention: build one section →
+report with a short summary and two `★ Insight` bullets → user reviews → commit and
+push.
 
-Its content spec is `chemistry-audit-and-plan.md` §2.3. §0's job is "why a bond
-energy sets a bone's stiffness" — and under the three-layer opening rule it states
-up front what you observe (physics), which tissue does it (biology), and which
-molecule makes that tissue behave that way (chemistry).
+Its content spec is `chemistry-audit-and-plan.md` §2.3. §0 is done; §1's job is the
+unit every later section is quoted in, so that "this costs $20\,k_BT$" and "this
+costs $50\ \mathrm{kJ\,mol^{-1}}$" are the same sentence.
 
-Two things to settle inside §0, before §1 is written:
+Two standing constraints:
 
-1. **Get one representative molecular figure approved before drawing the rest.**
-   `CLAUDE.md` requires this for any section needing many figures in one style; a
-   style fix applied to 30 figures is expensive. Build the shared hidden `<defs>`
-   block and one figure, render it, and show it marked *veto this before I draw the
-   rest*.
+1. **The figure style is awaiting the user's veto** (see the open checkpoint above).
+   Until they answer, do not draw more molecular figures; plots and schematics in the
+   existing course families are unaffected.
 2. **The chemistry symbol namespace is already fixed** in §2.2c's canonical-name
    table — Module 0's appendix follows that record, not the other way round. Do not
    re-derive it.
+3. When §1 lands, flip the §1 TOC entry in `module00.html` from
+   `<span class="pending">` to a link, and re-run `autolink_sections.py` once enough
+   sections exist to resolve the forward `§N` refs §0 already carries.
 
 Then, in order (full traces in `chemistry-audit-and-plan.md` §2.2b and Part 3):
 Module 5 → Module 2 → Module 6 → Module 4 → Module 14 → Modules 8/9 →
