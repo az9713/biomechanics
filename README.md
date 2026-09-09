@@ -8,6 +8,7 @@ inline SVG figures.
 ## Live pages
 
 - **Course home:** https://az9713.github.io/biomechanics/
+- **Module 0 — Chemical Foundations:** https://az9713.github.io/biomechanics/module00.html
 - **Module 1 — Mechanical Foundations:** https://az9713.github.io/biomechanics/module01.html
 - **Module 2 — Bones as Load-Bearing Structures:** https://az9713.github.io/biomechanics/module02.html
 - **Module 3 — Joints as Constrained Interfaces:** https://az9713.github.io/biomechanics/module03.html
