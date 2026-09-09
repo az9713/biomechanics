@@ -4,185 +4,215 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last handoff written:** 2026-09-09 (second write of the day). Phase A is
-**complete and promoted**. Phase B, the chemistry layer, is planned but **not
-started**. The promotion that blocked it is done — start at step 1 of the next task.
+**Last written:** 2026-09-09. Phase A (editor pass) is **complete and promoted**.
+Phase B (chemistry and biology interweaving) has its **gate and worklist built**;
+no chemistry prose exists yet. Start at "Next task".
 
 ---
 
-## Current state (as of the commit that carries this file)
+## Current state
 
-### Phase A — the editor pass: COMPLETE AND PROMOTED
+Everything below is committed and pushed to `main`
+(https://github.com/az9713/biomechanics). Working tree clean; local `HEAD` and
+`origin/main` verified equal at each step.
+
+### Phase A — the editor pass: COMPLETE AND PROMOTED (`121cce9`)
 
 All fifteen modules (3–17) have a report in `editor-reports/` and an applied draft
 that is now **the live file**. Modules 1 and 2 were done in place earlier
 (`3a4dae1`, `ac93c14`). Roughly 1000 anchored edits, ~14 000 lines of report.
 
 Promotion, 2026-09-09: the user chose *promote all fifteen at once*. Each
-`edited/moduleNN.html` was moved over its original and `edited/` was removed, so
-the draft URLs `https://az9713.github.io/biomechanics/edited/moduleNN.html` now
-404. Two verifications were run:
+`edited/moduleNN.html` was moved over its original and `edited/` was removed, so the
+draft URLs `https://az9713.github.io/biomechanics/edited/moduleNN.html` now 404.
+Two verifications were run and both passed:
 
-1. **The move was proved, not assumed.** `git show HEAD:edited/moduleNN.html`
-   diffed (with `--strip-trailing-cr`, or CRLF makes every line differ) against the
-   promoted file. Fourteen were byte-identical; module 3 differed only by the one
-   intended fix.
-2. **All twelve gates re-run in place on all fifteen.** Zero hard failures. The
-   advisories that remain are the pre-existing ones the reports already record — for
-   example `editor-reports/module03.md:687` logs "0 hard, 3 advisory" at baseline and
-   the same 3 after, which is what the re-run reports.
+1. **The move was proved, not assumed.** `git show HEAD:edited/moduleNN.html` diffed
+   against the promoted file. Fourteen byte-identical; module 3 differed only by the
+   one intended fix. **Use `--strip-trailing-cr`** — without it Git's LF↔CRLF
+   conversion makes every line appear changed and the check looks like total
+   corruption.
+2. **All twelve gates re-run in place on all fifteen.** Zero hard failures, zero
+   `mjx-merror`, zero broken links, zero label overlaps, zero clipped figures.
+   Remaining advisories are the pre-existing ones the reports already log (e.g.
+   `editor-reports/module03.md:687` records "0 hard, 3 advisory" before and after).
 
-The known module 3 drift is **closed**. `module03.html:860` said the hip resultant
-spans $2.6$–$2.8\,W$ over $\alpha=20^\circ$ to $40^\circ$; its own equation
-$|R|=W_s\sqrt{(1+b/a)^2+((b/a)\tan\alpha)^2}$ with $W_s=\tfrac56W$, $b/a=2$ gives
-2.5725 / 2.6788 / 2.8646 W at 20° / 30° / 40°, so the upper endpoint is 2.9, not 2.8.
-Changed to $2.6$–$2.9\,W$. No other line in the module restates the range.
+The module 3 drift is **closed**. `module03.html:860` said the hip resultant spans
+2.6–2.8 W over α = 20° to 40°; its own equation
+$|R| = W_s\sqrt{(1+b/a)^2 + ((b/a)\tan\alpha)^2}$ with $W_s = \tfrac56 W$, $b/a = 2$
+gives 2.5725 / 2.6788 / 2.8646 W at 20° / 30° / 40°, so the upper endpoint is 2.9.
+Corrected. No other line restates the range.
 
-**`DEVELOPMENT_JOURNEY_2.html` describes the pre-promotion state** (its §1019–1029
-say "nothing is promoted" and re-open the 2.8 drift). It is a dated record of that
-session — do not re-open those items from it.
+> `DEVELOPMENT_JOURNEY_2.html` describes the **pre-promotion** state (around its
+> lines 1019–1029 it says "nothing is promoted" and lists the 2.8 drift as open). It
+> is a dated record of that session. **Do not re-open those items from it.**
 
-### Phase B — the chemistry / interweaving layer: PLANNED, NOT STARTED
+### Phase B step 0 — the provenance gate: COMPLETE (`ce3620d`)
 
-Audit and plan are in **`chemistry-audit-and-plan.md`** (`29e9087`, revised
-`45ba749`). Read that file, not this summary, before building.
+The gate that makes "interwoven" checkable exists, and its first run produced the
+chemistry worklist.
 
-The audit finding: **chemistry appears in the course as nouns, never as equations.**
-Exactly one real physical-chemistry derivation exists in 5.6 MB — Module 4 §2
-(electrochemical potential → Donnan → van 't Hoff). Eighteen chemistry concepts score
-zero across all seventeen modules (Gibbs, entropy, `K_eq`, Arrhenius, pH, Nernst,
-`k_B T`, Fick, amino acid, and more). `prompt.txt:211` specifies a **Required
-Biological / Chemical Spine** of 25 items; one is delivered as mathematics.
+- **`check_provenance.py`** — in the skill scripts directory with the other twelve
+  gates, and added to the `CLAUDE.md` hardening loop. `--self-test` passes 9
+  fixtures. `--inventory` dumps the worklist. It splits the definition in two: a
+  regex finds every `symbol = number unit` assignment, and an explicit **inclusion
+  list** of canonical symbols does the judgement half. Inclusion never exclusion —
+  the namespace collides (`T` torque/temperature, `a` acceleration/Hill, `F`
+  force/Faraday, `mu` friction/chemical potential, `k` remodeling gain/rate
+  constant), and an exclusion list would silently un-gate the interesting cases.
+- **`chemistry-audit-and-plan.md` §2.2c** — the contract the script implements, with
+  both decisions, the reasons, the rejected alternative, the canonical `data-sym`
+  names, and three amendments the first run forced. **Read §2.2c before touching the
+  script or writing a marker.** The script is only the implementation.
+- **`provenance-baseline.txt`** — generated, never hand-edited. Part 1 the full
+  inventory (494 assignments, 156 distinct symbols across 17 modules); Part 2 the
+  gate output: **37 gated parameters used with no provenance declaration**, each with
+  `file:line`. **That is the chemistry worklist**, and it replaces the judgement
+  calls in `chemistry-audit-and-plan.md` §2.2b.
 
-Root cause: the teaching pipeline in `prompt.txt` has step 3 "physical mechanism" and
-**step 4 "molecular / cellular substrate"**. The build ran steps 5–19 and skipped 4.
-The Modeling Levels ladder starts at Level 0 = scalar force, so there was never a rung
-for a mole or a bond energy.
+The declaration a section must carry:
 
-**Decisions taken with the user (2026-09-09):**
+```html
+<span class="prov" data-sym="E" data-state="measured">measured, not derived,
+because …</span>
+```
 
-| Question | Decision |
-|---|---|
-| Shape | Interweave into the existing 17, plus one new `module00.html` |
-| Scope | Chemistry **and** biology (signalling, endocrine, tissue turnover) |
-| Module 0 depth | Full course standard — 30 problems, labs, figures, appendix |
-| Build order | Module 0 first |
-| Structure | Subsection at point of first use. **No `§NC` letter suffixes** — that scheme was proposed, then rejected by the editor pass as adjacency rather than interweaving |
-| Enforcement | New `check_provenance.py` added to the hardening loop |
+`data-state` is exactly one of `derived` / `module0` / `measured`. State `module0`
+must contain an `<a href>`; state `measured` must give a reason. One declaration per
+symbol per module, first use recommended. The `.prov` CSS rule is in the skill
+template so it renders visibly rather than only parsing.
 
-**The user's defining requirement:** chemistry, biology and physics must be
-*interwoven*, with every physics result traceable back to its biological and chemical
-origin. The unit of work is a **trace** — molecule → cell → tissue → body — ending on
-a number the course already prints. A chemistry passage that does not terminate on an
-existing mechanical result is decoration.
+### Phase B step 1 onward — NOT STARTED
+
+`module00.html` does not exist. No chemistry prose has been written anywhere.
 
 ---
 
 ## Next task
 
-*(The old step 1, "resolve promotion", is done — see Current state above.)*
+**Build `module00.html` §0** (Chemical Foundations — motivation), section by section
+under the standing convention: build one section → report with a short summary and
+two `★ Insight` bullets → user reviews → commit and push.
 
-**1. Write `check_provenance.py` before any prose.** Run it over all 17 modules and
-keep the output as the baseline inventory of every borrowed constitutive parameter
-(`E`, `c_F`, `mu`, `sigma_Y`, the remodeling gain `k`, Hill's `a/F_max`, every time
-constant). That inventory **is** the definitive worklist — it replaces the judgement
-calls in `chemistry-audit-and-plan.md` §2.2b with a measured list. The gate flags any
-boxed parameter whose section declares none of: *derived here*, *derived in Module 0
-§X*, or *measured, not derived, because …*.
+Its content spec is `chemistry-audit-and-plan.md` §2.3. §0's job is "why a bond
+energy sets a bone's stiffness" — and under the three-layer opening rule it states
+up front what you observe (physics), which tissue does it (biology), and which
+molecule makes that tissue behave that way (chemistry).
 
-Its two design choices are not yet agreed with the user: what counts as a "boxed
-parameter", and the exact declaration string a section must carry (*derived here* /
-*derived in Module 0 §X* / *measured, not derived, because …*). Propose both in
-three lines and get a yes before the 17-module run, because that run's output
-becomes the worklist.
+Two things to settle inside §0, before §1 is written:
 
-**2. Then `module00.html` §0**, section by section under the standing convention:
-build one section → report with a short summary and two `★ Insight` bullets → user
-reviews → commit and push. Fix the chemistry symbol namespace in its appendix before
-§1 is written (`F` is force everywhere but Faraday in M4; `mu` is friction in M4 §7
-and chemical potential in M4 §2; `k` is the M2 remodeling gain and wants to be a rate
-constant; M4 already renamed the gas constant `R_g`). Get one representative molecular
-figure approved before mass-producing the rest.
+1. **Get one representative molecular figure approved before drawing the rest.**
+   `CLAUDE.md` requires this for any section needing many figures in one style; a
+   style fix applied to 30 figures is expensive. Build the shared hidden `<defs>`
+   block and one figure, render it, and show it marked *veto this before I draw the
+   rest*.
+2. **The chemistry symbol namespace is already fixed** in §2.2c's canonical-name
+   table — Module 0's appendix follows that record, not the other way round. Do not
+   re-derive it.
 
-Then Module 5 → Module 2 → Module 6 → Module 4 → Module 14 → Modules 8/9 →
-Modules 15/16/17. Full order and per-module traces in `chemistry-audit-and-plan.md`
-§2.2b and Part 3.
+Then, in order (full traces in `chemistry-audit-and-plan.md` §2.2b and Part 3):
+Module 5 → Module 2 → Module 6 → Module 4 → Module 14 → Modules 8/9 →
+Modules 15/16/17.
+
+**Scope, stated plainly.** "Finish the chemistry and biology update for all modules"
+is Module 0 at full course standard (30 problems, labs, figures, appendix — Modules 3
+and 4 are ~2200 lines each) plus interwoven traces into eleven existing modules. It
+is **many sessions**, not one. Work it in order, commit each unit without being
+asked, refresh this file at each module boundary, and do not let a session grow past
+~150k context. Do not report the phase complete until it is.
 
 If the user asks for something else, that takes precedence.
 
 ---
 
-## Lessons that bind the next phase
+## Lessons that bind this phase
 
-These came out of the editor pass and apply directly to building chemistry figures
-and derivations.
-
-**The nine gates do not see wrong content, only broken content.** Every gate was green
-on a caption describing an axis the figure did not have (m06), a curve plotting `L·p`
-on an axis labelled "peak stress" (m14), and a grip curve drawn at 1.3× the true load
-in a problem about slip (m11).
+**The nine gates do not see wrong content, only broken content.** Every gate was
+green on a caption describing an axis the figure did not have (m06), a curve plotting
+`L·p` on an axis labelled "peak stress" (m14), and a grip curve drawn at 1.3× the
+true load (m11).
 
 - **Decode `<polyline>` point strings back into data** and compare against the model.
   **Calibrate from the axis `<line>` elements, not the tick `<text>` baselines** — m04
   found those baselines sit 3 px low, and that offset alone shifts a recovered peak
   pressure by 0.065 MPa, manufacturing a discrepancy that is not there.
-- **Render at least once.** `check_overlap` tests text against curves and dashed lines,
-  never text against text. m15 found a label sitting on another label and an optimal
-  curve hidden under the truth curve — invisible to every gate.
-- **Run the code before reading the prose.** A module claiming "every number was
-  produced by running the code" usually has problems carrying no code at all (m14's
-  ten K problems had none while the module said so three times).
-- **Grep for residue after every apply.** Every module that looked found some: a
-  replacement made in one place, the superseded value left standing elsewhere.
-- **Prove an apply, don't read it.** Reset to pristine, re-run `apply.py`, confirm the
-  output is byte-identical. That is the only way to know the script did not die before
-  its single `write_text`.
+- **Render at least once.** `check_overlap` tests text against curves and dashed
+  lines, never text against text. m15 found a label sitting on another label and an
+  optimal curve hidden under the truth curve — invisible to every gate.
+- **Run the code before reading the prose.** m14's ten K problems carried no code
+  while the module claimed three times that every number was produced by running it.
+- **Grep for residue after every apply.** Every module that looked found some.
+- **Prove an apply, don't read it.** Re-run the script from pristine and confirm the
+  output is byte-identical.
 
-**New, from the chemistry planning session:** `check_links.py` passes on a *renumbered*
-section — the links still resolve, they just point at the wrong section. M4 carries 250
-in-prose `§N` references, M5 248, M6 208. **Never renumber an existing section**; add
-chemistry as a subsection, which shifts no integer. Green gates, wrong book is the
-worst defect class this repo can produce.
+**`check_links.py` passes on a *renumbered* section** — the links still resolve, they
+just point at the wrong section. M4 carries 250 in-prose `§N` references, M5 248, M6
+208. **Never renumber an existing section**; add chemistry as a subsection, which
+shifts no integer. Green gates, wrong book is the worst defect class this repo can
+produce.
+
+**Write the gate before the prose, and believe the gate over the plan.** §2.2 words
+the rule as "every *boxed* constitutive parameter". Restricted to boxes, the first
+run found 91 assignments in 5.6 MB and **missed `E ≈ 17 GPa` entirely** — it sits
+inside Definition 1.3 at `module02.html:171`, and `c_F` first appears in a table. The
+course states its parameters in prose and consumes them in boxes. Scope widened to
+the whole body: 494 assignments. A plausible definition, written in good faith from
+the plan's own wording, was wrong, and only running it showed that.
 
 ---
 
 ## Where to read things (reference, don't re-derive)
 
-- `CLAUDE.md` — standing conventions: build loop, the nine gates, git/publish.
-- `chemistry-audit-and-plan.md` — Phase B audit, plan, threading map, build order.
-- `prompt.txt` — original course spec; source of truth for scope. Line 211 is the
-  Required Biological/Chemical Spine; line 285 the Modeling Levels ladder.
+- `CLAUDE.md` — standing conventions: build loop, the hardening gates, git/publish.
+- `chemistry-audit-and-plan.md` — Phase B audit, plan, **§2.2c the provenance
+  contract**, §2.2b the threading map, Part 3 the build order.
+- `provenance-baseline.txt` — the measured worklist (regenerate, never hand-edit).
+- `prompt.txt` — original course spec. Line 211 the Required Biological/Chemical
+  Spine; line 285 the Modeling Levels ladder.
 - `EDITOR_DOMAIN.md` — the domain brief the `science-editor` skill loads.
   (`EDITOR_PROMPT.md` describes a *different* manuscript — ignore its `# Domain:`.)
 - `editor-reports/moduleNN.md` — per-module editor reports with change tables.
 - `moduleNN-plan.md` — per-module build plans for modules 4–10.
 
+---
+
+## Lives outside this repo (no version control — a real risk)
+
+`C:\Users\simon\.claude\skills\rigorous-explainer\` holds all thirteen gate scripts
+and `assets/template.html`. **That directory is not a git repository.**
+`check_provenance.py` (~300 lines) and the `.prov` style in the template were written
+2026-09-09 and exist in exactly one copy. `provenance-baseline.txt` in this repo is
+its *output*, not the tool. Worth backing up; not done, because the other twelve
+gates live the same way and changing that convention was not asked for.
+
 ## Session-transient scratch (regenerate; durable record is the committed output)
 
 - **`scratchpad/tools/BRIEF.md`** — the 117-line agent brief that drove the editor
-  pass. Ten steps: load `science-editor` + `EDITOR_DOMAIN.md` + `editor-reports/module02.md`
-  as format model; never touch the original, write only `edited/`, run no git command
-  (reset is `cp`, not `git checkout`); record the nine-gate baseline on a pristine copy
-  first, end rule is *zero where the baseline was zero, never worse anywhere*; own
-  scratchpad per agent; run the code before reading the prose; read against the
-  five-part standard; report shaped like `module02.md`; one re-runnable `apply.py` with
-  `rep()` asserting each anchor is unique; author math only via Write/Edit or a Python
-  raw string, never a double-quoted shell arg; re-gate; report in ten lines.
-  **Worth promoting into the repo next session rather than rebuilding again.**
+  pass. Ten steps: load `science-editor` + `EDITOR_DOMAIN.md` + a format-model
+  report; never touch the original; record the gate baseline on a pristine copy
+  first, end rule *zero where the baseline was zero, never worse anywhere*; run the
+  code before reading the prose; one re-runnable `apply.py` with `rep()` asserting
+  each anchor is unique; author math only via Write/Edit or a Python raw string.
+  **Worth promoting into the repo rather than rebuilding again.**
 - `scratchpad/tools/extract.py` (every `<pre><code>` block out to a runnable `.py`),
   `txt.py` (dump a line range with `<svg>` collapsed, UTF-8, never truncated),
   `apply_skel.py`.
-- `scratchpad/interweave_section.md` — the revised §2.2 text, already spliced into
-  `chemistry-audit-and-plan.md`. Nothing to regenerate.
+- The Phase B step 0 scratch (`sec22c.md`, `amend22c.md`, `splice22c.py`,
+  `gateall.sh`) is spent — its output is committed in
+  `chemistry-audit-and-plan.md` and `provenance-baseline.txt`. Nothing to regenerate.
 
 ## How to work (essentials — full detail in `CLAUDE.md`)
 
 - **Section by section.** Build one section → report with a short summary and two
   `★ Insight` bullets → user reviews → commit and push. Standing rule: after each
   module or work unit, commit and push without waiting to be asked.
-- **Run the full hardening loop after every edit pass** — all nine scripts in
-  `CLAUDE.md`, plus `check_provenance.py` once it exists, plus a `rigor-reviewer` pass.
+- **Run the full hardening loop after every edit pass** — every script in the
+  `CLAUDE.md` block, now including `check_provenance.py`, plus a `rigor-reviewer`
+  pass.
 - **Never author math-bearing HTML inside a double-quoted shell argument.** The shell
   eats `$…$` and turns `\t` into a TAB. Use Write/Edit, or splice from a file using a
-  Python raw string. Large markdown with `§`, backticks and em-dashes also breaks bash
-  heredocs in this environment — use the Write tool and splice from the file.
+  Python raw string. The same applies to large markdown with `§`, backticks and
+  em-dashes, and to regexes full of backslashes — a bash heredoc mangles those too.
+  Write the file with the Write tool, then splice by path.
+- **Prose lives in `moduleNN.html`; Python builds figures only.** Never author
+  section prose inside a Python raw string — it evades the read-aloud audit.
