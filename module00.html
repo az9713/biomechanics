@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 0 — Chemical Foundations</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], tags: 'ams' },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js" async></script>
+<style>
+  :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ max-width: 52rem; margin: 2.5rem auto; padding: 0 1.25rem 6rem;
+        font: 16px/1.65 Georgia, 'Times New Roman', serif; color:var(--fg); counter-reset: fig; }
+  h1{ font-size: 1.95rem; line-height:1.2; margin:.2rem 0 .2rem; }
+  h2{ font-size:1.35rem; margin:2.4rem 0 .6rem; border-bottom:2px solid var(--accent); padding-bottom:.2rem; }
+  h3{ font-size:1.08rem; margin:1.6rem 0 .4rem; color:var(--accent); }
+  .sub{ color:var(--muted); font-style:italic; margin-top:0; }
+  code{ font-family: ui-monospace,'SFMono-Regular',Consolas,monospace; font-size:.92em; background:#f3f1ec; padding:.05rem .25rem; border-radius:3px;}
+  pre{ background:#f3f1ec; padding:.8rem 1rem; border-radius:5px; overflow:auto; font-size:.84rem; line-height:1.45; }
+  pre code{ background:none; padding:0; }
+  .thm,.def,.lem,.prop{ background:var(--box); border-left:4px solid var(--accent); padding:.6rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0; }
+  .prob{ border-left:3px solid #cdbfa0; padding:.35rem .85rem; margin:1.1rem 0; background:#fbfaf6; border-radius:0 4px 4px 0; }
+  .thm b,.def b,.lem b,.prop b{ color:var(--accent); }
+  .proof{ border-left:2px solid var(--rule); padding-left:.9rem; margin:.8rem 0 1.2rem; color:#222; }
+  .proof::before{ content:"Proof."; font-style:italic; font-weight:bold; margin-right:.4rem; }
+  .qed{ float:right; }
+  table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.92rem; }
+  th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; }
+  th{ background:var(--box); }
+  figure{ margin:1.5rem 0; text-align:center; counter-increment: fig; }
+  figcaption{ color:var(--muted); font-size:.9rem; font-style:italic; margin-top:.4rem; }
+  figcaption::before{ content:"Fig. " counter(fig) ". "; font-weight:bold; font-style:normal; color:var(--accent); }
+  .proof figure,.thm figure{ margin:.2rem auto .7rem; max-width:460px; background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.4rem; }
+  .setupfig{ display:block; }
+  .setupfig text{ paint-order:stroke; stroke:#fff; stroke-width:2.5px; stroke-linejoin:round; }
+  /* white/light labels sit on solid fills (spheres, bars, glyphs) and already contrast — no halo, else the white stroke bloats them */
+  .setupfig text[fill="#fff"], .setupfig text[fill="#ffffff"], .setupfig text[fill="white"], .setupfig text.onfill{ stroke:none; }
+  @media (prefers-reduced-motion: reduce){ .setupfig animate, .setupfig animateTransform, .setupfig animateMotion{ display:none; } }
+  .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; }
+  .secref:hover{ border-bottom:1px solid var(--accent); }
+  .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; }
+  .toc ul{ list-style:none; padding-left:.3rem; margin:.3rem 0; } .toc a{ color:var(--accent); text-decoration:none; }
+  .toc .pending{ color:#999; }
+  .small{ font-size:.88rem; color:var(--muted); }
+  hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; }
+  .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; }
+  .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+  /* Provenance of a borrowed constitutive parameter. Enforced by
+     check_provenance.py; contract in chemistry-audit-and-plan.md §2.2c.
+     It must RENDER, not just parse: a reader has to see which numbers the
+     book earns and which it quotes. */
+  .prov{ display:block; border-left:3px solid #c08a00; padding:.15rem .7rem;
+         margin:.5rem 0; font-size:.94em; color:#4a4a4a; }
+  .prov::before{ content:"provenance — "; font-variant:small-caps;
+                 letter-spacing:.04em; color:#8a6a00; }
+  .codewrap{ position:relative; }
+  .copybtn{ position:absolute; top:.5rem; right:.5rem; display:inline-flex; align-items:center; gap:.3rem;
+    font:600 .72rem/1 ui-monospace,Consolas,monospace; color:var(--muted);
+    background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.32rem .5rem; cursor:pointer; }
+  .copybtn:hover{ color:var(--accent); border-color:var(--accent); }
+  .copybtn.copied{ color:#2a7d2a; border-color:#2a7d2a; }
+  .copybtn svg{ width:13px; height:13px; }
+  details.sol{ margin:.55rem 0 .1rem; }
+  details.sol > summary{ cursor:pointer; color:#2a7d2a; font-weight:bold; font-size:.92rem; list-style:none; }
+  details.sol > summary::before{ content:"\25B8\00a0"; }
+  details.sol[open] > summary::before{ content:"\25BE\00a0"; }
+  details.sol > div{ margin:.45rem 0 .2rem; padding-left:.3rem; border-left:2px solid #cfe3cf; }
+  ol.diag > li{ margin:.6rem 0; }
+</style>
+</head>
+<body>
+
+<h1>Chemical Foundations</h1>
+<p class="sub">Module 0: the molecular substrate the rest of the course stands on — the thermal energy scale that rules every molecular event in the body, the bonds whose stiffness becomes a tissue modulus, and the thermodynamics and kinetics that later modules consume by name.</p>
+
+<!-- DEFS0 --><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="m0bone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a08b63"/><stop offset="0.42" stop-color="#f8f2e5"/><stop offset="0.62" stop-color="#e6d9bc"/><stop offset="1" stop-color="#9c8760"/></linearGradient><radialGradient id="m0sph" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#fcf8ef"/><stop offset="0.6" stop-color="#e8dabb"/><stop offset="1" stop-color="#c2ae84"/></radialGradient><filter id="m0sh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="2" dy="3" stdDeviation="2.5" flood-color="#000" flood-opacity="0.22"/></filter><linearGradient id="m0coll" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8c9a0"/><stop offset="0.45" stop-color="#d9ad78"/><stop offset="1" stop-color="#a97f4e"/></linearGradient><linearGradient id="m0apat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfdae6"/><stop offset="0.45" stop-color="#93a9c0"/><stop offset="1" stop-color="#5d738c"/></linearGradient><radialGradient id="m0aCa" cx="36%" cy="32%" r="72%"><stop offset="0" stop-color="#d8f0d8"/><stop offset="0.55" stop-color="#5aa469"/><stop offset="1" stop-color="#2c6b3a"/></radialGradient><radialGradient id="m0aO" cx="36%" cy="32%" r="72%"><stop offset="0" stop-color="#ffd9d2"/><stop offset="0.55" stop-color="#c0392b"/><stop offset="1" stop-color="#7d1e14"/></radialGradient><radialGradient id="m0aC" cx="36%" cy="32%" r="72%"><stop offset="0" stop-color="#dcdcdc"/><stop offset="0.55" stop-color="#5a5a5a"/><stop offset="1" stop-color="#252525"/></radialGradient><radialGradient id="m0aN" cx="36%" cy="32%" r="72%"><stop offset="0" stop-color="#d3dcff"/><stop offset="0.55" stop-color="#3050d8"/><stop offset="1" stop-color="#152a7a"/></radialGradient><radialGradient id="m0aP" cx="36%" cy="32%" r="72%"><stop offset="0" stop-color="#ffe0c0"/><stop offset="0.55" stop-color="#e08b2a"/><stop offset="1" stop-color="#8f5210"/></radialGradient><filter id="m0ash" x="-30%" y="-30%" width="170%" height="180%"><feDropShadow dx="1.2" dy="1.8" stdDeviation="1.4" flood-color="#000" flood-opacity="0.3"/></filter><marker id="m0red" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L6,3 L0,6 Z" fill="#b0361f"/></marker><marker id="m0blu" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L6,3 L0,6 Z" fill="#2a6ca8"/></marker><marker id="m0grn" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L6,3 L0,6 Z" fill="#2a7d2a"/></marker><marker id="m0gry" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L6,3 L0,6 Z" fill="#666"/></marker></defs></svg><!-- /DEFS0 -->
+
+<div class="toc">
+<b>Contents</b>
+<ul>
+<li><b>0.</b> <a href="#origin">Motivation — why a bond energy sets a bone's stiffness</a></li>
+<li><b>1.</b> <span class="pending">The mole, concentration, and the $k_BT$ / $R_gT$ bridge</span></li>
+<li><b>2.</b> <span class="pending">Bonding and the stiffness ladder</span></li>
+<li><b>3.</b> <span class="pending">Thermodynamics: $\Delta G$, chemical potential, coupling</span></li>
+<li><b>4.</b> <span class="pending">Entropic elasticity: the freely jointed and worm-like chain</span></li>
+<li><b>5.</b> <span class="pending">Water, ions, and the electric double layer</span></li>
+<li><b>6.</b> <span class="pending">Kinetics: mass action, cooperativity, Arrhenius</span></li>
+<li><b>7.</b> <span class="pending">The macromolecules</span></li>
+<li><b>8.</b> <span class="pending">Computational lab — binding equilibrium and a temperature sweep</span></li>
+<li><b>9.</b> <span class="pending">What the model captures and misses; diagnostics and problems</span></li>
+<li><span class="pending">Appendix — notation, constants, chemical parameter table</span></li>
+</ul>
+<p class="small" style="margin:.4rem 0 0">§0 is complete. §1–§9 and the Appendix are in progress; their entries become links as they are built.</p>
+</div>
+
+<hr>
+
+<!-- <a class="secref" href="#origin">§0</a> -->
+<h2 id="origin">0. Motivation — why a bond energy sets a bone's stiffness</h2>
+
+<p>Stand on one leg. <a class="secref" href="module02.html#axial">Module&nbsp;2 §2</a> worked out what happens inside the thigh bone when you do: for a $70\ \mathrm{kg}$ person the hip pushes down the femoral shaft with roughly $F\approx1717\ \mathrm N$, the cortical shell that carries it has cross-sectional area $A\approx4.62\ \mathrm{cm^2}$, and so the compressive stress is $\sigma=F/A\approx3.72\ \mathrm{MPa}$. One further step gives the strain, $\varepsilon=\sigma/E$, and with $E\approx17\ \mathrm{GPa}$ that is $\varepsilon\approx2.19\times10^{-4}$ — about one part in $4600$. Over a $43\ \mathrm{cm}$ femur the whole bone shortens by $0.094\ \mathrm{mm}$, less than the width of a human hair. You feel nothing, which is the point.</p>
+
+<p>Every step of that calculation is honest except one. $F$ came from a free-body diagram. $A$ came from a ruler. $\sigma=F/A$ is a definition and $\varepsilon=\sigma/E$ is Hooke's law. But $E\approx17\ \mathrm{GPa}$ came from nowhere: it was <em>quoted</em>. Somebody put a piece of bone in a testing machine, and the course wrote down what the machine said.</p>
+
+<p><span class="prov" data-sym="E" data-state="measured">measured, not derived: $E$ for whole cortical bone is a composite property of mineral, collagen, water and porosity in a particular anatomical arrangement, and this course reports it from mechanical test. What Module&nbsp;0 derives is the two <em>end members</em> that a composite bound then combines — the stiffness of the mineral and the stiffness of the protein — because those are the quantities chemistry actually sets.</span></p>
+
+<p>That is not a small gap, and it is not confined to bone. The same silence covers the fixed charge density of cartilage, the friction coefficient of a joint surface, the gain of the bone-remodeling law, Hill's constant for muscle, and every constitutive time constant in the book. A course that computes twelve significant figures downstream of a number it never explains has taught mechanics, not physiology.</p>
+
+<div class="qbox">
+<p style="margin:.2rem 0"><b>The three-layer question.</b> Every module from here on opens by asking it, and this module supplies the third answer.</p>
+<ol style="margin:.4rem 0 .2rem">
+<li><b>What do you observe?</b> A bone that shortens by $0.094\ \mathrm{mm}$ under body load. That is <em>physics</em>, and Modules 1–17 already do it well.</li>
+<li><b>Which tissue does it?</b> Cortical bone: collagen fibrils stiffened by plates of a calcium-phosphate mineral, laid down and removed by living cells. That is <em>biology</em>, and it is the layer the course mentions but rarely computes.</li>
+<li><b>Which molecule makes that tissue behave that way?</b> A calcium ion bonded to an oxygen of a phosphate group, resisting displacement with a stiffness of roughly $25\ \mathrm{N\,m^{-1}}$. That is <em>chemistry</em>, and it is missing entirely.</li>
+</ol>
+</div>
+
+<p>The three layers are not three subjects. They are one chain, and <a class="secref" href="#origin">Fig.&nbsp;1</a> runs it downward and then back up: from the bone you stand on, to the mineralised fibril that builds it, to the single bond whose stiffness — divided by its own length — <em>is</em> the modulus of the mineral.</p>
+
+<figure>
+<!-- FIG1 --><svg class="setupfig" viewBox="0 0 760 320" width="100%" role="img" aria-label="Three-panel zoom. Left: a shaded femur with head, neck and condyles under body load, labelled E about 17 GPa, shortening by under 0.1 mm. Middle: a magnified mineralised collagen fibril, three braided triple-helix strands with apatite platelets embedded in the gap zones, D-period 67 nm, about 60 percent mineral by mass. Right: a further magnification to one calcium-oxygen ionic bond, drawn as two shaded spheres joined by a coil spring of stiffness k about 25 newton per metre at separation r-zero about 0.24 nanometre. A green return arrow runs from the bond back to the whole bone, carrying E approximately k divided by r-zero, about 104 gigapascal for the mineral alone."><text x="100.0" y="28.0" font-size="12" fill="#7a1f1f" text-anchor="middle">&#9312; whole bone &#8212; what you feel</text><text x="360.0" y="28.0" font-size="12" fill="#7a1f1f" text-anchor="middle">&#9313; mineralised fibril &#8212; which tissue</text><text x="625.0" y="28.0" font-size="12" fill="#7a1f1f" text-anchor="middle">&#9314; one ionic bond &#8212; which molecule</text><rect x="45.4" y="130.0" width="112.2" height="28.0" rx="14.0" fill="url(#m0bone)" filter="url(#m0sh)" transform="rotate(91.6 101.5 144.0)"/><rect x="81.4" y="81.5" width="26.1" height="14.0" rx="7.0" fill="url(#m0bone)" filter="url(#m0sh)" transform="rotate(45.0 94.5 88.5)"/><circle cx="79" cy="74" r="15" fill="url(#m0sph)" filter="url(#m0sh)"/><ellipse cx="100" cy="205" rx="25" ry="11" fill="url(#m0sph)" stroke="#8a7350"/><line x1="79.0" y1="42.0" x2="79.0" y2="56.0" stroke="#b0361f" stroke-width="2.6" marker-end="url(#m0red)"/><text x="64.0" y="48.0" font-size="11" fill="#b0361f" text-anchor="end">body load</text><text x="139.0" y="128.0" font-size="11" fill="#2a6ca8" text-anchor="start">shortens by</text><text x="139.0" y="142.0" font-size="11" fill="#2a6ca8" text-anchor="start">less than</text><text x="139.0" y="156.0" font-size="11" fill="#2a6ca8" text-anchor="start">0.1 mm</text><text x="100.0" y="240.0" font-size="12" fill="#333" text-anchor="middle">E &#8776; 17 GPa</text><text x="100.0" y="256.0" font-size="10" fill="#777" text-anchor="middle">(measured)</text><rect x="272" y="118" width="32" height="9" rx="2" fill="url(#m0apat)" filter="url(#m0sh)"/><rect x="284" y="153" width="32" height="9" rx="2" fill="url(#m0apat)" filter="url(#m0sh)"/><rect x="323" y="118" width="32" height="9" rx="2" fill="url(#m0apat)" filter="url(#m0sh)"/><rect x="335" y="153" width="32" height="9" rx="2" fill="url(#m0apat)" filter="url(#m0sh)"/><rect x="374" y="118" width="32" height="9" rx="2" fill="url(#m0apat)" filter="url(#m0sh)"/><rect x="386" y="153" width="32" height="9" rx="2" fill="url(#m0apat)" filter="url(#m0sh)"/><rect x="425" y="118" width="32" height="9" rx="2" fill="url(#m0apat)" filter="url(#m0sh)"/><rect x="437" y="153" width="32" height="9" rx="2" fill="url(#m0apat)" filter="url(#m0sh)"/><polyline points="258.0,140.0 261.4,144.0 264.8,147.6 268.2,150.5 271.6,152.4 275.0,153.0 278.4,152.4 281.8,150.5 285.2,147.6 288.6,144.0 292.0,140.0 295.4,136.0 298.8,132.4 302.2,129.5 305.6,127.6 309.0,127.0 312.4,127.6 315.8,129.5 319.2,132.4 322.6,136.0 326.0,140.0 329.4,144.0 332.8,147.6 336.2,150.5 339.6,152.4 343.0,153.0 346.4,152.4 349.8,150.5 353.2,147.6 356.6,144.0 360.0,140.0 363.4,136.0 366.8,132.4 370.2,129.5 373.6,127.6 377.0,127.0 380.4,127.6 383.8,129.5 387.2,132.4 390.6,136.0 394.0,140.0 397.4,144.0 400.8,147.6 404.2,150.5 407.6,152.4 411.0,153.0 414.4,152.4 417.8,150.5 421.2,147.6 424.6,144.0 428.0,140.0 431.4,136.0 434.8,132.4 438.2,129.5 441.6,127.6 445.0,127.0 448.4,127.6 451.8,129.5 455.2,132.4 458.6,136.0 462.0,140.0" fill="none" stroke="url(#m0coll)" stroke-width="6" stroke-linecap="round" opacity="0.9"/><polyline points="258.0,151.3 261.4,148.7 264.8,145.3 268.2,141.4 271.6,137.3 275.0,133.5 278.4,130.3 281.8,128.1 285.2,127.1 288.6,127.3 292.0,128.7 295.4,131.3 298.8,134.7 302.2,138.6 305.6,142.7 309.0,146.5 312.4,149.7 315.8,151.9 319.2,152.9 322.6,152.7 326.0,151.3 329.4,148.7 332.8,145.3 336.2,141.4 339.6,137.3 343.0,133.5 346.4,130.3 349.8,128.1 353.2,127.1 356.6,127.3 360.0,128.7 363.4,131.3 366.8,134.7 370.2,138.6 373.6,142.7 377.0,146.5 380.4,149.7 383.8,151.9 387.2,152.9 390.6,152.7 394.0,151.3 397.4,148.7 400.8,145.3 404.2,141.4 407.6,137.3 411.0,133.5 414.4,130.3 417.8,128.1 421.2,127.1 424.6,127.3 428.0,128.7 431.4,131.3 434.8,134.7 438.2,138.6 441.6,142.7 445.0,146.5 448.4,149.7 451.8,151.9 455.2,152.9 458.6,152.7 462.0,151.3" fill="none" stroke="url(#m0coll)" stroke-width="6" stroke-linecap="round" opacity="0.9"/><polyline points="258.0,128.7 261.4,127.3 264.8,127.1 268.2,128.1 271.6,130.3 275.0,133.5 278.4,137.3 281.8,141.4 285.2,145.3 288.6,148.7 292.0,151.3 295.4,152.7 298.8,152.9 302.2,151.9 305.6,149.7 309.0,146.5 312.4,142.7 315.8,138.6 319.2,134.7 322.6,131.3 326.0,128.7 329.4,127.3 332.8,127.1 336.2,128.1 339.6,130.3 343.0,133.5 346.4,137.3 349.8,141.4 353.2,145.3 356.6,148.7 360.0,151.3 363.4,152.7 366.8,152.9 370.2,151.9 373.6,149.7 377.0,146.5 380.4,142.7 383.8,138.6 387.2,134.7 390.6,131.3 394.0,128.7 397.4,127.3 400.8,127.1 404.2,128.1 407.6,130.3 411.0,133.5 414.4,137.3 417.8,141.4 421.2,145.3 424.6,148.7 428.0,151.3 431.4,152.7 434.8,152.9 438.2,151.9 441.6,149.7 445.0,146.5 448.4,142.7 451.8,138.6 455.2,134.7 458.6,131.3 462.0,128.7" fill="none" stroke="url(#m0coll)" stroke-width="6" stroke-linecap="round" opacity="0.9"/><line x1="352" y1="104" x2="330" y2="119" stroke="#4a627c" stroke-width="1"/><text x="360.0" y="100.0" font-size="11" fill="#4a627c" text-anchor="middle">apatite platelets</text><line x1="272" y1="178" x2="323" y2="178" stroke="#666" stroke-width="1.4" marker-end="url(#m0gry)"/><line x1="323" y1="178" x2="272" y2="178" stroke="#666" stroke-width="1.4" marker-end="url(#m0gry)"/><line x1="272" y1="168" x2="272" y2="186" stroke="#666" stroke-width="1"/><line x1="323" y1="168" x2="323" y2="186" stroke="#666" stroke-width="1"/><text x="297.0" y="196.0" font-size="11" fill="#666" text-anchor="middle">D-period 67 nm</text><text x="410.0" y="219.0" font-size="11" fill="#8a6236" text-anchor="middle">collagen triple helix</text><text x="360.0" y="240.0" font-size="11" fill="#333" text-anchor="middle">&#8776; 60% mineral by mass</text><polyline points="586.0,140.0 597.2,140.0 602.0,148.0 606.8,132.0 611.6,148.0 616.4,132.0 621.2,148.0 626.0,132.0 630.8,148.0 635.6,132.0 640.4,148.0 645.2,132.0 650.0,148.0 654.8,140.0 666.0,140.0" fill="none" stroke="#444" stroke-width="2.0" stroke-linejoin="round"/><circle cx="560.0" cy="140.0" r="25.0" fill="url(#m0aCa)" filter="url(#m0ash)"/><text x="560.0" y="144.0" font-size="12" fill="#fff" text-anchor="middle">Ca<tspan baseline-shift="super" font-size="8">2+</tspan></text><circle cx="686.0" cy="140.0" r="18.0" fill="url(#m0aO)" filter="url(#m0ash)"/><text x="686.0" y="144.0" font-size="12" fill="#fff" text-anchor="middle">O<tspan baseline-shift="super" font-size="8">2&#8722;</tspan></text><line x1="560" y1="178" x2="686" y2="178" stroke="#666" stroke-width="1.4" marker-end="url(#m0gry)"/><line x1="686" y1="178" x2="560" y2="178" stroke="#666" stroke-width="1.4" marker-end="url(#m0gry)"/><line x1="560" y1="168" x2="560" y2="186" stroke="#666" stroke-width="1"/><line x1="686" y1="168" x2="686" y2="186" stroke="#666" stroke-width="1"/><text x="623.0" y="196.0" font-size="11" fill="#666" text-anchor="middle">r&#8320; &#8776; 0.24 nm</text><text x="623.0" y="100.0" font-size="11" fill="#333" text-anchor="middle">bond stiffness k &#8776; 25 N m<tspan baseline-shift="super" font-size="8">&#8722;1</tspan></text><text x="623.0" y="219.0" font-size="11" fill="#777" text-anchor="middle" font-style="italic">the spring the whole leg stands on</text><path d="M120.0,118.0 L250.0,60.0 M120.0,162.0 L250.0,220.0" fill="none" stroke="#999" stroke-width="1.2" stroke-dasharray="5 3"/><path d="M430.0,118.0 L520.0,60.0 M430.0,162.0 L520.0,220.0" fill="none" stroke="#999" stroke-width="1.2" stroke-dasharray="5 3"/><path d="M623,276 C560,310 220,310 110,284" fill="none" stroke="#2a7d2a" stroke-width="2.2" marker-end="url(#m0grn)"/><text x="370.0" y="268.0" font-size="12" fill="#2a7d2a" text-anchor="middle">E &#8776; k / r&#8320; = (25 N m<tspan baseline-shift="super" font-size="8">&#8722;1</tspan>) &#247; (0.24 nm) &#8776; 104 GPa for the mineral alone</text></svg><!-- /FIG1 -->
+<figcaption>The trace, in three magnifications. Left, the physics you feel: a femur under body load, shortening by less than a tenth of a millimetre because $E\approx17\ \mathrm{GPa}$. Centre, the biology: a collagen fibril whose triple-helical strands are braided around plates of apatite mineral, repeating on a $67\ \mathrm{nm}$ D-period and about $60\%$ mineral by mass. Right, the chemistry: one $\mathrm{Ca^{2+}}\!-\!\mathrm{O^{2-}}$ ionic bond, drawn as what it mechanically is — a spring of stiffness $k$ at equilibrium separation $r_0$. The green arrow is the return trip, and it is the whole argument of this module in one line.</figcaption>
+</figure>
+
+<h3>The bridge, in one line of dimensional reasoning</h3>
+
+<p>Why should a bond stiffness divided by a bond length be a modulus at all? Count. Take a cube of material whose atoms sit on a lattice of spacing $r_0$, and pull on it. Across any cross-section of area $A$ there are about $A/r_0^{2}$ bonds, because each bond claims a patch of area $r_0^{2}$. Stretch the material by strain $\varepsilon$ and — if the deformation is <em>affine</em>, meaning every bond stretches in the same proportion as the block does — each bond lengthens by $x=\varepsilon r_0$ and pulls back with $f=kx=k\varepsilon r_0$. The stress is the total force over the area:</p>
+
+<p>$$\sigma \;=\; \frac{(A/r_0^{2})\,f}{A} \;=\; \frac{k\,\varepsilon\,r_0}{r_0^{2}} \;=\; \frac{k}{r_0}\,\varepsilon \qquad\Longrightarrow\qquad E \;\sim\; \frac{k}{r_0}.$$</p>
+
+<p>Here $k$ is the <b>bond stiffness</b>, the second derivative of the interatomic potential at its minimum, in $\mathrm{N\,m^{-1}}$; $r_0$ is the <b>equilibrium bond length</b>, in metres; $\sigma$, $\varepsilon$ and $E$ are the stress, strain and Young's modulus of <a class="secref" href="module02.html#setup">Module&nbsp;2 §1</a>. The result is a <em>scaling</em> argument, not yet a theorem: the real answer carries a factor of order one that depends on the coordination number of the lattice and on which direction you pull. <span class="secref">§2</span> does it properly — defines the potential, takes the second derivative, sums over neighbours, and proves the bound. What the one-liner already buys is the order of magnitude, and the order of magnitude is the entire story.</p>
+
+<p>Put the four bond types of biological matter into it. The stiffnesses and lengths below are the ones <span class="secref">§2</span> derives; here they are simply run through $E\sim k/r_0$ so that the ladder can be seen at once.</p>
+
+<table>
+<caption class="small" style="caption-side:top;text-align:left;padding-bottom:.3rem">The stiffness ladder. Four kinds of bond, five orders of magnitude of modulus, one formula.</caption>
+<thead><tr><th>Bond</th><th>Where it holds the body together</th><th>$k$ ($\mathrm{N\,m^{-1}}$)</th><th>$r_0$ ($\mathrm{nm}$)</th><th>$k/r_0$ (GPa)</th></tr></thead>
+<tbody>
+<tr><td>covalent C–C</td><td>the backbone of every protein chain</td><td>180</td><td>0.154</td><td>1170</td></tr>
+<tr><td>ionic Ca–O</td><td>the apatite mineral of bone and tooth</td><td>25</td><td>0.240</td><td>104</td></tr>
+<tr><td>hydrogen</td><td>the rungs holding a collagen triple helix shut</td><td>0.30</td><td>0.280</td><td>1.07</td></tr>
+<tr><td>van der Waals</td><td>lipid tails packed in a cell membrane</td><td>0.02</td><td>0.400</td><td>0.05</td></tr>
+</tbody>
+</table>
+
+<p>Read the third and fourth rows against <a class="secref" href="module02.html#composite">Module&nbsp;2 §5</a>. That section bounds the stiffness of bone between a Voigt and a Reuss average of two numbers it takes as given: a mineral modulus near $100\ \mathrm{GPa}$ and a collagen modulus near $1\ \mathrm{GPa}$. Both fall out of the ladder — $104$ and $1.07$ — and they fall out for a reason that is chemistry and nothing else. Apatite is stiff because it is held by <em>ionic</em> bonds, short and strong. Collagen is a hundred times softer because along the direction that matters it is held by <em>hydrogen</em> bonds, long and weak, even though its own backbone is covalent and stiffer than either. A material is as stiff as its weakest bond in the load path, not as its strongest bond anywhere.</p>
+
+<h3>The ruler: thermal energy</h3>
+
+<p>One more quantity has to be on the table before any of this can be judged, and it is the quantity the rest of the course has never needed: the size of a thermal kick. At body temperature $T=310.15\ \mathrm K$, Boltzmann's constant $k_B=1.381\times10^{-23}\ \mathrm{J\,K^{-1}}$ gives</p>
+
+<p class="keyresult">$$k_BT \;=\; 4.28\times10^{-21}\ \mathrm J \;=\; 4.28\ \mathrm{zJ} \;=\; 26.7\ \mathrm{meV},\qquad R_gT \;=\; N_A k_B T \;=\; 2.58\ \mathrm{kJ\,mol^{-1}}.$$</p>
+
+<p>$N_A=6.022\times10^{23}\ \mathrm{mol^{-1}}$ is Avogadro's number, $R_g=N_Ak_B$ the gas constant — written $R_g$ throughout this course because $R$ is already the joint reaction force of <a class="secref" href="module03.html#reaction">Module&nbsp;3 §4</a> — and $\mathrm{zJ}$ is the zeptojoule, $10^{-21}\ \mathrm J$, which is simply the natural unit for one molecule. $k_BT$ is the energy per molecule that temperature hands out for free. Anything a molecule must do that costs much less than $k_BT$ happens constantly, unbidden, whether or not it is useful. Anything that costs much more than $k_BT$ does not happen at all unless something pays for it.</p>
+
+<p>Now measure standing on one leg against that ruler. Each Ca–O bond in the loaded femur stretches by $x=\varepsilon r_0 = (2.19\times10^{-4})(0.24\ \mathrm{nm}) = 5.25\times10^{-14}\ \mathrm m$ — fifty femtometres, roughly one twenty-thousandth of the bond's own length. The elastic energy it stores is $\tfrac12kx^{2}=3.44\times10^{-26}\ \mathrm J$, which is</p>
+
+<p class="keyresult">$$\frac{\tfrac12 k x^{2}}{k_BT} \;=\; 8.0\times10^{-6},\qquad\text{i.e. the thermal jiggle is about } 1.2\times10^{5} \text{ times larger.}$$</p>
+
+<p>Standing on your leg perturbs a bond a hundred thousand times more gently than room temperature already does. That single ratio explains three things the course has so far only asserted. Bone is <em>linear</em> under physiological load, because the load never leaves the bottom of the potential well where the quadratic approximation lives. Bone does not <em>creep</em> under standing, because the load is nowhere near the barrier that a thermally activated rearrangement would have to cross. And bone fails in a <em>fatigue</em> regime rather than a static one: what breaks it is the accumulation of rare events, not the depth of any single squeeze. None of that can be said without the ruler, and the ruler is chemistry.</p>
+
+<h3>What this module is for, and how to know it earned its place</h3>
+
+<p>A standalone chapter of chemistry, sitting in front of a mechanics course, is exactly the failure this course is trying to correct: it puts the substrate <em>beside</em> the derivations instead of <em>inside</em> them. So Module 0 is built under a rule that can be checked. <b>Every section of this module must be cited from at least one physics derivation in Modules 1–17.</b> A section nothing calls is a section that was written for its own sake, and it gets cut.</p>
+
+<table>
+<caption class="small" style="caption-side:top;text-align:left;padding-bottom:.3rem">The debt each section is written to repay. This is the module's specification, and its acceptance test.</caption>
+<thead><tr><th>§</th><th>What it builds</th><th>The claim elsewhere that has been waiting for it</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>the mole, concentration, and the $k_BT$ / $R_gT$ bridge</td><td>every energy comparison below; the unit every later section is quoted in</td></tr>
+<tr><td>2</td><td>bonding and the stiffness ladder</td><td>Module 2 §5's two end-member moduli, $\approx100\ \mathrm{GPa}$ and $\approx1\ \mathrm{GPa}$</td></tr>
+<tr><td>3</td><td>$\Delta G=\Delta H-T\Delta S$, chemical potential, reaction coupling</td><td>Module 5's crossbridge energetics; Module 4's swelling; any pump in the book</td></tr>
+<tr><td>4</td><td>entropic elasticity, force as $-T\,\partial S/\partial x$</td><td>Module 6's toe region, currently derived from crimp geometry alone</td></tr>
+<tr><td>5</td><td>water, ions, screening, pH and buffering</td><td>Module 4 §2's Donnan pressure; Module 5 §3's membrane potential</td></tr>
+<tr><td>6</td><td>mass action, cooperativity, Arrhenius and $Q_{10}$</td><td>Module 5's fitted activation time constants and its constant $v_{\max}$</td></tr>
+<tr><td>7</td><td>the macromolecules: amino acid, Gly-X-Y helix, GAG, bilayer</td><td>Module 4's fixed charge density; Module 6's cross-link density</td></tr>
+<tr><td>8</td><td>a computational lab: binding equilibrium, temperature sweep</td><td>the numerical habits Modules 5, 6 and 14 will need</td></tr>
+<tr><td>9</td><td>limits, diagnostics, and thirty problems</td><td>the honesty section every module in this course carries</td></tr>
+</tbody>
+</table>
+
+<p>The gold-barred paragraph earlier in this section is the other half of the rule, and it will appear throughout the course from here on. Every constitutive parameter that carries units and names a property of a tissue must declare where it came from, in one of exactly three states: <b>derived here</b>, <b>derived in Module 0 §X</b> with a link, or <b>measured, not derived</b> — together with the reason no derivation is offered. The third state is legitimate; biology is full of numbers nobody can yet compute from first principles. What is not legitimate is leaving the reader unable to tell which is which. The declaration is machine-checked, so it cannot quietly lapse by the third module.</p>
+
+<p>Chemistry, then, is not an appendix to this course. It is the missing first half of a proof the course has been giving for seventeen modules — the half that says where the inputs came from. <span class="secref">§1</span> starts it, with the unit that makes every later comparison possible.</p>
+
+<script>
+function copyCode(btn){
+  var code = btn.parentElement.querySelector('code');
+  if(!code) return;
+  var text = code.textContent;
+  var done = function(){
+    var label = btn.querySelector('span'), prev = label.textContent;
+    btn.classList.add('copied'); label.textContent = 'Copied!';
+    setTimeout(function(){ btn.classList.remove('copied'); label.textContent = prev; }, 1500);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done, function(){});
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+</script>
+
+</body>
+</html>
