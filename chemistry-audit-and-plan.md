@@ -129,9 +129,15 @@ a bond energy, or a rate constant, so nothing built on that ladder could land th
 ### 2.1 Design principle
 
 Add the missing rung: **Level −1, the molecular and chemical substrate.** Every new
-section must convert a chemical quantity into a mechanical number the existing course
-already uses. If a proposed section cannot name the mechanical parameter it explains,
-it does not belong.
+passage must convert a chemical or cellular quantity into a mechanical number the
+existing course already uses. If a proposed passage cannot name the mechanical
+parameter it explains, it does not belong.
+
+**The unit of work is a trace, not a topic.** Under the interweaving requirement
+(§2.2) the deliverable for each item is an unbroken chain
+**molecule → cell → tissue → body**, ending on a number the course already prints.
+A chemistry passage that does not terminate on an existing mechanical result is
+decoration, however correct it is.
 
 Worked example of the standard (numbers verified in Python): at `T = 310.15 K`,
 `k_B T = 4.28 zJ` and `R_g T = 2.58 kJ/mol`. In-vivo ATP hydrolysis at
@@ -141,102 +147,154 @@ efficient, and whole-muscle efficiency near `25%` is that figure minus the activ
 overhead — SERCA pumping the calcium back. None of that calculation exists anywhere
 in the course today, and it is what explains Module 9's cost of transport.
 
-### 2.2 Shape — decided 2026-09-09
+### 2.2 Shape — decided 2026-09-09, revised same day for interweaving
 
-**One new module plus threading.** Chosen by the user over the four-module option:
+**Requirement added by the user:** chemistry, biology and physics must be
+**interwoven**, and every physics result must be traceable back to its biological
+and chemical origin.
 
-1. **`module00.html` — Chemical Foundations.** New, built **first**, to the **full
-   course standard**: 30 problems, 5 diagnostics, computational labs, Tier-2 figures,
-   appendix. It fixes the notation and the three laws everything else cites.
-2. **Chemistry and biology threaded into the existing seventeen** as new sections in
-   the modules where each topic belongs. No Modules 18–20.
+That requirement kills the letter-suffix scheme this plan carried in its first
+draft. A `§5C` section placed after §5 is **adjacency, not interweaving**: it leaves
+§5 asserting `E_apatite = 100 GPa` and explains the number somewhere else. A reader
+of §5 alone gets the book we already have. Worse, the suffix institutionalises the
+split — it declares that physics lives in `§N` and chemistry in `§NC`, which is the
+opposite of the requirement.
 
-**Scope includes biology** (user's choice): cell signalling, endocrinology and tissue
-turnover are in, not only physical chemistry. Deriving the M2 §7 mechanostat needs
-RANKL/OPG mass action, so the line could not be held at chemistry alone anyway.
+Judged against the five-part standard, the defect is exact. For the claim
+`E = 17 GPa`, part 3 is *a proof in the smallest setting that shows the mechanism*.
+Under the interweaving requirement the mechanism for a tissue property **is** the
+chemistry, so the chemistry is not an addendum to that proof — it is the missing
+first half of it, and it belongs **before** the Voigt/Reuss bound, because the bound
+consumes `E_m` and `E_c` as inputs. A derivation that assumes its inputs and bounds
+them afterwards is incomplete at the point of assumption.
 
-#### The renumbering problem, and the scheme that avoids it
+**This is not new scope.** `prompt.txt` fixes a Multiscale Scope and a teaching
+pipeline whose **step 3 is "physical mechanism" and step 4 is "molecular / cellular
+substrate"**. The build executed steps 5–19 and skipped step 4. Interweaving means
+running step 4 in every topic. This effort completes the original specification; it
+does not extend it.
 
-Threading means inserting sections into finished modules. Two facts, both measured:
+#### The revised shape
 
-- **Safe:** section anchors are semantic slugs (`#hillmodel`, `#sarcomere`,
-  `#activation`), not numbers. All **59** cross-file links in the repo point at
-  slugs, so inserting a section breaks none of them.
-- **Dangerous:** displayed section numbers are used heavily in prose —
-  **250** `§N` references in M4, **248** in M5, **208** in M6, 75 in M2. A mid-module
-  insert that renumbers §6 onward would silently invalidate hundreds of references.
-  `check_links.py` would still pass, because the links resolve; they would just point
-  at the wrong section. That is the worst class of defect: green gates, wrong book.
+1. **`module00.html` — Chemical Foundations.** New, built **first**, to the full
+   course standard. Its role is explicitly a **reference for the interwoven
+   derivations**, not a container for the chemistry. A standalone foundations module
+   is itself the anti-pattern the requirement forbids, so it earns its place only by
+   being cited: **every section of Module 0 must be cited from at least one physics
+   derivation in Modules 1–17**, or it is unearned and gets cut.
+2. **Extend the derivation chains backwards inside Modules 1–17.** Every module runs
+   a chain — load → stress → strain → material property → outcome — that currently
+   *starts* at "material property, given". Interweaving means it starts at bond, ion
+   and reaction and runs forward unbroken.
+3. **Scope is chemistry *and* biology,** with biology as the load-bearing middle
+   layer. Tracing physics to chemistry alone skips a layer and becomes reductionist
+   hand-waving: a bond energy does not explain a remodeling rate — an osteoclast
+   population does. Molecule → cell → tissue → body is the trace, and the cell rung
+   is not optional.
 
-**Scheme: letter-suffixed chemistry sections.** A chemistry section attached to §5
-is numbered **§5C**, with slug id `chem-<topic>`, placed immediately after §5.
-It sits in the right pedagogical position, and **renumbers nothing** — every one of
-the existing `§N` references stays correct. `C` reads as "the chemistry of this
-section", and the course already uses decimal and lettered section labels
-(§3.5, "8.1 What it gets right", "A. Appendix").
+#### Placement: subsection at the point of first use
 
-### 2.2b Threading map
+Chemistry enters as a **subsection inside the physics section that first uses the
+quantity** — `§5.4 Where the two moduli come from`, not a sibling `§5C`.
 
-Chemistry sections to insert, by module. Each is listed as
-`§NC — title` → *the existing quantity it derives*.
+This is strictly better than the letter suffix on both counts:
+
+- **Equally safe for renumbering.** A subsection under §5 does not shift §6, so all
+  **250** in-prose `§N` references in M4, 248 in M5, 208 in M6 and 75 in M2 stay
+  correct, and all 59 slug-based cross-file links are untouched either way.
+- **Pedagogically correct.** The chemistry sits inside the derivation instead of
+  beside it. The course already uses this form (`§3.5`, `8.1 What it gets right`).
+
+#### The provenance rule — the gate that makes "interwoven" checkable
+
+Every boxed constitutive parameter in the course — `E`, `c_F`, `mu`, `sigma_Y`, the
+remodeling gain `k`, Hill's `a/F_max`, every time constant — must declare one of
+three states:
+
+1. **Derived here** from chemistry or cell biology, in this section.
+2. **Derived in Module 0 §X**, with a link.
+3. **Measured, not derived** — and the text says so, and says why no derivation is
+   offered.
+
+State 3 is legitimate and must be **visible**. The honesty of the book depends on
+the reader knowing which parameters are earned and which are borrowed. Every other
+standard in this repo is held by a script; an "interwoven" requirement with no gate
+will drift by the third module. **Add `check_provenance.py`** to the hardening loop:
+it flags any boxed parameter whose section declares none of the three states.
+
+#### The three-layer opening
+
+Every `§0` currently opens with a daily-life phenomenon and goes straight to
+mechanics. Under interweaving, each `§0` states the three-layer question up front:
+what you observe (physics), which tissue does it (biology), which molecule makes
+that tissue behave that way (chemistry). Cheap to write, and it sets the reader's
+expectation for the whole module.
+
+#### Honest cost
+
+The first draft of this plan was additive: seventeen new sections, existing prose
+untouched. This revision **edits the existing derivations** in M2, M4, M5 and M6 —
+the densest files in the repo — because that is where the chains have to be
+extended. It is a larger job than the version this document carried before.
+
+### 2.2b Interweaving map
+
+Organised by **the physics result whose provenance is being supplied**, because that
+is the unit of work the requirement defines. Format: *existing physics claim* →
+**the trace that must be written**, and where it goes.
 
 **Module 2 — bone**
-- §5C Chemistry of the mineral–collagen composite → *derives `E_apatite ~ 100 GPa`
-  and `E_collagen ~ 1 GPa` from bond stiffness and bond density; calcium-phosphate
-  solubility product, supersaturation, nucleation in the collagen gap zone, pH
-  dependence, and why bone stops near 50% mineral.*
-- §7C The signalling chemistry of the mechanostat → *Wnt/sclerostin and RANKL/OPG as
-  a mass-action model, integrated to **derive** the mechanostat curve that §7 states
-  as a constitutive law.*
+- `E_apatite ~ 100 GPa`, `E_collagen ~ 1 GPa` (§5, currently asserted as inputs to
+  the Voigt/Reuss bound) → **bond stiffness and bond density give both moduli**;
+  calcium-phosphate solubility, supersaturation, nucleation in the collagen gap zone,
+  and why mineralisation stops near 50%. Goes **before** the bound, inside §5.
+- The mechanostat ODE `dZ/dt = k Z (eps - eps_hi)` (§7, self-labelled "a stated
+  constitutive law, not a derived theorem") → **osteocyte fluid-shear sensing, then
+  Wnt/sclerostin and RANKL/OPG mass action, then osteoblast and osteoclast
+  populations, then the remodeling rate**, integrated to *derive* the mechanostat
+  curve. This is the full molecule → cell → tissue trace and the course's best
+  demonstration of the three-layer standard.
 
 **Module 4 — cartilage**
-- §1C Proteoglycan chemistry → *derives the fixed charge density `c_F` that §2 takes
-  as given, from GAG sulfation.*
-- §7C Synovial fluid chemistry → *hyaluronan and lubricin; the polymer physics behind
-  the boundary-lubrication `mu_eq` that §7 assumes.*
-- §8C Enzymatic degradation kinetics → *MMPs and aggrecanases as a rate model of the
-  osteoarthritis cascade §8 tells as a story.*
+- Fixed charge density `c_F` (§2, given) → **GAG sulfation chemistry**, placed inside
+  §1 where the composite is introduced, so §2's Donnan derivation consumes a quantity
+  the reader has watched being built.
+- Boundary friction `mu_eq` (§7, given) → **hyaluronan and lubricin polymer physics.**
+- The osteoarthritis cascade (§8, told as a narrative) → **MMP and aggrecanase
+  kinetics** driving `c_F` down, closing the loop back onto §2.
 
 **Module 5 — muscle**
-- §2C Crossbridge thermodynamics → *`Delta G` of ATP against power-stroke work;
-  the ~55% crossbridge and ~25% whole-muscle efficiency; the Fenn effect.*
-- §3C Nernst, Goldman–Hodgkin–Katz, and the Na/K pump → *derives the resting and
-  action potential §3 narrates, and the metabolic cost of excitability.*
-- §5C Cooperative Ca–troponin binding → *derives the activation ODE and its
-  asymmetric rise and fall time constants that §5 fits.*
-- §6C Arrhenius and `Q_10` → *the temperature dependence of `v_max`; why a cold
-  muscle is weaker and warm-up works.*
+- Crossbridge force and efficiency (§2) → **`Delta G` of ATP hydrolysis against
+  power-stroke work**: `21.3 k_B T` available, `11.7 k_B T` delivered, about 55%
+  crossbridge efficiency, about 25% whole-muscle after SERCA overhead.
+- The action potential (§3, narrated) → **Nernst and Goldman–Hodgkin–Katz**, plus
+  Na/K pump stoichiometry and the metabolic cost of excitability.
+- Activation time constants (§5, fitted) → **cooperative Ca–troponin binding**, whose
+  Hill coefficient and rate constants *are* the asymmetric rise and fall.
+- `v_max` (§6, a constant) → **Arrhenius and `Q_10`**: why a cold muscle is weaker.
 
 **Module 6 — tendon and ligament**
-- §1C Collagen molecular chemistry and entropic elasticity → *Gly-X-Y, hydroxyproline,
-  the hydrogen-bond ladder, the D-period; the `k_B T`-scale entropic origin of the toe
-  region that §1 explains by crimp geometry alone.*
-- §5C Cross-link chemistry → *lysyl-oxidase enzymatic against non-enzymatic glycation
-  cross-links; how cross-link density sets the modulus and the hysteresis loop of §7.*
+- The toe region (§1, derived from crimp geometry alone) → **entropic elasticity at
+  the `k_B T` scale**, plus Gly-X-Y, hydroxyproline, the hydrogen-bond ladder and the
+  D-period. The geometric and the entropic contribution must be separated, not merged.
+- Modulus and hysteresis (§2, §7) → **cross-link density**: lysyl-oxidase enzymatic
+  cross-links against non-enzymatic glycation cross-links.
+
+**Module 14 — aging** (repays the IOU Module 10 §10 left)
+- Each of the four parameter drifts gets its chemistry and cell biology: **protein
+  turnover balance** (sarcopenia), **PTH, vitamin D and oestrogen, with bone as the
+  body's calcium buffer** (osteoporosis), and **AGE accumulation kinetics in glucose
+  and time** (tendon stiffening, bone embrittlement).
 
 **Modules 8 and 9 — walking, running**
-- §xC Bioenergetics of locomotion → *the phosphocreatine, glycolytic and oxidative ATP
-  supply systems as a kinetic model with rate ceilings and capacities; produces the
-  cost of transport and the power–duration curve these modules quote empirically.*
-
-**Module 14 — aging**
-- §2C Protein turnover and sarcopenia → *synthesis-against-breakdown balance as the
-  chemistry behind the strength drift.*
-- §3C Endocrine control of bone → *PTH, vitamin D and oestrogen; bone as the body's
-  calcium buffer; the chemistry of the osteoporosis drift.*
-- §4C Glycation kinetics → *AGE accumulation in glucose and time, predicting the
-  tendon stiffening and bone embrittlement §3–§4 assert.* **This repays the IOU
-  Module 10 §10 left and Module 14 never paid.**
+- Cost of transport and the power–duration curve (quoted empirically) → **the
+  phosphocreatine, glycolytic and oxidative ATP supply systems** as a kinetic model
+  with rate ceilings and capacities.
 
 **Modules 15, 16, 17 — light**
-- M15: biochemical markers as measurements (CTX, P1NP, blood lactate) and their error
-  model, alongside the mechanical instruments.
-- M16: the chemical-potential driving term that generalizes the poroelastic model
-  already there.
-- M17: one chemistry-anchored capstone project.
-
-Total: **one new module plus roughly seventeen threaded sections across nine
-modules.**
+- M15: biochemical markers (CTX, P1NP, lactate) and their error model.
+- M16: the chemical-potential driving term generalising the existing poroelastic model.
+- M17: one capstone project whose chain runs from molecule to whole-body outcome.
 
 ### 2.3 Module 0 — Chemical Foundations
 
@@ -289,12 +347,21 @@ section uses. Everything is anchored to a tissue, never to a generic beaker.
    for chemical equilibria is untested — test one before writing forty.
 5. **Publish-while-incomplete.** Module 0 goes live in `index.html` and `README.md`
    on its first commit.
-6. **Never renumber an existing section.** Use the `§NC` letter-suffix scheme of
-   §2.2. A renumber would silently misdirect up to 250 in-prose references per module
-   while every automated gate still passed.
-7. **Re-run the full hardening loop on every module a threaded section touches**, plus
-   a `rigor-reviewer` pass. Threading reopens modules the editor pass closed at
-   `a93a55c`; that is the accepted cost of the chosen shape.
+6. **Never renumber an existing section.** Chemistry enters as a **subsection at the
+   point of first use** (§2.2), which shifts no integer section number. A renumber
+   would silently misdirect up to 250 in-prose references per module while every
+   automated gate still passed — green gates, wrong book.
+7. **Re-run the full hardening loop on every module a trace touches**, plus a
+   `rigor-reviewer` pass. Interweaving reopens the derivations the editor pass closed
+   at `a93a55c`; that is the accepted cost of the chosen shape.
+8. **Add `check_provenance.py` to the hardening loop** before the first trace is
+   written (§2.2). Every boxed constitutive parameter must declare *derived here*,
+   *derived in Module 0 §X*, or *measured, not derived, because …*. Without a gate,
+   "interwoven" drifts by the third module.
+9. **Rigor parity applies to the traces.** The existing rule — if one boxed result in
+   a section gets a Proposition and a proof, its siblings of equal weight must too —
+   now binds the chemistry. A derived `E_apatite` sitting beside an asserted
+   `E_collagen` is the Module 6 §6 defect in a new place.
 
 ---
 
@@ -304,25 +371,37 @@ Decided with the user on 2026-09-09:
 
 | Question | Decision |
 |---|---|
-| Shape | Thread into the existing 17, plus one new `module00.html` |
+| Shape | Interweave into the existing 17, plus one new `module00.html` |
 | Scope | Chemistry **and** biology (signalling, endocrine, tissue turnover) |
 | Module 0 depth | Full course standard — 30 problems, labs, figures, appendix |
 | Build order | Module 0 first |
+| Structure | Subsection at point of first use; **no** `§NC` letter suffixes |
+| Enforcement | `check_provenance.py` added to the hardening loop |
 
 **Order of work**
 
+0. **`check_provenance.py` first**, before any prose. Write the gate, run it over all
+   17 existing modules, and keep its output as the baseline inventory of every
+   borrowed parameter in the course. That inventory *is* the definitive worklist —
+   it replaces the judgement calls in §2.2b with a measured list.
 1. **Module 0**, section by section under the standing convention: build one section,
    report with a short summary and two `★ Insight` bullets, review, then commit and
-   push. Fix the chemistry symbol namespace in its appendix before §1 is written.
-   Get one representative molecular figure approved before mass-producing the rest.
-2. **Module 5** threaded sections (§2C, §3C, §5C, §6C) — the largest chemistry deficit
-   against the largest existing narrative, and the ATP efficiency calculation is the
-   course's best single demonstration of the new layer.
-3. **Module 2** (§5C, §7C), then **Module 6** (§1C, §5C), then **Module 4**
-   (§1C, §7C, §8C) — these four modules hold nearly all the existing chemistry nouns.
-4. **Module 14** (§2C, §3C, §4C) — repays the Module 10 IOU.
-5. **Modules 8 and 9** bioenergetics section.
-6. **Modules 15, 16, 17** light additions.
+   push. Fix the chemistry symbol namespace in its appendix before §1 is written, and
+   get one representative molecular figure approved before mass-producing the rest.
+   Its sections are written **to serve the traces in step 2 onward**, not as a survey
+   of chemistry.
+2. **Module 5** — the largest deficit against the largest existing narrative, and the
+   ATP efficiency trace is the single best demonstration of the standard.
+3. **Module 2**, whose §7 mechanostat trace is the course's only full
+   molecule → cell → tissue → body chain; then **Module 6**, then **Module 4**.
+4. **Module 14** — repays the Module 10 IOU.
+5. **Modules 8 and 9** — bioenergetics of locomotion.
+6. **Modules 15, 16, 17** — light additions.
 
-Each threaded section re-runs the module's full hardening loop and a
+Each trace re-runs the module's full hardening loop, `check_provenance.py`, and a
 `rigor-reviewer` pass before commit.
+
+**Open question deferred to the build.** Module 0 is written first but is defined by
+what the traces need. Expect to revise it after Modules 5 and 2 are interwoven — the
+traces will show which foundations sections were guessed at and which are load-bearing.
+That is intended, not a planning failure.
