@@ -162,6 +162,7 @@ python $S/check_proofs.py moduleNN.html   # a .prop/.thm/.lem with no adjacent .
 python $S/check_code.py  moduleNN.html    # every Python <pre><code> block is PEP8 (pycodestyle) — 0 issues (HARD)
 python $S/check_probfig.py moduleNN.html  # problem (C/D/K) figures that are neither a drawn entity nor a labelled plot (advisory; then eyeball ALL problem figures for the 3-layer semantic audit)
 python $S/check_bodyprop.py moduleNN.html # HARD: a body figure with a HAIRLINE limb (thickness/length <0.18; template limbs are 0.23-0.43). Catches "chunky head+torso bolted onto thin stick legs". Advisory: limb thin vs a head-gradient circle (may be anatomy, not a head) + head-with-no-limbs
+python $S/check_provenance.py moduleNN.html # HARD: a gated constitutive parameter (E, sigma_c, c_F, mu_fric, k_remodel, a_hill, tau_*) used inside a boxed result with no <span class="prov" data-sym data-state> declaring derived / module0 / measured-because. Contract + inclusion list + marker spec: chemistry-audit-and-plan.md §2.2c. `--inventory` dumps every units-bearing boxed assignment (the worklist), `--self-test` runs its fixtures
 python $S/shoot.py FILE out.png --size WxH   # preview render
 ```
 **Rigor rule (`check_proofs.py` + eyeball): every boxed result earns its box.** If one

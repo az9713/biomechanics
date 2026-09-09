@@ -296,6 +296,209 @@ is the unit of work the requirement defines. Format: *existing physics claim* �
 - M16: the chemical-potential driving term generalising the existing poroelastic model.
 - M17: one capstone project whose chain runs from molecule to whole-body outcome.
 
+### 2.2c Provenance gate — decisions of 2026-09-09
+
+§2.2 fixes the *rule*. This subsection fixes the two things a script needs that a
+human reader does not: **which numbers it inspects**, and **what an acceptable answer
+looks like in the text**. Both were put to the user as open design choices on
+2026-09-09; both were decided in favour of the recommendation recorded below. Read
+this before touching `check_provenance.py` — the definitions here are the contract,
+and the script is only its implementation.
+
+#### Why the gate needs a definition at all
+
+A checker cannot know where a number came from. It can only read the page. So the
+page has to say. And it cannot be pointed at "every number", because the boxes of
+this course are full of numbers that have nothing to do with chemistry.
+
+Worked from `module02.html`, the two kinds sitting side by side in one `.keyresult`:
+
+| Number in a box | What it is | Gate? |
+|---|---|---|
+| `E ≈ 17 GPa` (`module02.html:171`) | cortical bone stiffness — a measured material property; mineral platelets and collagen crosslinks *set* it | yes |
+| `σ_c ≈ 170 MPa` (`module02.html:181`) | compressive strength of cortical bone | yes |
+| `G ≈ 3.3 GPa` (`module02.html:298`) | shear modulus of cortical bone | yes |
+| `M = 70 kg` (`module02.html:181`) | the chosen reference human | no — a modelling choice |
+| `R = 14 mm`, `r = 7 mm` | idealised femur geometry | no — a modelling choice |
+| `g = 9.81` | universal constant | no |
+| the load factor `2.5` | an assumption, derived later in Module 3 | no — already declared in prose |
+| `F ≈ 1717 N`, `n ≈ 45` | computed *outputs* of the box | no |
+
+The failure mode on each side is real. Flag everything and the gate reports several
+hundred hits per module, its output stops being read, and it is dead inside a week.
+Flag too little and the honesty claim of §2.2 is empty.
+
+#### Decision 1 — what counts as a "boxed parameter"
+
+**A symbol that carries physical units, appears inside a boxed result, and names a
+property of a tissue or a material** — not a geometry, not a body mass, not a
+universal constant, not a computed output of the box it sits in.
+
+That definition catches `E`, `σ_c`, `G`, `c_F`, `μ_eq`, the remodeling gain `k`,
+Hill's `a/F_max` and the constitutive time constants. It leaves `70 kg` and `14 mm`
+alone.
+
+**It is not executable as a regular expression, so the script splits it in two.**
+"Names a property of a tissue" is a human judgement; no pattern decides it.
+
+- **The mechanical half (the script).** Inside `.keyresult`, `.prop`, `.thm`, `.lem`
+  or a `\boxed{}`, match an assignment of the form
+  *symbol* `=`/`\approx`/`\sim`/`\simeq` *number* [`\times10^{n}`] *unit*, where the
+  unit is a `\mathrm{}` or `\text{}` group. `<svg>` and `<pre><code>` content is
+  skipped entirely — figure text and lab code are not prose claims.
+- **The judgement half (a list in the script).** A **constitutive inclusion list** of
+  canonical symbol names. Only a symbol on that list is gated.
+
+**Inclusion, never exclusion.** A global exclusion list would be wrong on this course,
+because the symbol namespace already collides: `T` is torque in Module 2 and
+temperature in every chemistry section; `a` is acceleration in Module 1 and Hill's
+constant in Module 5; `F` is force everywhere and Faraday's constant in Module 4;
+`mu` is friction in Module 4 §7 and chemical potential in Module 4 §2; `k` is the
+Module 2 remodeling gain and wants to be a rate constant. An exclusion list silently
+un-gates the interesting cases. An inclusion list fails visibly instead.
+
+**The list is written from the inventory, not from memory.** `check_provenance.py`
+has an `--inventory` mode that dumps every mechanical-half hit across all 17 modules,
+grouped by symbol, with counts and `file:line`. That dump is committed as
+`provenance-baseline.txt`. Reading it, and only then writing the inclusion list, is
+the step §2.2b and Part 3 call "replaces the judgement calls with a measured list".
+
+#### Decision 2 — the exact wording a section must carry
+
+The three permitted states are unchanged from §2.2: *derived here*, *derived in
+Module 0 §X*, *measured, not derived, because …*.
+
+Two routes were considered for how a section says one of them.
+
+**Plain prose.** The course already does this once, and does it well.
+`module02.html:181` reads: "The factor $2.5$ is an assumption here (Appendix) …
+Module 3 derives the factor from that balance." That is a textbook state-2
+declaration in ordinary English. But no script can find it reliably: the next author
+writes "we take", "assumed", "quoted from", "this module does not derive", and fifty
+other phrasings. Grepping a phrase list gives false passes and false failures
+forever, which is the same as no gate.
+
+**An explicit marker.** Found every time, no guessing. Costs an authoring step and a
+17-module retrofit.
+
+**Decided: the marker, with the prose sentence inside it**, so the reader sees normal
+writing and the script sees a reliable hook.
+
+```html
+<span class="prov" data-sym="E" data-state="measured">measured, not derived: the
+composite modulus of cortical bone is reported from mechanical test, and
+<a href="module00.html#bonding">Module&nbsp;0 §2</a> derives only its two
+end-member inputs.</span>
+```
+
+- `data-state` takes exactly one of `derived` (state 1), `module0` (state 2),
+  `measured` (state 3). Any other value is a hard failure.
+- `data-state="module0"` requires an `<a href>` inside the span. A pointer with no
+  link is not a pointer.
+- `data-state="measured"` requires the word `because` or a `:` followed by at least
+  40 characters. State 3 without a reason is the exact dishonesty the gate exists to
+  stop.
+- **A `<span>` per symbol, not an attribute on the box.** `module02.html:181` carries
+  two gated parameters in one `.keyresult`; a box-level attribute cannot describe
+  both.
+- **Scope is one declaration per symbol per module**, anywhere in the file, first use
+  recommended. The gate checks existence per `(module, symbol)`, not per box —
+  otherwise every box that mentions `E` sprouts a marker and the prose drowns.
+- **It must render visibly.** §2.2 says state 3 "must be visible"; a bare `<span>` is
+  not. One CSS rule in the module `<style>`, added to the skill template:
+  `.prov{border-left:3px solid #c08a00;padding-left:.5em;display:inline-block}`.
+
+**Canonical `data-sym` names are fixed here, not in Module 0.** `HANDOFF.md` defers
+the chemistry symbol namespace to Module 0's appendix, but the first marker written
+needs the names already settled, so the record leads and Module 0 follows it:
+
+| `data-sym` | meaning | collides with |
+|---|---|---|
+| `E` | Young's modulus (tissue) | — |
+| `G` | shear modulus | Gibbs free energy → use `DeltaG` |
+| `sigma_c` | compressive strength | — |
+| `sigma_Y` | yield strength | — |
+| `c_F` | fixed charge density | — |
+| `mu_fric` | friction coefficient | chemical potential → `mu_chem` |
+| `mu_chem` | chemical potential | friction → `mu_fric` |
+| `k_remodel` | Module 2 mechanostat gain | rate constants → `k_on`, `k_off` |
+| `k_on`, `k_off`, `K_d` | binding kinetics | — |
+| `a_hill`, `F_max` | Hill's constant, peak isometric force | acceleration `a` |
+| `F_faraday` | Faraday's constant | force `F` |
+| `R_g` | gas constant | radius `R` (Module 4 already renamed this) |
+| `k_B` | Boltzmann's constant | `k_remodel` |
+| `E_apatite`, `E_collagen` | end-member moduli, Module 2 §5 | `E` |
+| `tau_*` | constitutive time constants | — |
+
+**Fallback, not the default.** If per-use markers prove too heavy to retrofit, each
+module's appendix parameter table already lists every parameter with a source column,
+and the gate could read that instead. This is recorded as an option only — it is
+weaker, because it moves the admission away from the point of use, which is where a
+reader needs it.
+
+#### Amendments forced by the first inventory run — same day
+
+Decision 1 was written before the script existed, and the first `--inventory` run
+over all 17 modules contradicted two parts of it. Both are corrected here, with the
+evidence, because this record is the contract and the script only implements it.
+
+**Amendment A — the scope is the whole prose body, not only boxed results.**
+
+The first run, restricted to `.keyresult` / `.prop` / `.thm` / `.lem` / `\boxed{}`,
+found **91 units-bearing assignments in 5.6 MB of course** — and `E ≈ 17 GPa` was
+not among them. The course does not state its constitutive parameters inside boxes.
+It states them in prose, in definition blocks and in tables, and *consumes* them in
+boxes. `module02.html:171` puts `E ≈ 17 GPa` inside Definition 1.3; `module04.html`
+first gives `c_F` in a composition table. A gate that only reads boxes would have
+passed a course with every borrowed number undeclared, which is the exact failure it
+exists to prevent.
+
+Widening the scan to the whole body (minus `<svg>` and `<pre><code>`) raises the
+count to **494 assignments over 156 distinct symbols**. The box flag is kept, but as
+a priority hint printed by `--inventory`, never as a filter.
+
+This does not loosen the gate, because the *inclusion list* was always the real
+filter. Boxing was a proxy for "the course commits to this number", and it turned out
+to be the wrong proxy.
+
+**Amendment B — units filter the inventory, not the gate.**
+
+Requiring a `\mathrm{}` unit is what keeps the inventory readable. But two of the
+parameters §2.2b names are dimensionless: the boundary friction coefficient `mu` in
+Module 4 §7 and Poisson's ratio `nu`. Neither carries a unit group, so neither was
+visible. Corrected: an assignment **with** a unit enters the inventory; an assignment
+of a symbol **already on the inclusion list** is gated with or without one.
+
+**Amendment C — a list entry may be narrowed to a unit.**
+
+`k` is leg stiffness in `kN/m` in Modules 8–9 and hydraulic permeability in
+`m⁴/(N·s)` in Module 4. The first is a lumped whole-body fit; the second is a
+borrowed constitutive parameter that owes a chemistry trace. One symbol, two
+meanings, so a list entry may be written `k@m^4` to bind it to a unit. This is the
+same collision problem that made an exclusion list unworkable, met once inside the
+inclusion list.
+
+#### The measured inclusion list, and the baseline it produced
+
+The list now in `check_provenance.py` was written by reading the inventory, and every
+entry is tagged in the source: `[inv]` for one the course already uses, `[pre]` for a
+name pre-registered so the chemistry build's first use is gated rather than
+retrofitted. Voigt and Reuss bounds `E_V`, `E_R` are deliberately **not** gated —
+they are computed in Module 2 §5, not borrowed.
+
+Running the gate over the 17 modules as they stand gives **37 undeclared gated
+parameters**. That number, and the `file:line` for each, is committed as
+**`provenance-baseline.txt`** (inventory in Part 1, worklist in Part 2). It is the
+"measured list" Part 3 step 0 calls for, and it replaces the judgement calls in
+§2.2b. Regenerate it, never hand-edit it.
+
+#### What the gate does not do
+
+It does not check that a declaration is *true*. A section can mark `E` as
+`data-state="derived"` and derive nothing. That is the same class of defect the nine
+gates already fail to see — "green gates, wrong book" — and it stays with the
+`rigor-reviewer` pass, not with a script.
+
 ### 2.3 Module 0 — Chemical Foundations
 
 Purpose: give the reader the vocabulary and the three laws every later chemistry
@@ -377,6 +580,8 @@ Decided with the user on 2026-09-09:
 | Build order | Module 0 first |
 | Structure | Subsection at point of first use; **no** `§NC` letter suffixes |
 | Enforcement | `check_provenance.py` added to the hardening loop |
+| Gated symbols | Units-bearing tissue/material properties inside a boxed result, chosen by an **inclusion list** written from the measured inventory (§2.2c) — never an exclusion list, because the symbol namespace collides |
+| Declaration form | `<span class="prov" data-sym="…" data-state="derived\|module0\|measured">prose</span>`, one per symbol per module, rendered visibly (§2.2c) |
 
 **Order of work**
 

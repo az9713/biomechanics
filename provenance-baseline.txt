@@ -1,0 +1,829 @@
+# Provenance baseline â€” generated 2026-09-09 by check_provenance.py
+# Contract: chemistry-audit-and-plan.md Â§2.2c.  Regenerate with:
+#   python $S/check_provenance.py --inventory module*.html
+#   python $S/check_provenance.py module*.html
+# Part 2 is the chemistry worklist: every gated parameter the course
+# uses today with no provenance declaration.
+
+==================== PART 1 â€” INVENTORY ====================
+
+[check_provenance --inventory] 17 file(s), 592 assignment(s), 166 distinct symbol(s)
+
+mu                 24 (3 boxed)  [GATED as mu_fric]  
+                       module03.html:1089
+                       module03.html:1569
+                       module03.html:1669
+                       module04.html:102
+                       module04.html:102
+                       module04.html:154
+                       module04.html:968
+                       module04.html:1005
+                       module04.html:1024
+                       module04.html:1726
+                       module04.html:2365
+                       module11.html:226
+                       module11.html:252
+                       module11.html:401
+                       module11.html:401
+                       module11.html:543
+                       module11.html:545
+                       module11.html:545
+                       module11.html:545
+                       module11.html:573
+                       module11.html:573
+                       module11.html:573
+                       module11.html:573
+                       module11.html:573
+m                  22 (3 boxed)  [not gated]  \mathrm{kg} \mathrm{mm}
+                       module03.html:1950
+                       module04.html:1890
+                       module10.html:106
+                       module11.html:173
+                       module11.html:252
+                       module11.html:372
+                       module13.html:106
+                       module13.html:146
+                       module13.html:184
+                       module13.html:221
+                       module13.html:248
+                       module13.html:272
+                       module14.html:273
+                       module15.html:338
+                       module15.html:354
+                       module15.html:354
+                       module15.html:483
+                       module15.html:952
+                       module17.html:146
+                       module17.html:235
+                       module17.html:249
+                       module17.html:278
+h                  21 (4 boxed)  [not gated]  \mathrm{cm} \mathrm{mm} \mathrm{m}
+                       module04.html:634
+                       module04.html:831
+                       module04.html:902
+                       module04.html:933
+                       module04.html:1776
+                       module04.html:1964
+                       module04.html:2037
+                       module04.html:2096
+                       module04.html:2096
+                       module04.html:2096
+                       module04.html:2096
+                       module04.html:2106
+                       module09.html:601
+                       module13.html:106
+                       module13.html:248
+                       module13.html:446
+                       module14.html:121
+                       module14.html:121
+                       module14.html:270
+                       module14.html:444
+                       module17.html:278
+E                  16 (4 boxed)  [GATED as E]   \mathrm{GPa} \mathrm{MPa}
+                       module02.html:171
+                       module02.html:171
+                       module02.html:322
+                       module02.html:322
+                       module02.html:322
+                       module02.html:329
+                       module02.html:833
+                       module02.html:835
+                       module04.html:877
+                       module09.html:113
+                       module09.html:464
+                       module16.html:386
+                       module16.html:494
+                       module16.html:575
+                       module16.html:652
+                       module16.html:823
+M                  13 (3 boxed)  [not gated]  \mathrm{kg\,m^2} \mathrm{kg} \mathrm{mol/m^3} \text{kg}
+                       module01.html:365
+                       module04.html:1594
+                       module04.html:1856
+                       module04.html:1856
+                       module06.html:669
+                       module06.html:984
+                       module08.html:499
+                       module11.html:639
+                       module11.html:639
+                       module13.html:126
+                       module15.html:226
+                       module15.html:338
+                       module15.html:565
+c_F                12 (0 boxed)  [GATED as c_F]   \mathrm{M}
+                       module04.html:336
+                       module04.html:377
+                       module04.html:1575
+                       module04.html:1594
+                       module04.html:1594
+                       module04.html:1831
+                       module04.html:1831
+                       module04.html:2196
+                       module04.html:2196
+                       module04.html:2220
+                       module04.html:2221
+                       module04.html:2221
+H_A                11 (0 boxed)  [GATED as H_A]   \mathrm{MPa}
+                       module04.html:1314
+                       module04.html:1429
+                       module04.html:1430
+                       module04.html:1776
+                       module04.html:1964
+                       module04.html:2037
+                       module04.html:2053
+                       module04.html:2054
+                       module04.html:2106
+                       module04.html:2196
+                       module16.html:677
+a                  11 (1 boxed)  [not gated]  \mathrm{cm} \mathrm{m/s^2} \mathrm{mm}
+                       module03.html:850
+                       module04.html:902
+                       module04.html:920
+                       module04.html:924
+                       module04.html:933
+                       module04.html:937
+                       module04.html:1174
+                       module04.html:1409
+                       module04.html:1409
+                       module04.html:1889
+                       module11.html:372
+D                  10 (2 boxed)  [not gated]  \mathrm{N\,m} \mathrm{m^2/s} \mathrm{min} \mathrm{m}
+                       module04.html:609
+                       module04.html:831
+                       module04.html:1813
+                       module04.html:2072
+                       module12.html:265
+                       module12.html:624
+                       module14.html:79
+                       module14.html:198
+                       module14.html:403
+                       module14.html:582
+I                  10 (1 boxed)  [not gated]  \mathrm{kg\,m^2}
+                       module07.html:357
+                       module08.html:219
+                       module08.html:889
+                       module15.html:338
+                       module15.html:354
+                       module15.html:354
+                       module15.html:483
+                       module15.html:522
+                       module15.html:952
+                       module17.html:143
+sigma              10 (0 boxed)  [not gated]  \mathrm{MPa} \mathrm{rad}
+                       module04.html:2037
+                       module05.html:325
+                       module12.html:669
+                       module15.html:244
+                       module15.html:262
+                       module15.html:354
+                       module15.html:450
+                       module15.html:525
+                       module15.html:776
+                       module15.html:842
+tau_c              10 (1 boxed)  [GATED as tau_relax]   \mathrm{ms}
+                       module07.html:357
+                       module07.html:365
+                       module07.html:765
+                       module07.html:811
+                       module10.html:208
+                       module10.html:395
+                       module10.html:397
+                       module10.html:570
+                       module10.html:601
+                       module10.html:720
+T                   9 (2 boxed)  [not gated]  \mathrm{N\,m} \mathrm{s}
+                       module02.html:318
+                       module02.html:318
+                       module11.html:535
+                       module12.html:265
+                       module12.html:624
+                       module13.html:245
+                       module13.html:245
+                       module13.html:538
+                       module17.html:203
+d_L                 9 (2 boxed)  [not gated]  \mathrm{m}
+                       module13.html:126
+                       module13.html:126
+                       module13.html:128
+                       module13.html:302
+                       module13.html:302
+                       module13.html:359
+                       module13.html:417
+                       module13.html:417
+                       module13.html:461
+d_m                 9 (3 boxed)  [not gated]  \mathrm{N} \mathrm{cm} \mathrm{m}
+                       module05.html:101
+                       module05.html:178
+                       module05.html:1120
+                       module05.html:1122
+                       module13.html:126
+                       module13.html:272
+                       module13.html:355
+                       module13.html:355
+                       module13.html:355
+ell_2               9 (0 boxed)  [not gated]  \mathrm{m^2} \mathrm{m}
+                       module11.html:104
+                       module11.html:116
+                       module11.html:283
+                       module11.html:324
+                       module11.html:404
+                       module11.html:452
+                       module11.html:535
+                       module11.html:549
+                       module12.html:668
+L                   8 (0 boxed)  [not gated]  \mathrm{mm} \mathrm{m}
+                       module13.html:483
+                       module15.html:226
+                       module15.html:354
+                       module16.html:386
+                       module16.html:436
+                       module16.html:677
+                       module17.html:146
+                       module17.html:235
+mu_eff              8 (1 boxed)  [GATED as mu_fric]  
+                       module04.html:1030
+                       module04.html:1386
+                       module04.html:2029
+                       module04.html:2029
+                       module04.html:2030
+                       module04.html:2030
+                       module04.html:2154
+                       module04.html:2154
+t                   8 (0 boxed)  [not gated]  \mathrm{ms} \mathrm{s}
+                       module11.html:553
+                       module11.html:561
+                       module11.html:565
+                       module11.html:565
+                       module11.html:565
+                       module12.html:704
+                       module14.html:475
+                       module15.html:244
+v                   8 (3 boxed)  [not gated]  \mathrm{m/s}
+                       module09.html:535
+                       module13.html:146
+                       module13.html:184
+                       module13.html:496
+                       module13.html:496
+                       module13.html:496
+                       module14.html:105
+                       module17.html:278
+b                   7 (1 boxed)  [not gated]  \mathrm{N\,s} \mathrm{cm} \mathrm{mm} \mathrm{m}
+                       module03.html:850
+                       module06.html:966
+                       module06.html:1241
+                       module10.html:106
+                       module10.html:395
+                       module10.html:397
+                       module10.html:601
+p_0                 7 (1 boxed)  [not gated]  \mathrm{MPa}
+                       module04.html:920
+                       module04.html:1389
+                       module04.html:1409
+                       module04.html:1889
+                       module14.html:121
+                       module14.html:245
+                       module14.html:444
+tau_act             7 (3 boxed)  [GATED as tau_act]   \mathrm{ms}
+                       module05.html:978
+                       module05.html:986
+                       module05.html:988
+                       module05.html:1297
+                       module05.html:1348
+                       module05.html:1528
+                       module05.html:1530
+d                   6 (1 boxed)  [not gated]  \mathrm{m}
+                       module13.html:90
+                       module13.html:245
+                       module13.html:245
+                       module13.html:245
+                       module13.html:432
+                       module13.html:432
+ell                 6 (0 boxed)  [not gated]  \mathrm{m}
+                       module10.html:106
+                       module13.html:305
+                       module14.html:711
+                       module15.html:354
+                       module15.html:483
+                       module15.html:952
+f                   6 (1 boxed)  [not gated]  \mathrm{Hz} \mathrm{steps/s}
+                       module11.html:216
+                       module11.html:327
+                       module11.html:369
+                       module11.html:541
+                       module11.html:541
+                       module13.html:106
+kappa               6 (1 boxed)  [GATED as k_perm]  \mathrm{Hz} \mathrm{m^2}
+                       module08.html:499
+                       module08.html:845
+                       module08.html:876
+                       module08.html:876
+                       module08.html:876
+                       module12.html:761
+A_c                 5 (1 boxed)  [not gated]  \mathrm{MPa} \mathrm{cm^2}
+                       module03.html:963
+                       module04.html:98
+                       module04.html:98
+                       module04.html:871
+                       module04.html:920
+E_R                 5 (2 boxed)  [not gated]  \mathrm{GPa}
+                       module02.html:329
+                       module06.html:1001
+                       module06.html:1001
+                       module06.html:1025
+                       module06.html:1050
+F                   5 (0 boxed)  [not gated]  \mathrm{N} \mathrm{kN} \text{kN}
+                       module06.html:265
+                       module14.html:388
+                       module14.html:415
+                       module17.html:299
+                       module17.html:401
+F_max               5 (0 boxed)  [GATED as F_max]  
+                       module01.html:715
+                       module01.html:783
+                       module05.html:396
+                       module05.html:1578
+                       module05.html:1650
+S_0                 5 (0 boxed)  [not gated]  \mathrm{N} \mathrm{kN}
+                       module14.html:221
+                       module14.html:388
+                       module14.html:415
+                       module17.html:299
+                       module17.html:401
+W_tr                5 (1 boxed)  [not gated]  \mathrm{N}
+                       module13.html:126
+                       module13.html:128
+                       module13.html:425
+                       module13.html:555
+                       module13.html:667
+f_s                 5 (0 boxed)  [not gated]  \mathrm{Hz}
+                       module15.html:244
+                       module15.html:262
+                       module15.html:354
+                       module15.html:450
+                       module15.html:952
+k_leg               5 (1 boxed)  [not gated]  \mathrm{kN/m}
+                       module09.html:141
+                       module09.html:498
+                       module09.html:499
+                       module09.html:499
+                       module09.html:503
+nu                  5 (0 boxed)  [GATED as nu]  
+                       module04.html:877
+                       module04.html:933
+                       module16.html:760
+                       module16.html:823
+                       module16.html:829
+omega_0             5 (1 boxed)  [not gated]  \mathrm{rad/s}
+                       module10.html:136
+                       module10.html:208
+                       module13.html:483
+                       module14.html:137
+                       module14.html:273
+tau                 5 (1 boxed)  [not gated]  \mathrm{N\,m} \mathrm{ms}
+                       module05.html:1148
+                       module05.html:1650
+                       module10.html:607
+                       module10.html:609
+                       module10.html:697
+tau_a               5 (3 boxed)  [not gated]  \mathrm{ms}
+                       module05.html:834
+                       module05.html:984
+                       module05.html:1700
+                       module05.html:1736
+                       module05.html:1736
+tau_deact           5 (2 boxed)  [GATED as tau_deact]   \mathrm{ms}
+                       module05.html:978
+                       module05.html:986
+                       module05.html:988
+                       module05.html:1297
+                       module05.html:1348
+v_0                 5 (0 boxed)  [not gated]  \mathrm{N\,s} \mathrm{m/s}
+                       module09.html:215
+                       module09.html:507
+                       module09.html:601
+                       module13.html:413
+                       module13.html:413
+x                   5 (1 boxed)  [not gated]  \mathrm{cm} \mathrm{m/s} \text{mm}
+                       module06.html:243
+                       module06.html:265
+                       module13.html:329
+                       module13.html:329
+                       module14.html:107
+A                   4 (0 boxed)  [not gated]  \mathrm{m/s^2} \mathrm{rad}
+                       module11.html:216
+                       module11.html:327
+                       module11.html:539
+                       module11.html:565
+E_inst              4 (1 boxed)  [GATED as E]   \mathrm{GPa}
+                       module06.html:543
+                       module06.html:549
+                       module06.html:1001
+                       module06.html:1025
+E_lin               4 (0 boxed)  [GATED as E]   \text{GPa}
+                       module06.html:141
+                       module06.html:145
+                       module06.html:172
+                       module06.html:217
+E_m                 4 (2 boxed)  [GATED as E_apatite]   \mathrm{GPa}
+                       module02.html:329
+                       module02.html:632
+                       module16.html:625
+                       module16.html:827
+J                   4 (2 boxed)  [not gated]  \mathrm{MPa} \mathrm{N\,s}
+                       module02.html:318
+                       module10.html:660
+                       module13.html:146
+                       module14.html:597
+P                   4 (1 boxed)  [not gated]  \mathrm{W} \mathrm{kN}
+                       module13.html:106
+                       module13.html:446
+                       module16.html:386
+                       module16.html:573
+f_c                 4 (0 boxed)  [not gated]  \mathrm{Hz}
+                       module15.html:427
+                       module15.html:427
+                       module15.html:522
+                       module15.html:952
+m_eff               4 (3 boxed)  [not gated]  \mathrm{kg}
+                       module02.html:349
+                       module14.html:105
+                       module14.html:221
+                       module17.html:299
+mu_eq               4 (0 boxed)  [GATED as mu_fric]  
+                       module04.html:1086
+                       module04.html:2010
+                       module04.html:2029
+                       module04.html:2030
+p                   4 (0 boxed)  [not gated]  \mathrm{MPa}
+                       module04.html:871
+                       module04.html:920
+                       module04.html:957
+                       module04.html:1889
+r                   4 (2 boxed)  [not gated]  \mathrm{mm} \mathrm{m}
+                       module02.html:181
+                       module13.html:168
+                       module13.html:511
+                       module13.html:511
+s                   4 (0 boxed)  [not gated]  \mathrm{h} \mathrm{min}
+                       module04.html:577
+                       module04.html:582
+                       module04.html:1813
+                       module04.html:1813
+v_y                 4 (0 boxed)  [not gated]  \mathrm{N\,s} \mathrm{m/s}
+                       module09.html:157
+                       module09.html:191
+                       module09.html:191
+                       module09.html:498
+varepsilon_0        4 (1 boxed)  [not gated]  \mathrm{MPa}
+                       module04.html:821
+                       module06.html:1025
+                       module06.html:1025
+                       module06.html:1025
+Delta_c             3 (1 boxed)  [not gated]  \mathrm{ms}
+                       module17.html:143
+                       module17.html:146
+                       module17.html:193
+E_c                 3 (1 boxed)  [GATED as E_collagen]   \mathrm{GPa}
+                       module02.html:329
+                       module02.html:632
+                       module02.html:847
+F_comp              3 (2 boxed)  [not gated]  \mathrm{N}
+                       module13.html:126
+                       module13.html:126
+                       module13.html:128
+F_peak              3 (2 boxed)  [not gated]  \mathrm{N} \mathrm{kN}
+                       module02.html:349
+                       module14.html:105
+                       module14.html:107
+L_0                 3 (1 boxed)  [not gated]  \text{N/mm} \text{mm}
+                       module06.html:208
+                       module06.html:217
+                       module06.html:219
+R_eff               3 (0 boxed)  [not gated]  \mathrm{mm}
+                       module04.html:904
+                       module04.html:924
+                       module04.html:1869
+S                   3 (0 boxed)  [not gated]  \mathrm{kN} \mathrm{mm}
+                       module06.html:966
+                       module06.html:1241
+                       module14.html:330
+g                   3 (1 boxed)  [not gated]  \mathrm{N\,m} \mathrm{m/s^2}
+                       module11.html:173
+                       module11.html:541
+                       module13.html:90
+h_0                 3 (1 boxed)  [not gated]  \mathrm{mm}
+                       module14.html:121
+                       module14.html:245
+                       module14.html:444
+h_f                 3 (2 boxed)  [not gated]  \mathrm{m}
+                       module14.html:105
+                       module14.html:221
+                       module17.html:299
+k                   3 (1 boxed)  [GATED as k_perm]  \mathrm{kN/m} \mathrm{m^4/(N\,s)}
+                       module04.html:1776
+                       module14.html:105
+                       module14.html:221
+k_2                 3 (0 boxed)  [not gated]  \mathrm{N\,m/rad}
+                       module12.html:520
+                       module12.html:522
+                       module12.html:819
+mgL                 3 (2 boxed)  [not gated]  \mathrm{N\,m}
+                       module17.html:143
+                       module17.html:143
+                       module17.html:586
+tau_r               3 (0 boxed)  [GATED as tau_relax]   \mathrm{ms}
+                       module02.html:730
+                       module02.html:773
+                       module05.html:834
+x_max               3 (1 boxed)  [not gated]  \mathrm{cm} \mathrm{m/s}
+                       module13.html:483
+                       module14.html:105
+                       module14.html:107
+A_0                 2 (0 boxed)  [not gated]  \text{kN} \text{mm}
+                       module06.html:217
+                       module06.html:219
+E_f                 2 (1 boxed)  [GATED as E]  \mathrm{GPa}
+                       module16.html:625
+                       module16.html:827
+E_soft              2 (0 boxed)  [GATED as E]   \mathrm{GPa}
+                       module16.html:727
+                       module16.html:830
+E_stiff             2 (0 boxed)  [GATED as E]  \mathrm{GPa}
+                       module16.html:727
+                       module16.html:830
+E_tens              2 (0 boxed)  [GATED as E]  \mathrm{MPa}
+                       module04.html:1429
+                       module04.html:1430
+F_0                 2 (2 boxed)  [GATED as F_max]  
+                       module05.html:1024
+                       module05.html:1036
+F_grip              2 (0 boxed)  [not gated]  \mathrm{N}
+                       module13.html:170
+                       module13.html:511
+F_m                 2 (1 boxed)  [not gated]  \mathrm{N}
+                       module13.html:126
+                       module13.html:128
+H                   2 (0 boxed)  [not gated]  \mathrm{m}
+                       module13.html:413
+                       module13.html:538
+J_max               2 (0 boxed)  [not gated]  \mathrm{N\,s}
+                       module10.html:397
+                       module10.html:558
+R                   2 (2 boxed)  [not gated]  \mathrm{N\,m} \mathrm{mm}
+                       module02.html:181
+                       module02.html:318
+W                   2 (1 boxed)  [not gated]  \mathrm{N} \text{ to }
+                       module08.html:466
+                       module11.html:252
+alpha               2 (0 boxed)  [not gated]  \mathrm{N\,m} \mathrm{rad/s^2}
+                       module15.html:338
+                       module15.html:338
+c_0                 2 (0 boxed)  [not gated]  \mathrm{M}
+                       module04.html:271
+                       module04.html:336
+ell_1               2 (0 boxed)  [not gated]  \mathrm{m}
+                       module11.html:116
+                       module11.html:283
+ell_i               2 (0 boxed)  [not gated]  \mathrm{m}
+                       module11.html:551
+                       module11.html:561
+ell_t               2 (1 boxed)  [not gated]  \mathrm{m}
+                       module13.html:126
+                       module13.html:272
+gd_0                2 (0 boxed)  [not gated]  \mathrm{N\,m}
+                       module17.html:203
+                       module17.html:592
+k_T                 2 (1 boxed)  [not gated]  \mathrm{kN/m} \text{N/m}
+                       module06.html:669
+                       module06.html:966
+k_c                 2 (0 boxed)  [not gated]  \mathrm{kN/m}
+                       module09.html:285
+                       module09.html:285
+k_d                 2 (1 boxed)  [not gated]  \mathrm{N\,m\,s}
+                       module17.html:143
+                       module17.html:146
+k_lin               2 (0 boxed)  [not gated]  \mathrm{kN/m} \text{N/mm}
+                       module06.html:265
+                       module06.html:918
+m_3                 2 (0 boxed)  [not gated]  \mathrm{kg}
+                       module03.html:2164
+                       module03.html:2272
+m_L                 2 (0 boxed)  [not gated]  \mathrm{kg}
+                       module01.html:365
+                       module01.html:411
+m_imp               2 (0 boxed)  [not gated]  \mathrm{kg}
+                       module09.html:285
+                       module09.html:527
+m_up                2 (0 boxed)  [not gated]  \mathrm{kg}
+                       module13.html:413
+                       module13.html:432
+r_L                 2 (1 boxed)  [not gated]  \mathrm{N\,m} \mathrm{cm}
+                       module05.html:101
+                       module05.html:1120
+sigma_0             2 (0 boxed)  [GATED as sigma_0]   \mathrm{MPa}
+                       module04.html:564
+                       module09.html:531
+sigma_f             2 (0 boxed)  [GATED as sigma_f]   \text{MPa}
+                       module06.html:141
+                       module06.html:219
+sigma_y             2 (0 boxed)  [GATED as sigma_Y]  
+                       module02.html:622
+                       module02.html:625
+tau_d               2 (0 boxed)  [GATED as tau_relax]   \mathrm{ms}
+                       module05.html:834
+                       module12.html:746
+tau_m               2 (0 boxed)  [GATED as tau_relax]  \mathrm{ms}
+                       module12.html:624
+                       module12.html:819
+tau_max             2 (0 boxed)  [not gated]  \mathrm{N\,m}
+                       module05.html:1582
+                       module13.html:432
+tau_p               2 (1 boxed)  [not gated]  \mathrm{N\,m}
+                       module14.html:79
+                       module14.html:218
+v_imp               2 (0 boxed)  [not gated]  \mathrm{m/s}
+                       module09.html:285
+                       module09.html:527
+v_max               2 (0 boxed)  [GATED as v_max]  
+                       module05.html:1578
+                       module13.html:525
+v_x                 2 (0 boxed)  [not gated]  \mathrm{m/s}
+                       module09.html:157
+                       module09.html:503
+w                   2 (0 boxed)  [not gated]  \mathrm{m^2}
+                       module11.html:569
+                       module11.html:569
+E_V                 1 (1 boxed)  [not gated]  \mathrm{GPa}
+                       module02.html:329
+E_bone              1 (1 boxed)  [GATED as E]  \mathrm{GPa}
+                       module03.html:1004
+E_cart              1 (1 boxed)  [GATED as E]  \mathrm{MPa}
+                       module03.html:1004
+F_f                 1 (0 boxed)  [not gated]  \text{kN}
+                       module06.html:219
+F_g                 1 (0 boxed)  [not gated]  \mathrm{N}
+                       module11.html:573
+F_lim               1 (0 boxed)  [not gated]  \mathrm{N}
+                       module13.html:417
+F_pk                1 (0 boxed)  [not gated]  \mathrm{kN}
+                       module06.html:941
+G                   1 (0 boxed)  [GATED as G]  \mathrm{GPa}
+                       module02.html:298
+I_J                 1 (0 boxed)  [not gated]  \mathrm{kg\,m^2}
+                       module05.html:1578
+I_k                 1 (0 boxed)  [not gated]  \mathrm{kg\,m^2}
+                       module17.html:203
+J_eff               1 (0 boxed)  [not gated]  \mathrm{N\,s}
+                       module14.html:619
+K_c                 1 (0 boxed)  [not gated]  \mathrm{N/m}
+                       module12.html:327
+M_d                 1 (0 boxed)  [not gated]  \mathrm{N\,m}
+                       module15.html:338
+N                   1 (0 boxed)  [not gated]  \mathrm{kgf}
+                       module01.html:415
+Omega               1 (0 boxed)  [not gated]  \mathrm{rad/s}
+                       module10.html:210
+T_e                 1 (0 boxed)  [not gated]  \mathrm{s}
+                       module13.html:413
+Theta               1 (0 boxed)  [not gated]  \mathrm{J/mol}
+                       module04.html:336
+U_lin               1 (0 boxed)  [not gated]  \mathrm{J}
+                       module06.html:943
+U_step              1 (1 boxed)  [not gated]  \mathrm{J}
+                       module13.html:106
+U_toe               1 (1 boxed)  [not gated]  \mathrm{J}
+                       module06.html:943
+W_L                 1 (0 boxed)  [not gated]  \mathrm{N}
+                       module13.html:128
+W_d                 1 (1 boxed)  [not gated]  \mathrm{kJ/m^3}
+                       module06.html:1050
+a_0                 1 (1 boxed)  [not gated]  \mathrm{yr}
+                       module14.html:79
+d_0                 1 (0 boxed)  [not gated]  \mathrm{m}
+                       module17.html:203
+d_b                 1 (0 boxed)  [not gated]  \mathrm{m}
+                       module13.html:555
+d_br                1 (1 boxed)  [not gated]  \mathrm{cm}
+                       module05.html:1148
+d_hinge             1 (0 boxed)  [not gated]  \mathrm{m}
+                       module13.html:176
+d_tr                1 (1 boxed)  [not gated]  \mathrm{m}
+                       module13.html:126
+ell_tot             1 (0 boxed)  [not gated]  \mathrm{m}
+                       module11.html:569
+f_0                 1 (0 boxed)  [not gated]  \mathrm{rad/s}
+                       module15.html:244
+gT_e                1 (0 boxed)  [not gated]  \mathrm{N\,s}
+                       module13.html:413
+k_PF                1 (0 boxed)  [not gated]  \mathrm{N/m}
+                       module06.html:1152
+m_2                 1 (0 boxed)  [not gated]  \mathrm{kg}
+                       module11.html:639
+m_HAT               1 (0 boxed)  [not gated]  \mathrm{kg}
+                       module17.html:203
+n_c                 1 (1 boxed)  [not gated]  \text{-}
+                       module14.html:120
+omega               1 (0 boxed)  [not gated]  \mathrm{rad/s}
+                       module12.html:704
+p_max               1 (0 boxed)  [not gated]  \mathrm{MPa}
+                       module04.html:1409
+pi                  1 (0 boxed)  [not gated]  \mathrm{MPa}
+                       module04.html:1340
+sigma_Y             1 (1 boxed)  [GATED as sigma_Y]  
+                       module02.html:336
+sigma_c             1 (1 boxed)  [GATED as sigma_c]  \mathrm{MPa}
+                       module02.html:181
+sigma_max           1 (0 boxed)  [GATED as sigma_f]  
+                       module07.html:866
+t_c                 1 (0 boxed)  [not gated]  \mathrm{N\,s}
+                       module09.html:191
+t_f                 1 (0 boxed)  [not gated]  \mathrm{ms}
+                       module09.html:499
+t_s                 1 (0 boxed)  [not gated]  \mathrm{s}
+                       module12.html:501
+t_slip              1 (0 boxed)  [not gated]  \mathrm{s}
+                       module10.html:764
+t_step              1 (0 boxed)  [not gated]  \mathrm{s}
+                       module13.html:496
+tau_door            1 (0 boxed)  [not gated]  \mathrm{N\,m}
+                       module13.html:176
+tau_knee            1 (1 boxed)  [not gated]  \mathrm{N\,m}
+                       module13.html:90
+tau_resist          1 (1 boxed)  [not gated]  \mathrm{N\,m}
+                       module13.html:168
+v_land              1 (0 boxed)  [not gated]  \mathrm{m/s}
+                       module09.html:605
+v_vert              1 (1 boxed)  [not gated]  \mathrm{m/s}
+                       module13.html:106
+varepsilon          1 (0 boxed)  [not gated]  \mathrm{MPa}
+                       module04.html:2220
+x_0                 1 (0 boxed)  [not gated]  \mathrm{m}
+                       module13.html:305
+x_des               1 (0 boxed)  [not gated]  \mathrm{m}
+                       module12.html:327
+x_f                 1 (0 boxed)  [not gated]  \text{mm}
+                       module06.html:219
+xi_s                1 (0 boxed)  [not gated]  \mathrm{m}
+                       module10.html:746
+z                   1 (0 boxed)  [not gated]  \mathrm{\mu m}
+                       module04.html:783
+
+==================== PART 2 â€” GATE (worklist) ====================
+
+[check_provenance] module01.html: 6 parameter assignment(s), 0 declaration(s), 1 issue(s)
+  - line 715: $F_max$ is gated as 'F_max' but the module declares no provenance. Add <span class="prov" data-sym="F_max" data-state="derived|module0|measured">…</span>
+[check_provenance] module02.html: 30 parameter assignment(s), 0 declaration(s), 7 issue(s)
+  - line 171: $E$ is gated as 'E' but the module declares no provenance. Add <span class="prov" data-sym="E" data-state="derived|module0|measured">…</span>
+  - line 329: $E_m$ is gated as 'E_apatite' but the module declares no provenance. Add <span class="prov" data-sym="E_apatite" data-state="derived|module0|measured">…</span>
+  - line 329: $E_c$ is gated as 'E_collagen' but the module declares no provenance. Add <span class="prov" data-sym="E_collagen" data-state="derived|module0|measured">…</span>
+  - line 298: $G$ is gated as 'G' but the module declares no provenance. Add <span class="prov" data-sym="G" data-state="derived|module0|measured">…</span>
+  - line 336: $sigma_Y$ is gated as 'sigma_Y' but the module declares no provenance. Add <span class="prov" data-sym="sigma_Y" data-state="derived|module0|measured">…</span>
+  - line 181: $sigma_c$ is gated as 'sigma_c' but the module declares no provenance. Add <span class="prov" data-sym="sigma_c" data-state="derived|module0|measured">…</span>
+  - line 730: $tau_r$ is gated as 'tau_relax' but the module declares no provenance. Add <span class="prov" data-sym="tau_relax" data-state="derived|module0|measured">…</span>
+[check_provenance] module03.html: 11 parameter assignment(s), 0 declaration(s), 2 issue(s)
+  - line 1004: $E_cart$ is gated as 'E' but the module declares no provenance. Add <span class="prov" data-sym="E" data-state="derived|module0|measured">…</span>
+  - line 1089: $mu$ is gated as 'mu_fric' but the module declares no provenance. Add <span class="prov" data-sym="mu_fric" data-state="derived|module0|measured">…</span>
+[check_provenance] module04.html: 106 parameter assignment(s), 0 declaration(s), 7 issue(s)
+  - line 877: $E$ is gated as 'E' but the module declares no provenance. Add <span class="prov" data-sym="E" data-state="derived|module0|measured">…</span>
+  - line 1314: $H_A$ is gated as 'H_A' but the module declares no provenance. Add <span class="prov" data-sym="H_A" data-state="derived|module0|measured">…</span>
+  - line 336: $c_F$ is gated as 'c_F' but the module declares no provenance. Add <span class="prov" data-sym="c_F" data-state="derived|module0|measured">…</span>
+  - line 1776: $k$ is gated as 'k_perm' but the module declares no provenance. Add <span class="prov" data-sym="k_perm" data-state="derived|module0|measured">…</span>
+  - line 102: $mu$ is gated as 'mu_fric' but the module declares no provenance. Add <span class="prov" data-sym="mu_fric" data-state="derived|module0|measured">…</span>
+  - line 877: $nu$ is gated as 'nu' but the module declares no provenance. Add <span class="prov" data-sym="nu" data-state="derived|module0|measured">…</span>
+  - line 564: $sigma_0$ is gated as 'sigma_0' but the module declares no provenance. Add <span class="prov" data-sym="sigma_0" data-state="derived|module0|measured">…</span>
+[check_provenance] module05.html: 37 parameter assignment(s), 0 declaration(s), 5 issue(s)
+  - line 396: $F_max$ is gated as 'F_max' but the module declares no provenance. Add <span class="prov" data-sym="F_max" data-state="derived|module0|measured">…</span>
+  - line 978: $tau_act$ is gated as 'tau_act' but the module declares no provenance. Add <span class="prov" data-sym="tau_act" data-state="derived|module0|measured">…</span>
+  - line 978: $tau_deact$ is gated as 'tau_deact' but the module declares no provenance. Add <span class="prov" data-sym="tau_deact" data-state="derived|module0|measured">…</span>
+  - line 834: $tau_r$ is gated as 'tau_relax' but the module declares no provenance. Add <span class="prov" data-sym="tau_relax" data-state="derived|module0|measured">…</span>
+  - line 1578: $v_max$ is gated as 'v_max' but the module declares no provenance. Add <span class="prov" data-sym="v_max" data-state="derived|module0|measured">…</span>
+[check_provenance] module06.html: 42 parameter assignment(s), 0 declaration(s), 2 issue(s)
+  - line 141: $E_lin$ is gated as 'E' but the module declares no provenance. Add <span class="prov" data-sym="E" data-state="derived|module0|measured">…</span>
+  - line 141: $sigma_f$ is gated as 'sigma_f' but the module declares no provenance. Add <span class="prov" data-sym="sigma_f" data-state="derived|module0|measured">…</span>
+[check_provenance] module07.html: 6 parameter assignment(s), 0 declaration(s), 2 issue(s)
+  - line 866: $sigma_max$ is gated as 'sigma_f' but the module declares no provenance. Add <span class="prov" data-sym="sigma_f" data-state="derived|module0|measured">…</span>
+  - line 357: $tau_c$ is gated as 'tau_relax' but the module declares no provenance. Add <span class="prov" data-sym="tau_relax" data-state="derived|module0|measured">…</span>
+[check_provenance] module08.html: 9 parameter assignment(s), 0 declaration(s), 1 issue(s)
+  - line 499: $kappa$ is gated as 'k_perm' but the module declares no provenance. Add <span class="prov" data-sym="k_perm" data-state="derived|module0|measured">…</span>
+[check_provenance] module09.html: 28 parameter assignment(s), 0 declaration(s), 2 issue(s)
+  - line 113: $E$ is gated as 'E' but the module declares no provenance. Add <span class="prov" data-sym="E" data-state="derived|module0|measured">…</span>
+  - line 531: $sigma_0$ is gated as 'sigma_0' but the module declares no provenance. Add <span class="prov" data-sym="sigma_0" data-state="derived|module0|measured">…</span>
+[check_provenance] module10.html: 23 parameter assignment(s), 0 declaration(s), 1 issue(s)
+  - line 208: $tau_c$ is gated as 'tau_relax' but the module declares no provenance. Add <span class="prov" data-sym="tau_relax" data-state="derived|module0|measured">…</span>
+[check_provenance] module11.html: 54 parameter assignment(s), 0 declaration(s), 1 issue(s)
+  - line 226: $mu$ is gated as 'mu_fric' but the module declares no provenance. Add <span class="prov" data-sym="mu_fric" data-state="derived|module0|measured">…</span>
+[check_provenance] module12.html: 18 parameter assignment(s), 0 declaration(s), 1 issue(s)
+  - line 624: $tau_m$ is gated as 'tau_relax' but the module declares no provenance. Add <span class="prov" data-sym="tau_relax" data-state="derived|module0|measured">…</span>
+[check_provenance] module13.html: 88 parameter assignment(s), 0 declaration(s), 1 issue(s)
+  - line 525: $v_max$ is gated as 'v_max' but the module declares no provenance. Add <span class="prov" data-sym="v_max" data-state="derived|module0|measured">…</span>
+[check_provenance] module14.html: 43 parameter assignment(s), 0 declaration(s), 0 issue(s)
+  every gated parameter declares its provenance. (This does not check that the declaration is TRUE — that stays with rigor-reviewer.)
+[check_provenance] module15.html: 40 parameter assignment(s), 0 declaration(s), 0 issue(s)
+  every gated parameter declares its provenance. (This does not check that the declaration is TRUE — that stays with rigor-reviewer.)
+[check_provenance] module16.html: 22 parameter assignment(s), 0 declaration(s), 4 issue(s)
+  - line 386: $E$ is gated as 'E' but the module declares no provenance. Add <span class="prov" data-sym="E" data-state="derived|module0|measured">…</span>
+  - line 625: $E_m$ is gated as 'E_apatite' but the module declares no provenance. Add <span class="prov" data-sym="E_apatite" data-state="derived|module0|measured">…</span>
+  - line 677: $H_A$ is gated as 'H_A' but the module declares no provenance. Add <span class="prov" data-sym="H_A" data-state="derived|module0|measured">…</span>
+  - line 760: $nu$ is gated as 'nu' but the module declares no provenance. Add <span class="prov" data-sym="nu" data-state="derived|module0|measured">…</span>
+[check_provenance] module17.html: 29 parameter assignment(s), 0 declaration(s), 0 issue(s)
+  every gated parameter declares its provenance. (This does not check that the declaration is TRUE — that stays with rigor-reviewer.)
