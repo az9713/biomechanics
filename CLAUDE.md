@@ -126,8 +126,10 @@ modules** (MathJax + inline SVG/SMIL, no build step). Built with the
 5. **Cadence — no walls of words, but NO word limit.** Break prose >~10 lines;
    a visual every screenful; never delete content to satisfy this — interleave/split.
 6. **Math-in-HTML gotchas:** no raw `<`/`>` inside `$…$` (use `\lt \gt \le`); if
-   `checklt` fires run `escape_math_lt.py`. `checktex` false-positives on
-   `\leftrightarrow` (use Unicode `↔`). SVG `id`s are **page-global** → prefix per
+   `checklt` fires run `escape_math_lt.py`. (`checktex` used to false-positive on
+   `\leftrightarrow`; fixed 2026-09-09 — `\left`/`\right` now count only when a
+   *delimiter* follows, so named arrows and `\rightleftharpoons` are safe.)
+   SVG `id`s are **page-global** → prefix per
    figure (e.g. `cylH`, `cyl0`, `cylJ`, `cylB`). **Generating HTML from Python?**
    Author math-bearing strings as **raw strings** (`r"""…"""`) — `\tau` is a tab,
    `\nu` a newline, `\varepsilon` a vtab, `\boxed` a backspace; and a single-line
