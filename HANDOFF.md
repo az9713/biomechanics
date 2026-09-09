@@ -4,38 +4,43 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last handoff written:** 2026-09-09. **Two phases are stacked, and their order
-matters.** The editor pass is complete but **unpromoted**. A new chemistry phase is
-planned but **not started**. Promotion must happen first — see the next task.
+**Last handoff written:** 2026-09-09 (second write of the day). Phase A is
+**complete and promoted**. Phase B, the chemistry layer, is planned but **not
+started**. The promotion that blocked it is done — start at step 1 of the next task.
 
 ---
 
-## Current state (as of `45ba749`, pushed, remote verified)
+## Current state (as of the commit that carries this file)
 
-### Phase A — the editor pass: COMPLETE, NOT PROMOTED
+### Phase A — the editor pass: COMPLETE AND PROMOTED
 
-All fifteen modules (3–17) have a report in `editor-reports/`, an applied draft in
-`edited/`, all nine gates at or better than the pristine baseline, and a
-`## 6. Changes applied` table. Modules 1 and 2 were done in place (`3a4dae1`,
-`ac93c14`). Roughly 1000 anchored edits, ~14 000 lines of report.
+All fifteen modules (3–17) have a report in `editor-reports/` and an applied draft
+that is now **the live file**. Modules 1 and 2 were done in place earlier
+(`3a4dae1`, `ac93c14`). Roughly 1000 anchored edits, ~14 000 lines of report.
 
-**Nothing has been promoted.** `edited/moduleNN.html` and the live `moduleNN.html`
-both sit in the repo, and `index.html` / `README.md` still point at the originals.
-Measured drift between them (lines differing):
+Promotion, 2026-09-09: the user chose *promote all fifteen at once*. Each
+`edited/moduleNN.html` was moved over its original and `edited/` was removed, so
+the draft URLs `https://az9713.github.io/biomechanics/edited/moduleNN.html` now
+404. Two verifications were run:
 
-| Module | 4 | 5 | 6 | 14 |
-|---|---|---|---|---|
-| lines differing | 523 | 460 | 345 | 324 |
+1. **The move was proved, not assumed.** `git show HEAD:edited/moduleNN.html`
+   diffed (with `--strip-trailing-cr`, or CRLF makes every line differ) against the
+   promoted file. Fourteen were byte-identical; module 3 differed only by the one
+   intended fix.
+2. **All twelve gates re-run in place on all fifteen.** Zero hard failures. The
+   advisories that remain are the pre-existing ones the reports already record — for
+   example `editor-reports/module03.md:687` logs "0 hard, 3 advisory" at baseline and
+   the same 3 after, which is what the re-run reports.
 
-Promotion for a signed-off module is `mv edited/moduleNN.html moduleNN.html`, then
-re-run the nine gates in place and push.
+The known module 3 drift is **closed**. `module03.html:860` said the hip resultant
+spans $2.6$–$2.8\,W$ over $\alpha=20^\circ$ to $40^\circ$; its own equation
+$|R|=W_s\sqrt{(1+b/a)^2+((b/a)\tan\alpha)^2}$ with $W_s=\tfrac56W$, $b/a=2$ gives
+2.5725 / 2.6788 / 2.8646 W at 20° / 30° / 40°, so the upper endpoint is 2.9, not 2.8.
+Changed to $2.6$–$2.9\,W$. No other line in the module restates the range.
 
-One known drift to fix before promoting module 3: `edited/module03.html:858` states
-a range its own equation contradicts at one endpoint.
-
-`edited/` is committed and pushed, so the drafts are live but unlinked at
-`https://az9713.github.io/biomechanics/edited/moduleNN.html`. Nothing finds them
-without the URL.
+**`DEVELOPMENT_JOURNEY_2.html` describes the pre-promotion state** (its §1019–1029
+say "nothing is promoted" and re-open the 2.8 drift). It is a dated record of that
+session — do not re-open those items from it.
 
 ### Phase B — the chemistry / interweaving layer: PLANNED, NOT STARTED
 
@@ -75,16 +80,9 @@ existing mechanical result is decoration.
 
 ## Next task
 
-**1. Resolve promotion before writing any chemistry. This is a hard prerequisite.**
+*(The old step 1, "resolve promotion", is done — see Current state above.)*
 
-The chemistry plan interweaves into M2, M4, M5, M6 and M14 — the same files that have
-324–523 lines of unpromoted editorial edits waiting in `edited/`. Building chemistry
-into the originals means a later promotion clobbers it, or forces a three-way merge.
-
-Ask the user: promote all fifteen at once, or module by module after they read each
-report? Then promote, re-gate in place, and push. Only then start Phase B.
-
-**2. Write `check_provenance.py` before any prose.** Run it over all 17 modules and
+**1. Write `check_provenance.py` before any prose.** Run it over all 17 modules and
 keep the output as the baseline inventory of every borrowed constitutive parameter
 (`E`, `c_F`, `mu`, `sigma_Y`, the remodeling gain `k`, Hill's `a/F_max`, every time
 constant). That inventory **is** the definitive worklist — it replaces the judgement
@@ -92,7 +90,13 @@ calls in `chemistry-audit-and-plan.md` §2.2b with a measured list. The gate fla
 boxed parameter whose section declares none of: *derived here*, *derived in Module 0
 §X*, or *measured, not derived, because …*.
 
-**3. Then `module00.html` §0**, section by section under the standing convention:
+Its two design choices are not yet agreed with the user: what counts as a "boxed
+parameter", and the exact declaration string a section must carry (*derived here* /
+*derived in Module 0 §X* / *measured, not derived, because …*). Propose both in
+three lines and get a yes before the 17-module run, because that run's output
+becomes the worklist.
+
+**2. Then `module00.html` §0**, section by section under the standing convention:
 build one section → report with a short summary and two `★ Insight` bullets → user
 reviews → commit and push. Fix the chemistry symbol namespace in its appendix before
 §1 is written (`F` is force everywhere but Faraday in M4; `mu` is friction in M4 §7
