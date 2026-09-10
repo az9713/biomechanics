@@ -4,10 +4,11 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last written:** 2026-09-09 (third refresh, at the Module 0 §2 boundary).
+**Last written:** 2026-09-09 (fourth refresh, at the Module 0 §3 boundary).
 Phase A (editor pass) is **complete and promoted**. Phase B (chemistry and biology
-interweaving) has its **gate and worklist built**, and **Module 0 §0, §1 and §2 are
-written, reviewed and live**. Start at "Next task": Module 0 §3.
+interweaving) has its **gate and worklist built**, and **Module 0 §0–§3 are written, hardened and live**. Start at
+"Next task": Module 0 §4 — but read the §4 conflict note first, because the plan
+for that section is wrong in two places.
 
 ---
 
@@ -223,59 +224,199 @@ free energy); `γ_s` the structure constant in `V = γ_s r³` (`c` is §1's conc
 substance); `ν` Poisson's ratio (against §1's stoichiometric `ν_i`); `C_e` the Coulomb
 constant `e²/4πε₀`; `U_latt`; `V_f`; `α_M` the Madelung constant; `K` bulk modulus.
 
+<!-- SEC3-HANDOFF -->
+### Phase B step 1 — Module 0 §3: DONE (`455ca86`)
+
+§3 ("thermodynamics: free energy, chemical potential, and coupling") is complete and
+live. It pays the two debts §1 named *and* a third §1 had borrowed without listing.
+
+Contents: **Definition 3.1** (enthalpy, entropy, Gibbs free energy) and the boxed
+`ΔG = ΔH − TΔS`, marked explicitly as a rearranged definition that earns no proof;
+**Proposition 3.1**, the maximum-work theorem `W ≤ −ΔG`, proved from the Clausius
+inequality — this is the inequality §1 used to bound crossbridge force and labelled
+"§3 derives it"; **Definition 3.2** (chemical potential) and **Proposition 3.2**
+(`μ_i = μ_i° + R_gT ln(c_i/c°)`, carried over from §1 Lemma 1.1 by the `N_Ak_B = R_g`
+identity); **Definition 3.3** (reaction quotient, standard free-energy change);
+**Proposition 3.3**, the headline boxed `ΔG = ΔG° + R_gT ln Q`; **Proposition 3.4**,
+boxed `ΔG° = −R_gT ln K_eq`, with uniqueness proved from affine ⇒ injective;
+**Definition 3.4**, the transformed biochemical standard state; and **Proposition 3.5**
+(coupling), whose load-bearing hypothesis is the *shared intermediate*. Three figures
+(9–11). All thirteen gates green.
+
+> **The `rigor-reviewer` pass on §3 was dispatched but had not reported when this
+> file was written.** §0, §1 and §2 each returned NEEDS-FIXES, so assume §3 has
+> open findings until a commit says otherwise. If no commit titled "Module 0 §3:
+> apply the rigor-reviewer findings" exists, **re-run the reviewer on §3 before
+> starting §4** — the four things it judges (rigor parity, read-aloud prose,
+> K-depth, self-containment) are exactly what the thirteen gates cannot see.
+
+**Numbers, all Python-verified in `nums3.py` with assertions:**
+- `ΔG°′` moved from 298.15 K to 310.15 K using the boxed `ΔG = ΔH − TΔS`: **−30.90
+  kJ/mol** (from tabulated −30.5 and ΔH°′ = −20.5, so ΔS°′ = 33.5 J/mol·K).
+- ATP in skeletal muscle: **−62.5 kJ/mol resting, −52.7 kJ/mol fatigued**. The whole
+  difference from the standard value is the `R_gT ln Q` term.
+- `K_eq = 1.60×10⁵`; a resting cell sits **3.4×10¹⁰** from equilibrium.
+- **SERCA**: a 10⁴ calcium gradient costs 23.75 kJ/mol per ion. Two per ATP spends
+  76% of the budget at rest, 90% fatigued. Three costs 71.3 and stands above **both**
+  budgets, so 3:1 is thermodynamically forbidden. The measured stoichiometry is two.
+  **A biological design parameter recovered from thermodynamics alone** — the most
+  valuable thing the section does.
+- Max gradient a 2:1 pump can hold: 1.8×10⁵ at rest, 2.8×10⁴ fatigued, against an
+  actual 10⁴ — which is where Module 5's slowed relaxation in a fatigued muscle
+  comes from.
+
+**§1 was corrected, not contradicted.** §1 derived a crossbridge ceiling of
+`8.30 pN` to three figures from a round `50 kJ/mol`. §3 computes the ceiling at both
+compositions and finds it is **not one number**: 10.38 pN resting, 8.76 pN fatigued.
+§1 now carries a **fourth caution** saying so and pointing at §3 (`fix1_ceiling.py`,
+anchor asserted unique, idempotent). §3 states plainly that this is *not* the cause
+of fatigue — the measured force loss is far larger and its mechanism is phosphate
+acting on the crossbridge cycle, which is Module 5's business.
+
+**`check_provenance.py` gained two `[pre]` chemistry names** — `dG0_ATP` and
+`c_metab`. The `GATED` table had been written from an inventory of the seventeen
+*pre-chemistry* modules, so it contained no chemistry parameter at all and §3's
+markers were rejected as non-canonical. Recorded as **amendment 4** in
+`chemistry-audit-and-plan.md` §2.2c, so Module 5's crossbridge energetics is gated
+at first use rather than retrofitted. Self-test still 9/9. **Script still outside git.**
+
+**Three lessons from this section.**
+1. **A gate can be structurally blind rather than wrong.** The provenance table was
+   complete for the modules it was built from and empty for the ones it was built
+   *for*. Nothing failed; the first chemistry marker simply had no legal name.
+2. **Unicode has no subscript `g`.** The figure generator's subscript table silently
+   substituted subscript `s`, so Fig. 9's slope label read `R_sT` when this course's
+   gas constant is `R_g`. Every gate passed. **Only rendering the figure and reading
+   it caught this.** Multi-letter and unavailable subscripts need a `<tspan
+   baseline-shift="sub">`, which is how `ln K_eq` is drawn.
+3. **`check_overlap` again beat the eye, 4–0.** Two labels on a dashed drop line, one
+   on a bilayer midline, one on a dashed budget line — all invisible in a preview I
+   had already looked at twice.
+
+**Symbol namespace fixed by §3** (Module 0's Appendix must register these): `H`
+enthalpy (against Module 4's `H_A`); `S` entropy; `T` absolute temperature (against
+Module 3's torque `T`); `G` Gibbs free energy (against shear modulus `G`); `μ_i`
+chemical potential (against Module 4 §7's `μ_fric` and §2's `ν`); `Q` reaction
+quotient; `K_eq` equilibrium constant (against §2's bulk modulus `K`); `W`
+non-expansion work, with `W_ne` reserved for any calculation that also carries
+Module 1's body weight `W`; `ν_i` stoichiometric coefficient; `ΔG°′` the transformed
+standard quantity, primed throughout and never mixed with the unprimed `ΔG°`.
+
+---
+
+### §4 — a conflict found before writing, and it is not small
+
+Scoping §4 turned up a **contradiction between the plan, §0/§2, and Module 6**, plus
+a claim that is quantitatively wrong. Resolve this before writing a line of §4.
+
+**1. Module 6 does not have the hole §4 was told to fill.** `chemistry-audit-and-plan.md`
+§2.3 says §4 is "the missing molecular origin of Module 6's toe region", and
+`module00.html`'s roadmap table says §4's customer is "Module 6's toe region,
+currently derived from crimp geometry alone". But `module06.html:144` says the toe
+"is *not* the collagen stretching — it is the crimp straightening out", and
+`module06.html:151` says it "is not a material property of a single fibril — a
+straightened fibril is nearly linear. It is a *population* effect", then **proves**
+a parabolic toe from a uniform crimp distribution (Module 6 Proposition 1). Module 6
+already owns the toe, structurally and with a proof. §4 must **not** claim to supply
+its origin; doing so would contradict a proved result in a live module.
+
+**2. The "factor of fifty" §2 handed to §4 cannot be paid the way §2 said.** §0's
+`E_collagen` marker and §2's closing both assert the collagen fibril's compliance
+"is entropic, not a bond length being stretched", and §2 says "the factor of fifty is
+§4's to compute". Checked numerically (`probe4.py` in scratchpad): rubber elasticity
+`E = 3nk_BT` at 1.07 GPa demands one network chain per **(0.23 nm)³** and a molar
+mass between crosslinks of **10 g/mol** — a tenth of one amino-acid residue, and a
+chain spacing equal to a single bond length. The entropic mechanism is not fifty times
+short of collagen, it is about **1000×** short, and the network it implies is
+physically impossible. **§0 and §2 over-claimed, and §4 must say so.**
+
+**3. What §4 can honestly derive instead — and it is a real forward prediction.**
+The same `E = 3nk_BT` applied to **elastin** (measured `E ≈ 1.1 MPa`, density
+1300 kg/m³) gives a molar mass between crosslinks of **9.1 kDa** against a literature
+**6–7 kDa** — right within a factor of 1.4, with no elastic datum among the inputs.
+That is §4's apatite moment, and elastin is the tissue protein whose elasticity
+genuinely *is* entropic. Natural rubber checks the same way (4.9 kDa). The honest
+shape of §4 is therefore:
+- derive `f = −T ∂S/∂x` and the freely jointed and worm-like chain properly;
+- get `E = 3nk_BT`, predict elastin forward, and **succeed**;
+- apply it to collagen, **fail by 1000×**, and correct §0/§2's claim — naming the
+  real causes of collagen's compliance (interfibrillar shear and the helix's own
+  bending compliance, not chain entropy);
+- keep the **thermoelastic discriminator**, which is the section's cleanest teaching
+  result: entropic force is `∝ T`, so elastin and rubber *stiffen* when heated while
+  steel softens. That is a measurable test of which mechanism a tissue uses.
+- relate to Module 6 by paying a debt it actually leaves open — *why* a straightened
+  fibril is nearly linear (`module06.html:151` asserts it) — and by supplying the
+  molecular basis of the elastin in Module 6 §8's ligaments and fascia. Not the toe.
+
+Numbers to reuse: `probe4.py`. Collagen `ℓ_p ≈ 14.5 nm` and contour length `≈ 300 nm`
+for tropocollagen are the §4/§7 shared inputs; **put them in one JSON both sections
+read**, per the plan's own warning about two sections quoting different values.
+<!-- SEC3-HANDOFF -->
+
 ### Phase B step 1 remainder onward — NOT STARTED
 
-Module 0 §3–§9 and its Appendix are unwritten; no chemistry prose exists in Modules
-1–17 yet.
+Module 0 §4–§9 and its Appendix are unwritten; no chemistry prose exists in
+Modules 1–17 yet. **Four of ten sections done.**
 
 ---
 
 ## Next task
 
-**Build `module00.html` §3** — thermodynamics: `ΔG = ΔH − TΔS`, chemical potential,
-`ΔG = ΔG° + R_gT ln Q`, equilibrium `ΔG° = −R_gT ln K_eq`, and reaction coupling —
-under the standing convention: build one section → report with a short summary and two
-`★ Insight` bullets → user reviews → commit and push without waiting to be asked.
+**Build `module00.html` §4** — entropic elasticity: the freely jointed and worm-like
+chain, force as `f = −T ∂S/∂x`, and the thermoelastic signature that separates an
+entropic spring from an energetic one.
 
-Its content spec is `chemistry-audit-and-plan.md` §2.3. §3 is the section §1 explicitly
-deferred to: §1 Proposition 1.1 derived the split
-`Δg = Σνᵢμᵢ° + k_BT Σνᵢ ln(cᵢ/cᵢ°)` and then said that assembling it into
-`ΔG = ΔG° + R_gT ln Q` "is §3's headline result, not this section's". §3 owes that
-assembly, the equilibrium condition from setting `ΔG = 0`, and reaction coupling — how
-an unfavourable reaction runs on a favourable one. Its named customers are Module 5's
-crossbridge energetics, Module 4's swelling, and every pump in the book. §1 already
-paid the ATP debt in thermal quanta (19.4 k_BT → a crossbridge cannot average more than
-8.30 pN over Module 5's 10 nm stroke); §3 must not re-derive that, only price the
-direction and the coupling.
+**Read the "§4 — a conflict found before writing" note above first.** The plan's
+framing for §4 is wrong in two places, and both were checked, not guessed:
+
+1. `chemistry-audit-and-plan.md` §2.3 and Module 0's own roadmap table send §4 to
+   supply "the missing molecular origin of Module 6's toe region". Module 6 already
+   owns the toe — structurally, from crimp and fibre recruitment, with a proof
+   (`module06.html:144`, `:151`, Proposition 1). **Do not claim the toe.**
+2. §0's `E_collagen` provenance marker and §2's closing paragraph both assert that a
+   collagen fibril's compliance is entropic and hand §4 a "factor of fifty" to
+   compute. It is not fifty. `E = 3nk_BT` at 1.07 GPa implies one chain per
+   (0.23 nm)³ and 10 g/mol between crosslinks — impossible. The entropic mechanism
+   is ~1000× too soft for collagen. **§4 must correct §0 and §2**, the same way §2
+   corrected §0's calibrated ladder. That is now three sections running in which the
+   previous section's confident attribution did not survive being computed.
+
+The section that *does* work: elastin. `E = 3nk_BT` predicts 9.1 kDa between
+crosslinks against a measured 6–7 kDa, with no elastic datum among the inputs.
 
 Four standing constraints:
 
-1. **Rigor parity binds.** §2 boxed five results and proved every one. A boxed
-   `ΔG° = −R_gT ln K_eq` sitting beside an asserted chemical-potential relation is the
-   Module 6 §6 defect in a new place.
-2. **Ask where every table value came from.** The §2 lesson: `n` looked like an
-   electron-configuration integer and was really a compressibility fit. Standard free
-   energies of formation, `K_eq` values and `ΔH` values all carry the same question,
-   and the provenance marker must say which.
-3. **The chemistry symbol namespace** is fixed in §2.2c's canonical-name table,
-   extended by §1's and §2's lists above. Note the fresh collision: `K` is a bulk
-   modulus in §2 and wants to be an equilibrium constant in §3 — resolve it at first
-   use (`K_eq` is suggested above).
-4. When §3 lands, flip its TOC entry in `module00.html` from `<span class="pending">`
-   to a link, update the "§0, §1 and §2 are complete" note below the TOC, and re-run
-   `autolink_sections.py` — 26 forward `§N` refs are still unlinked and will resolve
-   as sections land (`rm` the `.bak` it leaves).
+1. **Rigor parity binds.** §3 boxed five results and proved four, marking the fifth
+   as a rearranged definition. A boxed entropic-modulus law beside an asserted
+   worm-like-chain force law is the Module 6 §6 defect in a new place.
+2. **Ask where every table value came from.** The §2 lesson (Pauling's exponent was
+   a compressibility fit) and the §3 lesson (Alberty's ΔG°′ is a fitted equilibrium
+   model, not a calorimetric reading) both apply. Elastin's modulus, its density, its
+   crosslink spacing, and tropocollagen's persistence length all carry the question,
+   and the `.prov` marker must say which. `check_provenance.py` will need new
+   `[pre]` names for the entropic parameters — extend `GATED` and record it as
+   amendment 5 in §2.2c, as §3 did.
+3. **Shared numbers go in one JSON.** §4 and §7 both need tropocollagen's persistence
+   length (≈14.5 nm) and contour length (≈300 nm). Two sections quoting different
+   values is a defect no gate sees. `probe4.py` in scratchpad has the entropic
+   arithmetic already checked.
+4. When §4 lands, flip its TOC entry in `module00.html` from `<span class="pending">`
+   to a link, update the "§0–§3 are complete" note below the TOC, re-run
+   `autolink_sections.py` (27 forward `§N` refs still unlinked) and `rm` the `.bak`.
 
-Then, in order (full traces in `chemistry-audit-and-plan.md` §2.2b and Part 3):
+Then §5 → §6 → §7 → §8 → §9 → Appendix, and only then the traces into the existing
+modules, in order (full traces in `chemistry-audit-and-plan.md` §2.2b and Part 3):
 Module 5 → Module 2 → Module 6 → Module 4 → Module 14 → Modules 8/9 →
 Modules 15/16/17.
 
-**Scope, stated plainly.** "Finish the chemistry and biology update for all modules"
-is Module 0 at full course standard (30 problems, labs, figures, appendix — Modules 3
-and 4 are ~2200 lines each) plus interwoven traces into eleven existing modules. It
-is **many sessions**, not one. Work it in order, commit each unit without being
-asked, refresh this file at each module boundary, and do not let a session grow past
-~150k context. Do not report the phase complete until it is.
+**Scope, stated plainly and unchanged.** Module 0 at full course standard is ten
+sections plus an Appendix, with §9 alone carrying 30 problems, 5 diagnostics and
+Python-verified solutions — roughly the size of §0–§3 put together. Four sections are
+done. This is **many sessions**, not one. Work in order, commit each section without
+being asked, refresh this file at every section boundary (not only at module
+boundaries), and do not let a session grow past ~150k context. Do not report the
+phase, or the module, complete until it is.
 
 If the user asks for something else, that takes precedence.
 
