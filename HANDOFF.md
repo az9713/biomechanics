@@ -606,15 +606,29 @@ Phase B step 1 is closed.
 
 **Before anything else — two open items from Module 0.**
 
-1. **`rev5`'s reviewer findings on §5 were never applied.** A `rigor-reviewer` pass
-   was dispatched on §5 (water, ions, the double layer) and had not reported when
-   §6 was started. §0–§4 each returned NEEDS-FIXES and each pass found real errors,
-   including two wrong proofs and one wrong boxed number, so **assume §5 has open
-   findings**. Re-run the reviewer on the `<!-- SEC5 -->` block and put these to it
-   explicitly: whether van 't Hoff is legitimately invoked at 0.28 M in Prop 5.3
-   (it is not dilute); whether the plasma-membrane pump's 1:1 stoichiometry claim is
-   right as biology as well as arithmetic; and whether OSF is valid when λ_D is
-   smaller than the charge spacing.
+1. **`rev5`'s findings on §5 are APPLIED** (`8846725`, 45 fixes) — and the pass was
+   worth it. The worst finding was a **third false debt**: §5 claimed Module 4 §2
+   "takes a swelling pressure as given" when Module 4 already proves it with a boxed
+   `.thm` and two `.proof` divs, reaching the same expression in different notation.
+   Ten more statements were simply wrong (the buffer half-width, the permittivity
+   sign, "eight times more dilute", the pH window and its false comparison with
+   sodium, 898 k_BT attributed to a section that never states it, a promised table
+   that did not exist, a Module 5 anchor pointing at the wrong section). Prop 5.1's
+   prefactor, van 't Hoff, and Def 5.4's formula all needed their status corrected,
+   and OSF turned out to be used **outside its own validity condition** (λ_D ≫ A
+   fails at plasma strength; it survives only because discreteness makes it an upper
+   bound). Fig 16 had a line invisible under another line — a defect no gate can see,
+   because `check_overlap` tests text against lines and never line against line.
+
+   **A fourth autolink defect came out of the same review** (`f9a903f`): the script
+   was rewriting section refs inside `<svg>`, and a sweep found **23 injected anchors
+   across three modules** — 8 in module00 from this session, but **14 in module04 and
+   1 in module17 from earlier sessions**, carried in live figures with every gate
+   passing. Root cause fixed (`<svg>` excluded alongside `<a>` and `<pre>`) and all
+   23 cleaned. That is three containers the script should never have edited; the
+   lesson recorded in the commit is that a rewrite pass needs an **allowlist** of
+   where it may act, not a growing denylist.
+
 2. **§6–§9 and the Appendix have had no reviewer pass at all.** Four sections and an
    appendix went in without one, which is a departure from the standing convention
    and the reason it exists. §9 in particular carries 30 problem solutions whose
