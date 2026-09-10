@@ -93,10 +93,10 @@ window.MathJax = {
 <li><b>6.</b> <a href="#kinetics">Kinetics: mass action, cooperativity, Arrhenius</a></li>
 <li><b>7.</b> <a href="#macro">The macromolecules</a></li>
 <li><b>8.</b> <a href="#lab">Computational lab — binding equilibrium and a temperature sweep</a></li>
-<li><b>9.</b> <span class="pending">What the model captures and misses; diagnostics and problems</span></li>
+<li><b>9.</b> <a href="#limits">What the model captures and misses; diagnostics and problems</a></li>
 <li><span class="pending">Appendix — notation, constants, chemical parameter table</span></li>
 </ul>
-<p class="small" style="margin:.4rem 0 0"><a class="secref" href="#origin">§0</a>&#8211;<a class="secref" href="#lab">§8</a> are complete. §9 and the Appendix are in progress; their entries become links as they are built.</p>
+<p class="small" style="margin:.4rem 0 0"><a class="secref" href="#origin">§0</a>&#8211;<a class="secref" href="#limits">§9</a> are complete. The Appendix is in progress; their entries become links as they are built.</p>
 </div>
 
 <hr>
@@ -1356,7 +1356,7 @@ $$[\mathrm{ES}] = \frac{\left([\mathrm E]_{\text{tot}} - [\mathrm{ES}]\right)c}{
 
 <p>What this section has <em>not</em> done should be equally clear, because it is the boundary of what a chemistry module can claim. It does not predict a persistence length: that needs the bending stiffness of three wound chains, which is a mechanics calculation. It does not predict how much proteoglycan a chondrocyte secretes, or how much collagen a tendon contains, because those are outcomes of regulation rather than of chemistry. And it does not predict a $\mathrm{p}K_a$ in a protein, only explain why it shifts. The module's honest position is that chemistry fixes the <em>per-molecule</em> quantities and biology fixes <em>how many</em>, and every tissue property this course computes is a product of one of each.</p>
 
-<p><span class="secref"><a class="secref" href="#lab">§8</a></span> is the computational lab: two of this module's equilibria solved numerically rather than analytically, because both of the interesting ones &#8212; a binding equilibrium where the ligand is <em>not</em> in excess, which <a class="secref" href="#kinetics">§6</a> Proposition 6.2 explicitly excluded, and a temperature sweep over a coupled reaction &#8212; have no closed form. Then <span class="secref">§9</span> tests the whole module.</p>
+<p><span class="secref"><a class="secref" href="#lab">§8</a></span> is the computational lab: two of this module's equilibria solved numerically rather than analytically, because both of the interesting ones &#8212; a binding equilibrium where the ligand is <em>not</em> in excess, which <a class="secref" href="#kinetics">§6</a> Proposition 6.2 explicitly excluded, and a temperature sweep over a coupled reaction &#8212; have no closed form. Then <span class="secref"><a class="secref" href="#limits">§9</a></span> tests the whole module.</p>
 <!-- /SEC7 -->
 
 <!-- SEC8 -->
@@ -1650,8 +1650,387 @@ if __name__ == "__main__":
 
 <p>Physiologically: a muscle's calcium buffering is a first-order effect and not a correction, so free and total calcium must never be conflated. And the slowed relaxation of a cold muscle and of a fatigued muscle have <em>different</em> causes, kinetic in one case and partly thermodynamic in the other, which matters to any model that tries to explain both with one parameter.</p>
 
-<p><span class="secref">§9</span> closes the module: what this chemistry captures and what it misses, five diagnostics, and thirty problems.</p>
+<p><span class="secref"><a class="secref" href="#limits">§9</a></span> closes the module: what this chemistry captures and what it misses, five diagnostics, and thirty problems.</p>
 <!-- /SEC8 -->
+
+<!-- SEC9 -->
+<h2 id="limits">9. What this chemistry captures and misses; diagnostics and problems</h2>
+
+<p>Eight sections have built a chemical foundation for a mechanics course, and the honest way to close is to say what it can now do, what it cannot, and where it was wrong on the way. Three of its own claims were withdrawn as it went, which is worth stating plainly rather than leaving in the commit history.</p>
+
+<h3>What it captures</h3>
+
+<p>The module set out to remove the unexplained constants from the course's mechanics, and it removed some of them. A bulk modulus is now a cohesive energy density, and apatite's $143\ \mathrm{GPa}$ follows from a lattice energy and a cell volume with no elastic measurement among the inputs (<a class="secref" href="#bonding">§2</a>). A tissue's free-energy budget is computable at any composition, and the two pumps of a muscle cell have their stoichiometries capped &#8212; two calcium per ATP into the reticulum, one out through the cell surface &#8212; by arithmetic rather than by measurement (<a class="secref" href="#thermo">§3</a>, <a class="secref" href="#water">§5</a>). Elastin's modulus is predicted forwards from crosslink chemistry to within a factor of $1.4$, and the measured value is bracketed by the dry and hydrated calculations (<a class="secref" href="#entropic">§4</a>). Cartilage's swelling pressure of $156\ \mathrm{kPa}$ descends from a glycosaminoglycan assay through a stoichiometry with no mechanical datum in the chain (<a class="secref" href="#water">§5</a>, <a class="secref" href="#macro">§7</a>). Collagen's contour length is a residue count times a rise (<a class="secref" href="#macro">§7</a>). And the temperature dependence of everything a muscle does is one activation energy, which turns a $Q_{10}$ into a threefold prediction about a cold limb (<a class="secref" href="#kinetics">§6</a>).</p>
+
+<p>Two structural results are worth more than any single number. The first is the <b>provenance discipline</b>: every gated parameter in this module declares whether it was derived here, imported from another section, or measured &#8212; and that discipline caught three errors that no other check would have. The second is the pairing of <a class="secref" href="#thermo">§3</a> with <a class="secref" href="#kinetics">§6</a>: a concentration can matter enormously to a thermodynamic quantity and not at all to a kinetic one, and a model that confuses the two will explain fatigue by fuel exhaustion, which is wrong.</p>
+
+<h3>What it misses</h3>
+
+<p>Five gaps, in order of how much they matter to the rest of the course.</p>
+
+<p><b>It does not predict a persistence length.</b> <a class="secref" href="#entropic">§4</a> used $\ell_p = 14.5\ \mathrm{nm}$ for tropocollagen and <a class="secref" href="#macro">§7</a> could recover the contour length but not the bending stiffness, which needs the mechanics of three wound chains. <a class="secref" href="#water">§5</a> could only show that the electrostatic contribution is under one per cent at body salt &#8212; a bound on the error, not a derivation.</p>
+
+<p><b>It does not predict how much of anything a cell makes.</b> Fixed charge density, collagen content, myosin isoform, pump density: all are regulatory outcomes. The module's position is that chemistry fixes the per-molecule quantities and biology fixes how many, and every tissue property computed here is a product of one of each. That is a real boundary and not a temporary one.</p>
+
+<p><b>Mean-field electrostatics is used at the edge of its validity.</b> <a class="secref" href="#water">§5</a> stated it: at physiological ionic strength only $0.3$ ions sit inside one Debye sphere, so Debye&#8211;H&uuml;ckel is a scaling law here rather than a precise theory. Every Debye length in this course should be read as good to a factor of order one.</p>
+
+<p><b>Crowding is ignored throughout.</b> Every activity in this module was a concentration, which assumes dilute non-interacting solutes. A cytosol is $20$&#8211;$30\%$ macromolecule by volume, where activities depart from concentrations by factors of several. <a class="secref" href="#thermo">§3</a> Proposition 3.2 named this and did not fix it.</p>
+
+<p><b>There is no spatial dimension.</b> Every equilibrium here is uniform. Diffusion appears only as a speed limit in <a class="secref" href="#kinetics">§6</a>, and a real calcium transient has gradients on the scale of the sarcomere. <a class="secref" href="module04.html#biphasic">Module&nbsp;4 §3</a>'s consolidation equation is the one place this course does chemistry in space.</p>
+
+<h3>Three claims this module withdrew</h3>
+
+<p>Rather than leave these in the version history, they belong here, because each is a lesson about how the errors were found.</p>
+
+<ol>
+<li><b><a class="secref" href="#origin">§0</a>'s stiffness ladder was circular.</b> It presented bond stiffnesses that reproduced <a class="secref" href="module02.html#composite">Module&nbsp;2 §5</a>'s measured moduli, and those stiffnesses had been calibrated <em>from</em> those moduli. <a class="secref" href="#bonding">§2</a> ran the arrow forwards properly. <em>Found by</em>: asking where a table value came from.</li>
+<li><b><a class="secref" href="#origin">§0</a> and <a class="secref" href="#bonding">§2</a> attributed collagen's compliance to entropy.</b> It is not entropic: a Gaussian network is short of a fibril by $642\times$ at any real crosslink spacing, and reaching $1\ \mathrm{GPa}$ would need a crosslink inside every amino acid. <a class="secref" href="#entropic">§4</a> withdrew the claim and named the real ladder &#8212; bond count, helix bending, intermolecular shear, all energetic. <em>Found by</em>: putting numbers into an attribution that had only ever been asserted.</li>
+<li><b><a class="secref" href="#entropic">§4</a>'s own first correction was also wrong.</b> Having withdrawn the entropic claim, <a class="secref" href="#entropic">§4</a> then boxed a ceiling of $108\ \mathrm{MPa}$ evaluated at a crosslink spacing shorter than one Kuhn segment &#8212; outside the hypothesis of the very proposition it was using. The box now holds the Gaussian-valid ceiling. <em>Found by</em>: a reviewer checking whether a boxed number was one the theorem produces.</li>
+</ol>
+
+<p>The pattern in all three is the same, and it is the module's most transferable lesson: <b>the claim that fails is not the one you compute, it is the one you assert while computing something adjacent.</b></p>
+
+<h3>Five diagnostics</h3>
+
+<p>Answer these before the problems. Each has a one-line answer and each tests whether a distinction in this module actually landed. Work them without looking back.</p>
+
+<div class="qbox">
+<p><b>Diagnostic 1.</b> A reaction has $\Delta G^{\circ} = +12\ \mathrm{kJ\,mol^{-1}}$. Can it run forwards in a cell? In one sentence, say what determines the answer.</p>
+<details class="sol"><summary>Answer</summary><div><p>Yes. $\Delta G^{\circ}$ is the value at a reference composition no cell occupies; direction is set by $\Delta G = \Delta G^{\circ} + R_gT\ln Q$ (<a class="secref" href="#thermo">§3</a> Proposition 3.3), so any $Q$ below $\exp(-12/2.58) = 9.9\times10^{-3}$ makes it run. Holding products low is exactly how a cell drives uphill standard reactions.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>Diagnostic 2.</b> A muscle is cooled from $37$ to $25\ ^\circ\mathrm C$. Does the maximum force one crossbridge can exert go up, down, or stay about the same &#8212; and does the muscle get weaker?</p>
+<details class="sol"><summary>Answer</summary><div><p>The <em>ceiling</em> barely moves: it is $|\Delta G|/N_Ad$, a thermodynamic quantity, and $\Delta G$ changes a few per cent over $12\ \mathrm K$. The muscle nevertheless gets weaker, because every <em>rate</em> falls by a factor of about three (<a class="secref" href="#kinetics">§6</a>). A cold muscle is not a weaker spring; it is a slower engine. Conflating the two is the trap.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>Diagnostic 3.</b> Two proteins bind calcium with the same $K_d = 1\ \mu\mathrm M$. One has $k_{\text{on}} = 10^{8}$, the other $10^{5}\ \mathrm{M^{-1}s^{-1}}$. Which is the better calcium sensor for a twitch lasting $100\ \mathrm{ms}$?</p>
+<details class="sol"><summary>Answer</summary><div><p>The fast one. Equal $K_d$ means equal <em>equilibrium</em> occupancy, but $K_d = k_{\text{off}}/k_{\text{on}}$ (<a class="secref" href="#kinetics">§6</a> Proposition 6.1) so the slow binder has $k_{\text{off}} = 0.1\ \mathrm s^{-1}$ and a relaxation time of $10\ \mathrm s$ &#8212; a hundred times longer than the twitch. It never reaches equilibrium and never releases in time. $K_d$ alone cannot tell you this.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>Diagnostic 4.</b> Cartilage is placed in distilled water instead of saline. Does it swell or shrink, and by what mechanism?</p>
+<details class="sol"><summary>Answer</summary><div><p>It swells. By <a class="secref" href="#water">§5</a> Proposition 5.3 the swelling pressure is $2R_gT[\sqrt{c_{\text{ext}}^2 + (c_F/2)^2} - c_{\text{ext}}]$, which <em>increases</em> as $c_{\text{ext}}$ falls, reaching $R_gTc_F$ in pure water &#8212; about $515\ \mathrm{kPa}$ for $c_F = 0.2\ \mathrm M$, more than three times the physiological value. External salt screens the fixed charge; remove it and the tissue takes up water until its collagen network stops it.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>Diagnostic 5.</b> A student computes the free energy of a Ca&#8211;O bond in bone as $898\,k_BT$ and concludes that calcium cannot leave bone mineral at body temperature. What is wrong?</p>
+<details class="sol"><summary>Answer</summary><div><p>The bond energy was computed in vacuum. In water the same pair at the same separation is $12.3\,k_BT$, weaker by the relative permittivity $\epsilon_r = 73.2$ (<a class="secref" href="#water">§5</a> Definition 5.1) &#8212; and that is before hydration of the freed ions, which lowers it further. Dissolution is slow for kinetic and surface reasons, not because the bond is thermally unreachable.</p></div></details>
+</div>
+
+<h3 id="conceptual">Problems &#8212; conceptual (C1&#8211;C10)</h3>
+
+<p>These test whether a distinction landed, not whether a formula can be recalled. Each should be answerable in a short paragraph.</p>
+
+<div class="qbox">
+<p><b>C1.</b> <a class="secref" href="#bonding">§2</a> proved that an affine estimate of a modulus is an <em>upper</em> bound, and that the same theorem makes <a class="secref" href="module02.html#composite">Module&nbsp;2 §5</a>'s Voigt average an upper bound on a composite. Explain in what sense these are the same theorem, and identify what plays the role of the "internal coordinates" in each case.</p>
+<p class="small"><em>Probes: whether Proposition 2.1's Schur-complement argument is understood as a statement about constrained minimisation rather than about crystals.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>Both are the statement that constraining a variational problem raises its minimum. In the crystal, the strain is imposed and the internal coordinates $\mathbf u$ &#8212; the atom shifts within the unit cell that the macroscopic strain does not dictate &#8212; are free to relax; forcing $\mathbf u = 0$ is the affine assumption, and the relaxed energy cannot exceed it. In the composite, the internal coordinate is the <em>partition of strain between the phases</em>; Voigt assumes both phases share one strain, which is the same "freeze the internal variable" assumption one level of description higher. In both cases the true stiffness is the Schur complement $\mathsf A - \mathsf B\mathsf D^{-1}\mathsf B^{\top}$ and the frozen estimate is $\mathsf A$. Equality requires $\mathsf B = 0$: no coupling between the macroscopic and internal variables, which for a crystal means every atom sits at an inversion centre, and for a composite means the phases have equal moduli.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>C2.</b> A colleague proposes measuring the standard free energy of ATP hydrolysis by putting ATP, ADP and phosphate each at $1\ \mathrm M$ and measuring the heat released. Give two reasons this does not give $\Delta G^{\circ\prime}$.</p>
+<p class="small"><em>Probes: the distinction between $\Delta G$ and $\Delta H$, and the meaning of the transformed standard state.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>First, heat is $\Delta H$, not $\Delta G$; they differ by $T\Delta S$, which for this reaction is about $10\ \mathrm{kJ\,mol^{-1}}$ (<a class="secref" href="#thermo">§3</a>). A calorimeter measures the wrong quantity. Second, $\Delta G^{\circ\prime}$ is a <em>transformed</em> standard state (<a class="secref" href="#thermo">§3</a> Definition 3.4): pH and free magnesium are held fixed and each reactant is the sum of its protonation and magnesium-bound forms. Putting the species at $1\ \mathrm M$ each does not fix pH &#8212; the reaction releases a proton, and at $1\ \mathrm M$ concentrations the pH would move enormously. The measurement would report a mixture of conditions rather than a defined state.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>C3.</b> <a class="secref" href="#entropic">§4</a> showed that an entropic spring stiffens on warming while an energetic one softens. A tendon is warmed from $20$ to $37\ ^\circ\mathrm C$ and stiffens by $6\%$. Does this prove its elasticity is entropic? What else would you need to measure?</p>
+<p class="small"><em>Probes: whether the discriminator is understood as a sign test with confounds, not a proof.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>No. The sign is consistent with entropic elasticity, and $6\%$ is close to the $5.8\%$ that $f \propto T$ predicts, but a tendon is not a single mechanism: warming also changes water content, alters crosslink and proteoglycan behaviour, and can shift crimp geometry, any of which could stiffen it. To make the test decisive one would (i) check that the stiffening is <em>reversible</em> and instantaneous, since a structural change would show hysteresis and a time constant; (ii) check the magnitude against $T_2/T_1$ quantitatively across a wider range, since a structural mechanism has no reason to be linear in absolute temperature; and (iii) look for the Gough&#8211;Joule companion effect, warming on adiabatic stretch. Note also that <a class="secref" href="#entropic">§4</a> concluded collagen is <em>not</em> entropic, so a tendon showing a clean entropic signature would be evidence about its elastin and matrix rather than its collagen.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>C4.</b> Explain why the reticulum calcium pump can move two calcium ions per ATP while the plasma-membrane pump manages one, given that both face the same $10^{4}$ concentration ratio.</p>
+<p class="small"><em>Probes: whether the electrical term of the electrochemical potential is understood as a real cost and not a formality.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>The concentration ratio is the same but the <em>electrochemical</em> work is not. The reticulum membrane holds essentially no potential, because counter-ion channels let potassium and chloride follow the calcium, so the cost is the chemical term alone: $23.75\ \mathrm{kJ\,mol^{-1}}$ per ion, and two fit inside an ATP's $52.7$. The cell surface holds $-90\ \mathrm{mV}$, and moving a divalent cation out against that adds $zF\Delta\phi = 17.4\ \mathrm{kJ\,mol^{-1}}$, taking the total to $42.6$ per ion (<a class="secref" href="#water">§5</a>). Two would cost $85.2$ and no ATP can pay for it. The stoichiometries differ because the electrical term differs, not because the pumps differ in quality.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>C5.</b> Bicarbonate is the body's dominant buffer at pH $7.4$ despite having its $\mathrm{p}K_a$ at $6.1$, where <a class="secref" href="#water">§5</a> Definition 5.4 says its capacity is poor. Resolve this.</p>
+<p class="small"><em>Probes: whether the open-system argument is understood as coupling rather than as a special case of buffering.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>Definition 5.4's formula is for a <em>closed</em> system, in which adding acid consumes bicarbonate and accumulates carbon dioxide, and the accumulating product limits the capacity. The lungs hold dissolved $\mathrm{CO_2}$ fixed by adjusting ventilation, so one product never accumulates, and the capacity becomes $\ln 10\,[\mathrm{HCO_3^-}] = 55\ \mathrm{mM}$ per pH unit instead of $2.5$ &#8212; a factor of $22$. This is <a class="secref" href="#thermo">§3</a> Proposition 3.5's coupling argument applied to an organ rather than to a pump: the buffer is coupled to a process that removes its product, and the removal is what buys the capacity. Note the corollary: the advantage vanishes if ventilation cannot respond, which is why respiratory and metabolic acid&#8211;base disturbances behave so differently.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>C6.</b> A model of muscle fatigue attributes the loss of force to falling ATP concentration slowing the crossbridge cycle. Using two results from this module, explain why this is wrong, and state what the falling ATP <em>does</em> affect.</p>
+<p class="small"><em>Probes: the thermodynamic-versus-kinetic distinction, which is the module's central pairing.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>Two results. From <a class="secref" href="#kinetics">§6</a> Proposition 6.4, myosin's $K_M$ for ATP is about $50\ \mu\mathrm M$ against a cellular $5\ \mathrm{mM}$, so the enzyme is $99\%$ saturated and the rate changes by $0.09\%$ across a whole bout &#8212; ATP concentration does not control the speed. From <a class="secref" href="#thermo">§3</a>, the free energy depends on $\ln([\mathrm{ADP}][\mathrm{P_i}]/[\mathrm{ATP}])$ and falls $15.7\%$ over the same bout, so what the composition change does affect is the thermodynamic <em>budget</em>, and hence the ceiling on force per crossbridge (from $10.4$ to $8.8\ \mathrm{pN}$). Even that is not the cause of fatigue, because measured head forces of $3$&#8211;$6\ \mathrm{pN}$ sit under both ceilings. The dominant mechanism is phosphate acting on the crossbridge cycle itself, which is a kinetic and mechanistic effect of a product, not a fuel shortage.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>C7.</b> <a class="secref" href="#water">§5</a> notes that only $0.3$ ions sit inside one Debye sphere at physiological ionic strength. Explain why this is a problem for Debye&#8211;H&uuml;ckel theory, and say whether it makes the $0.79\ \mathrm{nm}$ screening length useless.</p>
+<p class="small"><em>Probes: whether a mean-field theory's validity condition is understood, and whether the student can hold "approximate" and "useful" together.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>The derivation replaces the discrete ions by a smooth charge density and then linearises the Boltzmann factor. Both steps assume many ions within the region over which the potential varies, so that an average is meaningful; with $0.3$ ions per Debye sphere there is typically no ion at all within a screening length, and the "cloud" is a fiction on that scale. It does not make the length useless. What survives is the scaling &#8212; $\lambda_D \propto I^{-1/2}$, which is well confirmed &#8212; and the order of magnitude, which is what every use in this course relies on: that electrostatics has a range of roughly a nanometre in a body fluid. What does <em>not</em> survive is any claim to two-figure accuracy, or any use at a highly charged surface where the linearisation also fails and divalent counter-ions condense.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>C8.</b> <a class="secref" href="#macro">§7</a> derives collagen's contour length from its residue count but says it cannot derive the persistence length. Explain what makes the second harder, and why <a class="secref" href="#water">§5</a>'s screening result does not close the gap.</p>
+<p class="small"><em>Probes: the difference between a geometric and a mechanical property, and what a bound is.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>Contour length is geometry: a count of residues times a rise per residue, both read from structure. Persistence length is $\ell_p = \kappa/k_BT$, a <em>mechanical</em> property requiring the bending rigidity of three chains wound about each other and hydrogen-bonded to one another &#8212; which depends on how load redistributes among the strands as the assembly bends, a calculation of the kind <a class="secref" href="#bonding">§2</a> Proposition 2.1 shows requires the full internal-coordinate problem. <a class="secref" href="#water">§5</a>'s result is a <em>bound on one contribution</em>: it shows the electrostatic part of $\kappa$ is under one per cent at body salt, so the remaining $99\%$ is intrinsic and unexplained. Ruling out one term is not deriving the sum.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>C9.</b> A reviewer objects that <a class="secref" href="#entropic">§4</a>'s refutation of entropic collagen is invalid, because a semiflexible network crosslinked inside its persistence length is not bounded by $3nk_BT$. Assess the objection.</p>
+<p class="small"><em>Probes: whether the scope of Proposition 4.3 is understood, and whether the student can defend a result by checking its hypothesis against the case at hand.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>The objection is correct in general and does not apply here, and <a class="secref" href="#entropic">§4</a> says so. A semiflexible network with crosslink spacing $\ell_c \lt \ell_p$ has a modulus scaling as $\kappa^2/(k_BT\xi^2\ell_c^3)$ and can be orders of magnitude stiffer than $3nk_BT$. But collagen is not in that regime: a mature fibril carries one or two load-bearing crosslinks per $300\ \mathrm{nm}$ molecule, so $\ell_c \approx 150$&#8211;$300\ \mathrm{nm}$ against $\ell_p = 14.5\ \mathrm{nm}$, and $\ell_c \gg \ell_p$ is the flexible regime Proposition 4.3 covers. There is also an independent check: the semiflexible modulus carries $k_BT$ in the <em>denominator</em>, so such a network <em>softens</em> on warming and <a class="secref" href="#entropic">§4</a>'s thermoelastic discriminator would classify it as energetic, not entropic. The bound and the measurement agree.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>C10.</b> This module withdrew three of its own claims. For each, name the check that caught it, and say which of those checks an automated gate could have performed.</p>
+<p class="small"><em>Probes: whether the reader has absorbed the module's methodological lesson, which is the one most likely to transfer.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>(i) <a class="secref" href="#origin">§0</a>'s circular ladder was caught by asking where a table value came from &#8212; a provenance question. An automated gate <em>can</em> check that a declaration exists, and one does; it cannot check that the declaration is true, because that requires knowing the history of a number. (ii) The entropic-collagen attribution was caught by computing a quantity that had only been asserted. No gate could have done this: the claim was well-formed, internally consistent, and wrong, and only substituting numbers exposed it. (iii) <a class="secref" href="#entropic">§4</a>'s own over-correction &#8212; boxing a ceiling evaluated outside its proposition's hypothesis &#8212; was caught by a reviewer asking whether a boxed number is one the theorem produces. A gate could in principle check that a boxed result's inputs lie inside stated hypotheses, but no such gate exists here, and writing one would require the hypotheses to be machine-readable. The general lesson: gates catch <em>broken</em> content reliably and <em>wrong</em> content never.</p></div></details>
+</div>
+
+<h3 id="derivational">Problems &#8212; derivational (D1&#8211;D10)</h3>
+
+<div class="qbox">
+<p><b>D1.</b> Derive the rocksalt corollary $K = (n-1)\alpha_M|z_1z_2|C_e/(18r_0^4)$ from <a class="secref" href="#bonding">§2</a> Proposition 2.2, stating where the Madelung constant and the packing factor $\gamma_s = 2$ enter.</p>
+<p class="small"><em>Probes: whether the cancellation of $\gamma_s$ in Proposition 2.2 is understood well enough to be undone for a special case.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>Proposition 2.2 gives $K = n|U_{\text{latt}}|/(9V_f)$ with $|U_{\text{latt}}| = (\mathcal A/r_0)(1 - 1/n)$ from the equilibrium condition. For rocksalt, summing $\pm C_e/r$ over the lattice gives $\mathcal A = \alpha_M|z_1z_2|C_e$ with $\alpha_M = 1.7476$, and one formula unit occupies $V_f = 2r_0^3$, so $\gamma_s = 2$. Substituting,
+$$K = \frac{n}{9\cdot 2r_0^3}\cdot\frac{\alpha_M|z_1z_2|C_e}{r_0}\left(1-\frac1n\right) = \frac{(n-1)\alpha_M|z_1z_2|C_e}{18\,r_0^{4}}.$$
+The Madelung constant enters through $\mathcal A$, i.e. through the lattice sum that replaces a single pair's Coulomb energy; the packing factor enters through $V_f$, and the $n$ cancels against the $(1-1/n)$ to leave $(n-1)$. Note that $\gamma_s$ cancelled in the general result and reappears here only because we chose to express the answer in $r_0$ rather than in $V_f$.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>D2.</b> Starting from <a class="secref" href="#thermo">§3</a> Proposition 3.3, derive the van 't Hoff relation $\mathrm d\ln K_{\text{eq}}/\mathrm d(1/T) = -\Delta H^{\circ}/R_g$, stating the approximation required.</p>
+<p class="small"><em>Probes: whether Propositions 3.3 and 3.4 can be combined with $\Delta G = \Delta H - T\Delta S$.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>From Proposition 3.4, $\ln K_{\text{eq}} = -\Delta G^{\circ}/(R_gT)$. Substituting the boxed $\Delta G^{\circ} = \Delta H^{\circ} - T\Delta S^{\circ}$,
+$$\ln K_{\text{eq}} = -\frac{\Delta H^{\circ}}{R_g}\cdot\frac1T + \frac{\Delta S^{\circ}}{R_g}.$$
+Differentiating with respect to $1/T$ gives $-\Delta H^{\circ}/R_g$ directly, <em>provided</em> $\Delta H^{\circ}$ and $\Delta S^{\circ}$ are treated as temperature-independent &#8212; which requires the reaction's heat-capacity change $\Delta C_p$ to be negligible, the same approximation <a class="secref" href="#thermo">§3</a> used to move $\Delta G^{\circ\prime}$ from $298$ to $310\ \mathrm K$. The result is a plot recipe: $\ln K_{\text{eq}}$ against $1/T$ is a straight line of slope $-\Delta H^{\circ}/R_g$, which is how reaction enthalpies are measured without a calorimeter.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>D3.</b> Show that for a freely jointed chain the exact force&#8211;extension law $x/L_c = \coth\beta - 1/\beta$, with $\beta = fb/k_BT$, reduces to <a class="secref" href="#entropic">§4</a> Proposition 4.2 at small force, and find the leading correction.</p>
+<p class="small"><em>Probes: whether the Gaussian result is recognised as a limit rather than a separate model.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>Expand the Langevin function for small $\beta$: $\coth\beta = 1/\beta + \beta/3 - \beta^3/45 + \dots$, so $x/L_c = \beta/3 - \beta^3/45 + \dots$. To leading order $x/L_c = \beta/3 = fb/(3k_BT)$, and with $L_c = Nb$ this gives $f = 3k_BTx/(Nb^2)$ &#8212; exactly Proposition 4.2. The leading correction is the cubic term: inverting to the same order, $\beta = 3(x/L_c) + \tfrac{9}{5}(x/L_c)^3 + \dots$, so
+$$f = \frac{3k_BT}{Nb^2}x\left[1 + \tfrac35\left(\frac{x}{L_c}\right)^{2} + \dots\right].$$
+The correction is $3\%$ at $x/L_c = 0.22$ and $15\%$ at $0.5$, which is consistent with <a class="secref" href="#entropic">§4</a>'s figure showing the Gaussian law good only to $x/L_c \approx 0.17$ against the worm-like chain (a stiffer comparison than the freely jointed one).</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>D4.</b> Derive the Debye length for a solution containing a $2{:}1$ salt at concentration $c$, and show it is a factor $\sqrt3$ shorter than for a $1{:}1$ salt at the same $c$.</p>
+<p class="small"><em>Probes: whether ionic strength's $z^2$ weighting is understood as the reason valence matters more than concentration.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>A $2{:}1$ salt such as $\mathrm{CaCl_2}$ at concentration $c$ gives $c$ of $\mathrm{Ca^{2+}}$ and $2c$ of $\mathrm{Cl^-}$. By <a class="secref" href="#water">§5</a> Definition 5.2, $I = \tfrac12[c(2)^2 + 2c(1)^2] = \tfrac12[4c + 2c] = 3c$. A $1{:}1$ salt at the same $c$ gives $I = \tfrac12[c + c] = c$. Since $\lambda_D \propto I^{-1/2}$ by Proposition 5.1, the ratio of lengths is $\sqrt{c/3c} = 1/\sqrt3 = 0.577$. So a divalent salt screens three times as strongly per mole, which is why divalent counter-ions dominate the behaviour of a charged tissue even at low concentration, and why replacing sodium with calcium in a cartilage bath shrinks it.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>D5.</b> Derive the Donnan potential $\phi_D$ for the system of <a class="secref" href="#water">§5</a> Proposition 5.3, and evaluate it for $c_F = 0.2\ \mathrm M$ against $c_{\text{ext}} = 0.15\ \mathrm M$.</p>
+<p class="small"><em>Probes: whether the proof's intermediate quantity can be recovered, and whether its sign is understood.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>The proof of Proposition 5.3 used $c_+^{\text{in}} = c_{\text{ext}}e^{-F\phi_D/R_gT}$. Solving for the potential,
+$$\phi_D = -\frac{R_gT}{F}\ln\frac{c_+^{\text{in}}}{c_{\text{ext}}}.$$
+With $c_+^{\text{in}} = 0.2803\ \mathrm M$ from the proposition and $c_{\text{ext}} = 0.15$, the ratio is $1.869$, so $\phi_D = -26.73\ \mathrm{mV}\times\ln(1.869) = -16.7\ \mathrm{mV}$. The interior is <em>negative</em> relative to the bath, which is what one expects: the immobile negative charge attracts cations and repels anions, and the resulting potential is the field that holds the excess cations in. Note this is a genuine measurable potential, not a bookkeeping device, and it is the reason a microelectrode pushed into cartilage reads a few tens of millivolts negative.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>D6.</b> Derive <a class="secref" href="#water">§5</a> Definition 5.4's buffer capacity $\beta = \ln 10\,C_{\text{tot}}K_a[\mathrm H^+]/(K_a+[\mathrm H^+])^2$, and show it is maximal at $\mathrm{pH} = \mathrm{p}K_a$.</p>
+<p class="small"><em>Probes: whether a definition stated without proof can be reconstructed, and whether the maximum is found rather than asserted.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>Let $C_{\text{tot}} = [\mathrm{HA}] + [\mathrm A^-]$ and $h = [\mathrm H^+]$. From $K_a = h[\mathrm A^-]/[\mathrm{HA}]$, the base fraction is $[\mathrm A^-] = C_{\text{tot}}K_a/(K_a + h)$. Adding strong base converts acid to base one for one, so $C_b = [\mathrm A^-]$ up to a constant, and
+$$\beta = \frac{\mathrm dC_b}{\mathrm{dpH}} = \frac{\mathrm d[\mathrm A^-]}{\mathrm dh}\cdot\frac{\mathrm dh}{\mathrm{dpH}}.$$
+Now $\mathrm d[\mathrm A^-]/\mathrm dh = -C_{\text{tot}}K_a/(K_a+h)^2$, and since $\mathrm{pH} = -\log_{10}h$ we have $h = 10^{-\mathrm{pH}}$ and $\mathrm dh/\mathrm{dpH} = -h\ln 10$. Multiplying,
+$$\beta = \ln 10\;C_{\text{tot}}\frac{K_ah}{(K_a+h)^2}.$$
+For the maximum, differentiate the fraction with respect to $h$: $\mathrm d/\mathrm dh[h/(K_a+h)^2] = (K_a - h)/(K_a+h)^3$, which vanishes at $h = K_a$, i.e. $\mathrm{pH} = \mathrm{p}K_a$, and is positive below and negative above, so it is a maximum. There $\beta = \ln 10\,C_{\text{tot}}/4 = 0.576\,C_{\text{tot}}$.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>D7.</b> Show that a Hill coefficient $n_H$ narrows the $10\%$-to-$90\%$ transition to $2\log_{10}(9)/n_H$ decades of ligand, and state what this implies for the largest $n_H$ that could be useful in a system whose signal spans two decades.</p>
+<p class="small"><em>Probes: whether Definition 6.2's steepness claim can be derived, and whether its practical limit is seen.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>Set $\theta = c^{n_H}/(K^{n_H}+c^{n_H})$. Then $\theta = 0.1$ requires $c^{n_H} = K^{n_H}/9$, i.e. $c = K\,9^{-1/n_H}$, and $\theta = 0.9$ requires $c = K\,9^{1/n_H}$. The ratio is $9^{2/n_H}$, whose base-ten logarithm is $2\log_{10}(9)/n_H = 1.908/n_H$ decades. For a signal spanning two decades, an $n_H$ much above about $2$ makes the transition narrower than the resolution of the signal itself: at $n_H = 10$ the switch flips within $0.19$ decades, so the system becomes an all-or-nothing threshold detector and loses any ability to grade its response. Steepness beyond the signal's own precision buys nothing and costs robustness, which is consistent with the observed $n_H \approx 3$ for thin filaments &#8212; enough to switch cleanly across two decades, not enough to make the switch hair-trigger.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>D8.</b> Derive the Michaelis&#8211;Menten result under the <em>rapid-equilibrium</em> assumption instead of the steady-state one, and say when the two differ.</p>
+<p class="small"><em>Probes: whether the role of the steady-state approximation in Proposition 6.4 is understood.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>Rapid equilibrium assumes binding equilibrates much faster than catalysis, $k_{-1} \gg k_2$, so $[\mathrm{ES}]$ is set by the dissociation constant alone: $[\mathrm E]c/[\mathrm{ES}] = K_d = k_{-1}/k_1$. Conservation then gives $[\mathrm{ES}] = [\mathrm E]_{\text{tot}}c/(K_d+c)$ and $v = k_2[\mathrm{ES}] = v_{\max}c/(K_d+c)$ &#8212; the same hyperbola, but with $K_d$ where Proposition 6.4 has $K_M = (k_{-1}+k_2)/k_1$. The two coincide exactly when $k_2 \ll k_{-1}$, and $K_M$ exceeds $K_d$ by $k_2/k_1$ otherwise. They differ most for a highly efficient enzyme, where $k_2$ approaches or exceeds $k_{-1}$: then $K_M$ is dominated by catalysis rather than by affinity, and reading it as a binding constant is wrong. This is why $K_M$ and $K_d$ must be kept distinct even though they occupy the same place in the formula.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>D9.</b> A network of Gaussian chains is stretched biaxially, $\lambda_1 = \lambda_2 = \lambda$, with $\lambda_3 = \lambda^{-2}$ by incompressibility. Derive the strain-energy density and the small-strain modulus, and compare with <a class="secref" href="#entropic">§4</a> Proposition 4.3's uniaxial result.</p>
+<p class="small"><em>Probes: whether Proposition 4.3's derivation is understood well enough to be re-run under a different deformation.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>Proposition 4.3's proof gives $W = \tfrac12nk_BT(\lambda_1^2+\lambda_2^2+\lambda_3^2-3)$ for any homogeneous deformation. Substituting the biaxial state,
+$$W = \tfrac12nk_BT\left(2\lambda^2 + \lambda^{-4} - 3\right).$$
+The equibiaxial nominal stress is $\sigma = \tfrac12\,\mathrm dW/\mathrm d\lambda = nk_BT(\lambda - \lambda^{-5})$ per direction. Setting $\lambda = 1+\varepsilon$ and expanding, $\lambda - \lambda^{-5} \approx 6\varepsilon$, so $\sigma \approx 6nk_BT\varepsilon$. The <em>biaxial</em> modulus is therefore $6nk_BT$, twice the uniaxial $3nk_BT$ &#8212; which is the expected result for an incompressible isotropic solid, since the biaxial modulus is $E/(1-\nu)$ and $\nu = \tfrac12$ gives $2E$. The strain-energy function is the same; only the constraint differs, and the check that the two agree through $\nu = \tfrac12$ confirms the network is behaving as an isotropic incompressible continuum.</p></div></details>
+</div>
+
+<div class="qbox">
+<p><b>D10.</b> Show that the charge separated across a membrane to hold a potential $V$ is $Q = CV$ and that the fraction of a spherical cell's internal potassium it represents scales as $1/r$. Comment on what this means for small cells.</p>
+<p class="small"><em>Probes: whether <a class="secref" href="#macro">§7</a>'s parts-per-million result is understood as a scaling rather than a coincidence.</em></p>
+<details class="sol"><summary>Solution</summary><div><p>$Q = CV$ is the definition of capacitance, with $C = (C/A)\cdot 4\pi r^2$ for a sphere. The ions separated are $n_{\text{sep}} = Q/e = (C/A)V4\pi r^2/e$. The internal potassium is $n_K = c_KN_A\cdot\tfrac43\pi r^3$. The ratio is
+$$\frac{n_{\text{sep}}}{n_K} = \frac{3(C/A)V}{e\,c_KN_A\,r} \;\propto\; \frac1r.$$
+For $r = 25\ \mu\mathrm m$ this is $8.0$ parts per million (<a class="secref" href="#macro">§7</a>). The scaling says the effect grows as cells shrink, because charge lives on the surface and content in the volume. At $r = 0.25\ \mu\mathrm m$ &#8212; a small bacterium, or a synaptic vesicle &#8212; the fraction is $800$ parts per million, and at $r = 25\ \mathrm{nm}$ it approaches a per cent. So the licence <a class="secref" href="#water">§5</a> obtained for treating bulk concentrations as constant is a licence about <em>large</em> cells, and it must be re-checked for any small compartment. A synaptic vesicle's interior genuinely does change composition when its membrane potential changes.</p></div></details>
+</div>
+<h3 id="computational">Problems &#8212; computational (K1&#8211;K10)</h3>
+
+<p>Every problem here requires a computation that a substitution could not do: an inverse problem, an integration, an optimisation, a sweep, or a fit. The test each was written against is whether solving it surfaces something the boxed results do not already say. Answers are quoted from code that runs; the numbers below are reproducible, not illustrative.</p>
+
+<div class="qbox">
+<p><b>K1 &#8212; invert the Born model.</b> <a class="secref" href="#bonding">§2</a> predicted bulk moduli forwards from Pauling's $n = 8$. Run it backwards instead: for each of $\mathrm{NaCl}$ ($K = 24.4\ \mathrm{GPa}$, $r_0 = 0.2820\ \mathrm{nm}$), $\mathrm{KCl}$ ($17.4$, $0.3146$), $\mathrm{MgO}$ ($160$, $0.2105$) and $\mathrm{CaO}$ ($111$, $0.2405$), find by root-finding the Born exponent $n$ that reproduces the <em>measured</em> modulus. Then say what the four answers together tell you about <a class="secref" href="#bonding">§2</a>'s diagnosis of its own $1.7\times$ divalent overshoot.</p>
+<p class="small"><em>Probes: whether <a class="secref" href="#bonding">§2</a>'s forward calculation is understood well enough to be inverted, and whether the student reads a fitted parameter falling outside its physical range as evidence about the model rather than about the crystal.</em></p>
+<details class="sol"><summary>Solution</summary><div>
+<p>Bisecting $(n-1)\alpha_M|z_1z_2|C_e/(18r_0^4) = K_{\text{meas}}$ on $n$:</p>
+<table>
+<tr><th></th><th>$n$ that fits</th><th>$K$ at Pauling's $n=8$</th></tr>
+<tr><td>$\mathrm{NaCl}$</td><td>$7.89$</td><td>$24.8\ \mathrm{GPa}$</td></tr>
+<tr><td>$\mathrm{KCl}$</td><td>$8.61$</td><td>$16.0\ \mathrm{GPa}$</td></tr>
+<tr><td>$\mathrm{MgO}$</td><td>$\mathbf{4.51}$</td><td>$319\ \mathrm{GPa}$</td></tr>
+<tr><td>$\mathrm{CaO}$</td><td>$\mathbf{5.14}$</td><td>$188\ \mathrm{GPa}$</td></tr>
+</table>
+<p>The two alkali halides return $n$ within $8\%$ of Pauling's value &#8212; unsurprising, since <a class="secref" href="#bonding">§2</a> disclosed that Pauling's integers were fitted to alkali-halide compressibilities in the first place, so this is a consistency check inside the calibration class and not a prediction. The two divalent oxides demand $n \approx 4.5$&#8211;$5.1$, which is <em>below</em> the smallest value Pauling's scheme assigns to any ion pair ($5$, for a helium core) and far below the $8$ their argon and neon cores imply. A repulsion exponent that low is not physically available.</p>
+<p>What that tells you is that the divalent overshoot is <b>not</b> a mis-estimated $n$. If it were, a plausible $n$ would fit. Something else is soft in $\mathrm{MgO}$ and $\mathrm{CaO}$ that the rigid-ion Born model has no term for &#8212; <a class="secref" href="#bonding">§2</a> named it as the polarizability residual, the deformation of the electron clouds themselves, which for a doubly charged pair at short separation is large. The inversion converts <a class="secref" href="#bonding">§2</a>'s hand-waved "$1.7\times$ overshoot" into a sharper statement: the missing physics cannot be absorbed into the model's one free parameter.</p>
+</div></details>
+</div>
+
+<div class="qbox">
+<p><b>K2 &#8212; integrate a fatiguing bout.</b> Take a muscle starting at <a class="secref" href="#thermo">§3</a>'s resting composition ($[\mathrm{ATP}] = 5.5\ \mathrm{mM}$, $[\mathrm{ADP}] = 13\ \mu\mathrm M$, $[\mathrm{P_i}] = 2\ \mathrm{mM}$) and let phosphate accumulate at $0.22\ \mathrm{mM\,s^{-1}}$ for $60\ \mathrm s$, with free ADP tracking phosphate as $[\mathrm{ADP}] \propto [\mathrm{P_i}]^{1.35}$ through the creatine kinase equilibrium and $[\mathrm{ATP}]$ falling only from $5.5$ to $5.0\ \mathrm{mM}$. Integrate the trajectory and find the time at which the crossbridge force ceiling of <a class="secref" href="#thermo">§3</a> falls below $9\ \mathrm{pN}$.</p>
+<p class="small"><em>Probes: whether <a class="secref" href="#thermo">§3</a>'s ceiling can be computed along a trajectory rather than at two endpoints, and whether the student notices the ceiling is a function of composition and therefore of time.</em></p>
+<details class="sol"><summary>Solution</summary><div>
+<p>Euler integration at $\mathrm dt = 0.05\ \mathrm s$, recomputing $\Delta G = \Delta G^{\circ\prime} + R_gT\ln([\mathrm{ADP}][\mathrm{P_i}]/[\mathrm{ATP}])$ and then $\bar F_{\max} = |\Delta G|/(N_Ad)$ at every step:</p>
+<ul>
+<li>phosphate rises $2.0 \to 15.2\ \mathrm{mM}$ over the bout;</li>
+<li>the ceiling falls $10.38 \to 8.30\ \mathrm{pN}$;</li>
+<li>it crosses $9\ \mathrm{pN}$ at $t = \mathbf{26.2\ s}$, when $[\mathrm{P_i}] = 7.8\ \mathrm{mM}$.</li>
+</ul>
+<p>Three things the endpoints alone do not show. The fall is <em>front-loaded</em>: half the total drop happens in the first $12\ \mathrm s$, because $\Delta G$ depends on $\ln[\mathrm{P_i}]$ and the early rise from $2$ to $4\ \mathrm{mM}$ is a bigger logarithmic step than the later rise from $12$ to $15$. So a model that interpolates the ceiling linearly in time is wrong at exactly the moment fatigue is developing fastest. Second, the trajectory ends at $8.30\ \mathrm{pN}$, which is <a class="secref" href="#mole">§1</a>'s original figure &#8212; <a class="secref" href="#mole">§1</a>'s round $50\ \mathrm{kJ\,mol^{-1}}$ turns out to describe the muscle at the <em>end</em> of a hard minute, which is a more specific claim than <a class="secref" href="#mole">§1</a> made. Third, the crossing time depends on the assumed phosphate rate, and that rate is the least well constrained input; halving it doubles the crossing time, so $26\ \mathrm s$ should be read as an order rather than a prediction.</p>
+</div></details>
+</div>
+
+<div class="qbox">
+<p><b>K3 &#8212; find where screening stops protecting a chain.</b> <a class="secref" href="#water">§5</a> showed that the electrostatic contribution to tropocollagen's persistence length is $0.116\ \mathrm{nm}$ at plasma ionic strength, $0.8\%$ of the intrinsic $14.5\ \mathrm{nm}$. Invert that: at what ionic strength does the Odijk&#8211;Skolnick&#8211;Fixman contribution <em>equal</em> the intrinsic stiffness, and at what ionic strength is it $10\%$ of it? Use one charge per nanometre of contour.</p>
+<p class="small"><em>Probes: whether a bound can be turned into a threshold, and whether the student connects the answer to laboratory practice.</em></p>
+<details class="sol"><summary>Solution</summary><div>
+<p>Bisecting $\ell_B\lambda_D^2/(4A^2) = \ell_p^{0}$ on $I$, with $\lambda_D(I)$ from <a class="secref" href="#water">§5</a> Proposition 5.1:</p>
+<ul>
+<li>equal contributions at $I = \mathbf{1.14\ mM}$, where $\lambda_D = 8.88\ \mathrm{nm}$;</li>
+<li>a $10\%$ contribution at $I = 11.4\ \mathrm{mM}$;</li>
+<li>at plasma strength, $I = 142.5\ \mathrm{mM}$, it is $0.116\ \mathrm{nm}$, or $0.8\%$.</li>
+</ul>
+<p>Note the scaling that makes those three numbers one fact: $\ell_{\text{OSF}} \propto \lambda_D^2 \propto 1/I$, so a tenfold dilution is a tenfold increase in electrostatic stiffening, exactly. The threshold is therefore sharp in a useful way &#8212; there is no broad crossover to worry about.</p>
+<p>The practical consequence is a warning about the literature. Single-molecule stretching experiments are frequently run in dilute buffer, often at or below $10\ \mathrm{mM}$ ionic strength, to keep the trap's optics and the molecule's handles behaving. At $11.4\ \mathrm{mM}$ the reported persistence length is already $10\%$ electrostatic, and at $1\ \mathrm{mM}$ it is <em>half</em> electrostatic &#8212; so the number reported is a property of the buffer as much as of the protein. That is a quantitative candidate explanation for why the reported $\ell_p$ for tropocollagen spans $10$ to $180\ \mathrm{nm}$: some of that spread is not disagreement about collagen but disagreement about salt.</p>
+</div></details>
+</div>
+
+<div class="qbox">
+<p><b>K4 &#8212; sweep the gradient, find the stoichiometry ceiling.</b> For a pump coupled to ATP at <a class="secref" href="#thermo">§3</a>'s working ($-52.74$) and resting ($-62.52\ \mathrm{kJ\,mol^{-1}}$) values, sweep the concentration ratio it must maintain from $10^2$ to $10^6$ and compute, for each, the largest <em>integer</em> number of ions per ATP that the budget can pay for. Then find the gradient at which a working muscle's pump is forced down from two ions to one.</p>
+<p class="small"><em>Probes: whether <a class="secref" href="#thermo">§3</a>'s coupling arithmetic can be turned into a design constraint, and whether the integer nature of stoichiometry is used.</em></p>
+<details class="sol"><summary>Solution</summary><div>
+<table>
+<tr><th>gradient</th><th>climb per ion</th><th>$n_{\max}$ working</th><th>$n_{\max}$ resting</th></tr>
+<tr><td>$10^2$</td><td>$11.88$</td><td>$4$</td><td>$5$</td></tr>
+<tr><td>$10^3$</td><td>$17.81$</td><td>$2$</td><td>$3$</td></tr>
+<tr><td>$10^4$</td><td>$23.75$</td><td>$\mathbf{2}$</td><td>$\mathbf{2}$</td></tr>
+<tr><td>$10^5$</td><td>$29.69$</td><td>$1$</td><td>$2$</td></tr>
+<tr><td>$10^6$</td><td>$35.63$</td><td>$1$</td><td>$1$</td></tr>
+</table>
+<p>The reticulum's actual gradient is $10^4$ and its actual stoichiometry is $2$ &#8212; the pump sits exactly at its ceiling, in both metabolic states. The transition to one ion per ATP happens at a ratio of $\exp(|\Delta G|/2R_gT) = 2.8\times10^{4}$ for a working muscle, which is under three times the gradient the reticulum maintains. That is a narrow margin, and it is the same result <a class="secref" href="#thermo">§3</a> reached from the other direction.</p>
+<p>Two design readings. A pump running at its integer ceiling is <em>efficient</em> in the sense that it wastes the least free energy per ion &#8212; but it is also fragile, because any erosion of the ATP budget forces it to a lower stoichiometry, which halves its throughput per ATP rather than reducing it gradually. Stoichiometry is quantised and efficiency is not. And note the row at $10^3$: there, working and resting muscle differ ($2$ against $3$), so a pump facing a shallower gradient would change its stoichiometry with metabolic state &#8212; which real pumps do not do, because the stoichiometry is built into the protein. Evolution has to pick one integer for all conditions, and picking for the worst case is what the reticulum pump appears to have done.</p>
+</div></details>
+</div>
+
+<div class="qbox">
+<p><b>K5 &#8212; optimise the buffer, and find the body has not.</b> Take <a class="secref" href="#water">§5</a>'s three intracellular buffers &#8212; bicarbonate ($\mathrm{p}K_a\ 6.10$, $24\ \mathrm{mM}$), phosphate ($6.80$, $1\ \mathrm{mM}$) and protein histidine ($7.30$, $8\ \mathrm{mM}$). Compute the total closed-system buffer capacity as a function of pH, find the pH at which it is maximal, and compare with the pH the body actually holds. Then explain the discrepancy.</p>
+<p class="small"><em>Probes: whether the student can find an optimum and then resist the conclusion that biology must be at it.</em></p>
+<details class="sol"><summary>Solution</summary><div>
+<p>Summing Definition 5.4 over the three buffers and scanning pH in steps of $0.001$:</p>
+<ul>
+<li>the maximum is at $\mathrm{pH} = \mathbf{6.18}$, where $\beta_{\text{tot}} = 15.27\ \mathrm{mM}$ per pH unit;</li>
+<li>at $\mathrm{pH}\ 7.40$ the total is $7.43$, a <b>$51\%$ penalty</b>.</li>
+</ul>
+<p>So the body holds its pH more than a unit away from where its own buffers work best, and gives up half its closed-system capacity to do it. The optimum sits near $6.18$ because bicarbonate has by far the largest concentration and its $\mathrm{p}K_a$ is $6.10$; the calculation is dominated by it.</p>
+<p>Two things resolve the discrepancy, and the first is the important one. <b>Buffer capacity is not the objective being optimised.</b> pH $7.4$ is set by what enzymes, ion channels and protein charge states require; buffering is a constraint the body must satisfy at that pH, not a quantity it is free to maximise. Reading an optimum out of a model and inferring that biology should be at it is the error the problem is designed to elicit.</p>
+<p>Second, the $51\%$ penalty is largely illusory, because the closed-system formula is the wrong one for bicarbonate. As <a class="secref" href="#water">§5</a> established, the lungs hold $\mathrm{CO_2}$ fixed and bicarbonate's real capacity at pH $7.4$ is $55\ \mathrm{mM}$ per pH unit &#8212; seven times the closed-system total computed here. The body recovers the loss not by moving its pH but by coupling one buffer to an organ. A student who computes the optimum and stops has found a real number and drawn a false conclusion from it.</p>
+</div></details>
+</div>
+
+<div class="qbox">
+<p><b>K6 &#8212; fit an activation energy and propagate the error.</b> You are given four measured rates, relative to $37\ ^\circ\mathrm C$, at $10$, $20$, $30$ and $37\ ^\circ\mathrm C$, each carrying a few per cent of experimental scatter. Fit $E_a$ by least squares on an Arrhenius plot ($\ln k$ against $1/T$), report the implied $Q_{10}$, and compute how far the fitted $E_a$ moves the predicted cooling factor at $25\ ^\circ\mathrm C$ relative to the true value of $70\ \mathrm{kJ\,mol^{-1}}$.</p>
+<p class="small"><em>Probes: whether an inverse problem is solved properly rather than by taking two points, and whether the sensitivity of the conclusion to the fit is quantified.</em></p>
+<details class="sol"><summary>Solution</summary><div>
+<p>With scatter factors $1.06$, $0.95$, $1.04$, $0.97$ applied to the true rates, the least-squares slope on $\ln k$ against $1/T$ gives</p>
+<ul>
+<li>$E_a = \mathbf{68.6\ kJ\,mol^{-1}}$ against a true $70.0$ &#8212; a $2.0\%$ error;</li>
+<li>an implied $Q_{10} = 2.45$ against a true $2.5$;</li>
+<li>a predicted cooling factor at $25\ ^\circ\mathrm C$ of $0.343$ against a true $0.335$ &#8212; a <b>$2.2\%$ error</b>.</li>
+</ul>
+<p>The important finding is how <em>insensitive</em> the conclusion is. Individual rate measurements carrying up to $6\%$ scatter produce a cooling prediction good to $2\%$, because the fit uses four points spanning $27\ \mathrm K$ and the exponential's slope is well constrained by a wide lever arm. Contrast the two-point estimate a $Q_{10}$ usually is: taking only the $20$ and $30\ ^\circ\mathrm C$ points, with their $-5\%$ and $+4\%$ errors pulling in opposite directions, gives an $E_a$ in error by about $9\%$ and a cooling factor in error by $10\%$.</p>
+<p>The lesson is that a $Q_{10}$ quoted from two temperatures is a much weaker number than one fitted across a range, and the difference matters here because <a class="secref" href="#kinetics">§6</a>'s entire cold-muscle prediction rests on it. It is also why <a class="secref" href="#kinetics">§6</a>'s provenance marker calls $Q_{10}$ a fitted steepness averaged over a mechanism rather than a barrier height.</p>
+</div></details>
+</div>
+
+<div class="qbox">
+<p><b>K7 &#8212; integrate a twitch, with buffering.</b> Solve the coupled system for free cytosolic calcium during one twitch: release from the reticulum as $J_{\text{in}} = (R/\tau)e^{-t/\tau}$ with $R = 135\ \mu\mathrm M$ and $\tau = 4\ \mathrm{ms}$, removal by a pump obeying Michaelis&#8211;Menten with $v_{\max} = 6\ \mathrm{mM\,s^{-1}}$ and $K_M = 0.5\ \mu\mathrm M$, and buffering by $70\ \mu\mathrm M$ of cooperative sites ($K = 1\ \mu\mathrm M$, $n_H = 3$). Report the peak free calcium and the peak occupancy, then repeat with the sites removed and report the factor by which buffering reduces the peak. <span class="prov" data-sym="v_max" data-state="measured">measured, not derived: the pump's maximal turnover, here $6\ \mathrm{mM\,s^{-1}}$ of calcium per litre of cytosol, comes from reticulum vesicle assays scaled to fibre volume, and nothing in this course predicts it — it is a product of how many pump molecules a fibre has expressed, which <a class="secref" href="#macro">§7</a> identifies as the biological half of every tissue property. Reported values span roughly $3$ to $10\ \mathrm{mM\,s^{-1}}$ across fibre types, fast fibres being the faster; the choice here mainly sets how quickly the transient decays and barely moves the peak, which is release-dominated. The $K_M$ of $0.5\ \mu\mathrm M$ is better constrained and matters more, because it sits an order below the peak and therefore keeps the pump saturated through most of the transient.</span></p>
+<p class="small"><em>Probes: whether an ODE with a state-dependent buffering factor can be set up and integrated, and whether the answer is checked against <a class="secref" href="#mole">§1</a>'s ladder.</em></p>
+<details class="sol"><summary>Solution</summary><div>
+<p>The buffering enters as a factor on the time derivative. Writing $\theta(c)$ for the Hill occupancy, total calcium is $c + S_{\text{tot}}\theta(c)$, so
+$$\frac{\mathrm dc}{\mathrm dt} = \frac{J_{\text{in}} - J_{\text{out}}}{1 + S_{\text{tot}}\,\mathrm d\theta/\mathrm dc},$$
+and the denominator is the instantaneous buffering factor, which is itself a function of $c$. Integrating at $\mathrm dt = 20\ \mu\mathrm s$:</p>
+<ul>
+<li>peak free calcium $\mathbf{10.08\ \mu M}$, reached a few milliseconds in;</li>
+<li>peak occupancy $0.999$ &#8212; the filament is fully activated;</li>
+<li>with the sites removed the peak would be $70.7\ \mu\mathrm M$, so buffering reduces it by a factor of $\mathbf{7.0}$.</li>
+</ul>
+<p>The peak agrees with <a class="secref" href="#mole">§1</a>'s ladder, which puts activated cytosolic calcium at $10\ \mu\mathrm M$ &#8212; and that agreement is a check on the model, not an input to it: the release amplitude was chosen and the peak came out. Two further readings. The buffering factor is <em>not</em> constant: it is large when $c$ is near $K$ and falls towards $1$ once the sites saturate, so a model using a fixed buffer ratio will get the rising phase and the falling phase wrong in opposite directions. And the sites reach $0.999$ occupancy while holding only about $70\ \mu\mathrm M$ of calcium out of the $135$ released, so more than half the released calcium is free or already pumped at the peak &#8212; the sites are saturated well before the transient is over, which is why the twitch has a plateau in activation but not in calcium.</p>
+</div></details>
+</div>
+
+<div class="qbox">
+<p><b>K8 &#8212; sweep the crosslink spacing and close <a class="secref" href="#entropic">§4</a>'s argument.</b> <a class="secref" href="#entropic">§4</a> concluded that a Gaussian network cannot reach a collagen fibril's modulus. Make that a sweep: compute $E = 3\rho N_Ak_BT/M_c$ at collagen's density for $M_c$ from $10$ to $6500\ \mathrm{g\,mol^{-1}}$, express each $M_c$ as a number of residues, and find the $M_c$ that would be needed for $1.07\ \mathrm{GPa}$. State whether that spacing exists.</p>
+<p class="small"><em>Probes: whether the student can convert a refutation into a monotone sweep and read off where it becomes physically impossible rather than merely unlikely.</em></p>
+<details class="sol"><summary>Solution</summary><div>
+<table>
+<tr><th>$M_c$ (g/mol)</th><th>residues</th><th>$E$ (MPa)</th></tr>
+<tr><td>$6500$</td><td>$59$</td><td>$1.67$</td></tr>
+<tr><td>$3000$</td><td>$27$</td><td>$3.61$</td></tr>
+<tr><td>$1000$</td><td>$9.1$</td><td>$10.8$</td></tr>
+<tr><td>$300$</td><td>$2.7$</td><td>$36.1$</td></tr>
+<tr><td>$100$</td><td>$0.9$</td><td>$108$</td></tr>
+<tr><td>$10$</td><td>$0.09$</td><td>$1083$</td></tr>
+</table>
+<p>Reaching $1.07\ \mathrm{GPa}$ needs $M_c = \mathbf{10.1\ g\,mol^{-1}}$, which is $\mathbf{0.09}$ of one residue. The spacing does not exist: a network strand cannot be shorter than the monomer it is made of.</p>
+<p>The sweep adds something the single number does not. Read down the table and the physics fails <em>before</em> the arithmetic does. At $M_c = 3000$ ($27$ residues) the strand still has roughly ten Kuhn segments and Proposition 4.3's Gaussian hypothesis holds; by $M_c = 300$ ($2.7$ residues) the strand is shorter than one Kuhn length and is a rigid rod with no configurational entropy left to trade, so the formula is being evaluated outside its own domain even though it still returns a number. The honest ceiling is therefore the $2$&#8211;$4\ \mathrm{MPa}$ at the last row where the hypothesis holds, not the $108\ \mathrm{MPa}$ at one residue &#8212; and <a class="secref" href="#entropic">§4</a>'s first correction made exactly that mistake before it was caught. A formula that keeps returning values past its own validity is the most dangerous kind.</p>
+</div></details>
+</div>
+
+<div class="qbox">
+<p><b>K9 &#8212; invert the switch specification.</b> A thin filament must be under $1\%$ activated at <a class="secref" href="#mole">§1</a>'s resting calcium of $0.1\ \mu\mathrm M$ and over $95\%$ activated at $10\ \mu\mathrm M$, with half-activation at $1\ \mu\mathrm M$. Find the smallest Hill coefficient that meets both requirements. Compare with the observed $n_H \approx 3$ and say what the margin buys.</p>
+<p class="small"><em>Probes: whether Definition 6.2 can be inverted against a specification, and whether the student distinguishes "sufficient" from "observed".</em></p>
+<details class="sol"><summary>Solution</summary><div>
+<p>Scanning $n_H$ upward until both conditions hold:</p>
+<ul>
+<li>$n_H = \mathbf{2.00}$ is the smallest that works, giving $0.99\%$ at rest and $99.0\%$ activated;</li>
+<li>for comparison, $n_H = 1$ gives $9.1\%$ at rest and $90.9\%$ activated &#8212; failing both;</li>
+<li>the observed $n_H \approx 3$ gives $0.10\%$ and $99.9\%$.</li>
+</ul>
+<p>So $n_H = 2$ is sufficient and the filament has about $3$. The margin buys tolerance rather than performance. At $n_H = 2$ the specification is met exactly at the stated calcium levels, so any drift &#8212; resting calcium creeping up, or peak calcium falling short in a fatigued fibre &#8212; breaks it. At $n_H = 3$ resting activation is a tenth of the requirement, so resting calcium could triple before the $1\%$ limit is reached.</p>
+<p>Note what this problem cannot conclude. Finding that $n_H = 2$ suffices does not explain why the filament has $3$: cooperativity arises from a physical mechanism &#8212; tropomyosin shifting along the filament and exposing neighbouring sites &#8212; and its strength is whatever that mechanism delivers, not a design parameter tuned to a specification. The calculation bounds what is <em>needed</em>; it says nothing about what is <em>available</em>. Reading it the other way is the same error as K5's.</p>
+</div></details>
+</div>
+
+<div class="qbox">
+<p><b>K10 &#8212; the twitch energy budget, and where it goes.</b> A muscle fibre bundle performs one twitch. Take $1.5\times10^{17}$ crossbridge strokes and $1.8\times10^{17}$ calcium ions to re-sequester at two ions per ATP. Compute the total ATP consumed, the fraction spent on the pump rather than on force, the energy that represents at <a class="secref" href="#thermo">§3</a>'s working $\Delta G$, and the mechanical work delivered if each stroke averages $5\ \mathrm{pN}$ over $10\ \mathrm{nm}$. Report the efficiency and comment on the pump's share.</p>
+<p class="small"><em>Probes: whether the module's energetics can be assembled into a budget, and whether the student notices that a large fraction of the cost is not force production.</em></p>
+<details class="sol"><summary>Solution</summary><div>
+<ul>
+<li>crossbridge ATP: $1.5\times10^{17}$; pump ATP: $1.8\times10^{17}/2 = 0.9\times10^{17}$;</li>
+<li>total $2.4\times10^{17}$ ATP, of which the pump is <b>$37.5\%$</b>;</li>
+<li>energy at $52.74\ \mathrm{kJ\,mol^{-1}}$: $21.0\ \mathrm{mJ}$;</li>
+<li>work delivered: $1.5\times10^{17}\times5\ \mathrm{pN}\times10\ \mathrm{nm} = 7.50\ \mathrm{mJ}$;</li>
+<li>efficiency $\mathbf{35.7\%}$.</li>
+</ul>
+<p>Two readings. First, more than a third of the ATP a twitch costs is spent on <em>putting calcium back</em>, not on generating force &#8212; which is why a muscle held isometrically at length still consumes energy at a substantial rate, and why the reticulum pump is the largest single ATP consumer in a resting muscle. Any model that accounts only for crossbridge ATP understates the metabolic cost by more than half again.</p>
+<p>Second, the $35.7\%$ is an efficiency of <em>free-energy conversion at the crossbridge and pump level</em> and is not the whole-muscle efficiency, which is measured nearer $20$&#8211;$25\%$. The difference is everything this budget omits: the cost of the action potential, basal metabolism, the pumps maintaining sodium and potassium gradients, and the losses in oxidative phosphorylation upstream of ATP. Quoting $35.7\%$ as "muscle efficiency" would be wrong, and the discrepancy is a useful check that the budget is incomplete by roughly the amount one would expect.</p>
+<p>Note also the consistency check available: $5\ \mathrm{pN}$ over $10\ \mathrm{nm}$ is $50\ \mathrm{zJ}$, which against <a class="secref" href="#mole">§1</a>'s $8.30\times10^{-20}\ \mathrm J$ per ATP is $60\%$ of one quantum &#8212; inside <a class="secref" href="#thermo">§3</a>'s ceiling, as it must be, and consistent with the $36$&#8211;$72\%$ range <a class="secref" href="#mole">§1</a> quoted from optical-trap measurements.</p>
+</div></details>
+</div>
+
+<h3>That closes Module 0</h3>
+
+<p>The module has done what it was built for: the constants Modules 1 through 17 use are now traceable to chemistry, or explicitly marked as measured with a reason. Where the chemistry predicts a mechanical property it does so forwards, and where it cannot &#8212; a persistence length, a fixed charge density, a pump's stoichiometry beyond an upper bound &#8212; the boundary is stated rather than blurred.</p>
+
+<p>The three withdrawn claims are the module's most useful legacy, because they establish the standard the rest of the course is held to. Each survived every automated check and failed the first time somebody put numbers into it. The gates catch broken content; only arithmetic catches wrong content.</p>
+
+<p>Where each thread goes next: <a class="secref" href="module02.html#composite">Module&nbsp;2 §5</a>'s end-member moduli now have <a class="secref" href="#bonding">§2</a> behind them; <a class="secref" href="module04.html#donnan">Module&nbsp;4 §2</a>'s swelling pressure has <a class="secref" href="#water">§5</a> and <a class="secref" href="#macro">§7</a>; <a class="secref" href="module05.html#sarcomere">Module&nbsp;5</a>'s crossbridge energetics have <a class="secref" href="#thermo">§3</a> and its temperature dependence has <a class="secref" href="#kinetics">§6</a>; and <a class="secref" href="module06.html#collagen">Module&nbsp;6 §1</a>'s assumption that a straightened fibril is linear has <a class="secref" href="#entropic">§4</a>'s licence. The Appendix that follows registers every symbol this module bound, against every collision it had to resolve.</p>
+<!-- /SEC9 -->
 
 <script>
 function copyCode(btn){
