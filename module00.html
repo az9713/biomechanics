@@ -94,9 +94,9 @@ window.MathJax = {
 <li><b>7.</b> <a href="#macro">The macromolecules</a></li>
 <li><b>8.</b> <a href="#lab">Computational lab — binding equilibrium and a temperature sweep</a></li>
 <li><b>9.</b> <a href="#limits">What the model captures and misses; diagnostics and problems</a></li>
-<li><span class="pending">Appendix — notation, constants, chemical parameter table</span></li>
+<li><a href="#appendix">Appendix — notation, constants, chemical parameter table</a></li>
 </ul>
-<p class="small" style="margin:.4rem 0 0"><a class="secref" href="#origin">§0</a>&#8211;<a class="secref" href="#limits">§9</a> are complete. The Appendix is in progress; their entries become links as they are built.</p>
+<p class="small" style="margin:.4rem 0 0"><a class="secref" href="#origin">§0</a>&#8211;<a class="secref" href="#limits">§9</a> and the Appendix are complete.</p>
 </div>
 
 <hr>
@@ -2031,6 +2031,171 @@ and the denominator is the instantaneous buffering factor, which is itself a fun
 
 <p>Where each thread goes next: <a class="secref" href="module02.html#composite">Module&nbsp;2 §5</a>'s end-member moduli now have <a class="secref" href="#bonding">§2</a> behind them; <a class="secref" href="module04.html#donnan">Module&nbsp;4 §2</a>'s swelling pressure has <a class="secref" href="#water">§5</a> and <a class="secref" href="#macro">§7</a>; <a class="secref" href="module05.html#sarcomere">Module&nbsp;5</a>'s crossbridge energetics have <a class="secref" href="#thermo">§3</a> and its temperature dependence has <a class="secref" href="#kinetics">§6</a>; and <a class="secref" href="module06.html#collagen">Module&nbsp;6 §1</a>'s assumption that a straightened fibril is linear has <a class="secref" href="#entropic">§4</a>'s licence. The Appendix that follows registers every symbol this module bound, against every collision it had to resolve.</p>
 <!-- /SEC9 -->
+
+<!-- SECA -->
+<h2 id="appendix">Appendix &#8212; notation, constants, and the chemical parameter table</h2>
+
+<p>This module bound about eighty symbols into a course that had already used most of the alphabet, and every collision it had to resolve is recorded here. The rule throughout was <b>inclusion, not exclusion</b>: a letter is never silently reassigned, and where two meanings meet in one calculation both are subscripted. The third column below is the point of the table &#8212; it names what each symbol is <em>not</em>.</p>
+
+<h3 id="app-constants">Physical constants</h3>
+
+<table>
+<tr><th>symbol</th><th>value at $T = 310.15\ \mathrm K$</th><th>note</th></tr>
+<tr><td>$k_B$</td><td>$1.380649\times10^{-23}\ \mathrm{J\,K^{-1}}$</td><td>Boltzmann; exact by definition</td></tr>
+<tr><td>$N_A$</td><td>$6.02214076\times10^{23}\ \mathrm{mol^{-1}}$</td><td>Avogadro; exact by definition</td></tr>
+<tr><td>$R_g$</td><td>$8.314463\ \mathrm{J\,mol^{-1}K^{-1}}$</td><td>$= N_Ak_B$; subscripted against a joint reaction $R$</td></tr>
+<tr><td>$k_BT$</td><td>$4.282\times10^{-21}\ \mathrm J = 4.28\ \mathrm{zJ}$</td><td>the per-molecule ruler of <a class="secref" href="#origin">§0</a></td></tr>
+<tr><td>$R_gT$</td><td>$2.579\ \mathrm{kJ\,mol^{-1}}$</td><td>the per-mole ruler; $1\,k_BT = 2.58\ \mathrm{kJ\,mol^{-1}}$</td></tr>
+<tr><td>$e$</td><td>$1.602176634\times10^{-19}\ \mathrm C$</td><td>elementary charge; exact by definition</td></tr>
+<tr><td>$\epsilon_0$</td><td>$8.8541878\times10^{-12}\ \mathrm{F\,m^{-1}}$</td><td>permittivity of free space</td></tr>
+<tr><td>$C_e$</td><td>$2.307\times10^{-28}\ \mathrm{J\,m}$</td><td>$= e^2/4\pi\epsilon_0$, <a class="secref" href="#bonding">§2</a> Definition 2.1</td></tr>
+<tr><td>$F$</td><td>$96\,485\ \mathrm{C\,mol^{-1}}$</td><td>Faraday; $F_{\text{faraday}}$ where a force $F$ also appears</td></tr>
+<tr><td>$R_gT/F$</td><td>$26.73\ \mathrm{mV}$</td><td>the Nernst slope, <a class="secref" href="#water">§5</a></td></tr>
+<tr><td>$h$</td><td>$6.62607015\times10^{-34}\ \mathrm{J\,s}$</td><td>Planck; $k_BT/h = 6.46\times10^{12}\ \mathrm s^{-1}$, <a class="secref" href="#kinetics">§6</a></td></tr>
+<tr><td>$c^{\circ}$</td><td>$1\ \mathrm M$</td><td>standard concentration, <a class="secref" href="#mole">§1</a> Definition 1.2</td></tr>
+</table>
+
+<h3 id="app-notation">Notation, and every collision it resolves</h3>
+
+<p><b>Thermodynamics and composition.</b></p>
+
+<table>
+<tr><th>symbol</th><th>meaning</th><th>not to be confused with</th></tr>
+<tr><td>$G$</td><td>Gibbs free energy (<a class="secref" href="#thermo">§3</a>)</td><td>the shear modulus $G$ of <a class="secref" href="module02.html#torsion">Module&nbsp;2 §4</a>, and <a class="secref" href="#entropic">§4</a>'s network shear modulus $G = nk_BT$</td></tr>
+<tr><td>$A$</td><td>Helmholtz free energy (<a class="secref" href="#mole">§1</a>, <a class="secref" href="#entropic">§4</a>)</td><td>an area; <a class="secref" href="#bonding">§2</a>'s Born coefficient $\mathcal A$; <a class="secref" href="#water">§5</a>'s charge spacing $A$; <a class="secref" href="#kinetics">§6</a>'s Arrhenius prefactor $A$</td></tr>
+<tr><td>$H$</td><td>enthalpy (<a class="secref" href="#thermo">§3</a>)</td><td>the aggregate modulus $H_A$ of <a class="secref" href="module04.html#biphasic">Module&nbsp;4 §3</a></td></tr>
+<tr><td>$S$</td><td>entropy</td><td>a surface area; $S_{\text{tot}}$ is a site concentration in <a class="secref" href="#lab">§8</a></td></tr>
+<tr><td>$T$</td><td>absolute temperature, kelvin</td><td>the torque $T$ of <a class="secref" href="module02.html#torsion">Module&nbsp;2 §4</a> and <a class="secref" href="module03.html#reaction">Module&nbsp;3</a></td></tr>
+<tr><td>$W$, $W_{\text{ne}}$</td><td>non-expansion work (<a class="secref" href="#thermo">§3</a> Prop 3.1)</td><td>body weight $W$ (<a class="secref" href="module01.html#equil">Module&nbsp;1</a>); <a class="secref" href="#entropic">§4</a>'s strain-energy density $W$, written $W_s$ where all three meet</td></tr>
+<tr><td>$Q$</td><td>reaction quotient (<a class="secref" href="#thermo">§3</a> Def 3.3)</td><td>heat $q$; <a class="secref" href="#kinetics">§6</a>'s $Q_{10}$; an electric charge $Q$</td></tr>
+<tr><td>$K_{\text{eq}}$</td><td>equilibrium constant</td><td>the bulk modulus $K$ of <a class="secref" href="#bonding">§2</a> Prop 2.2</td></tr>
+<tr><td>$\mu_i$, $\tilde\mu_i$</td><td>chemical and electrochemical potential</td><td>the friction coefficient $\mu_{\text{fric}}$ of <a class="secref" href="module04.html#lubrication">Module&nbsp;4 §7</a>; Poisson's ratio $\nu$</td></tr>
+<tr><td>$\nu_i$</td><td>stoichiometric coefficient</td><td>Poisson's ratio $\nu$ (<a class="secref" href="#bonding">§2</a>, <a class="secref" href="#entropic">§4</a>)</td></tr>
+<tr><td>$\xi$</td><td>extent of reaction, moles of advance</td><td><a class="secref" href="#entropic">§4</a>'s network mesh size $\xi$</td></tr>
+<tr><td>$\Delta G^{\circ}$ / $\Delta G^{\circ\prime}$</td><td>standard / <b>transformed</b> standard free energy</td><td>each other &#8212; they differ by tens of $\mathrm{kJ\,mol^{-1}}$ (<a class="secref" href="#thermo">§3</a> Def 3.4)</td></tr>
+<tr><td>$n$, $c$, $n_V$</td><td>amount of substance, molar concentration, number density</td><td><a class="secref" href="#bonding">§2</a>'s Born exponent $n$; <a class="secref" href="#entropic">§4</a>'s chain density $n_{\text{ch}}$; apatite's lattice parameter $c$</td></tr>
+<tr><td>$M_m$, $M_{\text{tot}}$, $M_c$</td><td>molar mass, total molecule count, molar mass between crosslinks</td><td>body mass and bending moment $M$ (<a class="secref" href="module02.html#bending">Module&nbsp;2 §3</a>)</td></tr>
+</table>
+
+<p><b>Bonding and the solid state.</b></p>
+
+<table>
+<tr><th>symbol</th><th>meaning</th><th>not to be confused with</th></tr>
+<tr><td>$k_{\text{pair}}$, $k_{\text{bond}}$</td><td>curvature of a pair potential, $\mathrm{N\,m^{-1}}$ (<a class="secref" href="#bonding">§2</a> Lem 2.1)</td><td>Boltzmann's $k_B$; the remodelling gain $k_{\text{remodel}}$ of <a class="secref" href="module02.html#adapt">Module&nbsp;2 §7</a>; <a class="secref" href="#kinetics">§6</a>'s rate constants; <a class="secref" href="#entropic">§4</a>'s $k_{\text{chain}}$</td></tr>
+<tr><td>$\mathcal A$</td><td>Born attraction coefficient, $|z_1z_2|C_e$</td><td>the Helmholtz free energy $A$</td></tr>
+<tr><td>$B$</td><td>Born repulsion constant</td><td><a class="secref" href="#entropic">§4</a>'s Kuhn length $b$</td></tr>
+<tr><td>$n$</td><td>Born exponent, a pure number (<a class="secref" href="#bonding">§2</a>)</td><td>amount of substance; chain density; Hill coefficient $n_H$</td></tr>
+<tr><td>$\gamma_s$</td><td>structure constant in $V = \gamma_sr^3$</td><td>a surface energy; written with the subscript because $c$ was taken</td></tr>
+<tr><td>$\alpha_M$</td><td>Madelung constant, $1.7476$ for rocksalt</td><td>a thermal expansion coefficient</td></tr>
+<tr><td>$U_{\text{latt}}$, $V_f$</td><td>lattice energy and volume per formula unit</td><td>internal energy $U$; a volume $V$</td></tr>
+<tr><td>$K$</td><td>bulk modulus (<a class="secref" href="#bonding">§2</a> Prop 2.2)</td><td>$K_{\text{eq}}$, $K_d$, $K_M$, $K_a$ &#8212; all subscripted for this reason</td></tr>
+<tr><td>$\nu$</td><td>Poisson's ratio: $\tfrac14$ central-force, $\tfrac12$ incompressible network</td><td>stoichiometric $\nu_i$; a frequency</td></tr>
+<tr><td>$\epsilon_0$, $\epsilon_r$</td><td>permittivity of free space, relative permittivity</td><td>the strain $\varepsilon$, whose letter they share and nothing else</td></tr>
+</table>
+
+<p><b>Chains and networks.</b></p>
+
+<table>
+<tr><th>symbol</th><th>meaning</th><th>not to be confused with</th></tr>
+<tr><td>$b$</td><td>Kuhn length, $= 2\ell_p$ for a worm-like chain</td><td><a class="secref" href="#bonding">§2</a>'s Born constant $B$</td></tr>
+<tr><td>$L_c$</td><td>contour length</td><td>a segment length $L$; <a class="secref" href="#lab">§8</a> uses $\ell_c$ for crosslink spacing</td></tr>
+<tr><td>$\ell_p$, $\ell_{\text{OSF}}$, $\ell_B$</td><td>persistence length, its electrostatic part, Bjerrum length</td><td>each other; $\ell_B$ is a Bjerrum length, not a Kuhn length</td></tr>
+<tr><td>$x$, $R$</td><td>extension; $x \equiv R = |\mathbf R|$, a length</td><td>the joint reaction $R$ of <a class="secref" href="module03.html#reaction">Module&nbsp;3 §4</a>; the gas constant $R_g$</td></tr>
+<tr><td>$f$</td><td>tension in one chain, $\mathrm{pN}$</td><td>a whole-body force $F$; the Faraday constant $F$</td></tr>
+<tr><td>$N$</td><td>number of Kuhn segments in one chain</td><td><a class="secref" href="#mole">§1</a>'s entity count $N$; <a class="secref" href="#thermo">§3</a>'s amount in moles $N_i$; Avogadro's $N_A$</td></tr>
+<tr><td>$n_{\text{ch}}$</td><td>chains per unit volume</td><td>Born exponent; amount of substance</td></tr>
+<tr><td>$\kappa$</td><td>bending rigidity, $\ell_p = \kappa/k_BT$</td><td>a permeability $\kappa$; a curvature</td></tr>
+<tr><td>$\Omega$</td><td>number of configurations, $S = k_B\ln\Omega$</td><td>an angular frequency; an electrical resistance</td></tr>
+<tr><td>$\lambda_i$</td><td>principal stretches (<a class="secref" href="#entropic">§4</a> Prop 4.3)</td><td>the Debye length $\lambda_D$ of <a class="secref" href="#water">§5</a>, which keeps its subscript for this reason</td></tr>
+</table>
+
+<p><b>Water, ions and charge.</b></p>
+
+<table>
+<tr><th>symbol</th><th>meaning</th><th>not to be confused with</th></tr>
+<tr><td>$I$</td><td>ionic strength, $\tfrac12\sum c_iz_i^2$</td><td>the second moment of area $I$ of <a class="secref" href="module02.html#bending">Module&nbsp;2 §3</a>, which keeps the letter</td></tr>
+<tr><td>$\lambda_D$</td><td>Debye screening length, $0.794\ \mathrm{nm}$ in plasma</td><td><a class="secref" href="#entropic">§4</a>'s principal stretch $\lambda$</td></tr>
+<tr><td>$\phi$, $\phi_D$</td><td>electric potential, Donnan potential</td><td>a phase angle; the $\phi$ backbone dihedral of <a class="secref" href="#macro">§7</a></td></tr>
+<tr><td>$z_i$</td><td>valence, signed</td><td>a coordinate $z$; the $z$-axis of <a class="secref" href="module04.html#biphasic">Module&nbsp;4 §3</a>'s consolidation equation</td></tr>
+<tr><td>$\rho$</td><td>charge density in <a class="secref" href="#water">§5</a>; mass density in <a class="secref" href="#entropic">§4</a> and <a class="secref" href="#macro">§7</a></td><td>itself &#8212; the units disambiguate, and the text says which each time</td></tr>
+<tr><td>$\Pi$</td><td>osmotic / swelling pressure</td><td>a product operator; a stress</td></tr>
+<tr><td>$c_F$</td><td>fixed charge density, $\mathrm{M}$</td><td>a concentration $c$; the Faraday $F$</td></tr>
+<tr><td>$K_a$, $\mathrm{p}K_a$</td><td>acid dissociation constant</td><td>$K_d$, $K_M$, $K_{\text{eq}}$, bulk modulus $K$</td></tr>
+<tr><td>$\beta$</td><td>buffer capacity, $\mathrm{mM}$ per pH unit</td><td><a class="secref" href="#entropic">§4</a>'s dimensionless Langevin argument $\beta = fb/k_BT$</td></tr>
+<tr><td>$A$</td><td>charge spacing along a contour (<a class="secref" href="#water">§5</a>, OSF)</td><td>the Helmholtz free energy; an area; the Arrhenius prefactor</td></tr>
+</table>
+
+<p><b>Kinetics.</b></p>
+
+<table>
+<tr><th>symbol</th><th>meaning</th><th>not to be confused with</th></tr>
+<tr><td>$k_{\text{on}}$, $k_{\text{off}}$</td><td>association ($\mathrm{M^{-1}s^{-1}}$) and dissociation ($\mathrm s^{-1}$) rate constants</td><td>every other $k$ in the course; the units distinguish them from each other</td></tr>
+<tr><td>$K_d$</td><td>dissociation constant, $= k_{\text{off}}/k_{\text{on}}$</td><td>$K_M$ &#8212; they coincide only when catalysis is slow (<a class="secref" href="#limits">§9</a> D8)</td></tr>
+<tr><td>$K_M$, $v_{\max}$</td><td>Michaelis constant and maximal rate</td><td>$K_d$; a velocity $v$</td></tr>
+<tr><td>$\theta$</td><td>fractional occupancy, $0$ to $1$</td><td>an angle; the pennation angle $\theta_p$ of <a class="secref" href="module05.html#sarcomere">Module&nbsp;5</a></td></tr>
+<tr><td>$n_H$</td><td>Hill coefficient, a fitted steepness</td><td>the number of binding sites &#8212; it equals that only in the limit of infinite cooperativity</td></tr>
+<tr><td>$E_a$</td><td>activation energy, $\mathrm{kJ\,mol^{-1}}$</td><td>Young's modulus $E$</td></tr>
+<tr><td>$Q_{10}$</td><td>rate ratio per ten kelvin</td><td>the reaction quotient $Q$</td></tr>
+<tr><td>$A$</td><td>Arrhenius prefactor, $\mathrm s^{-1}$</td><td>Helmholtz $A$; area; charge spacing</td></tr>
+<tr><td>$\Delta G^{\ddagger}$</td><td>free energy of activation (Eyring)</td><td>$\Delta G^{\circ}$, a standard state quantity; and $E_a \approx \Delta H^{\ddagger} + R_gT$, not $\Delta G^{\ddagger}$</td></tr>
+</table>
+
+<h3 id="app-parameters">The chemical parameter table</h3>
+
+<p>Every constitutive parameter this module states, with its provenance. The <b>state</b> column is the one the <code>check_provenance</code> gate enforces: <em>derived</em> means this module computes it from non-mechanical inputs, <em>measured</em> means it is reported from experiment with a reason, and the reason is always given in the marker at first use.</p>
+
+<table>
+<tr><th>parameter</th><th>value</th><th>state</th><th>where, and the one caveat</th></tr>
+<tr><td>$E$, cortical bone</td><td>$17\ \mathrm{GPa}$</td><td>measured</td><td><a class="secref" href="#origin">§0</a> &#8212; a composite property in an anatomical arrangement; the module derives the two <em>end members</em> instead</td></tr>
+<tr><td>$k_{\text{pair}}$, Ca&#8211;O</td><td>$467\ \mathrm{N\,m^{-1}}$</td><td>derived</td><td><a class="secref" href="#bonding">§2</a> Lem 2.1 &#8212; from $z$, $r_0$ and a Born exponent</td></tr>
+<tr><td>$E_{\text{apatite}}$</td><td>$143\ \mathrm{GPa}$ (measured $114$)</td><td>derived</td><td><a class="secref" href="#bonding">§2</a> &#8212; overshoots $26\%$; its one borrowing is Pauling's $n$, itself fitted to alkali-halide compressibilities</td></tr>
+<tr><td>$\nu$, central force</td><td>$\tfrac14$</td><td>derived</td><td><a class="secref" href="#bonding">§2</a> &#8212; needs the inversion-centre hypothesis, which apatite does not satisfy; the assumption costs $143 \to 132\ \mathrm{GPa}$</td></tr>
+<tr><td>$E_{\text{collagen}}$</td><td>$1.07\ \mathrm{GPa}$</td><td>measured</td><td><a class="secref" href="#entropic">§4</a> &#8212; and the reason changed: <em>not</em> entropic. The real ladder is bond count $50$, helix bending $\approx 6$, intermolecular shear $\approx 1\ \mathrm{GPa}$</td></tr>
+<tr><td>$E_{\text{elastin}}$</td><td>$1.55\ \mathrm{MPa}$ dry, $0.77$ hydrated (measured $1.1$)</td><td>derived</td><td><a class="secref" href="#entropic">§4</a> &#8212; the measurement is <em>bracketed</em>; the residual uncertainty is which density the load-bearing network has</td></tr>
+<tr><td>$\ell_p$, tropocollagen</td><td>$14.5\ \mathrm{nm}$</td><td>measured</td><td><a class="secref" href="#entropic">§4</a> &#8212; fitted with the very model that consumes it; reported values span $10$&#8211;$180\ \mathrm{nm}$, and <a class="secref" href="#limits">§9</a> K3 shows salt explains part of that spread</td></tr>
+<tr><td>$L_c$, tropocollagen</td><td>$300\ \mathrm{nm}$</td><td>derived</td><td><a class="secref" href="#macro">§7</a> &#8212; $1014$ residues $\times\ 0.286\ \mathrm{nm}$ $= 290$, plus $10\ \mathrm{nm}$ of telopeptide</td></tr>
+<tr><td>$\Delta G^{\circ\prime}$, ATP</td><td>$-30.90\ \mathrm{kJ\,mol^{-1}}$ at $310.15\ \mathrm K$</td><td>measured</td><td><a class="secref" href="#thermo">§3</a> &#8212; a fitted equilibrium model, not a calorimetric reading; sources give $-28$ to $-32.5$, and the <em>stated temperature</em> matters more than the value</td></tr>
+<tr><td>cellular $[\mathrm{ATP}]$, $[\mathrm{ADP}]$, $[\mathrm{P_i}]$</td><td>$5.5\ \mathrm{mM}$, $13\ \mu\mathrm M$, $2.0\ \mathrm{mM}$ (rest)</td><td>measured</td><td><a class="secref" href="#thermo">§3</a> &#8212; free ADP is inferred from creatine kinase, not measured; using <em>total</em> ADP understates $|\Delta G|$ by $7\ \mathrm{kJ\,mol^{-1}}$</td></tr>
+<tr><td>$\epsilon_r$, water</td><td>$73.2$ at $37\ ^\circ\mathrm C$</td><td>measured</td><td><a class="secref" href="#water">§5</a> &#8212; <em>not</em> the $78.4$ of a $25\ ^\circ\mathrm C$ table; falls further in the first hydration layers</td></tr>
+<tr><td>$c_F$, cartilage</td><td>$0.2\ \mathrm M$</td><td>measured</td><td><a class="secref" href="#water">§5</a>, predicted by <a class="secref" href="#macro">§7</a> from a GAG assay; varies $0.25$ to under $0.1\ \mathrm M$ with depth, age and disease, and $\Pi$ is roughly linear in it</td></tr>
+<tr><td>$[\mathrm{Ca^{2+}}]_{\text{SR}}$</td><td>$1\ \mathrm{mM}$ free</td><td>measured</td><td><a class="secref" href="#water">§5</a> &#8212; low-affinity luminal indicators, spread $0.3$&#8211;$1.5\ \mathrm{mM}$; the doubled climb spans $41.3$&#8211;$49.6\ \mathrm{kJ\,mol^{-1}}$</td></tr>
+<tr><td>$k_{\text{on}}$, $k_{\text{off}}$, calcium</td><td>$10^{8}\ \mathrm{M^{-1}s^{-1}}$, $100\ \mathrm s^{-1}$</td><td>measured</td><td><a class="secref" href="#kinetics">§6</a> &#8212; only the <em>ratio</em> is well constrained; the $10\ \mathrm{ms}$ release time is good to a factor of two or three</td></tr>
+<tr><td>$n_H$, thin filament</td><td>$\approx 3$</td><td>measured</td><td><a class="secref" href="#kinetics">§6</a> &#8212; a fitted steepness varying $2$&#8211;$5$; the switch width goes as $1/n_H$, so that is a factor $2.5$</td></tr>
+<tr><td>$Q_{10}$, crossbridge cycling</td><td>$2.5$, giving $E_a = 70\ \mathrm{kJ\,mol^{-1}}$</td><td>measured</td><td><a class="secref" href="#kinetics">§6</a> &#8212; an average over a mechanism, not a barrier for one step; <a class="secref" href="#limits">§9</a> K6 shows a two-point $Q_{10}$ is five times less accurate than a fitted one</td></tr>
+<tr><td>$K_M$, myosin for ATP</td><td>$50\ \mu\mathrm M$</td><td>measured</td><td><a class="secref" href="#kinetics">§6</a> &#8212; the point is that it is a hundredfold below cellular ATP, so the rate is saturated while the free energy is not</td></tr>
+<tr><td>$v_{\max}$, reticulum pump</td><td>$6\ \mathrm{mM\,s^{-1}}$</td><td>measured</td><td><a class="secref" href="#limits">§9</a> K7 &#8212; a product of pump expression; spans $3$&#8211;$10$ across fibre types and mainly sets the decay, not the peak</td></tr>
+</table>
+
+<h3 id="app-derived">Results this module derived, and their status</h3>
+
+<table>
+<tr><th>result</th><th>value</th><th>where</th></tr>
+<tr><td>bulk modulus as a cohesive energy density</td><td>$K = n|U_{\text{latt}}|/(9V_f)$</td><td><a class="secref" href="#bonding">§2</a> Prop 2.2 &#8212; proved; $\gamma_s$ cancels</td></tr>
+<tr><td>affine estimates are upper bounds</td><td>$\mathsf C_{\text{true}} \preceq \mathsf C_{\text{aff}}$</td><td><a class="secref" href="#bonding">§2</a> Prop 2.1 &#8212; proved; the same theorem as Module 2's Voigt bound</td></tr>
+<tr><td>maximum work</td><td>$W \le -\Delta G$</td><td><a class="secref" href="#thermo">§3</a> Prop 3.1 &#8212; proved from Clausius</td></tr>
+<tr><td>free energy at any composition</td><td>$\Delta G = \Delta G^{\circ} + R_gT\ln Q$</td><td><a class="secref" href="#thermo">§3</a> Prop 3.3 &#8212; proved</td></tr>
+<tr><td>equilibrium</td><td>$\Delta G^{\circ} = -R_gT\ln K_{\text{eq}}$</td><td><a class="secref" href="#thermo">§3</a> Prop 3.4 &#8212; proved; uniqueness is in $Q$, not in composition</td></tr>
+<tr><td>coupling</td><td>$\Delta G_{\text{net}} = \Delta G_1 + m\Delta G_2$</td><td><a class="secref" href="#thermo">§3</a> Prop 3.5 &#8212; proved via a shared extent, not a path construction</td></tr>
+<tr><td>entropic tension</td><td>$f = -T\,\partial S/\partial x$</td><td><a class="secref" href="#entropic">§4</a> Prop 4.1 &#8212; proved; $f \propto T$ only for purely configurational entropy</td></tr>
+<tr><td>rubber-elasticity modulus</td><td>$E = 3n_{\text{ch}}k_BT$</td><td><a class="secref" href="#entropic">§4</a> Prop 4.3 &#8212; proved; <b>Gaussian networks only</b></td></tr>
+<tr><td>Marko&#8211;Siggia force law</td><td>interpolation</td><td><a class="secref" href="#entropic">§4</a> &#8212; <b>not proved, and not provable</b>: an interpolation with ~$10\%$ error at mid-extension</td></tr>
+<tr><td>Debye length</td><td>$\lambda_D = \sqrt{\epsilon_0\epsilon_rk_BT/2e^2N_AI}$</td><td><a class="secref" href="#water">§5</a> Prop 5.1 &#8212; proved; mean-field, and only $0.3$ ions sit inside one Debye sphere</td></tr>
+<tr><td>Nernst potential</td><td>$E = (R_gT/zF)\ln(c_{\text{out}}/c_{\text{in}})$</td><td><a class="secref" href="#water">§5</a> Prop 5.2 &#8212; proved</td></tr>
+<tr><td>Donnan swelling pressure</td><td>$\Pi = 2R_gT[\sqrt{c_{\text{ext}}^2+(c_F/2)^2}-c_{\text{ext}}]$</td><td><a class="secref" href="#water">§5</a> Prop 5.3 &#8212; proved; van 't Hoff invoked at $0.28\ \mathrm M$, which is not dilute</td></tr>
+<tr><td>Henderson&#8211;Hasselbalch</td><td>$\mathrm{pH} = \mathrm{p}K_a + \log_{10}([\mathrm A^-]/[\mathrm{HA}])$</td><td><a class="secref" href="#water">§5</a> Prop 5.4 &#8212; proved; <a class="secref" href="#thermo">§3</a>'s Prop 3.4 in logarithms</td></tr>
+<tr><td>dissociation constant from rates</td><td>$K_d = k_{\text{off}}/k_{\text{on}}$</td><td><a class="secref" href="#kinetics">§6</a> Prop 6.1 &#8212; proved</td></tr>
+<tr><td>fractional occupancy</td><td>$\theta = c/(K_d+c)$</td><td><a class="secref" href="#kinetics">§6</a> Prop 6.2 &#8212; proved; <b>needs ligand in excess</b>, and <a class="secref" href="#lab">§8</a> Lab 8A shows violating it costs a factor of $36$</td></tr>
+<tr><td>Hill equation</td><td>$\theta = c^{n_H}/(K^{n_H}+c^{n_H})$</td><td><a class="secref" href="#kinetics">§6</a> Def 6.2 &#8212; <b>a fitting form, deliberately not boxed</b></td></tr>
+<tr><td>Arrhenius, and $E_a$ from $Q_{10}$</td><td>$k = Ae^{-E_a/R_gT}$</td><td><a class="secref" href="#kinetics">§6</a> Prop 6.3 &#8212; proved from the barrier picture, which is the assumption</td></tr>
+<tr><td>Michaelis&#8211;Menten</td><td>$v = v_{\max}c/(K_M+c)$</td><td><a class="secref" href="#kinetics">§6</a> Prop 6.4 &#8212; proved from the steady state; $K_M \ne K_d$</td></tr>
+</table>
+
+<p class="small">Two entries in that table are deliberately not theorems, and the distinction is the module's own standard: a boxed result is proved unless the box says why it cannot be. The Marko&#8211;Siggia law is an interpolation and the Hill equation is a curve fitted to data, and neither is presented as anything else.</p>
+
+<h3>Sections</h3>
+
+<p><a class="secref" href="#origin">§0</a> motivation &#183; <a class="secref" href="#mole">§1</a> the mole and the $k_BT$ ruler &#183; <a class="secref" href="#bonding">§2</a> bonding and the stiffness ladder &#183; <a class="secref" href="#thermo">§3</a> thermodynamics &#183; <a class="secref" href="#entropic">§4</a> entropic elasticity &#183; <a class="secref" href="#water">§5</a> water, ions and the double layer &#183; <a class="secref" href="#kinetics">§6</a> kinetics &#183; <a class="secref" href="#macro">§7</a> the macromolecules &#183; <a class="secref" href="#lab">§8</a> computational lab &#183; <a class="secref" href="#limits">§9</a> limits, diagnostics and problems.</p>
+<!-- /SECA -->
 
 <script>
 function copyCode(btn){
