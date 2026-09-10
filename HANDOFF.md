@@ -243,12 +243,38 @@ boxed `ΔG° = −R_gT ln K_eq`, with uniqueness proved from affine ⇒ injectiv
 (coupling), whose load-bearing hypothesis is the *shared intermediate*. Three figures
 (9–11). All thirteen gates green.
 
-> **The `rigor-reviewer` pass on §3 was dispatched but had not reported when this
-> file was written.** §0, §1 and §2 each returned NEEDS-FIXES, so assume §3 has
-> open findings until a commit says otherwise. If no commit titled "Module 0 §3:
-> apply the rigor-reviewer findings" exists, **re-run the reviewer on §3 before
-> starting §4** — the four things it judges (rigor parity, read-aloud prose,
-> K-depth, self-containment) are exactly what the thirteen gates cannot see.
+**A `rigor-reviewer` pass ran and returned NEEDS-FIXES; all 28 findings are applied
+(`e64b6ad`).** Rigor parity, prose and self-containment all failed; K-depth passed
+trivially (§3 has no problems). The reviewer reproduced every headline number by hand
+and all held, and decoded Fig. 9/10/11 pixel positions back to those values. Fixes were
+applied to **`sec3.html`**, the prose fragment, and re-spliced — so `assemble3.py`
+stays the single path into the page and the whole chain is still idempotent.
+
+**Four arguments reached a true conclusion by a wrong route — the §1 defect class,
+caught for the third section running.**
+1. Prop 3.5's proof credited the sum rule to the shared intermediate. The sum rule is
+   only linearity of `Σν_iμ_i`; the intermediate supplies a **constraint**, `ξ₂ = mξ₁`,
+   which collapses two reaction extents to one and removes the unfavourable half's
+   freedom to stand still. The old A→B→C construction also mismodelled the mechanism:
+   SERCA does not finish hydrolysis before it pumps. Rewritten via extents.
+2. Prop 3.2 scaled by `N_A` using a finite-addition reading — the exact argument §1's
+   reviewer had already corrected once. It is the chain rule (`N_i = N_molec/N_A`),
+   true for any `G`; the dilute hypothesis is inherited from Lemma 1.1.
+3. Prop 3.4's statement said "exactly one composition" while its own proof said
+   infinitely many compositions are equilibria. **Uniqueness is in `Q`.**
+4. Prop 3.4 and Prop 3.5 both leaned on "ΔG < 0 means it runs", which is Prop 3.1 at
+   `W = 0` and was never stated. Added **Corollary 3.1.1** with a proof.
+
+Alberty's Legendre-transform theorem had been asserted inside Definition 3.4 while
+every number below rests on it; now named as a borrowed import, with a sketch.
+
+**Three claims were false or overstated and are corrected.** "Any model that lets a
+crossbridge deliver a constant force is violating the second law" is false — a constant
+5 pN sits under both ceilings; the disclaimer is now quantitative (§1's measured head
+force of 3–6 pN lies below both ceilings, so the limit never binds). "3:1 is impossible
+at rest" overstated a +8.7 kJ/mol margin that a gradient factor of 3.09 would close;
+"forbidden" is kept only for the working muscle. And thermodynamics **caps** the
+stoichiometry at two — it does not pick two over one.
 
 **Numbers, all Python-verified in `nums3.py` with assertions:**
 - `ΔG°′` moved from 298.15 K to 310.15 K using the boxed `ΔG = ΔH − TΔS`: **−30.90
@@ -280,7 +306,7 @@ markers were rejected as non-canonical. Recorded as **amendment 4** in
 `chemistry-audit-and-plan.md` §2.2c, so Module 5's crossbridge energetics is gated
 at first use rather than retrofitted. Self-test still 9/9. **Script still outside git.**
 
-**Three lessons from this section.**
+**Four lessons from this section.**
 1. **A gate can be structurally blind rather than wrong.** The provenance table was
    complete for the modules it was built from and empty for the ones it was built
    *for*. Nothing failed; the first chemistry marker simply had no legal name.
@@ -289,7 +315,17 @@ at first use rather than retrofitted. Self-test still 9/9. **Script still outsid
    gas constant is `R_g`. Every gate passed. **Only rendering the figure and reading
    it caught this.** Multi-letter and unavailable subscripts need a `<tspan
    baseline-shift="sub">`, which is how `ln K_eq` is drawn.
-3. **`check_overlap` again beat the eye, 4–0.** Two labels on a dashed drop line, one
+3. **A link gate can pass on the wrong book.** `autolink_sections.py` wrapped any bare
+   `§N` in a local link without checking for a preceding "Module N", so `module00.html`
+   carried four **wrong-book** references: "Module 4 §2" pointed at Module 0's §2 and
+   "Module 5 §3" at Module 0's §3. `check_links` passed on all four, because the
+   anchors resolve. One of the four was created by this session's own autolink run.
+   **Fixed at the root** — the script now refuses a `§N` preceded by `Module <k>` and
+   prints how many it left alone (7 in this file). A sweep of all 18 modules: module17's
+   two hits are false positives; **`module04.html:1868` is ambiguous and untouched**
+   ("testing them against Module 3 (§6)" links §6 to Module 4's own `#contact`, which
+   may be intended). Worth a decision when Module 4's trace is written.
+4. **`check_overlap` again beat the eye, 4–0.** Two labels on a dashed drop line, one
    on a bilayer midline, one on a dashed budget line — all invisible in a preview I
    had already looked at twice.
 
@@ -478,7 +514,12 @@ the plan's own wording, was wrong, and only running it showed that.
 `C:\Users\simon\.claude\skills\rigorous-explainer\` holds all thirteen gate scripts
 and `assets/template.html`. **That directory is not a git repository.**
 `check_provenance.py` (~300 lines) and the `.prov` style in the template were written
-2026-09-09 and exist in exactly one copy. `provenance-baseline.txt` in this repo is
+2026-09-09 and exist in exactly one copy. **Two more single-copy edits landed at the §3
+boundary:** `check_provenance.py` gained the `dG0_ATP` / `c_metab` chemistry names, and
+`autolink_sections.py` gained the cross-module guard that stops it producing wrong-book
+links. That guard is the one piece of this directory whose loss would silently
+reintroduce the worst defect class in the repo, so it is the thing most worth backing
+up. `provenance-baseline.txt` in this repo is
 its *output*, not the tool. Worth backing up; not done, because the other twelve
 gates live the same way and changing that convention was not asked for.
 
