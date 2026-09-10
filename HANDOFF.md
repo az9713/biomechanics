@@ -470,12 +470,39 @@ substance); `M_c` molar mass between crosslinks; `κ` bending rigidity; `Ω` con
 count; `ξ` reaction extent (bound in §3, reused here); `ν = ½` for an incompressible
 network, against §2's `ν = ¼`.
 
-**A `rigor-reviewer` pass on §4 was dispatched (`rev4`) and had not reported when this
-was written.** It was asked specifically whether the claim is still too strong — a taut
-*semiflexible* network can be much stiffer than `3nk_BT`, and if that route reaches a
-gigapascal the refutation needs narrowing to Gaussian networks. **Check for a commit
-titled "Module 0 §4: apply the rigor-reviewer findings"; if none exists, re-run the
-reviewer on §4 before starting §5.**
+**A `rigor-reviewer` pass ran (`rev4`) and returned NEEDS-FIXES; findings 1&#8211;5 are
+applied (`138dfe7`).** It recomputed every headline number by hand and all matched, and
+decoded every polyline in Figs 12&#8211;14 against the model. The failures were
+arguments, not arithmetic. Three were serious:
+
+1. **"No entropic network reaches a gigapascal" was stated universally**, but Prop 4.3
+   proves it only for **Gaussian** networks. A semiflexible network crosslinked *inside*
+   its persistence length scales as `κ²/(k_BT ξ² ℓ_c³)` (MacKintosh, Käs & Janmey 1995)
+   and is not bounded by `3nk_BT`. Every claim is now scoped, and the route closed
+   twice: collagen has `ℓ_c ≈ 150–300 nm` against `ℓ_p = 14.5 nm`, so it *is* flexible;
+   and the semiflexible modulus has `k_BT` in the **denominator**, so such a network
+   *softens* on warming and §4's own Fig. 14 discriminator would not read it as
+   entropic. **This is the question this handoff told a fresh session to ask, and the
+   answer is that the conclusion survives but the statement did not.**
+2. **My own correction introduced a second error.** The boxed `E_max = 108 MPa` sat at
+   `M_c = 100 g/mol` — shorter than one Kuhn segment, outside the `N ≫ 1` hypothesis
+   Prop 4.3 needs, as §4 admitted one sentence later. Boxing it gave result typography
+   to a number the theorem does not produce. Demoted to prose; the box now holds the
+   **Gaussian-valid** ceiling, `M_c ≈ 3–5 kDa → 2.2–3.6 MPa`, i.e. **300–500× short**,
+   with **642×** at elastin's real spacing as the honest headline (`ceiling4b.py`).
+3. **A real error in Prop 4.2's proof.** It wrote `Ω(x) ∝ P(R)` while `x = |R|`.
+   Constraining the *magnitude* brings a `4πx²` Jacobian and a spurious `−2k_BT/x`
+   term. Restated: the constraint fixes the end-to-end **vector**, which is what an
+   apparatus holds, so the Jacobian is absent.
+
+Plus two pieces of **residue** from §4's own withdrawal — §2 still said "the restoring
+force here is entropic", and §3's closing still sent §4 after Module 6's toe. Both
+corrected; residue sweep for all five withdrawn phrasings is zero.
+
+> **Findings 6 onward were truncated in delivery and are NOT applied.** The remainder
+> was requested from `rev4` by `SendMessage`. Finding 6 began "[self-containment] mod…".
+> **Ask `rev4` for the rest** (or re-run a reviewer on §4 scoped to self-containment and
+> prose only) before treating §4 as closed.
 <!-- SEC4-HANDOFF -->
 
 ### Phase B step 1 remainder onward — NOT STARTED
