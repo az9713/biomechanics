@@ -4,12 +4,20 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last written:** 2026-09-10 (sixth refresh, at the MODULE 0 boundary — the module is complete).
+**Last written:** 2026-09-10 (seventh refresh — **the project is PAUSED here**, at `62e82ea`).
+A two-minute overview of this file lives at `HANDOFF.html` (repo root, also live at
+https://az9713.github.io/biomechanics/HANDOFF.html). This file stays the source of truth.
+
 Phase A (editor pass) is **complete and promoted**. Phase B (chemistry and biology
 interweaving) has its **gate and worklist built**, and **Module 0 is COMPLETE** — ten sections plus an
-appendix, all live, all thirteen gates green. Start at "Next task": the two
-open reviewer items, then Phase B step 2 — the traces into Modules 5, 2, 6,
-4, 14, 8/9 and 15/16/17.
+appendix, all live, all thirteen gates green. Start at "Next task".
+
+**Open item 1 below (the `rev5` findings) is CLOSED** — applied at `8846725`, with the
+fourth autolink defect fixed at the root at `f9a903f`. Two items remain open: the missing
+reviewer passes on Module 0 §6–§9 and the Appendix, then Phase B step 2 — the traces into
+Modules 5, 2, 6, 4, 14, 8/9 and 15/16/17. The §0 reviewer's note about registering bond
+stiffness is also closed: the Appendix notation table carries
+`$k_{\text{pair}}$, $k_{\text{bond}}$` with its collision note (verified 2026-09-10).
 
 ---
 
