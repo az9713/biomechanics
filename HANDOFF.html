@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handoff — Quantitative Human Musculoskeletal Science</title>
+<style>
+  :root{ --fg:#1a1a1a; --muted:#555; --accent:#7a1f1f; --rule:#ddd; --box:#f6f4ef; }
+  body{ max-width: 52rem; margin: 2.5rem auto; padding: 0 1.25rem 6rem;
+        font: 16px/1.65 Georgia, 'Times New Roman', serif; color:var(--fg); }
+  h1{ font-size: 1.9rem; line-height:1.2; margin:.2rem 0; }
+  h2{ font-size: 1.3rem; margin:2.2rem 0 .6rem; border-bottom:1px solid var(--rule); padding-bottom:.25rem; }
+  h3{ font-size: 1.05rem; margin:1.4rem 0 .4rem; color:var(--accent); }
+  .sub{ color:var(--muted); font-style:italic; margin-top:.2rem; }
+  a{ color:var(--accent); }
+  code{ font: .88em/1.4 Consolas, 'Courier New', monospace; background:var(--box); padding:.1em .3em; border-radius:3px; }
+  table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.93rem; }
+  th,td{ border:1px solid var(--rule); padding:.45rem .6rem; text-align:left; vertical-align:top; }
+  th{ background:var(--box); }
+  .box{ background:var(--box); border-left:4px solid var(--accent); border-radius:0 5px 5px 0;
+        padding:.8rem 1.1rem; margin:1rem 0; }
+  .box.grey{ border-left-color:#bbb; }
+  .done{ color:#2a6b2a; font-weight:bold; }
+  .open{ color:var(--accent); font-weight:bold; }
+  .small{ font-size:.88rem; color:var(--muted); }
+  ol.steps li, ul li{ margin:.4rem 0; }
+  hr{ border:none; border-top:1px solid var(--rule); margin:2rem 0; }
+</style>
+</head>
+<body>
+
+<h1>Handoff — the biomechanics course</h1>
+<p class="sub">Paused 2026-09-10 at commit <code>62e82ea</code>. Working tree clean; local <code>HEAD</code> and <code>origin/main</code> verified equal.</p>
+
+<div class="box">
+<strong>This page is the two-minute overview.</strong> The full record — every commit, every
+lesson, every scratch script — is <code>HANDOFF.md</code> (818 lines) at the repo root. That file
+stays the source of truth. Nothing here replaces it.
+<br><br>
+<strong>Resume in three steps:</strong>
+<ol class="steps" style="margin:.4rem 0 0">
+  <li>Read <code>HANDOFF.md</code> — live state and the next unit of work.</li>
+  <li>Read <code>CLAUDE.md</code> — the standing conventions (build loop, figure rules, git/publish).</li>
+  <li>Run the full thirteen-gate hardening loop on any file you touch, then a
+      <code>rigor-reviewer</code> pass on the section. Both are listed in <code>CLAUDE.md</code>.</li>
+</ol>
+</div>
+
+<p class="small">
+Live site: <a href="https://az9713.github.io/biomechanics/">az9713.github.io/biomechanics</a> &#183;
+Repo: <a href="https://github.com/az9713/biomechanics">github.com/az9713/biomechanics</a> (public, branch <code>main</code>)
+</p>
+
+<h2>Where the project stands</h2>
+
+<p>Eighteen modules (0&#8211;17) are written, hardened, and live. There is no
+<em>(in progress)</em> marker anywhere in <code>index.html</code>, and every module is linked from
+both <code>index.html</code> and <code>README.md</code>.</p>
+
+<table>
+<tr><th>Phase</th><th>What it was</th><th>Status</th><th>Landed at</th></tr>
+<tr><td>Course build</td><td>Modules 1&#8211;17 — the original seventeen-module course</td><td class="done">COMPLETE</td><td>—</td></tr>
+<tr><td>Phase A</td><td>The <code>science-editor</code> pass over all fifteen modules 3&#8211;17: ~1000 anchored edits, ~14&nbsp;000 lines of report in <code>editor-reports/</code>, then promoted over the originals</td><td class="done">COMPLETE &amp; PROMOTED</td><td><code>121cce9</code></td></tr>
+<tr><td>Phase B step 0</td><td><code>check_provenance.py</code> — the gate that makes &ldquo;interwoven&rdquo; checkable, plus <code>provenance-baseline.txt</code> (494 assignments, 156 symbols, a 37-item chemistry worklist)</td><td class="done">COMPLETE</td><td><code>ce3620d</code></td></tr>
+<tr><td>Phase B step 1</td><td><strong>Module 0 — Chemical Foundations.</strong> Ten sections plus an appendix, written from scratch: the mole and the <code>k_BT</code> ruler, bonding, thermodynamics, entropic elasticity, water and ions, kinetics, the macromolecules, a computational lab, thirty problems, and a notation/parameter appendix</td><td class="done">COMPLETE</td><td><code>4403e98</code></td></tr>
+<tr><td>Phase B step 2</td><td>The traces — carrying Module 0's chemistry into the eleven modules that borrow its constants</td><td class="open">NOT STARTED</td><td>—</td></tr>
+</table>
+
+<p>Module 0's gate state at the pause: 2989 math segments 0 issues; 500 internal links
+0 broken; 126 parameter assignments with 14 provenance declarations and 0 issues;
+0 label overlaps; 0 clipped figures; 0 <code>mjx-merror</code>; 2 code blocks PEP8 clean.</p>
+
+<h2>Unfinished work, in the order to do it</h2>
+
+<h3>1. The missing reviewer passes on Module 0 <span class="open">(open)</span></h3>
+<p>Sections §0&#8211;§5 each had a <code>rigor-reviewer</code> pass, and <em>every one of them
+returned NEEDS-FIXES with real findings</em>. <strong>§6, §7, §8, §9 and the Appendix
+had no pass at all.</strong> That is a departure from the standing convention and it is the
+one real gap the module ships with.</p>
+<p>§9 matters most: it carries thirty problems with worked solutions whose
+<em>arguments</em> nobody has checked. Its numbers are verified — <code>lab9.py</code> ran with
+every assertion passing — but &ldquo;the arithmetic is right&rdquo; is precisely the assurance
+that failed three times inside this module.</p>
+
+<h3>2. Phase B step 2 — the traces <span class="open">(open, many sessions)</span></h3>
+<p>Module 0 now proves the chemistry that Modules 1&#8211;17 previously took as given.
+Each trace enters its target module <strong>as a subsection at the point of first
+use</strong>. The build order is fixed by <code>chemistry-audit-and-plan.md</code> §2.2b and Part 3:</p>
+<p style="text-align:center"><code>Module 5 &rarr; Module 2 &rarr; Module 6 &rarr; Module 4 &rarr; Module 14 &rarr; Modules 8/9 &rarr; Modules 15/16/17</code></p>
+
+<p>The debts Module 0 has made payable:</p>
+<table>
+<tr><th>Target</th><th>What Module 0 supplies</th><th>Where it lives in Module 0</th></tr>
+<tr><td>Module 2 §5</td><td>the two end-member moduli, derived forwards</td><td>§2 Prop 2.2</td></tr>
+<tr><td>Module 4 §2</td><td>the swelling pressure from a GAG assay</td><td>§5 Prop 5.3, §7</td></tr>
+<tr><td>Module 4 §7</td><td>the temperature dependence of viscosity</td><td>§6 Prop 6.3</td></tr>
+<tr><td>Module 5 §2</td><td>crossbridge energetics and the force ceiling</td><td>§3; §6 for its temperature dependence</td></tr>
+<tr><td>Module 5 §3</td><td>the Nernst potential and the pump ledger</td><td>§5 Prop 5.2</td></tr>
+<tr><td>Module 6 §1</td><td>the licence for &ldquo;a straightened fibril is linear&rdquo;</td><td>§4 Prop 4.2</td></tr>
+<tr><td>Module 6 §8</td><td>elastin's modulus, predicted forwards</td><td>§4 Prop 4.3</td></tr>
+</table>
+
+<div class="box">
+<strong>The one rule that must not be broken.</strong> Add chemistry as a <em>subsection</em>.
+<strong>Never renumber an existing section.</strong> Module 4 carries 250 in-prose
+<code>§N</code> references, Module 5 carries 248, Module 6 carries 208 — a renumbering
+silently misdirects all of them while <code>check_links.py</code> still passes, because the
+links resolve; they just point at the wrong section. Green gates, wrong book is the
+worst defect this repo can produce.
+</div>
+
+<h3>3. Promote the editor brief into the repo <span class="open">(small, open)</span></h3>
+<p><code>scratchpad/tools/BRIEF.md</code> — the 117-line agent brief that drove the whole
+Phase A editor pass — was written in a session scratchpad and is flagged in
+<code>HANDOFF.md</code> as &ldquo;worth promoting into the repo rather than rebuilding again.&rdquo;
+It has not been promoted. The scratchpad is session-scoped, so <strong>it is already
+gone</strong>; rebuilding it means re-deriving the ten steps recorded in
+<code>HANDOFF.md</code> §Session-transient scratch.</p>
+
+<h3>Closed — do not reopen</h3>
+<ul>
+  <li><strong>The <code>rev5</code> findings on Module 0 §5 are applied</strong> (<code>8846725</code>, 45 fixes),
+      and the fourth autolink defect it exposed is fixed at the root with all 23 injected
+      anchors cleaned from three modules (<code>f9a903f</code>). An earlier draft of
+      <code>HANDOFF.md</code> called this &ldquo;open&rdquo;; it is not.</li>
+  <li><strong>The bond-stiffness symbol is registered.</strong> The §0 reviewer asked for it;
+      the Appendix notation table carries <code>$k_{\text{pair}}$, $k_{\text{bond}}$</code> with its
+      collision note against Boltzmann's <code>k_B</code> and Module 2's remodelling gain.
+      Verified in <code>module00.html</code> at the pause.</li>
+  <li><strong>The Module 3 hip-resultant drift is closed</strong> (<code>module03.html:860</code>, upper
+      endpoint corrected to 2.9&nbsp;W).</li>
+</ul>
+
+<h2>Risks to carry into the next session</h2>
+
+<div class="box">
+<strong>The gate scripts are not in version control, and exist in one copy.</strong>
+All thirteen gates and <code>assets/template.html</code> live in
+<code>C:\Users\simon\.claude\skills\rigorous-explainer\</code>, which is not a git repository.
+Two of them are recent single-copy work: <code>check_provenance.py</code> (~300 lines, written
+2026-09-09) and the cross-module guard in <code>autolink_sections.py</code>. <strong>Losing that
+guard would silently reintroduce wrong-book links</strong> — the worst defect class here.
+<code>provenance-baseline.txt</code> in this repo is the tool's <em>output</em>, not the tool.
+</div>
+
+<div class="box grey">
+<strong><code>DEVELOPMENT_JOURNEY_2.html</code> is a stale snapshot.</strong> It describes the
+<em>pre-promotion</em> state (around its lines 1019&#8211;1029 it says &ldquo;nothing is promoted&rdquo;
+and lists the 2.8&nbsp;W drift as open). It is a dated record of that session.
+Do not re-open its items.
+</div>
+
+<div class="box grey">
+<strong>The scratchpad is gone.</strong> Every figure generator, number-verifier and splicer
+from the Module 0 build (<code>fig0lib.py</code>, <code>nums0-7.py</code>, <code>gen1-9.py</code>,
+<code>assemble0-9.py</code>, <code>lab8a/b.py</code>, <code>lab9.py</code>, the <code>fix*.py</code>
+appliers) was session-transient and does not survive the pause. The durable record is
+<code>module00.html</code> itself. <code>HANDOFF.md</code> §Session-transient scratch records the
+pattern to regenerate any of them; most of the time, editing the committed HTML directly
+is the right move instead.
+</div>
+
+<h2>The four constraints that bind every future session</h2>
+<ol>
+<li><strong>Rigor parity.</strong> A boxed result is proved unless the box says why it cannot be.
+    Module 0 has exactly two unproved boxes and both are labelled — Marko&#8211;Siggia (an
+    interpolation) and the Hill equation (a fitted curve, left deliberately unboxed).</li>
+<li><strong>Ask where every table value came from.</strong> This caught three errors in Module 0.
+    A parameter that arrives looking derived may be fitted one step upstream: §2's Born
+    exponent was fitted to alkali-halide compressibilities, §3's <code>ΔG°′</code> is a fitted
+    equilibrium model, §4's persistence length is fitted with the very model that consumes it.</li>
+<li><strong>Do not assert a limit you have not computed.</strong> This is the module's own
+    recurring defect and it recurred four times. Every sentence of the form &ldquo;cannot
+    exceed&rdquo;, &ldquo;at most&rdquo; or &ldquo;half the drop by&rdquo; needs a line in a verification script behind it.</li>
+<li><strong>Full gate loop plus a reviewer pass on every module a trace touches.</strong>
+    Interweaving reopens derivations the editor pass closed; that is the accepted cost of
+    the chosen shape.</li>
+</ol>
+
+<h2>What Module 0 taught, in one line</h2>
+<div class="box">
+Module 0 found four errors in itself. Each one was well-formed, internally consistent,
+passed all thirteen automated gates, and was wrong: a stiffness ladder calibrated from the
+moduli it claimed to predict; collagen's compliance attributed to entropy when entropy is
+short by 642&times;; a 108&nbsp;MPa ceiling evaluated outside the hypothesis of its own
+proposition; and a &ldquo;half the drop in 12&nbsp;s&rdquo; that drawing the figure put at 16&nbsp;s.
+<br><br>
+<strong>The claim that fails is not the one you compute. It is the one you assert while
+computing something adjacent.</strong>
+</div>
+
+<h2>Where to read things</h2>
+<table>
+<tr><th>File</th><th>What it holds</th></tr>
+<tr><td><code>HANDOFF.md</code></td><td>The full resume record — per-section commits, every lesson, the scratch inventory. <strong>Read this first.</strong></td></tr>
+<tr><td><code>CLAUDE.md</code></td><td>Standing conventions: the build loop, the thirteen hardening gates, figure style, git/publish.</td></tr>
+<tr><td><code>chemistry-audit-and-plan.md</code></td><td>The Phase B audit and plan. §2.2c is the provenance contract; §2.2b the threading map; Part 3 the build order.</td></tr>
+<tr><td><code>provenance-baseline.txt</code></td><td>The measured chemistry worklist. Generated — regenerate it, never hand-edit it.</td></tr>
+<tr><td><code>prompt.txt</code></td><td>The original course spec. Line 211 the Required Biological/Chemical Spine; line 285 the Modeling Levels ladder.</td></tr>
+<tr><td><code>EDITOR_DOMAIN.md</code></td><td>The domain brief the <code>science-editor</code> skill loads. (<code>EDITOR_PROMPT.md</code> describes a different manuscript — ignore its <code># Domain:</code>.)</td></tr>
+<tr><td><code>editor-reports/moduleNN.md</code></td><td>Per-module editor reports with change tables.</td></tr>
+<tr><td><code>moduleNN-plan.md</code></td><td>Per-module build plans, Modules 4&#8211;10.</td></tr>
+</table>
+
+<hr>
+<p class="small">Generated 2026-09-10 at <code>62e82ea</code>. Overview only — <code>HANDOFF.md</code> is the source of truth.</p>
+
+</body>
+</html>
