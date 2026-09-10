@@ -499,10 +499,11 @@ Plus two pieces of **residue** from §4's own withdrawal — §2 still said "the
 force here is entropic", and §3's closing still sent §4 after Module 6's toe. Both
 corrected; residue sweep for all five withdrawn phrasings is zero.
 
-> **Findings 6 onward were truncated in delivery and are NOT applied.** The remainder
-> was requested from `rev4` by `SendMessage`. Finding 6 began "[self-containment] mod…".
-> **Ask `rev4` for the rest** (or re-run a reviewer on §4 scoped to self-containment and
-> prose only) before treating §4 as closed.
+> **Findings 6 onward were also delivered and applied (`258ba22`).** §4's reviewer
+> pass is CLOSED. That commit fixed a live TOC bug (§4's entry was still
+> `<span class="pending">`), four wrong arguments, two figure defects found by
+> decoding polylines, four literature over-confidences, five more pieces of
+> withdrawn-claim residue, and the namespace collisions on G, W, R and N.
 <!-- SEC4-HANDOFF -->
 
 ### Phase B step 1 remainder onward — NOT STARTED
