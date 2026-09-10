@@ -4,11 +4,11 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last written:** 2026-09-09 (fourth refresh, at the Module 0 §3 boundary).
+**Last written:** 2026-09-09 (fifth refresh, at the Module 0 §4 boundary).
 Phase A (editor pass) is **complete and promoted**. Phase B (chemistry and biology
-interweaving) has its **gate and worklist built**, and **Module 0 §0–§3 are written, hardened and live**. Start at
-"Next task": Module 0 §4 — but read the §4 conflict note first, because the plan
-for that section is wrong in two places.
+interweaving) has its **gate and worklist built**, and **Module 0 §0–§4 are written, hardened and live**. Start at
+"Next task": Module 0 §5 — but first check whether the §4 reviewer pass
+landed; if no findings commit exists, re-run it before building §5.
 
 ---
 
@@ -390,69 +390,160 @@ for tropocollagen are the §4/§7 shared inputs; **put them in one JSON both sec
 read**, per the plan's own warning about two sections quoting different values.
 <!-- SEC3-HANDOFF -->
 
+<!-- SEC4-HANDOFF -->
+### Phase B step 1 — Module 0 §4: DONE (`151a8f2`, `53cec80`)
+
+§4 ("entropic elasticity: the chain, and what it can and cannot stiffen") is complete
+and live. It builds the machinery §0 and §2 pointed at, then **withdraws the claim they
+made**, which is the most useful thing it does.
+
+Contents: **Definition 4.1** (chain, Kuhn segment, contour length, ideal chain);
+**Proposition 4.1**, the split of tension into energetic and entropic parts with the
+boxed `f = −T ∂S/∂x` for an ideal chain, proved from the fixed-volume counterpart of §3
+Prop 3.1; **Lemma 4.1** (random-walk statistics, `⟨R²⟩ = Nb²`, Gaussian by CLT);
+**Proposition 4.2** (an ideal chain is Hookean, `k = 3k_BT/Nb²`); **Definition 4.3**
+(persistence length); the **Marko–Siggia interpolation**, boxed but deliberately *not*
+proved because no closed form exists — the text says so and flags it as a different
+status from every other box in the module; **Proposition 4.3** (`E = 3nk_BT`, proved by
+affine averaging with `ν = ½`, noting §2 derived `ν = ¼` for a central-force crystal).
+Three figures (12–14). All thirteen gates green.
+
+**Numbers, Python-verified in `nums4.py` + `ceiling4.py` with assertions:**
+- one tropocollagen chain: `N = 10.3` Kuhn segments of `29 nm`, coil size `93 nm`,
+  entropic spring constant **1.48 µN/m** — softer than §2's Ca–O bond (`467 N/m`) by
+  **3.2×10⁸**. That ratio alone should have warned §2 off.
+- **the forward prediction:** natural rubber `1.47` vs `1.5 MPa` measured (**0.98×**),
+  elastin `1.55` vs `1.1 MPa` (**1.41×**), from crosslink chemistry with no elastic
+  datum among the inputs. §4's counterpart to §2's apatite result.
+- **collagen fails.** Inverting `E = 3nk_BT` at `1.07 GPa` demands
+  `M_c = 10.1 g/mol` — a crosslink every *tenth* of an amino-acid residue, and a chain
+  spacing of `0.23 nm`, which is §2's bond length. Incoherent, not merely unmet.
+- **the corrected margins** (see the lesson below): `1.67 MPa` at a real protein's
+  crosslink spacing → **642× short**; `108 MPa` with a crosslink at *every* residue,
+  the absolute physical limit → **9.9× short**.
+- the discriminator: entropic stiffness `∝ T` gives **+5.8%** from 20 to 37 °C while
+  steel loses **0.51%**. Opposite signs, so it is a real measurement, not a calibration.
+
+**§0 and §2 were corrected in six anchored edits.** Both had asserted collagen's
+compliance is entropic and deferred the arithmetic to §4. Withdrawn. The honest account
+is a three-step **energetic** ladder — bond count `50 GPa`, helix bending and unwinding
+to `≈6 GPa`, interfibrillar shear to `≈1 GPa` — and entropy enters collagen only in the
+**telopeptides**, at the very foot of the toe. `E_collagen` stays `measured`, for a
+better reason than before.
+
+**§4 does NOT claim Module 6's toe region**, which the plan told it to. Module 6 already
+derives the toe from crimp and fibre recruitment with a proof, and explicitly denies it
+is molecular. What §4 supplies is the **licence** for that derivation: Prop 4.2 shows
+that had the compliance been entropic, a straightened fibril would not be linear and
+Module 6's population argument would double-count.
+
+`check_provenance` gained two more `[pre]` names: `E_elastin`, `lp_collagen`. The
+`lp_collagen` marker discloses that the persistence length is itself fitted with the
+very model §4 uses, and that `14.5 nm` is the choice *most favourable* to the entropic
+hypothesis — which still fails.
+
+**Lessons from this section.**
+1. **The number that gets you is the one you assert while computing something
+   adjacent.** §4's first version said an entropic network "cannot exceed a few
+   megapascals at any physically possible crosslink spacing" and quoted `973×`. Both
+   wrong: `973` was collagen against elastin's *measured* modulus (a different
+   comparison), and the ceiling is `108 MPa`, not a few. I had looked at elastin and
+   rubber — real proteins — and never asked what the formula does at its own limit.
+   Caught by checking my own arithmetic before the reviewer did; corrected in five
+   places, because the wrong number had already propagated into §0 and §2.
+2. **Unicode has no subscript B either.** Fig. 13's y-axis rendered `3nk₈T` because the
+   subscript table substituted subscript 8. Identical class to §3's `R_sT`. Every gate
+   passed; only rendering caught it. **Any subscript that is not a digit or one of
+   `ₐₑₒₓₕₖₗₘₙₚₛₜᵢᵣ` needs a `<tspan baseline-shift="sub">`.**
+3. **An anchor that wraps a line break will not match.** Two appliers failed on
+   `module00.html` because my literal had a space where the file had `\n`. Use a regex
+   with `\s+`, or grep the exact bytes first.
+4. `check_frame` caught the Fig. 12 force arrow clipped 2 px past the viewBox;
+   `check_overlap` caught four labels on curves, **two of which named the very curve
+   they sat on**.
+
+**Symbol namespace fixed by §4** (Module 0's Appendix must register these): `b` Kuhn
+length (against §2's Born constant `B`); `L_c` contour length; `ℓ_p` persistence length;
+`x` extension; `f` single-chain tension (lower case, against Module 1's whole-body `F`);
+`n`/`n_ch` chains per unit volume (against §2's Born exponent and §1's amount of
+substance); `M_c` molar mass between crosslinks; `κ` bending rigidity; `Ω` configuration
+count; `ξ` reaction extent (bound in §3, reused here); `ν = ½` for an incompressible
+network, against §2's `ν = ¼`.
+
+**A `rigor-reviewer` pass on §4 was dispatched (`rev4`) and had not reported when this
+was written.** It was asked specifically whether the claim is still too strong — a taut
+*semiflexible* network can be much stiffer than `3nk_BT`, and if that route reaches a
+gigapascal the refutation needs narrowing to Gaussian networks. **Check for a commit
+titled "Module 0 §4: apply the rigor-reviewer findings"; if none exists, re-run the
+reviewer on §4 before starting §5.**
+<!-- SEC4-HANDOFF -->
+
 ### Phase B step 1 remainder onward — NOT STARTED
 
-Module 0 §4–§9 and its Appendix are unwritten; no chemistry prose exists in
-Modules 1–17 yet. **Four of ten sections done.**
+Module 0 §5–§9 and its Appendix are unwritten; no chemistry prose exists in
+Modules 1–17 yet. **Five of ten sections done.**
 
 ---
 
 ## Next task
 
-**Build `module00.html` §4** — entropic elasticity: the freely jointed and worm-like
-chain, force as `f = −T ∂S/∂x`, and the thermoelastic signature that separates an
-entropic spring from an energetic one.
+**First: check whether `rev4`'s findings were applied.** Look for a commit titled
+"Module 0 §4: apply the rigor-reviewer findings". If there is none, the reviewer pass on
+§4 never landed — re-run `rigor-reviewer` on the `<!-- SEC4 -->` block before anything
+else, and put the question about **semiflexible networks** to it explicitly (a taut
+semiflexible network can be far stiffer than `3nk_BT`; if that route reaches a
+gigapascal, §4's refutation must be narrowed to Gaussian networks rather than to
+entropic elasticity in general).
 
-**Read the "§4 — a conflict found before writing" note above first.** The plan's
-framing for §4 is wrong in two places, and both were checked, not guessed:
+**Then build `module00.html` §5** — water, ions, and the electric double layer:
+dielectric screening, the Debye length, pH, pKa and buffering. Content spec is
+`chemistry-audit-and-plan.md` §2.3.
 
-1. `chemistry-audit-and-plan.md` §2.3 and Module 0's own roadmap table send §4 to
-   supply "the missing molecular origin of Module 6's toe region". Module 6 already
-   owns the toe — structurally, from crimp and fibre recruitment, with a proof
-   (`module06.html:144`, `:151`, Proposition 1). **Do not claim the toe.**
-2. §0's `E_collagen` provenance marker and §2's closing paragraph both assert that a
-   collagen fibril's compliance is entropic and hand §4 a "factor of fifty" to
-   compute. It is not fifty. `E = 3nk_BT` at 1.07 GPa implies one chain per
-   (0.23 nm)³ and 10 g/mol between crosslinks — impossible. The entropic mechanism
-   is ~1000× too soft for collagen. **§4 must correct §0 and §2**, the same way §2
-   corrected §0's calibrated ladder. That is now three sections running in which the
-   previous section's confident attribution did not survive being computed.
+§5 is the most heavily *pre-sold* section in the module. Four sections have already
+promised it something, and each promise is a debt with a named creditor:
 
-The section that *does* work: elastin. `E = 3nk_BT` predicts 9.1 kDa between
-crosslinks against a measured 6–7 kDa, with no elastic datum among the inputs.
+1. **§3** dropped the electrical work term at the reticulum membrane, justifying it by
+   the SR membrane's near-zero potential, and said explicitly that this "would be false
+   at the cell surface". §5 owes the electrochemical potential and the Nernst equation.
+2. **§4** quoted a persistence length without saying what sets it, and closed by saying
+   that for a charged biopolymer much of the bending rigidity is electrostatic
+   self-repulsion which collapses when salt screens it. §5 owes that screening —
+   and note this is a *quantitative* debt: if screening changes `ℓ_p` by a large factor,
+   §4's tropocollagen numbers move.
+3. **§3** Definition 3.4 used **ionic strength** `I = ½Σc_iz_i²` and glossed it as
+   "§5's subject". §5 owes the real treatment.
+4. **Module 4 §2**'s Donnan swelling pressure and **Module 5 §3**'s membrane potential
+   are the downstream customers named in Module 0's own roadmap table.
 
 Four standing constraints:
 
-1. **Rigor parity binds.** §3 boxed five results and proved four, marking the fifth
-   as a rearranged definition. A boxed entropic-modulus law beside an asserted
-   worm-like-chain force law is the Module 6 §6 defect in a new place.
-2. **Ask where every table value came from.** The §2 lesson (Pauling's exponent was
-   a compressibility fit) and the §3 lesson (Alberty's ΔG°′ is a fitted equilibrium
-   model, not a calorimetric reading) both apply. Elastin's modulus, its density, its
-   crosslink spacing, and tropocollagen's persistence length all carry the question,
-   and the `.prov` marker must say which. `check_provenance.py` will need new
-   `[pre]` names for the entropic parameters — extend `GATED` and record it as
-   amendment 5 in §2.2c, as §3 did.
-3. **Shared numbers go in one JSON.** §4 and §7 both need tropocollagen's persistence
-   length (≈14.5 nm) and contour length (≈300 nm). Two sections quoting different
-   values is a defect no gate sees. `probe4.py` in scratchpad has the entropic
-   arithmetic already checked.
-4. When §4 lands, flip its TOC entry in `module00.html` from `<span class="pending">`
-   to a link, update the "§0–§3 are complete" note below the TOC, re-run
-   `autolink_sections.py` (27 forward `§N` refs still unlinked) and `rm` the `.bak`.
+1. **Rigor parity binds.** §4 boxed five results, proved three, and marked the
+   Marko–Siggia interpolation as explicitly unproved with a reason. §5's candidates
+   (Debye–Hückel screening, the Nernst equation, Henderson–Hasselbalch, the Donnan
+   condition) are all derivable — so derive them, or say in the box why not.
+2. **Ask where every table value came from.** Three sections running have caught a
+   parameter that arrived looking derived and was fitted: §2's Born exponent (alkali-
+   halide compressibilities), §3's `ΔG°′` (a fitted equilibrium model), §4's persistence
+   length (fitted with the very model that consumes it). Dielectric constants, pKa
+   values and activity coefficients all carry the same question.
+3. **Do not assert a limit you have not computed.** This is §4's lesson and it cost a
+   correction commit. Any sentence of the form "cannot exceed" or "at most" must have a
+   line in the verification script behind it.
+4. When §5 lands, flip its TOC entry from `<span class="pending">` to a link, update the
+   "§0–§4 are complete" note below the TOC, re-run `autolink_sections.py` (27 forward
+   `§N` refs still unlinked) and `rm` the `.bak`.
 
-Then §5 → §6 → §7 → §8 → §9 → Appendix, and only then the traces into the existing
-modules, in order (full traces in `chemistry-audit-and-plan.md` §2.2b and Part 3):
-Module 5 → Module 2 → Module 6 → Module 4 → Module 14 → Modules 8/9 →
-Modules 15/16/17.
+Then §6 → §7 → §8 → §9 → Appendix, and only then the traces into the existing modules,
+in order (`chemistry-audit-and-plan.md` §2.2b and Part 3): Module 5 → Module 2 →
+Module 6 → Module 4 → Module 14 → Modules 8/9 → Modules 15/16/17.
 
-**Scope, stated plainly and unchanged.** Module 0 at full course standard is ten
-sections plus an Appendix, with §9 alone carrying 30 problems, 5 diagnostics and
-Python-verified solutions — roughly the size of §0–§3 put together. Four sections are
-done. This is **many sessions**, not one. Work in order, commit each section without
-being asked, refresh this file at every section boundary (not only at module
-boundaries), and do not let a session grow past ~150k context. Do not report the
-phase, or the module, complete until it is.
+**Scope, stated plainly.** Module 0 at full course standard is ten sections plus an
+Appendix, with §9 alone carrying 30 problems, 5 diagnostics and Python-verified
+solutions — roughly the size of §0–§4 put together. **Five of ten sections are done.**
+This is **many sessions**, not one. Work in order, commit each section without being
+asked, refresh this file at every section boundary, and do not let a session grow past
+~150k context — the session that built §3 and §4 ran to over 400k and that is the most
+expensive habit in this project's history.
 
 If the user asks for something else, that takes precedence.
 
