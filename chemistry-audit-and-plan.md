@@ -429,6 +429,8 @@ needs the names already settled, so the record leads and Module 0 follows it:
 | `k_B` | Boltzmann's constant | `k_remodel` |
 | `E_apatite`, `E_collagen` | end-member moduli, Module 2 §5 | `E` |
 | `tau_*` | constitutive time constants | — |
+| `dG0_ATP` | transformed standard free energy of ATP hydrolysis | Gibbs free energy `G` → `DeltaG` |
+| `c_metab` | measured cellular metabolite concentration (ATP, ADP, Pi, Ca) | fixed charge density `c_F`; lattice parameter `c` |
 
 **Fallback, not the default.** If per-use markers prove too heavy to retrofit, each
 module's appendix parameter table already lists every parameter with a source column,
@@ -491,6 +493,9 @@ parameters**. That number, and the `file:line` for each, is committed as
 **`provenance-baseline.txt`** (inventory in Part 1, worklist in Part 2). It is the
 "measured list" Part 3 step 0 calls for, and it replaces the judgement calls in
 §2.2b. Regenerate it, never hand-edit it.
+
+
+**Amendment 4 (2026-09-09, forced by Module 0 §3).** The table above was written from an inventory of the *existing* seventeen modules, so it held no chemistry parameter at all. §3 is the first section to state one, and it states two kinds: a tabulated standard free energy and a set of measured cellular concentrations. Both are added above as `[pre]` entries in `check_provenance.py`, so that the first use in Module 5's crossbridge energetics is gated rather than retrofitted. `c_metab` is deliberately generic: one marker declares the provenance of a whole measured concentration set, because those six numbers come from one method and share one caveat.
 
 #### What the gate does not do
 
