@@ -310,7 +310,7 @@ Figure growth is from inserted hero figures and pre-existing problem density, no
 
 Session implementer SCRATCH (may be ephemeral after harness cleanup):
 
-`C:\Users\simon\AppData\Local\Temp\grok-goal-92ae88c38da1\implementer\`
+`C:\Users\<user>\AppData\Local\Temp\<scratch-dir>\implementer\`
 
 Expected evidence set produced during closeout:
 

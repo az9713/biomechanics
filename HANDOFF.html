@@ -134,13 +134,24 @@ gone</strong>; rebuilding it means re-deriving the ten steps recorded in
 <h2>Risks to carry into the next session</h2>
 
 <div class="box">
-<strong>The gate scripts are not in version control, and exist in one copy.</strong>
-All thirteen gates and <code>assets/template.html</code> live in
-<code>C:\Users\simon\.claude\skills\rigorous-explainer\</code>, which is not a git repository.
-Two of them are recent single-copy work: <code>check_provenance.py</code> (~300 lines, written
-2026-09-09) and the cross-module guard in <code>autolink_sections.py</code>. <strong>Losing that
-guard would silently reintroduce wrong-book links</strong> — the worst defect class here.
-<code>provenance-baseline.txt</code> in this repo is the tool's <em>output</em>, not the tool.
+<strong>The tracked copy of the gate scripts is three files behind the live one.</strong>
+The scripts run from <code>C:\Users\&lt;user&gt;\.claude\skills\rigorous-explainer\scripts\</code>,
+which is not a git repository. A <em>copy</em> is tracked here at
+<code>.claude/skills/rigorous-explainer/scripts/</code> — but it is stale, verified 2026-09-10:
+<ul>
+<li><code>check_provenance.py</code> — <strong>absent entirely</strong> from the tracked copy. ~300 lines,
+    written 2026-09-09, and it exists in exactly one place on disk.</li>
+<li><code>autolink_sections.py</code> — 25 lines behind. The tracked copy predates the
+    <code>&lt;pre&gt;</code> and <code>&lt;svg&gt;</code> exclusions <em>and</em> the cross-module guard.
+    <strong>Losing that guard silently reintroduces wrong-book links</strong> — the worst defect
+    class here.</li>
+<li><code>checktex.py</code> — 5 lines behind: the tracked copy lacks the <code>\left</code>/<code>\right</code>
+    delimiter fix, so it still false-positives on <code>\rightleftharpoons</code>, which every
+    chemical equilibrium needs.</li>
+</ul>
+The other twelve scripts match. Copying those three over the tracked ones closes this,
+and takes about a minute. <code>provenance-baseline.txt</code> in this repo is the tool's
+<em>output</em>, not the tool.
 </div>
 
 <div class="box grey">

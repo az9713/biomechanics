@@ -750,19 +750,27 @@ the plan's own wording, was wrong, and only running it showed that.
 
 ---
 
-## Lives outside this repo (no version control — a real risk)
+## The tracked gate scripts are stale (corrected 2026-09-10 — this section used to
+## say they were not in git at all)
 
-`C:\Users\simon\.claude\skills\rigorous-explainer\` holds all thirteen gate scripts
-and `assets/template.html`. **That directory is not a git repository.**
-`check_provenance.py` (~300 lines) and the `.prov` style in the template were written
-2026-09-09 and exist in exactly one copy. **Two more single-copy edits landed at the §3
-boundary:** `check_provenance.py` gained the `dG0_ATP` / `c_metab` chemistry names, and
-`autolink_sections.py` gained the cross-module guard that stops it producing wrong-book
-links. That guard is the one piece of this directory whose loss would silently
-reintroduce the worst defect class in the repo, so it is the thing most worth backing
-up. `provenance-baseline.txt` in this repo is
-its *output*, not the tool. Worth backing up; not done, because the other twelve
-gates live the same way and changing that convention was not asked for.
+The scripts **run** from `C:\Users\<user>\.claude\skills\rigorous-explainer\scripts\`,
+which is not a git repository. A **copy is tracked in this repo** at
+`.claude/skills/rigorous-explainer/scripts/`, which earlier refreshes of this file
+did not know about. That copy was compared against the live one on 2026-09-10 and is
+**three files behind**:
+
+| script | state of the tracked copy |
+|---|---|
+| `check_provenance.py` | **absent entirely** — ~300 lines, written 2026-09-09, one copy on disk |
+| `autolink_sections.py` | 25 lines behind: no `<pre>` exclusion, no `<svg>` exclusion, **no cross-module guard** |
+| `checktex.py` | 5 lines behind: no `\left`/`\right` delimiter fix, so `\rightleftharpoons` still false-positives |
+
+The other twelve match byte for byte (`diff --strip-trailing-cr`). Losing the
+cross-module guard is the one that matters: it is what stops the autolinker producing
+wrong-book links, the worst defect class this repo can produce. **Copying those three
+files over the tracked ones closes the risk and takes a minute.** Not done — the user
+has not been asked since the staleness was measured. `provenance-baseline.txt` in this
+repo is `check_provenance.py`'s *output*, not the tool.
 
 ## Session-transient scratch (regenerate; durable record is the committed output)
 

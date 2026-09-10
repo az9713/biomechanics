@@ -23,7 +23,7 @@ from anatomy_kit.py.wave_a_apply import (
 )
 from anatomy_kit.py.phase2_apply import ensure_b_bone, ensure_b_sh, ensure_b_sph
 
-SCRATCH = Path(r"C:\Users\simon\AppData\Local\Temp\grok-goal-92ae88c38da1\implementer")
+SCRATCH = Path(r"C:\Users\<user>\AppData\Local\Temp\<scratch-dir>\implementer")
 SCRATCH.mkdir(parents=True, exist_ok=True)
 
 

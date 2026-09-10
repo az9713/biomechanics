@@ -135,8 +135,8 @@ From `CLAUDE.md` / `AGENTS.md`:
 
 ```
 S=C:/Users/<user>/.claude/skills/rigorous-explainer/scripts
-# On this machine user is often simon:
-# S=C:/Users/simon/.claude/skills/rigorous-explainer/scripts
+# Substitute your own Windows user name:
+# S=C:/Users/<user>/.claude/skills/rigorous-explainer/scripts
 # Project may also have: .claude/skills/rigorous-explainer/scripts
 
 python $S/checktex.py     moduleNN.html
@@ -976,7 +976,7 @@ Do **not** force-push. Do **not** amend published commits without user request.
 Windows PowerShell example (adjust user path):
 
 ```powershell
-$S = "C:\Users\simon\.claude\skills\rigorous-explainer\scripts"
+$S = "C:\Users\<user>\.claude\skills\rigorous-explainer\scripts"
 $m = "module08.html"
 python "$S\checktex.py" $m
 python "$S\checklt.py" $m
