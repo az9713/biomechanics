@@ -4,10 +4,10 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last written:** 2026-09-09 (second refresh, at the Module 0 §1 boundary).
+**Last written:** 2026-09-09 (third refresh, at the Module 0 §2 boundary).
 Phase A (editor pass) is **complete and promoted**. Phase B (chemistry and biology
-interweaving) has its **gate and worklist built**, and **Module 0 §0 and §1 are
-written, reviewed and live**. Start at "Next task": Module 0 §2.
+interweaving) has its **gate and worklist built**, and **Module 0 §0, §1 and §2 are
+written, reviewed and live**. Start at "Next task": Module 0 §3.
 
 ---
 
@@ -168,44 +168,103 @@ figure-citation regex was `Fig\.\s*\d+`, which never matched this course's
 `Fig.&nbsp;N`, so every module falsely reported "figures but no Fig. N reference".
 It now accepts `&nbsp;`. Re-run over modules 0, 2, 4 and 10 — no new failures.
 
+### Phase B step 1 — Module 0 §2: DONE (`c6d8e44`, `59a19c0`)
+
+§2 ("bonding and the stiffness ladder") is complete and live. It pays §0's largest
+debt. §0 had *calibrated* its bond stiffnesses backwards from Module 2 §5's measured
+moduli, so its `104 GPa` was that measurement handed back; §2 runs the arrow forwards.
+
+Contents: **Definition 2.1** (Born ionic potential) and **Lemma 2.1**
+(`k_pair = (n−1)𝒜/r₀³ = 467 N/m` for Ca–O); **Proposition 2.1** — the affine estimate
+is a rigorous *upper bound*, proved as a Schur complement, which is also the theorem
+that makes Module 2 §5's Voigt average an upper bound; **Proposition 2.2** — the boxed
+`K = n|U_latt|/(9V_f)`, i.e. a bulk modulus **is** a cohesive energy density and the
+structure constant cancels — with the rocksalt corollary
+`K = (n−1)α_M|z₁z₂|C_e/(18r₀⁴)`. Validated on NaCl (24.8 predicted vs 24.4 measured),
+MgO (273 vs 160) and CaO (187 vs 111), with the 1.7× divalent-oxide overshoot diagnosed
+and the implied `n` printed. Then apatite: `V_f = 0.5279 nm³` (P6₃/m, Z = 1),
+`|U_latt| = 34191 kJ/mol` (Born–Fajans–Haber; Zhang & Tamilselvan, *J. Mater. Sci.
+Mater. Med.* **18**, 79–87, 2007), `n = 8` → **`K = 95.6 GPa`** and **`E = 143 GPa`**
+against a measured 114. The 17× gap decomposes exactly: `α_M/12 = 1/6.87` is lattice
+bookkeeping, then dilution (204 → 108 GJ/m³), then the polarizability residual. Four
+figures (5–8). `E_apatite` flipped from `measured` to `derived`.
+
+**A `rigor-reviewer` pass ran and returned NEEDS-FIXES; all 31 findings are applied
+(`59a19c0`).** Every number it recomputed independently held. Four lessons:
+
+1. **A "first-principles" parameter can be calibrated one step upstream.** §2 claimed
+   "Nothing elastic enters" because `n` came from Pauling's electron-configuration rule
+   rather than from a fitted compressibility. But Pauling's five integers were
+   themselves chosen to reproduce *alkali-halide* compressibilities. So NaCl's success
+   is a consistency check inside the calibration class, not a prediction — the exact
+   distinction §2 was lecturing §0 about. **Ask where a "table value" came from before
+   calling a result derived.** The state stays `derived`, with the borrowing disclosed
+   inside the marker.
+2. **A section can deny a hypothesis and then use it.** §2 said the inversion-centre
+   condition "is true of rocksalt and false of almost everything else", naming apatite —
+   then forty lines later derived `ν = ¼` from the Cauchy relation, which needs that
+   same condition. Now stated as an assumption, with its 143 → 132 GPa cost given.
+3. **A figure can carry a marker for a calculation that was never run.** Fig. 6 drew a
+   route-A point on apatite; route A is the rocksalt formula. Every gate passed.
+4. **Render every figure and look at it.** Two figures passed all nine gates while
+   being visibly wrong — a dotted leader line that read as a curve, and three rungs
+   crammed illegibly onto a log axis. `check_frame` caught a third (clipping) only
+   after the redraw.
+
+**`check_provenance.py` was patched** (script still outside git): its `module0` state
+required the literal substring `<a href`, which rejects every link in this course —
+they are all written `<a class="secref" href=…>`. Now a regex for any `<a …href=`.
+Self-test still 9/9.
+
+**Symbol namespace fixed by §2** (Module 0's Appendix must register these): `k_bond` /
+`k_pair` bond stiffness; `𝒜` the Born attraction coefficient (`A` stays §1's Helmholtz
+free energy); `γ_s` the structure constant in `V = γ_s r³` (`c` is §1's concentration
+*and* apatite's lattice parameter); `n` the Born exponent (against §1's amount of
+substance); `ν` Poisson's ratio (against §1's stoichiometric `ν_i`); `C_e` the Coulomb
+constant `e²/4πε₀`; `U_latt`; `V_f`; `α_M` the Madelung constant; `K` bulk modulus.
+
 ### Phase B step 1 remainder onward — NOT STARTED
 
-Module 0 §2–§9 and its Appendix are unwritten; no chemistry prose exists in Modules
+Module 0 §3–§9 and its Appendix are unwritten; no chemistry prose exists in Modules
 1–17 yet.
 
 ---
 
 ## Next task
 
-**Build `module00.html` §2** — bonding and the stiffness ladder — under the standing
-convention: build one section → report with a short summary and two `★ Insight`
-bullets → user reviews → commit and push (the standing tutor rule says commit without
-waiting to be asked).
+**Build `module00.html` §3** — thermodynamics: `ΔG = ΔH − TΔS`, chemical potential,
+`ΔG = ΔG° + R_gT ln Q`, equilibrium `ΔG° = −R_gT ln K_eq`, and reaction coupling —
+under the standing convention: build one section → report with a short summary and two
+`★ Insight` bullets → user reviews → commit and push without waiting to be asked.
 
-Its content spec is `chemistry-audit-and-plan.md` §2.3. **§2 is the section that pays
-§0's largest debt**, and the debt is named in §0's own provenance markers: §0
-*calibrated* the effective bond stiffnesses `25 N/m` and `0.30 N/m` backwards from
-Module 2 §5's measured moduli, so its `104 GPa` and `1.07 GPa` are that measurement
-returned, not a prediction. §2 must run the calculation **forwards**: define an
-interatomic potential, take its second derivative at the minimum, sum over the
-coordination number and the loading direction, and show what survives of the bare
-`530 N/m` Ca–O pair stiffness that would otherwise predict `2200 GPa` for apatite.
-When it succeeds, flip the `E_apatite` / `E_collagen` markers from `measured` to
-`derived` (or say plainly why they must stay `measured`).
+Its content spec is `chemistry-audit-and-plan.md` §2.3. §3 is the section §1 explicitly
+deferred to: §1 Proposition 1.1 derived the split
+`Δg = Σνᵢμᵢ° + k_BT Σνᵢ ln(cᵢ/cᵢ°)` and then said that assembling it into
+`ΔG = ΔG° + R_gT ln Q` "is §3's headline result, not this section's". §3 owes that
+assembly, the equilibrium condition from setting `ΔG = 0`, and reaction coupling — how
+an unfavourable reaction runs on a favourable one. Its named customers are Module 5's
+crossbridge energetics, Module 4's swelling, and every pump in the book. §1 already
+paid the ATP debt in thermal quanta (19.4 k_BT → a crossbridge cannot average more than
+8.30 pN over Module 5's 10 nm stroke); §3 must not re-derive that, only price the
+direction and the coupling.
 
-Three standing constraints:
+Four standing constraints:
 
-1. **Rigor parity binds §2 hardest.** A derived `E_apatite` beside an asserted
-   `E_collagen` is the Module 6 §6 defect in a new place. Collagen's fibril
-   stiffness is hydrogen-bonded and architectural; if §2 cannot do it forwards,
-   say so and hand it to §4, rather than boxing an assertion beside a proof.
-2. **The chemistry symbol namespace is already fixed** in §2.2c's canonical-name
-   table, extended by §1's list above. Module 0's Appendix follows that record.
-   Register `k_bond` there; §2.2c has no entry for it.
-3. When §2 lands, flip its TOC entry in `module00.html` from
-   `<span class="pending">` to a link, update the "§0 and §1 are complete" note
-   below the TOC, and re-run `autolink_sections.py` — 27 forward `§N` refs are
-   still unlinked and will resolve as sections land.
+1. **Rigor parity binds.** §2 boxed five results and proved every one. A boxed
+   `ΔG° = −R_gT ln K_eq` sitting beside an asserted chemical-potential relation is the
+   Module 6 §6 defect in a new place.
+2. **Ask where every table value came from.** The §2 lesson: `n` looked like an
+   electron-configuration integer and was really a compressibility fit. Standard free
+   energies of formation, `K_eq` values and `ΔH` values all carry the same question,
+   and the provenance marker must say which.
+3. **The chemistry symbol namespace** is fixed in §2.2c's canonical-name table,
+   extended by §1's and §2's lists above. Note the fresh collision: `K` is a bulk
+   modulus in §2 and wants to be an equilibrium constant in §3 — resolve it at first
+   use (`K_eq` is suggested above).
+4. When §3 lands, flip its TOC entry in `module00.html` from `<span class="pending">`
+   to a link, update the "§0, §1 and §2 are complete" note below the TOC, and re-run
+   `autolink_sections.py` — 26 forward `§N` refs are still unlinked and will resolve
+   as sections land (`rm` the `.bak` it leaves).
 
 Then, in order (full traces in `chemistry-audit-and-plan.md` §2.2b and Part 3):
 Module 5 → Module 2 → Module 6 → Module 4 → Module 14 → Modules 8/9 →
@@ -294,6 +353,27 @@ gates live the same way and changing that convention was not asked for.
 - `scratchpad/tools/extract.py` (every `<pre><code>` block out to a runnable `.py`),
   `txt.py` (dump a line range with `<svg>` collapsed, UTF-8, never truncated),
   `apply_skel.py`.
+- **Module 0 §2 scratch (regenerate from the pattern; the durable record is
+  `module00.html`):** `nums2.py` (verifies every §2 number forward — pair stiffness,
+  the three rocksalt controls by both routes, apatite, the `α_M/12` decomposition and
+  the five bond rungs in `k_BT`; writes `nums2.json`), `gen2.py` (Figs. 5–8, writes
+  `svg2.json`), `sec2.html` (the §2 prose fragment), `assemble2.py` (splices fragment
+  plus figures between `<!-- SEC2 -->` markers — idempotent), `fix2.py` (the 31
+  reviewer edits, every anchor asserted unique before any write), `txt.py` (dump a line
+  range with `<svg>` collapsed).
+  - **Figure lessons worth reusing.** A predicted-vs-measured panel must be kept
+    **square** (equal pixels per decade on both axes) or its 45° reference lines are
+    not 45°, and a "perpendicular" label offset silently lands on a line. A descent
+    ladder should use **evenly spaced rows with bar lengths ∝ log E** (152 px/decade
+    from a 10 GPa base), not a true log axis — 143, 114 and 104 GPa are unreadable on
+    one. Put curve identities in a **legend**, not inline, whenever two curves converge
+    (the Born attraction and the sum coincide beyond 0.35 nm). And stop an asymptotic
+    curve before it runs along an axis line, or it will strike through legend text.
+  - **Two authoring traps hit this session, both already in memory:** `\'` inside a
+    Python raw string keeps the backslash, so an anchor containing an apostrophe needs
+    `"""…"""` quoting; and `module00.html` spells the section sign as a literal `§` and
+    its dashes as `&ndash;`/`&#8212;` inconsistently, so an anchor written with
+    `&#167;` matches nothing. Grep the exact bytes before writing an anchor.
 - **Module 0 §1 scratch (regenerate from `gen1.py`'s pattern if needed):**
   `nums1.py` (verifies every §1 number at 310.15 K), `gen1.py` (the three §1
   figures — a `txt`/`sub` helper, a vertical-ladder idiom shared by Figs. 2 and 3
