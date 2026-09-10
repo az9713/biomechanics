@@ -809,7 +809,7 @@ print("gel time  tau = h^2 / D         =", h**2 / D, "s")</code></pre></div>
 <polyline points="78.0,218.2 95.8,209.5 113.6,198.5 131.4,184.7 149.2,167.5 165.0,148.4 178.9,128.2 190.7,107.8 192.7,104.1 194.7,128.7 200.6,155.7 208.5,173.4 216.4,185.0 224.3,193.8 232.3,200.8 240.2,206.6 248.1,211.5 256.0,215.7 263.9,219.2 271.8,222.1 279.7,224.3 287.6,225.8 295.5,226.7 303.5,227.1 311.4,227.3 319.3,227.4 335.1,227.4 360.8,227.4 400.4,227.4 432.0,227.4" fill="none" stroke="#7a1f1f" stroke-width="2.4"/>
 <circle cx="192.7" cy="104.1" r="3.6" fill="#7a1f1f"/>
 <text x="198" y="100" font-size="9" fill="#7a1f1f" text-anchor="start">peak &#8776; 6.5 &#963;<tspan baseline-shift="sub" font-size="7">&#8734;</tspan></text>
-<text x="198" y="111" font-size="8.5" fill="#7a1f1f" text-anchor="start">(fluid pressurized, <a class="secref" href="#fluidload">§4</a>)</text>
+<text x="198" y="111" font-size="8.5" fill="#7a1f1f" text-anchor="start">(fluid pressurized, §4)</text>
 <line x1="327.9" y1="250" x2="327.9" y2="120" stroke="#555" stroke-width="1" stroke-dasharray="3 2"/>
 <text x="332" y="128" font-size="9" fill="#555" text-anchor="start">&#964; &#8776; 1.9 h</text>
 <text x="325" y="150" font-size="8.5" fill="#9a6a20" text-anchor="end" font-style="italic">relaxes to the drained matrix</text>
@@ -999,7 +999,7 @@ $$S=\frac{\eta\,U}{N},$$
 <rect x="362" y="92" width="94" height="11" fill="url(#b_cart)"/>
 <g fill="#7fb6d8" opacity="0.6"><circle cx="375" cy="98" r="1.4"/><circle cx="395" cy="99" r="1.4"/><circle cx="415" cy="98" r="1.4"/><circle cx="440" cy="99" r="1.4"/><circle cx="385" cy="101" r="1.4"/><circle cx="425" cy="101" r="1.4"/></g>
 <g stroke="#2a6ca8" stroke-width="1.8" marker-end="url(#a_blu)"><line x1="380" y1="92" x2="380" y2="46"/><line x1="409" y1="92" x2="409" y2="46"/><line x1="438" y1="92" x2="438" y2="46"/></g>
-<text x="409" y="120" font-size="9" fill="#333" text-anchor="middle">&#956; &#8776; 0.005</text><text x="409" y="132" font-size="7.5" fill="#2a6ca8" text-anchor="middle">fluid carries load (<a class="secref" href="#fluidload">§4</a>)</text>
+<text x="409" y="120" font-size="9" fill="#333" text-anchor="middle">&#956; &#8776; 0.005</text><text x="409" y="132" font-size="7.5" fill="#2a6ca8" text-anchor="middle">fluid carries load (§4)</text>
 </svg><figcaption><b>Lubrication regimes.</b> A surface slides (speed $U$) over cartilage. <em>Boundary</em>: surfaces nearly touch; adsorbed molecular layers (lubricin, hyaluronic acid) bear the load. <em>Mixed</em>: patches of film and contact. <em>Fluid-film</em>: a full fluid layer separates the surfaces, and friction is viscous drag. <em>Biphasic</em>: the interstitial fluid inside the porous cartilage is pressurized (<a class="secref" href="#fluidload">§4</a>) and carries the load, so almost no stress reaches the solid contact — the dominant mode in real joints.</figcaption></figure>
 
 <p>A compact model captures the first three: $\mu(S)=\mu_{\rm bl}/\big(1+(S/S_0)^2\big)+\alpha S$ — a <b>boundary term</b> $\mu_{\rm bl}$ that rules when slow/heavy, plus a <b>hydrodynamic term</b> $\alpha S$ that rules when fast/light. Its three constants are <em>assumed</em>, not measured here: take $\mu_{\rm bl}=0.15$, the intrinsic drained friction $\mu_{\rm eq}$ of the boxed law below, so that both models share one boundary value; and choose $S_0=0.5$ and $\alpha=0.012$ to put the film minimum near $\mu\approx0.03$, a representative engineered bearing (Appendix). Nothing in the argument turns on their exact values — what matters is the <em>shape</em>, and specifically that the curve rises steeply at low $S$. Compute it:</p>
@@ -1113,10 +1113,10 @@ for t in [1, 60, 3600, 20000]:
 <g fill="#fbeeea" stroke="#b03a2e" stroke-width="1"><rect x="171" y="18" width="128" height="48" rx="6"/><rect x="324" y="78" width="128" height="48" rx="6"/><rect x="324" y="198" width="128" height="48" rx="6"/><rect x="171" y="262" width="128" height="48" rx="6"/><rect x="18" y="198" width="128" height="48" rx="6"/><rect x="18" y="78" width="128" height="48" rx="6"/></g>
 <g font-size="9.5" fill="#333" text-anchor="middle">
 <text x="235" y="38">proteoglycan loss</text><text x="235" y="51" font-size="8" fill="#777">(aggrecanase, MMP)</text>
-<text x="388" y="98">&#8595; fixed charge c<tspan baseline-shift="sub" font-size="7">F</tspan></text><text x="388" y="111">&#8595; swelling &#960;  (<a class="secref" href="#donnan">§2</a>)</text>
-<text x="388" y="218">&#8593; permeability k</text><text x="388" y="231">&#8595; gel time &#964;  (<a class="secref" href="#biphasic">§3</a>)</text>
-<text x="235" y="282">&#8595; fluid load</text><text x="235" y="295">support F  (<a class="secref" href="#fluidload">§4</a>)</text>
-<text x="82" y="218">&#8593; friction &#956;  (<a class="secref" href="#lubrication">§7</a>)</text><text x="82" y="231">&#8593; contact peak (<a class="secref" href="#contact">§6</a>)</text>
+<text x="388" y="98">&#8595; fixed charge c<tspan baseline-shift="sub" font-size="7">F</tspan></text><text x="388" y="111">&#8595; swelling &#960;  (§2)</text>
+<text x="388" y="218">&#8593; permeability k</text><text x="388" y="231">&#8595; gel time &#964;  (§3)</text>
+<text x="235" y="282">&#8595; fluid load</text><text x="235" y="295">support F  (§4)</text>
+<text x="82" y="218">&#8593; friction &#956;  (§7)</text><text x="82" y="231">&#8593; contact peak (§6)</text>
 <text x="82" y="98">matrix overload</text><text x="82" y="111">+ surface wear</text>
 </g>
 <g stroke="#b03a2e" stroke-width="2" fill="none" marker-end="url(#a_mus)">
@@ -1219,15 +1219,15 @@ $$G=\underbrace{\frac{\partial\ln d}{\partial\ln k}}_{\text{this module}}\;\cdot
 <line x1="172" y1="126" x2="137" y2="97"/>
 </g>
 <ellipse cx="235" cy="150" rx="94" ry="42" fill="#eef4f8" stroke="#2a6ca8" stroke-width="1.4"/>
-<g text-anchor="middle"><text x="235" y="142" font-size="10.5" fill="#2a6ca8" font-weight="bold">a charged, fluid-filled</text><text x="235" y="155" font-size="10.5" fill="#2a6ca8" font-weight="bold">porous solid</text><text x="235" y="170" font-size="9" fill="#555">&#8706;u/&#8706;t = H<tspan baseline-shift="sub" font-size="7">A</tspan>k &#8706;&#178;u/&#8706;z&#178;  (<a class="secref" href="#biphasic">§3</a>)</text></g>
+<g text-anchor="middle"><text x="235" y="142" font-size="10.5" fill="#2a6ca8" font-weight="bold">a charged, fluid-filled</text><text x="235" y="155" font-size="10.5" fill="#2a6ca8" font-weight="bold">porous solid</text><text x="235" y="170" font-size="9" fill="#555">&#8706;u/&#8706;t = H<tspan baseline-shift="sub" font-size="7">A</tspan>k &#8706;&#178;u/&#8706;z&#178;  (§3)</text></g>
 <g fill="#f7f7f7" stroke="#999" stroke-width="1"><rect x="177" y="12" width="116" height="40" rx="6"/><rect x="335" y="76" width="124" height="40" rx="6"/><rect x="335" y="184" width="124" height="40" rx="6"/><rect x="177" y="248" width="116" height="40" rx="6"/><rect x="11" y="184" width="124" height="40" rx="6"/><rect x="11" y="76" width="124" height="40" rx="6"/></g>
 <g font-size="9.5" fill="#333" text-anchor="middle">
-<text x="235" y="28">resting swelling</text><text x="235" y="41">pre-stress &#960;  (<a class="secref" href="#donnan">§2</a>)</text>
-<text x="397" y="92">fluid carries the</text><text x="397" y="105">load, F &#8594; 1  (<a class="secref" href="#fluidload">§4</a>)</text>
-<text x="397" y="200">stress relaxation</text><text x="397" y="213">&amp; creep  (<a class="secref" href="#relaxlab">§5</a>)</text>
-<text x="235" y="264">flattened contact</text><text x="235" y="277">pressure  (<a class="secref" href="#contact">§6</a>)</text>
-<text x="73" y="200">sub-ice friction</text><text x="73" y="213">&#956; = &#956;<tspan baseline-shift="sub" font-size="7">eq</tspan>(1&#8722;F)  (<a class="secref" href="#lubrication">§7</a>)</text>
-<text x="73" y="92">osteoarthritis =</text><text x="73" y="105">loss of support (<a class="secref" href="#degeneration">§8</a>)</text>
+<text x="235" y="28">resting swelling</text><text x="235" y="41">pre-stress &#960;  (§2)</text>
+<text x="397" y="92">fluid carries the</text><text x="397" y="105">load, F &#8594; 1  (§4)</text>
+<text x="397" y="200">stress relaxation</text><text x="397" y="213">&amp; creep  (§5)</text>
+<text x="235" y="264">flattened contact</text><text x="235" y="277">pressure  (§6)</text>
+<text x="73" y="200">sub-ice friction</text><text x="73" y="213">&#956; = &#956;<tspan baseline-shift="sub" font-size="7">eq</tspan>(1&#8722;F)  (§7)</text>
+<text x="73" y="92">osteoarthritis =</text><text x="73" y="105">loss of support (§8)</text>
 </g>
 </svg><figcaption><b>One idea, six phenomena.</b> The resting swelling pre-stress (<a class="secref" href="#donnan">§2</a>), the time-dependent fluid load support (<a class="secref" href="#fluidload">§4</a>), stress relaxation and creep (<a class="secref" href="#relaxlab">§5</a>), the flattened contact pressure (<a class="secref" href="#contact">§6</a>), the sub-ice friction (<a class="secref" href="#lubrication">§7</a>), and the osteoarthritis cascade (<a class="secref" href="#degeneration">§8</a>) are not six separate theories — they are one biphasic model viewed from six sides.</p></figcaption></figure>
 
