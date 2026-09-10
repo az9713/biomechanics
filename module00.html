@@ -92,11 +92,11 @@ window.MathJax = {
 <li><b>5.</b> <a href="#water">Water, ions, and the electric double layer</a></li>
 <li><b>6.</b> <a href="#kinetics">Kinetics: mass action, cooperativity, Arrhenius</a></li>
 <li><b>7.</b> <a href="#macro">The macromolecules</a></li>
-<li><b>8.</b> <span class="pending">Computational lab — binding equilibrium and a temperature sweep</span></li>
+<li><b>8.</b> <a href="#lab">Computational lab — binding equilibrium and a temperature sweep</a></li>
 <li><b>9.</b> <span class="pending">What the model captures and misses; diagnostics and problems</span></li>
 <li><span class="pending">Appendix — notation, constants, chemical parameter table</span></li>
 </ul>
-<p class="small" style="margin:.4rem 0 0"><a class="secref" href="#origin">§0</a>&#8211;<a class="secref" href="#macro">§7</a> are complete. §8, §9 and the Appendix are in progress; their entries become links as they are built.</p>
+<p class="small" style="margin:.4rem 0 0"><a class="secref" href="#origin">§0</a>&#8211;<a class="secref" href="#lab">§8</a> are complete. §9 and the Appendix are in progress; their entries become links as they are built.</p>
 </div>
 
 <hr>
@@ -1356,8 +1356,302 @@ $$[\mathrm{ES}] = \frac{\left([\mathrm E]_{\text{tot}} - [\mathrm{ES}]\right)c}{
 
 <p>What this section has <em>not</em> done should be equally clear, because it is the boundary of what a chemistry module can claim. It does not predict a persistence length: that needs the bending stiffness of three wound chains, which is a mechanics calculation. It does not predict how much proteoglycan a chondrocyte secretes, or how much collagen a tendon contains, because those are outcomes of regulation rather than of chemistry. And it does not predict a $\mathrm{p}K_a$ in a protein, only explain why it shifts. The module's honest position is that chemistry fixes the <em>per-molecule</em> quantities and biology fixes <em>how many</em>, and every tissue property this course computes is a product of one of each.</p>
 
-<p><span class="secref">§8</span> is the computational lab: two of this module's equilibria solved numerically rather than analytically, because both of the interesting ones &#8212; a binding equilibrium where the ligand is <em>not</em> in excess, which <a class="secref" href="#kinetics">§6</a> Proposition 6.2 explicitly excluded, and a temperature sweep over a coupled reaction &#8212; have no closed form. Then <span class="secref">§9</span> tests the whole module.</p>
+<p><span class="secref"><a class="secref" href="#lab">§8</a></span> is the computational lab: two of this module's equilibria solved numerically rather than analytically, because both of the interesting ones &#8212; a binding equilibrium where the ligand is <em>not</em> in excess, which <a class="secref" href="#kinetics">§6</a> Proposition 6.2 explicitly excluded, and a temperature sweep over a coupled reaction &#8212; have no closed form. Then <span class="secref">§9</span> tests the whole module.</p>
 <!-- /SEC7 -->
+
+<!-- SEC8 -->
+<h2 id="lab">8. Computational lab: two equilibria with no closed form</h2>
+
+<p>Both labs in this section exist because a result earlier in the module was stated with a hypothesis attached, and the interesting case is the one the hypothesis excludes. <a class="secref" href="#kinetics">§6</a> Proposition 6.2 derived a binding curve and then said, in its own proof, that the ligand must be in excess over the sites &#8212; and that in a half-sarcomere holding <a class="secref" href="#mole">§1</a>'s $64$ free calcium ions "that assumption is badly violated". Lab 8A solves the violated case. <a class="secref" href="#thermo">§3</a> and <a class="secref" href="#kinetics">§6</a> each gave the calcium pump a temperature dependence, of different kinds, and neither asked what the two do together. Lab 8B runs them together, and the answer is not the one the earlier sections lead you to expect.</p>
+
+<p>Neither problem has a closed form. The first is a nonlinear conservation equation in one unknown; the second is a sweep over three temperature-dependent terms that do not cancel. Both are a few dozen lines of standard library Python, and both are printed in full so the numbers quoted below can be reproduced rather than believed.</p>
+
+<h3>Lab 8A &#8212; binding when the ligand runs out</h3>
+
+<p>The set-up is <a class="secref" href="#kinetics">§6</a>'s cooperative site with one hypothesis removed. There are $S_{\text{tot}} = 70\ \mu\mathrm M$ of troponin C regulatory sites in a muscle, with $K = 1\ \mu\mathrm M$ and $n_H = 3$. What is observable and controllable in an experiment is the <em>total</em> calcium, not the free concentration, and the two differ because the sites hold some of it. Conservation gives</p>
+
+<p class="keyresult">$$c_{\text{tot}} \;=\; c_{\text{free}} \;+\; S_{\text{tot}}\,\theta\!\left(c_{\text{free}}\right), \qquad \theta(c) = \frac{c^{\,n_H}}{K^{\,n_H} + c^{\,n_H}}.$$</p>
+
+<p>One equation, one unknown, and no closed form for $n_H = 3$ &#8212; substituting the Hill expression gives a quartic in $c_{\text{free}}$. But the left side is strictly increasing in $c_{\text{free}}$ (both terms are), so the root is unique and bisection is not merely adequate but guaranteed. That monotonicity is worth noticing rather than assuming: it is what licenses the bracket-and-halve loop in the code below, and it would fail for a system with negative cooperativity.</p>
+
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><!-- LAB8A --><pre><code>"""Lab 8A - binding when the ligand runs out.
+
+Section 6 Proposition 6.2 assumed the ligand concentration is fixed, and
+said in its own proof that a half-sarcomere holding 64 free calcium ions
+violates that badly. This solves the case it excluded: sites and ligand
+in comparable amounts, so binding depletes the free pool and the free
+concentration must be solved for rather than assumed.
+
+Conservation:   c_tot = c_free + S_tot * theta(c_free)
+with            theta(c) = c^n / (K^n + c^n)
+
+That is one nonlinear equation in c_free. There is no closed form for
+n = 3, so it is bracketed and bisected.
+"""
+
+K_HALF = 1.0e-6          # M, half-activation, section 6
+N_HILL = 3.0             # Hill coefficient, section 6
+S_TOT = 70.0e-6          # M, troponin C regulatory sites in muscle
+
+
+def theta(c, k_half=K_HALF, n=N_HILL):
+    """Fractional occupancy of the cooperative sites."""
+    if c &lt;= 0.0:
+        return 0.0
+    return c ** n / (k_half ** n + c ** n)
+
+
+def bound(c, s_tot=S_TOT):
+    """Calcium held on the sites, in M, at free concentration c."""
+    return s_tot * theta(c)
+
+
+def free_from_total(c_tot, s_tot=S_TOT, tol=1e-18):
+    """Solve c_tot = c_free + bound(c_free) for c_free, by bisection.
+
+    The residual is strictly increasing in c_free, so a sign change
+    brackets the unique root.
+    """
+    def residual(c):
+        return c + bound(c, s_tot) - c_tot
+
+    lo, hi = 0.0, max(c_tot, 1e-12)
+    while residual(hi) &lt; 0.0:
+        hi *= 2.0
+    for _ in range(200):
+        mid = 0.5 * (lo + hi)
+        if residual(mid) &lt; 0.0:
+            lo = mid
+        else:
+            hi = mid
+        if hi - lo &lt; tol:
+            break
+    return 0.5 * (lo + hi)
+
+
+def sweep(totals):
+    """Free concentration and occupancy across a range of total calcium."""
+    rows = []
+    for c_tot in totals:
+        c_free = free_from_total(c_tot)
+        rows.append({
+            "c_tot": c_tot,
+            "c_free": c_free,
+            "theta_true": theta(c_free),
+            "theta_naive": theta(c_tot),
+            "buffered": c_tot - c_free,
+        })
+    return rows
+
+
+def main():
+    totals = [10 ** (-7.0 + 3.2 * i / 60.0) for i in range(61)]
+    rows = sweep(totals)
+
+    print("total Ca    free Ca     occupancy   naive        buffered")
+    print("(uM)        (uM)        (true)      (c_tot used) fraction")
+    for r in rows[::10]:
+        print(f"{r['c_tot']*1e6:9.3f}  {r['c_free']*1e6:9.4f}  "
+              f"{r['theta_true']:9.4f}  {r['theta_naive']:9.4f}  "
+              f"{r['buffered']/r['c_tot']:9.3f}")
+
+    # the two questions the lab exists to answer
+    half = [r for r in rows if r["theta_true"] &gt;= 0.5][0]
+    print(f"\nhalf-occupancy needs a TOTAL calcium of "
+          f"{half['c_tot']*1e6:.2f} uM,")
+    print(f"  against a half-activation constant K of {K_HALF*1e6:.1f} uM:")
+    print(f"  a factor of {half['c_tot']/K_HALF:.1f} more calcium than the "
+          f"fixed-ligand answer.")
+
+    worst = max(rows, key=lambda r: r["theta_naive"] - r["theta_true"])
+    print(f"\nthe fixed-ligand formula overstates occupancy most at "
+          f"c_tot = {worst['c_tot']*1e6:.2f} uM:")
+    print(f"  it predicts {worst['theta_naive']:.3f}, the true answer is "
+          f"{worst['theta_true']:.3f}")
+    print(f"  an absolute error of "
+          f"{worst['theta_naive'] - worst['theta_true']:.3f}")
+
+    at_rest = free_from_total(0.1e-6)
+    print(f"\nand at a total of 0.1 uM the free concentration is "
+          f"{at_rest*1e9:.4f} nM,")
+    print(f"  because the sites hold "
+          f"{(0.1e-6 - at_rest)/0.1e-6*100:.1f}% of it.")
+    return rows
+
+
+if __name__ == "__main__":
+    main()</code></pre><!-- /LAB8A --></div>
+
+<p>Run it and the fixed-ligand formula turns out not to be a small correction away from the truth. It is wrong by almost the whole range of the dependent variable:</p>
+
+<table>
+<tr><th></th><th>fixed ligand (<a class="secref" href="#kinetics">§6</a>)</th><th>solved with depletion</th></tr>
+<tr><td>total calcium for half occupancy</td><td>$1.0\ \mu\mathrm M$</td><td>$\mathbf{36.3\ \mu\mathrm M}$</td></tr>
+<tr><td>occupancy at $c_{\text{tot}} = 3.98\ \mu\mathrm M$</td><td>$0.984$</td><td>$\mathbf{0.051}$</td></tr>
+<tr><td>free calcium when total is $0.1\ \mu\mathrm M$</td><td>$0.1\ \mu\mathrm M$</td><td>$\mathbf{72.9\ \mathrm{nM}}$</td></tr>
+</table>
+
+<p>Three things follow, and the third is the one that matters for the rest of the course.</p>
+
+<p>First, the apparent half-point moves by a factor of $36$. An experiment that titrates total calcium and fits Proposition 6.2 to the result will report a dissociation constant thirty-six times too large, and will report it with a good fit, because the depleted curve is still sigmoid. This is not a subtle bias; it is the difference between $1$ and $36\ \mu\mathrm M$, and it is why calcium-binding constants must be measured against <em>buffered</em> free calcium rather than against what was added.</p>
+
+<p>Second, the largest error is $0.93$ in absolute occupancy, at $4\ \mu\mathrm M$ total. At that point the fixed-ligand formula says the filament is fully activated and the truth is that it is five per cent activated. A model that made that substitution would predict a twitch where there is almost none.</p>
+
+<p>Third, and this is the physiology: at resting total calcium the sites hold $27\%$ of it, and the free concentration is $72.9\ \mathrm{nM}$ rather than $100$. The sites are not passive reporters of a calcium level; they are a substantial part of what <em>sets</em> it. A muscle's calcium buffering is dominated by proteins &#8212; troponin here, and parvalbumin and the pump itself in a fuller model &#8212; and that buffering is why <a class="secref" href="#mole">§1</a>'s $64$-ion count was a count of <em>free</em> ions and not of calcium present. The two differ by a factor of four at rest.</p>
+
+<figure id="fig24">
+<!-- FIG24 --><svg class="setupfig" viewBox="44 24 480 300" width="100%" role="img" aria-label="Fraction of sites bound against TOTAL calcium on a logarithmic axis, for 70 micromolar cooperative sites with a half-activation constant of 1 micromolar. A dashed brown curve is the fixed-ligand formula of section 6, which rises steeply and saturates by 4 micromolar. A solid navy curve is the same system solved with depletion, and it lags far behind, reaching half occupancy only at 36 micromolar of total calcium. A red bar marks the widest gap, 0.93 in absolute occupancy, at 4 micromolar total."><rect x="92.0" y="58.0" width="388.0" height="178.0" rx="0" fill="#f7f7f4" fill-opacity="1.0" stroke="none" stroke-width="0"/><polyline points="92.0,235.8 98.5,235.7 104.9,235.6 111.4,235.5 117.9,235.2 124.3,234.9 130.8,234.4 137.3,233.7 143.7,232.7 150.2,231.2 156.7,229.2 163.1,226.3 169.6,222.3 176.1,216.9 182.5,209.6 189.0,200.3 195.5,188.6 201.9,174.7 208.4,159.2 214.9,142.9 221.3,126.9 227.8,112.1 234.3,99.3 240.7,88.8 247.2,80.5 253.7,74.2 260.1,69.5 266.6,66.1 273.1,63.7 279.5,62.0 286.0,60.8 292.5,59.9 298.9,59.3 305.4,58.9 311.9,58.6 318.3,58.4 324.8,58.3 331.3,58.2 337.7,58.1 344.2,58.1 350.7,58.1 357.1,58.0 363.6,58.0 370.1,58.0 376.5,58.0 383.0,58.0 389.5,58.0 395.9,58.0 402.4,58.0 408.9,58.0 415.3,58.0 421.8,58.0 428.3,58.0 434.7,58.0 441.2,58.0 447.7,58.0 454.1,58.0 460.6,58.0 467.1,58.0 473.5,58.0 480.0,58.0" fill="none" stroke="#a0522d" stroke-width="2.4" stroke-dasharray="6 4"/><polyline points="92.0,235.9 98.5,235.9 104.9,235.9 111.4,235.9 117.9,235.8 124.3,235.8 130.8,235.8 137.3,235.7 143.7,235.6 150.2,235.6 156.7,235.5 163.1,235.4 169.6,235.3 176.1,235.2 182.5,235.0 189.0,234.9 195.5,234.7 201.9,234.5 208.4,234.2 214.9,234.0 221.3,233.6 227.8,233.3 234.3,232.9 240.7,232.4 247.2,231.9 253.7,231.3 260.1,230.6 266.6,229.8 273.1,229.0 279.5,228.0 286.0,226.8 292.5,225.6 298.9,224.1 305.4,222.5 311.9,220.6 318.3,218.5 324.8,216.1 331.3,213.4 337.7,210.4 344.2,206.9 350.7,203.0 357.1,198.6 363.6,193.5 370.1,187.9 376.5,181.4 383.0,174.2 389.5,166.0 395.9,156.7 402.4,146.2 408.9,134.4 415.3,121.1 421.8,106.1 428.3,89.4 434.7,71.3 441.2,58.8 447.7,58.0 454.1,58.0 460.6,58.0 467.1,58.0 473.5,58.0 480.0,58.0" fill="none" stroke="#1f3b5c" stroke-width="2.8"/><line x1="286.0" y1="226.8" x2="286.0" y2="60.8" stroke="#c0392b" stroke-width="1.8"/><circle cx="286.0" cy="60.8" r="4.0" fill="#a0522d" stroke="#fff" stroke-width="1.4"/><circle cx="286.0" cy="226.8" r="4.0" fill="#1f3b5c" stroke="#fff" stroke-width="1.4"/><text x="295.0" y="125.6" font-size="9.5" text-anchor="start" fill="#c0392b" font-weight="bold">the gap is 0.93</text><text x="295.0" y="138.1" font-size="9" text-anchor="start" fill="#c0392b">in absolute occupancy</text><line x1="106.0" y1="78.0" x2="128.0" y2="78.0" stroke="#a0522d" stroke-width="2.5" stroke-dasharray="6 4"/><text x="133.0" y="81.2" font-size="8.5" text-anchor="start" fill="#a0522d">if the ligand were in excess</text><line x1="106.0" y1="91.0" x2="128.0" y2="91.0" stroke="#1f3b5c" stroke-width="2.5"/><text x="133.0" y="94.2" font-size="8.5" text-anchor="start" fill="#1f3b5c">solved with depletion</text><line x1="92.0" y1="236.0" x2="480.0" y2="236.0" stroke="#333" stroke-width="1.4"/><line x1="92.0" y1="58.0" x2="92.0" y2="236.0" stroke="#333" stroke-width="1.4"/><line x1="92.0" y1="236.0" x2="92.0" y2="241.0" stroke="#333" stroke-width="1.0"/><text x="92.0" y="252.0" font-size="9" text-anchor="middle" fill="#333">10&#8722;&#8311;</text><line x1="213.2" y1="236.0" x2="213.2" y2="241.0" stroke="#333" stroke-width="1.0"/><text x="213.2" y="252.0" font-size="9" text-anchor="middle" fill="#333">10&#8722;&#8310;</text><line x1="334.5" y1="236.0" x2="334.5" y2="241.0" stroke="#333" stroke-width="1.0"/><text x="334.5" y="252.0" font-size="9" text-anchor="middle" fill="#333">10&#8722;&#8309;</text><line x1="455.8" y1="236.0" x2="455.8" y2="241.0" stroke="#333" stroke-width="1.0"/><text x="455.8" y="252.0" font-size="9" text-anchor="middle" fill="#333">10&#8722;&#8308;</text><line x1="87.0" y1="236.0" x2="92.0" y2="236.0" stroke="#333" stroke-width="1.0"/><text x="83.0" y="239.2" font-size="9" text-anchor="end" fill="#333">0</text><line x1="87.0" y1="191.5" x2="92.0" y2="191.5" stroke="#333" stroke-width="1.0"/><text x="83.0" y="194.7" font-size="9" text-anchor="end" fill="#333">0.25</text><line x1="87.0" y1="147.0" x2="92.0" y2="147.0" stroke="#333" stroke-width="1.0"/><text x="83.0" y="150.2" font-size="9" text-anchor="end" fill="#333">0.5</text><line x1="87.0" y1="102.5" x2="92.0" y2="102.5" stroke="#333" stroke-width="1.0"/><text x="83.0" y="105.7" font-size="9" text-anchor="end" fill="#333">0.75</text><line x1="87.0" y1="58.0" x2="92.0" y2="58.0" stroke="#333" stroke-width="1.0"/><text x="83.0" y="61.2" font-size="9" text-anchor="end" fill="#333">1</text><text x="286.0" y="268.0" font-size="10.5" text-anchor="middle" fill="#333">TOTAL calcium (M)</text><text x="54.0" y="147.0" font-size="10.5" text-anchor="middle" fill="#333" transform="rotate(-90 54.0 147.0)">fraction of sites bound</text><text x="472.0" y="206.0" font-size="9" text-anchor="end" fill="#555">70 &#956;M sites, K = 1 &#956;M</text></svg><!-- /FIG24 -->
+<figcaption>The same cooperative sites, plotted against <em>total</em> calcium, which is what an experiment controls. The dashed curve is <a class="secref" href="#kinetics">§6</a> Proposition 6.2 applied as if the free concentration equalled the total &#8212; the substitution the proposition's own hypothesis forbids. The solid curve is the same system with conservation solved. They are not close: the red bar marks the widest gap, $0.93$ in absolute occupancy at $4\ \mu\mathrm M$ total, where one says fully activated and the other says five per cent. The solid curve saturates only when the total exceeds the $70\ \mu\mathrm M$ of sites, which is the signature of depletion &#8212; the curve's position is set by the site <em>concentration</em>, not by the binding constant.</figcaption>
+</figure>
+
+<h3>Lab 8B &#8212; the cooled pump, and which effect wins</h3>
+
+<p><a class="secref" href="#thermo">§3</a> costed the reticulum calcium pump at body temperature and found a margin of $-5.24\ \mathrm{kJ\,mol^{-1}}$ in a working muscle. <a class="secref" href="#kinetics">§6</a> then gave every rate constant an Arrhenius dependence with $E_a = 70\ \mathrm{kJ\,mol^{-1}}$. Cool the limb and both change. The naive expectation, and the one <a class="secref" href="#thermo">§3</a>'s language about a "thermodynamic stall point" invites, is that they change the same way: the pump gets both weaker and slower. Three temperature-dependent terms decide it:</p>
+
+<ol>
+<li>the standard free energy, through $\Delta G^{\circ\prime}(T) = \Delta H^{\circ\prime} - T\Delta S^{\circ\prime}$, which by <a class="secref" href="#thermo">§3</a> makes ATP <em>weaker</em> as $T$ falls (because $\Delta S^{\circ\prime} \gt 0$);</li>
+<li>the concentration term $R_gT\ln Q$, which is proportional to $T$ and negative, so it also makes ATP weaker as $T$ falls;</li>
+<li>the calcium climb $2R_gT\ln(c_{\text{SR}}/c_{\text{cyt}})$, which is proportional to $T$ and <em>positive</em>, so cooling makes the gradient <b>cheaper to hold</b>.</li>
+</ol>
+
+<p>Terms 2 and 3 both scale with $T$ and have opposite signs, so they do not cancel; which wins is an arithmetic question, and $2\ln(10^4) = 18.4$ against $|\ln Q| = 8.47$ suggests the climb should dominate. The lab settles it.</p>
+
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><!-- LAB8B --><pre><code>"""Lab 8B - the cooled pump: two temperature effects, opposite signs.
+
+Section 3 costed the calcium pump at one temperature. Section 6 gave
+every rate an Arrhenius temperature dependence. Neither asked what
+happens to the two TOGETHER when a limb cools, and the answer is not the
+obvious one.
+
+Three things depend on temperature here:
+  1. the standard free energy, through dG0' = dH0' - T dS0'
+  2. the concentration term, through R_g T ln Q
+  3. the calcium climb, through 2 R_g T ln(ratio)
+and separately
+  4. every rate constant, through Arrhenius.
+
+Terms 2 and 3 are both proportional to T and have opposite signs, so
+they do not cancel. Run it and see which way the margin goes.
+"""
+
+import math
+
+R_G = 8.314462618        # J/(mol K)
+T_BODY = 310.15          # K
+DH0P = -20.5e3           # J/mol, ATP hydrolysis, section 3
+DG0P_298 = -30.5e3       # J/mol at 298.15 K, section 3
+DS0P = (DH0P - DG0P_298) / 298.15        # J/(mol K), assuming dCp = 0
+Q_WORK = 2.10e-4         # reaction quotient, working muscle, section 3
+CA_RATIO = 1.0e4         # SR lumen over cytosol, section 3
+N_CA = 2                 # calcium ions per ATP
+EA = 70.0e3              # J/mol, from Q_10 = 2.5, section 6
+
+
+def dg0_prime(t):
+    """Transformed standard free energy at temperature t, in J/mol."""
+    return DH0P - t * DS0P
+
+
+def dg_atp(t, q=Q_WORK):
+    """Free energy of ATP hydrolysis at temperature t, in J/mol."""
+    return dg0_prime(t) + R_G * t * math.log(q)
+
+
+def dg_climb(t, ratio=CA_RATIO, n=N_CA):
+    """Cost of lifting n calcium ions up the gradient, in J/mol."""
+    return n * R_G * t * math.log(ratio)
+
+
+def margin(t):
+    """Net free energy of the coupled pump cycle, in J/mol."""
+    return dg_atp(t) + dg_climb(t)
+
+
+def rate_factor(t, ea=EA, t_ref=T_BODY):
+    """Every rate constant, relative to its value at t_ref."""
+    return math.exp(-ea / R_G * (1.0 / t - 1.0 / t_ref))
+
+
+def sweep(temps):
+    return [{
+        "t_c": t - 273.15,
+        "dg0": dg0_prime(t) / 1e3,
+        "dg_atp": dg_atp(t) / 1e3,
+        "climb": dg_climb(t) / 1e3,
+        "margin": margin(t) / 1e3,
+        "rate": rate_factor(t),
+    } for t in temps]
+
+
+def main():
+    temps = [283.15 + 27.0 * i / 54.0 for i in range(55)]
+    rows = sweep(temps)
+
+    print(" T     dG0'    dG_ATP   climb   margin   rate")
+    print("(C)   (kJ/mol)                          (rel)")
+    for r in rows[::9]:
+        print(f"{r['t_c']:5.1f} {r['dg0']:8.2f} {r['dg_atp']:8.2f} "
+              f"{r['climb']:7.2f} {r['margin']:8.2f} {r['rate']:7.3f}")
+
+    cold = rows[0]
+    warm = [r for r in rows if abs(r["t_c"] - 37.0) &lt; 0.3][0]
+    print(f"\ncooling from {warm['t_c']:.1f} to {cold['t_c']:.1f} C:")
+    print(f"  the margin goes {warm['margin']:+.2f} -&gt; "
+          f"{cold['margin']:+.2f} kJ/mol, "
+          f"{'MORE' if cold['margin'] &lt; warm['margin'] else 'less'} "
+          f"favourable by {abs(cold['margin']-warm['margin']):.2f}")
+    print(f"  every rate goes 1.000 -&gt; {cold['rate']:.3f}, a "
+          f"{1/cold['rate']:.1f}x slowdown")
+
+    print("\nwhy the margin improves: the climb costs 2 R_g T ln(ratio),")
+    print("which is proportional to T, so cooling makes the gradient")
+    print(f"cheaper to hold ({warm['climb']:.2f} -&gt; {cold['climb']:.2f}),")
+    print("and that beats the weakening of ATP over the same interval")
+    print(f"({warm['dg_atp']:.2f} -&gt; {cold['dg_atp']:.2f}).")
+
+    stall = [r for r in rows if r["margin"] &gt;= 0.0]
+    print(f"\nthe pump does not stall anywhere in 10-37 C: "
+          f"{len(stall)} of {len(rows)} points have margin &gt;= 0.")
+    print("So a cold muscle's slow relaxation is KINETIC, not")
+    print("thermodynamic. Section 3's stall argument belongs to fatigue")
+    print("(rising phosphate and ADP), not to cold.")
+    return rows
+
+
+if __name__ == "__main__":
+    main()</code></pre><!-- /LAB8B --></div>
+
+<p>The two effects go in <em>opposite</em> directions, and the thermodynamic one goes the way the earlier sections did not lead you to expect:</p>
+
+<table>
+<tr><th></th><th>$37\ ^\circ\mathrm C$</th><th>$10\ ^\circ\mathrm C$</th><th>change</th></tr>
+<tr><td>ATP available</td><td>$-52.74$</td><td>$-49.93$</td><td>weaker by $2.81$</td></tr>
+<tr><td>cost of the $2\,\mathrm{Ca^{2+}}$ climb</td><td>$+47.50$</td><td>$+43.37$</td><td>cheaper by $4.13$</td></tr>
+<tr><td><b>net margin</b></td><td>$\mathbf{-5.24}$</td><td>$\mathbf{-6.57}$</td><td><b>more favourable by $1.33$</b></td></tr>
+<tr><td>every rate constant</td><td>$1.000$</td><td>$\mathbf{0.075}$</td><td><b>$13.3\times$ slower</b></td></tr>
+</table>
+
+<p>Cooling makes the pump <em>thermodynamically more comfortable</em> and <em>kinetically crippled</em>. The margin improves because the climb is a pure $R_gT$ quantity &#8212; holding a concentration ratio against thermal motion costs less when there is less thermal motion &#8212; and the $4.13\ \mathrm{kJ\,mol^{-1}}$ that buys beats the $2.81$ lost from ATP. Meanwhile the rate falls thirteenfold.</p>
+
+<p>That sharpens something <a class="secref" href="#thermo">§3</a> left loose. <a class="secref" href="#thermo">§3</a> observed that a fatigued muscle's pump approaches its thermodynamic stall point and offered that as one contributor to slowed relaxation. This lab shows the argument does <em>not</em> transfer to cold: across the whole range from $10$ to $37\ ^\circ\mathrm C$ the margin is negative at every one of the $55$ points computed, so the pump never comes near stalling. <b>A cold muscle's slow relaxation is purely kinetic.</b> <a class="secref" href="#thermo">§3</a>'s stall argument belongs to fatigue, where rising phosphate and ADP genuinely erode the margin, and it must not be reused for temperature. Two mechanisms that produce the same symptom &#8212; slow relaxation &#8212; and only one of them is thermodynamic.</p>
+
+<figure id="fig25">
+<!-- FIG25 --><svg class="setupfig" viewBox="44 26 500 300" width="100%" role="img" aria-label="Two quantities against temperature from 10 to 37 degrees Celsius. A solid green curve on the left axis is the net free energy margin of the coupled calcium pump, which becomes MORE negative and therefore more favourable as the muscle cools, going from minus 5.24 to minus 6.57 kilojoules per mole. A dashed red curve on the right axis is every rate constant relative to body temperature, which collapses to 0.075, a 13.3-fold slowdown. The pump never stalls: the margin is negative everywhere in the range. So a cold muscle's slow relaxation is kinetic, not thermodynamic."><rect x="96.0" y="60.0" width="374.0" height="174.0" rx="0" fill="#f7f7f4" fill-opacity="1.0" stroke="none" stroke-width="0"/><polyline points="96.0,203.9 102.9,202.1 109.9,200.4 116.8,198.7 123.7,197.0 130.6,195.3 137.6,193.6 144.5,191.9 151.4,190.2 158.3,188.4 165.3,186.7 172.2,185.0 179.1,183.3 186.0,181.6 193.0,179.9 199.9,178.2 206.8,176.5 213.7,174.7 220.7,173.0 227.6,171.3 234.5,169.6 241.4,167.9 248.4,166.2 255.3,164.5 262.2,162.8 269.1,161.0 276.1,159.3 283.0,157.6 289.9,155.9 296.9,154.2 303.8,152.5 310.7,150.8 317.6,149.1 324.6,147.3 331.5,145.6 338.4,143.9 345.3,142.2 352.3,140.5 359.2,138.8 366.1,137.1 373.0,135.4 380.0,133.6 386.9,131.9 393.8,130.2 400.7,128.5 407.7,126.8 414.6,125.1 421.5,123.4 428.4,121.7 435.4,119.9 442.3,118.2 449.2,116.5 456.1,114.8 463.1,113.1 470.0,111.4" fill="none" stroke="#2c6b3a" stroke-width="2.8"/><polyline points="96.0,220.9 102.9,220.2 109.9,219.5 116.8,218.7 123.7,217.9 130.6,217.0 137.6,216.1 144.5,215.2 151.4,214.2 158.3,213.2 165.3,212.1 172.2,211.0 179.1,209.8 186.0,208.5 193.0,207.2 199.9,205.8 206.8,204.4 213.7,202.9 220.7,201.3 227.6,199.7 234.5,198.0 241.4,196.1 248.4,194.3 255.3,192.3 262.2,190.2 269.1,188.0 276.1,185.8 283.0,183.4 289.9,180.9 296.9,178.4 303.8,175.6 310.7,172.8 317.6,169.9 324.6,166.8 331.5,163.6 338.4,160.2 345.3,156.7 352.3,153.0 359.2,149.2 366.1,145.2 373.0,141.0 380.0,136.7 386.9,132.1 393.8,127.4 400.7,122.5 407.7,117.3 414.6,112.0 421.5,106.4 428.4,100.5 435.4,94.4 442.3,88.1 449.2,81.5 456.1,74.6 463.1,67.5 470.0,60.0" fill="none" stroke="#c0392b" stroke-width="2.8" stroke-dasharray="6 4"/><circle cx="470.0" cy="111.4" r="4.4" fill="#2c6b3a" stroke="#fff" stroke-width="1.4"/><circle cx="96.0" cy="203.9" r="4.4" fill="#2c6b3a" stroke="#fff" stroke-width="1.4"/><circle cx="96.0" cy="220.9" r="4.4" fill="#c0392b" stroke="#fff" stroke-width="1.4"/><line x1="96.0" y1="234.0" x2="470.0" y2="234.0" stroke="#333" stroke-width="1.4"/><line x1="96.0" y1="60.0" x2="96.0" y2="234.0" stroke="#2c6b3a" stroke-width="1.4"/><line x1="470.0" y1="60.0" x2="470.0" y2="234.0" stroke="#c0392b" stroke-width="1.4"/><line x1="96.0" y1="234.0" x2="96.0" y2="239.0" stroke="#333" stroke-width="1.0"/><text x="96.0" y="250.0" font-size="9" text-anchor="middle" fill="#333">10</text><line x1="165.3" y1="234.0" x2="165.3" y2="239.0" stroke="#333" stroke-width="1.0"/><text x="165.3" y="250.0" font-size="9" text-anchor="middle" fill="#333">15</text><line x1="234.5" y1="234.0" x2="234.5" y2="239.0" stroke="#333" stroke-width="1.0"/><text x="234.5" y="250.0" font-size="9" text-anchor="middle" fill="#333">20</text><line x1="303.8" y1="234.0" x2="303.8" y2="239.0" stroke="#333" stroke-width="1.0"/><text x="303.8" y="250.0" font-size="9" text-anchor="middle" fill="#333">25</text><line x1="373.0" y1="234.0" x2="373.0" y2="239.0" stroke="#333" stroke-width="1.0"/><text x="373.0" y="250.0" font-size="9" text-anchor="middle" fill="#333">30</text><line x1="442.3" y1="234.0" x2="442.3" y2="239.0" stroke="#333" stroke-width="1.0"/><text x="442.3" y="250.0" font-size="9" text-anchor="middle" fill="#333">35</text><line x1="91.0" y1="234.0" x2="96.0" y2="234.0" stroke="#2c6b3a" stroke-width="1.0"/><text x="87.0" y="237.2" font-size="9" text-anchor="end" fill="#2c6b3a">&#8722;7.0</text><line x1="91.0" y1="199.2" x2="96.0" y2="199.2" stroke="#2c6b3a" stroke-width="1.0"/><text x="87.0" y="202.4" font-size="9" text-anchor="end" fill="#2c6b3a">&#8722;6.5</text><line x1="91.0" y1="164.4" x2="96.0" y2="164.4" stroke="#2c6b3a" stroke-width="1.0"/><text x="87.0" y="167.6" font-size="9" text-anchor="end" fill="#2c6b3a">&#8722;6.0</text><line x1="91.0" y1="129.6" x2="96.0" y2="129.6" stroke="#2c6b3a" stroke-width="1.0"/><text x="87.0" y="132.8" font-size="9" text-anchor="end" fill="#2c6b3a">&#8722;5.5</text><line x1="91.0" y1="94.8" x2="96.0" y2="94.8" stroke="#2c6b3a" stroke-width="1.0"/><text x="87.0" y="98.0" font-size="9" text-anchor="end" fill="#2c6b3a">&#8722;5.0</text><line x1="470.0" y1="234.0" x2="475.0" y2="234.0" stroke="#c0392b" stroke-width="1.0"/><text x="479.0" y="237.2" font-size="9" text-anchor="start" fill="#c0392b">0</text><line x1="470.0" y1="190.5" x2="475.0" y2="190.5" stroke="#c0392b" stroke-width="1.0"/><text x="479.0" y="193.7" font-size="9" text-anchor="start" fill="#c0392b">0.25</text><line x1="470.0" y1="147.0" x2="475.0" y2="147.0" stroke="#c0392b" stroke-width="1.0"/><text x="479.0" y="150.2" font-size="9" text-anchor="start" fill="#c0392b">0.5</text><line x1="470.0" y1="103.5" x2="475.0" y2="103.5" stroke="#c0392b" stroke-width="1.0"/><text x="479.0" y="106.7" font-size="9" text-anchor="start" fill="#c0392b">0.75</text><line x1="470.0" y1="60.0" x2="475.0" y2="60.0" stroke="#c0392b" stroke-width="1.0"/><text x="479.0" y="63.2" font-size="9" text-anchor="start" fill="#c0392b">1</text><text x="283.0" y="266.0" font-size="10.5" text-anchor="middle" fill="#333">temperature (&#176;C)</text><text x="56.0" y="147.0" font-size="10.5" text-anchor="middle" fill="#2c6b3a" transform="rotate(-90 56.0 147.0)">net margin (kJ mol&#8722;&#185;)</text><text x="512.0" y="147.0" font-size="10.5" text-anchor="middle" fill="#c0392b" transform="rotate(-90 512.0 147.0)">rate, relative to 37 &#176;C</text><text x="110.0" y="80.0" font-size="9.5" text-anchor="start" fill="#2c6b3a" font-weight="bold">margin: MORE favourable when cold</text><text x="110.0" y="92.0" font-size="9" text-anchor="start" fill="#2c6b3a">&#8722;5.24 &#8594; &#8722;6.57 kJ mol&#8722;&#185;</text><text x="458.0" y="190.0" font-size="9.5" text-anchor="end" fill="#c0392b" font-weight="bold">rate: collapses</text><text x="458.0" y="202.0" font-size="9" text-anchor="end" fill="#c0392b">a 13.3&#215; slowdown at 10 &#176;C</text></svg><!-- /FIG25 -->
+<figcaption>The same cooling, read two ways, on two axes &#8212; and they must be read separately, since the curves cross only because the axes are independent. On the left, in green, the net free-energy margin of the coupled pump cycle: it becomes <em>more</em> negative as the muscle cools, from $-5.24$ to $-6.57\ \mathrm{kJ\,mol^{-1}}$, because the calcium climb is proportional to $T$ and gets cheaper faster than ATP gets weaker. On the right, in red and dashed, every rate constant by <a class="secref" href="#kinetics">§6</a>'s Arrhenius law: it collapses to $0.075$, a $13.3\times$ slowdown. The margin never reaches zero anywhere in the range, which is the finding: cold does not stall this pump, it just makes it slow.</figcaption>
+</figure>
+
+<h3>What the labs establish</h3>
+
+<p>Two methodological points and two physiological ones.</p>
+
+<p><b>A hypothesis attached to a formula is not decoration.</b> <a class="secref" href="#kinetics">§6</a> Proposition 6.2 named its ligand-in-excess condition and Lab 8A shows that violating it moves the answer by a factor of $36$ in the half-point and by $0.93$ in occupancy. Every boxed result in this module carries hypotheses of that kind, and the reader now has one worked demonstration of what ignoring one costs.</p>
+
+<p><b>Two temperature dependencies of a coupled system need not agree in sign.</b> It is tempting, having established that cooling slows everything, to assume it weakens everything. Lab 8B shows the free-energy margin improving while the rate collapses, because $R_gT$ appears in the climb with the opposite sign to its appearance in the driving reaction. Neither <a class="secref" href="#thermo">§3</a> nor <a class="secref" href="#kinetics">§6</a> alone could have found that; it required running them together, which is what a lab is for.</p>
+
+<p>Physiologically: a muscle's calcium buffering is a first-order effect and not a correction, so free and total calcium must never be conflated. And the slowed relaxation of a cold muscle and of a fatigued muscle have <em>different</em> causes, kinetic in one case and partly thermodynamic in the other, which matters to any model that tries to explain both with one parameter.</p>
+
+<p><span class="secref">§9</span> closes the module: what this chemistry captures and what it misses, five diagnostics, and thirty problems.</p>
+<!-- /SEC8 -->
 
 <script>
 function copyCode(btn){
