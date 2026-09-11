@@ -299,7 +299,7 @@ that established this found 11 real overlaps the eye had passed.)
 
 ## Git / publish
 - `gh` CLI authenticated as **az9713** (active account). Pages already enabled.
-- Commit as: `git -c user.name="az9713" -c user.email="<your-email>" commit …`
+- Commit as: `git -c user.name="az9713" -c user.email="az9713@users.noreply.github.com" commit …` — **never the personal address: the repo is public** (personal info scrubbed from the tracked files 2026-09-10, `ec3e0d2`)
 - Commit message trailers (this environment's convention):
   ```
   Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
