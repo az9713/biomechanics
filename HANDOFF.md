@@ -40,7 +40,10 @@ before starting other work.
    tracked gate scripts are stale" below.
 
 Commits after `ec3e0d2` use `az9713@users.noreply.github.com` — now the `CLAUDE.md`
-convention — so they add nothing to item 1.
+convention — so they add nothing to the **email** half of item 1. They still end
+with the `Claude-Session:` trailer the environment requires, so the **session-URL**
+half grows by one per commit (254 at `8bbebd3`, this refresh not counted). Dropping the
+trailer is the user's call.
 
 ---
 
