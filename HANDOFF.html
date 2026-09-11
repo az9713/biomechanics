@@ -30,7 +30,7 @@
 <body>
 
 <h1>Handoff — the biomechanics course</h1>
-<p class="sub">Paused 2026-09-10 at commit <code>62e82ea</code>. Working tree clean; local <code>HEAD</code> and <code>origin/main</code> verified equal.</p>
+<p class="sub">Paused 2026-09-10 at commit <code>ec3e0d2</code>. Working tree clean; local <code>HEAD</code> and <code>origin/main</code> verified equal.</p>
 
 <div class="box">
 <strong>This page is the two-minute overview.</strong> The full record — every commit, every
@@ -43,6 +43,22 @@ stays the source of truth. Nothing here replaces it.
   <li>Read <code>CLAUDE.md</code> — the standing conventions (build loop, figure rules, git/publish).</li>
   <li>Run the full thirteen-gate hardening loop on any file you touch, then a
       <code>rigor-reviewer</code> pass on the section. Both are listed in <code>CLAUDE.md</code>.</li>
+</ol>
+</div>
+
+<div class="box">
+<strong>Two decisions are waiting on you.</strong> Raised 2026-09-10, not yet answered.
+<ol class="steps" style="margin:.4rem 0 0">
+  <li><strong>Rewrite git history to remove personal info?</strong> The tracked files are
+      clean at <code>ec3e0d2</code>. The history is not: 209 commits carry the email
+      <code>az9713@yahoo.com</code>, and 253 commit messages carry a
+      <code>claude.ai/code/session_…</code> URL. A rewrite (<code>git filter-repo</code> and a
+      force push over <code>main</code>) changes every commit hash, so the hashes cited in
+      eight docs (60 per-file distinct citations) must be remapped. GitHub keeps old SHAs
+      reachable after a force push; a full purge needs GitHub Support. Detail in
+      <code>HANDOFF.md</code>.</li>
+  <li><strong>Sync the three stale tracked gate scripts?</strong> Three file copies — see
+      &ldquo;Risks&rdquo; below.</li>
 </ol>
 </div>
 
@@ -214,7 +230,7 @@ computing something adjacent.</strong>
 </table>
 
 <hr>
-<p class="small">Generated 2026-09-10 at <code>62e82ea</code>. Overview only — <code>HANDOFF.md</code> is the source of truth.</p>
+<p class="small">Generated 2026-09-10 at <code>ec3e0d2</code>. Overview only — <code>HANDOFF.md</code> is the source of truth.</p>
 
 </body>
 </html>

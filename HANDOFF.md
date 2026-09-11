@@ -4,7 +4,7 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last written:** 2026-09-10 (seventh refresh — **the project is PAUSED here**, at `62e82ea`).
+**Last written:** 2026-09-10 (eighth refresh — **the project is PAUSED here**, at `ec3e0d2`).
 A two-minute overview of this file lives at `HANDOFF.html` (repo root, also live at
 https://az9713.github.io/biomechanics/HANDOFF.html). This file stays the source of truth.
 
@@ -18,6 +18,29 @@ reviewer passes on Module 0 §6–§9 and the Appendix, then Phase B step 2 — 
 Modules 5, 2, 6, 4, 14, 8/9 and 15/16/17. The §0 reviewer's note about registering bond
 stiffness is also closed: the Appendix notation table carries
 `$k_{\text{pair}}$, $k_{\text{bond}}$` with its collision note (verified 2026-09-10).
+
+**Two decisions are waiting on the user.** Raised 2026-09-10, not yet answered. Ask
+before starting other work.
+
+1. **Rewrite git history to remove personal info?** The tracked files are clean at
+   `ec3e0d2` (`git grep -Iic simon` returns nothing, and no email address was ever in a
+   tracked file). The history is not: **209 commits** carry the author or committer
+   email `az9713@yahoo.com`, and **253 commit messages** carry a
+   `claude.ai/code/session_…` URL. Removing them needs `git filter-repo` and a force
+   push over `main`. That changes every commit hash, so every cited hash must be
+   remapped — distinct hashes cited per file: 28 in this file, 13 in
+   `DEVELOPMENT_JOURNEY.md`, 6 in `HANDOFF.html`, 3 each in `CLAUDE.md`, `AGENTS.md` and
+   `CODEX_HANDOFF_REPORT.md`, 2 each in `DEVELOPMENT_JOURNEY_2.md` and
+   `DEVELOPMENT_JOURNEY_2.html` (`README.md` cites none). GitHub keeps old SHAs
+   reachable after a force push; a full purge needs GitHub Support. **Do not rewrite
+   without an explicit yes, and confirm again before the push.**
+2. **Sync the three stale tracked gate scripts?** Copy `check_provenance.py`,
+   `autolink_sections.py` and `checktex.py` from the live skill directory over
+   `.claude/skills/rigorous-explainer/scripts/`. Three file copies. Detail in "The
+   tracked gate scripts are stale" below.
+
+Commits after `ec3e0d2` use `az9713@users.noreply.github.com` — now the `CLAUDE.md`
+convention — so they add nothing to item 1.
 
 ---
 
