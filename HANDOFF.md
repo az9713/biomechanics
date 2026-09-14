@@ -4,9 +4,9 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last written:** 2026-09-14 (tenth refresh — **Phase B step 2: Module 5 DONE
-(`3703a91`, `8c64e58`) and Module 2 DONE (`c42bf3a`, `0a6caeb`); START at Module 6**;
-see "Phase B step 2" and "Next task"). Latest content commit `0a6caeb`.
+**Last written:** 2026-09-14 (eleventh refresh — **Phase B step 2: Modules 5, 2 DONE;
+Module 6 written (`98ddfe6`), reviewer findings pending; next Module 4**; see "Phase B
+step 2" and "Next task"). Latest content commit `98ddfe6`.
 A two-minute overview of this file lives at `HANDOFF.html` (repo root, also live at
 https://az9713.github.io/biomechanics/HANDOFF.html). This file stays the source of truth.
 
@@ -796,7 +796,24 @@ marker), numbers in a `nums5.py` with assertions, prov markers with the exact
 `data-sym` names above. Then the full thirteen-gate loop, `autolink_sections.py`
 (now with the cross-module guard), a `rigor-reviewer` pass, apply, commit, push.
 
-**Module 6 — scoped 2026-09-14, nothing written.** `module06.html` is 1274 lines, has
+**Module 6 — WRITTEN and committed (`98ddfe6`); NO reviewer findings applied.** A
+`rigor-reviewer` (`rev6`) was dispatched but the session was cleared before it
+reported, so **the first job of the next session is a fresh reviewer pass on Module 6's
+three new blocks** (prompt pattern: the one in memory `reviewer-results-truncate` —
+≤5 findings per message, DONE marker, "send the whole report as your final result").
+Known risks to give the reviewer: the label "Proposition 1′" (the module numbers
+results 1–11 through the file, so a primed number was used to avoid renumbering);
+the licence paragraph must not over-claim Module 0 §4 (it proves the Gaussian
+entropic bound; the 50 → 6 → 1 GPa ladder is *located*, not derived); the
+ligamentum-flavum three-quarters-elastin and the 0.75 × 1.1 = 0.8 MPa are stated as
+composition × measured modulus, not derived; `T` (temperature) vs Lemma 1's torque `T`. Three traces: §1 *Where the
+molecule's numbers come from* (Module 0 §7 → `L_collagen` module0; **Proposition 1′**
+gap/overlap 0.48/0.52 D from L_c/D = 4.478 vs measured gap 0.54 D; the Module 0 §4
+licence for a straight fibril being Hookean; `E`, `sigma_f` measured), §7 *two kinds of
+cross-link* (qualitative; AGE kinetics deferred to Module 14), §8 *elastin predicted
+forwards* (`E_elastin` module0; ligamentum flavum 0.75 × 1.1 = 0.8 MPa; +5.8 % thermal
+discriminator). Scratch: `nums6.py`, `gen6.py` (generates and splices its one figure).
+The original scoping notes follow. `module06.html` is 1274 lines, has
 **no `.prov` CSS** (copy the rule from `module02.html`'s `<style>`), 25 `<figure>`s cited
 by number 36 times (so new figures must be uncounted `<div>`s), and numbers its results
 without a section prefix (Definition 1, Proposition 1 … Proposition 11, Lemma 1) — a
@@ -812,8 +829,46 @@ Module 0 §7 side chains); **§8** — elastin's modulus predicted forwards (Mod
 Prop 4.3, `E_elastin` 1.55 MPa vs 1.1) for ligaments and fascia. Then the thirteen gates,
 a reviewer pass (ask for ≤5 findings per message, DONE marker), commit, push.
 
+**Module 4 — SCOPED 2026-09-14, nothing written into `module04.html`.** It is 2397
+lines, has **no `.prov` CSS**, numbers results with a section prefix (Proposition 3.1),
+and cites no figure by number (still use uncounted `<div>`s). Gate worklist
+(`provenance-baseline.txt`): `mu_fric` (line 102, §0), `c_F` (336, §2), `sigma_0` (564,
+§3 caption — an applied platen stress, declare *measured* as a loading choice), `E` and
+`nu` (877, §6), `H_A` (1314), `k_perm` (1776). Module 4's own symbols to respect: `Θ`
+is temperature, `F` is fluid load support (so never Faraday), `W` body weight, `D`
+diffusivity, `k` permeability, `S` Stribeck number; write an enzyme concentration as
+`[Enz]`, not `E`. The three traces, with numbers already verified in scratch
+`nums4.py` (written, **run it first**; `gen4.py` draws and splices one figure
+`m4cA` — π against `c_F` with a GAG-mass top scale — into a marker pair you must first
+place in the §8 subsection):
+- **§1, before the `<hr>` that precedes `<!-- … href="#donnan">§2</a> -->`:** `c_F` from
+  Module 0 §7 Def 7.3 — chondroitin-sulfate disaccharide 458 g/mol carries 2 charges,
+  so `c_F = 2·GAG/458`: 0.2 M ⇔ 45.8 mg/mL, and the healthy 30–70 mg/mL range gives
+  0.13–0.31 M. Marker `c_F` state `module0` (link `module00.html#macro`). **Do not
+  re-derive Donnan**: Module 4 §2 already proves it (Module 0 §5's marker records that
+  its "debt" there was false). Put the `E`, `nu`, `H_A`, `k_perm`, `sigma_0` markers
+  (all *measured*, with reasons: composite/porous properties from confined-compression
+  and indentation tests; `k` is a Darcy permeability that carries the water viscosity)
+  in the same subsection.
+- **§7, after the paragraph ending "…precisely when fluid support has failed.":**
+  viscosity's temperature dependence via Module 0 §6 Prop 6.3 — water 0.890 → 0.692
+  mPa·s from 25 to 37 °C is a ratio 1.286, `E_a` = 16.1 kJ/mol; Darcy `k ∝ 1/η`, so a
+  cold joint has a longer gel time and *more* fluid support: F(1 s) 0.982 → 0.984 and
+  `μ_eff` falls by 12 % (×0.882), while the classical Stribeck film term rises 29 %.
+  Marker `mu_fric` *measured* (lubricin/hyaluronan boundary layer, an interfacial
+  property this course does not compute).
+- **§8, before "<p>These two struts feed a single vicious cycle:</p>":** a Lemma 8.1
+  from Module 0 Prop 6.4 (Michaelis–Menten): aggrecan cleavage is first-order in the
+  substrate at `[A] ≪ K_M` and zero-order at saturation, so `c_F` decays exponentially
+  with `k_deg = k_cat[Enz]/K_M` — constants *measured*, not carried. Then the module's
+  own formula: π(0.2 M) = 156 kPa → π(0.1 M) = 42 kPa, **a 73 % loss of swelling
+  pressure for a 50 % loss of charge** (convexity of the Donnan law). Figure `m4cA`.
+- Appendix: notation has 3 columns, parameters 4; add rows for the GAG stoichiometry,
+  `E_a(η)`, and the 156/42 kPa pair.
+
 **Then the rest of step 2**, in the order `chemistry-audit-and-plan.md` §2.2b and
-Part 3 fix (Modules 5 and 2 done — **START at Module 6**):
+Part 3 fix (Modules 5, 2 done; 6 written, review pending; **START with Module 6's
+reviewer pass, then Module 4**):
 
 > ~~Module 5~~ → ~~Module 2~~ → **Module 6** → Module 4 → Module 14 → Modules 8/9 →
 > Modules 15/16/17
