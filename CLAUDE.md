@@ -98,6 +98,15 @@ modules** (MathJax + inline SVG/SMIL, no build step). Built with the
      way; prefer the leaner one for §5 onward. (Do the figure generators with Python;
      keep prose out of them.)
    - Write the section HTML (follow `rigorous-explainer` SKILL.md).
+   - **Adding a figure to a module that already cites figures by number (Phase B
+     traces): use an UNCOUNTED wrapper, never `<figure>`.** The `Fig. N` counter is
+     CSS, so one new `<figure>` in §2 renumbers every later "Fig. 19" in the prose
+     while every gate stays green. Pattern (Module 5 traces, 2026-09-14):
+     `<div id="figXX" style="text-align:center;margin:1.2rem 0"><!--FIG:XX--><svg
+     class="setupfig" …>…</svg><!--/FIG:XX--><p class="small" style="font-style:
+     italic">caption</p></div>`, cited from prose as `<a class="secref"
+     href="#figXX">plot</a>`. Same rule for new numbered results: add a new *type*
+     or a later number (Lemma 2.1 beside an existing Prop 2.1), never renumber.
    - Harden (see below) after every edit pass.
    - Preview a figure by extracting its `<figure>` to a standalone HTML and
      `shoot.py` → Read the PNG. (MathJax screenshots need the script's virtual-time
