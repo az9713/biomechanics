@@ -4,7 +4,8 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last written:** 2026-09-10 (eighth refresh — **the project is PAUSED here**, at `ec3e0d2`).
+**Last written:** 2026-09-13 (ninth refresh — **Phase B step 2 starts at Module 5**; see
+"Decisions of 2026-09-13" and "Next task"). Latest content commit `387508f`.
 A two-minute overview of this file lives at `HANDOFF.html` (repo root, also live at
 https://az9713.github.io/biomechanics/HANDOFF.html). This file stays the source of truth.
 
@@ -19,8 +20,27 @@ Modules 5, 2, 6, 4, 14, 8/9 and 15/16/17. The §0 reviewer's note about register
 stiffness is also closed: the Appendix notation table carries
 `$k_{\text{pair}}$, $k_{\text{bond}}$` with its collision note (verified 2026-09-10).
 
-**Two decisions are waiting on the user.** Raised 2026-09-10, not yet answered. Ask
-before starting other work.
+## Decisions of 2026-09-13 (the user answered; do not re-ask)
+
+1. **Step 2 session cut: continue across module boundaries.** Build Module 5, then
+   Module 2, then Module 6, and so on, in one session as far as context allows.
+   Still refresh this file at every module boundary. The session that recorded these
+   decisions was already at ~151k context before any trace was written, so it
+   handed off here instead of starting Module 5 at 3× cost per turn.
+2. **Gate scripts: synced** (`387508f`). The tracked copies of `check_provenance.py`,
+   `autolink_sections.py` and `checktex.py` now match the live ones. Item 2 below is
+   closed.
+3. **Module 0 §6–§9 + Appendix reviewer pass: deferred.** Go straight to the traces.
+   If a trace exposes an error in a cited Module 0 section, fix it then. The pass
+   stays an open item (see "Next task").
+4. **New problems: yes, append as K11+.** The three the plan names — fit `k_on`/`k_off`
+   from a measured twitch (Module 5), the AGE crossover sweep (Module 14), the
+   ATP-supply power–duration model (Module 8/9) — go after the existing K10 with a
+   figure, a Probes note and a Python-verified solution. No existing number changes.
+5. **Git-history rewrite (item 1 below): not decided, not needed for step 2.** Do not
+   raise it again unless the user does.
+
+**Two decisions were raised 2026-09-10.** Item 2 is closed above; item 1 stays open.
 
 1. **Rewrite git history to remove personal info?** The tracked files are clean at
    `ec3e0d2` (`git grep -Iic simon` returns nothing, and no email address was ever in a
@@ -670,8 +690,30 @@ Phase B step 1 is closed.
    passing) but "the arithmetic is right" is exactly the assurance that failed three
    times in this module.
 
-**Then Phase B step 2 — the traces into the existing modules**, in the order
-`chemistry-audit-and-plan.md` §2.2b and Part 3 fix:
+**Phase B step 2 — START HERE: Module 5.** Scoped 2026-09-13; nothing written yet.
+`module05.html` is 1840 lines, has `<!-- SECn-START/END -->` markers for §4–§10, and
+**has no `.prov` CSS rule** — copy lines 57–61 of `module00.html`'s `<style>` first,
+or the markers will parse but not render. Its gate worklist (`provenance-baseline.txt`):
+`F_max` (line 396, §1), `tau_relax` (834, §3), `tau_act`/`tau_deact` (978, §5),
+`v_max` (1578, §10). The four traces and where each enters (line numbers of 2026-09-13):
+
+| trace | enters at | cites in Module 0 |
+|---|---|---|
+| ATP ΔG vs power-stroke work; crossbridge efficiency ~55%, whole-muscle ~25% after SERCA overhead; a `.prov` for `F_max` via specific tension = heads/area × force/head × duty ratio | §2, new `<h3>` after the `active force ∝ attached crossbridges` keyresult (line 487), before "Force follows overlap" (489) | `#thermo` (ΔG at rest −62.5 / fatigued −52.7 kJ/mol; Prop 3.1 work bound; the 10.38/8.76 pN ceilings), `#mole` |
+| Nernst / GHK for the action potential, Na/K pump stoichiometry and the cost of excitability; SERCA 2:1 from Prop 3.5 | §3, new `<h3>` after "From voltage to calcium" (736–747), before "Calcium unblocks the sites" (749) | `#water` Prop 5.2 (line 1036), `#thermo` Prop 3.5 (733) and the pump ledger (746–777) |
+| cooperative Ca–troponin binding kinetics: `k_on`/`k_off` and the Hill coefficient **are** `tau_act`/`tau_deact`; `.prov` for both and for `tau_relax` | §5, new `<h3>` after "Why the asymmetry" (990–996), before "Activation is a low-pass filter" (998) | `#kinetics` "Cooperativity" (1208) and "Rate, mass action" (1177) |
+| `v_max` from Arrhenius / `Q_10`: why a cold muscle is weaker; `.prov` for `v_max` | §6, new `<h3>` after "Why speed costs force" (1040–1046), before "Power peaks in the middle" (1048) | `#kinetics` "Temperature: Arrhenius, and the cold muscle" (1233), "Enzymes" (1267) |
+| **K11** — fit `k_on`/`k_off` from the measured twitch of Modelling assumption 3.2 (inverse problem) | §10, after K10; the problem map table at line 1316 gets K11 in the §3–§5 row | — |
+
+Prop 3.1's proof (line 796) already derives the Hill form from all-or-none binding;
+trace 3 must build on it, not restate it. Every new subsection: Definition/Proposition
+with `.proof`, one computed figure (Python in scratchpad → SVG body → spliced by
+marker), numbers in a `nums5.py` with assertions, prov markers with the exact
+`data-sym` names above. Then the full thirteen-gate loop, `autolink_sections.py`
+(now with the cross-module guard), a `rigor-reviewer` pass, apply, commit, push.
+
+**Then the rest of step 2**, in the order `chemistry-audit-and-plan.md` §2.2b and
+Part 3 fix:
 
 > Module 5 → Module 2 → Module 6 → Module 4 → Module 14 → Modules 8/9 →
 > Modules 15/16/17
