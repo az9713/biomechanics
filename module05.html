@@ -50,6 +50,15 @@ window.MathJax = {
   hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; }
   .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; }
   .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+  /* Provenance of a borrowed constitutive parameter. Enforced by
+     check_provenance.py; contract in chemistry-audit-and-plan.md, sec. 2.2c.
+     It must RENDER, not just parse: a reader has to see which numbers the
+     book earns and which it quotes. */
+  .provnote{border-left:3px solid #c08a00;padding-left:.5em;display:inline-block}
+  .prov{ display:block; border-left:3px solid #c08a00; padding:.15rem .7rem;
+         margin:.5rem 0; font-size:.94em; color:#4a4a4a; }
+  .prov::before{ content:"provenance — "; font-variant:small-caps;
+                 letter-spacing:.04em; color:#8a6a00; }
   .codewrap{ position:relative; }
   .copybtn{ position:absolute; top:.5rem; right:.5rem; display:inline-flex; align-items:center; gap:.3rem;
     font:600 .72rem/1 ui-monospace,Consolas,monospace; color:var(--muted);
@@ -486,6 +495,64 @@ $F_{\text{active}} \;=\; \underbrace{a(t)}_{\text{how switched on}}\;\cdot\; \un
 
 <div class="keyresult" style="text-align:center">active force $\;\propto\;$ number of crossbridges attached at that instant.</div>
 
+<h3>What one stroke costs, and what one ATP can pay</h3>
+
+<p>&#8220;One ATP per cycle&#8221; is a price, and <a class="secref" href="module00.html#thermo">Module&nbsp;0 &#167;3</a> has put a number on it. The free energy released by hydrolysing one mole of ATP in a living muscle is not the tabulated standard value but $\Delta G = \Delta G^{\circ\prime} + R_gT\ln Q$ evaluated at the cell&#8217;s own composition (with $\Delta G^{\circ\prime}$ the standard free energy at pH&nbsp;7 and $Q = [\mathrm{ADP}][\mathrm{P_i}]/[\mathrm{ATP}]$ the reaction quotient at that composition), and the composition moves during work: $\Delta G = -62.5\ \mathrm{kJ\,mol^{-1}}$ in resting muscle and $-52.7\ \mathrm{kJ\,mol^{-1}}$ at the end of a fatiguing bout, the whole difference being the concentration term as phosphate accumulates. (Here $T$ is absolute temperature and $R_g$ the gas constant, as in Module&nbsp;0; this $T$ is not the blocked troponin unit that the proof of Proposition&nbsp;3.1 in <a class="secref" href="#ecc">&#167;3</a> uses locally.) Per molecule, dividing by Avogadro&#8217;s number $N_A$ and by the thermal energy $k_BT = 4.28\times10^{-21}\ \mathrm J$ at $37\ ^\circ\mathrm C$, one ATP is worth $24.2\,k_BT$ at rest and $20.4\,k_BT$ when fatigued.</p>
+
+<p>Against that budget set the work one stroke delivers. A head pulling with force $f_{\text{head}}$ through its stroke $d\approx10\ \mathrm{nm}$ does non-expansion work $W_{\text{ne}} = f_{\text{head}}\,d$ (written $W_{\text{ne}}$ rather than $W$, because $W$ is the bag&#8217;s weight in <a class="secref" href="#origin">&#167;0</a>). Single-molecule measurements put $f_{\text{head}}$ at $3$&#8211;$6\ \mathrm{pN}$; at $5\ \mathrm{pN}$ the stroke work is $5\times10^{-20}\ \mathrm J = 11.7\,k_BT$. Module&nbsp;0&#8217;s maximum-work theorem (its Proposition&nbsp;3.1, $W_{\text{ne}}\le-\Delta G$) then does two things at once. It caps the average force a head can exert over its stroke at $|\Delta G|/(N_A d)$, which is $10.38\ \mathrm{pN}$ resting and $8.75\ \mathrm{pN}$ fatigued (Module&nbsp;0 prints $8.76$ from its unrounded $\Delta G$) &#8212; both above the measured $3$&#8211;$6\ \mathrm{pN}$, so the ceiling is real but never binding, and fatigue is <em>not</em> the ceiling descending onto the head (Module&nbsp;0 &#167;3 says why: the measured force loss comes from phosphate acting on the cycle itself). And it defines the <b>crossbridge efficiency</b>, the fraction of one ATP&#8217;s free energy that leaves as work:</p>
+
+<div class="keyresult">$$\eta_{\text{xb}} \;=\; \frac{f_{\text{head}}\,d\,N_A}{|\Delta G|} \;=\; \begin{cases}0.48 &amp; \text{resting muscle},\\[2pt] 0.57 &amp; \text{end of a hard bout}\end{cases}\qquad(f_{\text{head}} = 5\ \mathrm{pN},\ d = 10\ \mathrm{nm}),$$</div>
+
+<p>with the range $0.29$&#8211;$0.58$ at rest across the measured $3$&#8211;$6\ \mathrm{pN}$. The fatigued efficiency is <em>higher</em> only because the denominator has shrunk: the same stroke work is a larger fraction of a cheaper ATP. An efficiency near one half is what a well-designed motor at the molecular scale looks like &#8212; the rest of the free energy is dissipated as heat in the irreversible steps of the cycle, exactly the shortfall from equality that Module&nbsp;0&#8217;s theorem allows for.</p>
+
+<div id="figm5cA" style="text-align:center;margin:1.2rem 0"><!--FIG:m5cA--><svg class="setupfig" viewBox="0 0 560 262" width="100%" role="img" aria-label="Horizontal bar chart in units of thermal energy: one ATP is worth 24.2 units in resting muscle and 20.4 when fatigued; one power stroke of 10 nanometres costs 14.0 units at 6 piconewtons, 11.7 at 5 and 7.0 at 3. At 5 piconewtons a stroke spends 48 percent of a resting ATP and 57 percent of a fatigued one. The thermodynamic force ceiling is 10.38 piconewtons resting and 8.75 fatigued, against a measured 3 to 6.">
+<rect x="250" y="34" width="251.7" height="20" rx="3" fill="#2a7d2a" opacity="0.85"/>
+<text x="242.0" y="48.0" font-size="9.5" text-anchor="end" fill="#333">one ATP, resting muscle (&#8722;62.5 kJ/mol)</text>
+<text x="507.7" y="48.0" font-size="9.5" text-anchor="start" fill="#2a7d2a">24.2 k<tspan baseline-shift="sub" font-size="7">B</tspan>T</text>
+<rect x="250" y="66" width="212.2" height="20" rx="3" fill="#2a7d2a" opacity="0.85"/>
+<text x="242.0" y="80.0" font-size="9.5" text-anchor="end" fill="#333">one ATP, fatigued muscle (&#8722;52.7 kJ/mol)</text>
+<text x="468.2" y="80.0" font-size="9.5" text-anchor="start" fill="#2a7d2a">20.4 k<tspan baseline-shift="sub" font-size="7">B</tspan>T</text>
+<rect x="250" y="98" width="145.5" height="20" rx="3" fill="#7a1f1f" opacity="0.85"/>
+<text x="242.0" y="112.0" font-size="9.5" text-anchor="end" fill="#333">one stroke at 6 pN &#215; 10 nm</text>
+<text x="401.5" y="112.0" font-size="9.5" text-anchor="start" fill="#7a1f1f">14.0 k<tspan baseline-shift="sub" font-size="7">B</tspan>T</text>
+<rect x="250" y="130" width="121.3" height="20" rx="3" fill="#7a1f1f" opacity="0.85"/>
+<text x="242.0" y="144.0" font-size="9.5" text-anchor="end" fill="#333">one stroke at 5 pN &#215; 10 nm</text>
+<text x="377.3" y="144.0" font-size="9.5" text-anchor="start" fill="#7a1f1f">11.7 k<tspan baseline-shift="sub" font-size="7">B</tspan>T</text>
+<rect x="250" y="162" width="72.8" height="20" rx="3" fill="#7a1f1f" opacity="0.85"/>
+<text x="242.0" y="176.0" font-size="9.5" text-anchor="end" fill="#333">one stroke at 3 pN &#215; 10 nm</text>
+<text x="328.8" y="176.0" font-size="9.5" text-anchor="start" fill="#7a1f1f">7.0 k<tspan baseline-shift="sub" font-size="7">B</tspan>T</text>
+<line x1="250" y1="24" x2="250" y2="186" stroke="#333" stroke-width="1.2"/>
+<line x1="250" y1="186" x2="530" y2="186" stroke="#333" stroke-width="1.2"/>
+<line x1="250.0" y1="186" x2="250.0" y2="190" stroke="#333"/>
+<text x="250.0" y="200.0" font-size="9" text-anchor="middle" fill="#555">0</text>
+<line x1="301.9" y1="186" x2="301.9" y2="190" stroke="#333"/>
+<text x="301.9" y="200.0" font-size="9" text-anchor="middle" fill="#555">5</text>
+<line x1="353.8" y1="186" x2="353.8" y2="190" stroke="#333"/>
+<text x="353.8" y="200.0" font-size="9" text-anchor="middle" fill="#555">10</text>
+<line x1="405.8" y1="186" x2="405.8" y2="190" stroke="#333"/>
+<text x="405.8" y="200.0" font-size="9" text-anchor="middle" fill="#555">15</text>
+<line x1="457.7" y1="186" x2="457.7" y2="190" stroke="#333"/>
+<text x="457.7" y="200.0" font-size="9" text-anchor="middle" fill="#555">20</text>
+<line x1="509.6" y1="186" x2="509.6" y2="190" stroke="#333"/>
+<text x="509.6" y="200.0" font-size="9" text-anchor="middle" fill="#555">25</text>
+<text x="385.0" y="216.0" font-size="10.5" text-anchor="middle" fill="#333">energy per event, in units of k<tspan baseline-shift="sub" font-size="7">B</tspan>T at 37 &#176;C</text>
+<text x="385.0" y="234.0" font-size="9.5" text-anchor="middle" fill="#7a1f1f">at 5 pN one stroke spends 48% of a resting ATP, 57% of a fatigued one</text>
+<text x="385.0" y="248.0" font-size="9.5" text-anchor="middle" fill="#2a7d2a">force ceiling |&#916;G|/(N<tspan baseline-shift="sub" font-size="7">A</tspan>d): 10.38 pN resting, 8.75 pN fatigued; measured 3&#8211;6 pN</text>
+</svg><!--/FIG:m5cA--><p class="small" style="font-style:italic;margin:.35rem 0 0">The ATP ledger, per head. Bars in units of $k_BT$ at $37\ ^\circ\mathrm C$: one ATP at Module&nbsp;0&#8217;s two measured compositions (green) against the work of one $10\ \mathrm{nm}$ stroke at three measured head forces (red). No red bar reaches a green one, which is the maximum-work theorem holding; at $5\ \mathrm{pN}$ the stroke spends about half the ATP, and the thermodynamic ceiling on the force lies well above what a head actually exerts.</p></div>
+
+<p>Not every ATP a muscle splits reaches a crossbridge. Ending the contraction costs ATP too: <a class="secref" href="#ecc">&#167;3</a> will meet the SERCA pump, which returns two calcium ions to the sarcoplasmic reticulum (the fibre&#8217;s internal calcium store) per ATP (Module&nbsp;0 &#167;3 proves two is the most thermodynamics allows), and the sodium pump that restores the membrane after each impulse. Measured on whole fibres, these pumps take a fraction $\phi_{\text{pump}}\approx0.30$&#8211;$0.40$ of the ATP turned over in a contraction. The muscle&#8217;s mechanical efficiency is therefore bounded by $\eta_{\text{xb}}(1-\phi_{\text{pump}}) = 0.29$&#8211;$0.34$ at rest. A whole muscle approaches that bound only at its best shortening speed. An isometric hold does no external work at any efficiency, and at every other speed a stroke delivers less than $f_{\text{head}}\,d$ (<a class="secref" href="#forcevelocity">&#167;6</a>). The $20$&#8211;$25\%$ quoted for whole-body exercise sits below this bound because it also carries the efficiency of <em>making</em> the ATP in the first place, which belongs to the energetics of locomotion (Modules&nbsp;8 and 9), not to this ledger.</p>
+
+<p>The same ledger, run per unit area instead of per head, says where the specific tension $\sigma$ of <a class="secref" href="#architecture">&#167;1</a> comes from:</p>
+
+<div class="lem"><b>Lemma 2.1 (specific tension from the crossbridge ledger).</b> Let a fibre hold $n_{\text{fil}}$ thick filaments per unit cross-sectional area of myofibril, each with $N_{\text{half}}$ heads per half-filament; let a fraction $\phi_{\text{att}}$ of those heads be attached at the instant of peak force in a maximal isometric contraction, each bearing $f_{\text{head}}$; and let myofibrils occupy a fraction $\chi$ of the fibre&#8217;s cross-section. Then the maximal isometric force per unit fibre area is
+$$\sigma \;=\; \chi\,n_{\text{fil}}\,N_{\text{half}}\,\phi_{\text{att}}\,f_{\text{head}}.$$</div>
+
+<div class="proof">Every half-sarcomere along a myofibril is in series, so the force through each is the same and equals the sum of the pulls of its attached heads, by the parallel-array picture above: $N_{\text{half}}\phi_{\text{att}}f_{\text{head}}$ per thick filament. Thick filaments across the myofibril&#8217;s cross-section act in parallel, so their forces add: $n_{\text{fil}}$ per unit area gives $n_{\text{fil}}N_{\text{half}}\phi_{\text{att}}f_{\text{head}}$ per unit myofibril area. Only the fraction $\chi$ of the fibre&#8217;s section is myofibril, the rest being mitochondria, reticulum and cytosol that bear no active load, which scales the force per unit <em>fibre</em> area by $\chi$. Where the hypotheses bind: the heads must be independent (Modelling assumption&nbsp;2.2 below), and $\phi_{\text{att}}$ must be the attached fraction at the instant of peak force, not the average over a cycle. <span class="qed">&#8718;</span></div>
+
+<p>Put in numbers from structure. X-ray diffraction gives the thick-filament lattice spacing $d_{10}\approx38\ \mathrm{nm}$ at rest length, which in a hexagonal lattice is one filament per $1670\ \mathrm{nm^2}$, $n_{\text{fil}} = 6.0\times10^{14}\ \mathrm{m^{-2}}$; a thick filament carries $294$ heads, so $N_{\text{half}} = 147$; myofibrils fill $\chi\approx0.83$ of a fibre. The two remaining inputs are the least certain, and the answer is only as good as they are: at $f_{\text{head}} = 5\ \mathrm{pN}$ and $\phi_{\text{att}} = 0.3$ the lemma gives $\sigma = 11\ \mathrm{N\,cm^{-2}}$; at $6\ \mathrm{pN}$ and $0.4$ it gives $17.6$; at $5\ \mathrm{pN}$ and $0.5$, $18.3$. The measured $20$&#8211;$35\ \mathrm{N\,cm^{-2}}$ of <a class="secref" href="#architecture">&#167;1</a> is therefore accounted for to within a factor of about two by counting heads, and the shortfall lives entirely in the attached fraction and the force per head.</p>
+
+<p><span class="prov" data-sym="F_max" data-state="measured">measured, not derived: the specific tension $\sigma = 30\ \mathrm{N\,cm^{-2}}$ behind every $F_{\max}$ in this module is a fibre measurement. Lemma&nbsp;2.1 reproduces its order of magnitude from filament spacing and head count, but its two decisive inputs are not independent of the measurement they are checking: the force per head is measured on isolated molecules in an optical trap (a focused laser that holds a bead and reads piconewton forces from its displacement), and the attached fraction $\phi_{\text{att}}$ is inferred from fibre stiffness and X-ray intensity in the <em>same</em> maximally activated fibres whose tension is being explained. A $\sigma$ built from those inputs is a consistency check on the molecular picture, not a prediction of the tissue number, and this module keeps $\sigma$ as the measured input it always was.</span></p>
+
 <h3>Force follows overlap</h3>
 
 <p>A head can only attach where there is a thin filament beside it to grab. The heads are spread (at nearly uniform density) along the thick filament everywhere <em>except</em> a central <b>bare zone</b> that carries no heads. So the number of heads that can attach is set by how much thin filament lies alongside the head-bearing part of the thick filament &#8212; the <b>overlap</b>. To turn "&#8733; attached heads" into "&#8733; overlap length" we make one modelling assumption explicit, because it is exactly what makes the derivation work:</p>
@@ -746,6 +813,78 @@ which shrinks <em>linearly</em> as $\ell$ grows. Normalising by its maximum, the
 
 <p>The pulse is transient because the SR immediately fights to reclaim its calcium. Studded through the SR membrane is the <b>SERCA</b> pump (a Ca&#178;&#8314;-ATPase) that spends one ATP to drag Ca&#178;&#8314; back inside &#8212; another entry in the module's chemical-energy ledger. Release then re-uptake makes the <em>calcium transient</em>: a sharp rise as the RyR dumps Ca&#178;&#8314;, and a decay of tens of milliseconds as SERCA pumps it away.</p>
 
+<h3>Where the voltage comes from: Nernst, the constant-field equation, and the cost of excitability</h3>
+
+<p>The action potential has so far been narrated &#8212; a depolarisation that &#8220;sweeps&#8221; the membrane &#8212; and the voltages in it have been taken as given. They are not free parameters. <a class="secref" href="module00.html#water">Module&nbsp;0 &#167;5</a> derives, from the equality of electrochemical potential across a membrane (its Proposition&nbsp;5.2, the Nernst equation), the one voltage at which an ion has no net tendency to cross:
+$$E_i \;=\; \frac{R_gT}{z_iF_{\text{Far}}}\ln\frac{c_{i,\text{out}}}{c_{i,\text{in}}},\qquad \frac{R_gT}{F_{\text{Far}}} = 26.73\ \mathrm{mV}\ \text{at}\ 37\ ^\circ\mathrm C,$$
+where $z_i$ is the ion&#8217;s valence, $c_i$ its concentration ($c$ is a concentration in this subsection only; the Hill curvature $c$ of <a class="secref" href="#forcevelocity">&#167;6</a> is a dimensionless number), and $F_{\text{Far}} = 96\,485\ \mathrm{C\,mol^{-1}}$ is the Faraday constant &#8212; written with its subscript in this module because $F$ is muscle force everywhere else in it, exactly the collision Module&nbsp;0 &#167;5 warned of. (The symbol $E_i$ is a potential, not a modulus.) For a skeletal-muscle fibre, with the interstitial and cytosolic concentrations Module&nbsp;0 tabulates, the four values are $E_{\mathrm K} = -95.0$, $E_{\mathrm{Na}} = +66.6$, $E_{\mathrm{Cl}} = -90.0$ and $E_{\mathrm{Ca}} = +130.9\ \mathrm{mV}$. A resting fibre sits near $-90\ \mathrm{mV}$: close to potassium and chloride, and $157\ \mathrm{mV}$ away from sodium. That gap is the stored energy an impulse spends.</p>
+
+<p>A membrane permeable to several ions settles not at any one Nernst potential but at a compromise weighted by how permeable it is to each. That compromise has a closed form under one idealisation, and it is the equation every voltage in this section rests on:</p>
+
+<div class="lem"><b>Lemma 3.1 (the Goldman&#8211;Hodgkin&#8211;Katz potential).</b> Let a membrane of thickness $L$ separate solutions of the monovalent ions $\mathrm{K^+}$, $\mathrm{Na^+}$ and $\mathrm{Cl^-}$; let each ion cross independently, by diffusion and by drift in the field, with permeability $P_i$; and assume the electric field inside the membrane is <em>uniform</em> (the constant-field assumption). Then the membrane potential $V = \phi_{\text{in}}-\phi_{\text{out}}$ (a voltage; the muscle volume $V$ of <a class="secref" href="#architecture">&#167;1</a> does not reappear) at which the total ionic current vanishes is
+$$\boxed{\;V \;=\; \frac{R_gT}{F_{\text{Far}}}\ln\frac{P_{\mathrm K}[\mathrm K^+]_{\text{out}} + P_{\mathrm{Na}}[\mathrm{Na}^+]_{\text{out}} + P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\text{in}}}{P_{\mathrm K}[\mathrm K^+]_{\text{in}} + P_{\mathrm{Na}}[\mathrm{Na}^+]_{\text{in}} + P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\text{out}}}\;}$$
+Only the <em>ratios</em> of the permeabilities matter, and with a single permeant ion the expression collapses to that ion&#8217;s Nernst potential.</div>
+
+<div class="proof">Take the $x$ axis across the membrane from $x=0$ (outside) to $x=L$ (inside), and write $u = F_{\text{Far}}V/(R_gT)$ for the dimensionless potential. The flux of an ion of valence $z$ (moles per area per time, positive inward) is the Nernst&#8211;Planck flux, diffusion plus drift down the electrochemical gradient of Module&nbsp;0 Definition&nbsp;5.3:
+$$J \;=\; -D\left(\frac{\mathrm dc}{\mathrm dx} + z\,c\,\frac{F_{\text{Far}}}{R_gT}\frac{\mathrm d\phi}{\mathrm dx}\right),$$
+with $D$ the ion&#8217;s diffusion coefficient inside the membrane, and $u$ local to this proof (the neural drive of <a class="secref" href="#recruitment">&#167;4</a> also uses the letter). With a uniform field, $\mathrm d\phi/\mathrm dx = V/L$, this is a first-order linear equation in $c(x)$ with constant coefficients, $c' + (zu/L)\,c = -J/D$. Multiply by the integrating factor $e^{zux/L}$ and integrate from $0$ to $L$; the concentrations at the two faces are the bulk values times a partition coefficient $\beta$ that is the same on both sides, so
+$$J \;=\; P\,zu\,\frac{c_{\text{out}} - c_{\text{in}}e^{zu}}{e^{zu}-1},\qquad P \equiv \frac{D\beta}{L}.$$
+This is the constant-field flux equation; $P$ collects everything about the membrane into one number per ion (a permeability, in $\mathrm{m\,s^{-1}}$; the power $P$ of <a class="secref" href="#forcevelocity">&#167;6</a> is unrelated). At steady state with no net current, $\sum_i z_iF_{\text{Far}}J_i = 0$. For $z=+1$ the fraction has denominator $e^{u}-1$; for $z=-1$ it has denominator $e^{-u}-1 = -(e^{u}-1)/e^{u}$, and multiplying numerator and denominator by $-e^{u}$ turns the chloride current $zF_{\text{Far}}J_{\mathrm{Cl}}$ into $-F_{\text{Far}}P_{\mathrm{Cl}}\,u\,(c_{\text{out}}e^{u} - c_{\text{in}})/(e^{u}-1)$ &#8212; the same form as the cation currents with inside and outside <em>swapped</em>. Every term now shares the factor $u/(e^{u}-1)$, which is nonzero for $u\neq0$ and cancels, leaving
+$$P_{\mathrm K}\big([\mathrm K]_{\text{out}} - [\mathrm K]_{\text{in}}e^{u}\big) + P_{\mathrm{Na}}\big([\mathrm{Na}]_{\text{out}} - [\mathrm{Na}]_{\text{in}}e^{u}\big) + P_{\mathrm{Cl}}\big([\mathrm{Cl}]_{\text{in}} - [\mathrm{Cl}]_{\text{out}}e^{u}\big) = 0.$$
+Solving for $e^{u}$ and taking the logarithm gives the boxed form. Where the hypotheses bind: the field is not in fact uniform across a real membrane, and the ions are not independent (a channel is a pore, not a slab), so $P_i$ is an effective parameter fitted to fluxes rather than a diffusion coefficient; the equation nevertheless reproduces measured resting and peak potentials to a few millivolts, which is why it has survived since 1949. Divalent calcium does not share the common factor and is omitted; its resting permeability is small enough that the omission costs less than a millivolt. <span class="qed">&#8718;</span></div>
+
+<p>Now the two states of a fibre are two permeability ratios (the <a class="secref" href="#figm5cB">plot</a> that follows). At rest potassium and chloride channels dominate: with $P_{\mathrm{Na}}/P_{\mathrm K} = 0.02$ and $P_{\mathrm{Cl}}/P_{\mathrm K} = 2$ (skeletal muscle has an unusually large resting chloride conductance) the lemma gives $V = -86\ \mathrm{mV}$; at $0.01$ it gives $-88.7$ and at $0.05$, $-79.2$. During the spike the voltage-gated sodium channels open and the ratio $P_{\mathrm{Na}}/P_{\mathrm K}$ leaps to about $20$; the same equation then gives $V = +42\ \mathrm{mV}$, the overshoot of a real muscle action potential. Nothing was refitted between the two states: one equation, two assumed permeability ratios, and a $128\ \mathrm{mV}$ swing. Chloride&#8217;s role is to hold the resting value near its own Nernst potential and to blunt the overshoot (without it the same ratios give $-80.5$ and $+54\ \mathrm{mV}$), which is why the muscle chloride channel is the one whose loss produces myotonia, a muscle that cannot stop firing.</p>
+
+<div id="figm5cB" style="text-align:center;margin:1.2rem 0"><!--FIG:m5cB--><svg class="setupfig" viewBox="0 0 560 300" width="100%" role="img" aria-label="Goldman-Hodgkin-Katz membrane potential against the sodium-to-potassium permeability ratio on a log axis from 0.001 to 100. The curve runs from the potassium Nernst potential of minus 95 millivolts at low ratio to the sodium Nernst potential of plus 67 at high ratio. The resting point at ratio 0.02 sits at minus 86 millivolts; the action-potential peak at ratio 20 sits at plus 42. A dashed grey curve omits chloride.">
+<line x1="70" y1="250" x2="518" y2="250" stroke="#333" stroke-width="1.4"/>
+<line x1="70" y1="250" x2="70" y2="50" stroke="#333" stroke-width="1.4"/>
+<line x1="70.0" y1="250" x2="70.0" y2="254" stroke="#333"/>
+<text x="70.0" y="264.0" font-size="9" text-anchor="middle" fill="#555">0.001</text>
+<line x1="158.0" y1="250" x2="158.0" y2="254" stroke="#333"/>
+<text x="158.0" y="264.0" font-size="9" text-anchor="middle" fill="#555">0.01</text>
+<line x1="246.0" y1="250" x2="246.0" y2="254" stroke="#333"/>
+<text x="246.0" y="264.0" font-size="9" text-anchor="middle" fill="#555">0.1</text>
+<line x1="334.0" y1="250" x2="334.0" y2="254" stroke="#333"/>
+<text x="334.0" y="264.0" font-size="9" text-anchor="middle" fill="#555">1</text>
+<line x1="422.0" y1="250" x2="422.0" y2="254" stroke="#333"/>
+<text x="422.0" y="264.0" font-size="9" text-anchor="middle" fill="#555">10</text>
+<line x1="510.0" y1="250" x2="510.0" y2="254" stroke="#333"/>
+<text x="510.0" y="264.0" font-size="9" text-anchor="middle" fill="#555">100</text>
+<line x1="66" y1="239.4" x2="70" y2="239.4" stroke="#333"/>
+<text x="63.0" y="242.4" font-size="9" text-anchor="end" fill="#555">-100</text>
+<line x1="66" y1="186.7" x2="70" y2="186.7" stroke="#333"/>
+<text x="63.0" y="189.7" font-size="9" text-anchor="end" fill="#555">-50</text>
+<line x1="66" y1="133.9" x2="70" y2="133.9" stroke="#333"/>
+<text x="63.0" y="136.9" font-size="9" text-anchor="end" fill="#555">0</text>
+<line x1="66" y1="81.1" x2="70" y2="81.1" stroke="#333"/>
+<text x="63.0" y="84.1" font-size="9" text-anchor="end" fill="#555">50</text>
+<text x="290.0" y="281.0" font-size="10.5" text-anchor="middle" fill="#333">permeability ratio P<tspan baseline-shift="sub" font-size="7">Na</tspan> / P<tspan baseline-shift="sub" font-size="7">K</tspan> (log scale)</text>
+<text x="26.0" y="155.0" font-size="10" text-anchor="middle" fill="#333" transform="rotate(-90 26.0 155.0)">membrane potential (mV)</text>
+<line x1="70.0" y1="234.2" x2="510.0" y2="234.2" stroke="#c9922e" stroke-width="1.1" stroke-dasharray="5 3"/>
+<line x1="70.0" y1="63.6" x2="510.0" y2="63.6" stroke="#c9922e" stroke-width="1.1" stroke-dasharray="5 3"/>
+<text x="506.0" y="225.2" font-size="9" text-anchor="end" fill="#b07d1e">E<tspan baseline-shift="sub" font-size="7">K</tspan> = -95.0 mV (Nernst, Module 0)</text>
+<text x="85.5" y="54.6" font-size="9" text-anchor="start" fill="#b07d1e">E<tspan baseline-shift="sub" font-size="7">Na</tspan> = +66.6 mV</text>
+<polyline points="70.0,233.2 78.8,232.9 87.7,232.6 96.5,232.2 105.4,231.7 114.2,231.1 123.1,230.4 131.9,229.5 140.8,228.3 149.6,227.0 158.4,225.4 167.3,223.5 176.1,221.3 185.0,218.7 193.8,215.8 202.7,212.5 211.5,208.8 220.4,204.7 229.2,200.4 238.0,195.7 246.9,190.7 255.7,185.5 264.6,180.1 273.4,174.5 282.3,168.8 291.1,163.0 299.9,157.2 308.8,151.3 317.6,145.3 326.5,139.4 335.3,133.6 344.2,127.8 353.0,122.1 361.9,116.6 370.7,111.2 379.5,106.1 388.4,101.1 397.2,96.5 406.1,92.2 414.9,88.2 423.8,84.6 432.6,81.4 441.5,78.5 450.3,76.0 459.1,73.9 468.0,72.0 476.8,70.5 485.7,69.2 494.5,68.1 503.4,67.2" fill="none" stroke="#999" stroke-width="1.8" stroke-dasharray="6 3"/>
+<polyline points="70.0,230.4 78.8,230.3 87.7,230.2 96.5,230.1 105.4,229.9 114.2,229.7 123.1,229.4 131.9,229.1 140.8,228.7 149.6,228.2 158.4,227.5 167.3,226.7 176.1,225.8 185.0,224.6 193.8,223.2 202.7,221.5 211.5,219.6 220.4,217.2 229.2,214.6 238.0,211.6 246.9,208.2 255.7,204.4 264.6,200.3 273.4,195.8 282.3,191.1 291.1,186.0 299.9,180.8 308.8,175.4 317.6,169.8 326.5,164.0 335.3,158.2 344.2,152.4 353.0,146.5 361.9,140.6 370.7,134.8 379.5,129.0 388.4,123.3 397.2,117.7 406.1,112.3 414.9,107.2 423.8,102.2 432.6,97.5 441.5,93.1 450.3,89.1 459.1,85.4 468.0,82.1 476.8,79.1 485.7,76.6 494.5,74.3 503.4,72.4" fill="none" stroke="#7a1f1f" stroke-width="2.6"/>
+<circle cx="184.5" cy="224.7" r="4" fill="#2a6ca8" stroke="#fff" stroke-width="1.2"/>
+<circle cx="448.5" cy="89.9" r="4" fill="#2a7d2a" stroke="#fff" stroke-width="1.2"/>
+<text x="175.5" y="218.7" font-size="9.5" text-anchor="end" fill="#2a6ca8">rest: ratio 0.02 &#8594; -86 mV</text>
+<text x="456.5" y="101.9" font-size="9.5" text-anchor="start" fill="#2a7d2a">spike: ratio 20</text>
+<text x="456.5" y="112.9" font-size="9.5" text-anchor="start" fill="#2a7d2a">&#8594; +42 mV</text>
+<text x="288.0" y="118.1" font-size="9" text-anchor="end" fill="#7a1f1f">with Cl&#8315; (P<tspan baseline-shift="sub" font-size="7">Cl</tspan>/P<tspan baseline-shift="sub" font-size="7">K</tspan> = 2)</text>
+<text x="288.0" y="102.2" font-size="9" text-anchor="end" fill="#777">K and Na only</text>
+<line x1="294.0" y1="116.5" x2="318.0" y2="116.5" stroke="#7a1f1f" stroke-width="2.6"/>
+<line x1="294.0" y1="100.6" x2="318.0" y2="100.6" stroke="#999" stroke-width="1.8" stroke-dasharray="6 3"/>
+</svg><!--/FIG:m5cB--><p class="small" style="font-style:italic;margin:.35rem 0 0">Lemma&nbsp;3.1 drawn for a skeletal-muscle fibre: membrane potential against the sodium-to-potassium permeability ratio, with chloride at twice the potassium permeability (red) and without chloride (dashed grey). The curve runs between the two Nernst potentials of Module&nbsp;0 (dashed amber). Rest and spike are two points on one curve, $-86$ and $+42\ \mathrm{mV}$.</p></div>
+
+<p>Every spike moves charge, and the sodium that entered must be pumped back out. Here Module&nbsp;0&#8217;s coupling theorem does the same job it did for calcium. The <b>sodium&#8211;potassium pump</b> hydrolyses one ATP to move three $\mathrm{Na^+}$ out and two $\mathrm{K^+}$ in. Take the resting potential as the round measured $-90\ \mathrm{mV}$ rather than the lemma&#8217;s $-86$; the $4\ \mathrm{mV}$ moves each electrical term by $0.4\ \mathrm{kJ\,mol^{-1}}$ and no conclusion below. Its cost is the sum of the electrochemical climbs (Module&nbsp;0 Definition&nbsp;5.3): each sodium ion leaving pays the concentration term $R_gT\ln(145/12) = 6.42\ \mathrm{kJ\,mol^{-1}}$ plus the electrical term of carrying $+1$ charge out against $-90\ \mathrm{mV}$, $F_{\text{Far}}\times0.090\ \mathrm V = 8.68$, together $15.11\ \mathrm{kJ\,mol^{-1}}$; each potassium ion entering pays $R_gT\ln(140/4) = 9.17$ but is <em>helped</em> by the field, $-8.68$, net $0.48$. By Module&nbsp;0 Proposition&nbsp;3.5 with the pump as the shared intermediate,</p>
+
+<div class="keyresult">$$\Delta G_{\text{net}} \;=\; \Delta G_{\text{ATP}} + 3\,(15.11) + 2\,(0.48) \;=\; -62.5 + 46.3 \;=\; -16.2\ \mathrm{kJ\,mol^{-1}}\ \text{at rest},\qquad -6.4\ \text{fatigued},$$</div>
+
+<p>so the three-for-two pump spends $74\%$ of an ATP at rest and $88\%$ at the end of a hard bout. Push the stoichiometry up and the ledger closes: four sodium ions with two potassium cost $61.4\ \mathrm{kJ\,mol^{-1}}$, permitted at rest by $1.1\ \mathrm{kJ\,mol^{-1}}$ &#8212; inside the uncertainty of the concentrations &#8212; and forbidden in a working muscle by $8.7$. Thermodynamics caps the pump at three sodium ions per ATP in the muscle that needs it most, and three is what is observed &#8212; the same argument, with the same shape of conclusion, that Module&nbsp;0 &#167;3 ran for SERCA&#8217;s two calcium ions.</p>
+
+<p>How much does excitability cost, then, against the contraction it triggers? Charging a membrane capacitance $C_m$ through the spike&#8217;s swing $\Delta V$ moves a charge $C_m\Delta V$ per unit area, and every coulomb of it is sodium the pump must return. With $C_m\approx5\ \mu\mathrm{F\,cm^{-2}}$ of fibre surface (the T-tubules of Fig.&nbsp;9 multiply the bare bilayer&#8217;s $1\ \mu\mathrm{F\,cm^{-2}}$) and $\Delta V = 130\ \mathrm{mV}$, a fibre of radius $25\ \mu\mathrm m$ admits $5.4\ \mu\mathrm M$ of sodium per impulse, costing $1.8\ \mu\mathrm M$ of ATP at three per ATP. Set that beside the contraction: the fibre holds about $108\ \mu\mathrm M$ of myosin heads (the $6.0\times10^{14}\ \mathrm{m^{-2}}$ filaments of Lemma&nbsp;2.1, $294$ heads each, per $2.7\ \mu\mathrm m$ of sarcomere), and each spends an ATP per cycle. If every head cycled once, the electrical signal would cost under $2\%$ of the mechanical bill. The nervous system&#8217;s command is nearly free; what costs is the work it orders and the calcium it must then put away.</p>
+
 <h3>Calcium unblocks the sites &#8212; and defines activation</h3>
 
 <p>Now the payoff. In a resting fibre the actin binding sites are masked by <b>tropomyosin</b>, a long strand lying along the thin filament, held in its blocking position by the three-part <b>troponin</b> complex. No calcium, no attachment, no force. When Ca&#178;&#8314; rises, it binds the troponin, which swivels and drags the tropomyosin down into the groove of the actin helix &#8212; <em>uncovering</em> the sites so the crossbridges of <span class="secref"><a class="secref" href="#sarcomere">&#167;2</a></span> can grab on and cycle (Fig. 10):</p>
@@ -832,6 +971,8 @@ $$\frac{da}{dt} = \frac{a_\infty\!\big([\mathrm{Ca}^{2+}](t)\big) - a}{\tau_a},$
 <div class="def"><b>Modelling assumption 3.2 (the calcium pulse and its constants).</b> One impulse releases a calcium pulse whose normalised shape is the difference of a fast release and a slow re-uptake, the two processes drawn in Fig.&nbsp;9:
 $$p(t)=\frac{1}{p_{\max}}\Big(1-e^{-t/\tau_r}\Big)e^{-t/\tau_d},\qquad t\ge 0,$$
 with a release constant $\tau_r=3.6\ \mathrm{ms}$ (RyR opening) and a re-uptake constant $\tau_d=18\ \mathrm{ms}$ (SERCA pumping); $p_{\max}$ normalises the peak to $1$, which the shape reaches at $t=\tau_r\ln(1+\tau_d/\tau_r)=6.4\ \mathrm{ms}$. The free calcium is then $[\mathrm{Ca}^{2+}](t)=\mathrm{Ca}_{\text{rest}}+(\mathrm{Ca}_{\text{peak}}-\mathrm{Ca}_{\text{rest}})\,p(t)$ with $\mathrm{Ca}_{\text{rest}}=0.1\ \mu\mathrm M$ and $\mathrm{Ca}_{\text{peak}}=1.4\ \mu\mathrm M$, and the activation follows the relaxation above with $\tau_a=41\ \mathrm{ms}$. These four constants are <em>assumed</em>, chosen so the twitch matches the measured fast-fibre features quoted below; K10 estimates $\tau_a$ from those features instead. Every computed number in this section and in <a class="secref" href="#recruitment">&#167;4</a> comes from integrating this model, and the code is in K2's solution.</div>
+
+<p><span class="prov" data-sym="tau_relax" data-state="measured">measured, not derived: the release constant $\tau_r = 3.6\ \mathrm{ms}$ and the re-uptake constant $\tau_d = 18\ \mathrm{ms}$ are chosen to reproduce measured calcium transients, and nothing in this course predicts them. What would: $\tau_r$ is the open-time kinetics of the RyR channel, and $\tau_d$ is the ratio of the calcium load to the SERCA pumping rate &#8212; a saturable enzyme rate of the kind <a class="secref" href="module00.html#kinetics">Module&nbsp;0 &#167;6</a> derives (its Proposition&nbsp;6.4), which would need the pump density and the turnover number per pump as inputs. Both are measured quantities this module does not carry, so the two constants stay assumed, and K10 shows how much of a fitted $\tau_a$ they silently absorb.</span></p>
 
 <p>The relaxation above is exactly the activation dynamics <a class="secref" href="#activation">&#167;5</a> will formalise (there, driven directly by the neural command). Chaining calcium&#8594;$a_\infty$&#8594;$a$ and remembering that force tracks $a$ (force $\propto a$), one action potential produces a single <b>twitch</b> (Fig. 12):</p>
 
@@ -995,6 +1136,71 @@ with a release constant $\tau_r=3.6\ \mathrm{ms}$ (RyR opening) and a re-uptake 
 
 <p>Calcium enters the cytosol the fast way &#8212; by <em>opening a channel</em>, the RyR, which lets it pour down its concentration gradient the instant the action potential arrives. It can leave only the slow way &#8212; by being <em>pumped</em> back into the store against that gradient, one ATP burned per ion, by SERCA. Opening a gate is quicker than bailing the room dry, so activation climbs with the small $\tau_{\text{act}}$ and ebbs with the larger $\tau_{\text{deact}}$. The asymmetry is a direct fingerprint of the release-then-reuptake calcium transient drawn in <a href="#ecc">&#167;3</a>.</p>
 
+<h3>Where the two time constants come from: the kinetics of the calcium switch</h3>
+
+<p>Fig.&nbsp;20 gives the asymmetry a mechanism in words: a channel opens fast, a pump bails slowly. That is the right picture for the <em>calcium</em>, but $\tau_{\text{act}}$ and $\tau_{\text{deact}}$ are constants of the <em>activation</em>, and activation is the calcium <em>bound to troponin</em>. So the question is what the binding step itself contributes, and <a class="secref" href="module00.html#kinetics">Module&nbsp;0 &#167;6</a> supplies the tool: mass action (its Definition&nbsp;6.1), under which a binding reaction has a forward rate proportional to the reactant concentrations and a backward rate proportional to the bound complex, with rate constant $k_{\text{off}}$. Apply it to the all-or-none troponin unit that the proof of Proposition&nbsp;3.1 used. (Module&nbsp;0 writes the Hill exponent $n_H$; this module keeps its own $n$.)</p>
+
+<div class="prop"><b>Proposition 5.1 (the kinetic origin of the activation time constants).</b> Let the troponin&#8211;tropomyosin unit bind $n$ calcium ions all-or-none with an $n$-th-order on-rate constant $k^{(n)}_{\text{on}}$ and an off-rate constant $k_{\text{off}}$, at a free calcium concentration $[\mathrm{Ca}^{2+}]$ that is held fixed. Then the exposed fraction $a$ obeys
+$$\frac{\mathrm da}{\mathrm dt} \;=\; k^{(n)}_{\text{on}}[\mathrm{Ca}^{2+}]^{\,n}\,(1-a) - k_{\text{off}}\,a \;=\; \frac{a_\infty - a}{\tau(\mathrm{Ca})},$$
+a first-order relaxation toward the steady state $a_\infty$ of Proposition&nbsp;3.1 with $Ca_{50}^{\,n} = k_{\text{off}}/k^{(n)}_{\text{on}}$, and with a time constant that depends on the calcium level:
+$$\boxed{\;\tau(\mathrm{Ca}) \;=\; \frac{1}{k^{(n)}_{\text{on}}[\mathrm{Ca}^{2+}]^{\,n} + k_{\text{off}}} \;=\; \frac{\tau_{\text{deact}}}{1 + \big([\mathrm{Ca}^{2+}]/Ca_{50}\big)^{n}},\qquad \tau_{\text{deact}} \equiv \frac{1}{k_{\text{off}}}\;}$$
+Switching <em>off</em> happens at resting calcium, where the on-term is negligible, so the deactivation constant is the unbinding time alone. Switching <em>on</em> happens at elevated calcium, where both terms act, so $\tau_{\text{act}}$ is shorter than $\tau_{\text{deact}}$ by the factor $1+([\mathrm{Ca}^{2+}]/Ca_{50})^{n}$. The asymmetry of Definition&nbsp;5.1 is structural, not fitted.</div>
+
+<div class="proof">With $[\mathrm{Ca}^{2+}]$ fixed, mass action for the single reaction $T + n\,\mathrm{Ca}^{2+} \rightleftharpoons T\!\cdot\!\mathrm{Ca}_n$ of Proposition&nbsp;3.1&#8217;s proof gives a forward rate $k^{(n)}_{\text{on}}[\mathrm{Ca}^{2+}]^{\,n}$ per blocked unit and a backward rate $k_{\text{off}}$ per unblocked one. If $a$ is the unblocked fraction, blocked units are $1-a$, and the net rate of unblocking is the first expression. It is linear in $a$: collect terms as $\mathrm da/\mathrm dt = -\big(k^{(n)}_{\text{on}}[\mathrm{Ca}^{2+}]^{\,n} + k_{\text{off}}\big)\,a + k^{(n)}_{\text{on}}[\mathrm{Ca}^{2+}]^{\,n}$, which is $(a_\infty - a)/\tau$ with $1/\tau$ the coefficient of $-a$ and $a_\infty = k^{(n)}_{\text{on}}[\mathrm{Ca}^{2+}]^{\,n}\,\tau$. Substituting $\tau$ gives $a_\infty = [\mathrm{Ca}^{2+}]^{\,n}/\big([\mathrm{Ca}^{2+}]^{\,n} + k_{\text{off}}/k^{(n)}_{\text{on}}\big)$, which is Proposition&nbsp;3.1&#8217;s form once $Ca_{50}^{\,n}$ is identified with $k_{\text{off}}/k^{(n)}_{\text{on}}$ &#8212; the same identification Module&nbsp;0 Proposition&nbsp;6.1 makes for a single site, that an equilibrium constant is a ratio of two rates. Factoring $k_{\text{off}}$ out of $1/\tau$ gives the second boxed form. At $[\mathrm{Ca}^{2+}] \ll Ca_{50}$, $\tau \to 1/k_{\text{off}}$; at $[\mathrm{Ca}^{2+}] \gg Ca_{50}$, $\tau \to 0$ as $[\mathrm{Ca}^{2+}]^{-n}$. Where the hypotheses bind: calcium is held fixed, so this is the relaxation at a clamped level, and a real twitch, in which calcium itself rises and falls, must be integrated (K11); and the all-or-none unit is the idealisation Proposition&nbsp;3.1 already named, so the constants are apparent ones &#8212; Module&nbsp;0 &#167;6 shows why a Hill exponent is a fitted steepness rather than a molecular count. <span class="qed">&#8718;</span></div>
+
+<p>Now the numbers, and they are not new inputs. Definition&nbsp;5.1&#8217;s $\tau_{\text{deact}} \approx 40\ \mathrm{ms}$ fixes $k_{\text{off}} = 25\ \mathrm{s^{-1}}$; Proposition&nbsp;3.1&#8217;s $Ca_{50} = 1\ \mu\mathrm M$ and $n = 3$ then fix $k^{(3)}_{\text{on}} = k_{\text{off}}/Ca_{50}^{3} = 25\ \mu\mathrm{M^{-3}\,s^{-1}}$. At the twitch&#8217;s calcium peak of $1.4\ \mu\mathrm M$ (Modelling assumption&nbsp;3.2) the on-term is $25\times1.4^{3} = 68.6\ \mathrm{s^{-1}}$, so</p>
+
+<div class="keyresult">$$\tau_{\text{act}} \;=\; \frac{40\ \mathrm{ms}}{1 + (1.4/1)^{3}} \;=\; \frac{40}{3.74} \;=\; 10.7\ \mathrm{ms},$$</div>
+
+<p>against the $\approx10\ \mathrm{ms}$ Definition&nbsp;5.1 quoted from measurement. The ratio of four between the two constants is the number $1 + 1.4^{3}$, and it came from the calcium switch&#8217;s own steepness and the height of one twitch&#8217;s calcium pulse (the <a class="secref" href="#figm5cC">plot</a> below). Two checks say the picture is consistent rather than merely arranged. Module&nbsp;0 &#167;6 quotes a measured per-site association rate for calcium onto its binding proteins of $k_{\text{on}} \approx 10^{8}\ \mathrm{M^{-1}\,s^{-1}}$, a few per cent of the diffusion limit; at $Ca_{50} = 1\ \mu\mathrm M$ that is $100\ \mathrm{s^{-1}}$ per site, a $10\ \mathrm{ms}$ binding time &#8212; the same order as $\tau_{\text{act}}$, though it is a different constant (a per-site rate in $\mathrm{M^{-1}\,s^{-1}}$, not the $n$-th-order rate of the all-or-none unit) and is a consistency check, not a derivation. And $k_{\text{off}} = 25\ \mathrm{s^{-1}}$ sits in the measured range for calcium leaving the regulatory sites of troponin&nbsp;C on a thin filament, where neighbouring units change the release rate from its value on the isolated protein, consistent with Module&nbsp;0 &#167;6&#8217;s note that a site&#8217;s rates on the filament are not the isolated protein&#8217;s.</p>
+
+<div id="figm5cC" style="text-align:center;margin:1.2rem 0"><!--FIG:m5cC--><svg class="setupfig" viewBox="0 0 560 300" width="100%" role="img" aria-label="Relaxation time constant of thin-filament activation against free calcium on a log axis. It equals the deactivation constant, 40 milliseconds, at resting calcium, falls to 20 milliseconds at the half-activation level of 1 micromolar, to 10.7 milliseconds at the twitch peak of 1.4 micromolar, and keeps falling at higher calcium.">
+<line x1="70" y1="250" x2="518" y2="250" stroke="#333" stroke-width="1.4"/>
+<line x1="70" y1="250" x2="70" y2="50" stroke="#333" stroke-width="1.4"/>
+<line x1="127.6" y1="250" x2="127.6" y2="254" stroke="#333"/>
+<text x="127.6" y="264.0" font-size="9" text-anchor="middle" fill="#555">0.1</text>
+<line x1="218.8" y1="250" x2="218.8" y2="254" stroke="#333"/>
+<text x="218.8" y="264.0" font-size="9" text-anchor="middle" fill="#555">0.3</text>
+<line x1="318.8" y1="250" x2="318.8" y2="254" stroke="#333"/>
+<text x="318.8" y="264.0" font-size="9" text-anchor="middle" fill="#555">1</text>
+<line x1="410.0" y1="250" x2="410.0" y2="254" stroke="#333"/>
+<text x="410.0" y="264.0" font-size="9" text-anchor="middle" fill="#555">3</text>
+<line x1="510.0" y1="250" x2="510.0" y2="254" stroke="#333"/>
+<text x="510.0" y="264.0" font-size="9" text-anchor="middle" fill="#555">10</text>
+<line x1="66" y1="250.0" x2="70" y2="250.0" stroke="#333"/>
+<text x="63.0" y="253.0" font-size="9" text-anchor="end" fill="#555">0</text>
+<line x1="66" y1="207.8" x2="70" y2="207.8" stroke="#333"/>
+<text x="63.0" y="210.8" font-size="9" text-anchor="end" fill="#555">10</text>
+<line x1="66" y1="165.6" x2="70" y2="165.6" stroke="#333"/>
+<text x="63.0" y="168.6" font-size="9" text-anchor="end" fill="#555">20</text>
+<line x1="66" y1="123.3" x2="70" y2="123.3" stroke="#333"/>
+<text x="63.0" y="126.3" font-size="9" text-anchor="end" fill="#555">30</text>
+<line x1="66" y1="81.1" x2="70" y2="81.1" stroke="#333"/>
+<text x="63.0" y="84.1" font-size="9" text-anchor="end" fill="#555">40</text>
+<text x="290.0" y="281.0" font-size="10.5" text-anchor="middle" fill="#333">free Ca&#178;&#8314; (&#956;M, log scale)</text>
+<text x="26.0" y="155.0" font-size="10" text-anchor="middle" fill="#333" transform="rotate(-90 26.0 155.0)">relaxation time constant &#964; (ms)</text>
+<line x1="70.0" y1="81.1" x2="510.0" y2="81.1" stroke="#c0562a" stroke-width="1.1" stroke-dasharray="5 3"/>
+<text x="505.7" y="75.1" font-size="9.5" text-anchor="end" fill="#c0562a">&#964;<tspan baseline-shift="sub" font-size="7">deact</tspan> = 1/k<tspan baseline-shift="sub" font-size="7">off</tspan> = 40 ms</text>
+<line x1="346.7" y1="250.0" x2="346.7" y2="204.9" stroke="#2a7d2a" stroke-width="1" stroke-dasharray="4 3"/>
+<polyline points="70.2,81.1 79.0,81.1 87.9,81.2 96.7,81.2 105.6,81.2 114.4,81.2 123.2,81.3 132.1,81.3 140.9,81.4 149.8,81.5 158.6,81.6 167.4,81.8 176.3,82.1 185.1,82.5 194.0,82.9 202.8,83.6 211.6,84.6 220.5,85.8 229.3,87.5 238.2,89.8 247.0,92.9 255.8,96.9 264.7,102.1 273.5,108.7 282.4,116.8 291.2,126.7 300.0,138.0 308.9,150.6 317.7,163.9 326.6,177.3 335.4,190.2 344.2,201.9 353.1,212.1 361.9,220.6 370.8,227.6 379.6,233.1 388.4,237.4 397.3,240.6 406.1,243.1 415.0,244.9 423.8,246.3 432.6,247.3 441.5,248.0 450.3,248.6 459.2,248.9 468.0,249.2 476.8,249.4 485.7,249.6 494.5,249.7 503.4,249.8" fill="none" stroke="#7a1f1f" stroke-width="2.6"/>
+<circle cx="127.6" cy="81.3" r="4" fill="#c0562a" stroke="#fff" stroke-width="1.2"/>
+<circle cx="346.7" cy="204.9" r="4" fill="#2a7d2a" stroke="#fff" stroke-width="1.2"/>
+<circle cx="318.8" cy="165.6" r="4" fill="#c9922e" stroke="#fff" stroke-width="1.2"/>
+<text x="354.7" y="188.9" font-size="9.5" text-anchor="start" fill="#2a7d2a">twitch peak 1.4 &#956;M: &#964; = 10.7 ms</text>
+<text x="354.7" y="199.9" font-size="9" text-anchor="start" fill="#2a7d2a">= &#964;<tspan baseline-shift="sub" font-size="7">act</tspan> of Definition 5.1</text>
+<text x="327.8" y="160.6" font-size="9" text-anchor="start" fill="#b07d1e">Ca&#8325;&#8320;: &#964; = 20 ms</text>
+<text x="85.1" y="136.0" font-size="9.5" text-anchor="start" fill="#c0562a">rest 0.1 &#956;M: &#964; &#8776; 40 ms</text>
+<text x="85.1" y="224.7" font-size="9.5" text-anchor="start" fill="#7a1f1f">&#964;(Ca) = 1 / (k&#8242;<tspan baseline-shift="sub" font-size="7">on</tspan>[Ca]&#179; + k<tspan baseline-shift="sub" font-size="7">off</tspan>)</text>
+</svg><!--/FIG:m5cC--><p class="small" style="font-style:italic;margin:.35rem 0 0">Proposition&nbsp;5.1&#8217;s time constant against free calcium, on a log axis, for $k_{\text{off}} = 25\ \mathrm{s^{-1}}$, $Ca_{50} = 1\ \mu\mathrm M$, $n = 3$. At resting calcium it is the unbinding time, $40\ \mathrm{ms}$; at the twitch peak it has fallen to $10.7\ \mathrm{ms}$. The two constants of Definition&nbsp;5.1 are two points on one curve.</p></div>
+
+<p><span class="prov" data-sym="tau_act" data-state="derived">derived here: $\tau_{\text{act}} = 10.7\ \mathrm{ms}$ follows from Proposition&nbsp;5.1 with three inputs the module already carried &#8212; the deactivation constant, the half-activation level and the Hill exponent &#8212; plus the twitch&#8217;s peak calcium. No new measurement enters. What it inherits is the status of those inputs: $Ca_{50}$ and $n$ are fitted steepnesses (<a class="secref" href="module00.html#kinetics">Module&nbsp;0 &#167;6</a>), and the calcium peak is assumed (Modelling assumption&nbsp;3.2), so the $10.7$ is only as good as the $1.4\ \mu\mathrm M$: at a $2\ \mu\mathrm M$ peak the same formula gives $4.4\ \mathrm{ms}$.</span></p>
+
+<p><span class="prov" data-sym="tau_deact" data-state="measured">measured, not derived: $\tau_{\text{deact}} \approx 40\ \mathrm{ms}$ is the unbinding time of calcium from troponin, $1/k_{\text{off}}$, and <a class="secref" href="module00.html#kinetics">Module&nbsp;0 &#167;6</a> is explicit that association and dissociation rate constants come from stopped-flow and temperature-jump kinetics (rapid-mixing and rapid-heating experiments that time a single binding step) and are predicted by nothing in this course. Proposition&nbsp;5.1 explains why the <em>ratio</em> of the two constants is what it is; it takes one of them from measurement.</span></p>
+
+<p><span class="prov" data-sym="k_on" data-state="measured">measured, not derived: the rate constants of the switch, $k_{\text{off}} = 25\ \mathrm{s^{-1}}$ and $k^{(3)}_{\text{on}} = 25\ \mu\mathrm{M^{-3}\,s^{-1}}$, are not new inputs but the measured $\tau_{\text{deact}}$ and the fitted $Ca_{50}$ rewritten as rates through $k_{\text{off}} = 1/\tau_{\text{deact}}$ and $k^{(3)}_{\text{on}} = k_{\text{off}}/Ca_{50}^{3}$; they inherit both provenances, and the $n$-th-order on-rate in particular is an apparent constant of the all-or-none idealisation, not a per-site rate that a stopped-flow experiment reports.</span></p>
+
+<p>One thing this does not explain, and it is worth saying before K11 finds it. Proposition&nbsp;5.1 makes the calcium switch <em>fast</em> at high calcium &#8212; faster than the twitch of Fig.&nbsp;12 rises. Integrate its kinetics through the assumed calcium pulse and the activation peaks near $18\ \mathrm{ms}$ at $k_{\text{off}} = 25\ \mathrm{s^{-1}}$ (K11 puts it at $18.7$ for the off-rate that matches the tail), not the measured $25$; binding cannot be slowed to fix that without lengthening the tail, which the measured half-relaxation forbids. The missing $6$&#8211;$7\ \mathrm{ms}$ must live downstream of binding &#8212; in tropomyosin&#8217;s movement and the crossbridges&#8217; own attachment, which the single state $a$ of Definition&nbsp;3.1 lumps together. K11 makes the argument quantitative, and finds that the twitch alone cannot say where the slowness lives.</p>
+
 <h3>Activation is a low-pass filter of the drive</h3>
 
 <p>A muscle almost never receives a clean on/off step; the drive rises and falls gradually as effort is graded through a movement. The activation ODE then acts as a <b>low-pass filter</b> &#8212; a smoother that passes slow changes in the command and blurs fast ones (Fig.&nbsp;21):</p>
@@ -1044,6 +1250,84 @@ the value every eccentric curve in this module and the labs of <a class="secref"
 <!--FIG:fig24--><figure><svg class="setupfig" viewBox="0 44 560 150" width="100%" role="img" aria-label="Three panels of a thick filament with eight myosin heads and a sliding thin filament, at slow, medium and fast sliding speed. The number of attached (green) heads drops from seven to four to one as speed rises, illustrating why force falls with shortening velocity."><defs><marker id="s6mv" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#2a6ca8"/></marker></defs><rect x="80" y="62" width="140" height="33.6" rx="16.8" fill="#9bb8d6"/><line x1="142" y1="52" x2="158" y2="52" stroke="#2a6ca8" stroke-width="2.4" marker-end="url(#s6mv)"/><rect x="80" y="128" width="140" height="33.6" rx="16.8" fill="#b23b32"/><line x1="96" y1="128" x2="96" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="96" cy="74" r="2.6" fill="#2a7d2a"/><line x1="111" y1="128" x2="111" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="111" cy="74" r="2.6" fill="#2a7d2a"/><line x1="126" y1="128" x2="126" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="126" cy="74" r="2.6" fill="#2a7d2a"/><line x1="141" y1="128" x2="141" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="141" cy="74" r="2.6" fill="#2a7d2a"/><line x1="156" y1="128" x2="156" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="156" cy="74" r="2.6" fill="#2a7d2a"/><line x1="171" y1="128" x2="171" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="171" cy="74" r="2.6" fill="#2a7d2a"/><line x1="186" y1="128" x2="186" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="186" cy="74" r="2.6" fill="#2a7d2a"/><line x1="201" y1="128" x2="201" y2="112" stroke="#c9b7b4" stroke-width="3"/><text x="150" y="160" font-size="10" text-anchor="middle" fill="#333" font-weight="bold">slow (v small)</text><text x="150" y="174" font-size="9" text-anchor="middle" fill="#2a7d2a">7/8 attached</text><text x="150" y="187" font-size="8.5" text-anchor="middle" fill="#555">most heads bear load</text><rect x="230" y="62" width="140" height="33.6" rx="16.8" fill="#9bb8d6"/><line x1="277" y1="52" x2="323" y2="52" stroke="#2a6ca8" stroke-width="2.4" marker-end="url(#s6mv)"/><rect x="230" y="128" width="140" height="33.6" rx="16.8" fill="#b23b32"/><line x1="246" y1="128" x2="246" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="246" cy="74" r="2.6" fill="#2a7d2a"/><line x1="261" y1="128" x2="261" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="261" cy="74" r="2.6" fill="#2a7d2a"/><line x1="276" y1="128" x2="276" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="276" cy="74" r="2.6" fill="#2a7d2a"/><line x1="291" y1="128" x2="291" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="291" cy="74" r="2.6" fill="#2a7d2a"/><line x1="306" y1="128" x2="306" y2="112" stroke="#c9b7b4" stroke-width="3"/><line x1="321" y1="128" x2="321" y2="112" stroke="#c9b7b4" stroke-width="3"/><line x1="336" y1="128" x2="336" y2="112" stroke="#c9b7b4" stroke-width="3"/><line x1="351" y1="128" x2="351" y2="112" stroke="#c9b7b4" stroke-width="3"/><text x="300" y="160" font-size="10" text-anchor="middle" fill="#333" font-weight="bold">medium</text><text x="300" y="174" font-size="9" text-anchor="middle" fill="#2a7d2a">4/8 attached</text><text x="300" y="187" font-size="8.5" text-anchor="middle" fill="#555">fewer attached</text><rect x="380" y="62" width="140" height="33.6" rx="16.8" fill="#9bb8d6"/><line x1="412" y1="52" x2="488" y2="52" stroke="#2a6ca8" stroke-width="2.4" marker-end="url(#s6mv)"/><rect x="380" y="128" width="140" height="33.6" rx="16.8" fill="#b23b32"/><line x1="396" y1="128" x2="396" y2="74" stroke="#2a7d2a" stroke-width="16.0"/><circle cx="396" cy="74" r="2.6" fill="#2a7d2a"/><line x1="411" y1="128" x2="411" y2="112" stroke="#c9b7b4" stroke-width="3"/><line x1="426" y1="128" x2="426" y2="112" stroke="#c9b7b4" stroke-width="3"/><line x1="441" y1="128" x2="441" y2="112" stroke="#c9b7b4" stroke-width="3"/><line x1="456" y1="128" x2="456" y2="112" stroke="#c9b7b4" stroke-width="3"/><line x1="471" y1="128" x2="471" y2="112" stroke="#c9b7b4" stroke-width="3"/><line x1="486" y1="128" x2="486" y2="112" stroke="#c9b7b4" stroke-width="3"/><line x1="501" y1="128" x2="501" y2="112" stroke="#c9b7b4" stroke-width="3"/><text x="450" y="160" font-size="10" text-anchor="middle" fill="#333" font-weight="bold">fast (&#8594; v&#8344;&#8336;&#8339;)</text><text x="450" y="174" font-size="9" text-anchor="middle" fill="#2a7d2a">1/8 attached</text><text x="450" y="187" font-size="8.5" text-anchor="middle" fill="#555">almost none attached</text><text x="40" y="67" font-size="8.5" text-anchor="middle" fill="#3a6a92" transform="rotate(-90 40 67)">thin</text><text x="40" y="134" font-size="8.5" text-anchor="middle" fill="#8a2018" transform="rotate(-90 40 134)">thick</text></svg><figcaption><b>Why faster shortening means less force.</b> A myosin head from <a class="secref" href="#sarcomere">&#167;2</a> needs <em>time</em> to attach, complete its power stroke, and let go. When the filaments slide slowly, almost every head is attached and pulling (green), so force is near $F_0$. As the sliding speeds up, a head is dragged past its working range before it can restroke and reattach, so fewer heads are attached at any instant &#8212; and since active force is proportional to the number of attached heads (<a class="secref" href="#sarcomere">&#167;2</a>), force falls. At $v_{\max}$ the cycling simply cannot keep up and net force reaches zero.</figcaption></figure><!--/FIG:fig24-->
 
 <p>When the filaments slide slowly, nearly every head is attached and pulling, so force is close to $F_0$. As shortening speeds up, each head is dragged past its working range before it can complete a stroke and reattach, so fewer are attached at any moment and force falls &#8212; until, at $v_{\max}$, cycling cannot keep up at all and net force vanishes. This also ties $v_{\max}$ back to <a href="#sarcomere">&#167;2</a>: a fibre&#8217;s top speed is set by how fast its crossbridges cycle, which is exactly what makes fast (type&nbsp;II) fibres fast. The eccentric rise is the same mechanism run backwards: a head that is forcibly stretched while attached bears <em>more</em> tension than it generates on its own, and lengthening pops attached heads loose so that fresh ones re-engage under strain &#8212; so eccentric force exceeds $F_0$, at a fraction of the metabolic cost.</p>
+
+<h3>Why a cold muscle is slow: $v_{\max}$ as a rate</h3>
+
+<p>The last paragraph made $v_{\max}$ a rate in disguise: a fibre&#8217;s top speed is set by how fast its crossbridges can cycle. Make that explicit. At $v_{\max}$ a head that has just completed its stroke of $d = 10\ \mathrm{nm}$ must detach before the sliding drags it into a position where it resists; if the rate-limiting step of the cycle runs at $k_{\text{cyc}}$ per second, each half-sarcomere can shorten at most about $d\,k_{\text{cyc}}$ per second, and a fibre of $N_{\text{hs}}$ half-sarcomeres in series at $N_{\text{hs}}\,d\,k_{\text{cyc}}$. (The symbol $k_{\text{cyc}}$ is a rate constant; it is not the eccentric shape constant $k = 20$ of the box above.) Run the picture backwards on this module&#8217;s $v_{\max} = 8\,\ell_0\,\mathrm{s^{-1}}$: at eight optimal lengths per second each half-sarcomere of $1.35\ \mu\mathrm m$ shortens at $10.8\ \mu\mathrm m\,\mathrm{s^{-1}}$, which demands $k_{\text{cyc}} \approx 1080\ \mathrm{s^{-1}}$ &#8212; the order of the ATP-induced detachment rate that solution kinetics measures for fast myosin, so the picture is self-consistent, though a rate inferred from $v_{\max}$ cannot then be used to predict $v_{\max}$. This is a hundred times the $\approx10\ \mathrm{s^{-1}}$ per-head ATP turnover that Module&nbsp;0 &#167;6 uses for its barrier check; the two are different quantities &#8212; the turnover of the whole cycle by a head that spends most of its time detached, against the detachment step alone &#8212; and both carry a measured $Q_{10}$ of about $2$&#8211;$2.5$, which is what lets Proposition&nbsp;6.2 borrow Module&nbsp;0&#8217;s barrier for the step that limits speed.</p>
+
+<p>What the rate picture <em>does</em> predict is what happens when the temperature changes, because a rate constant carries a barrier, and <a class="secref" href="module00.html#kinetics">Module&nbsp;0 &#167;6</a> has already computed the barrier for this cycle.</p>
+
+<div class="prop"><b>Proposition 6.2 (the temperature scaling of the force&#8211;velocity curve).</b> Let the maximum shortening velocity be proportional to a single rate-limiting step of the crossbridge cycle, $v_{\max} \propto k_{\text{cyc}}(T)$, with $k_{\text{cyc}}$ obeying the Arrhenius law of Module&nbsp;0 Proposition&nbsp;6.3 with activation energy $E_a$; and let the isometric force $F_0$ and the curvature $c$ be independent of temperature. Then between absolute temperatures $T_0$ and $T$
+$$\boxed{\;\frac{v_{\max}(T)}{v_{\max}(T_0)} \;=\; \exp\!\left[-\frac{E_a}{R_g}\left(\frac1T - \frac1{T_0}\right)\right],\;}$$
+the whole concentric branch of the boxed $f_V$ rescales along the velocity axis by that factor, the force at any fixed shortening speed falls, the isometric force does not, and the peak power falls by the same factor.</div>
+
+<div class="proof">By hypothesis $v_{\max}(T)/v_{\max}(T_0) = k_{\text{cyc}}(T)/k_{\text{cyc}}(T_0)$, and by Module&nbsp;0 Proposition&nbsp;6.3, $k_{\text{cyc}}(T) = A\,e^{-E_a/R_gT}$ with the prefactor $A$ and $E_a$ constant across the interval, so the ratio is $\exp[-(E_a/R_g)(1/T - 1/T_0)]$ &#8212; the boxed form. The concentric branch of $f_V$ depends on $v$ only through $v/v_{\max}$, so replacing $v_{\max}$ by a smaller value is a contraction of the curve toward $v = 0$: at any fixed $v \gt 0$ the argument $v/v_{\max}$ grows and $f_V$, which decreases in it, falls; at $v = 0$ the argument is $0$ at either temperature and $f_V = 1$, so $F_0$ is unchanged, as the hypothesis on $F_0$ requires and as Module&nbsp;0 &#167;6 argues on thermodynamic grounds. Power is $P = F_0\,v\,f_V(v/v_{\max})$; substituting $v = \hat v\,v_{\max}$ gives $P = F_0\,v_{\max}\,\hat v\,f_V(\hat v)$, whose maximum over $\hat v$ is $F_0 v_{\max}$ times a number that depends only on $c$. Hence $P_{\max} \propto v_{\max}$ and scales by the same factor. Where the hypotheses bind: a cycle has several steps with different barriers and the effective $E_a$ is that of whichever step limits at each temperature, so the law holds over an interval in which one step dominates; and $F_0$ is only approximately temperature-independent (it falls by roughly $20$&#8211;$30\%$ between $35$ and $20\ ^\circ\mathrm C$ in mammalian fibres), which the proposition sets aside. <span class="qed">&#8718;</span></div>
+
+<p>Put in the number Module&nbsp;0 &#167;6 derived. The measured $Q_{10} \approx 2.5$ of crossbridge cycling gives $E_a = 70.0\ \mathrm{kJ\,mol^{-1}}$, and from body temperature to a cold limb at $25\ ^\circ\mathrm C$ the Arrhenius factor is $0.335$ &#8212; every rate a third as fast. So $v_{\max}$ falls from $8$ to $2.68\,\ell_0\,\mathrm{s^{-1}}$, and the consequence for force is not small: at a moderate shortening speed of $0.8\,\ell_0\,\mathrm{s^{-1}}$ (a tenth of the warm $v_{\max}$) the warm muscle delivers $0.64\,F_0$ and the cold one $0.32\,F_0$. Half the force, at the same length, activation and speed, with not one crossbridge weaker &#8212; and the peak power, $0.095\,F_0v_{\max}$ at $37\ ^\circ\mathrm C$, drops to $0.032$. This is what &#8220;a cold muscle is weak&#8221; means (the <a class="secref" href="#figm5cD">plot</a> below): it is not a weaker spring, it is a slower engine, and the loss is largest exactly where a limb is asked to move.</p>
+
+<p><span class="prov" data-sym="Q10" data-state="measured">measured, not derived: the $Q_{10}\approx2.5$ of crossbridge cycling is a fitted steepness, as <a class="secref" href="module00.html#kinetics">Module&nbsp;0 &#167;6</a>&#8217;s own marker records; what that module derives from it, by its Proposition&nbsp;6.3, is $E_a = 70.0\ \mathrm{kJ\,mol^{-1}}$ and the cooling factor $0.335$, and those two derived numbers are all this section uses, so the threefold factor should be read as &#8220;about threefold&#8221;.</span></p>
+
+<div id="figm5cD" style="text-align:center;margin:1.2rem 0"><!--FIG:m5cD--><svg class="setupfig" viewBox="0 0 600 292" width="100%" role="img" aria-label="Two panels. Left: Hill force-velocity curves for a muscle at 37 and at 25 degrees Celsius; the cold curve reaches zero force at 2.68 optimal lengths per second instead of 8, and at 0.8 lengths per second the force is 0.32 of isometric instead of 0.64. Right: the corresponding power curves; the cold peak power is 0.335 of the warm one.">
+<line x1="60" y1="240" x2="273" y2="240" stroke="#333" stroke-width="1.4"/>
+<line x1="60" y1="240" x2="60" y2="50" stroke="#333" stroke-width="1.4"/>
+<line x1="60.0" y1="240" x2="60.0" y2="244" stroke="#333"/>
+<text x="60.0" y="254.0" font-size="9" text-anchor="middle" fill="#555">0</text>
+<line x1="108.8" y1="240" x2="108.8" y2="244" stroke="#333"/>
+<text x="108.8" y="254.0" font-size="9" text-anchor="middle" fill="#555">2</text>
+<line x1="157.6" y1="240" x2="157.6" y2="244" stroke="#333"/>
+<text x="157.6" y="254.0" font-size="9" text-anchor="middle" fill="#555">4</text>
+<line x1="206.4" y1="240" x2="206.4" y2="244" stroke="#333"/>
+<text x="206.4" y="254.0" font-size="9" text-anchor="middle" fill="#555">6</text>
+<line x1="255.2" y1="240" x2="255.2" y2="244" stroke="#333"/>
+<text x="255.2" y="254.0" font-size="9" text-anchor="middle" fill="#555">8</text>
+<line x1="56" y1="240.0" x2="60" y2="240.0" stroke="#333"/>
+<text x="53.0" y="243.0" font-size="9" text-anchor="end" fill="#555">0</text>
+<line x1="56" y1="154.3" x2="60" y2="154.3" stroke="#333"/>
+<text x="53.0" y="157.3" font-size="9" text-anchor="end" fill="#555">0.5</text>
+<line x1="56" y1="68.6" x2="60" y2="68.6" stroke="#333"/>
+<text x="53.0" y="71.6" font-size="9" text-anchor="end" fill="#555">1.0</text>
+<text x="162.5" y="271.0" font-size="10.5" text-anchor="middle" fill="#333">shortening velocity v (&#8467;&#8320; s&#8315;&#185;)</text>
+<text x="22.0" y="150.0" font-size="10" text-anchor="middle" fill="#333" transform="rotate(-90 22.0 150.0)">force F / F&#8320;</text>
+<line x1="345" y1="240" x2="558" y2="240" stroke="#333" stroke-width="1.4"/>
+<line x1="345" y1="240" x2="345" y2="50" stroke="#333" stroke-width="1.4"/>
+<line x1="345.0" y1="240" x2="345.0" y2="244" stroke="#333"/>
+<text x="345.0" y="254.0" font-size="9" text-anchor="middle" fill="#555">0</text>
+<line x1="393.8" y1="240" x2="393.8" y2="244" stroke="#333"/>
+<text x="393.8" y="254.0" font-size="9" text-anchor="middle" fill="#555">2</text>
+<line x1="442.6" y1="240" x2="442.6" y2="244" stroke="#333"/>
+<text x="442.6" y="254.0" font-size="9" text-anchor="middle" fill="#555">4</text>
+<line x1="491.4" y1="240" x2="491.4" y2="244" stroke="#333"/>
+<text x="491.4" y="254.0" font-size="9" text-anchor="middle" fill="#555">6</text>
+<line x1="540.2" y1="240" x2="540.2" y2="244" stroke="#333"/>
+<text x="540.2" y="254.0" font-size="9" text-anchor="middle" fill="#555">8</text>
+<line x1="341" y1="240.0" x2="345" y2="240.0" stroke="#333"/>
+<text x="338.0" y="243.0" font-size="9" text-anchor="end" fill="#555">0.00</text>
+<line x1="341" y1="154.3" x2="345" y2="154.3" stroke="#333"/>
+<text x="338.0" y="157.3" font-size="9" text-anchor="end" fill="#555">0.05</text>
+<line x1="341" y1="68.6" x2="345" y2="68.6" stroke="#333"/>
+<text x="338.0" y="71.6" font-size="9" text-anchor="end" fill="#555">0.10</text>
+<text x="447.5" y="271.0" font-size="10.5" text-anchor="middle" fill="#333">shortening velocity v (&#8467;&#8320; s&#8315;&#185;)</text>
+<text x="305.0" y="150.0" font-size="10" text-anchor="middle" fill="#333" transform="rotate(-90 305.0 150.0)">power P / (F&#8320; v<tspan baseline-shift="sub" font-size="7">max,37</tspan>)</text>
+<polyline points="60.0,68.6 63.3,82.1 66.6,94.0 69.8,104.5 73.1,114.0 76.4,122.5 79.7,130.2 83.0,137.1 86.3,143.5 89.5,149.3 92.8,154.7 96.1,159.7 99.4,164.3 102.7,168.5 105.9,172.5 109.2,176.2 112.5,179.6 115.8,182.9 119.1,185.9 122.3,188.8 125.6,191.5 128.9,194.0 132.2,196.4 135.5,198.7 138.8,200.9 142.0,202.9 145.3,204.9 148.6,206.7 151.9,208.5 155.2,210.2 158.4,211.8 161.7,213.4 165.0,214.9 168.3,216.3 171.6,217.6 174.8,218.9 178.1,220.2 181.4,221.4 184.7,222.6 188.0,223.7 191.3,224.8 194.5,225.8 197.8,226.8 201.1,227.8 204.4,228.7 207.7,229.6 210.9,230.5 214.2,231.3 217.5,232.2 220.8,233.0 224.1,233.7 227.3,234.5 230.6,235.2 233.9,235.9 237.2,236.6 240.5,237.2 243.8,237.9 247.0,238.5 250.3,239.1 253.6,239.7" fill="none" stroke="#7a1f1f" stroke-width="2.6"/>
+<polyline points="60.0,68.6 61.1,82.1 62.2,94.0 63.3,104.5 64.4,114.0 65.5,122.5 66.6,130.2 67.7,137.1 68.8,143.5 69.9,149.3 71.0,154.7 72.1,159.7 73.2,164.3 74.3,168.5 75.4,172.5 76.5,176.2 77.6,179.6 78.7,182.9 79.8,185.9 80.9,188.8 82.0,191.5 83.1,194.0 84.2,196.4 85.3,198.7 86.4,200.9 87.5,202.9 88.6,204.9 89.7,206.7 90.8,208.5 91.9,210.2 93.0,211.8 94.1,213.4 95.2,214.9 96.3,216.3 97.4,217.6 98.5,218.9 99.6,220.2 100.7,221.4 101.8,222.6 102.9,223.7 104.0,224.8 105.1,225.8 106.2,226.8 107.3,227.8 108.4,228.7 109.5,229.6 110.6,230.5 111.7,231.3 112.8,232.2 113.9,233.0 115.0,233.7 116.1,234.5 117.2,235.2 118.3,235.9 119.4,236.6 120.5,237.2 121.6,237.9 122.7,238.5 123.8,239.1 124.9,239.7" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<polyline points="345.0,240.0 348.3,213.5 351.6,190.9 354.8,171.7 358.1,155.3 361.4,141.2 364.7,129.2 368.0,119.0 371.3,110.3 374.5,102.9 377.8,96.7 381.1,91.5 384.4,87.2 387.7,83.8 390.9,81.1 394.2,79.1 397.5,77.6 400.8,76.7 404.1,76.3 407.3,76.4 410.6,76.8 413.9,77.7 417.2,78.9 420.5,80.3 423.8,82.1 427.0,84.2 430.3,86.5 433.6,89.1 436.9,91.8 440.2,94.8 443.4,97.9 446.7,101.3 450.0,104.8 453.3,108.4 456.6,112.2 459.8,116.2 463.1,120.2 466.4,124.4 469.7,128.7 473.0,133.1 476.3,137.6 479.5,142.2 482.8,146.9 486.1,151.7 489.4,156.6 492.7,161.5 495.9,166.5 499.2,171.6 502.5,176.8 505.8,182.0 509.1,187.3 512.3,192.6 515.6,198.0 518.9,203.4 522.2,208.9 525.5,214.5 528.8,220.1 532.0,225.7 535.3,231.4 538.6,237.1" fill="none" stroke="#7a1f1f" stroke-width="2.6"/>
+<polyline points="345.0,240.0 346.1,231.1 347.2,223.5 348.3,217.1 349.4,211.6 350.5,206.9 351.6,202.9 352.7,199.4 353.8,196.5 354.9,194.0 356.0,191.9 357.1,190.2 358.2,188.8 359.3,187.6 360.4,186.7 361.5,186.0 362.6,185.5 363.7,185.2 364.8,185.1 365.9,185.1 367.0,185.3 368.1,185.6 369.2,186.0 370.3,186.5 371.4,187.1 372.5,187.7 373.6,188.5 374.7,189.4 375.8,190.3 376.9,191.3 378.0,192.4 379.1,193.5 380.2,194.6 381.3,195.9 382.4,197.1 383.5,198.5 384.6,199.8 385.7,201.2 386.8,202.7 387.9,204.2 389.0,205.7 390.1,207.2 391.2,208.8 392.3,210.4 393.4,212.0 394.5,213.7 395.6,215.4 396.7,217.1 397.8,218.8 398.9,220.5 400.0,222.3 401.1,224.1 402.2,225.9 403.3,227.7 404.4,229.6 405.5,231.4 406.6,233.3 407.7,235.2 408.8,237.1 409.9,239.0" fill="none" stroke="#2a6ca8" stroke-width="2.6"/>
+<circle cx="79.5" cy="129.8" r="4" fill="#7a1f1f" stroke="#fff" stroke-width="1.2"/>
+<circle cx="79.5" cy="185.1" r="4" fill="#2a6ca8" stroke="#fff" stroke-width="1.2"/>
+<line x1="79.5" y1="240.0" x2="79.5" y2="129.8" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="87.5" y="121.8" font-size="9" text-anchor="start" fill="#7a1f1f">0.64 F&#8320; at 37 &#176;C</text>
+<text x="87.5" y="134.8" font-size="9" text-anchor="start" fill="#2a6ca8">0.32 F&#8320; at 25 &#176;C</text>
+<text x="255.2" y="216.0" font-size="9" text-anchor="end" fill="#7a1f1f">v<tspan baseline-shift="sub" font-size="7">max</tspan> = 8</text>
+<text x="130.8" y="231.4" font-size="9" text-anchor="start" fill="#2a6ca8">2.68</text>
+<text x="147.9" y="168.0" font-size="10" text-anchor="middle" fill="#7a1f1f">37 &#176;C</text>
+<text x="116.1" y="216.0" font-size="10" text-anchor="middle" fill="#2a6ca8">25 &#176;C</text>
+<circle cx="405.3" cy="76.3" r="4" fill="#7a1f1f" stroke="#fff" stroke-width="1.2"/>
+<circle cx="365.2" cy="185.1" r="4" fill="#2a6ca8" stroke="#fff" stroke-width="1.2"/>
+<text x="415.8" y="70.3" font-size="9" text-anchor="start" fill="#7a1f1f">peak 0.095 at 37 &#176;C</text>
+<text x="376.7" y="179.1" font-size="9" text-anchor="start" fill="#2a6ca8">peak 0.032 at 25 &#176;C (&#215;0.335)</text>
+</svg><!--/FIG:m5cD--><p class="small" style="font-style:italic;margin:.35rem 0 0">Proposition&nbsp;6.2 at two temperatures. Left: the concentric branch of $f_V$ at $37\ ^\circ\mathrm C$ (red) and at $25\ ^\circ\mathrm C$ (blue), where $v_{\max}$ has fallen by the factor $0.335$; the isometric point is shared, and at $0.8\,\ell_0\,\mathrm{s^{-1}}$ the cold force is half the warm one. Right: the power curves, whose peaks stand in the same ratio.</p></div>
+
+<p><span class="prov" data-sym="v_max" data-state="measured">measured, not derived: $v_{\max} = 8\,\ell_0\,\mathrm{s^{-1}}$ (and the $5$&#8211;$10$ range of the Appendix) is measured by the slack test on fibres, and this module does not compute it. The rate that would produce it, the detachment step of the cycle at about $10^{3}\ \mathrm{s^{-1}}$, is itself measured in solution, and the agreement is a consistency check within a factor of two, not a prediction. What Module&nbsp;0 does supply is its <em>temperature dependence</em> (Proposition&nbsp;6.2), derived from a measured $Q_{10}$. Module&nbsp;0&#8217;s Proposition&nbsp;6.4 uses the symbol $v_{\max}$ for a Michaelis&#8211;Menten rate; that is not this $v_{\max}$, though the two are related by the argument above.</span></p>
 
 <h3>Power peaks in the middle</h3>
 
@@ -1307,13 +1591,13 @@ print(f"force at 60 s: {force[t &lt; 60][-1]:.2f}; capacity min {C.min():.2f}")<
 
 <h3 id="problems">Problems</h3>
 
-<p>Thirty problems in three strands &#8212; <b>conceptual</b> (C1&#8211;C10), <b>derivational</b> (D1&#8211;D10), and <b>computational</b> (K1&#8211;K10) &#8212; each with a worked solution; the computational answers are Python-verified. A <b>Probes</b> note names what each tests. The map below shows which section each problem draws on &#8212; and, read by row, that every section is exercised:</p>
+<p>Thirty-one problems in three strands &#8212; <b>conceptual</b> (C1&#8211;C10), <b>derivational</b> (D1&#8211;D10), and <b>computational</b> (K1&#8211;K11) &#8212; each with a worked solution; the computational answers are Python-verified. A <b>Probes</b> note names what each tests. The map below shows which section each problem draws on &#8212; and, read by row, that every section is exercised:</p>
 
 <table>
 <tr><th>Section</th><th>Conceptual</th><th>Derivational</th><th>Computational</th></tr>
 <tr><td><a href="#architecture">&#167;1</a> architecture &amp; pennation</td><td>C3</td><td>D1</td><td>K1</td></tr>
 <tr><td><a href="#sarcomere">&#167;2</a> sarcomere / length&#8211;tension</td><td>C1, C2</td><td>D2</td><td>K6</td></tr>
-<tr><td><a href="#ecc">&#167;3</a>&#8211;<a href="#activation">&#167;5</a> activation</td><td>C4, C6</td><td>D6</td><td>K5, K10</td></tr>
+<tr><td><a href="#ecc">&#167;3</a>&#8211;<a href="#activation">&#167;5</a> activation</td><td>C4, C6</td><td>D6</td><td>K5, K10, K11</td></tr>
 <tr><td><a href="#recruitment">&#167;4</a> motor units &amp; tetanus</td><td>C5</td><td>D10</td><td>K2</td></tr>
 <tr><td><a href="#forcevelocity">&#167;6</a> force&#8211;velocity &amp; power</td><td>C7</td><td>D3, D4, D5</td><td>K3, K4</td></tr>
 <tr><td><a href="#hillmodel">&#167;7</a> Hill model</td><td>&#8212;</td><td>&#8212;</td><td>K7</td></tr>
@@ -1735,6 +2019,119 @@ print(f"  peak a {pk:.3f}, time to peak {t_pk:.1f} ms, "
 print(f"  forward model of sec. 3 used tau_a = 41.0 ms")</code></pre></div>
 <p>which prints <code>fitted tau_a = 43.7 ms</code> with <code>peak a 0.215, time to peak 25.2 ms, half-relaxation 40.0 ms</code>. So $\boxed{\tau_a\approx43.7\ \mathrm{ms}}$, against the $41.0\ \mathrm{ms}$ Modelling assumption 3.2 assumed &#8212; a $6.6\%$ discrepancy, and it is not numerical error (the features move by under $0.05\ \mathrm{ms}$ between step sizes $0.05$ and $0.005\ \mathrm{ms}$). The forward model with $\tau_a=41\ \mathrm{ms}$ produces a half-relaxation of $38.1\ \mathrm{ms}$, not the $40\ \mathrm{ms}$ measured, so the fit lengthens $\tau_a$ until the tail matches and pays for it with a slightly late peak and a slightly low amplitude. Two scalar features are a lossy summary of a whole trace, and both of them also depend on the calcium constants $\tau_r$ and $\tau_d$, which the fit holds fixed; the estimate absorbs part of their contribution into $\tau_a$. That is the general lesson of an inverse fit: what you recover is the parameter <em>conditioned on everything you froze</em>, and reporting it without that condition overstates what the twitch measured. It is nonetheless the bridge to measurement, and exactly how <a href="#limits">&#167;10</a>&#8217;s &#8220;how it is measured&#8221; works in practice.</p></div></details></div>
 
+<div class="prob"><b>K11.</b> Proposition&nbsp;5.1 makes activation a mass-action binding step, $\dot s = k^{(3)}_{\text{on}}[\mathrm{Ca}^{2+}]^{3}(1-s) - k_{\text{off}}\,s$, in place of the first-order relaxation of Modelling assumption&nbsp;3.2. Drive it with the same calcium pulse ($\tau_r = 3.6$, $\tau_d = 18\ \mathrm{ms}$, $0.1\to1.4\ \mu\mathrm M$), with $Ca_{50} = 1\ \mu\mathrm M$ and $n = 3$ frozen so that $k^{(3)}_{\text{on}} = k_{\text{off}}/Ca_{50}^{3}$ and $k_{\text{off}}$ is the one free constant. (a) <b>Show</b> that no $k_{\text{off}}$ reproduces both measured twitch features of K10 (time-to-peak $25\ \mathrm{ms}$, half-relaxation $40\ \mathrm{ms}$): map the pair the model reaches as $k_{\text{off}}$ sweeps $6$&#8211;$80\ \mathrm{s^{-1}}$. (b) Add one downstream first-order stage, $\dot a = (s - a)/\tau_x$, standing for tropomyosin movement and crossbridge attachment, and <b>fit</b> $(k_{\text{off}}, \tau_x)$ to the two features. Report every solution you find and the peak activation each predicts. (c) Which measurable quantity separates the solutions, and what does the answer say about where the twitch&#8217;s slowness lives? <span class="small"><em>Probes:</em> &#167;3, &#167;5; inverse problem with a non-identifiable branch, then model discrimination.</span>
+<div style="text-align:center;margin:.4rem 0"><!--FIG:m5cK11--><svg class="setupfig" viewBox="0 0 600 150" width="100%" style="max-width:560px" role="img" aria-label="Two panels. Left: two fitted twitches that both peak at 25 milliseconds and fall to half 40 milliseconds later; branch A, with slow calcium unbinding at 22.3 per second and a 4.6 millisecond downstream lag, peaks at 0.39; branch B, with instantaneous binding and a 43.7 millisecond lag, peaks at 0.215. Right: the curve of time-to-peak against half-relaxation that pure binding kinetics can reach as the off-rate varies; the measured point 25, 40 lies off the curve.">
+<line x1="46" y1="118" x2="304" y2="118" stroke="#333" stroke-width="1.4"/>
+<line x1="46" y1="118" x2="46" y2="16" stroke="#333" stroke-width="1.4"/>
+<line x1="46.0" y1="118" x2="46.0" y2="122" stroke="#333"/>
+<text x="46.0" y="132.0" font-size="7" text-anchor="middle" fill="#555">0</text>
+<line x1="124.1" y1="118" x2="124.1" y2="122" stroke="#333"/>
+<text x="124.1" y="132.0" font-size="7" text-anchor="middle" fill="#555">50</text>
+<line x1="202.2" y1="118" x2="202.2" y2="122" stroke="#333"/>
+<text x="202.2" y="132.0" font-size="7" text-anchor="middle" fill="#555">100</text>
+<line x1="280.4" y1="118" x2="280.4" y2="122" stroke="#333"/>
+<text x="280.4" y="132.0" font-size="7" text-anchor="middle" fill="#555">150</text>
+<line x1="42" y1="118.0" x2="46" y2="118.0" stroke="#333"/>
+<text x="39.0" y="121.0" font-size="7" text-anchor="end" fill="#555">0</text>
+<line x1="42" y1="77.1" x2="46" y2="77.1" stroke="#333"/>
+<text x="39.0" y="80.1" font-size="7" text-anchor="end" fill="#555">0.2</text>
+<line x1="42" y1="36.2" x2="46" y2="36.2" stroke="#333"/>
+<text x="39.0" y="39.2" font-size="7" text-anchor="end" fill="#555">0.4</text>
+<text x="171.0" y="141.0" font-size="8.5" text-anchor="middle" fill="#333">time (ms)</text>
+<text x="14.0" y="72.0" font-size="8.5" text-anchor="middle" fill="#333" transform="rotate(-90 14.0 72.0)">activation a</text>
+<line x1="360" y1="118" x2="588" y2="118" stroke="#333" stroke-width="1.4"/>
+<line x1="360" y1="118" x2="360" y2="16" stroke="#333" stroke-width="1.4"/>
+<line x1="360.0" y1="118" x2="360.0" y2="122" stroke="#333"/>
+<text x="360.0" y="132.0" font-size="7" text-anchor="middle" fill="#555">10</text>
+<line x1="433.3" y1="118" x2="433.3" y2="122" stroke="#333"/>
+<text x="433.3" y="132.0" font-size="7" text-anchor="middle" fill="#555">20</text>
+<line x1="506.7" y1="118" x2="506.7" y2="122" stroke="#333"/>
+<text x="506.7" y="132.0" font-size="7" text-anchor="middle" fill="#555">30</text>
+<line x1="580.0" y1="118" x2="580.0" y2="122" stroke="#333"/>
+<text x="580.0" y="132.0" font-size="7" text-anchor="middle" fill="#555">40</text>
+<line x1="356" y1="102.1" x2="360" y2="102.1" stroke="#333"/>
+<text x="353.0" y="105.1" font-size="7" text-anchor="end" fill="#555">40</text>
+<line x1="356" y1="76.8" x2="360" y2="76.8" stroke="#333"/>
+<text x="353.0" y="79.8" font-size="7" text-anchor="end" fill="#555">80</text>
+<line x1="356" y1="51.4" x2="360" y2="51.4" stroke="#333"/>
+<text x="353.0" y="54.4" font-size="7" text-anchor="end" fill="#555">120</text>
+<line x1="356" y1="26.0" x2="360" y2="26.0" stroke="#333"/>
+<text x="353.0" y="29.0" font-size="7" text-anchor="end" fill="#555">160</text>
+<text x="470.0" y="141.0" font-size="8.5" text-anchor="middle" fill="#333">time to peak (ms)</text>
+<text x="328.0" y="72.0" font-size="8.5" text-anchor="middle" fill="#333" transform="rotate(-90 328.0 72.0)">half-relaxation (ms)</text>
+<polyline points="46.0,118.0 51.0,116.5 56.0,104.5 61.0,84.4 66.0,65.3 71.0,51.3 76.0,42.9 81.0,38.9 86.0,38.1 91.0,39.4 96.0,42.0 101.0,45.4 106.0,49.1 111.0,53.0 116.0,56.9 121.0,60.7 126.0,64.3 131.0,67.8 136.0,71.1 141.0,74.2 146.0,77.2 151.0,79.9 156.0,82.5 161.0,84.9 166.0,87.1 171.0,89.2 176.0,91.2 181.0,93.0 186.0,94.7 191.0,96.3 196.0,97.8 201.0,99.1 206.0,100.4 211.0,101.6 216.0,102.7 221.0,103.8 226.0,104.7 231.0,105.6 236.0,106.5 241.0,107.3 246.0,108.0 251.0,108.7 256.0,109.3 261.0,109.9 266.0,110.4 271.0,110.9 276.0,111.4 281.0,111.8 286.0,112.3 291.0,112.6" fill="none" stroke="#7a1f1f" stroke-width="2.2"/>
+<polyline points="46.0,118.0 51.0,113.3 56.0,103.5 61.0,94.1 66.0,86.3 71.0,80.4 76.0,76.6 81.0,74.6 86.0,74.1 91.0,74.6 96.0,76.0 101.0,77.7 106.0,79.8 111.0,81.9 116.0,84.1 121.0,86.2 126.0,88.2 131.0,90.2 136.0,92.0 141.0,93.8 146.0,95.4 151.0,96.9 156.0,98.4 161.0,99.7 166.0,101.0 171.0,102.2 176.0,103.2 181.0,104.3 186.0,105.2 191.0,106.1 196.0,106.9 201.0,107.7 206.0,108.4 211.0,109.1 216.0,109.7 221.0,110.2 226.0,110.8 231.0,111.3 236.0,111.7 241.0,112.2 246.0,112.5 251.0,112.9 256.0,113.3 261.0,113.6 266.0,113.9 271.0,114.2 276.0,114.4 281.0,114.7 286.0,114.9 291.0,115.1" fill="none" stroke="#2a6ca8" stroke-width="2.2"/>
+<line x1="85.1" y1="118.0" x2="85.1" y2="38.1" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+<circle cx="85.1" cy="38.1" r="3" fill="#7a1f1f" stroke="#fff" stroke-width="1.2"/>
+<circle cx="85.1" cy="74.1" r="3" fill="#2a6ca8" stroke="#fff" stroke-width="1.2"/>
+<text x="89.8" y="34.1" font-size="7.5" text-anchor="start" fill="#7a1f1f">A: k<tspan baseline-shift="sub" font-size="5.5">off</tspan> = 22.3/s, &#964;<tspan baseline-shift="sub" font-size="5.5">x</tspan> = 4.6 ms, peak 0.39</text>
+<text x="292.9" y="50.5" font-size="7.5" text-anchor="end" fill="#2a6ca8">B: binding instant, &#964;<tspan baseline-shift="sub" font-size="5.5">x</tspan> = 43.7 ms, peak 0.215</text>
+<line x1="230.4" y1="56.7" x2="208.5" y2="104.7" stroke="#2a6ca8" stroke-width="0.8" opacity="0.6"/>
+<text x="292.9" y="24.0" font-size="7.5" text-anchor="end" fill="#666">both: peak 25 ms, half-fall 40 ms</text>
+<polyline points="487.7,48.4 484.4,53.2 481.0,57.7 477.6,61.9 474.3,65.8 471.0,69.5 467.7,72.9 464.4,76.1 461.1,79.1 457.8,81.9 454.6,84.5 451.4,86.9 448.1,89.2 445.1,91.3 441.8,93.3 438.8,95.2 435.7,96.9 432.5,98.5 429.5,100.1 426.4,101.5 423.4,102.8 420.4,104.0 417.5,105.2 414.6,106.2 411.6,107.2 408.7,108.1 405.9,109.0 403.1,109.8 400.3,110.6 397.7,111.2 395.1,111.9 392.4,112.5 389.9,113.0 387.3,113.5 384.9,114.0 382.4,114.4 380.1,114.8 377.7,115.2 375.5,115.5 373.3,115.9" fill="none" stroke="#7a1f1f" stroke-width="2.0"/>
+<circle cx="470.0" cy="102.1" r="3.5" fill="#2a7d2a" stroke="#fff" stroke-width="1.2"/>
+<text x="476.0" y="105.1" font-size="7.5" text-anchor="start" fill="#2a7d2a">measured (25, 40)</text>
+<text x="367.3" y="32.3" font-size="7.5" text-anchor="start" fill="#7a1f1f">pure binding kinetics:</text>
+<text x="367.3" y="41.9" font-size="7.5" text-anchor="start" fill="#7a1f1f">every k<tspan baseline-shift="sub" font-size="5.5">off</tspan>, Ca&#8325;&#8320; = 1 &#956;M</text>
+<text x="367.3" y="51.4" font-size="7.5" text-anchor="start" fill="#7a1f1f">never reaches the point</text>
+</svg><!--/FIG:m5cK11--></div>
+<details class="sol"><summary>Solution</summary><div>
+<div class="codewrap"><button class="copybtn" onclick="copyCode(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+from scipy.optimize import minimize
+
+TR, TD = 3.6, 18.0                  # ms, the calcium pulse of sec. 3
+T_PK = TR*np.log(1 + TD/TR)
+NORM = (1 - np.exp(-T_PK/TR))*np.exp(-T_PK/TD)
+CA50, N = 1.0, 3                    # frozen, as in K10
+
+
+def feats(t, a):
+    """Peak, time to peak and half-relaxation time (ms)."""
+    i = a.argmax()
+    j = i + int(np.argmax(a[i:] &lt; 0.5*a[i]))
+    return a[i], t[i], t[j] - t[i]
+
+
+def chain(k_off, tau_x=None, dt=0.02, T=400.0):
+    """Ca pulse -&gt; binding s(t) -&gt; optional lag stage -&gt; a(t)."""
+    t = np.arange(0.0, T, dt)
+    ca = 0.1 + 1.3*(1 - np.exp(-t/TR))*np.exp(-t/TD)/NORM
+    r_on = (k_off/CA50**N)*ca**N*1e-3          # per ms
+    r_off = k_off*1e-3
+    s = np.zeros_like(t)
+    a = np.zeros_like(t)
+    for i in range(1, len(t)):
+        s[i] = s[i-1] + dt*(r_on[i-1]*(1 - s[i-1]) - r_off*s[i-1])
+        if tau_x:
+            a[i] = a[i-1] + dt*(s[i-1] - a[i-1])/tau_x
+    return t, s, (a if tau_x else s)
+
+
+print("(a) pure binding kinetics, k_off sweep:")
+for k_off in (6.0, 10.0, 22.3, 40.0, 80.0):
+    pk, tp, th = feats(*chain(k_off)[:2])
+    print(f"  k_off {k_off:5.1f}/s: peak {pk:.3f}, "
+          f"t_pk {tp:5.1f} ms, t_half {th:5.1f} ms")
+
+
+def cost(p):
+    if min(p) &lt;= 0:
+        return 1e6
+    _, tp, th = feats(*chain(*p)[::2])
+    return (tp - 25.0)**2 + (th - 40.0)**2
+
+
+for k0, x0 in ((25.0, 10.0), (500.0, 40.0)):
+    r = minimize(cost, [k0, x0], method="Nelder-Mead",
+                 options=dict(xatol=1e-4, fatol=1e-8))
+    pk, tp, th = feats(*chain(*r.x)[::2])
+    print(f"(b) from ({k0:.0f}, {x0:.0f}): k_off {r.x[0]:.1f}/s, "
+          f"tau_x {r.x[1]:.1f} ms, peak {pk:.3f}, "
+          f"t_pk {tp:.1f}, t_half {th:.1f}, residual {r.fun:.1e}")</code></pre></div>
+<p><b>(a)</b> The sweep prints, for $k_{\text{off}} = 6$, $10$, $22.3$, $40$, $80\ \mathrm{s^{-1}}$: time-to-peak $27.4$, $23.9$, $18.7$, $15.3$, $11.8\ \mathrm{ms}$ and half-relaxation $124.7$, $77.8$, $39.4$, $26.1$, $18.4\ \mathrm{ms}$. The half-relaxation is set by $k_{\text{off}}$ almost alone (the tail is unbinding at resting calcium, Proposition&nbsp;5.1), and pins it near $22\ \mathrm{s^{-1}}$; at that value the kinetic peak arrives at $18.7\ \mathrm{ms}$. To push the peak out to $25\ \mathrm{ms}$ the off-rate must drop below $10\ \mathrm{s^{-1}}$, where the tail is already twice too long. The reachable pairs trace the curve in the right panel, and the measured point $(25, 40)$ lies off it: with this calcium pulse, binding kinetics alone is too fast on the rise for its own tail. That is the $19\ \mathrm{ms}$ <a href="#activation">&#167;5</a> warned of.</p>
+<p><b>(b)</b> With the lag stage the residual collapses, and there are two ways for it to do so. From the first start the fit converges to <b>branch&nbsp;A</b>: $k_{\text{off}} = 22.3\ \mathrm{s^{-1}}$ (an unbinding time of $44.8\ \mathrm{ms}$) with $\tau_x = 4.6\ \mathrm{ms}$ &#8212; binding slow, the downstream step fast &#8212; a peak activation of $\boxed{0.391}$, and a printed residual of $0.0\ \mathrm{ms^2}$ (both features land on their targets at the $0.02\ \mathrm{ms}$ step). From the second start the optimiser runs off to ever larger $k_{\text{off}}$ (the printout shows $3532\ \mathrm{s^{-1}}$) with $\tau_x = 43.6\ \mathrm{ms}$, K10&#8217;s $43.7$ to the precision of the fit: <b>branch&nbsp;B</b>, binding instantaneous and every millisecond of lag downstream, which is exactly the first-order model K10 fitted, recovered here as a limit, with peak activation $\boxed{0.215}$. Its residual bottoms out at $0.2\ \mathrm{ms^2}$ rather than zero, for the reason K10 already met: with binding removed only $\tau_x$ is left to fit two features, and the peak lands at $25.4\ \mathrm{ms}$. Both branches reproduce $(25, 40)$ to within $0.4\ \mathrm{ms}$; the two timing features cannot tell them apart. The inverse problem is <em>non-identifiable</em> on those data, and a least-squares fit that reported only the branch it happened to land on would have hidden that.</p>
+<p><b>(c)</b> The branches differ by $1.8\times$ in peak activation, and that is measurable as the twitch-to-tetanus force ratio: activation in a fused tetanus saturates at the $a_\infty$ of the sustained calcium, $0.73$ at $1.4\ \mu\mathrm M$ (<a href="#recruitment">&#167;4</a>), so branch&nbsp;B predicts a twitch of $0.215/0.73 = 0.29$ of tetanus and branch&nbsp;A one of $0.391/0.73 = 0.53$. Fast mammalian fibres show ratios of about $0.2$&#8211;$0.3$; branch&nbsp;B is in range and branch&nbsp;A is not. So, on these constants, the twitch&#8217;s slowness lives <em>downstream</em> of calcium binding: the switch itself is fast, as Proposition&nbsp;5.1 says, and the $40\ \mathrm{ms}$ tail is the crossbridges letting go, not troponin holding on. Two cautions, both the lesson of K10. The verdict is conditioned on what was frozen: with $Ca_{50}$ raised to $1.5\ \mu\mathrm M$, branch&nbsp;A&#8217;s peak drops to $0.14$ and it is no longer excluded (over $n = 2$&#8211;$4$ and $Ca_{50} = 0.7$&#8211;$1.5\ \mu\mathrm M$ its peak spans $0.11$&#8211;$0.77$ while its $k_{\text{off}}$ stays within $21$&#8211;$28\ \mathrm{s^{-1}}$: the timing is robust, the discriminator is not). And the model that fits is not thereby the mechanism: a single downstream stage is the smallest addition that closes the gap, not a demonstration that there is only one.</p></div></details></div>
+
 <p>That closes the module. From a nerve impulse at the neuromuscular junction we have built, step by verifiable step, the force a muscle makes and the torque it delivers to a joint &#8212; and named honestly what is left for the modules to come.</p>
 <!-- SEC10-END -->
 
@@ -1765,6 +2162,15 @@ print(f"  forward model of sec. 3 used tau_a = 41.0 ms")</code></pre></div>
 <tr><td>$u$</td><td>neural drive / excitation $\in[0,1]$ (recruitment &amp; rate coding)</td><td><a href="#recruitment">&#167;4</a></td></tr>
 <tr><td>$f_{\text{fus}}$</td><td>fusion frequency (ripple vanishes above it)</td><td><a href="#recruitment">&#167;4</a></td></tr>
 <tr><td>$\tau_a,\ \tau_{\text{act}},\ \tau_{\text{deact}}$</td><td>activation time constant; its activating and deactivating values</td><td><a href="#activation">&#167;5</a></td></tr>
+<tr><td>$k^{(n)}_{\text{on}},\ k_{\text{off}},\ \tau(\mathrm{Ca})$</td><td>all-or-none on-rate and off-rate constants of the calcium switch; its calcium-dependent time constant (Proposition&nbsp;5.1)</td><td><a href="#activation">&#167;5</a></td></tr>
+<tr><td>$s,\ \tau_x$</td><td>binding-site occupancy and the downstream lag stage of K11</td><td><a href="#limits">&#167;10</a></td></tr>
+<tr><td colspan="3"><b>Chemistry and electricity (traces from Module&nbsp;0)</b></td></tr>
+<tr><td>$\Delta G,\ T,\ R_g,\ k_BT,\ N_A$</td><td>free energy of ATP hydrolysis at the cell&#8217;s composition; absolute temperature; gas constant; thermal energy; Avogadro&#8217;s number</td><td><a href="#sarcomere">&#167;2</a></td></tr>
+<tr><td>$f_{\text{head}},\ d,\ W_{\text{ne}},\ \eta_{\text{xb}},\ \phi_{\text{pump}}$</td><td>force per head; stroke length; non-expansion work of one stroke; crossbridge efficiency; pump share of ATP</td><td><a href="#sarcomere">&#167;2</a></td></tr>
+<tr><td>$n_{\text{fil}},\ N_{\text{half}},\ \phi_{\text{att}},\ \chi$</td><td>thick filaments per unit area; heads per half-filament; attached fraction at peak force; myofibril fraction (Lemma&nbsp;2.1)</td><td><a href="#sarcomere">&#167;2</a></td></tr>
+<tr><td>$E_i,\ z_i,\ F_{\text{Far}}$</td><td>Nernst potential of ion $i$; its valence; Faraday constant (subscripted: $F$ is force in this module)</td><td><a href="#ecc">&#167;3</a></td></tr>
+<tr><td>$V,\ \Delta V,\ P_i,\ C_m$</td><td>membrane potential (Lemma&nbsp;3.1; a voltage, not the muscle volume $V$ of &#167;1); the spike&#8217;s swing; ion permeability; membrane capacitance per area</td><td><a href="#ecc">&#167;3</a></td></tr>
+<tr><td>$k_{\text{cyc}},\ N_{\text{hs}},\ E_a,\ Q_{10}$</td><td>rate-limiting crossbridge cycling rate; half-sarcomeres in series along a fibre; Arrhenius activation energy; temperature coefficient (Proposition&nbsp;6.2)</td><td><a href="#forcevelocity">&#167;6</a></td></tr>
 <tr><td colspan="3"><b>Force laws</b></td></tr>
 <tr><td>$v,\ v_{\max}$</td><td>shortening velocity; maximum shortening velocity</td><td><a href="#forcevelocity">&#167;6</a></td></tr>
 <tr><td>$F_0$</td><td>isometric force at the current length and activation (the $f_V=1$ reference)</td><td><a href="#forcevelocity">&#167;6</a></td></tr>
@@ -1810,6 +2216,15 @@ print(f"  forward model of sec. 3 used tau_a = 41.0 ms")</code></pre></div>
 <tr><td>Hill curvature $c=a_H/F_0$; eccentric plateau</td><td>$\approx0.25$; $\approx1.5\,F_0$</td><td><a href="#forcevelocity">&#167;6</a></td></tr>
 <tr><td>Pennation $\theta_p$: biceps / gastrocnemius / soleus / quadriceps</td><td>$0^\circ$ / $17^\circ$ / $25^\circ$ / $12^\circ$</td><td><a href="#architecture">&#167;1</a></td></tr>
 <tr><td>Elbow-flexor moment arm $d_m(\theta)$</td><td>$\approx2$&#8211;$4\ \mathrm{cm}$ (peaks near $90^\circ$)</td><td><a href="#torque">&#167;8</a></td></tr>
+<tr><td>ATP free energy $\Delta G$: resting / fatigued muscle</td><td>$-62.5$ / $-52.7\ \mathrm{kJ\,mol^{-1}}$ ($24.2$ / $20.4\,k_BT$; Module&nbsp;0 &#167;3, at measured compositions)</td><td><a href="#sarcomere">&#167;2</a></td></tr>
+<tr><td>Force per head $f_{\text{head}}$, stroke $d$</td><td>$3$&#8211;$6\ \mathrm{pN}$, $10\ \mathrm{nm}$ (single-molecule measurements); efficiency $\eta_{\text{xb}} = 0.48$ at $5\ \mathrm{pN}$, resting</td><td><a href="#sarcomere">&#167;2</a></td></tr>
+<tr><td>Thick-filament lattice: $d_{10}$, $n_{\text{fil}}$, heads per filament</td><td>$38\ \mathrm{nm}$, $6.0\times10^{14}\ \mathrm{m^{-2}}$, $294$; myofibril fraction $\chi\approx0.83$</td><td><a href="#sarcomere">&#167;2</a></td></tr>
+<tr><td>Nernst potentials $E_{\mathrm K}$ / $E_{\mathrm{Na}}$ / $E_{\mathrm{Cl}}$ / $E_{\mathrm{Ca}}$</td><td>$-95.0$ / $+66.6$ / $-90.0$ / $+130.9\ \mathrm{mV}$ (Module&nbsp;0 &#167;5, at $37\ ^\circ\mathrm C$)</td><td><a href="#ecc">&#167;3</a></td></tr>
+<tr><td>Permeability ratios $P_{\mathrm{Na}}/P_{\mathrm K}$ rest / spike; $P_{\mathrm{Cl}}/P_{\mathrm K}$</td><td>$0.02$ / $20$; $2$ (<em>assumed</em> representative values) &#8594; $V = -86$ / $+42\ \mathrm{mV}$</td><td><a href="#ecc">&#167;3</a></td></tr>
+<tr><td>Sodium&#8211;potassium pump: cost of $3\,\mathrm{Na^+}$ out, $2\,\mathrm{K^+}$ in</td><td>$46.3\ \mathrm{kJ\,mol^{-1}}$ at $-90\ \mathrm{mV}$ ($74\%$ of a resting ATP, $88\%$ fatigued); sodium entry $\approx5.4\ \mu\mathrm M$ per impulse ($C_m = 5\ \mu\mathrm{F\,cm^{-2}}$, <em>assumed</em>)</td><td><a href="#ecc">&#167;3</a></td></tr>
+<tr><td>Calcium switch rates $k_{\text{off}}$, $k^{(3)}_{\text{on}}$</td><td>$25\ \mathrm{s^{-1}}$ (from $\tau_{\text{deact}}$), $25\ \mu\mathrm{M^{-3}\,s^{-1}}$ (from $Ca_{50}$); $\tau(1.4\ \mu\mathrm M) = 10.7\ \mathrm{ms}$</td><td><a href="#activation">&#167;5</a></td></tr>
+<tr><td>Crossbridge activation energy $E_a$; Arrhenius factor $37\to25\ ^\circ\mathrm C$</td><td>$70.0\ \mathrm{kJ\,mol^{-1}}$ (from $Q_{10} = 2.5$, Module&nbsp;0 &#167;6); $0.335$</td><td><a href="#forcevelocity">&#167;6</a></td></tr>
+<tr><td>K11 fits: branch A / branch B</td><td>$k_{\text{off}} = 22.3\ \mathrm{s^{-1}}$, $\tau_x = 4.6\ \mathrm{ms}$, peak $0.391$ / binding instantaneous, $\tau_x = 43.7\ \mathrm{ms}$, peak $0.215$</td><td><a href="#limits">&#167;10</a></td></tr>
 </table>
 
 <p class="small">Values are round representative figures for orientation, not patient-specific data; each varies with muscle, individual, training, and measurement method (<a href="#limits">&#167;10</a>).</p>
