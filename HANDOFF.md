@@ -4,8 +4,9 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last written:** 2026-09-13 (ninth refresh — **Phase B step 2 starts at Module 5**; see
-"Decisions of 2026-09-13" and "Next task"). Latest content commit `387508f`.
+**Last written:** 2026-09-14 (tenth refresh — **Phase B step 2: Module 5 DONE
+(`3703a91`, `8c64e58`) and Module 2 DONE (`c42bf3a`, `0a6caeb`); START at Module 6**;
+see "Phase B step 2" and "Next task"). Latest content commit `0a6caeb`.
 A two-minute overview of this file lives at `HANDOFF.html` (repo root, also live at
 https://az9713.github.io/biomechanics/HANDOFF.html). This file stays the source of truth.
 
@@ -690,8 +691,91 @@ Phase B step 1 is closed.
    passing) but "the arithmetic is right" is exactly the assurance that failed three
    times in this module.
 
-**Phase B step 2 — START HERE: Module 5.** Scoped 2026-09-13; nothing written yet.
-`module05.html` is 1840 lines, has `<!-- SECn-START/END -->` markers for §4–§10, and
+<!-- M5-TRACE -->
+### Phase B step 2 — Module 5: DONE (`3703a91`; second reviewer pass `8c64e58`, 20 more findings applied — two reviewers ran because the first one's report truncated)
+
+Four traces plus K11, live at https://az9713.github.io/biomechanics/module05.html.
+Every trace is a new `<h3>` at the point of first use; nothing renumbered. All
+thirteen gates green; `check_provenance` 73 assignments, 7 declarations, 0 issues.
+A `rigor-reviewer` pass returned NEEDS-FIXES with **24 findings, all applied** (the
+worst: a false `module0` state on the `Q10` marker — Module 0 measures the `Q10` and
+derives `E_a` from it; an unbridged −90 mV in the pump ledger four lines after the
+lemma returned −86; five symbol collisions `u`, `V`, `s`, `c`, `P` against the module's
+own drive, volume, occupancy, curvature and power).
+
+| trace | what it proves or computes | provenance |
+|---|---|---|
+| §2 *What one stroke costs* | one ATP = 24.2 / 20.4 k_BT (rest / fatigued, Module 0 §3); stroke work 11.7 k_BT at 5 pN; η_xb = 0.48 / 0.57; muscle bound 0.29–0.34 after a measured pump share 0.30–0.40; **Lemma 2.1** σ = χ n_fil N_half φ_att f_head = 11–18 N/cm² against the measured 30 | `F_max` measured (its inputs are inferred from the same fibres) |
+| §3 *Where the voltage comes from* | Nernst table from Module 0 §5; **Lemma 3.1** GHK with a constant-field proof; rest −86 mV and spike +42 mV from P_Na/P_K = 0.02 and 20 (assumed), P_Cl/P_K = 2; Na/K pump 46.3 kJ/mol per ATP via Module 0 Prop 3.5, 3 Na is the ceiling in working muscle (4 Na costs 61.4, forbidden fatigued by 8.7); one impulse costs 1.8 µM ATP, under 2% of a crossbridge cycle across the fibre | `tau_relax` measured (τ_r, τ_d: what would derive them is RyR gating and a SERCA Michaelis–Menten rate) |
+| §5 *Where the two time constants come from* | **Proposition 5.1** τ(Ca) = τ_deact/(1+(Ca/Ca50)^n); τ_act = 40/(1+1.4³) = 10.7 ms from no new input; consistency with Module 0's per-site k_on = 10⁸ M⁻¹s⁻¹ (10 ms at Ca50) | `tau_act` derived; `tau_deact`, `k_on` measured |
+| §6 *Why a cold muscle is slow* | **Proposition 6.2** v_max(T) Arrhenius-scaled; 8 → 2.68 ℓ₀/s at 25 °C; force at 0.8 ℓ₀/s halves (0.64 → 0.32 F₀); peak power ×0.335; k_cyc ≈ 1080 s⁻¹ inferred, reconciled with Module 0's 10 s⁻¹ turnover | `Q10`, `v_max` measured |
+| K11 | kinetic twitch inverse fit: pure binding kinetics cannot reach (25, 40 ms); with one downstream lag two branches fit — A: k_off 22.3 s⁻¹ + τ_x 4.6 ms, peak 0.39; B: instant binding + τ_x 43.7 ms (K10's model), peak 0.215 — non-identifiable on timing; the twitch/tetanus ratio (0.29 vs 0.53 of 0.73) picks B, conditioned on the frozen Ca50 | — |
+
+**Findings worth carrying.** (1) The plan's "21.3 k_BT, ~55%" was 55 kJ/mol; Module 0's
+measured compositions give 62.5 → 48%. Module 0 wins over the plan. (2) Two Hill-type
+"rates" a hundredfold apart described the same cycle in two modules (1080 s⁻¹
+detachment step vs 10 s⁻¹ per-head turnover); both are right and the reconciliation
+sentence now sits in §6. (3) The reviewer's report **truncated after 5 of 24
+findings** in the idle notification; the rest came only after a request for batches of
+≤5 with a DONE marker (memory `reviewer-results-truncate`). (4) Figures added to a
+module that cites figures by number must be **uncounted `<div>`s** (now in `CLAUDE.md`).
+
+Scratch (session-transient; durable record is `module05.html`): `nums5.py` (every
+number, assertions) → `nums5.json`; `gen5.py` (a `P` plot helper + five figures) →
+`svg5.json`; `splice5.py` (idempotent marker splice); `k11.py` (the K11 listing,
+PEP8, run to produce the quoted output).
+<!-- /M5-TRACE -->
+
+<!-- M2-TRACE -->
+### Phase B step 2 — Module 2: DONE (`c42bf3a`, follow-up `0a6caeb`)
+
+Two traces into `module02.html`, plus nine provenance markers, the `.prov` CSS, two
+uncounted figures, and Appendix rows. All gates green (`check_provenance` 0 issues;
+`check_overlap` 0). A `rigor-reviewer` pass returned NEEDS-FIXES with **17 findings,
+all applied**. The worst three: a dimensional slip inside the boxed bound (`F_max/Z`
+where the left side was already a fractional rate); the K4 caveat I wrote was itself
+wrong (with a physiological gain `Z` is frozen on K4's timescale and the damage settles
+toward 0.25·1.6⁶ = 4.2 at any ramp rate — K4's critical rate is an artefact of the toy
+`k`, not "set by repair alone"); and three symbol collisions inside one proposition
+(`n` safety factor, `δ = Z − Z_eq`, `g` gravity) plus `F_max`/`R_max` reading as a force
+and a radius. **Symbols now used in §7's Proposition 7.3:** `Φ_F`, `Φ_R` (max fluxes),
+`n_H` (Hill coefficient), `ξ` (departure level, 0.05), `q = ((1−ξ)/ξ)^{1/n_H}`. The
+"1.5–3 years" and "70–130×" are now stated as lower bounds. The reviewer hit its
+session limit right after delivering; its report also truncated first and arrived in
+full only on a batched re-request.
+
+**Open decision for the user (unchanged):** K1, K2, K4 and K9 all rest on the toy
+`k = 80`; the §7 subsection and K4's Probes line now say so. Rerunning them with a
+physiological gain would change their numbers (outside decision 4). Leave or rerun?
+
+- **§5 *The end members, derived forward*:** Module 0 §2 Prop 2.2's apatite (143 vs
+  114 GPa) and §4's collagen ladder (50 → 6 → 1 GPa, measured); the Reuss–Voigt
+  bracket recomputed 2.12–72.0 GPa (was 1.98–50.5); K8's η 0.33 → 0.23; Module 0
+  Prop 2.1 makes E ≤ E_V a proved inequality. Markers: `E_apatite` module0,
+  `E_collagen`/`E`/`G` measured (G: isotropic estimate 6.5 vs measured 3.3 — anisotropy).
+  §6: `sigma_Y`/`sigma_c` measured (bond-rupture E/10 = 1.7 GPa is 13×/10× the
+  measured; the gap is the flaw population).
+- **§7 *Where the law's shape comes from*:** **Proposition 7.3** — net rate = F_max
+  θ_F − R_max(1−θ_R) with two Hill arms gives (i) monotone with one zero, (ii) a lazy
+  zone within δF_max of zero when thresholds are the δ-departure points, half-points
+  at ε_lo/g and gε_hi, g = ((1−δ)/δ)^(1/n), (iii) the boxed gain bound **k ≤ (1+4δ) n
+  F_max/(4 ε_hi Z)**. Numbers (δ = 0.05): n = 3 puts formation half-on at 4000 µε and
+  90% at 8300, beyond the yield strain 7600 → **n ≳ 6** is required; with F_max/Z ≲
+  10⁻³/day, **k ≤ 0.6–1.2 (strain·day)⁻¹, 70–130× below the module's toy 80**, so
+  adaptation time constants are **1.5–3 years, not 8–12 days**. K4's "same timescale"
+  premise is now caveated in its Probes line (problem left as stated). Markers:
+  `k_remodel` measured (bounded), `tau_relax` (K4's τ_r) measured.
+- **Open decision for the user:** K4's arithmetic is correct for its declared toy `k`
+  but its physical premise is now contradicted by Proposition 7.3. Options: leave
+  with the caveat (done), or rerun K4 with a physiological gain (changes its numbers —
+  outside decision 4's "no existing number changes").
+
+Scratch: `nums2.py` → `nums2.json`, `gen2.py` (imports gen5's helper) → `svg2.json`,
+`splice2.py`.
+<!-- /M2-TRACE -->
+
+**The Module 5 scoping notes below are kept for the record (line numbers are those of
+2026-09-13 and are stale).** `module05.html` is 1840 lines, has `<!-- SECn-START/END -->` markers for §4–§10, and
 **has no `.prov` CSS rule** — copy lines 57–61 of `module00.html`'s `<style>` first,
 or the markers will parse but not render. Its gate worklist (`provenance-baseline.txt`):
 `F_max` (line 396, §1), `tau_relax` (834, §3), `tau_act`/`tau_deact` (978, §5),
@@ -712,10 +796,26 @@ marker), numbers in a `nums5.py` with assertions, prov markers with the exact
 `data-sym` names above. Then the full thirteen-gate loop, `autolink_sections.py`
 (now with the cross-module guard), a `rigor-reviewer` pass, apply, commit, push.
 
-**Then the rest of step 2**, in the order `chemistry-audit-and-plan.md` §2.2b and
-Part 3 fix:
+**Module 6 — scoped 2026-09-14, nothing written.** `module06.html` is 1274 lines, has
+**no `.prov` CSS** (copy the rule from `module02.html`'s `<style>`), 25 `<figure>`s cited
+by number 36 times (so new figures must be uncounted `<div>`s), and numbers its results
+without a section prefix (Definition 1, Proposition 1 … Proposition 11, Lemma 1) — a
+new result needs a new type or the next free number (Proposition 12, Lemma 2), never a
+renumber. Gate worklist: `E_lin` and `sigma_f` at line 141 (Definition 1's figure/box
+in §1). Traces the plan names, with what Module 0 now supplies: **§1** — the Gly-X-Y
+helix, hydroxyproline, the hydrogen-bond ladder and the 67 nm D-period (Module 0 §7 Def
+7.2, `L_collagen` derived 300 nm) and the *licence* for "a straightened fibril is
+nearly linear" (Module 0 §4 Prop 4.2; **do not** claim the toe — Module 6 Proposition 1
+already proves it from crimp, see HANDOFF "§4 — a conflict"); **§2/§7** — modulus and
+hysteresis from cross-link density (enzymatic lysyl-oxidase vs glycation cross-links;
+Module 0 §7 side chains); **§8** — elastin's modulus predicted forwards (Module 0 §4
+Prop 4.3, `E_elastin` 1.55 MPa vs 1.1) for ligaments and fascia. Then the thirteen gates,
+a reviewer pass (ask for ≤5 findings per message, DONE marker), commit, push.
 
-> Module 5 → Module 2 → Module 6 → Module 4 → Module 14 → Modules 8/9 →
+**Then the rest of step 2**, in the order `chemistry-audit-and-plan.md` §2.2b and
+Part 3 fix (Modules 5 and 2 done — **START at Module 6**):
+
+> ~~Module 5~~ → ~~Module 2~~ → **Module 6** → Module 4 → Module 14 → Modules 8/9 →
 > Modules 15/16/17
 
 Module 0 now has something to trace *from* for each of them, and the tracing is the
