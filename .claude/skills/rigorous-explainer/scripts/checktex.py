@@ -71,7 +71,10 @@ def main(path):
     for mode, ln, body in segments:
         if body.count("{") != body.count("}"):
             issues.append(f"line {ln} ({mode}): brace imbalance :: {body[:60]!r}")
-        if body.count(r"\left") != body.count(r"\right"):
+        # \left/\right count only when a DELIMITER follows. A letter means a
+        # named arrow/harpoon (\leftrightarrow, \rightleftharpoons), not a sizer.
+        if (len(re.findall(r"\\left(?![a-zA-Z])", body))
+                != len(re.findall(r"\\right(?![a-zA-Z])", body))):
             issues.append(f"line {ln} ({mode}): \\left/\\right imbalance :: {body[:60]!r}")
         if body.count(r"\begin") != body.count(r"\end"):
             issues.append(f"line {ln} ({mode}): \\begin/\\end imbalance :: {body[:60]!r}")
