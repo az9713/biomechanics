@@ -4,9 +4,10 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last written:** 2026-09-14 (eleventh refresh — **Phase B step 2: Modules 5, 2 DONE;
-Module 6 written (`98ddfe6`), reviewer findings pending; next Module 4**; see "Phase B
-step 2" and "Next task"). Latest content commit `98ddfe6`.
+**Last written:** 2026-09-14 (twelfth refresh — **Phase B step 2: Modules 5, 2 DONE;
+Module 6 reviewed, fixed and COMMITTED (`04825e8`); three Sonnet agents in flight for
+Modules 4, 14, 8/9; Modules 15, 16, 17 queued as wave 2**; see "Module 6 — reviewed"
+and "Agents in flight" below). Latest content commit `04825e8`.
 A two-minute overview of this file lives at `HANDOFF.html` (repo root, also live at
 https://az9713.github.io/biomechanics/HANDOFF.html). This file stays the source of truth.
 
@@ -796,11 +797,49 @@ marker), numbers in a `nums5.py` with assertions, prov markers with the exact
 `data-sym` names above. Then the full thirteen-gate loop, `autolink_sections.py`
 (now with the cross-module guard), a `rigor-reviewer` pass, apply, commit, push.
 
-**Module 6 — WRITTEN and committed (`98ddfe6`); NO reviewer findings applied.** A
-`rigor-reviewer` (`rev6`) was dispatched but the session was cleared before it
-reported, so **the first job of the next session is a fresh reviewer pass on Module 6's
-three new blocks** (prompt pattern: the one in memory `reviewer-results-truncate` —
-≤5 findings per message, DONE marker, "send the whole report as your final result").
+**Module 6 — DONE (`04825e8`): all 18 `rev6` findings applied, all thirteen gates green,
+committed and pushed 2026-09-14.** What was fixed: figure `m6cA` drew a second D-period with 4 then 3 bars crossing (one period
+now); three citations pointed at sources that do not say what was claimed (Module 0 §4
+for the hydroxyproline ladder, Module 2 §5 for gap-zone nucleation, "Proposition 1 at
+Φ = 0" → Definition 2); the 0.02 D gap agreement pins `L_c` to 1.3 nm, sharper than
+Module 0's own few-per-cent claim; tendon 20 % above fibril is the opposite of what
+hierarchy predicts (said so); ligamentum-flavum composition is dry mass used as a volume
+fraction, the parallel mixing rule is named, the toe-modulus test is left open; ρ, N_A,
+k_BT, M_c defined and `T`-as-temperature added to the Appendix collision note; α chain
+and persistence length glossed; E/10 labelled a textbook estimate this course does not
+derive; three walls of words split; "slide back" → "slide past its neighbour and
+dissipate the work"; §8 heading "What fills a ligament's free range"; `L_c, D` Appendix
+row moved under §1; `4.478 ≈ 4.48` in the statement. Proposition 1′ label kept (reviewer:
+acceptable; "1a" if ever changed). Gate advisories are pre-existing (one old figure's
+margin, one bust schematic, six stray `$`).
+
+**Agents in flight — wave 1 (launched 2026-09-14 after the Module 6 commit; the user
+chose `general-purpose` on **Sonnet**, at most 3 at a time): `m04`, `m14`, `m0809`.
+Wave 2, to launch when a wave-1 agent reports: `m15`, `m16`, `m17` (their prompts were
+the light-addition entries of `chemistry-audit-and-plan.md` §2.2b lines ~295–297: M15
+marker error model, M16 chemical-potential driving term generalising the poroelastic
+law, M17 one capstone chain molecule → whole body; same guardrails, same report format).
+A first launch of six Fable agents failed at once on the usage limit (resets 4:50 pm
+Pacific); the only residue is the `.prov` CSS rule now in `module04.html`, kept.**
+Agents survive a `/clear` and report into whichever session is live (`rev6` did exactly
+that). Each edits ONLY its own `moduleNN.html` (`m0809` owns 08 and 09), runs all thirteen gates, dispatches its own `rigor-reviewer`,
+applies findings, and ends with a report: files edited, each trace with key numbers,
+gate results, reviewer findings applied, **canonical `data-sym` names missing from the
+GATED table**, anything left undone. They were forbidden every git write command and
+every shared file (`module00.html`, `index.html`, `README.md`, this file, the plan, the
+baseline, the skill scripts). Scratch files are prefixed `m04_`, `m14_`, … in the
+scratchpad. Do not poll them or send "are you done" messages.
+
+**Integration steps when the reports arrive** (one pass, in this order):
+1. For each reported missing `data-sym` name: add it to `check_provenance.py`'s GATED
+   table as a `[pre]` entry AND record it as an amendment in
+   `chemistry-audit-and-plan.md` §2.2c; then re-run `check_provenance.py` on that module.
+2. Spot-check each module: render every new figure and look at it; read each new
+   `.prov` marker for truth; confirm the K11 (Modules 14 and 8/9) meets the K-depth
+   standard.
+3. Commit **per module** with the `az9713` identity and the trailers in `CLAUDE.md`;
+   push; confirm the live page.
+4. Refresh this file (mark each module DONE with its hash), then `/clear`.
 Known risks to give the reviewer: the label "Proposition 1′" (the module numbers
 results 1–11 through the file, so a primed number was used to avoid renumbering);
 the licence paragraph must not over-claim Module 0 §4 (it proves the Gaussian
@@ -867,11 +906,11 @@ place in the §8 subsection):
   `E_a(η)`, and the 156/42 kPa pair.
 
 **Then the rest of step 2**, in the order `chemistry-audit-and-plan.md` §2.2b and
-Part 3 fix (Modules 5, 2 done; 6 written, review pending; **START with Module 6's
-reviewer pass, then Module 4**):
+Part 3 fix (Modules 5, 2, 6 done; **4, 14, 8/9 in flight on three Sonnet agents; 15, 16,
+17 queued — integrate each report as it arrives, launch a wave-2 agent per freed slot**):
 
-> ~~Module 5~~ → ~~Module 2~~ → **Module 6** → Module 4 → Module 14 → Modules 8/9 →
-> Modules 15/16/17
+> ~~Module 5~~ → ~~Module 2~~ → ~~Module 6~~ → {Module 4, Module 14, Modules 8/9}
+> in flight → {Module 15, Module 16, Module 17} queued
 
 Module 0 now has something to trace *from* for each of them, and the tracing is the
 easier half: the chemistry exists, is proved, and carries provenance markers. What
