@@ -519,6 +519,13 @@ Both narrowings remove a false positive that would otherwise force a false marke
 which is worse than no marker: a `data-sym="k_perm"` on a swing coefficient would
 assert a chemistry lineage the number does not have.
 
+**Amendment 6 (2026-09-15, forced by the Module 15 trace).** Three `[pre]` names for the
+biochemical-marker error model: `CTX` (serum C-terminal telopeptide of type I collagen,
+a resorption marker), `P1NP` (serum procollagen type I N-propeptide, a formation
+marker), `c_lac` (blood lactate). All three are assay concentrations, declared
+`measured` with the assay named. Each alias list holds only the exact name Module 15
+writes.
+
 #### What the gate does not do
 
 It does not check that a declaration is *true*. A section can mark `E` as
