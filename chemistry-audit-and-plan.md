@@ -497,6 +497,28 @@ parameters**. That number, and the `file:line` for each, is committed as
 
 **Amendment 4 (2026-09-09, forced by Module 0 §3).** The table above was written from an inventory of the *existing* seventeen modules, so it held no chemistry parameter at all. §3 is the first section to state one, and it states two kinds: a tabulated standard free energy and a set of measured cellular concentrations. Both are added above as `[pre]` entries in `check_provenance.py`, so that the first use in Module 5's crossbridge energetics is gated rather than retrofitted. `c_metab` is deliberately generic: one marker declares the provenance of a whole measured concentration set, because those six numbers come from one method and share one caveat.
 
+**Amendment 5 (2026-09-15, forced by the Modules 8/9 trace).** Three changes to the
+table, each with its evidence from the inventory.
+1. Five `[pre]` names added for the ATP-supply model: `VO2max` (maximal oxygen
+   uptake), `E_O2` (energy released per litre of oxygen), `PCr_conc` (resting
+   phosphocreatine concentration), `C_gly` (glycolytic energy capacity), `CoT_run`
+   (running cost-of-transport constant). All are measured inputs; Module 9's markers
+   declare them so. Each alias list holds only the exact name the module writes.
+2. `E` narrowed to `E@Pa` (Amendment C's unit binding). The inventory showed
+   `module09.html:116` assigning the SLIP model's total mechanical energy `E`, unitless,
+   and the gate demanded a Young's-modulus declaration for it. A modulus always
+   carries a pascal unit (`GPa`, `MPa` match the substring); a mechanical energy never
+   does. Cost: Module 6's one bare `E` assignment leaves the inventory; its `E_lin`
+   marker stays, harmless, and its gigapascal assignments remain gated.
+3. `kappa@m^2` removed from `k_perm`. The only `κ` in `m²` in the whole inventory is
+   `module08.html:503`, the walking model's swing-cost coefficient, an *assumed*
+   mechanical constant that the section already labels as such in prose. It was never
+   a permeability; the alias was an inventory misread. Module 4's Darcy permeability
+   is still gated through `k@m^4`.
+Both narrowings remove a false positive that would otherwise force a false marker,
+which is worse than no marker: a `data-sym="k_perm"` on a swing coefficient would
+assert a chemistry lineage the number does not have.
+
 #### What the gate does not do
 
 It does not check that a declaration is *true*. A section can mark `E` as
