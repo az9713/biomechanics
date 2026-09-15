@@ -821,9 +821,21 @@ Lemma 8.1 Michaelis–Menten aggrecan loss + Proposition 8.1 Donnan elasticity `
 returned 21 findings, all applied; thirteen gates green; the lead rendered the figure
 and re-ran seven gates before committing. No missing `data-sym` names.
 
+**Modules 8 and 9 — DONE (`c755891`, 2026-09-15).** Agent `m0809` (Sonnet): Module 9 §7
+trace (Definition 4 three ATP-supply systems; **Proposition 7.2** critical-power
+hyperbola; structural CP 1829 W elite / 1219 W recreational; PCr store 23.4 kJ) + K11
+(inverse fit to six world records: CP 1797 W, W′ 56.8 kJ; leave-one-out pins CP
+1774–1832 W, not W′ 52–78 kJ; marathon 95 % of CP, 800 m 129 %); Module 8 §7 forward
+pointer (200 W walking vs ~1.2 kW ceiling). Reviewer 19 findings, 17 applied (the
+agent's tail listing the 2 unapplied was truncated and re-requested; record it here
+when it arrives). **Provenance gate Amendment 5 (`eac002c`)** came out of this module:
+five `[pre]` names (`VO2max`, `E_O2`, `PCr_conc`, `C_gly`, `CoT_run`), `E` bound to
+`E@Pa` (module09's SLIP energy `E` is not a modulus), `kappa@m^2` dropped from `k_perm`
+(module08's swing-cost coefficient is not a permeability). Tracked script copy synced.
+
 **Agents in flight — wave 1 (launched 2026-09-14 after the Module 6 commit; the user
 chose `general-purpose` on **Sonnet**, at most 3 at a time): `m04`, `m14`, `m0809`.
-Wave 2: `m15` launched (Sonnet) when `m04` reported; `m16`, `m17` still queued (their prompts were
+Wave 2: `m15` launched when `m04` reported, `m16` when `m0809` reported (both Sonnet); `m17` still queued — launch it when `m14`, `m15` or `m16` reports (3-agent cap) (their prompts were
 the light-addition entries of `chemistry-audit-and-plan.md` §2.2b lines ~295–297: M15
 marker error model, M16 chemical-potential driving term generalising the poroelastic
 law, M17 one capstone chain molecule → whole body; same guardrails, same report format).
@@ -917,8 +929,8 @@ place in the §8 subsection):
 Part 3 fix (Modules 5, 2, 6 done; **4, 14, 8/9 in flight on three Sonnet agents; 15, 16,
 17 queued — integrate each report as it arrives, launch a wave-2 agent per freed slot**):
 
-> ~~Module 5~~ → ~~Module 2~~ → ~~Module 6~~ → {Module 4, Module 14, Modules 8/9}
-> in flight → {Module 15, Module 16, Module 17} queued
+> ~~Module 5~~ → ~~Module 2~~ → ~~Module 6~~ → ~~Module 4~~ → ~~Modules 8/9~~ →
+> {Module 14, Module 15, Module 16} in flight → Module 17 queued
 
 Module 0 now has something to trace *from* for each of them, and the tracing is the
 easier half: the chemistry exists, is proved, and carries provenance markers. What
