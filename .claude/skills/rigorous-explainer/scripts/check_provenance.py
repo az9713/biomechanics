@@ -111,6 +111,10 @@ GATED = {
     "PCr_conc":    ["PCr_conc"],                                     # [pre]
     "C_gly":       ["C_gly"],                                        # [pre]
     "CoT_run":     ["CoT_run"],                                      # [pre]
+    # --- biochemical markers (Amendment 6, Module 15) -----------------------
+    "CTX":         ["CTX"],                                         # [pre]
+    "P1NP":        ["P1NP"],                                        # [pre]
+    "c_lac":       ["c_lac"],                                       # [pre]
 }
 # reverse index, built once: {sym: [(unit_substring_or_None, canon), ...]}
 _ALIAS = defaultdict(list)
