@@ -1114,27 +1114,17 @@ the plan's own wording, was wrong, and only running it showed that.
 
 ---
 
-## The tracked gate scripts are stale (corrected 2026-09-10 — this section used to
-## say they were not in git at all)
+## The tracked gate scripts: SYNCED at `387508f` (2026-09-13)
 
 The scripts **run** from `C:\Users\<user>\.claude\skills\rigorous-explainer\scripts\`,
 which is not a git repository. A **copy is tracked in this repo** at
-`.claude/skills/rigorous-explainer/scripts/`, which earlier refreshes of this file
-did not know about. That copy was compared against the live one on 2026-09-10 and is
-**three files behind**:
-
-| script | state of the tracked copy |
-|---|---|
-| `check_provenance.py` | **absent entirely** — ~300 lines, written 2026-09-09, one copy on disk |
-| `autolink_sections.py` | 25 lines behind: no `<pre>` exclusion, no `<svg>` exclusion, **no cross-module guard** |
-| `checktex.py` | 5 lines behind: no `\left`/`\right` delimiter fix, so `\rightleftharpoons` still false-positives |
-
-The other twelve match byte for byte (`diff --strip-trailing-cr`). Losing the
-cross-module guard is the one that matters: it is what stops the autolinker producing
-wrong-book links, the worst defect class this repo can produce. **Copying those three
-files over the tracked ones closes the risk and takes a minute.** Not done — the user
-has not been asked since the staleness was measured. `provenance-baseline.txt` in this
-repo is `check_provenance.py`'s *output*, not the tool.
+`.claude/skills/rigorous-explainer/scripts/`. On 2026-09-10 that copy was three files
+behind (`check_provenance.py` absent; `autolink_sections.py` without the `<pre>`/`<svg>`
+exclusions and the cross-module guard; `checktex.py` without the `\left`/`\right`
+delimiter fix). Decision 2 of 2026-09-13 closed this: all three were copied over at
+`387508f`. After any later change to a live script, re-copy it and commit; check with
+`diff --strip-trailing-cr` per file. `provenance-baseline.txt` in this repo is
+`check_provenance.py`'s *output*, not the tool.
 
 ## Session-transient scratch (regenerate; durable record is the committed output)
 
