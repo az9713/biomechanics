@@ -64,7 +64,7 @@ from collections import defaultdict
 # rather than the retrofit.
 GATED = {
     # --- stiffness ----------------------------------------------------------
-    "E":           ["E", "E_bone", "E_lin", "E_inst", "E_stiff",     # [inv]
+    "E":           ["E@Pa", "E_bone", "E_lin", "E_inst", "E_stiff",     # [inv]
                     "E_soft", "E_f", "E_tens", "E_cart", "E_b", "E_t"],
     "E_apatite":   ["E_m", "E_apatite", "E_min"],                    # [inv]
     "E_collagen":  ["E_c", "E_collagen", "E_col"],                   # [inv]
@@ -78,7 +78,7 @@ GATED = {
     # --- cartilage / poroelastic -------------------------------------------
     "H_A":         ["H_A", "H_a"],                                   # [inv]
     "c_F":         ["c_F", "c_f"],                                   # [inv]
-    "k_perm":      ["k@m^4", "k_perm", "k_h", "kappa@m^2"],          # [inv]
+    "k_perm":      ["k@m^4", "k_perm", "k_h"],                       # [inv]
     "mu_fric":     ["mu", "mu_eq", "mu_b", "mu_eff"],                # [inv]
     "nu":          ["nu", "nu_s"],                                   # [pre]
     # --- muscle -------------------------------------------------------------
@@ -105,6 +105,12 @@ GATED = {
     # --- bone remodeling ----------------------------------------------------
     "k_remodel":   ["k_remodel"],                                    # [pre]
     "rho_tissue":  ["rho_b", "rho_bone", "rho_t", "rho_m"],          # [pre]
+    # --- locomotion energetics (Amendment 5, Modules 8/9) -------------------
+    "VO2max":      ["VO2max"],                                       # [pre]
+    "E_O2":        ["E_O2"],                                         # [pre]
+    "PCr_conc":    ["PCr_conc"],                                     # [pre]
+    "C_gly":       ["C_gly"],                                        # [pre]
+    "CoT_run":     ["CoT_run"],                                      # [pre]
 }
 # reverse index, built once: {sym: [(unit_substring_or_None, canon), ...]}
 _ALIAS = defaultdict(list)
