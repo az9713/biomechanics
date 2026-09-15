@@ -7,7 +7,7 @@ Don't duplicate what already lives in the files referenced below — open them.
 **Last written:** 2026-09-14 (twelfth refresh — **Phase B step 2: Modules 5, 2 DONE;
 Module 6 reviewed, fixed and COMMITTED (`04825e8`); three Sonnet agents in flight for
 Modules 4, 14, 8/9; Modules 15, 16, 17 queued as wave 2**; see "Module 6 — reviewed"
-and "Agents in flight" below). Latest content commit `04825e8`.
+and "Agents in flight" below). Latest content commit `1b3f9aa` (Module 15).
 A two-minute overview of this file lives at `HANDOFF.html` (repo root, also live at
 https://az9713.github.io/biomechanics/HANDOFF.html). This file stays the source of truth.
 
@@ -846,6 +846,38 @@ of hyperglycaemia for +10 % tendon burden); Module 6 §7 IOU repaid in full, Mod
 this course's scope). Reviewer 15 findings, all applied; the agent did not run a second
 reviewer round. Two `k_on`-family markers; no missing `data-sym` names.
 
+**Module 15 — DONE (`1b3f9aa`, 2026-09-15).** Agent `m15` (Sonnet): §1 subsection
+`chembio`, CTX / P1NP / lactate as a sixth instrument in Definition 1.1's observation
+model; **Lemma 1.1** (proved) quadrature CV + least significant change; counting floor
+4–6 decades below real noise; CV_tot / LSC: CTX 25.7 % / 71 %, P1NP 8.5 % / 24 %,
+lactate 12.4 % / 34 %; one figure. Reviewer 18 findings, all applied. **Gate Amendment 6**
+in the same commit: `[pre]` names `CTX`, `P1NP`, `c_lac`; tracked copy synced.
+
+**Modules 16 and 17 — STALLED MID-TASK, UNCOMMITTED (2026-09-15).** Agents `m16` and
+`m17` (Sonnet) both hit the usage limit (resets **12:10 am Pacific**) after writing their
+content and before their reviewer pass. What is on disk, all eight fast gates green on
+both files:
+- `module16.html` (+~100 lines): `<h3 id="chempot16">` "Generalising Darcy's law: the
+  water's own chemical potential", **Proposition 8.2** with a proof, figure `fig16A`,
+  four markers (`H_A`, `c_F`, `E`, `nu`). One worklist item open: line 681 `E_m` gated as
+  `E_apatite` — `m16` judged it a false positive (an Amendment-C unit binding or a
+  reported alias, decide when resuming). `m16` had run the three Chrome gates (advisory
+  only) and was about to dispatch its `rigor-reviewer`. Scratch: `m16_nums.py`,
+  `m16_gen.py`, `m16_fig.svg`.
+- `module17.html` (+~110 lines): `<h3 id="chembody">` "Capstone VII — from a GAG assay to
+  how much a joint must be unloaded", figure `chembody` (chain diagram), four markers
+  (`c_F`, `H_A`, `k_perm`, `mu_fric`), `check_provenance` 0 issues; **autolink not yet
+  run** (16 unlinked `§N` refs). `m17` had just fixed a figure overlap and was re-running
+  the full gate suite. Scratch: `m17_nums.py`, previews.
+**Resume, after the reset:** these agents keep their transcripts, so a `SendMessage` to
+`m16` and to `m17` saying "Usage limit has reset. Continue from where you stopped: finish
+the gates, run autolink_sections.py and remove the .bak, dispatch the rigor-reviewer
+(≤5 findings per message, DONE marker), apply, re-gate, then send your final report
+under 40 lines" resumes each with its context intact (this is how `rev6` and `m0809`
+resumed). If a resumed agent fails again, spawn a fresh Sonnet `general-purpose` agent
+with the same prompt as before and tell it the content already exists on disk. Then
+integrate as for the other modules: render figures, read markers, commit per module.
+
 **Agents in flight — wave 1 (launched 2026-09-14 after the Module 6 commit; the user
 chose `general-purpose` on **Sonnet**, at most 3 at a time): `m04`, `m14`, `m0809`.
 Wave 2: `m15` launched when `m04` reported, `m16` when `m0809` reported (both Sonnet); `m17` launched when `m14` reported (all six now launched; `m15`, `m16`, `m17` still running) (their prompts were
@@ -943,7 +975,8 @@ Part 3 fix (Modules 5, 2, 6 done; **4, 14, 8/9 in flight on three Sonnet agents;
 17 queued — integrate each report as it arrives, launch a wave-2 agent per freed slot**):
 
 > ~~Module 5~~ → ~~Module 2~~ → ~~Module 6~~ → ~~Module 4~~ → ~~Modules 8/9~~ →
-> ~~Module 14~~ → {Module 15, Module 16, Module 17} in flight
+> ~~Module 14~~ → ~~Module 15~~ → {Module 16, Module 17} stalled on the usage limit,
+> content on disk, resume the agents after 12:10 am Pacific
 
 Module 0 now has something to trace *from* for each of them, and the tracing is the
 easier half: the chemistry exists, is proved, and carries provenance markers. What
