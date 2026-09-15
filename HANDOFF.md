@@ -813,9 +813,17 @@ row moved under §1; `4.478 ≈ 4.48` in the statement. Proposition 1′ label k
 acceptable; "1a" if ever changed). Gate advisories are pre-existing (one old figure's
 margin, one bust schematic, six stray `$`).
 
+**Module 4 — DONE (`dda8bd4`, 2026-09-15).** Agent `m04` (Sonnet) wrote the three scoped
+traces (§1 `c_F` stoichiometry 0.175–0.306 M for 40–70 mg/mL; §7 viscosity Arrhenius
+`E_a` 16.1 kJ/mol, gel time 6667 → 8574 s, friction −12 % vs Stribeck film +29 %; §8
+Lemma 8.1 Michaelis–Menten aggrecan loss + Proposition 8.1 Donnan elasticity `Λ_π`,
+156 → 42 kPa), seven markers, figure `m4cA`, Appendix rows; its own rigor-reviewer pass
+returned 21 findings, all applied; thirteen gates green; the lead rendered the figure
+and re-ran seven gates before committing. No missing `data-sym` names.
+
 **Agents in flight — wave 1 (launched 2026-09-14 after the Module 6 commit; the user
 chose `general-purpose` on **Sonnet**, at most 3 at a time): `m04`, `m14`, `m0809`.
-Wave 2, to launch when a wave-1 agent reports: `m15`, `m16`, `m17` (their prompts were
+Wave 2: `m15` launched (Sonnet) when `m04` reported; `m16`, `m17` still queued (their prompts were
 the light-addition entries of `chemistry-audit-and-plan.md` §2.2b lines ~295–297: M15
 marker error model, M16 chemical-potential driving term generalising the poroelastic
 law, M17 one capstone chain molecule → whole body; same guardrails, same report format).
