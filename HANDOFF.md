@@ -826,9 +826,12 @@ trace (Definition 4 three ATP-supply systems; **Proposition 7.2** critical-power
 hyperbola; structural CP 1829 W elite / 1219 W recreational; PCr store 23.4 kJ) + K11
 (inverse fit to six world records: CP 1797 W, W′ 56.8 kJ; leave-one-out pins CP
 1774–1832 W, not W′ 52–78 kJ; marathon 95 % of CP, 800 m 129 %); Module 8 §7 forward
-pointer (200 W walking vs ~1.2 kW ceiling). Reviewer 19 findings, 17 applied (the
-agent's tail listing the 2 unapplied was truncated and re-requested; record it here
-when it arrives). **Provenance gate Amendment 5 (`eac002c`)** came out of this module:
+pointer (200 W walking vs ~1.2 kW ceiling). Reviewer 19 findings, 17 applied by the agent; the lead
+applied an 18th (`255515a`: Proposition 7.2 now names CP = oxidative ceiling as a
+modelling assumption). **One finding stays open:** `CoT_run` is a *net* cost while
+`VO2max × E_O2` is *gross*; the ~85 W resting-rate correction is caveated in prose as an
+order-of-magnitude model but applied nowhere numerically. Worth a K11 caveat sentence or a
+corrected CP when Module 9 is next touched. **Provenance gate Amendment 5 (`eac002c`)** came out of this module:
 five `[pre]` names (`VO2max`, `E_O2`, `PCr_conc`, `C_gly`, `CoT_run`), `E` bound to
 `E@Pa` (module09's SLIP energy `E` is not a modulus), `kappa@m^2` dropped from `k_perm`
 (module08's swing-cost coefficient is not a permeability). Tracked script copy synced.
