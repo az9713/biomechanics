@@ -526,6 +526,15 @@ marker), `c_lac` (blood lactate). All three are assay concentrations, declared
 `measured` with the assay named. Each alias list holds only the exact name Module 15
 writes.
 
+**Amendment 7 (2026-09-15, forced by the Module 16 trace) — no table change.** The
+alias `E_m` under `E_apatite` is Module 2's mineral modulus. Module 16 used the same
+symbol for the *matrix* modulus of a fibre-reinforced composite (0.12 GPa, K-problem
+solution and Appendix), so the gate flagged a symbol collision, not a missing
+declaration. Declaring that quantity `E_apatite` would be a false declaration, and
+dropping the alias would silently ungate Module 2. Resolution: Module 16 renames its
+symbol to `E_{\rm mat}`; the table is unchanged. Rule for the next collision of this
+kind: rename the newer, more local use; never widen or drop an `[inv]` alias.
+
 #### What the gate does not do
 
 It does not check that a declaration is *true*. A section can mark `E` as
