@@ -4,10 +4,9 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last written:** 2026-09-14 (twelfth refresh — **Phase B step 2: Modules 5, 2 DONE;
-Module 6 reviewed, fixed and COMMITTED (`04825e8`); three Sonnet agents in flight for
-Modules 4, 14, 8/9; Modules 15, 16, 17 queued as wave 2**; see "Module 6 — reviewed"
-and "Agents in flight" below). Latest content commit `1b3f9aa` (Module 15).
+**Last written:** 2026-09-15 (thirteenth refresh — **Phase B step 2 COMPLETE**: Modules 16
+(`f44efaf`, `3bf9f31`) and 17 (`f521b45`) done; see "Module 16 — DONE" and "Module 17 — DONE"
+below). Latest content commit `f521b45` (Module 17). Latest content commit `1b3f9aa` (Module 15).
 A two-minute overview of this file lives at `HANDOFF.html` (repo root, also live at
 https://az9713.github.io/biomechanics/HANDOFF.html). This file stays the source of truth.
 
@@ -656,6 +655,12 @@ tab more than once.
 
 ## Next task
 
+**Phase B step 2 is COMPLETE** (`f521b45`, 2026-09-15): all nine target modules carry their
+chemistry traces, live. **The head of the queue is now open item 2 below** — the missing
+reviewer passes on Module 0 §6–§9 and the Appendix (30 problem solutions in §9 unchecked).
+Run them as `rigor-reviewer` agents, ≤5 findings per message with a DONE marker, one section
+per agent, and apply the findings from the parent session.
+
 **Module 0 is COMPLETE** (`4403e98`). Ten sections plus an appendix, zero pending
 TOC entries, no *(in progress)* marker in `index.html`, all thirteen gates green.
 Phase B step 1 is closed.
@@ -853,7 +858,38 @@ model; **Lemma 1.1** (proved) quadrature CV + least significant change; counting
 lactate 12.4 % / 34 %; one figure. Reviewer 18 findings, all applied. **Gate Amendment 6**
 in the same commit: `[pre]` names `CTX`, `P1NP`, `c_lac`; tracked copy synced.
 
-**Modules 16 and 17 — STALLED MID-TASK, UNCOMMITTED (2026-09-15).** Agents `m16` and
+**Module 16 — DONE (`f44efaf`, 2026-09-15).** Finished by a fresh Sonnet agent `m16b` after
+`m16` died on the usage limit (dead agents do not survive a `/clear`; `ListAgents` showed
+neither). Subsection `chempot16` in §8: Proposition 8.2 (water chemical potential
+μ_w = μ° + V_w[p − Π], flux law as a linear-response hypothesis, two-step proof), the
+consolidation equation with the (p − Π) term, |∂Π/∂z| ≈ 5.7×10⁷ vs |∂p/∂z| ≈ 3.9×10¹⁰ Pa/m
+(factor ≈ 690), figure `fig16A`. Two gate-invisible defects fixed by looking at the render:
+a solid arrow through label text (`check_overlap` tests only polylines/dashed lines) and
+an arrow pointing the wrong way. Symbol collision `E_m` (Module 2 mineral vs Module 16
+matrix) resolved by renaming Module 16's to `E_mat`; **Amendment 7** in the plan (no table
+change). Reviewer: 9 findings applied (batch 2 applied by the parent — the reviewer's
+batches report into the PARENT session, not the spawning agent; forward them). 13 gates
+green. Markers H_A/c_F/E/nu all `measured`.
+
+**Module 17 — DONE (`f521b45`, 2026-09-15).** Finished by fresh Sonnet agents `m17b` then
+`m17c` (verification pass). Subsection `chembody`, Capstone VII: GAG 45.8→22.9 mg/mL → c_F
+0.2→0.1 M → Π 156→42 kPa (Λ_π 1.83→1.95, Module 4 Prop 8.1) → contact peak 2.0→3.2 MPa at
+R = 1715 N (1.6×) → reaction restoring the healthy peak 1072 N = 1.56 W; lean 892 N
+(1.66 MPa), cane 995 N (1.86 MPa); friction inversion k = 2.09×10⁻¹³, GAG-loss bound 0–26 %
+over n_k = 1, 2, 4. Figure `figchembody` (chain, every arrow labelled module + result).
+14 cross-module refs hand-linked to verified anchors (two had been autolinked to this
+module's own §7/§8). Reviewer: 13 findings in three batches, all applied. 13 gates green.
+Markers c_F module0 (stoichiometry only; input is Module 4 §2's assumed 0.2 M), H_A,
+k_perm, mu_fric measured.
+
+**Three lessons from this resume (2026-09-15):** (1) agents do NOT survive a `/clear` —
+`ListAgents` showed neither `m16` nor `m17`; spawn fresh ones and tell them the content is on
+disk. (2) A `rigor-reviewer` spawned by an agent reports its batches into the PARENT session,
+not to the agent; the parent must forward them. (3) A Sonnet agent tends to send its final
+report before draining forwarded messages, then re-sends the same report several times;
+apply small forwarded batches yourself, or spawn a fresh agent with the items written out.
+
+**Original stall record (2026-09-15).** Agents `m16` and
 `m17` (Sonnet) both hit the usage limit (resets **12:10 am Pacific**) after writing their
 content and before their reviewer pass. What is on disk, all eight fast gates green on
 both files:
@@ -975,8 +1011,8 @@ Part 3 fix (Modules 5, 2, 6 done; **4, 14, 8/9 in flight on three Sonnet agents;
 17 queued — integrate each report as it arrives, launch a wave-2 agent per freed slot**):
 
 > ~~Module 5~~ → ~~Module 2~~ → ~~Module 6~~ → ~~Module 4~~ → ~~Modules 8/9~~ →
-> ~~Module 14~~ → ~~Module 15~~ → {Module 16, Module 17} stalled on the usage limit,
-> content on disk, resume the agents after 12:10 am Pacific
+> ~~Module 14~~ → ~~Module 15~~ → ~~Module 16~~ → ~~Module 17~~ — **step 2 COMPLETE**
+> (`f521b45`, 2026-09-15)
 
 Module 0 now has something to trace *from* for each of them, and the tracing is the
 easier half: the chemistry exists, is proved, and carries provenance markers. What
