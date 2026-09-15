@@ -905,7 +905,7 @@ both files:
   (`c_F`, `H_A`, `k_perm`, `mu_fric`), `check_provenance` 0 issues; **autolink not yet
   run** (16 unlinked `§N` refs). `m17` had just fixed a figure overlap and was re-running
   the full gate suite. Scratch: `m17_nums.py`, previews.
-**Resume, after the reset:** these agents keep their transcripts, so a `SendMessage` to
+**Resume, after the reset (SUPERSEDED 2026-09-15 — the agents did not survive the `/clear`; see the three lessons above):** these agents keep their transcripts, so a `SendMessage` to
 `m16` and to `m17` saying "Usage limit has reset. Continue from where you stopped: finish
 the gates, run autolink_sections.py and remove the .bak, dispatch the rigor-reviewer
 (≤5 findings per message, DONE marker), apply, re-gate, then send your final report
