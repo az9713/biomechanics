@@ -21,6 +21,8 @@ window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [[
   .setupfig{ display:block; } .setupfig text{ paint-order:stroke; stroke:#fff; stroke-width:2.5px; stroke-linejoin:round; } .setupfig text[fill="#fff"],.setupfig text[fill="#ffffff"],.setupfig text[fill="white"],.setupfig text.onfill{ stroke:none; } figure svg text{ font-family:"STIX Two Math",STIXGeneral,"Times New Roman",Georgia,serif; }
   .secref{ color:var(--accent); text-decoration:none; border-bottom:1px dotted #b98; } .toc{ background:var(--box); padding:.8rem 1.2rem; border-radius:6px; font-size:.95rem; } .toc ul{ list-style:none; padding-left:.3rem; margin:.3rem 0; } .toc a{ color:var(--accent); text-decoration:none; }
   .small{ font-size:.88rem; color:var(--muted); } hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; } .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; } .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
+  /* Provenance marker (check_provenance.py; contract in chemistry-audit-and-plan.md, sec. 2.2c). Must RENDER, not just parse. */
+  .prov{ display:block; border-left:3px solid #c08a00; padding:.15rem .7rem; margin:.5rem 0; font-size:.94em; color:#4a4a4a; } .prov::before{ content:"provenance — "; font-variant:small-caps; letter-spacing:.04em; color:#8a6a00; }
   .codewrap{ position:relative; } .copybtn{ position:absolute; top:.5rem; right:.5rem; display:inline-flex; align-items:center; gap:.3rem; font:600 .72rem/1 ui-monospace,Consolas,monospace; color:var(--muted); background:#fff; border:1px solid var(--rule); border-radius:5px; padding:.32rem .5rem; cursor:pointer; } .copybtn svg{ width:13px; height:13px; }
   details.sol{ margin:.55rem 0 .1rem; } details.sol>summary{ cursor:pointer; color:#2a7d2a; font-weight:bold; font-size:.92rem; list-style:none; } details.sol>summary::before{ content:"\25B8\00a0"; } details.sol[open]>summary::before{ content:"\25BE\00a0"; } details.sol>div{ margin:.45rem 0 .2rem; padding-left:.3rem; border-left:2px solid #cfe3cf; } ol.diag>li{ margin:.6rem 0; }
   .cap{ background:#fbfaf6; border:1px solid #e6ddc7; border-radius:6px; padding:.2rem 1rem .6rem; margin:1.4rem 0; }
@@ -335,6 +337,165 @@ print("with a hip protector (F/sqrt2): %.1f%%"
 
 <p>Each brief is a genuine project: the model and equation are given, but the assumptions must be stated, the parameters sourced, the simulation written, and - the part that makes it rigorous - the result validated and its error bar reported. The catalog is deliberately broad so that a reader can pick the module they want to master and build its capstone; the discipline transfers unchanged from the worked six.</p>
 
+<p>One more capstone closes this section, worked in full rather than briefed. Where the six above chain mechanics to mechanics, this one chains <em>chemistry</em> to a whole-body consequence and back - a single molecule's assay, carried through tissue and joint to a posture a patient can choose, with nothing along the way asserted that Modules 0, 3, and 4 have not already proved or explicitly marked measured.</p>
+
+<h3 id="chembody">Capstone VII - from a GAG assay to how much a joint must be unloaded</h3>
+
+<p><b>Problem.</b> A biopsy or an assay reports how much glycosaminoglycan (GAG) a piece of cartilage still carries. Follow that single number - through fixed charge, through osmotic pre-stress, to the contact pressure a joint transmits at every step - and ask a question a patient can act on: if a joint's cartilage has lost half its GAG, how much must a trunk lean or a cane unload that joint to bring its contact pressure back down to what a healthy joint carries in single-leg stance?</p>
+
+<p><b>Physical model.</b> Four results already proved elsewhere, run in series: a stoichiometry (<a class="secref" href="module00.html#macro">Module&nbsp;0 §7</a>), a Donnan pressure law and a paired Hertz/biphasic contact-pressure result (<a class="secref" href="module04.html#donnan">Module&nbsp;4 §2</a>, <a class="secref" href="module04.html#contact">§6</a>, <a class="secref" href="module04.html#degeneration">§8</a>), and a lever-balance joint reaction with two named compensations (<a class="secref" href="module03.html#reaction">Module&nbsp;3 §4</a>).</p>
+
+<p><b>Biological mechanism.</b> Aggrecanase and MMP (matrix-degrading enzymes) (<a class="secref" href="module04.html#degeneration">Module&nbsp;4 §8</a>'s own Michaelis&#8211;Menten trace, Lemma&nbsp;8.1) cleave aggrecan; the fixed charge it carried falls; the osmotic pre-stress that charge produced collapses - amplified, not merely proportional, by Proposition&nbsp;8.1 - while, on a separate strut of the same collapse, rising matrix permeability drains the interstitial fluid that shields the solid phase, so the once-smeared contact pressure re-concentrates. The joint reaction pressing the surfaces together is, in turn, set mostly by muscle and posture rather than by the limb's own weight (<a class="secref" href="module03.html#reaction">Module&nbsp;3 §4</a>) - which is the whole-body lever this capstone turns.</p>
+
+<div class="keyresult"><b>Deliverables.</b>
+<b>(1)</b> Convert a stated GAG assay $m_{\rm GAG}$ (mg/mL) to fixed charge density $c_F$, and state the healthy range and a declared osteoarthritic (OA) reference point.
+<b>(2)</b> Compute the Donnan swelling pressure at both points and its local amplification.
+<b>(3)</b> State and justify, as this capstone's <em>own</em> assumption (template element&nbsp;5 - it is not asserted by Module&nbsp;4), the rule relating joint activity to contact pressure in the OA state.
+<b>(4)</b> Solve the inverse problem: the joint reaction that restores the OA joint's contact pressure to the healthy single-leg-stance value, and test it against two real postural compensations.
+<b>(5)</b> Check the same OA joint under ordinary gait loads against cartilage's own assumed damage threshold, and report what the result implies about how cartilage fails.
+<b>(6)</b> Invert a measured friction coefficient into a permeability, then - declaring the missing coupling explicitly - sweep it to bound the GAG loss it could mean.
+<b>(7)</b> Draw the whole chain as one figure, each arrow labelled by the module and result that supplies it.
+</div>
+
+<div class="def"><b>Model 8.1 (the chain, molecule to joint).</b> With GAG content $m_{\rm GAG}$ in mg/mL (distinct from this module's body mass $m$) and stoichiometry $c_F=2m_{\rm GAG}/458\ \mathrm{mol\,L^{-1}}$ (<a class="secref" href="module00.html#macro">Module&nbsp;0 §7</a>, Definition&nbsp;7.3); healthy cartilage assays at $40$ to $70\ \mathrm{mg\,mL^{-1}}$ of GAG, i.e. $c_F=0.175$ to $0.306\ \mathrm M$ (<a class="secref" href="module00.html#macro">Module&nbsp;0 §7</a>), and this capstone's healthy reference point $c_F=0.2\ \mathrm M$ sits inside that range.
+$$c_F=\frac{2m_{\rm GAG}}{458},\qquad \pi=R_g\Theta\big(\sqrt{c_F^2+4c_0^2}-2c_0\big)\ \ (c_0=0.15\ \mathrm M,\ \Theta=310\ \mathrm K),$$
+the second the boxed Donnan law of <a class="secref" href="module04.html#donnan">Module&nbsp;4 §2</a>, with $R_g$ the universal gas constant, $\Theta$ the absolute temperature (written $\Theta$, not $T$, to stay distinct from this capstone's own dimensionless consolidation time $T$ below), and $c_0$ the bath salt concentration outside the tissue. Two joint states bracket the chain, both at the single-leg-stance hip reaction $R=2.5\,W\approx1715\ \mathrm N$ (<a class="secref" href="module03.html#reaction">Module&nbsp;3 §4</a>, carried to a knee contact exactly as <a class="secref" href="module04.html#contact">Module&nbsp;4 §6</a> itself does): a <b>healthy</b> joint ($c_F=0.2\ \mathrm M$) spreads that load into a flattened biphasic profile peaking at $p_{\max}=2.0\ \mathrm{MPa}$; an <b>OA</b> joint that has lost half its GAG ($c_F=0.1\ \mathrm M$) has its contact worn to a Hertzian cap of radius $a\approx16\ \mathrm{mm}$ peaking at $p_0=3R/(2\pi a^2)=3.2\ \mathrm{MPa}$ (<a class="secref" href="module04.html#degeneration">Module&nbsp;4 §8</a>'s own worked figure, on the permeability strut of the same collapse - Proposition&nbsp;8.1 itself bounds only the charge strut, $\pi:156\to42\ \mathrm{kPa}$; pairing that footprint with this exact $50\%$-GAG point is this capstone's own declared pairing, not a joint result Module&nbsp;4 derives). Proposition&nbsp;8.1's local amplification $\Lambda_\pi(c_F)=1+1/\sqrt{1+(c_F/2c_0)^2}$ is $1.83$ at the healthy point and $1.95$ at the OA point - the pressure loses more, proportionally, than the charge does at either end of this interval. <span class="prov" data-sym="c_F" data-state="module0">derived in <a href="module00.html#macro">Module&nbsp;0 §7</a>, Definition&nbsp;7.3: the stoichiometry itself - two charges per $458\ \mathrm{g\,mol^{-1}}$ disaccharide - is fixed and measurement-free, but the input used here is not an independent assay: it is <a class="secref" href="module04.html#donnan">Module&nbsp;4 §2</a>'s assumed healthy $c_F=0.2\ \mathrm M$, reported through the stoichiometry as its $45.8\ \mathrm{mg\,mL^{-1}}$ GAG equivalent; a real biopsy assay would replace that input and run the same conversion forward.</span></div>
+
+<div id="figchembody" style="text-align:center;margin:1.4rem 0"><!--FIG:chembody--><svg class="setupfig" viewBox="0 0 748 290" width="100%" role="img" aria-label="A chain diagram: a molecule box (GAG assay) feeds a tissue box (fixed charge, Donnan pressure, contact pressure) which feeds a joint box (reaction force) which feeds a body box (posture: lean, cane, gait speed); a feedback arrow runs from the body box back to the tissue box, since a postural choice changes the reaction force and hence the contact pressure the tissue carries.">
+<rect x="8" y="60" width="104" height="68" rx="6" fill="#f6f4ef" stroke="#7a1f1f" stroke-width="1.2"/>
+<text x="60" y="78" font-size="10.5" fill="#7a1f1f" text-anchor="middle" font-weight="bold">molecule</text>
+<text x="60" y="94" font-size="9" fill="#555" text-anchor="middle">GAG assay</text>
+<text x="60" y="106" font-size="9" fill="#555" text-anchor="middle">m<tspan baseline-shift="sub" font-size="72%">GAG</tspan> (mg/mL)</text>
+<text x="60" y="122" font-size="9" fill="#999" text-anchor="middle"><a class="secref" href="module00.html#macro">Module 0 §7</a></text>
+<line x1="112" y1="94" x2="196" y2="94" stroke="#666" stroke-width="1.8" marker-end="url(#a_gry)"/>
+<text x="154" y="84" font-size="9" fill="#555" text-anchor="middle"><a class="secref" href="module00.html#macro">M0 §7</a> Def. 7.3</text>
+<rect x="200" y="20" width="210" height="132" rx="6" fill="#eef3ee" stroke="#2a7d2a" stroke-width="1.3"/>
+<text x="305" y="38" font-size="10.5" fill="#2a7d2a" text-anchor="middle" font-weight="bold">tissue</text>
+<text x="305" y="56" font-size="9" fill="#555" text-anchor="middle">fixed charge c<tspan baseline-shift="sub" font-size="72%">F</tspan></text>
+<text x="305" y="72" font-size="9" fill="#555" text-anchor="middle">Donnan &#960;: 156&#8594;42 kPa</text>
+<text x="305" y="88" font-size="9" fill="#555" text-anchor="middle">contact peak:</text>
+<text x="305" y="104" font-size="9" fill="#555" text-anchor="middle">2.0&#8594;3.2 MPa (fixed R)</text>
+<text x="305" y="122" font-size="9" fill="#999" text-anchor="middle"><a class="secref" href="module04.html#donnan">Module 4 §2</a>, <a class="secref" href="module04.html#contact">§6</a>, <a class="secref" href="module04.html#degeneration">§8</a></text>
+<text x="305" y="138" font-size="9" fill="#999" text-anchor="middle">healthy &#8594; OA (50% GAG lost)</text>
+<line x1="410" y1="94" x2="486" y2="94" stroke="#666" stroke-width="1.8" marker-end="url(#a_gry)"/>
+<text x="448" y="84" font-size="9" fill="#555" text-anchor="middle">M4 <a class="secref" href="module04.html#contact">§6</a>/<a class="secref" href="module04.html#degeneration">§8</a> (fixed R)</text>
+<rect x="490" y="60" width="104" height="68" rx="6" fill="#fbeeea" stroke="#b03a2e" stroke-width="1.2"/>
+<text x="542" y="78" font-size="10.5" fill="#b03a2e" text-anchor="middle" font-weight="bold">joint</text>
+<text x="542" y="94" font-size="9" fill="#555" text-anchor="middle">reaction R</text>
+<text x="542" y="106" font-size="9" fill="#555" text-anchor="middle">R=W<tspan baseline-shift="sub" font-size="72%">s</tspan>(1+b/a<tspan baseline-shift="sub" font-size="72%">ab</tspan>)</text>
+<text x="542" y="120" font-size="9" fill="#999" text-anchor="middle"><a class="secref" href="module03.html#reaction">Module 3 §4</a></text>
+<line x1="594" y1="94" x2="666" y2="94" stroke="#666" stroke-width="1.8" marker-end="url(#a_gry)"/>
+<text x="630" y="84" font-size="9" fill="#555" text-anchor="middle">M3 <a class="secref" href="module03.html#reaction">§4</a> eq. (4.1)</text>
+<rect x="670" y="58" width="70" height="72" rx="6" fill="#fff" stroke="#7a1f1f" stroke-width="1.2"/>
+<text x="705" y="73" font-size="10.5" fill="#7a1f1f" text-anchor="middle" font-weight="bold">body</text>
+<text x="705" y="90" font-size="9" fill="#555" text-anchor="middle">lean</text>
+<text x="705" y="102" font-size="9" fill="#555" text-anchor="middle">cane</text>
+<text x="705" y="114" font-size="9" fill="#555" text-anchor="middle">gait</text>
+<text x="705" y="126" font-size="9" fill="#999" text-anchor="middle"><a class="secref" href="module03.html#reaction">Module 3 §4.3</a></text>
+<path d="M705,130 C705,225 305,225 305,206 L305,155" fill="none" stroke="#2a6ca8" stroke-width="1.8" marker-end="url(#a_blu)"/>
+<text x="505" y="242" font-size="9" fill="#2a6ca8" text-anchor="middle">M3 <a class="secref" href="module03.html#reaction">§4.3</a> (lean, cane): a postural choice changes R,</text>
+<text x="505" y="256" font-size="9" fill="#2a6ca8" text-anchor="middle">which changes the contact pressure the tissue above must carry</text>
+</svg><!--/FIG:chembody--><p class="small" style="font-style:italic">The chain this capstone assembles: a GAG assay feeds the fixed-charge stoichiometry, which feeds the Donnan pressure and (at a fixed reaction force) the contact-pressure pair; the reaction force is itself a joint-mechanics result; and a postural choice at the body level closes the loop back onto the contact pressure the tissue carries. Every arrow is a result proved in the module it is labelled with, except the GAG-to-footprint pairing inside the tissue box, which this capstone declares (Model&nbsp;8.1) rather than draws from a single Module&nbsp;4 result. The joint box's $R=W_{\rm s}(1+b/a_{\rm ab})$ is <a class="secref" href="module03.html#reaction">Module&nbsp;3 §4</a>'s own lever formula, with $W_{\rm s}\approx\tfrac56 W$ the supported weight above the stance hip, $b$ and $a_{\rm ab}$ the body-weight and abductor-muscle lever arms; $a_{\rm ab}$ is written with that subscript here only to keep it distinct from this capstone's own $a$, the contact-patch radius.</p></div>
+
+<div class="cap"><p class="small"><b>Assumptions:</b> (i) the OA reference point is a stated 50&#37; GAG loss, not a measured patient value; (ii) the joint-reaction magnitude is carried from the hip (<a class="secref" href="module03.html#reaction">Module&nbsp;3 §4</a>) to a knee contact exactly as <a class="secref" href="module04.html#contact">Module&nbsp;4 §6</a> does, and flagged there as a cross-joint borrowing of magnitude only; (iii) <b>this capstone's own assumption</b>, needed for deliverable&nbsp;(4): over one stance phase the OA contact footprint $a\approx16\ \mathrm{mm}$ is a slow structural fact of wear, not an elastic contact re-solved every step, so its peak pressure scales <em>linearly</em> with $R$ ($p_0=3R/2\pi a^2$, $a$ held fixed) - unlike the healthy joint's biphasic-flattened footprint, which is Module&nbsp;4's own elastic solution and would scale as $R^{1/3}$ were $R$ swept; this capstone does not need that healthy-side sweep and does not claim it; (iv) the $a\approx16\ \mathrm{mm}$ footprint of <a class="secref" href="module04.html#degeneration">Module&nbsp;4 §8</a>'s worked figure is paired with this capstone's $50\%$-GAG reference point by declaration, not by a Module&nbsp;4 derivation - that figure's contact concentration is driven by lost permeability, a separate strut of the same degeneration loop from the charge/Donnan strut Definition&nbsp;7.3 and Proposition&nbsp;8.1 quantify. <b>Parameters:</b> $m=70\ \mathrm{kg}$ (as elsewhere in this module), $c_0=0.15\ \mathrm M$, $\Theta=310\ \mathrm K$ (<a class="secref" href="module04.html#donnan">Module&nbsp;4 §2</a>); $H_A=0.6\times10^6\ \mathrm{Pa}$, $h_{\rm cart}=2\ \mathrm{mm}$, $\mu_{\rm eq}=0.15$ (<a class="secref" href="module04.html#biphasic">Module&nbsp;4 §3</a>, <a class="secref" href="module04.html#lubrication">§7</a>). <b>Level:</b> Level&nbsp;1 (static reaction and pressure algebra) composed across four already-proved results; the only new derivation here is the inverse in deliverable&nbsp;(4) and the sensitivity sweep in (6). <b>Validation:</b> every input number is quoted from a module that already validated it; the only genuinely new claim - the linear-scaling assumption of (iii) - is stated as an assumption, not fitted to make the answer come out cleanly; (5) below extends it to higher loads but does not test it independently.</p></div>
+
+<p><span class="prov" data-sym="H_A" data-state="measured">measured, not derived: the aggregate (confined-compression) modulus is read directly off a confined-compression test, as <a class="secref" href="module04.html#biphasic">Module&nbsp;4 §3</a> states; this module derives nothing further about it.</span></p>
+<p><span class="prov" data-sym="k_perm" data-state="measured">measured, not derived: the healthy matrix permeability used as this capstone's reference point is read from a fluid-outflow test, as <a class="secref" href="module04.html#biphasic">Module&nbsp;4 §3</a> states; the permeability recovered by inversion below is a computed output, not a fresh measurement.</span></p>
+<p><span class="prov" data-sym="mu_fric" data-state="measured">measured, not derived: the intrinsic (fully drained) friction coefficient $\mu_{\rm eq}=0.15$ is set by the adsorbed lubricin/hyaluronic-acid boundary layer, as <a class="secref" href="module04.html#lubrication">Module&nbsp;4 §7</a> states; this capstone only inverts the boxed law that uses it.</span></p>
+
+<p>Deliverable&nbsp;(6) runs the chain in reverse, from a measured slipperiness back toward a fixed-charge estimate, through three already-proved pieces it does not re-derive. The effective friction coefficient is $\mu_{\rm eff}=\mu_{\rm eq}(1-F)$ (<a class="secref" href="module04.html#lubrication">Module&nbsp;4 §7</a>), where $F$ is the fraction of the joint load carried by interstitial fluid pressure rather than solid-on-solid contact (<a class="secref" href="module04.html#fluidload">Module&nbsp;4 §4</a>). For short loading times $T\ll1$, that fraction obeys the asymptotic $F\approx1-2\sqrt{T/\pi}$ (<a class="secref" href="module04.html#fluidload">Module&nbsp;4 §4</a>'s D4); write $d\equiv1-F$ for the load-support deficit the code below inverts, and $T\equiv Dt_{\rm load}/h_{\rm cart}^2$ for the dimensionless consolidation time of <a class="secref" href="module04.html#biphasic">Module&nbsp;4 §3</a>, with diffusivity $D=H_Ak$; the inversion below lands at $T\approx0.031$, comfortably inside that asymptotic's range. Inverting these two laws for $k$ needs one further assumption this capstone makes and Module&nbsp;4 does not: that the aggregate modulus $H_A$ stays fixed at its healthy $0.6\ \mathrm{MPa}$ even as the matrix degrades, though a softer OA matrix is at least as plausible as an unchanged one. Recovering a fixed-charge density from that permeability needs a second, explicitly declared coupling, $k/k_{\rm healthy}=(c_{F,\rm healthy}/c_F)^{n_k}$, swept over $n_k=1,2,4$ because Module&nbsp;4 never measures it.</p>
+
+<div class="codewrap"><button class="copybtn" type="button" onclick="copyCode(this)" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre><code>import numpy as np
+
+# ---- (1)-(2) GAG assay -&gt; c_F -&gt; Donnan pressure ----
+# (Module 0 Sec.7, Module 4 Sec.2)
+M_disacc, Rgas, Theta, c0 = 458.0, 8.314, 310.15, 0.15
+
+
+def cF_of(m_gag):
+    return 2*m_gag/M_disacc          # mg/mL -&gt; mol/L
+
+
+def pi_donnan(cF):                   # mol/L -&gt; kPa
+    cF_, c0_ = cF*1000.0, c0*1000.0
+    d = np.sqrt(cF_**2 + 4*c0_**2) - 2*c0_
+    return Rgas*Theta*d/1000.0
+
+
+cF_h, cF_oa = 0.2, 0.1               # healthy, 50% GAG lost
+print("pi: %.0f -&gt; %.0f kPa" % (pi_donnan(cF_h), pi_donnan(cF_oa)))
+# -&gt; pi: 156 -&gt; 42 kPa  (matches Module 4 Sec.2/8 exactly)
+
+
+def lam_pi(cF):                      # local amplification, Prop 8.1
+    x = cF/(2*c0)
+    return 1 + 1/np.sqrt(1 + x**2)
+
+
+print("Lambda_pi: %.2f (healthy) -&gt; %.2f (OA)"
+      % (lam_pi(cF_h), lam_pi(cF_oa)))
+# -&gt; Lambda_pi: 1.83 -&gt; 1.95  (matches Module 4 Sec.8 Prop 8.1)
+
+# ---- (3)-(4) inverse: R to restore the healthy contact peak ----
+R_hip = 1715.0                       # carried forward, Module 3 Sec.4
+W = R_hip/2.5                        # back out W from the quoted R=2.5W
+p_healthy, p_oa = 2.0, 3.2           # MPa, Module 4 Sec.6/8
+R_needed = R_hip*(p_healthy/p_oa)    # assumption (iii): p0 prop R
+print("R_hip=%.0f N, R_needed=%.0f N = %.2f W"
+      % (R_hip, R_needed, R_needed/W))
+R_lean, R_cane = 1.3*W, 1.45*W       # Module 3 Sec.4.3, no new numbers
+print("lean %.0f N, cane %.0f N (both &lt; R_needed)"
+      % (R_lean, R_cane))
+print("peak after lean %.2f MPa, after cane %.2f MPa"
+      % (p_oa*R_lean/R_hip, p_oa*R_cane/R_hip))
+
+# ---- (5) gait loads vs the assumed damage threshold ----
+for mult in (3.0, 5.0):
+    print("OA peak at %.0fW: %.2f MPa" % (mult, p_oa*mult*W/R_hip))
+# -&gt; 3.84 MPa (walking), 6.40 MPa (running);
+#    assumed damage band 15-25 MPa: not reached
+
+# ---- (6) inverse: friction -&gt; permeability -&gt; (assumed) GAG loss ----
+mu_eq, H_A, h_cart, t_load = 0.15, 0.6e6, 2e-3, 1.0
+mu_eff_meas = 0.03                   # assumed measured value
+F_fl = 1 - mu_eff_meas/mu_eq         # invert mu_eff = mu_eq(1-F_fl)
+d_fl = 1 - F_fl
+T_fl = np.pi*(d_fl/2)**2             # invert d_fl = 2 sqrt(T_fl/pi)
+k_rec = T_fl*h_cart**2/(H_A*t_load)  # T_fl = H_A k t / h_cart^2
+k_healthy = 1e-15
+ratio = k_rec/k_healthy
+print("F_fl=%.2f, recovered k=%.2e (%.0fx healthy)"
+      % (F_fl, k_rec, ratio))
+for n_k in (1, 2, 4):                # ASSUMED k/k0=(cF0/cF)^n_k, swept
+    cF_back = 0.2*ratio**(-1.0/n_k)
+    print("  n_k=%d: recovered c_F=%.4f M (%.0f%% of healthy)"
+          % (n_k, cF_back, 100*cF_back/0.2))
+# -&gt; n_k=1: ~0% remains (implausible); n_k=2: 7%; n_k=4: 26% --
+#    not pinned down without knowing this coupling.</code></pre></div>
+
+<table>
+<tr><th>Quantity</th><th>Healthy</th><th>OA (50% GAG lost)</th><th>from</th></tr>
+<tr><td>GAG content $m_{\rm GAG}$</td><td>$45.8\ \mathrm{mg\,mL^{-1}}$</td><td>$22.9\ \mathrm{mg\,mL^{-1}}$</td><td>Model&nbsp;8.1</td></tr>
+<tr><td>fixed charge $c_F$</td><td>$0.2\ \mathrm M$</td><td>$0.1\ \mathrm M$</td><td><a class="secref" href="module00.html#macro">Module&nbsp;0 §7</a></td></tr>
+<tr><td>Donnan pressure $\pi$</td><td>$156\ \mathrm{kPa}$</td><td>$42\ \mathrm{kPa}$ ($73\%$ lost)</td><td><a class="secref" href="module04.html#donnan">Module&nbsp;4 §2</a> law; <a class="secref" href="module04.html#degeneration">§8</a>, Prop.&nbsp;8.1</td></tr>
+<tr><td>local amplification $\Lambda_\pi$</td><td>$1.83$</td><td>$1.95$</td><td><a class="secref" href="module04.html#degeneration">Module&nbsp;4 §8</a>, Prop.&nbsp;8.1</td></tr>
+<tr><td>contact peak at $R=1715\ \mathrm N$</td><td>$2.0\ \mathrm{MPa}$</td><td>$3.2\ \mathrm{MPa}$</td><td><a class="secref" href="module04.html#contact">Module&nbsp;4 §6</a>, <a class="secref" href="module04.html#degeneration">§8</a></td></tr>
+<tr><td>$R$ needed for the OA joint to reach $2.0\ \mathrm{MPa}$</td><td colspan="2">$1072\ \mathrm N=1.56\,W$</td><td>deliverable&nbsp;(4)</td></tr>
+<tr><td>lean / cane, and the resulting OA peak</td><td colspan="2">$1.3\,W\to1.66\ \mathrm{MPa}$; $1.45\,W\to1.86\ \mathrm{MPa}$ - both below $2.0$</td><td><a class="secref" href="module03.html#reaction">Module&nbsp;3 §4.3</a></td></tr>
+<tr><td>OA peak at walking/running loads (<a class="secref" href="module03.html#reaction">Module&nbsp;3 §4</a>'s assumed $3$-$5\,W$)</td><td colspan="2">$3.84$-$6.40\ \mathrm{MPa}$, against <a class="secref" href="module03.html#contact">Module&nbsp;3 §5</a>'s assumed $15$-$25\ \mathrm{MPa}$ damage band</td><td>deliverable&nbsp;(5)</td></tr>
+<tr><td>friction-inversion recovered $c_F$ (assumed coupling exponent $n_k=1,2,4$)</td><td colspan="2">$\approx0$, $0.014$, $0.053\ \mathrm M$ ($0$, $7$, $26\%$ of healthy)</td><td>deliverable&nbsp;(6)</td></tr>
+</table>
+
+<p><b>Interpretation and limits.</b> Two findings carry the chain.</p>
+
+<p><b>Finding 1 - reversibility.</b> The inverse of deliverable&nbsp;(4): under the declared wear-fixed-footprint assumption, an OA joint that has raised its contact pressure by $1.6\times$ (2.0 to 3.2 MPa, from losing half its cartilage's GAG) needs only $R\approx1.56\,W$ to be restored to the healthy peak - and both of Module&nbsp;3's real compensations, a trunk lean ($1.3\,W$) and a cane in the opposite hand ($1.45\,W$), already unload the joint past that mark. A chemistry-level injury is, on this model, mechanically reversible by an ordinary postural choice, which is exactly why patients adopt these gaits unprompted (<a class="secref" href="module03.html#reaction">Module&nbsp;3 §4.3</a>) - the physics rewards exactly the behaviour clinicians observe.</p>
+
+<p><b>Finding 2 - the honest negative.</b> Even <a class="secref" href="module03.html#reaction">Module&nbsp;3 §4</a>'s assumed running loads ($5\,W$) leave the degenerate joint at $6.4\ \mathrm{MPa}$, well under <a class="secref" href="module03.html#contact">Module&nbsp;3 §5</a>'s assumed $15$-$25\ \mathrm{MPa}$ damage band that would fracture the tissue outright in one overload - unlike <a class="secref" href="#fracture">Capstone VI</a>'s hip, cartilage does not fail this way; degeneration is <a class="secref" href="module04.html#degeneration">Module&nbsp;4 §8</a>'s self-amplifying loop compounding over years of cycles, not a single load crossing a threshold. That negative extends assumption&nbsp;(iii)'s linear scaling to higher loads; it does not test the assumption itself, which stays open until a measured $a(R)$ relation replaces it (see Extension, below).</p>
+
+<p><b>Sweep.</b> Deliverable&nbsp;(6)'s sensitivity sweep is the chain's honesty check the other direction: a measured friction coefficient pins the permeability through the $T\ll1$ asymptotic (<a class="secref" href="module04.html#fluidload">Module&nbsp;4 §4</a>'s D4, evaluated at $T\approx0.031$ here), but turning that permeability back into a GAG content needs a coupling this course never measures, and the recovered charge swings from $0$ to $26\%$ of healthy across a plausible exponent range - friction alone cannot diagnose the chemistry.</p>
+
+<p><b>Validation.</b> Every quoted number matches its source module to the last significant figure, as the code block above reproduces exactly; the one number this capstone originates, $R_{\rm needed}=1.56\,W$, follows from an assumption stated as such, and a real study would replace it with a measured wear-radius-versus-load curve. <b>Extension.</b> Replace assumption&nbsp;(iii) with a measured $a(R)$ relation and re-run deliverable&nbsp;(4); or chain <a class="secref" href="#fracture">Capstone VI</a>'s aging bone density onto the same posture, since a lean that saves cartilage also changes the hip's bending load.</p>
+
 <h2 id="validation">9. Validation, uncertainty, and the honest report</h2>
 
 <p>The element every beginner skips and every expert dwells on is the last: is the answer <em>right</em>, and how sure are we? A simulation that runs is not a validated model, and a number without an error bar is not a result (Principle 1.3). This section makes the closing discipline explicit, because it is what separates a capstone from a demonstration.</p>
@@ -575,6 +736,13 @@ print("95%% interval %.0f to %.0f N m (%.0f +/- %.0f%%)"
 <tr><td>$h_{\rm f}$, $m_{\rm eff}$, $k_c$</td><td>fall height; effective impacting mass; contact stiffness</td><td>m; kg; N m$^{-1}$</td><td><a class="secref" href="#fracture">7</a></td></tr>
 <tr><td>$S$, $S_0$, $\rho$, $\rho_0$</td><td>femoral strength and its young value; bone density and its young value</td><td>N; N; -; -</td><td><a class="secref" href="#fracture">7</a></td></tr>
 <tr><td>$\ell_T$</td><td>hip-to-HAT-centre-of-mass distance (K3 only)</td><td>m</td><td><a class="secref" href="#problems">10</a></td></tr>
+<tr><td>$m_{\rm GAG}$</td><td>glycosaminoglycan (GAG) assay content. Not this module's body mass $m$</td><td>mg mL$^{-1}$</td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$c_F$, $c_0$</td><td>cartilage fixed charge density; Donnan bath concentration</td><td>M; M</td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$\pi$, $\Theta$</td><td>Donnan swelling pressure; absolute temperature</td><td>Pa; K</td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$R$, $a$</td><td>joint reaction force; contact-patch radius. Not the leg angle $\phi$ or leg-spring $\ell$ of <a class="secref" href="#run">5</a></td><td>N; m</td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$H_A$, $k_{\rm perm}$, $h_{\rm cart}$</td><td>cartilage aggregate modulus; matrix permeability; cartilage thickness. Not this module's leg-spring $k$ (<a class="secref" href="#run">5</a>) or drop height $h$ (<a class="secref" href="#jump">6</a>)</td><td>Pa; m$^4$N$^{-1}$s$^{-1}$; m</td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$\mu_{\rm eq}$, $\mu_{\rm eff}$, $F_{\rm fl}$, $d_{\rm fl}$, $T_{\rm fl}$</td><td>intrinsic drained friction; effective friction; fluid load support fraction; its deficit $1-F_{\rm fl}$; dimensionless drainage time. Not this module's force $F$ (<a class="secref" href="#walk">4</a>) or landing distance $d$ (<a class="secref" href="#jump">6</a>)</td><td>-; -; -; -; -</td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$n_k$</td><td>assumed exponent coupling permeability to fixed charge (deliverable 6, swept)</td><td>-</td><td><a class="secref" href="#catalog">8</a></td></tr>
 </table>
 
 <h3>Parameters</h3>
@@ -605,6 +773,14 @@ print("95%% interval %.0f to %.0f N m (%.0f +/- %.0f%%)"
 <tr><td>$(\rho/\rho_0)_{\rm crit}$</td><td>$0.791$; $0.666$ with a hip protector</td><td>derived</td><td><a class="secref" href="#fracture">7</a></td></tr>
 <tr><td>$\ell_T$</td><td>$0.30\ \mathrm{m}$</td><td>assumed (K3 only)</td><td><a class="secref" href="#problems">10</a></td></tr>
 <tr><td>catalog values</td><td>$\sim$200 W stair power; $30$-$50\ \mathrm{ms}$ activation lag; $13.5\to3.5\ \mathrm{N\,s}$ recovery envelope</td><td>Modules 13, 5 and 14 respectively; each brief must re-source its own</td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$c_F$ (healthy, OA)</td><td>$0.2\ \mathrm M\to0.1\ \mathrm M$ ($45.8\to22.9\ \mathrm{mg\,mL^{-1}}$ GAG)</td><td><a class="secref" href="module00.html#macro">Module&nbsp;0 §7</a> stoichiometry; OA point assumed (50% GAG loss)</td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$\pi$ (healthy, OA)</td><td>$156\to42\ \mathrm{kPa}$</td><td>derived (<a class="secref" href="module04.html#donnan">Module&nbsp;4 §2</a> law; <a class="secref" href="module04.html#degeneration">§8</a>, Prop. 8.1)</td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$R$ (hip, single-leg stance)</td><td>$2.5\,W\approx1715\ \mathrm N$</td><td><a class="secref" href="module03.html#reaction">Module&nbsp;3 §4</a></td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>contact peak (healthy, OA)</td><td>$2.0\to3.2\ \mathrm{MPa}$ at $R=1715\ \mathrm N$</td><td><a class="secref" href="module04.html#contact">Module&nbsp;4 §6</a>, <a class="secref" href="module04.html#degeneration">§8</a></td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$R_{\rm needed}$</td><td>$1072\ \mathrm N=1.56\,W$</td><td>derived (deliverable 4, assumption iii)</td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$H_A$, $h_{\rm cart}$, $\mu_{\rm eq}$</td><td>$0.6\times10^6\ \mathrm{Pa}$, $2\ \mathrm{mm}$, $0.15$</td><td><a class="secref" href="module04.html#biphasic">Module&nbsp;4 §3</a>, <a class="secref" href="module04.html#lubrication">§7</a></td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$k_{\rm perm}$ (healthy; recovered by inversion)</td><td>$10^{-15}$; $2.09\times10^{-13}\ \mathrm{m^4\,N^{-1}\,s^{-1}}$</td><td><a class="secref" href="module04.html#biphasic">Module&nbsp;4 §3</a>; derived (deliverable 6, from an assumed $\mu_{\rm eff}=0.03$)</td><td><a class="secref" href="#catalog">8</a></td></tr>
+<tr><td>$n_k$ sweep</td><td>$1,2,4\Rightarrow c_F\approx0$, $0.014$, $0.053\ \mathrm M$</td><td>assumed sweep (deliverable 6)</td><td><a class="secref" href="#catalog">8</a></td></tr>
 </table>
 
 <h3>The course in one page</h3>
