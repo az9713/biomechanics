@@ -836,9 +836,19 @@ five `[pre]` names (`VO2max`, `E_O2`, `PCr_conc`, `C_gly`, `CoT_run`), `E` bound
 `E@Pa` (module09's SLIP energy `E` is not a modulus), `kappa@m^2` dropped from `k_perm`
 (module08's swing-cost coefficient is not a permeability). Tracked script copy synced.
 
+**Module 14 — DONE (see `git log` for the hash, 2026-09-15).** Agent `m14` (Sonnet):
+§2 Definition 2.2 + Proposition 2.2 (protein turnover, anabolic resistance: 29 % loss,
+72 % of Prop 2.1's figure); §3 Proposition 3.1′ (calcium buffering, forced skeletal
+flux 30 mg/day = 1.10 %/yr); §5 Definition 5.2 + Proposition 5.3 (AGE kinetics, tendon
+φ 0.28 at 80, bone plateau 0.06 / 0.11); K11 AGE crossover (k_turn* 0.055/yr; 6.3 yr
+of hyperglycaemia for +10 % tendon burden); Module 6 §7 IOU repaid in full, Module 10
+§11 IOU in part (vestibular loss and medication effects named as **open debts**, out of
+this course's scope). Reviewer 15 findings, all applied; the agent did not run a second
+reviewer round. Two `k_on`-family markers; no missing `data-sym` names.
+
 **Agents in flight — wave 1 (launched 2026-09-14 after the Module 6 commit; the user
 chose `general-purpose` on **Sonnet**, at most 3 at a time): `m04`, `m14`, `m0809`.
-Wave 2: `m15` launched when `m04` reported, `m16` when `m0809` reported (both Sonnet); `m17` still queued — launch it when `m14`, `m15` or `m16` reports (3-agent cap) (their prompts were
+Wave 2: `m15` launched when `m04` reported, `m16` when `m0809` reported (both Sonnet); `m17` launched when `m14` reported (all six now launched; `m15`, `m16`, `m17` still running) (their prompts were
 the light-addition entries of `chemistry-audit-and-plan.md` §2.2b lines ~295–297: M15
 marker error model, M16 chemical-potential driving term generalising the poroelastic
 law, M17 one capstone chain molecule → whole body; same guardrails, same report format).
@@ -933,7 +943,7 @@ Part 3 fix (Modules 5, 2, 6 done; **4, 14, 8/9 in flight on three Sonnet agents;
 17 queued — integrate each report as it arrives, launch a wave-2 agent per freed slot**):
 
 > ~~Module 5~~ → ~~Module 2~~ → ~~Module 6~~ → ~~Module 4~~ → ~~Modules 8/9~~ →
-> {Module 14, Module 15, Module 16} in flight → Module 17 queued
+> ~~Module 14~~ → {Module 15, Module 16, Module 17} in flight
 
 Module 0 now has something to trace *from* for each of them, and the tracing is the
 easier half: the chemistry exists, is proved, and carries provenance markers. What
