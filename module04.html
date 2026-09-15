@@ -48,6 +48,13 @@ window.MathJax = {
   .small{ font-size:.88rem; color:var(--muted); }
   hr{ border:none; border-top:1px solid var(--rule); margin:2.5rem 0; }
   .keyresult{ background:#fdf7e3; border:1px solid #e3d27a; padding:.5rem .9rem; border-radius:4px; }
+  /* Provenance of a borrowed constitutive parameter. Enforced by
+     check_provenance.py; contract in chemistry-audit-and-plan.md, sec. 2.2c.
+     It must RENDER, not just parse. */
+  .prov{ display:block; border-left:3px solid #c08a00; padding:.15rem .7rem;
+         margin:.5rem 0; font-size:.94em; color:#4a4a4a; }
+  .prov::before{ content:"provenance — "; font-variant:small-caps;
+                 letter-spacing:.04em; color:#8a6a00; }
   .qbox{ background:#f0f5f0; border-left:4px solid #2a7d2a; padding:.5rem .9rem; margin:1rem 0; border-radius:0 4px 4px 0;}
   .codewrap{ position:relative; }
   .copybtn{ position:absolute; top:.5rem; right:.5rem; display:inline-flex; align-items:center; gap:.3rem;
@@ -258,6 +265,30 @@ $$\varphi^s+\varphi^w=1,\qquad \text{with typically }\varphi^w\approx0.65\text{�
 "Incompressible constituents" does <em>not</em> mean the tissue cannot change volume: it shrinks precisely by the volume of fluid that flows out. That single bookkeeping fact becomes the governing equation in <span class="secref"><a class="secref" href="#biphasic">§3</a></span>.</div>
 
 <p>A caution before we build on it. This lumped, single-property matrix is <em>homogeneous</em> and <em>isotropic</em>, whereas the figure above shows cartilage is neither: the collagen weave, water content, and fixed charge all vary with depth (the superficial, middle, and deep zones) and have a built-in fibre direction. The toy model we develop in <span class="secref"><a class="secref" href="#biphasic">§3</a></span>–<span class="secref"><a class="secref" href="#relaxlab">§5</a></span> deliberately ignores that, because the depth-averaged version already captures the headline physics — fluid pressurisation and load sharing — with one tractable equation. The depth-dependence and anisotropy are real and matter for where cartilage actually fails; we reintroduce them qualitatively in <span class="secref"><a class="secref" href="#contact">§6</a></span> and <span class="secref"><a class="secref" href="#degeneration">§8</a></span>, and defer the full continuum treatment to Module&nbsp;16. With the cast of characters and the idealisation fixed, the first thing to compute is the one effect the dry models entirely missed: the swelling pressure that the fixed charge $c_F$ creates. That is <span class="secref"><a class="secref" href="#donnan">§2</a></span>.</p>
+
+<h3>Where the fixed charge density comes from, and the module's other measured constants</h3>
+
+<p>Every constitutive constant this module uses &#8212; the fixed charge $c_F$, the permeability of <a class="secref" href="#biphasic">§3</a>, the moduli of <a class="secref" href="#contact">§6</a> &#8212; is a name for something measured. One of them is not merely measured: <a class="secref" href="module00.html#macro">Module&nbsp;0 §7</a> converts a biochemical assay into $c_F$ by a stoichiometry, not a fit.</p>
+
+<p>Module&nbsp;0's Definition&nbsp;7.3 identifies the proteoglycan brush's charge-carrying chain as chondroitin sulfate, a glycosaminoglycan (GAG) whose repeating disaccharide carries one carboxyl and one sulfate group &#8212; two fixed negative charges, both fully ionised at pH&nbsp;$7.4$ &#8212; at a molar mass of $458\ \mathrm{g\,mol^{-1}}$. A GAG assay reading $m$ grams per litre of the tissue's <em>interstitial water</em> &#8212; the basis <a class="secref" href="#donnan">§2</a> and D2 already fix $c_F$ on, moles of charge per unit fluid volume, not per unit tissue volume &#8212; therefore fixes the charge density with no adjustable step:</p>
+
+$$c_F = \frac{2m}{458}\ \mathrm{mol\,L^{-1}}\qquad(m\text{ in }\mathrm{g\,L^{-1}}\text{ of tissue water}).$$
+
+<p>Healthy cartilage assays at $40$&#8211;$70\ \mathrm{mg\,mL^{-1}}$ of GAG, which this stoichiometry converts to $c_F = 0.175$&#8211;$0.306\ \mathrm M$ &#8212; the range behind the parameter table's fixed-charge row (<a class="secref" href="#appendix">Appendix</a>). The operating value used throughout this module, $c_F\approx0.2\ \mathrm M$, is not chosen to make <a class="secref" href="#donnan">§2</a>'s swelling pressure come out right: it is what $45.8\ \mathrm{mg\,mL^{-1}}$ of GAG gives, an ordinary point well inside the assayed range. The chain of inference therefore runs GAG assay $\to$ stoichiometry $\to$ $c_F$ $\to$ <a class="secref" href="#donnan">§2</a>'s swelling pressure &#8212; never the reverse.</p>
+
+<p><span class="prov" data-sym="c_F" data-state="module0">derived in <a class="secref" href="module00.html#macro">Module&nbsp;0 §7</a>, Definition&nbsp;7.3: $c_F$ is not itself an independent measurement — the GAG assay is the measurement, and <a class="secref" href="module00.html#macro">Module&nbsp;0 §7</a> turns it into a charge density by a fixed stoichiometry, two charges per $458\ \mathrm{g\,mol^{-1}}$ disaccharide, with no elastic or osmotic measurement among the inputs. That is why it is marked <code>module0</code> here rather than <code>measured</code>: the assay is measured, the conversion to $c_F$ is a derivation.</span></p>
+
+<p>This module's remaining constitutive constants have no such chain, and are declared here, at the module's first mention of each, rather than left as unmarked Appendix entries.</p>
+
+<p><span class="prov" data-sym="E" data-state="measured">measured, not derived: the instantaneous (undrained) Young's modulus of <a class="secref" href="#contact">§6</a> comes from a fast unconfined-compression or indentation test. This course does not build the collagen&#8211;proteoglycan composite mechanics that would predict it from the constituents, the way <a class="secref" href="module00.html#bonding">Module&nbsp;0 §2</a> derives the mineral and protein end-member stiffnesses that a composite bound then combines for bone (<a class="secref" href="module02.html#composite">Module&nbsp;2 §5</a>) — this module has no such composite theory for cartilage's collagen-proteoglycan solid.</span></p>
+
+<p><span class="prov" data-sym="nu" data-state="measured">measured, not derived: the near-incompressible Poisson ratio $\nu\approx0.5$ of fast-loaded cartilage reflects the trapped, nearly incompressible interstitial water of <a class="secref" href="#fluidload">§4</a> &#8212; a qualitative cause this course states but does not turn into the number $0.5$.</span></p>
+
+<p><span class="prov" data-sym="H_A" data-state="measured">measured, not derived: the aggregate (confined-compression) modulus of <a class="secref" href="#biphasic">§3</a> is a poroelastic constant read directly off a confined-compression test. Deriving it would need the fibre-reinforced-gel mechanics of the solid matrix, which this module does not build.</span></p>
+
+<p><span class="prov" data-sym="k_perm" data-state="measured">measured, not derived: the hydraulic permeability of <a class="secref" href="#biphasic">§3</a> is read from a fluid-outflow test under a fixed pressure gradient. Darcy permeability factors as $k=\kappa/\eta$, an intrinsic (geometric) permeability $\kappa$ set by the pore size of the collagen&#8211;proteoglycan mesh — a length scale below this module's continuum treatment — divided by the pore fluid's viscosity $\eta$; <a class="secref" href="#lubrication">§7</a> uses only the second factor.</span></p>
+
+<p><span class="prov" data-sym="sigma_0" data-state="measured">measured, not derived, and for a different reason than the others: $\sigma_0$ is the stress an experimenter chooses to apply in <a class="secref" href="#biphasic">§3</a>'s confined-compression test. It is a loading condition, not a material property, so there is nothing here for a derivation to produce &#8212; it carries a marker only because the provenance gate does not distinguish a chosen test load from a material constant.</span></p>
 
 <hr>
 
@@ -1087,6 +1118,33 @@ for t in [1, 60, 3600, 20000]:
 
 <p>Two supporting players finish the picture. <b>Synovial fluid is shear-thinning</b> (non-Newtonian): its hyaluronic-acid chains make it viscous at low shear and thin at high shear, tuning the fluid-film regime and cushioning impact. And the adsorbed <b>lubricin / hyaluronic-acid</b> layers set the boundary value $\mu_{\rm eq}$ — the backstop that matters most precisely when fluid support has failed.</p>
 
+<h3>Where the temperature dependence comes from</h3>
+
+<p>Synovial viscosity was quoted above as a range, $\eta\approx0.01$–$1\ \mathrm{Pa\,s}$, with no temperature attached. <a class="secref" href="module00.html#kinetics">Module&nbsp;0 §6</a>'s Proposition&nbsp;6.3 (Arrhenius, and the $Q_{10}$) supplies the missing dependence — the two-temperature form that section applies to a cooled limb's crossbridge cycling, applied here to interstitial water instead of an enzyme.</p>
+
+<p>Viscous flow is itself an activated process: a molecule must acquire enough energy to slip past its neighbours, so it is the <em>fluidity</em> $1/\eta$ that plays the role of Proposition&nbsp;6.3's rate constant $k_{\rm rate}$ (written with the subscript to keep it apart from this module's permeability $k$):</p>
+$$\frac{k_{\rm rate}(T_2)}{k_{\rm rate}(T_1)}=\exp\!\left[-\frac{E_a}{R_g}\left(\frac1{T_2}-\frac1{T_1}\right)\right]\ \xrightarrow{\ k_{\rm rate}\to1/\eta\ }\ \frac{\eta(T_1)}{\eta(T_2)}=\exp\!\left[-\frac{E_a}{R_g}\left(\frac1{T_2}-\frac1{T_1}\right)\right].$$
+<p>Pure water's viscosity is measured at $\eta_{25}=0.890\ \mathrm{mPa\,s}$ and $\eta_{37}=0.692\ \mathrm{mPa\,s}$; their ratio, $1.286$, is that fluidity ratio, so</p>
+$$E_a=\frac{R_g\ln(\eta_{25}/\eta_{37})}{1/298.15-1/310.15}=16.1\ \mathrm{kJ\,mol^{-1}}.$$
+<p>That barrier is about a quarter of crossbridge cycling's $70\ \mathrm{kJ\,mol^{-1}}$ (<a class="secref" href="module00.html#kinetics">Module&nbsp;0 §6</a>): normalised to the same ten-kelvin step, water's viscosity carries an effective $Q_{10}$ of only $1.23$ against muscle's measured $2.5$. Slipping past a neighbour costs a water molecule far less than surmounting a crossbridge's transition state.</p>
+
+<p>The consequence runs straight through this module's own permeability. <a class="secref" href="#composite">§1</a>'s marker factored $k=\kappa/\eta$; the pore fluid here is <em>interstitial water</em>, not the whole synovial fluid, so it is water's $16.1\ \mathrm{kJ\,mol^{-1}}$ that applies. A cooler, more viscous interstitial water gives a <em>smaller</em> $k$, hence a smaller diffusivity $D=H_Ak$ and a <em>longer</em> gel time — the opposite of what "cold and stiff" suggests. Dividing $D$ by the same $1.286$ when the joint cools from $37$ to $25\ ^\circ\mathrm C$ (holding $H_A$ and $\mu_{\rm eq}$ at their $37\ ^\circ\mathrm C$ values, since neither this module nor Module&nbsp;0 gives their temperature dependence):</p>
+
+<table>
+<thead><tr><th>Quantity</th><th>$37\ ^\circ\mathrm C$</th><th>$25\ ^\circ\mathrm C$</th></tr></thead>
+<tbody>
+<tr><td>gel time $\tau=h^2/D$</td><td>$6667\ \mathrm s$</td><td>$8574\ \mathrm s$</td></tr>
+<tr><td>fluid support at a $1\ \mathrm s$ footstep, $F(1\,\mathrm s)$</td><td>$0.986$</td><td>$0.988$</td></tr>
+<tr><td>friction deficit $1-F$</td><td>$0.0138$</td><td>$0.0122$</td></tr>
+<tr><td>effective friction $\mu_{\rm eff}=\mu_{\rm eq}(1-F)$</td><td>baseline</td><td>$\times0.882$ ($12\%$ lower)</td></tr>
+<tr><td>classical Stribeck film term $\alpha S\propto\eta$</td><td>baseline</td><td>$\times1.286$ ($29\%$ higher, <em>if</em> the whole synovial fluid shares water's $E_a$ — not tested here)</td></tr>
+</tbody>
+</table>
+
+<p>A cooled joint is therefore very slightly <em>more</em> forgiving by the biphasic mechanism — more viscous interstitial water drains more slowly, so it pressurises longer and carries more of a footstep's load — while the classical fluid-film term of the Stribeck curve above moves the other way, since $S=\eta U/N$ rises with $\eta$. Neither effect is large: both are set by the same $16.1\ \mathrm{kJ\,mol^{-1}}$, well below the barrier that makes a cold <em>muscle</em> slow, because emptying a pore asks far less of a molecule than cycling a crossbridge.</p>
+
+<p><span class="prov" data-sym="mu_fric" data-state="measured">measured, not derived: the intrinsic (fully drained) friction coefficient $\mu_{\rm eq}$ is set by the adsorbed lubricin and hyaluronic-acid boundary layer of this section — an interfacial chemistry this course names but does not compute.</span></p>
+
 <p>So cartilage's sub-ice friction is not classical lubrication at all — it is the <a class="secref" href="#fluidload">§4</a> fluid pressurization, read tangentially. And that makes friction a live gauge of fluid load support: as the biphasic machinery degrades — fluid draining faster, $F$ falling — friction rises, and rising friction abrades the surface, which degrades it further. That self-feeding failure is the subject of <span class="secref"><a class="secref" href="#degeneration">§8</a></span>.</p>
 
 <hr>
@@ -1104,6 +1162,67 @@ for t in [1, 60, 3600, 20000]:
 <li><b>The swelling pre-stress is lost (<a class="secref" href="#donnan">§2</a>).</b> The Donnan pressure $\pi=R_g\Theta\big(\sqrt{c_F^2+4c_0^2}-2c_0\big)$ falls with $c_F$. Cartilage loses the resting turgor that kept it inflated and pre-loaded the collagen; it softens, and more load falls on the collagen network — which frays (<em>fibrillation</em>, the surface splitting seen in early OA).</li>
 <li><b>The fluid seal is broken (<a class="secref" href="#biphasic">§3</a>–<a class="secref" href="#fluidload">§4</a>).</b> The proteoglycans were also what made the matrix nearly impermeable. Lose them and the permeability $k$ rises. By <a class="secref" href="#biphasic">§3</a> the gel time $\tau=h^2/(H_Ak)$ falls in proportion; by <a class="secref" href="#fluidload">§4</a> the fluid load support $F$ then collapses sooner. The tissue can no longer carry load as a pressurised fluid — the weakened solid matrix must take the stress.</li>
 </ul>
+
+<h3>How fast the charge is actually lost, and why the pressure falls faster than the charge</h3>
+
+<p>The trigger above was named — aggrecanases and MMPs cleave aggrecan — but not modelled. <a class="secref" href="module00.html#kinetics">Module&nbsp;0 §6</a>'s Proposition&nbsp;6.4 (Michaelis–Menten) is the tool: an enzyme that binds aggrecan reversibly and cuts it irreversibly obeys $v=v_{\max}[A]/(K_M+[A])$ with $v_{\max}=k_2[\mathrm{Enz}]_{\rm tot}$, where $[A]$ is the mass concentration of GAG still carried by intact aggrecan (the same units as <a class="secref" href="#composite">§1</a>'s assay $m$, so $[A]=m$ before cleavage begins), $[\mathrm{Enz}]$ is written with brackets, not $E$, because $E$ is this module's Young's modulus (<a class="secref" href="#contact">§6</a>), and $k_2$ names Module&nbsp;0's own catalytic rate constant, kept apart from this module's lower-case permeability $k$.</p>
+
+<div class="lem" id="lem81"><b>Lemma 8.1 (aggrecan loss is exponential when substrate-limited).</b> Let $[A](t)$ be intact, GAG-bearing aggrecan, degraded at the Michaelis–Menten rate above. When aggrecan is scarce relative to the enzyme's half-saturation level, $[A]\ll K_M$, the loss is first order,
+$$\frac{\mathrm d[A]}{\mathrm dt}=-k_{\rm deg}[A],\qquad k_{\rm deg}\equiv\frac{k_2[\mathrm{Enz}]_{\rm tot}}{K_M}=\frac{v_{\max}}{K_M},$$
+so $[A](t)=[A]_0e^{-k_{\rm deg}t}$. Because $c_F=2[A]/458$ is a fixed multiple of $[A]$ (<a class="secref" href="#composite">§1</a>, <a class="secref" href="module00.html#macro">Module&nbsp;0 §7</a>, and assuming the cleaved GAG-bearing fragments then diffuse out of the matrix, so their charge truly leaves rather than staying trapped), the fixed charge inherits the same exponential without a further calculation: $c_F(t)=c_F(0)e^{-k_{\rm deg}t}$. In the opposite, saturating regime $[A]\gg K_M$ — abundant substrate, the enzyme itself the bottleneck — the rate is pinned at $v_{\max}$ and the loss is zero order, linear in time, until $[A]$ falls back toward $K_M$. Only $[A]$ against $K_M$ sets the regime; the amount of enzyme present moves $v_{\max}$, not which regime applies.</div>
+<div class="proof">For $[A]\ll K_M$, $K_M+[A]\approx K_M$, so $v\approx(v_{\max}/K_M)[A]$; substituting into the loss equation $\mathrm d[A]/\mathrm dt=-v$ gives the boxed linear ODE, whose solution is the stated exponential. For $[A]\gg K_M$, $K_M+[A]\approx[A]$, so $v\to v_{\max}$ independent of $[A]$, giving $\mathrm d[A]/\mathrm dt\approx-v_{\max}$, a constant rate of loss. <span class="qed">∎</span></div>
+
+<p>$k_2$, $K_M$ and $[\mathrm{Enz}]_{\rm tot}$ are themselves measured aggrecanase kinetic constants that this course does not carry forward; Lemma&nbsp;8.1 supplies only the <em>shape</em> of the decline, which is the part the rest of this section needs.</p>
+
+<p>That shape does not yet say how much mechanical damage a given fractional loss of charge does, and here the module's own formula answers directly. <a class="secref" href="#donnan">§2</a>'s boxed swelling-pressure law is a <em>convex</em> function of $c_F$ — the square root of a sum of squares is always convex — so equal fractional losses of charge do not produce equal fractional losses of pressure.</p>
+
+<div class="prop" id="prop81"><b>Proposition 8.1 (charge loss is mechanically amplified).</b> Define the local elasticity of swelling pressure with respect to fixed charge, $\Lambda_\pi(c_F)\equiv(c_F/\pi)(\mathrm d\pi/\mathrm dc_F)$ — written $\Lambda$, not $\epsilon$, because $\epsilon$ is this module's strain (<a class="secref" href="#biphasic">§3</a>) — for <a class="secref" href="#donnan">§2</a>'s boxed law $\pi=R_g\Theta\big(\sqrt{c_F^2+4c_0^2}-2c_0\big)$. Then
+$$\boxed{\;\Lambda_\pi(c_F)=1+\frac{1}{\sqrt{1+(c_F/2c_0)^2}}\;},$$
+strictly decreasing, from the limit $2$ as $c_F\to0$ to the limit $1$ as $c_F\to\infty$. A one-percent loss of fixed charge therefore always costs <em>more</em> than one percent of the swelling pressure — up to nearly twice as much, in the limit of severe depletion.</div>
+<div class="proof">Differentiating the boxed law, $\mathrm d\pi/\mathrm dc_F=R_g\Theta\,c_F/\sqrt{c_F^2+4c_0^2}$, so $\Lambda_\pi=c_F^2/\big[\sqrt{c_F^2+4c_0^2}\,(\sqrt{c_F^2+4c_0^2}-2c_0)\big]$. Substitute $x=c_F/2c_0$ and $s=\sqrt{x^2+1}$, so the square root becomes $2c_0s$ and $x^2=s^2-1=(s-1)(s+1)$:
+$$\Lambda_\pi=\frac{(2c_0x)^2}{2c_0s\cdot2c_0(s-1)}=\frac{x^2}{s(s-1)}=\frac{(s-1)(s+1)}{s(s-1)}=\frac{s+1}{s}=1+\frac1s.$$
+Since $s=\sqrt{1+(c_F/2c_0)^2}$ increases monotonically from $1$ to $\infty$ as $c_F$ runs from $0$ to $\infty$, $\Lambda_\pi=1+1/s$ decreases monotonically from $2$ to $1$. <span class="qed">∎</span></div>
+
+<p>At the healthy operating point $c_F=0.2\ \mathrm M$, $\Lambda_\pi=1.83$: a $1\%$ loss of charge costs $1.83\%$ of the swelling pressure, not $1\%$. Integrated over the halving <a class="secref" href="#donnan">§2</a>'s K2 already computes — $c_F:0.2\to0.1\ \mathrm M$, a $50\%$ loss — the pressure falls from $156$ to $42\ \mathrm{kPa}$, a $73\%$ loss, $1.46\times$ the $50\%$ a linear ($\Lambda_\pi=1$) response would give. The interval's log-average elasticity, $\ln(156/42)/\ln 2=1.90$, brackets Proposition&nbsp;8.1's local value of $1.83$ at $c_F=0.2\ \mathrm M$ and confirms the amplification is the rule over the whole range, not an artefact of the two endpoints chosen. Plotted against the glycosaminoglycan mass an assay actually reports (<a class="secref" href="module00.html#macro">Module&nbsp;0 §7</a>'s stoichiometry, top scale below), the same curve becomes a diagnostic: a biopsy's GAG content converts directly into how much swelling pre-stress that cartilage has left.</p>
+
+<div id="fig-m4cA" style="text-align:center;margin:1.2rem 0"><!--FIG:m4cA--><svg class="setupfig" viewBox="0 0 560 300" width="100%" role="img" aria-label="Donnan swelling pressure against fixed charge density from 0 to 0.30 molar, with a top scale giving the equivalent glycosaminoglycan mass concentration. The curve is convex: 156 kilopascals at the healthy 0.2 molar and 42 at half that charge, a 73 percent loss of pressure for a 50 percent loss of charge.">
+<line x1="70" y1="250" x2="518" y2="250" stroke="#333" stroke-width="1.4"/>
+<line x1="70" y1="250" x2="70" y2="50" stroke="#333" stroke-width="1.4"/>
+<line x1="70.0" y1="250" x2="70.0" y2="254" stroke="#333"/>
+<text x="70.0" y="264.0" font-size="9" text-anchor="middle" fill="#555">0</text>
+<line x1="216.7" y1="250" x2="216.7" y2="254" stroke="#333"/>
+<text x="216.7" y="264.0" font-size="9" text-anchor="middle" fill="#555">0.1</text>
+<line x1="363.3" y1="250" x2="363.3" y2="254" stroke="#333"/>
+<text x="363.3" y="264.0" font-size="9" text-anchor="middle" fill="#555">0.2</text>
+<line x1="510.0" y1="250" x2="510.0" y2="254" stroke="#333"/>
+<text x="510.0" y="264.0" font-size="9" text-anchor="middle" fill="#555">0.3</text>
+<line x1="66" y1="250.0" x2="70" y2="250.0" stroke="#333"/>
+<text x="63.0" y="253.0" font-size="9" text-anchor="end" fill="#555">0</text>
+<line x1="66" y1="192.4" x2="70" y2="192.4" stroke="#333"/>
+<text x="63.0" y="195.4" font-size="9" text-anchor="end" fill="#555">100</text>
+<line x1="66" y1="134.8" x2="70" y2="134.8" stroke="#333"/>
+<text x="63.0" y="137.8" font-size="9" text-anchor="end" fill="#555">200</text>
+<line x1="66" y1="77.3" x2="70" y2="77.3" stroke="#333"/>
+<text x="63.0" y="80.3" font-size="9" text-anchor="end" fill="#555">300</text>
+<text x="290.0" y="281.0" font-size="10.5" text-anchor="middle" fill="#333">fixed charge density c<tspan baseline-shift="sub" font-size="7">F</tspan> (M)</text>
+<text x="26.0" y="155.0" font-size="10" text-anchor="middle" fill="#333" transform="rotate(-90 26.0 155.0)">Donnan swelling pressure &#960; (kPa)</text>
+<polyline points="70.0,250.0 77.3,249.9 84.7,249.8 92.0,249.4 99.3,249.0 106.7,248.5 114.0,247.8 121.3,247.0 128.7,246.1 136.0,245.0 143.3,243.9 150.7,242.6 158.0,241.2 165.3,239.7 172.7,238.0 180.0,236.3 187.3,234.4 194.7,232.5 202.0,230.4 209.3,228.2 216.7,225.9 224.0,223.5 231.3,221.0 238.7,218.4 246.0,215.7 253.3,212.9 260.7,210.0 268.0,207.0 275.3,203.9 282.7,200.7 290.0,197.5 297.3,194.1 304.7,190.6 312.0,187.1 319.3,183.5 326.7,179.8 334.0,176.0 341.3,172.2 348.7,168.2 356.0,164.2 363.3,160.1 370.7,156.0 378.0,151.8 385.3,147.5 392.7,143.1 400.0,138.7 407.3,134.2 414.7,129.7 422.0,125.1 429.3,120.4 436.7,115.7 444.0,110.9 451.3,106.1 458.7,101.2 466.0,96.2 473.3,91.3 480.7,86.2 488.0,81.1 495.3,76.0 502.7,70.8 510.0,65.6" fill="none" stroke="#7a1f1f" stroke-width="2.6"/>
+<line x1="363.3" y1="250.0" x2="363.3" y2="160.1" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+<circle cx="363.3" cy="160.1" r="4" fill="#2a7d2a" stroke="#fff" stroke-width="1.2"/>
+<text x="353.3" y="144.1" font-size="9.5" text-anchor="end" fill="#2a7d2a">healthy 0.2 M: 156 kPa</text>
+<line x1="216.7" y1="250.0" x2="216.7" y2="225.9" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+<circle cx="216.7" cy="225.9" r="4" fill="#c0562a" stroke="#fff" stroke-width="1.2"/>
+<text x="224.7" y="239.9" font-size="9.5" text-anchor="start" fill="#c0562a">half the charge: 42 kPa</text>
+<text x="84.7" y="71.5" font-size="9.5" text-anchor="start" fill="#333">&#960; = R<tspan baseline-shift="sub" font-size="7">g</tspan>&#920; (&#8730;(c<tspan baseline-shift="sub" font-size="7">F</tspan>&#178; + 4c&#8320;&#178;) &#8722; 2c&#8320;), c&#8320; = 0.15 M</text>
+<line x1="70" y1="56" x2="510" y2="56" stroke="#2a6ca8" stroke-width="1"/>
+<line x1="198.1" y1="56" x2="198.1" y2="52" stroke="#2a6ca8"/>
+<text x="198.1" y="49.0" font-size="8.5" text-anchor="middle" fill="#2a6ca8">20</text>
+<line x1="326.2" y1="56" x2="326.2" y2="52" stroke="#2a6ca8"/>
+<text x="326.2" y="49.0" font-size="8.5" text-anchor="middle" fill="#2a6ca8">40</text>
+<line x1="454.3" y1="56" x2="454.3" y2="52" stroke="#2a6ca8"/>
+<text x="454.3" y="49.0" font-size="8.5" text-anchor="middle" fill="#2a6ca8">60</text>
+<text x="70.0" y="38.0" font-size="8.5" text-anchor="start" fill="#2a6ca8">top scale: GAG content (mg/mL)</text>
+</svg><!--/FIG:m4cA--><p class="small" style="font-style:italic">Donnan swelling pressure against fixed charge density, with the equivalent glycosaminoglycan mass concentration (<a class="secref" href="module00.html#macro">Module&nbsp;0 §7</a>'s stoichiometry) on the top axis. The curve's convexity is Proposition&nbsp;8.1: the healthy point loses swelling pressure faster than it loses charge.</p></div>
 
 <p>These two struts feed a single vicious cycle:</p>
 
@@ -2310,9 +2429,17 @@ for cF in (0.2, 0.1, 0.05):
 <tr><td>$\eta$</td><td>synovial fluid viscosity (shear-thinning)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
 <tr><td>$N$</td><td>normal load across the contact (written $N$, not $W$, because $W$ is body weight)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
 <tr><td>$\mu_{\rm bl},\ S_0,\ \alpha$</td><td>boundary plateau, transition and hydrodynamic slope of the classical Stribeck fit (all assumed)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>$\kappa$</td><td>intrinsic (geometric) permeability, $k=\kappa/\eta$; the pore-size factor $k$ carries alongside viscosity</td><td><a class="secref" href="#composite">§1</a>, <a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>$E_a$</td><td>Arrhenius activation energy (used here for water's viscosity, $16.1\ \mathrm{kJ\,mol^{-1}}$)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>$k_{\rm rate}$</td><td><a class="secref" href="module00.html#kinetics">Module&nbsp;0 §6</a>'s generic Arrhenius rate constant (kept apart from this module's permeability $k$)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
 <tr><td class="grp" colspan="3"><b>Degeneration</b></td></tr>
 <tr><td>$d$</td><td>fluid-support deficit, $d=1-F$</td><td><a class="secref" href="#degeneration">§8</a></td></tr>
 <tr><td>$G$</td><td>degeneration loop gain; the joint heals if $G\lt1$ and runs away if $G\gt1$</td><td><a class="secref" href="#degeneration">§8</a></td></tr>
+<tr><td>$[A]$</td><td>mass concentration of intact, GAG-bearing aggrecan (same units as the GAG assay $m$ of <a class="secref" href="#composite">§1</a>)</td><td><a class="secref" href="#degeneration">§8</a></td></tr>
+<tr><td>$[\mathrm{Enz}]$</td><td>active aggrecanase/MMP concentration (bracketed, not $E$, which is Young's modulus above)</td><td><a class="secref" href="#degeneration">§8</a></td></tr>
+<tr><td>$K_M,\ k_2$</td><td>Michaelis constant and catalytic rate constant of <a class="secref" href="module00.html#kinetics">Module&nbsp;0 §6</a> Prop.&nbsp;6.4 (kept apart from this module's permeability $k$)</td><td><a class="secref" href="#degeneration">§8</a></td></tr>
+<tr><td>$k_{\rm deg}$</td><td>first-order aggrecan/charge decay rate, $k_{\rm deg}=k_2[\mathrm{Enz}]_{\rm tot}/K_M$</td><td><a class="secref" href="#degeneration">§8</a></td></tr>
+<tr><td>$\Lambda_\pi$</td><td>local elasticity of swelling pressure w.r.t. fixed charge (written $\Lambda$, not $\varepsilon$, which is this module's strain)</td><td><a class="secref" href="#degeneration">§8</a></td></tr>
 </tbody>
 </table>
 
@@ -2338,9 +2465,11 @@ for cF in (0.2, 0.1, 0.05):
 <tr><td>diffusivity</td><td>$D=H_Ak$</td><td>$\approx 6\times10^{-10}\ \mathrm{m^2/s}$</td><td><a class="secref" href="#biphasic">§3</a></td></tr>
 <tr><td>gel time</td><td>$\tau=h^2/D$</td><td>$\approx 6.7\times10^{3}\ \mathrm s\approx 1.9\ \mathrm h$</td><td><a class="secref" href="#biphasic">§3</a>, K8</td></tr>
 <tr><th colspan="4">Charge and osmotic</th></tr>
-<tr><td>fixed-charge density</td><td>$c_F$</td><td>$\approx 0.2\ \mathrm M$</td><td><a class="secref" href="#donnan">§2</a></td></tr>
+<tr><td>GAG disaccharide molar mass; charges/disaccharide</td><td>$M_{\text{disacc}}$</td><td>$458\ \mathrm{g\,mol^{-1}}$; $2$</td><td><a class="secref" href="module00.html#macro">Mod&nbsp;0 §7</a> Def.&nbsp;7.3</td></tr>
+<tr><td>GAG content, healthy range</td><td>$m$</td><td>$40$–$70\ \mathrm{mg\,mL^{-1}}$</td><td><a class="secref" href="#composite">§1</a></td></tr>
+<tr><td>fixed-charge density</td><td>$c_F$</td><td>$\approx 0.2\ \mathrm M$ ($0.175$–$0.306$ range)</td><td><a class="secref" href="#composite">§1</a>, <a class="secref" href="#donnan">§2</a></td></tr>
 <tr><td>bath concentration</td><td>$c_0$</td><td>$\approx 0.15\ \mathrm M$</td><td><a class="secref" href="#donnan">§2</a></td></tr>
-<tr><td>swelling pressure</td><td>$\pi$</td><td>$\approx 0.16\ \mathrm{MPa}$</td><td><a class="secref" href="#donnan">§2</a>, K2</td></tr>
+<tr><td>swelling pressure, healthy $\to$ half-charge</td><td>$\pi$</td><td>$156\to42\ \mathrm{kPa}$ ($73\%$ loss)</td><td><a class="secref" href="#donnan">§2</a> K2, <a class="secref" href="#degeneration">§8</a> Prop.&nbsp;8.1</td></tr>
 <tr><td>thermal energy ($\Theta=310\ \mathrm K$)</td><td>$R_g\Theta$</td><td>$\approx 2577\ \mathrm{J/mol}$</td><td><a class="secref" href="#donnan">§2</a></td></tr>
 <tr><th colspan="4">Loads and pressures</th></tr>
 <tr><td>joint reaction (single-leg stance)</td><td>$R$</td><td>$\approx 1715\ \mathrm N$</td><td><a class="secref" href="module03.html">Mod&nbsp;3</a>, <a class="secref" href="#origin">§0</a></td></tr>
@@ -2352,6 +2481,7 @@ for cF in (0.2, 0.1, 0.05):
 <tr><td>measured friction</td><td>$\mu$</td><td>$\approx 0.005$–$0.02$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
 <tr><td>intrinsic (drained) friction</td><td>$\mu_{\rm eq}$</td><td>$\approx 0.15$</td><td><a class="secref" href="#lubrication">§7</a>, K6</td></tr>
 <tr><td>synovial viscosity (shear-thinning)</td><td>$\eta$</td><td>$\approx 0.01$–$1\ \mathrm{Pa\,s}$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
+<tr><td>water viscosity at $25/37\ ^\circ\mathrm C$; ratio; activation energy</td><td>$\eta_{25},\ \eta_{37};\ E_a$</td><td>$0.890,\ 0.692\ \mathrm{mPa\,s}$; $1.286$; $16.1\ \mathrm{kJ\,mol^{-1}}$</td><td><a class="secref" href="#lubrication">§7</a>, <a class="secref" href="module00.html#kinetics">Mod&nbsp;0 §6</a> Prop.&nbsp;6.3</td></tr>
 <tr><td>boundary friction plateau (assumed)</td><td>$\mu_{\rm bl}$</td><td>$0.15$ (set equal to $\mu_{\rm eq}$)</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
 <tr><td>Stribeck transition (assumed)</td><td>$S_0$</td><td>$0.5$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
 <tr><td>hydrodynamic slope (assumed)</td><td>$\alpha$</td><td>$0.012$</td><td><a class="secref" href="#lubrication">§7</a></td></tr>
