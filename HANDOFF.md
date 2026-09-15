@@ -4,7 +4,7 @@
 This file is the live "what to do next"; `CLAUDE.md` is the standing playbook.
 Don't duplicate what already lives in the files referenced below — open them.
 
-**Last written:** 2026-09-15 (thirteenth refresh — **Phase B step 2 COMPLETE**: Modules 16
+**Last written:** 2026-09-15 (fourteenth refresh — **Module 0 §6–§9 + Appendix reviewer pass IN PROGRESS**: findings for §6 and part of §9 applied at `ac05c6a`; the rest is the worklist in `module00-review-findings.md`; see "Next task". Thirteenth refresh — **Phase B step 2 COMPLETE**: Modules 16
 (`f44efaf`, `3bf9f31`) and 17 (`f521b45`) done; see "Module 16 — DONE" and "Module 17 — DONE"
 below). Latest content commit `f521b45` (Module 17). Latest content commit `1b3f9aa` (Module 15).
 A two-minute overview of this file lives at `HANDOFF.html` (repo root, also live at
@@ -655,6 +655,44 @@ tab more than once.
 
 ## Next task
 
+### Module 0 §6–§9 + Appendix reviewer pass — IN PROGRESS (2026-09-15, `ac05c6a`)
+
+Seven `rigor-reviewer` agents ran, one each for §6, §7, §8, §9 prose + diagnostics + C problems, §9 D
+problems, §9 K problems and the Appendix, plus one shell-capable agent that recomputed every K1–K10
+number. All ran on Opus 5 (the agent file pins `model: fable`, which failed at the Fable limit; memory
+`agent-model-pin-fails-at-limit`). **Every finding, applied and pending, is written out with its fix in
+`module00-review-findings.md` at the repo root. That file is the worklist; this block is the summary.**
+Agents do not survive `/clear`, so nothing is held in them.
+
+**Applied and pushed (`ac05c6a`, all thirteen gates green):**
+- §6, all 21 findings. The cooling paragraph said a crossbridge's force barely changes and §3's
+  ceiling moved 5%; it moves 2.6%, and Module 5 §6 gives a 20–30% kinetic isometric loss. The
+  activation entropy's sign is not fixed by the inputs (−29 to +10 J mol⁻¹K⁻¹ over Q10 2.3–2.7).
+  Smoluchowski is now derived. The Hill constant is `K_{1/2}` module-wide.
+- §9, findings 1–9 from each of the prose/C and D reviewers: Diagnostics 1–3, C1, C4, C5, C6, D2, D4,
+  D5, D6 (rewritten: Lemma 5.1 within 10% for pH 4.34–8.56), D7 (rewritten), D9, D10. Lemma 5.1 had
+  been cited as Definition 5.4 in six places.
+
+**Next task — apply the rest of the ledger, in this order, committing after each group:**
+1. §9 remainder: prose/C findings 10–20 (Diagnostic 5, C7–C10, the "What it captures" table) and D
+   findings 10–18 (D1 becomes the CsCl lattice, D3, D8, D10 symbols).
+2. K1–K10 correctness, from the recomputation. K2's `[ADP] ∝ [Pi]^1.35` contradicts §3 (201 against
+   70 μM ADP; the bout ends at 8.76 pN, not 8.30; the 9 pN crossing moves to 42.4 s). K7's forward
+   Euler at 20 μs is not converged (peak 8.82 μM and factor 7.98, not 10.08 and 7.0), its initial
+   state and leak are unstated, and "more than half the released calcium is free or pumped" is false.
+   K9's "could triple" is 2.2-fold. K1 uses n = 8 for MgO where §2 uses 7.
+3. §7, §8 and Appendix findings as listed in the ledger.
+4. **K-depth, which carries a scope cost.** The K reviewer failed K1, K4, K8, K9 and K10 as plug-in
+   or as repeats of the body, and the §8 reviewer found Lab 8B's margin is linear in T with a
+   closed-form stall at 416 K. Deepening them means new Python-verified solutions and redrawn figures
+   for five problems and one lab. Do it after items 1–3 are committed, one problem at a time, then run
+   a second reviewer round on the rewritten problems only.
+
+The recomputation scripts (`k_verify.py`, `k7_converge.py`) and appliers (`fix6.py`, `fix9cd.py`) lived
+in the session scratchpad and are gone; the ledger keeps every number they produced.
+
+**The paragraph below ("Phase B step 2 is COMPLETE … head of the queue") is superseded by this block.**
+
 **Phase B step 2 is COMPLETE** (`f521b45`, 2026-09-15): all nine target modules carry their
 chemistry traces, live. **The head of the queue is now open item 2 below** — the missing
 reviewer passes on Module 0 §6–§9 and the Appendix (30 problem solutions in §9 unchecked).
@@ -690,7 +728,7 @@ Phase B step 1 is closed.
    lesson recorded in the commit is that a rewrite pass needs an **allowlist** of
    where it may act, not a growing denylist.
 
-2. **§6–§9 and the Appendix have had no reviewer pass at all.** Four sections and an
+2. **[DISPATCHED 2026-09-15 — see the top of "Next task" and `module00-review-findings.md`.]** **§6–§9 and the Appendix have had no reviewer pass at all.** Four sections and an
    appendix went in without one, which is a departure from the standing convention
    and the reason it exists. §9 in particular carries 30 problem solutions whose
    arguments nobody has checked; its numbers are verified (`lab9.py`, all assertions
