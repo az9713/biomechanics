@@ -132,7 +132,7 @@ See every figure before and after: <a href="before-after/index.html">the before/
 <li><strong>Page weight.</strong> Module 5 with hover data was 1,563,544 bytes. Thinning the hover data to 120 points per panel cut the hover data from 445,371 to 312,439 bytes. Cost: uniform thinning can skip a ripple peak in the read-out of Module 5 #20, #45, #64 (the curves themselves are unchanged).</li>
 <li><strong>Figure numbers moved.</strong> The <code>Fig. N</code> counter is CSS, so one extra or missing <code>&lt;figure&gt;</code> renumbers every later reference while all gates stay green. Module 6 needed its counter fixed; Module 9 needed 22 figure references renumbered.</li>
 <li><strong>Duplicate labels and line endings.</strong> <code>apply_figs.py</code> was changed to handle two figures with the same aria-label (by raw order) and to keep Windows line endings (CRLF) in script blocks.</li>
-<li><strong>A gate that fails on the old page too.</strong> <code>check_provenance.py</code> fails on Modules 3, 7, 10, 12 and 13, with the same issues at the committed version (for example a speed <code>v_max</code> with no provenance marker). These were left and reported, not hidden.</li>
+<li><strong>A gate that fails on the old page too.</strong> <code>check_provenance.py</code> fails on Modules 3, 7, 10, 12 and 13, with the same issues at the committed version (for example a speed <code>v_max</code> with no provenance marker). These were left and reported, not hidden. After the final fix pass, Modules 3 and 7 pass this gate; Modules 10, 12 and 13 still show the same false matches.</li>
 <li><strong>A wrong conclusion nearly drawn</strong> (final session). In a 3-column grid thumbnail, the crouched skeleton of Module 15 svg 33 seemed to have no head and no feet. A full-size screenshot and a zoomed crop showed both. The thumbnail was too small to judge. <em>Rule: zoom in before calling a defect.</em></li>
 <li><strong>Missing "before" images for Module 5</strong> (final session). The pilot used an older preview script, so <code>pilot_m05/before/</code> did not exist. The 70 images were rendered from commit <code>2ec6ff0^</code>, the page before the Module 5 redraw; each aria-label was checked against the inventory.</li>
 <li><strong>A regex back-reference destroyed</strong> (final session). A replacement string <code>\1</code> written through a shell here-document became the control character <code>\x01</code>, so every image path in the published page lost its numbers. Found by checking the output; fixed by rewriting the two lines with explicit raw strings.</li>
@@ -150,16 +150,22 @@ See every figure before and after: <a href="before-after/index.html">the before/
 
 <h2>8. Where things stand</h2>
 <p>All 18 modules are redrawn and live. Total page size went from 6,044,959 to 17,238,020 bytes (about 2.85 times). The art is embedded once per page and reused, and hover data is 20 to 25 % of each page.</p>
-<p><strong>Open judgement items</strong> (text left as it is; each later fix gets its own commit). Examples:</p>
+<p><strong>Open judgement items: all resolved</strong> (commit <code>2334d73</code>, one commit for all 13 affected modules). the author asked for every open item to be fixed; five agents (one per group of modules) did it, and the main session committed. Text, figure and numbers now agree:</p>
 <ul>
-<li>Module 1: a foot length L<sub>f</sub> = 0.12 m in the text against a drawn foot of 0.231 m.</li>
-<li>Module 6: the drawn ACL angle (about 21&deg;) against the anatomical value (about 45&deg;).</li>
-<li>Module 13: "approximately 4350 N" where the sum is 4343 N.</li>
-<li>Module 15: "four to six decades" where the factors are 3.6, 3.6 and 5.9 decades.</li>
-<li>Module 16: "~200-fold" where the ratio is 233; Lab B computes Cauchy stress while three figures plot nominal stress.</li>
-<li>Module 17: a code loop that starts at index 1 erases the 2.9&deg; start lean; starting at 0 changes the 200 ms peak from 63.2&deg; to 48.0&deg;.</li>
+<li>Module 1: L<sub>f</sub> is 0.23 m (the drawn foot); K6 crossing time is 1.00 s; the K5 provenance marker says "assumed", not "measured".</li>
+<li>Module 6: the femoral PCL point moved so the ACL is 45&deg; at full extension (K9 arc 10.9 mm).</li>
+<li>Module 7: a locked knee needs about 5&deg; of hyperextension with the centre of mass 0.02 m ahead of the ankle; the text now says this.</li>
+<li>Module 8: the Lab 3 centre of pressure starts under the heel (&minus;0.04 m), not behind it.</li>
+<li>Module 10: the text now agrees with the figure; the centre of pressure stays at the foot edge in the hip strategy.</li>
+<li>Module 13: the proof chain reads 4042 N, then 4346 N (&asymp; 4350 N). The earlier "4343 N" was a rounding of the tendon length.</li>
+<li>Module 14: Lab C reads 44.5 years and 11.8 MPa; margin 0.04 m (56 %) with b aged, 0.03 m (67 %) with b and c&sigma; aged.</li>
+<li>Module 15: 3.6 to 5.9 decades; the minimum is 0.020 rad/s.</li>
+<li>Module 16: "about 233"; Lab B now states it computes Cauchy stress.</li>
+<li>Module 17: the loop is <code>range(0, len(th)-1)</code> and gives 48.0&deg;; "five parts in a thousand".</li>
+<li>Smaller items: provenance markers (Modules 3, 7, 11), the tension colour (Module 4), the Lynch coil and no scipy (Module 9), the "a third of the head" claim removed (Module 11), label placement (Module 12), the D4 schematic (Module 14).</li>
 </ul>
-<p>The full list is in the workspace <code>HANDOFF.md</code> and each module's <code>TEXT_FIXES.md</code>.</p>
+<p><strong>Still to check by hand:</strong> the trunk radius of gyration 0.503 in Module 15 (from memory, not confirmed in Winter's Table 4.1); the anatomical ACL angle of about 45&deg; (Module 6) has no cited source; the heel-edge sentence in Module 8 is a new claim. In Module 13 the leg-strength links to the two descent tasks were removed so Fig. 11 follows its table.</p>
+<p>The per-module detail is in the workspace <code>HANDOFF.md</code> and each module's <code>TEXT_FIXES.md</code>.</p>
 
 <h2>9. Things you may not know to ask about</h2>
 <p>These are the questions that a reader of the finished pages does not see, but that change how far to trust them.</p>
@@ -183,7 +189,7 @@ See every figure before and after: <a href="before-after/index.html">the before/
 <p>No. The gates catch syntax, clipping, overlaps and similar mechanical defects. They do not know whether a muscle is on the correct side of a bone or whether a label states the text's number. That is why every figure was looked at by eye, and why the author approved each module. Section 6 lists defects that every gate passed.</p></div>
 
 <div class="uu"><h3>Did redrawing change the science?</h3>
-<p>Only through recorded text fixes (for example 31 in Module 5, 15 in Modules 11 and 12, 14 in Module 15). Each one is listed with its reason in that module's <code>TEXT_FIXES.md</code>. Changes that would rewrite a result were not made; they wait for the author (section 8).</p></div>
+<p>Only through recorded text fixes (for example 31 in Module 5, 15 in Modules 11 and 12, 14 in Module 15). Each one is listed with its reason in that module's <code>TEXT_FIXES.md</code>. Changes that would rewrite a result first waited for the author; he then asked for all of them, and they are now made (section 8).</p></div>
 
 <div class="uu"><h3>Are the figures accessible?</h3>
 <p>Each figure has a rewritten <code>aria-label</code> that describes what is drawn, including its key numbers. Motion stops when the reader asks for reduced motion. The house rule is that colour is never the only carrier of meaning: series have legends or direct labels, and the low-contrast orange is always labelled. This rule was checked by eye, not by a tool.</p></div>
