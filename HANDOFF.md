@@ -44,7 +44,7 @@ stiffness is also closed: the Appendix notation table carries
 **Two decisions were raised 2026-09-10.** Item 2 is closed above; item 1 stays open.
 
 1. **Rewrite git history to remove personal info?** The tracked files are clean at
-   `ec3e0d2` (`git grep -Iic the author` returns nothing, and no email address was ever in a
+   `ec3e0d2` (`git grep -Iic <name>` returns nothing, and no email address was ever in a
    tracked file). The history is not: **209 commits** carry the author or committer
    email `az9713@yahoo.com`, and **253 commit messages** carry a
    `claude.ai/code/session_…` URL. Removing them needs `git filter-repo` and a force
