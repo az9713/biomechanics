@@ -47,14 +47,20 @@ def load(mod):
 
 
 def find(page, mod, idx, aria):
+    page = re.sub(re.escape(DEFS_A) + r".*?" + re.escape(DEFS_B),       # the hidden defs svg is not a figure
+                  lambda d: " " * len(d.group(0)), page, flags=re.S)
     hits = []
-    for m in re.finditer(r"<svg\b.*?</svg>", page, re.S):
+    for n, m in enumerate(re.finditer(r"<svg\b.*?</svg>", page, re.S), 1):
         tag = page[m.start():page.index(">", m.start())]
         a = re.search(r'aria-label="([^"]*)"', tag)
-        if f'data-fig="m{mod}-{idx}"' in tag or (a and html.unescape(a.group(1)).startswith(aria)):
-            hits.append(m)
+        if f'data-fig="m{mod}-{idx}"' in tag:
+            return m
+        if a and html.unescape(a.group(1)).startswith(aria):
+            hits.append((n, m))
+    if len(hits) > 1:            # same aria-label on several svgs: the raw order (= inventory idx) decides
+        hits = [h for h in hits if h[0] == idx]
     assert len(hits) == 1, f"svg #{idx}: {len(hits)} matches for {aria[:50]!r}"
-    return hits[0]
+    return hits[0][1]
 
 
 def main(mod, write=True):
@@ -71,7 +77,7 @@ def main(mod, write=True):
         spans.append((m.start(), m.end(), svg.replace("<svg ", f'<svg data-fig="m{mod}-{idx}" ', 1)))
     for a, b, svg in sorted(spans, reverse=True):
         page = page[:a] + svg + page[b:]
-    page = re.sub(re.escape(JS_A) + r".*?" + re.escape(JS_B) + r"\n?", "", page, flags=re.S)
+    page = re.sub(re.escape(JS_A) + r".*?" + re.escape(JS_B) + r"\r?\n?", "", page, flags=re.S)
     page = re.sub(re.escape(DEFS_A) + r".*?" + re.escape(DEFS_B), "", page, flags=re.S)
     page = re.sub(r"<body\b[^>]*>", lambda b: b.group(0) + shared_defs(mod), page, count=1)
     js = (H.HOVER_JS if "data-hover=" in page else "") + (H.FRAMES_JS if "data-frames=" in page else "")
