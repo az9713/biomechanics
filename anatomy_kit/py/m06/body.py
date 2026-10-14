@@ -28,7 +28,7 @@ RED, BLU, BRN, BLK, ORA = O["force"], SER[1], O["load"], O["reaction"], O["flag"
 
 
 # ================================================================ the K9 four-bar (module06.html lines 1170-1212)
-K9 = dict(Af=(0.0, 0.0), Pf=(-26.0, 6.0), acl=32.0, pcl=34.0, tib=28.0)   # mm; x posterior, y proximal
+K9 = dict(Af=(0.0, 0.0), Pf=(-20.0, 0.0), acl=32.0, pcl=34.0, tib=28.0)   # mm; x posterior, y proximal
 
 
 def k9_pose(th_deg):
@@ -72,11 +72,11 @@ def centre(th):
 CENTRODE = [centre(float(j))[0] for j in range(61)]            # 0..60 deg, 1 deg steps (K9: linspace(0, 60, 61))
 ARC = sum(math.dist(a, b) for a, b in zip(CENTRODE, CENTRODE[1:]))
 NET = math.dist(CENTRODE[0], CENTRODE[-1])
-# the K9 solution text (line 1172): 40 % -> 13 % along the ACL, (-11.2, -6.3) -> (-1.1, -4.0) mm, arc 10.6, net 10.4
-assert [round(centre(t)[1], 2) for t in (0.0, 60.0)] == [0.40, 0.13]
-assert [tuple(round(v, 1) for v in CENTRODE[i]) for i in (0, -1)] == [(-11.2, -6.3), (-1.1, -4.0)]
-assert (round(ARC, 1), round(NET, 1)) == (10.6, 10.4)
-assert round(math.hypot(*K9["Pf"])) == 27                     # Appendix line 1306: femoral link 27 mm
+# the K9 solution text (line 1172): 42 % -> 15 % along the ACL, (-9.4, -9.4) -> (-0.1, -4.6) mm, arc 10.9, net 10.5
+assert [round(centre(t)[1], 2) for t in (0.0, 60.0)] == [0.42, 0.15]
+assert [tuple(round(v, 1) for v in CENTRODE[i]) for i in (0, -1)] == [(-9.4, -9.4), (-0.1, -4.6)]
+assert (round(ARC, 1), round(NET, 1)) == (10.9, 10.5)
+assert round(math.hypot(*K9["Pf"])) == 20                     # Appendix line 1306: femoral link 20 mm
 
 
 # ================================================================ DBCLS lateral knee: parts and the K9 frame on it
@@ -600,7 +600,7 @@ def fig67():
     o = [f'<defs>{H.markers(p, s)}</defs>']
     # ---- left: the knee in the K9 frame, the four-bar at 0 deg (faint) and 60 deg (solid, tibia drawn faint)
     z = 1.75
-    lo, hi = (-33.0, -35.0), (9.0, 10.0)                        # K9 window (mm) with a margin
+    lo, hi = (-28.0, -35.0), (16.0, 10.0)                       # K9 window (mm) with a margin
     kn = Knee((0.0, 0.0), z)
     c = [kn.P(v) for v in (lo, hi)]
     kn = Knee((8.0 - min(q[0] for q in c), 48.0 - min(q[1] for q in c)), z)
@@ -619,7 +619,7 @@ def fig67():
     o.append(H.label(s, P6["At"][0] + 5, P6["At"][1] + 15, "ACL", "label2", RED))
     o.append(H.label(s, P6["Pt"][0] + 4, P6["Pt"][1] + 22, "PCL", "label2", BLU))
     # zoom window = the plot range at right
-    xr, yr = (1.0, -13.0), (-8.5, -1.5)
+    xr, yr = (1.0, -11.0), (-11.0, -3.5)
     zq = [kn.P((xr[0], yr[0])), kn.P((xr[1], yr[1]))]
     o.append(f'<rect x="{min(q[0] for q in zq):.2f}" y="{min(q[1] for q in zq):.2f}" width="{abs(zq[1][0] - zq[0][0]):.2f}" '
              f'height="{abs(zq[1][1] - zq[0][1]):.2f}" fill="none" stroke="{I["primary"]}" stroke-width="{s(1):.2f}" '
@@ -628,9 +628,9 @@ def fig67():
     x0 = box[0] + box[2] + 58
     w = VB[2] - 12 - x0
     hgt = w * (yr[1] - yr[0]) / (xr[0] - xr[1])                  # equal mm scale on both axes
-    ax = Ax((x0, 74.0, x0 + w, 74.0 + hgt), xr, yr)
-    tk = [(v, f"{v:.0f}".replace("-", "−")) for v in (0, -4, -8, -12)]
-    o += axes(s, ax, tk, [(v, f"{v:.0f}".replace("-", "−")) for v in (-2, -4, -6, -8)], None, None)
+    ax = Ax((x0, 64.0, x0 + w, 64.0 + hgt), xr, yr)
+    tk = [(v, f"{v:.0f}".replace("-", "−")) for v in (0, -4, -8)]
+    o += axes(s, ax, tk, [(v, f"{v:.0f}".replace("-", "−")) for v in (-4, -6, -8, -10)], None, None)
     o.append(H.label(s, (ax.x0 + ax.x1) / 2, ax.y0 + 38, "x (mm), posterior ←", "label2", I["primary"], "middle"))
     o.append(H.label(s, ax.x0 - 40, ax.top - 14, "y (mm), proximal ↑", "label2", I["primary"]))
     o.append(H.label(s, ax.x0 - 40, 20, "instant centre, dots every 10°", "label2", I["secondary"]))
@@ -653,7 +653,7 @@ def fig67():
             "crossed four-bar of K9 (ACL 32 mm red, PCL 34 mm blue, tibial link 28 mm black) at 0 degrees of flexion, "
             "faint, and at 60 degrees, solid; the orange curve is the cruciate crossing over the arc. Right: that "
             "centrode enlarged in the K9 frame (origin at the ACL femoral attachment, x posterior, y proximal, mm): it "
-            "runs from (minus 11.2, minus 6.3) mm at 0 degrees to (minus 1.1, minus 4.0) mm at 60 degrees, an arc of "
+            "runs from (minus 9.4, minus 9.4) mm at 0 degrees to (minus 0.1, minus 4.6) mm at 60 degrees, an arc of "
             f"{ARC:.1f} mm and a net migration of {NET:.1f} mm, posteriorly and proximally.")
     return finish(VB, aria, s, o, H.hover_attr(ax.box, hp))
 

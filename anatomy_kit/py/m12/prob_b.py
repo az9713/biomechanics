@@ -690,8 +690,8 @@ def fig57():
     o.append(label(s, P.X(0.10) + 8, P.Y(kmax[0.10]) - 8, f"{kmax[0.10]:.2f}", L2, I["primary"]))
     o.append(label(s, P.X(0.15) + 8, P.Y(kmax[0.15]) - 8, f"{kmax[0.15]:.2f}", L2, I["primary"]))
     o.append(label(s, P.X(0.20) + 4, P.Y(kmax[0.20]) - 9, f"{kmax[0.20]:.2f}", L2, I["primary"]))
-    o.append(label(s, P.X(0.145), P.Y(31), "unstable", "label", I["primary"], "middle"))
-    o.append(label(s, P.X(0.145), P.Y(3.5), "stable", "label", I["primary"], "middle"))
+    o.append(label(s, P.X(0.225), P.Y(31), "unstable", "label", I["primary"], "middle"))
+    o.append(label(s, P.X(0.225), P.Y(2), "stable", "label", I["primary"], "middle"))
     o.append(label(s, 62, 16, "k" + sub("max", s) + " = π/(2τ" + sub("d", s) + "), from dx/dt = −k x(t − τ" + sub("d", s) + ")", L2,
                    I["secondary"]))
     o.append(label(s, 62, 34, "grey band: arm delay 100–200 ms,", L2, I["secondary"]))

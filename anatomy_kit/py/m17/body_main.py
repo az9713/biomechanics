@@ -37,14 +37,14 @@ def sub(t, s):
 
 # ================================================================ svg #4: Capstone I, delayed standing
 def standing(delay):
-    """The code of section 2, line for line (note: its loop starts at k = 1, so sample 1 is zero)."""
+    """The code of section 2, line for line."""
     g, L, m = 9.81, 1.0, 70.0
     Iz, kp, kd = m * L * L, 1.5 * m * g * L, 150.0
     dt = 1 / 200.0
     n = int(delay / dt)
     th, om = np.zeros(1200), np.zeros(1200)
     th[0] = 0.05
-    for k in range(1, len(th) - 1):
+    for k in range(0, len(th) - 1):
         kk = max(0, k - n)
         thdd = (m * g * L * th[k] - (kp * th[kk] + kd * om[kk])) / Iz
         om[k + 1] = om[k] + thdd * dt
@@ -57,38 +57,34 @@ def fig4():
     s = H.Scale(VB[2], VB[3])
     t, a = standing(0.10)
     _, b = standing(0.20)
-    peak100, peak200, end200 = np.abs(a).max(), np.abs(b).max(), b[-1]
-    assert round(peak100, 1) == 2.9 and round(peak200, 1) == 63.2          # section 2 code comments
-    lim = 34.4                                                              # the red trace leaves the axis here
-    i_out = int(np.argmax(np.abs(b) > lim))
-    t_out = t[i_out - 1] + (t[i_out] - t[i_out - 1]) * (lim - b[i_out - 1]) / (b[i_out] - b[i_out - 1])
-    assert round(t_out, 1) == 4.7
+    peak100, peak200 = np.abs(a).max(), np.abs(b).max()
+    assert round(peak100, 1) == 2.9 and round(peak200, 1) == 48.0          # section 2 code comments
+    i_pk = int(np.argmax(np.abs(b)))
+    assert round(t[i_pk], 1) == 5.5
+    lim = 60.0
     ax = Ax((80, 56, 730, 330), (0, 6), (-lim, lim))
-    o = axes(s, ax, [(k, str(k)) for k in range(7)], [(-30, "−30"), (0, "0"), (30, "30")],
+    o = axes(s, ax, [(k, str(k)) for k in range(7)], [(-40, "−40"), (-20, "−20"), (0, "0"), (20, "20"), (40, "40")],
              "time (s)", "lean angle θ (degrees)")
     o.append(H.line(s, ax.x0, ax.Y(0), ax.x1, ax.Y(0), I["rule"], "leader"))
     for v in (15, -15):                                                     # small-angle range, Model 2.1
         o.append(H.line(s, ax.x0, ax.Y(v), ax.x1, ax.Y(v), I["rule"], "ref", dash=H.DASH_REF))
-    o.append(H.label(s, ax.x1 - 4, ax.Y(-15) + 17, "small-angle range ±15°", "label2", I["secondary"], "end"))
+    o.append(H.label(s, ax.x0 + 6, ax.Y(15) - 6, "small-angle range ±15°", "label2", I["secondary"], "start"))
     draw = [0, 1, 2] + list(range(12, 1200, 12))            # 5 ms samples kept at the start, then every 60 ms
+    draw = sorted(set(draw + [i_pk, 1199]))
     o.append(curve(s, ax, t[draw], a[draw], BLUE, "curve_multi"))
-    keep = [k for k in draw if k < i_out]
-    xs = [ax.X(t[k]) for k in keep] + [ax.X(t_out)]
-    ys = [ax.Y(b[k]) for k in keep] + [ax.Y(lim)]
-    o.append(poly(s, list(zip(xs, ys)), RED, "curve_multi"))
+    o.append(curve(s, ax, t[draw], b[draw], RED, "curve_multi"))
     o.append(dot(s, ax.X(0), ax.Y(a[0]), O["flag"]))
     o.append(H.label(s, ax.X(0) + 11, ax.Y(a[0]) - 8, "initial lean 2.9°", "label2", I["primary"]))
-    o.append(dot(s, ax.X(t_out), ax.Y(lim), RED, hollow=True))
-    o.append(H.label(s, ax.X(t_out) + 12, ax.Y(lim) + 14, "leaves the axis at 34°, 4.7 s;", "label2", I["primary"]))
-    o.append(H.label(s, ax.X(t_out) + 12, ax.Y(lim) + 30, f"reaches {mn(end200)}° at 6 s", "label2", I["primary"]))
-    o.append(H.label(s, ax.X(2.75), ax.Y(-27.5), "Δ = 200 ms: falls", "label2", I["primary"], "start"))
+    o.append(dot(s, ax.X(t[i_pk]), ax.Y(b[i_pk]), RED, hollow=True))
+    o.append(H.label(s, ax.X(t[i_pk]) + 4, ax.Y(b[i_pk]) - 12, f"peak {peak200:.1f}° at {t[i_pk]:.1f} s", "label2", I["primary"], "end"))
+    o.append(H.label(s, ax.X(0.6), ax.Y(-30), "Δ = 200 ms: oscillation grows", "label2", I["primary"], "start"))
     o.append(H.label(s, ax.X(5.97), ax.Y(-6.5), "Δ = 100 ms: stable", "label2", I["primary"], "end"))
-    o += legend(s, 80, 30, [(BLUE, None, "Δ = 100 ms (stable)"), (RED, None, "Δ = 200 ms (falls)")], gap=34)
+    o += legend(s, 80, 30, [(BLUE, None, "Δ = 100 ms (stable)"), (RED, None, "Δ = 200 ms (grows)")], gap=34)
     aria = ("Lean angle against time for the delayed-feedback inverted pendulum, started from a 2.9 degree lean. With a "
             "100 ms delay (blue) the sway decays to a few tenths of a degree and stays inside the small-angle range of "
-            "15 degrees. With a 200 ms delay (red), past the critical delay of 140.1 ms, the oscillation grows, leaves "
-            "the axis at 34 degrees and 4.7 s, and reaches minus 63.2 degrees at 6 s.")
-    hv = hover(ax, [ax.X(x) for x in t], [[ax.Y(p), ax.Y(max(-lim, min(lim, q)))] for p, q in zip(a, b)],
+            "15 degrees. With a 200 ms delay (red), past the critical delay of 140.1 ms, the oscillation grows through "
+            "swings of 11.5, minus 23.4 and 48.0 degrees, the last at 5.5 s, and ends at 15.7 degrees at 6 s.")
+    hv = hover(ax, [ax.X(x) for x in t], [[ax.Y(p), ax.Y(q)] for p, q in zip(a, b)],
                [f"t = {x:.2f} s: 100 ms {mn(p)}°, 200 ms {mn(q)}°" for x, p, q in zip(t, a, b)])
     return svg(VB, aria, s, o, hv)
 

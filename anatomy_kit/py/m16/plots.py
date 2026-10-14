@@ -495,19 +495,22 @@ def fig16():
     ys_ = list(dfm[kk]) + [ymax]
     o.append(curve(s, ax, xs_, ys_, RED))
     xf = lim_f * 100
+    ef = np.linspace(1e-5, 0.01, 200001)                    # fine grid: the page quotes the exact crossing, 0.202 %
+    xf = ef[np.argmax(np.abs(np.exp(k * ef) - 1 - k * ef) / (k * ef) > 0.05)] * 100
+    assert abs(xf - 0.2017) < 0.0005
     o.append(dot(s, ax.X(xf), ax.Y(5), I["primary"]))
-    o.append(H.label(s, ax.X(xf) + 52, ax.Y(5) - 26, f"fibre law: 5% at ε = {xf:.2f}%", "label2", I["primary"]))
+    o.append(H.label(s, ax.X(xf) + 52, ax.Y(5) - 26, f"fibre law: 5% at ε = {xf:.3f}%", "label2", I["primary"]))
     o.append(H.line(s, ax.X(xf) + 3, ax.Y(5) - 4, ax.X(xf) + 48, ax.Y(5) - 22, I["rule"], "leader"))
     o.append(H.label(s, ax.X(xe) + 12, ax.top + 14, f"fibre error leaves the plot above ε = {xe:.1f}%", "label2", I["primary"]))
-    o.append(H.label(s, ax.X(5.0), ax.Y(15), f"neo-Hookean: {dnm[-1]:.2f}% even at ε = 12%", "label2", I["primary"]))
-    o.append(H.label(s, ax.X(5.0), ax.Y(10.5), f"(5% only at ε = {lim_n * 100:.0f}%, far off this axis)", "label2", I["secondary"]))
+    o.append(H.label(s, ax.X(5.0), ax.Y(15), f"neo-Hookean (Cauchy stress): {dnm[-1]:.2f}% at ε = 12%", "label2", I["primary"]))
+    o.append(H.label(s, ax.X(5.0), ax.Y(10.5), f"(5% only at ε = {lim_n * 100:.0f}%; nominal stress: 5.4%)", "label2", I["secondary"]))
     o += tag(s, ax.x0, 30, RED, "fibre-reinforced law, k = 48")
     o += tag(s, ax.x0 + 280, 30, ORANGE, "neo-Hookean solid")
     idx = np.arange(0, ex.size, 1)
     pts = [[ax.X(ex[i]), [ax.Y(min(dfm[i], ymax)), ax.Y(dnm[i])],
             f"ε = {ex[i]:.2f}%: fibre {dfm[i]:.1f}%, neo-Hookean {dnm[i]:.2f}%"] for i in idx]
     hv = H.hover_attr(ax.box, pts)
-    aria = ("Error of the small-strain linear law against engineering strain from 0 to 12 percent. The red fibre-reinforced curve rises "
+    aria = ("Error of the small-strain linear law (Cauchy stress for the neo-Hookean solid) against engineering strain from 0 to 12 percent. The red fibre-reinforced curve rises "
             "through the dashed 5 percent tolerance at 0.2 percent strain and leaves the top of the plot at 60 percent near 1.8 percent "
             "strain; the orange neo-Hookean curve stays below half a percent over the whole axis and reaches 5 percent only at 47 percent strain.")
     return finish(VB, aria, s, o, hv)

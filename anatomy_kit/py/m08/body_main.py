@@ -55,7 +55,7 @@ E_SPLIT = 0.5 * M_KG * V * V * math.tan(ALPHA) ** 2
 _s = np.linspace(0, 1, 601)
 _shape = np.sin(np.pi * _s) ** 0.40 * (1 - 0.245 * np.cos(4 * np.pi * (_s - 0.5)))
 FY = _shape * (W_N * T_STR / 2) / np.trapezoid(_shape, _s * STANCE * T_STR)
-XCOP = -0.06 + 0.25 * _s
+XCOP = -0.04 + 0.225 * _s
 # arm swing (lines 540-544)
 H_LEGS = 2 * 0.161 * M_KG * 0.09 * 1.3
 H_ARMS = 2 * 0.050 * M_KG * 0.20 * 0.6

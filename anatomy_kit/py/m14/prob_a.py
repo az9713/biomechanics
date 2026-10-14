@@ -14,7 +14,9 @@ import math
 import numpy as np
 
 import house as H
+from m04.tissue import KNEE, knee_credit
 from m05.plots_prob import Plot, W, hov, label, legend, svg, text_w
+from m14.plots_main import KNEE_ID, wrap_credit
 
 T, O, I, SER = H.TISSUE, H.OVERLAY, H.INK, H.SERIES
 GRID = "#e6e6e6"
@@ -453,7 +455,7 @@ def fig32():
 
 # ================================================================ svg #34  D4: cartilage stress
 def fig34():
-    VB = (0, 0, W, 478)
+    VB = (0, 0, W, 540)
     s = H.Scale(W, VB[3], display_w=400)
     p = "m14f34_"
     P = Plot(s, (58, 40, 382, 200), (0.4, 2.0), (0, 9.5))
@@ -476,12 +478,19 @@ def fig34():
     hv = hov(P, h, [pk], lambda i: f"h = {h[i]:.2f} mm: peak stress {pk[i]:.1f} MPa")
     # cross-sections: contact area A proportional to h^n (text line 138-140 and D4 solution)
     SC = 24.0                        # user units per mm of cartilage, so the layer thickness is to scale
-    R = 70.0
+    R = 52.0
     ys = 330.0
     base = 82.0
-    for cx, hh, tag in ((110.0, 2.0, "healthy"), (290.0, 0.6, "thinned")):
+    HW = 55.0                        # half-width of the bone and cartilage blocks
+    # real knee art (m04 DBCLS crop, shared def) with the contact circled; the blocks beside it are schematic
+    k, ax0, ay0 = 0.62, 10.0, 298.0
+    o.append(f'<use href="#{KNEE_ID}" transform="translate({ax0 - KNEE[0] * k:.2f} {ay0 - KNEE[1] * k:.2f}) scale({k})"/>')
+    o.append(f'<circle cx="{ax0 + (196.0 - KNEE[0]) * k:.2f}" cy="{ay0 + (271.3 - KNEE[1]) * k:.2f}" r="{s(7):.2f}" fill="none" '
+             f'stroke="{O["flag"]}" stroke-width="{s(2):.2f}"/>')
+    o.append(H.label(s, ax0, ay0 - 10, "knee, sagittal section", "label2", I["secondary"]))
+    for cx, hh, tag in ((195.0, 2.0, "healthy"), (335.0, 0.6, "thinned")):
         ratio = (hh / H0) ** N_C
-        a = 36.0 * math.sqrt(ratio)
+        a = 27.0 * math.sqrt(ratio)
         ht = hh * SC
         pv = P0 * (H0 / hh) ** N_C
         dy = math.sqrt(R * R - a * a)
@@ -489,15 +498,10 @@ def fig34():
         xe = math.sqrt(R * R - (dy - 38.0) ** 2)
         yi = ys + ht
         yb = ys + base
-        # bone: interface at yi, wavy lower edge, marrow pores
-        bone = (f'M{cx - 75:.1f},{yi:.1f} L{cx + 75:.1f},{yi:.1f} L{cx + 75:.1f},{yb:.1f} '
-                f'C{cx + 45:.1f},{yb + 6:.1f} {cx + 20:.1f},{yb - 6:.1f} {cx:.1f},{yb:.1f} '
-                f'C{cx - 25:.1f},{yb + 6:.1f} {cx - 50:.1f},{yb - 6:.1f} {cx - 75:.1f},{yb:.1f} Z')
-        o.append(f'<path d="{bone}" fill="{T["bone"][0]}" stroke="{T["bone"][1]}" stroke-width="{s(1.2):.2f}"/>')
-        for dx, dyy, rx in ((-46, 14, 9), (-10, 22, 7), (26, 12, 8), (52, 24, 6), (-60, 28, 5)):
-            if yi + dyy < yb - 6:
-                o.append(f'<ellipse cx="{cx + dx}" cy="{yi + dyy:.1f}" rx="{rx}" ry="{rx * 0.55:.1f}" fill="{T["marrow"][0]}" stroke="{T["marrow"][1]}" stroke-width="{s(0.8):.2f}"/>')
-        o.append(f'<rect x="{cx - 75:.1f}" y="{ys:.1f}" width="150" height="{ht:.1f}" fill="{T["cartilage"][0]}" stroke="{T["cartilage"][1]}" stroke-width="{s(1.2):.2f}"/>')
+        # bone: a plain block under the interface (schematic, as in svg 7)
+        o.append(f'<rect x="{cx - HW:.1f}" y="{yi:.1f}" width="{2 * HW:.0f}" height="{yb - yi:.1f}" fill="{T["bone"][0]}" '
+                 f'stroke="{T["bone"][1]}" stroke-width="{s(1.2):.2f}"/>')
+        o.append(f'<rect x="{cx - HW:.1f}" y="{ys:.1f}" width="{2 * HW:.0f}" height="{ht:.1f}" fill="{T["cartilage"][0]}" stroke="{T["cartilage"][1]}" stroke-width="{s(1.2):.2f}"/>')
         # condyle (bone-coloured cap) pressing on the surface; its lower arc dips below the surface by R - dy
         cap = f'M{cx - xe:.1f},{yt:.1f} A{R},{R} 0 0 0 {cx + xe:.1f},{yt:.1f} Z'
         o.append(f'<path d="{cap}" fill="{T["bone"][0]}" stroke="{T["bone"][1]}" stroke-width="{s(1.4):.2f}"/>')
@@ -511,9 +515,10 @@ def fig34():
             o.append(H.label(s, cx, yt + 20, "femoral condyle", "label2", I["secondary"], "middle"))
         o.append(H.label(s, cx, yb + 24, f"{tag}: h = {hh:.1f} mm", "label2", I["primary"], "middle"))
         o.append(H.label(s, cx, yb + 40, f"A × {ratio:.2f}, p = {pv:.1f} MPa", "label2", I["primary"], "middle"))
+    o.append(H.credit(s, 14, 478, wrap_credit(knee_credit("Cross-sections are schematic, not anatomy; the layer thickness is to scale."), 62)))
     aria = ("Problem D4 plot and cross-sections. Peak contact stress p = 3 (2/h) to the power 0.7 MPa against cartilage thickness h "
             "from 0.4 to 2.0 millimetres, rising as the layer thins: 3.0 MPa at 2.0 mm, 4.3 MPa at 1.2 mm and 7.0 MPa at 0.6 mm. "
-            "Below: two cross-sections of a bone-coloured condyle loaded by a force P on a cartilage layer over bone. The healthy layer "
+            "Below: a knee in sagittal section with the contact circled, and two schematic cross-sections of a condyle loaded by a force P on a cartilage layer over bone. The healthy layer "
             "(2.0 mm) has the full contact area and 3.0 MPa. The thinned layer (0.6 mm, drawn to the same scale) has contact area "
             "scaled by 0.43, so the same load gives 7.0 MPa.")
     return svg(VB, aria, s, "".join(o), (P.box, hv))

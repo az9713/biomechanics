@@ -9,8 +9,8 @@ theta2 relative, + = flexion) map to the kit as shoulder flexion theta1 + 90 deg
 Numbers (module11.html line numbers):
   planar two-link arm l1 = 0.30 m, l2 = 0.45 m (Definition 1 line 104, Appendix lines 642-643), stature 1.75 m (course
   reference; the text states none); workspace annulus 0.15 to 0.75 m (line 116); IK, Prop 3.1 (line 147);
-  Jacobian and det J = l1 l2 sin th2 (131); statics: cup m = 0.4 kg, W = mg = 3.9 N (173); alpha = 25 deg, tan alpha =
-  0.47 (232); pinch: m = 0.5 kg, W = 4.9 N, mu = 0.5 dry, 0.2 wet, F_g >= W / 2 mu (252); Lab A (283-324): start
+  Jacobian and det J = l1 l2 sin th2 (131); statics: cup m = 0.4 kg, W = mg = 3.9 N (173); alpha = 22 deg, tan alpha =
+  0.40 (232); pinch: m = 0.5 kg, W = 4.9 N, mu = 0.5 dry, 0.2 wet, F_g >= W / 2 mu (252); Lab A (283-324): start
   (0.10, -0.30), goal (0.45, 0.10), elbow-up sweeps 62.8 / 36.6 deg, elbow-down shoulder 109.1 deg; Lab D (404-434):
   th1 = 30 deg, th2 = 0.3, pi/2, 2.6 rad, w = l1 l2 |sin th2| = 0.040, 0.135, 0.070.
 Arm proportions: the text says its lengths "follow the Winter segment proportions used for the figures" (line 639) and
@@ -713,10 +713,10 @@ def fig14():
     o.append(Pl.axes([(v, f"{v:g}") for v in (0, 0.25, 0.5, 0.75, 1)], [(v, f"{v:g}".replace("-", "−")) for v in (-150, -100, -50, 0, 50, 100)],
                      "reach fraction", "joint angle (deg)", grid=(-100, -50, 50, 100), ytx=438))
     o.append(H.line(s, Pl.x0, Pl.Y(0), Pl.x1, Pl.Y(0), I["rule"], "ref"))
-    o.append(Pl.curve(sv, q[:, 0], H.SERIES[0], multi=True))
-    o.append(Pl.curve(sv, q[:, 1], H.SERIES[1], multi=True))
-    o.append(legend(s, 480, 30, [(H.SERIES[0], f"shoulder θ₁, sweep {sw1:.1f}°", None)]))
-    o.append(legend(s, 480, 50, [(H.SERIES[1], f"elbow θ₂, sweep {sw2:.1f}°", None)]))
+    o.append(Pl.curve(sv, q[:, 0], H.SERIES[1], multi=True))
+    o.append(Pl.curve(sv, q[:, 1], H.SERIES[2], multi=True))
+    o.append(legend(s, 480, 30, [(H.SERIES[1], f"shoulder θ₁, sweep {sw1:.1f}°", None)]))
+    o.append(legend(s, 480, 50, [(H.SERIES[2], f"elbow θ₂, sweep {sw2:.1f}°", None)]))
     j = int(np.argmax(q[:, 0]))
     o.append(plabel(s, Pl.X(0.80), Pl.Y(q[j, 0]) - s(12), f"θ₁ max {q[j, 0]:.0f}°", "label2", I["primary"], "middle"))
     k2 = int(np.argmin(q[:, 1]))
@@ -732,7 +732,7 @@ def fig14():
         body_k = (g + poly(s, [Jk["shoulder"], Jk["elbow"], Jk["fingertip"]], O["geometry"], "geom")
                   + H.joint_centre(s, *Jk["elbow"]) + dot(s, hp[0], hp[1], I["primary"], 4.0)
                   + H.line(s, Pl.X(sf), Pl.y1, Pl.X(sf), Pl.y0, I["rule"], "leader")
-                  + dot(s, Pl.X(sf), Pl.Y(t1_), H.SERIES[0], 4.0) + dot(s, Pl.X(sf), Pl.Y(t2_), H.SERIES[1], 4.0))
+                  + dot(s, Pl.X(sf), Pl.Y(t1_), H.SERIES[1], 4.0) + dot(s, Pl.X(sf), Pl.Y(t2_), H.SERIES[2], 4.0))
         frames.append(H.frame(k, S_DEF, body_k))
     o += frames
     o.append(LB.credit(s, 20, VB[3] - 34, width=720))
@@ -860,8 +860,8 @@ def fig2():
 
 
 # ================================================================ svg #10  Fig. 9 concavity-compression
-ALPHA = 25.0                                                      # deg, the half-arc of the glenoid and labrum (line 232)
-assert round(math.tan(math.radians(ALPHA)), 2) == 0.47
+ALPHA = 22.0                                                      # deg, the half-arc of the glenoid and labrum (line 232)
+assert round(math.tan(math.radians(ALPHA)), 2) == 0.40
 
 
 def fig10():
@@ -912,10 +912,10 @@ def fig10():
     o.append(LB.credit(s, 20, VB[3] - 34, width=720, extra=" Detail: the shoulder crop of the Module 3 figures; cone, forces and head outline drawn for this course."))
     aria = ("A seated skeleton seen from the side, facing right, with the arm raised in front and a dashed line from the "
             "shoulder to a detail of the left shoulder in front view. In the detail the humeral head, outlined by a dashed "
-            "circle, sits against the shallow glenoid of the shoulder blade. A blue cone of half-angle alpha equal to 25 "
+            "circle, sits against the shallow glenoid of the shoulder blade. A blue cone of half-angle alpha equal to 22 "
             "degrees opens toward the socket from the centre of the head, its two edges marked rim. A red arrow F c, "
             "the cuff compression, presses the head into the socket; a brown arrow F t is the dislocating force; their "
-            "black resultant lies on the rim of the cone, the limit F t over F c equal to tan alpha, 0.47.")
+            "black resultant lies on the rim of the cone, the limit F t over F c equal to tan alpha, 0.40.")
     return finish(VB, aria, s, o)
 
 

@@ -117,20 +117,20 @@ def lab3():
     t = s * T_st
     shape = np.sin(np.pi * s) ** 0.40 * (1 - 0.245 * np.cos(4 * np.pi * (s - 0.5)))
     Fy = shape * (W * Tt / 2) / np.trapezoid(shape, t)
-    x_cop = -0.06 + 0.25 * s
+    x_cop = -0.04 + 0.225 * s
     tau = Fy * x_cop
     omega = 2.3 * np.exp(-((s - 0.80) / 0.10) ** 2)
     P = tau * omega
     close(np.trapezoid(Fy, t), 361.7, 0.05)                 # line 737
     close((Fy / W).max(), 1.10, 0.005)
     close(Fy[300] / W, 0.75, 0.005)
-    close(tau.max(), 95.1, 0.05)
-    close(s[int(np.argmax(tau))], 0.77, 0.005)
-    close(P.max(), 214, 0.5)
-    close(P.max() / M, 3.06, 0.005)
+    close(tau.max(), 95.8, 0.05)
+    close(s[int(np.argmax(tau))], 0.76, 0.005)
+    close(P.max(), 215, 0.5)
+    close(P.max() / M, 3.07, 0.005)
     close(s[int(np.argmax(P))], 0.79, 0.005)
-    close(np.trapezoid(np.maximum(P, 0), t), 22.5, 0.05)
-    close(0.06 / 0.25, 0.24, 1e-9)                          # crosses the ankle at 24 % of stance
+    close(np.trapezoid(np.maximum(P, 0), t), 22.6, 0.05)
+    close(0.04 / 0.225, 0.18, 0.005)                       # crosses the ankle at 18 % of stance
     return s, Fy / W, x_cop
 
 
@@ -508,23 +508,24 @@ def fig20():
         x, f = X(XCOP[i]), FYW[i]
         o.append(H.arrow(s, p, x, fy + f * kW, x, fy + s(1), "reaction"))
         o.append(dot(s, x, fy - s(2.5), O["geometry"], 3.5))
-        o.append(lab(s, x, yr, f"{sv * 100:.0f} %", "label2", anchor="middle"))
-        o.append(lab(s, x, yr + s(15), f"{f:.2f} W", "tick", I["secondary"], anchor="middle"))
+        anc, xl = ("end", x + s(12)) if sv == C4_S[0] else ("middle", x)       # the 10 % and 28 % labels would touch
+        o.append(lab(s, xl, yr, f"{sv * 100:.0f} %", "label2", anchor=anc))
+        o.append(lab(s, xl, yr + s(15), f"{f:.2f} W", "tick", I["secondary"], anchor=anc))
     o.append(lab(s, X(XCOP[60]) - s(6), fy - s(9), "COP", "label2", anchor="end"))
     o.append(lines(s, 392, 20, ["heel strike → foot flat → push-off:", "load moves forward, so the",
                                 "pressure-weighted mean moves", "from heel to toes, crossing the",
-                                "ankle at 24 % of stance (Lab 3)"], anchor="end"))
+                                "ankle at 18 % of stance (Lab 3)"], anchor="end"))
     o.append(lines(s, 10, yr + s(36), ["arrows: vertical ground reaction at the COP, in body weights W, at",
-                                       "five instants (% of stance); COP x = −0.06 + 0.25 s m from the ankle"],
+                                       "five instants (% of stance); x = −0.04 + 0.225 s m from the ankle"],
                    "tick", lead=1.25))
     o.append(credit(s, VB))
     fw = ", ".join(f"{FYW[int(round(v * 600))]:.2f}" for v in C4_S)
     aria = ("Side view of the foot bones (Lynch art) on the floor, enlarged, with the centre of pressure (blue) "
-            "moving forward under the foot during stance, as Lab 3 models it: x = -0.06 + 0.25 s metres from the "
+            "moving forward under the foot during stance, as Lab 3 models it: x = -0.04 + 0.225 s metres from the "
             "ankle. Upward vertical ground-reaction arrows sit at the centre of pressure at 10, 28, 50, 72 and 95 % "
             f"of stance, scaled to their Lab 3 values ({fw} body weights). Load passes "
             "from the heel at heel strike through the midfoot to the forefoot at push-off, so the pressure-weighted "
-            "mean moves from heel to toes and crosses the ankle at 24 % of stance.")
+            "mean moves from heel to toes and crosses the ankle at 18 % of stance.")
     return finish(VB, aria, s, o)
 
 
@@ -660,7 +661,7 @@ def fig23():
     o.append(lab(s, kx + s(22), ky - s(20), f'{it("τ")}', "label2"))
     o.append(lab(s, kx + s(34), ky + s(30), f'{it("θ̇")}', "label2"))
     o.append(lines(s, 10, 22, ["trailing ankle,", "in push-off: τ and θ̇", "turn the same way,",
-                               f'{it("P")} > 0: adds energy', "(Lab 3 peak 214 W,", "3.06 W/kg)"]))
+                               f'{it("P")} > 0: adds energy', "(Lab 3 peak 215 W,", "3.07 W/kg)"]))
     o.append(lines(s, 392, 22, ["leading knee, after", "heel strike: extensor τ", "while the knee flexes,",
                                 f'{it("P")} < 0: absorbs', "(section 6 figure:", "−1.2 W/kg at 16 %)"], anchor="end"))
     o.append(legend(s, 10, fy + s(30), [(O["force"], "net joint torque τ", None),
@@ -670,7 +671,7 @@ def fig23():
     aria = ("A walker (Lynch skeleton art) at the step-to-step transition, with two joints marked. At the trailing "
             "ankle in push-off, the net plantarflexor torque (red arc) and the plantarflexion velocity (blue arc) "
             "turn the same way, so the power P = tau theta-dot is positive: the joint adds mechanical energy (Lab 3: "
-            "peak 214 W, 3.06 W/kg). At the leading knee just after heel strike, the net extensor torque turns one "
+            "peak 215 W, 3.07 W/kg). At the leading knee just after heel strike, the net extensor torque turns one "
             "way while the knee flexes the other way, so P is negative: the joint absorbs energy (about -1.2 W/kg at "
             "16 % of the cycle in the section 6 figure).")
     return finish(VB, aria, s, o)

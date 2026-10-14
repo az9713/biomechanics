@@ -210,7 +210,7 @@ def fig27():
     s = H.Scale(W, VB[3], display_w=400)
     r = bv_rows()
     j = int(r[:, 3].argmin())
-    assert abs(r[j, 0] - 3.0) < 0.15 and abs(r[j, 3] - 0.021) < 0.001                      # Fig. 4, lines 252-253
+    assert abs(r[j, 0] - 3.0) < 0.15 and abs(r[j, 3] - 0.0205) < 0.0006                      # Fig. 4, lines 252-253
     A = LP(s, (58, 40, 388, 200), (1.2, 45), (0, 0.45), xlog=True)
     o = [A.axes([(v, str(v)) for v in (2, 5, 10, 20, 40)], [(0, "0"), (0.15, "0.15"), (0.30, "0.30"), (0.45, "0.45")],
                 "filter cutoff f (Hz)", "RMS velocity error (rad/s)".replace("RMS velocity error", "RMS error"), grid=(0.15, 0.30, 0.45), ytx=14)]

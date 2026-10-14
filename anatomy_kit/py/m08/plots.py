@@ -54,7 +54,7 @@ def lab3():
     t = s * T_st
     shape = np.sin(np.pi * s) ** 0.40 * (1 - 0.245 * np.cos(4 * np.pi * (s - 0.5)))
     Fy = shape * (Wt * T / 2) / np.trapezoid(shape, t)
-    x_cop = -0.06 + 0.25 * s
+    x_cop = -0.04 + 0.225 * s
     tau = Fy * x_cop
     omega = 2.3 * np.exp(-((s - 0.80) / 0.10) ** 2)
     return s, t, Fy, tau, tau * omega, T_st
@@ -103,7 +103,7 @@ def fig8():
     s3, _, _, _, P3, _ = lab3()
     p3, w3 = 62 * s3, P3 / M                                     # stance = 0-62 % of the cycle (Lab 3)
     i3 = int(w3.argmax())
-    assert round(w3[i3], 2) == 3.06 and round(p3[i3]) == 49
+    assert round(w3[i3], 2) == 3.07 and round(p3[i3]) == 49
     o = [f'<rect x="{ax.X(40):.2f}" y="{ax.top:.2f}" width="{ax.X(62) - ax.X(40):.2f}" height="{ax.y0 - ax.top:.2f}" fill="{BOX}"/>']
     o += PM.axes(s, ax, [(v, f"{v}") for v in range(0, 101, 10)],
                  [(v, PM.mn(v, "{:.0f}")) for v in (-2, -1, 0, 1, 2, 3)], "gait cycle (% from heel strike)",
@@ -135,7 +135,7 @@ def fig8():
     aria = ("Joint power in watts per kilogram against percent of the gait cycle for ankle, knee and hip, a drawn "
             "template. The ankle absorbs slightly in early stance and peaks at 3.0 at 50 percent inside the shaded A2 "
             "push-off band, 40 to 62 percent. The knee absorbs most at minus 1.2 at 16 percent and again in late swing; "
-            "the hip peaks at 1.0 at 14 percent. A dashed curve, Lab 3's computed ankle power, peaks at 3.06 at 49 "
+            "the hip peaks at 1.0 at 14 percent. A dashed curve, Lab 3's computed ankle power, peaks at 3.07 at 49 "
             "percent. A bar above the plot marks stance, 0 to 62 percent, and swing.")
     pts = []
     for i in range(len(p)):
@@ -415,7 +415,7 @@ def fig41():
     loss = 0.5 * M * V * V * math.sin(2 * math.asin(L_STAR / (2 * ELL))) ** 2
     hm = sx[Pw > Pw.max() / 2]
     dur = (hm.max() - hm.min()) * T_st
-    assert (round(wpos, 1), round(Pw[i]), round(100 * sx[i]), round(loss, 1), round(100 * wpos / loss)) == (22.5, 214, 79, 26.7, 84)
+    assert (round(wpos, 1), round(Pw[i]), round(100 * sx[i]), round(loss, 1), round(100 * wpos / loss)) == (22.6, 215, 79, 26.7, 84)
     pc = 100 * sx
     pos = np.maximum(Pw, 0)
     area = " ".join(f"{P.X(pc[k]):.1f},{P.Y(pos[k]):.1f}" for k in range(0, len(pc), 3))

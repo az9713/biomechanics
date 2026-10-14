@@ -260,7 +260,7 @@ def fig28():
     o.append(label(s, P.X(0.15) + 9, P.Y(10.47) - 10, "10.47", "label2", I["primary"]))
     o.append(label(s, P.X(0.20) - 8, P.Y(7.85) - 12, "7.85", "label2", I["primary"], "end"))
     o.append(label(s, P.X(0.045), P.Y(5), f"stable: kτ{sub('d', s, 'label2')} &lt; π/2", "label2", I["primary"]))
-    o.append(label(s, P.X(0.16), P.Y(34), "unstable", "label2", I["primary"], "middle"))
+    o.append(label(s, P.X(0.08), P.Y(36.5), "unstable", "label2", I["primary"], "middle"))
     o.append(label(s, P.X(0.15), P.Y(1.2), "100–200 ms band", "label2", I["secondary"], "middle"))
     aria = ("Problem C10. The ceiling on the stable gain of a first-order delayed loop, k max = pi over two tau-d, against the "
             "delay from 0.04 to 0.20 s: a red falling curve with a green stable region under it. Orange dots mark 31.42, 15.71, "

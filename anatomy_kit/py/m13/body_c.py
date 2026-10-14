@@ -309,7 +309,7 @@ def put2(P, x_left, y_floor, hpx):
 
 
 # ================================================================ svg #22  C3 keep it close (stoop, load near or far)
-W_TR, LT, DM, W_L = 412.0, 0.346, 0.05, 20.0 * G           # lines 126, 355
+W_TR, LT, DM, W_L = 412.0, 0.30 / math.sin(math.radians(60)), 0.05, 20.0 * G     # lines 126, 355 (Lab C: d_tr = 0.30 m at 60 deg)
 PHI = 60.0                                                  # stoop, line 126
 
 
@@ -335,7 +335,7 @@ def stoop_pose(d_l, hand_h=0.34):
     return P
 
 
-# the text's rounded values (l.126-132): the computed ones (3450/3754, 4039/4343 N) agree to under 9 N
+# the text's rounded values (l.126-132): the computed ones (3453/3757, 4042/4346 N) agree to under 5 N
 TXT_FM_FC = {0.25: (3450, 3760), 0.40: (4040, 4350)}
 
 
@@ -384,8 +384,8 @@ def fig22():
             f"the L5/S1 joint (crosshair) to the load line. Left, the box is close: d_L = 0.25 m, back-muscle force about {nums[0][1]:.0f} N, "
             f"disc compression about {nums[0][2]:.0f} N. Right, the box is far: d_L = 0.40 m, about {nums[1][1]:.0f} N and {nums[1][2]:.0f} N, "
             f"{saving * 100:.0f} percent more.")
-    assert abs(nums[1][4] - 4350) < 9 and abs(nums[0][4] - 3760) < 9 and abs(saving - 0.14) < 0.006, nums
-    assert abs(nums[1][3] - 4040) < 9 and abs(nums[0][3] - 3450) < 9, nums
+    assert abs(nums[1][4] - 4350) < 5 and abs(nums[0][4] - 3760) < 5 and abs(saving - 0.14) < 0.006, nums
+    assert abs(nums[1][3] - 4040) < 5 and abs(nums[0][3] - 3450) < 5, nums
     return finish(VB, aria, s, o)
 
 

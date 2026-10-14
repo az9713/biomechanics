@@ -953,9 +953,9 @@ RESERVES = (("leg strength", "knee extensor strength and power"), ("eccentric co
             ("grip strength", "hand force"), ("arm strength", "upper-body push"))
 TASKS = (("chair rise", "§2"), ("stair ascent", "§3"), ("slope up", "§7"), ("stair descent", "§3"), ("slope down", "§7"),
          ("lift / carry", "§4"), ("turn / stumble", "§5"), ("jar", "§6"), ("door", "§6"))
-# edges: the "Binding margin" column of the table (module13.html lines 202-210), plus the caption (leg strength binds the chair,
-# the stairs and the downhill; eccentric control: stair descent and slope down; tissue: lifting and the downhill joint tolerance)
-EDGES = ((0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (1, 3), (1, 4), (2, 5), (2, 4), (3, 6), (4, 7), (5, 8))
+# edges: the "Binding margin" column of the table (module13.html lines 202-210): leg strength binds the chair rise, stair ascent
+# and slope up; eccentric control the two descents; tissue: lifting and the downhill joint tolerance
+EDGES = ((0, 0), (0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 4), (3, 6), (4, 7), (5, 8))
 
 
 def fig11():
@@ -998,10 +998,10 @@ def fig11():
         o.append(H.label(s, xl1 + s(8), rc[r] - s(8), f"{n} task" + ("s" if n > 1 else ""), "label2",
                          RED if r == 0 else I["secondary"]))
     o.append(H.line(s, xl0, 520.0, xl0 + s(34), 520.0, RED, "geom"))
-    o.append(H.label(s, xl0 + s(42), 525.0, "leg strength: the caption's example (chair, stairs, downhill, uphill)", "label2", I["secondary"]))
+    o.append(H.label(s, xl0 + s(42), 525.0, "leg strength: chair rise, stair ascent, slope up", "label2", I["secondary"]))
     o.append(H.label(s, xl0, 548.0, "links follow the Binding-margin column of the table below the figure", "label2", I["secondary"]))
     aria = ("A map from six body reserves on the left to nine daily tasks on the right. Leg strength, in red, links to the "
-            "chair rise, stair ascent, slope up, stair descent and slope down. Eccentric control links to stair descent and "
+            "chair rise, stair ascent and slope up. Eccentric control links to stair descent and "
             "slope down. Tissue tolerance links to lift or carry and slope down. Balance margin links to turn or stumble, "
             "grip strength to the jar and arm strength to the door.")
     return finish(VB, aria, s, o)

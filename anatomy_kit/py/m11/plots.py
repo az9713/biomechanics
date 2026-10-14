@@ -343,7 +343,7 @@ def fig25():
             jn = math.hypot(jx, jy)
             g = math.degrees(math.acos(max(-1, min(1, (nx * jx + ny * jy) / jn))))
             gam.append(g)
-            col = O["neural"] if g < phi else SER[0]
+            col = O["geometry"]
             for sg in (-1, 1):
                 a = math.atan2(ny, nx) + sg * math.radians(phi)
                 out.append(H.line(s, p[0], p[1], p[0] + CL * math.cos(a), p[1] + CL * math.sin(a), col, "geom",
@@ -363,8 +363,8 @@ def fig25():
     assert max(g1) < phi < min(g2)
     o += [c1, c2]
     o.append(label(s, (X0 + X1) / 2, Y0 + 16, f"φ = arctan μ = {phi:.0f}° (μ = {mu})", "label2", I["secondary"], "middle"))
-    o.append(label(s, 4, 296, "dashed lines: the friction-cone edges at each pad; green = the", "label2", I["secondary"]))
-    o.append(label(s, 4, 312, "joining line (solid) lies inside the cone, red = outside it", "label2", I["secondary"]))
+    o.append(label(s, 4, 296, "dashed blue lines: the friction-cone edges at each pad;", "label2", I["secondary"]))
+    o.append(label(s, 4, 312, "the joining line (solid) must lie inside both cones", "label2", I["secondary"]))
     o.append(LB.credit(s, 4, 332, width=392))
     aria = ("C5: the taped thumb, force closure of a two-pad pinch. At left a seated skeleton holds a cup; at right two "
             f"top views of the cup with the friction cone, half-angle {phi:.0f} degrees, at each pad. With the thumb "

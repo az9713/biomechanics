@@ -902,7 +902,8 @@ def fig16():
 # ================================================================ svg #17  Fig. 16: co-contraction, knee locking
 TAU0 = M_KG * G * COM_AHEAD          # held ankle torque at upright: Mg x 0.02 m = 13.7 N m (line 176)
 K_LOW, K_HIGH = 0.9 * MGL, KP        # 556 (intrinsic, line 425) and 900 N m/rad (line 493)
-LOCK = dict(thigh=2.0, knee=-6.0)                       # 6 deg hyperextension against the stop
+LOCK = dict(pelvis=1.16, knee=-5.0)                     # 5 deg hyperextension at the stop (as svg 34); the 1.16 deg
+# lean puts the COM 2.0 cm ahead of the ankle (the text value, line 176), which leaves the knee centre 1.0 cm behind the line
 CROUCH = dict(pelvis=20.0, hip=45.0, knee=40.0)
 
 
@@ -954,7 +955,7 @@ def fig17():
            .replace("-", "−")] for t in th]
     # ---- right: knee locked vs crouched (kit Winter COM: the text states none for these poses)
     hgt, fy = 360.0, 430.0
-    P1 = LB.pose(near=dict(hip=-LOCK["thigh"], knee=LOCK["knee"]), far=dict(hip=-LOCK["thigh"], knee=LOCK["knee"]))
+    P1 = LB.pose(pelvis=LOCK["pelvis"], near=dict(hip=0.0, knee=LOCK["knee"]), far=dict(hip=0.0, knee=LOCK["knee"]))
     P2 = LB.pose(pelvis=CROUCH["pelvis"], near=dict(hip=CROUCH["hip"], knee=CROUCH["knee"]),
                  far=dict(hip=CROUCH["hip"], knee=CROUCH["knee"]))
     o.append(floor(s, 410, 750, fy))

@@ -379,7 +379,7 @@ def fig35():
 
 
 # ================================================================ svg #36, K6: inverted-pendulum topple
-def k6_run(t_end=None, g=9.81, L=1.0, toe=0.12):
+def k6_run(t_end=None, g=9.81, L=1.0, toe=0.23):
     """K6 script (explicit Euler, dt = 1e-4) up to the toe; with t_end, keep stepping to t_end."""
     w2 = g / L
     x, v, t, dt = 0.02, 0.0, 0.0, 1e-4
@@ -396,34 +396,34 @@ def k6_run(t_end=None, g=9.81, L=1.0, toe=0.12):
 
 
 K6_TT = k6_run()[2]
-assert round(K6_TT, 2) == 0.79 and round(math.acosh(6) / math.sqrt(9.81), 2) == 0.79                    # line 735, 746
+assert round(K6_TT, 2) == 1.00 and round(math.acosh(11.5) / math.sqrt(9.81), 2) == 1.00                    # line 735, 746
 
 
 def fig36():
     VB = (0, 0, W, 286)
     s = pscale(VB[3])
-    YT = 0.16
-    ax = Ax((58, 62, 388, 226), (0, 0.9), (-0.02, YT))
-    t, x, _ = k6_run(0.9)
-    o = axes(s, ax, [(v, f"{v:g}") for v in (0, 0.3, 0.6, 0.9)], [(v, f"{v:.2f}") for v in (0, 0.04, 0.08, 0.12, 0.16)],
+    YT = 0.28
+    ax = Ax((58, 62, 388, 226), (0, 1.2), (-0.03, YT))
+    t, x, _ = k6_run(1.2)
+    o = axes(s, ax, [(v, f"{v:g}") for v in (0, 0.4, 0.8, 1.2)], [(v, f"{v:.2f}") for v in (0, 0.05, 0.10, 0.15, 0.20, 0.25)],
              "time t (s)", "horizontal position (m)", ylab_x=16, xlab_dy=42)
-    o.append(H.line(s, ax.x0, ax.Y(0.12), ax.x1, ax.Y(0.12), I["primary"], "ref", H.DASH_REF))
-    o.append(curve(s, ax, [0, 0.9], [0, 0], SER[1], "curve_multi"))
+    o.append(H.line(s, ax.x0, ax.Y(0.23), ax.x1, ax.Y(0.23), I["primary"], "ref", H.DASH_REF))
+    o.append(curve(s, ax, [0, 1.2], [0, 0], SER[1], "curve_multi"))
     o.append(curve(s, ax, *cut(t[::100], x[::100], YT), SER[0], "curve_multi"))
-    o.append(H.line(s, ax.X(K6_TT), ax.y0, ax.X(K6_TT), ax.Y(0.12), O["dim"], "leader", H.DASH_REF))
-    o.append(dot(s, ax.X(K6_TT), ax.Y(0.12), O["flag"]))
-    o.append(lab(s, ax.X(0.01), ax.Y(0.12) - 9, f"toe limit L{sub('f', s)} = 0.12 m"))
-    o.append(lab(s, ax.X(K6_TT) - 8, ax.Y(0.12) - 22, f"COM passes the toe", "label2", I["primary"], "end"))
-    o.append(lab(s, ax.X(K6_TT) - 8, ax.Y(0.12) - 7, f"at t = {K6_TT:.2f} s", "label2", I["primary"], "end"))
-    o.append(lab(s, ax.X(0.02), ax.Y(0.085), f"COM x(t) = 0.02 cosh(ω{sub('0', s)}t), ω{sub('0', s)} = 3.13/s",
+    o.append(H.line(s, ax.X(K6_TT), ax.y0, ax.X(K6_TT), ax.Y(0.23), O["dim"], "leader", H.DASH_REF))
+    o.append(dot(s, ax.X(K6_TT), ax.Y(0.23), O["flag"]))
+    o.append(lab(s, ax.X(0.01), ax.Y(0.23) - 9, f"toe limit L{sub('f', s)} = 0.23 m"))
+    o.append(lab(s, ax.X(K6_TT) - 8, ax.Y(0.23) - 22, f"COM passes the toe", "label2", I["primary"], "end"))
+    o.append(lab(s, ax.X(K6_TT) - 8, ax.Y(0.23) - 7, f"at t = {K6_TT:.2f} s", "label2", I["primary"], "end"))
+    o.append(lab(s, ax.X(0.03), ax.Y(0.18), f"COM x(t) = 0.02 cosh(ω{sub('0', s)}t), ω{sub('0', s)} = 3.13/s",
                  "label2", I["primary"]))
-    o.append(lab(s, ax.X(0.75), ax.Y(0) - 7, "COP stays at the ankle, x = 0", "label2", I["primary"], "end"))
+    o.append(lab(s, ax.X(1.0), ax.Y(0) - 7, "COP stays at the ankle, x = 0", "label2", I["primary"], "end"))
     o += legend(s, ax.x0, 20, [(SER[0], None, "COM"), (SER[1], None, "COP")], gap=16)
     o.append(lab(s, ax.x0 + 150, 20, "ankle torque off, ℓ = 1.0 m", "label2", I["secondary"]))
     aria = ("Problem K6 plot: horizontal position against time for a body toppling forward with the ankle torque off, "
             "an inverted pendulum with the centre of mass 1.0 metre above the ankle, starting 2 centimetres forward and at "
             "rest. The centre-of-mass curve grows as 0.02 times cosh of 3.13 t, slowly at first and then faster, and "
-            f"crosses the dashed 0.12 metre toe limit at {K6_TT:.2f} seconds, an orange dot. The centre-of-pressure line "
+            f"crosses the dashed 0.23 metre toe limit at {K6_TT:.2f} seconds, an orange dot. The centre-of-pressure line "
             "stays flat at zero, at the ankle.")
     hi = list(range(0, len(t), 75))
     hv = hover(ax, [ax.X(t[i]) for i in hi], [[ax.Y(min(x[i], YT)), ax.Y(0.0)] for i in hi],

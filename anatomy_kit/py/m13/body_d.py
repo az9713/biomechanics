@@ -400,7 +400,9 @@ F_COMP = F_M + (W_TR + W_L) * math.cos(math.radians(PHI))
 close(W_TR, 412.0, 0.5)
 close(D_TR, 0.300, 0.0005)                   # line 126, 128
 close(F_M, 4040.0, 5.0)
-F_COMP_TEXT = 4350.0                         # the text writes 4350; 4040 + 608 cos 60 = 4344 (see the report)
+F_COMP_TEXT = 4350.0                         # the text: 4042 + 608 cos 60 = 4346, 4350 to 3 sig. figs (Module 1, Lab C)
+F_M_SHOWN = (W_TR * 0.300 + W_L * D_L) / D_M     # 4042 from the displayed d_tr = 0.300
+F_COMP_SHOWN = F_M_SHOWN + (W_TR + W_L) * math.cos(math.radians(PHI))     # 4346
 close(F_COMP, F_COMP_TEXT, 10.0)
 _sq = L_T * math.sin(math.radians(20.0))
 _fm_sq = (W_TR * _sq + W_L * 0.25) / D_M
@@ -470,9 +472,9 @@ def fig32():
     dtr_, dl_, dm_, wtr_, wl_ = (f'{it(a_)}{sb(b_, s)}' for a_, b_ in (("d", "tr"), ("d", "L"), ("d", "m"), ("W", "tr"), ("W", "L")))
     o.append(lines(s, 8, 24, [f'moments about L5/S1: {FM_}{dm_} = {wtr_}{dtr_} + {wl_}{dl_}',
                               f'{dtr_} = {it("ℓ")}{sb("t", s)} sin φ = {L_T} × sin {PHI:.0f}° = {D_TR:.3f} m',
-                              f'{FM_} = ({W_TR:.0f} × {D_TR:.3f} + {W_L:.0f} × {D_L:.2f}) / {D_M:.2f} = {round(F_M, -1):.0f} N',
+                              f'{FM_} = ({W_TR:.0f} × {D_TR:.3f} + {W_L:.1f} × {D_L:.2f}) / {D_M:.2f} = {F_M_SHOWN:.0f} N',
                               f'force along the spine: {FC_} = {FM_} + ({wtr_} + {wl_}) cos φ',
-                              f'= {round(F_M, -1):.0f} + {W_TR + W_L:.0f} × cos {PHI:.0f}° ≈ {F_COMP_TEXT:.0f} N',
+                              f'= {F_M_SHOWN:.0f} + {W_TR + W_L:.0f} × cos {PHI:.0f}° = {F_COMP_SHOWN:.0f} ≈ {F_COMP_TEXT:.0f} N',
                               f'squat (φ = 20°, {dl_} = 0.25 m): {FC_} ≈ {sq:.0f} N;  arrows not to scale'], lead=1.4))
     o.append(credit(s, VB))
     aria = ("A skeleton (Lynch art) stooped forward with straight knees, the line from L5/S1 to the upper body's centre of "

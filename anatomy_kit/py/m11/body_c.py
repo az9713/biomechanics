@@ -11,7 +11,7 @@ Numbers the text states, with module11.html line numbers:
   Proposition 3.1 (147)     theta_2 = +-arccos((r^2 - l1^2 - l2^2) / (2 l1 l2)); the signs are elbow-down and elbow-up
   line 156                  near r = l1 + l2 theta_2 has an infinite slope in r (the arccos has a vertical tangent)
   Definition 3 (183)        N(J) is one-dimensional for a 2x3 Jacobian of full rank (shoulder, elbow, wrist, fingertip pinned)
-  Proposition 7.1 (226-232) F_t / F_c <= tan(alpha); shoulder alpha ~ 25 deg, tan 25 deg ~ 0.47 (line 232); the page gives no
+  Proposition 7.1 (226-232) F_t / F_c <= tan(alpha); shoulder alpha ~ 22 deg (Module 3's beta), tan 22 deg ~ 0.40 (line 232); the page gives no
                             hip alpha, so the hip uses Module 3's beta ~ 55 deg (module03.html lines 510, 514)
   Proposition 8.1 (244)     F_g >= W / (2 mu); line 464: mu falls from about 0.5 toward 0.1-0.2
   Definition 5 (268)        F_g,min = L / (2 mu), F_g = (1 + s) F_g,min, s typically 0.1 to 0.4; line 472: reflex within ~70 ms
@@ -230,8 +230,8 @@ def fig21():
         o.append(ext(s, pm[0], ty, pm[0], yd, O["load"]))
         o.append(H.joint_centre(s, *sp))
         x0, x1 = sorted((sp[0], pm[0]))
-        o.append(H.arrow(s, p, sp[0], yd, pm[0], yd, "geometry", both=True))
-        o.append(lab(s, (x0 + x1) / 2, yd + s(26), f'{it("d")} = {d_cm:.0f} cm', "label", O["geometry"], "middle"))
+        o.append(H.arrow(s, p, sp[0], yd, pm[0], yd, "load", both=True))
+        o.append(lab(s, (x0 + x1) / 2, yd + s(26), f'{it("d")} = {d_cm:.0f} cm', "label", O["load"], "middle"))
         o.append(lab(s, pm[0] + s(7), ty - th - s(20), f'{it("W")}', "label", O["load"]))
         o.append(lab(s, xl + 90 * (HF / 255.0), fy + s(20), name, "label", I["primary"], "middle"))
     ratio = ds[1] / ds[0]
@@ -243,7 +243,7 @@ def fig21():
     aria = ("Two standing skeletons (Lynch art) carry the same tray flat on one hand. Left, the tray is tucked in: the "
             f"palm is {ds[0]:.0f} cm ahead of the shoulder joint, so the shoulder torque, the weight W times that "
             f"horizontal distance d, is small. Right, the arm is held out straight: the palm is {ds[1]:.0f} cm ahead, "
-            f"{ratio:.1f} times as far, and so is the torque. The weight acts down on the tray (brown arrow); the blue "
+            f"{ratio:.1f} times as far, and so is the torque. The weight acts down on the tray (brown arrow); the brown "
             "double arrow is the horizontal distance d from the shoulder joint to the line of the weight.")
     return finish(VB, aria, s, o)
 
@@ -516,7 +516,7 @@ def fig26():
 
 
 # ================================================================ svg #27  C7 why the shoulder, not the hip
-ALPHA_SH, ALPHA_HIP = 25.0, 55.0     # deg: shoulder line 232; hip = Module 3's coverage angle beta ~ 55 deg (module03.html lines 510, 514)
+ALPHA_SH, ALPHA_HIP = 22.0, 55.0     # deg: shoulder line 232 (= Module 3's beta ~ 22 deg); hip = Module 3's coverage angle beta ~ 55 deg (module03.html lines 510, 514)
 
 
 def socket_art(s, p, which, win, d, k, alpha, Lc):
@@ -552,7 +552,7 @@ def fig27():
     VB, s = VBs(402)
     o = [f'<defs>{H.markers(p, s)}</defs>']
     k = 0.31
-    close(math.tan(math.radians(ALPHA_SH)), 0.47, 0.005)               # line 232
+    close(math.tan(math.radians(ALPHA_SH)), 0.40, 0.005)               # line 232
     q, c = socket_art(s, p, "sh", (660, 1430, 1240, 2040), (6.0, 46.0), k, ALPHA_SH, 64)
     o += q
     q2, c2 = socket_art(s, p, "hip", (300, 3640, 860, 4380), (216.0, 38.0), k, ALPHA_HIP, 40)
@@ -584,7 +584,7 @@ def fig27():
             f"is at most Fc tan alpha, with socket half-arc alpha about {ALPHA_SH:.0f} degrees, so tan alpha is "
             f"{math.tan(math.radians(ALPHA_SH)):.2f}; the blue dashed rim line carries the resultant at the limit. Right, "
             f"a hip: the deep acetabulum has half-arc about {ALPHA_HIP:.0f} degrees, tan alpha "
-            f"{math.tan(math.radians(ALPHA_HIP)):.2f}, so the hip resists a dislocating force about three times as large "
+            f"{math.tan(math.radians(ALPHA_HIP)):.2f}, so the hip resists a dislocating force about three and a half times as large "
             "for the same compression.")
     return finish(VB, aria, s, o)
 

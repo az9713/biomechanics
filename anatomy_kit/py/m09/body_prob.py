@@ -10,11 +10,10 @@ The kit's standing foot-to-COM distance is 0.580 H = 1.01 m, which is the text's
 import math
 
 import numpy as np
-from scipy.optimize import fsolve
 
 import house as H
 import lynch_body as LB
-from m05.body import _read, art_image, finish, inner_svg, it
+from m05.body import finish, it
 from m05.plots_prob import Plot, label as plabel, legend
 
 T, O, I, SER = H.TISSUE, H.OVERLAY, H.INK, H.SERIES
@@ -328,7 +327,17 @@ def fit_pose(make, x0, target, org="mid"):
     def res(v):
         dx, h = com_rel(make(*v), org=org)
         return [dx - target[0], h - target[1]]
-    v = fsolve(res, x0, xtol=1e-6)
+    v = np.array(x0, dtype=float)                       # Newton with a finite-difference Jacobian (numpy only)
+    for _ in range(60):
+        r = np.array(res(v))
+        if np.max(np.abs(r)) < 1e-9:
+            break
+        jac = np.empty((2, 2))
+        for j in range(2):
+            dv = np.zeros(2)
+            dv[j] = 1e-4
+            jac[:, j] = (np.array(res(v + dv)) - np.array(res(v - dv))) / 2e-4
+        v = v - np.linalg.solve(jac, r)
     r = res(v)
     assert abs(r[0]) < 0.004 and abs(r[1]) < 0.004, (v, r)
     return make(*v), v
@@ -1150,46 +1159,40 @@ def fig38():
 
 
 # ================================================================ svg #25  C7 the tendon, not the muscle, does the work
-ACH = dict(box=(255, 425, 240, 690),                          # InjuryMap crop window (m06/body.py ACH)
-           path=[(442.0, 560.0), (430.0, 735.0), (414.65, 960.0), (425.05, 1057.65)],   # calf -> tendon -> heel
-           calf=(452.0, 600.0), tendon=(417.0, 850.0))
-
-
-def credit_block(s, x, y_bottom, texts, width):
-    """Credit lines wrapped to `width` user units (Georgia: about 0.47 em per character, as lynch_body.credit)."""
-    from m05.body import wrap
-    n = int(width / (s(H.PX["credit"]) * 0.47))
-    rows = [ln for t in texts for ln in wrap(t, n)]
-    return H.credit(s, x, y_bottom - (len(rows) - 1) * s(H.PX["credit"]) * 1.25, rows), len(rows)
+SHANK_CALF = (-40.0, 55.0)                                    # shank-local: top of the calf muscle belly (design value)
 
 
 def fig25():
     p = "m9f25_"
-    c1 = H.ATTRIBUTION["by-sa"].format(author="InjuryMap", title="Lower leg muscles.svg",
-                                       changes="Lateral calf only; labels removed, cropped, mirrored, overlays added.")
-    VBh = 616
+    extra = " Bars, Achilles coil and labels drawn for this course."
+    VBh = vb_h(548, extra)
     VB, s = (0, 0, 400, VBh), H.Scale(400, VBh, display_w=400, max_h=H.MAX_DISPLAY_H_BODY)
     o = [f'<defs>{H.markers(p, s)}</defs>']
-    z, X0, Y0 = 0.42, 14.0, 40.0
-    bx, by, bw, bh = ACH["box"]
-    M_ = lambda q: (X0 + (bx + bw - q[0]) * z, Y0 + (q[1] - by) * z)  # noqa: E731
-    art = inner_svg(_read("Lower_leg_muscles_crop_m06ach.svg"))
-    assert 'id="Names"' not in art and "<text" not in art
-    o.append(f'<g transform="translate({X0 + (bx + bw) * z:.2f} {Y0 - by * z:.2f}) scale({-z} {z})">'
-             f'{art_image("<svg>" + art + "</svg>", ACH["box"])}</g>')
-    pts = [M_(q) for q in ACH["path"]]
-    d = "M" + " L".join(f"{x:.2f},{y:.2f}" for x, y in pts)
-    o.append(f'<path d="{d}" fill="none" stroke="{O["force"]}" stroke-width="{s(2.0):.2f}" '
-             f'stroke-dasharray="{s(H.DASH_LOA[0]):.2f} {s(H.DASH_LOA[1]):.2f}"/>')
-    lx = 138.0
-    cc, tt = M_(ACH["calf"]), M_(ACH["tendon"])
-    o.append(H.line(s, cc[0] + s(4), cc[1], lx - s(4), cc[1], I["secondary"], "leader"))
-    o.append(lab(s, lx, cc[1] - s(2), "calf muscle (gastrocnemius, soleus):", "label2"))
-    o.append(lines(s, lx, cc[1] + s(15), ["contracts, but supplies only the loss,", f"(1 − {it('R')}){it('U')} ≈ {E_LOSS:.1f} J per step"]))
-    o.append(H.line(s, tt[0] + s(4), tt[1], lx - s(4), tt[1], O["force"], "leader"))
-    o.append(lab(s, lx, tt[1] - s(2), "Achilles tendon: the elastic spring", "label2"))
-    o.append(lines(s, lx, tt[1] + s(15), [f"stores {it('U')} ≈ {U_ACH:.0f} J on landing and returns",
-                                          f"{it('R')}{it('U')} = {E_RET:.1f} J ({it('R')} ≈ {R_ACH})"]))
+    HF, fy, ox = 270.0, 318.0, 300.0
+    Pr, _ = fit_pose(run_pose, (25.0, 55.0), (0.0, R_MID))
+    body, J, _ = place(p, s, Pr, ox, fy, HF)
+    o.append(floor(s, 196, 392, fy))
+    o.append(body)
+    top = seg_pt(J, Pr, "lat_shank", False, SHANK_CALF)             # calf belly, calf-tendon junction, heel
+    jn = seg_pt(J, Pr, "lat_shank", False, SHANK_ACH)
+    ach = seg_pt(J, Pr, "lat_foot", False, FOOT["ach"])
+    mf, ms = T["muscle"]
+    for col, w in ((ms, s(8.0)), (mf, s(5.0))):                     # the muscle: thick tissue-coloured stroke
+        o.append(f'<line x1="{top[0]:.2f}" y1="{top[1]:.2f}" x2="{jn[0]:.2f}" y2="{jn[1]:.2f}" stroke="{col}" '
+                 f'stroke-width="{w:.2f}" stroke-linecap="round"/>')
+    o.append(coil(s, jn, ach, n=7, amp=s(4.5), col=O["force"], w=2.2))      # the tendon: the spring, in series
+    o += [dot(s, jn[0], jn[1], O["force"], 2.8), dot(s, ach[0], ach[1], O["force"], 2.8)]
+    lx, rx = 8.0, 190.0
+    yc, yt = 150.0, 238.0                                            # label blocks, above the foot
+    cc = ((top[0] + jn[0]) / 2, (top[1] + jn[1]) / 2)
+    tt = ((jn[0] + ach[0]) / 2, (jn[1] + ach[1]) / 2)
+    o.append(H.line(s, rx, yc + s(6), cc[0] - s(4), cc[1], I["secondary"], "leader"))
+    o.append(lab(s, lx, yc, "calf muscle", "label2"))
+    o.append(lines(s, lx, yc + s(15), ["(gastrocnemius, soleus)", "contracts, but supplies only", f"the loss, (1 − {it('R')}){it('U')} ≈ {E_LOSS:.1f} J"]))
+    o.append(H.line(s, rx, yt + s(6), tt[0] - s(4), tt[1], O["force"], "leader"))
+    o.append(lab(s, lx, yt, "Achilles tendon: the spring", "label2"))
+    o.append(lines(s, lx, yt + s(15), [f"stores {it('U')} ≈ {U_ACH:.0f} J on landing,",
+                                          f"returns {it('R')}{it('U')} = {E_RET:.1f} J ({it('R')} ≈ {R_ACH})"]))
     o.append(lab(s, 8, 22, "where the work of a running step comes from"))
     # bars: mechanical work per step, elastic leg against rigid leg
     x0, x1, k = 138.0, 392.0, 254.0 / (2 * U_ACH)
@@ -1227,11 +1230,10 @@ def fig25():
         o.append(lab(s, xx + s(19), ly, nm, "label2"))
     o.append(lines(s, 8, ly + s(24), [f"muscle work per step: {2 * U_ACH:.0f} J ÷ {E_LOSS:.1f} J = {2 / (1 - R_ACH):.0f} = 2/(1 − {it('R')}):",
                                       f"the muscle pays only the tendon's loss, {(1 - R_ACH) * 100:.0f} % of {it('U')}"]))
-    cb, n_cb = credit_block(s, 8, VBh - 8, [c1, "Bars, dashed path and labels drawn for this course."], 384.0)
-    o.append(cb)
-    aria = ("Left, the lateral calf (InjuryMap art): the calf muscles, gastrocnemius and soleus, narrow into the Achilles "
-            "tendon, which inserts on the heel bone; a dashed red line marks the path from the muscle through the tendon. "
-            "Right of it, the tendon is the spring that stores about 31 J on landing and returns 28.5 J, a resilience "
+    o.append(credit(s, VB, extra))
+    aria = ("A runner at midstance, side view (Lynch skeleton art): the calf muscle, gastrocnemius and soleus, drawn as a "
+            "thick stroke, is in series with the Achilles tendon, drawn as a red coil that runs to the heel bone. The "
+            "tendon is the spring that stores about 31 J on landing and returns 28.5 J, a resilience "
             "of 0.92, and the muscle supplies only the 2.5 J lost. Below, two bars of mechanical work in one step: with "
             "the elastic tendon, 28.5 J of tendon recoil plus 2.5 J of muscle work; with a rigid leg, the muscle alone "
             "would absorb 31 J and then regenerate 31 J, 62 J, twenty-five times the 2.5 J, which is 2 over (1 minus R).")

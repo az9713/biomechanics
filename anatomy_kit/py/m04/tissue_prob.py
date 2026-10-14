@@ -576,7 +576,7 @@ def fig33():
     for k, (v, name, sym) in enumerate(((E_TENS, "tension", f"E{H.sub('tens', s, 'label2')}"),
                                         (H_A, "compression", f"H{H.sub('A', s, 'label2')}"))):
         xc = P.X(0.5 + k)
-        o.append(rect(xc - 30, P.Y(v), 60, P.y0 - P.Y(v), H.SERIES[1], extra='fill-opacity="0.85"'))
+        o.append(rect(xc - 30, P.Y(v), 60, P.y0 - P.Y(v), H.SERIES[k], extra='fill-opacity="0.85"'))
         o.append(H.label(s, xc, P.Y(v) - 6, f"{v:g} MPa", "tick", I["primary"], "middle"))
         o.append(H.label(s, xc, P.y0 + 18, f"{name}, {sym}", "label2", I["primary"], "middle"))
         hv.append([round(xc, 2), round(P.Y(v), 2), f"{name}: {v:g} MPa"])

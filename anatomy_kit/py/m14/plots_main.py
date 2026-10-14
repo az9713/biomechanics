@@ -532,7 +532,7 @@ def fig18():
     o += legend_col(s, A.x0 + 18, A.Y(11.2), [(SER[0], None, "L = 1, full load: runaway"), (SER[1], None, "L = 0, unloaded: maintained")], dy=19)
     aria = (f"Peak cartilage stress against time for the load-damage feedback dh/dt = minus kappa L p plus beta (h0 minus h). "
             f"At full load L = 1 the stress climbs from 3.0 megapascals, faster as the layer thins, to {p1[-1]:.1f} at "
-            f"{t1[-1]:.1f} years when the layer reaches 0.30 millimetres and is taken as spent. At L = 0 the layer and the "
+            f"{t1[-1]:.1f} years, the first half-year step at which the layer is at or below 0.30 millimetres, and is taken as spent. At L = 0 the layer and the "
             f"3.0 megapascal stress stay constant.")
     ptsr = hv(A, [A.X(t) for t in t1], [A.Y(p) for p in p1], [f"t = {t:.1f} yr: {p:.1f} MPa, h = {h:.2f} mm" for t, p, h in zip(t1, p1, h1)])
     return svg(VB, aria, s, o, hov(ptsr))

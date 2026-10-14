@@ -8,7 +8,7 @@ Stature 1.75 m (the text states none, course reference).  Numbers (module11.html
   two-link arm l1 = 0.30 m, l2 = 0.45 m (Definition 1 line 104; Appendix lines 642-643), Winter-proportion art stretched
   along its axis to these lengths (upper arm x0.912, forearm+hand x1.016); det J = l1 l2 sin th2 (D2, line 497);
   th2 = +-arccos((r^2 - l1^2 - l2^2)/(2 l1 l2)) (D3, line 501); tau = J^T F (Prop 4.1, line 164); F_g >= W/(2 mu) (D6,
-  Prop 8.1); alpha ~ 25 deg, tan alpha ~ 0.47 (line 232); J^+ and the null space (Prop 5.1, line 181); masses and
+  Prop 8.1); alpha ~ 22 deg, tan alpha ~ 0.40 (line 232); J^+ and the null space (Prop 5.1, line 181); masses and
   inertias m1 = 2.1, m2 = 1.65 kg, lc1 = 0.15, lc2 = 0.22 m, I1 = 0.016, I2 = 0.025 kg m^2 (Appendix lines 645-648),
   M22 = I2 + m2 lc2^2 = 0.10486 (line 206); K3 line 544-545: 0.5 kg cup, s = 0.3, 5.31 / 15.9 / 31.9 N; K4 line 549:
   r = 0.541 m, w = 0.135, 0.95 band 0.46-0.61 m; K5 line 553: l_i = 0.25 m, q0 = (0.4, 1.90, 0.3) rad, elbow 1.90 to
@@ -585,14 +585,14 @@ FIGS[36] = ("D6: minimum grip force. Derive the least grip force that hol", fig3
 
 
 # ================================================================ svg #37  D7 the stability ratio (shoulder)
-ALPHA = 25.0                                                    # deg, glenoid effective half-arc (line 232, Appendix 651)
+ALPHA = 22.0                                                    # deg, glenoid effective half-arc (line 232, Appendix 651)
 RATIO_DRAWN = 0.35                                              # design value: F_t / F_c drawn inside the cone
 
 
 def fig37():
     p = "m11f37_"
     VB, s = bvb(500)
-    close(math.tan(math.radians(ALPHA)), 0.47, 0.005)           # line 232: tan 25 deg = 0.47
+    close(math.tan(math.radians(ALPHA)), 0.40, 0.005)           # line 232: tan 22 deg = 0.40
     psi = math.degrees(math.atan(RATIO_DRAWN))
     assert psi < ALPHA
     win = (730, 1520, 1100, 1840)

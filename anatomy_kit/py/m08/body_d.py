@@ -739,7 +739,7 @@ def lab3():
     t = sv * T_st
     shape = np.sin(np.pi * sv) ** 0.40 * (1 - 0.245 * np.cos(4 * np.pi * (sv - 0.5)))
     Fy = shape * (W_ * T_ / 2) / np.trapezoid(shape, t)
-    x_cop = -0.06 + 0.25 * sv
+    x_cop = -0.04 + 0.225 * sv
     tau = Fy * x_cop
     om = 2.3 * np.exp(-((sv - 0.80) / 0.10) ** 2)
     return sv, t, tau, om, tau * om
@@ -751,12 +751,12 @@ def fig33():
     o = [f'<defs>{H.markers(p, s)}</defs>']
     sv, t, tau, om, Pw = lab3()
     i = int(np.argmax(Pw))
-    close(tau.max(), 95.1, 0.05)                                   # line 737
-    close(sv[int(np.argmax(tau))] * 100, 77, 0.5)
-    close(Pw.max(), 214, 0.5)
-    close(Pw.max() / M, 3.06, 0.005)
+    close(tau.max(), 95.8, 0.05)                                   # line 737
+    close(sv[int(np.argmax(tau))] * 100, 76, 0.5)
+    close(Pw.max(), 215, 0.5)
+    close(Pw.max() / M, 3.07, 0.005)
     close(sv[i] * 100, 79, 0.5)
-    close(np.trapezoid(np.maximum(Pw, 0), t), 22.5, 0.05)
+    close(np.trapezoid(np.maximum(Pw, 0), t), 22.6, 0.05)
     HF, fy, px = 300.0, 352.0, 200.0
     P = LB.pose(near=dict(hip=-14, knee=28, contact="toe", shoulder=24, elbow=25),
                 far=dict(hip=24, knee=5, contact=None, ankle=0, shoulder=-22, elbow=10), anchor=("heel", "far"))

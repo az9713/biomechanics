@@ -227,7 +227,7 @@ def fig8():
     r = bias_variance()
     j = int(r[:, 3].argmin())
     i7 = int(np.abs(r[:, 0] - 7.0).argmin())
-    assert abs(r[j, 0] - 3.0) < 0.1 and abs(r[j, 3] - 0.021) < 0.001 and abs(r[j, 1] - 0.013) < 0.001   # lines 252-253
+    assert abs(r[j, 0] - 3.0) < 0.1 and abs(r[j, 3] - 0.0205) < 0.0006 and abs(r[j, 1] - 0.013) < 0.001   # lines 252-253
     assert abs(r[j, 2] - 0.016) < 0.001 and abs(r[i7, 3] - 0.050) < 0.002
     ax = Ax((84, 60, 735, 330), (1, 50), (0, 0.45), xlog=True)
     xt = [(v, str(v)) for v in (1, 2, 5, 10, 20, 50)]
@@ -240,7 +240,7 @@ def fig8():
     o.append(curve(s, ax, r[:, 0], r[:, 3], RED))
     o.append(dot(s, xo, ax.Y(r[j, 3]), I["primary"]))
     o.append(dot(s, ax.X(r[i7, 0]), ax.Y(r[i7, 3]), I["primary"], hollow=True))
-    o.append(H.label(s, xo + 14, ax.Y(0.21), "minimum 0.021 rad/s", "label2", I["primary"]))
+    o.append(H.label(s, xo + 14, ax.Y(0.21), "minimum 0.020 rad/s", "label2", I["primary"]))
     o.append(H.label(s, xo + 14, ax.Y(0.21) + 17, "at f" + H.sub("c", s) + " = 3.0 Hz", "label2", I["primary"]))
     o.append(H.label(s, ax.X(7.0) - 10, ax.Y(0.050) - 12, "7 Hz: 0.050 rad/s", "label2", I["primary"], "end"))
     o.append(H.label(s, ax.X(1.4), ax.Y(0.42), "bias dominates: signal removed", "label2", I["secondary"]))
@@ -252,7 +252,7 @@ def fig8():
                                         [f"fc = {a:.2f} Hz: total {d:.3f}, bias {b:.3f}, noise {c:.3f} rad/s" for a, b, c, d in r]))
     aria = ("RMS velocity-estimate error against filter cutoff frequency on a log axis from 1 to 50 hertz, for a 0.8 hertz, 0.40 "
             "radian test motion with 0.006 radian noise. The blue bias falls from 0.39 rad per second at 1.2 hertz to zero; the "
-            "orange passed-noise standard deviation rises to 0.42 at 45 hertz; the red total is U-shaped with a minimum of 0.021 "
+            "orange passed-noise standard deviation rises to 0.42 at 45 hertz; the red total is U-shaped with a minimum of 0.020 "
             "rad per second at 3.0 hertz, where bias is 0.013 and noise 0.016. A hollow dot marks 0.050 at 7 hertz.")
     return finish(VB, aria, s, o, hv)
 
@@ -373,8 +373,8 @@ def fig11():
 @lru_cache(None)
 def mc_budget():
     n = 20000
-    rb = np.random.default_rng(17)                      # the 15% parameter draws (the text's seed is not stated)
-    z1, z2 = rb.normal(0, 0.15, n), rb.normal(0, 0.15, n)
+    eps = np.random.default_rng(9).normal(0, 0.15, (n, 2))   # the 15% parameter draws: the K7 listing, seed 9, one (dI, dm) pair per draw
+    z1, z2 = eps[:, 0], eps[:, 1]
     rng = np.random.default_rng(15)
     qf6 = smooth(Q_TRUE, 6.0)
     qdd6 = np.gradient(np.gradient(qf6, DT), DT)
