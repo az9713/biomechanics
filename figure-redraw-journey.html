@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Development journey: the figure redraw (all 18 modules)</title>
+<style>
+body{background:#0f172a;color:#e2e8f0;font:17px/1.6 Georgia,'Times New Roman',serif;margin:0 auto;max-width:52rem;padding:1.5rem}
+h1,h2,h3{color:#fb923c;line-height:1.25} h2{border-bottom:1px solid #334155;padding-bottom:.3rem;margin-top:2.5rem}
+h3{color:#2dd4bf} a{color:#2dd4bf} p,li{color:#cbd5e1} strong{color:#e2e8f0}
+code{background:#1e293b;color:#e2e8f0;padding:0 .25rem;border-radius:3px;font-size:.9em}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92em} th,td{border:1px solid #334155;padding:.35rem .5rem;text-align:left;vertical-align:top}
+th{background:#1e293b;color:#e2e8f0} .muted{color:#94a3b8} .rule{border-left:3px solid #fb923c;background:#1e293b;padding:.5rem 1rem;margin:1rem 0}
+.uu{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.6rem 1rem;margin:.8rem 0}
+.uu h3{margin:.2rem 0}
+</style></head><body>
+
+<h1>Development journey: the figure redraw</h1>
+<p class="muted">Dates: 2026-10-12 to 2026-10-14 (several sessions, each resumed from a handoff file).<br>
+Deliverable: all 18 module pages of this course, with 798 figures redrawn. Commits <code>2ec6ff0</code> (Module 5) to <code>216cd1d</code> (Module 17), on <code>main</code>.<br>
+See every figure before and after: <a href="before-after/index.html">the before/after contact sheet</a>.</p>
+
+<p><strong>Note on sources.</strong> The final session of this work wrote this document. Earlier sessions were cleared, so their transcripts are gone. Sections 1 to 6 are reconstructed from durable records: the resume file <code>HANDOFF.md</code>, the memory files, the per-module reports (<code>pilot_mNN/REPORTS.md</code>, <code>TEXT_FIXES.md</code>), <code>anatomy_kit/ATTRIBUTIONS.md</code>, the generator code in <code>anatomy_kit/py/</code>, and the git history. The last session (grid looks of Modules 15 to 17, the final four commits, the contact sheet) is told from its live transcript.</p>
+
+<h2>1. The brief: what was wrong with the old figures</h2>
+<p>Before October 2026 the course had 968 inline SVG drawings. Earlier passes (July and September 2026) drew the anatomy in a style the course called "Tier-2": bones as shaded capsules, joints as spheres, muscles as ellipses. the author looked at a contact sheet of the 86 body figures and judged them "not accurate". His words were that they were "geometric figures, not biological structures". This applied even to the figures that the agent had rated acceptable (contact-sheet numbers 19 to 24).</p>
+<p>So the problem was not one bad figure. The problem was the method: a drawing built from capsules cannot look like a bone, however carefully it is shaded. The July and September passes had already logged about 90 anatomy defects of this kind (<code>ANATOMY_AUDIT.md</code>).</p>
+<p>The brief grew in three steps, each one set by the author:</p>
+<ol>
+<li>Make the anatomy look biological. Never use AI-generated anatomy.</li>
+<li>Redraw <strong>every</strong> figure, not only the anatomy, so one style runs through all 18 modules. This includes the 487 problem-set figures.</li>
+<li>Tune each figure to its text: caption, the 2 paragraphs before it, the 2 after it, and every problem that uses it. Every number, claim and structure in that text must map to a visible element.</li>
+</ol>
+
+<h2>2. The inventory: what "every figure" means</h2>
+<p>The first step was to count. <code>inventory/svg_inventory.py</code> read all 18 pages and wrote one row per <code>&lt;svg&gt;</code>: 968 rows. Each row got a class:</p>
+<table><tr><th>Class</th><th>Count</th><th>Redrawn?</th></tr>
+<tr><td>a: plot</td><td>143</td><td>yes</td></tr><tr><td>b: schematic</td><td>30</td><td>yes</td></tr>
+<tr><td>c: body (whole body or limb)</td><td>86</td><td>yes</td></tr><tr><td>d: tissue</td><td>27</td><td>yes</td></tr>
+<tr><td>e: mechanics</td><td>25</td><td>yes</td></tr><tr><td>f: problem-set figure</td><td>487</td><td>yes</td></tr>
+<tr><td>g: icon or hidden defs</td><td>170 (153 Copy-button icons, 17 hidden gradient blocks)</td><td>no</td></tr></table>
+<p>968 &minus; 170 = <strong>798 figures redrawn</strong>. The contact sheet shows exactly these 798 pairs.</p>
+<p>Lesson from this step: <em>match a figure by its <code>aria-label</code>, not by its number.</em> Figure numbers are a CSS counter, and the raw <code>&lt;svg&gt;</code> order changes as soon as a page gets a hidden shared-definitions block. Only the accessible label stays stable.</p>
+
+<h2>3. Design decisions, and why the alternatives lost</h2>
+
+<h3>3.1 Real open-licence medical art, not drawn shapes</h3>
+<p><strong>Chosen:</strong> start every anatomy figure from published vector art by medical illustrators, then crop, recolour and add the physics on top.<br>
+<strong>Rejected:</strong> (a) better-shaded capsules: this is the method that failed. (b) AI-generated anatomy: the author forbids it, and it invents structures that do not exist. (c) Hand-drawing new anatomy: slow, and an agent's freehand bone has the same accuracy problem as a capsule.<br>
+<strong>Sources used</strong> (all in <code>art_sources/</code> with a <code>SOURCE.txt</code>, and credited on each figure):</p>
+<ul>
+<li>NIH NIAID BioArt (public domain): upper-leg bones (BioArt 244), arm bones (BioArt 208).</li>
+<li>InjuryMap via Wikimedia Commons (CC BY-SA 4.0): "Lower leg muscles.svg", "Leg muscles.svg". This is the look the author picked as the target.</li>
+<li>DBCLS / TogoTV (CC BY 4.0): sagittal sections of the elbow and knee, lateral view of the knee.</li>
+<li>Patrick J. Lynch (CC BY 2.5): "Skeleton lateral.svg" and "Skeleton whole body ant lat views.svg". These became the whole-body kit.</li>
+</ul>
+<p>OpenStax art was rejected: its licence is now CC BY-NC-SA and the files are raster images.</p>
+
+<h3>3.2 A sample before any mass work</h3>
+<p>Before any figure in a module changed, the agent redrew three figures only (Fig. 21 calf, Fig. 22 arm with a bag, Fig. 30 standing body; <code>sample/build_samples.py</code>). the author compared them with the old versions and said "the after are much better". Only then did the style guide follow.</p>
+<div class="rule">Rule learned: approve one example, then produce 798. A style fix applied to 798 figures is expensive; a fix applied to 3 is cheap.</div>
+
+<h3>3.3 One house style, in one file</h3>
+<p>Every colour, size and arrow rule is a token in <code>anatomy_kit/py/house.py</code>, and every generator reads it. Tissue colours were sampled from the approved InjuryMap calf (most common pixel per region), for example muscle <code>#c87272</code>, bone <code>#f2debf</code>, tendon <code>#eee2da</code>. Overlay colours carry one meaning each: force <code>#b03a2e</code>, geometry (moment arm, length, angle) <code>#2a6ca8</code>, external load <code>#5b3a1a</code>, neural drive <code>#2a7d2a</code>, a flagged special point <code>#e67e22</code>. The four plot-series colours were checked with a palette validator; the orange has a contrast of 2.77:1, so it always gets a direct label.</p>
+<p>Sizes are in rendered pixels: figures are 760 px wide at most, 640 px tall at most (whole bodies 900 px). Labels are 15 px, ticks 13 px. Because of this, a label in Module 2 and a label in Module 16 have the same size on the screen, whatever the viewBox of each figure.</p>
+<p>the author approved the guide (<code>style_guide/index.html</code>) and a change list for all 798 figures (<code>style_guide/changes.html</code>) before Module 5 started.</p>
+
+<h3>3.4 Whole bodies: Winter proportions on the Lynch skeleton, with arms added</h3>
+<p>The old whole-body figures had invented proportions. The new ones use the segment data of Winter (2009): shoulder at 0.818 of body height H, elbow 0.630, wrist 0.485, hip 0.530, knee 0.285, ankle 0.039, head about 0.13 H.</p>
+<p>The Lynch lateral skeleton has no arms. the author decided: "add arms drawn in the same style". The kit (<code>anatomy_kit/py/lynch_body.py</code>) therefore takes the arm bones from Lynch's <em>anterior</em> view, turns each one so its joint-to-joint axis is straight, and scales it to Winter's lengths (0.188, 0.145, 0.108 H). It also stretches the thigh by &times;0.937 and the shank by &times;1.149 along their long axes, so that hip and knee land at 0.530 H and 0.285 H. The kit splits the skeleton into segments that rotate about real joint centres, so one piece of art gives a standing, squatting, walking or lifting body.</p>
+
+<h3>3.5 Every figure is computed, then fitted to its text</h3>
+<p>Plots are computed in Python from the same equations and parameters as the text. Labels sit on computed positions and print the computed values. Where the text states a value (for example a centre of mass at 0.55 H), the figure shows that value, not the kit's default (0.580 H).</p>
+
+<h3>3.6 Smaller decisions</h3>
+<ul>
+<li><strong>Light figures only.</strong> All 18 pages have one light theme, so each figure has its own white background. No dark variant was built.</li>
+<li><strong>Hover read-outs on plots.</strong> A crosshair shows the value under the pointer. To control page weight, each panel keeps at most 120 hover points, rounded to 0.1 unit.</li>
+<li><strong>Motion only where the text describes change</strong> (gait, sit-to-stand, elbow flexion): a slider and a Play button, still at the default angle, and no motion when the reader has turned on "reduced motion". The <code>animate-libs</code> video tool was rejected: it makes 9:16 videos with sound, with no link to the text's numbers.</li>
+<li><strong>Text errors found while drawing are fixed in the same commit as the figure.</strong> Science rewrites are not made by an agent; they go to the author (section 8).</li>
+<li><strong>One commit per module</strong>, only after the author said yes to that module's before/after preview.</li>
+<li><strong>Not built:</strong> the 153 Copy-button icons were left as they were (3 broken ones in Module 15 were fixed). No dark-mode figures. No figure generator for the old style was kept up to date (<code>style.py</code> stays only for old scripts).</li>
+</ul>
+
+<h2>4. The crux: how 798 figures were redrawn in three days</h2>
+
+<h3>4.1 The pilot: Module 5 (70 figures)</h3>
+<p>Module 5 (muscles) was the pilot, because it has the most anatomy. The agent split its figures into 5 groups (plots 21, problem plots 19, tissue 16, schematic 7, body 7) and gave each group to one parallel subagent with the same brief (<code>pilot_m05/BRIEF.md</code>). The contract: each group file exports <code>FIGS = {idx: (old aria prefix, build function)}</code>; all sizes go through <code>house.Scale</code>; all ids get a per-figure prefix such as <code>m5f12_</code>, because SVG ids are global on a page.</p>
+<p>The gates passed, but looking at the rendered figures found defects that no gate catches. These became a checklist for every later module:</p>
+<ul>
+<li>labels in a series colour (they must be ink);</li>
+<li>calcium ions drawn in neural green (they must be fluid blue);</li>
+<li>multi-panel hover that read the wrong panel;</li>
+<li>a whole art file embedded where a crop was enough;</li>
+<li>an elbow mark off the joint centre;</li>
+<li>anatomy drawn as plain bars. the author rejected Module 5 figure #50 for this.</li>
+</ul>
+<p>Fig. 22 (the arm with a bag) needed its own decision. The DBCLS elbow section shows only the joint, bent about 20&deg;, so it cannot carry the lever. The figure became a full side-view arm for the lever (r<sub>L</sub> &asymp; 35 cm, d<sub>m</sub> &asymp; 3.0 cm, F<sub>m</sub> &asymp; 12&times;W) plus an inset of the elbow section. On the inset, d<sub>m</sub> measured 1.86 cm at 31.7&deg; flexion, against 2.96 cm from the module's curve, so the inset shows "d<sub>m</sub>" without a number.</p>
+<p>Module 5 also got 31 text fixes and was committed as <code>2ec6ff0</code>.</p>
+
+<h3>4.2 The production line, Modules 0 to 17</h3>
+<ol>
+<li><strong>Before images.</strong> <code>build_preview.py NN --before</code> renders every figure of the committed page to <code>pilot_mNN/before/</code>, with JavaScript off. This must run before the page changes.</li>
+<li><strong>Groups and agents.</strong> The figures are split by inventory class into 1 to 4 groups (for example Module 15: body_main, plots_main, body_c, prob_k). One general-purpose subagent draws each group into <code>anatomy_kit/py/mNN/&lt;group&gt;.py</code>. Plot groups ran on Sonnet at medium effort; body and tissue groups on Sonnet at high effort.</li>
+<li><strong>Integration.</strong> One more agent applies the groups to the page (<code>apply_figs.py NN</code>, matched by aria-label), applies text fixes as exact byte replacements, adds licence rows, runs the 13 gates, and builds the preview page <code>pilot_mNN/index.html</code>.</li>
+<li><strong>Main-session look.</strong> The main session tiles every "after" image into contact grids (9 per image) and looks at each one, then checks the live page in Chrome: script errors, MathJax errors, hover, sliders.</li>
+<li><strong>the author's yes</strong>, then one commit and push, verified with <code>git ls-remote</code>.</li>
+</ol>
+
+<h3>4.3 The 13 gates, and what they cannot see</h3>
+<p>The course's hardening scripts (<code>rigorous-explainer</code> skill) run on every page: TeX balance, raw <code>&lt;</code> in math, links, SVG syntax, MathJax DOM errors, labels over curves (<code>check_overlap.py</code>), content clipped past the viewBox (<code>check_frame.py</code>), prose, proofs, PEP 8 in code blocks, problem figures, hairline limbs (<code>check_bodyprop.py</code>), and parameter provenance.</p>
+<div class="rule">Rule learned: a passing gate is not proof. Render the figure and look at it. Every defect in the list in 4.1 passed all 13 gates.</div>
+
+<h2>5. Tools and machinery</h2>
+<table><tr><th>Tool</th><th>What it did in this work</th></tr>
+<tr><td>Python + numpy (+ scipy in Module 9)</td><td>Computes every curve and every joint position; writes SVG text.</td></tr>
+<tr><td><code>crop_art.py</code></td><td>Cuts a window out of a large art file, drops labels and text, re-encodes mask images at 8 grey levels.</td></tr>
+<tr><td><code>lynch_body.py</code></td><td>The posable whole-body kit (84,375 bytes of shared definitions, placed once per page and reused with <code>&lt;use&gt;</code>).</td></tr>
+<tr><td><code>apply_figs.py</code></td><td>Replaces each old figure on the page by aria-label; inserts a module's shared definitions once.</td></tr>
+<tr><td>Playwright + Chrome (<code>channel="chrome"</code>)</td><td>Renders before/after PNGs with JavaScript off; live checks with JavaScript on.</td></tr>
+<tr><td>PIL</td><td>Contact grids for the main-session look; the before/after contact sheet.</td></tr>
+<tr><td>Subagents</td><td>One per figure group, at most 6 at a time; one integrator per module.</td></tr>
+<tr><td><code>dataviz</code> skill</td><td>Palette validator for the plot colours; the hover rule.</td></tr>
+<tr><td><code>HANDOFF.md</code> + memory files</td><td>The resume point for every new session after <code>/clear</code>.</td></tr></table>
+
+<h2>6. What went wrong, and the fixes</h2>
+<ol>
+<li><strong>Too many agents at once.</strong> Each figure agent runs headless Chrome. With more than about 6 in parallel, the harness killed the local preview server (port 8765) for low memory. Fix: never more than 6 agents.</li>
+<li><strong>The account session limit stopped every running agent, twice.</strong> A stopped agent cannot continue. Fix: start it again with the same prompt and a note on what is already on disk. Never write an empty stub over a group file that an agent already filled: check its size first.</li>
+<li><strong>Agents cannot write report files.</strong> Their final message is cut at about 4,000 characters. Fix: ask for a report under 3,500 characters and paste it into <code>pilot_mNN/REPORTS.md</code> from the main session.</li>
+<li><strong>Agents overwrote main-session scripts</strong> in the shared root. Fix: main-session scripts moved to their own scratch folder.</li>
+<li><strong>Rounding erased anatomy.</strong> <code>crop_art.py</code> first rounded <code>transform</code> and <code>gradientTransform</code> values. That removed the fibre striations of the InjuryMap calf. Fix: keep those values at full precision.</li>
+<li><strong>Page weight.</strong> Module 5 with hover data was 1,563,544 bytes. Thinning the hover data to 120 points per panel cut the hover data from 445,371 to 312,439 bytes. Cost: uniform thinning can skip a ripple peak in the read-out of Module 5 #20, #45, #64 (the curves themselves are unchanged).</li>
+<li><strong>Figure numbers moved.</strong> The <code>Fig. N</code> counter is CSS, so one extra or missing <code>&lt;figure&gt;</code> renumbers every later reference while all gates stay green. Module 6 needed its counter fixed; Module 9 needed 22 figure references renumbered.</li>
+<li><strong>Duplicate labels and line endings.</strong> <code>apply_figs.py</code> was changed to handle two figures with the same aria-label (by raw order) and to keep Windows line endings (CRLF) in script blocks.</li>
+<li><strong>A gate that fails on the old page too.</strong> <code>check_provenance.py</code> fails on Modules 3, 7, 10, 12 and 13, with the same issues at the committed version (for example a speed <code>v_max</code> with no provenance marker). These were left and reported, not hidden.</li>
+<li><strong>A wrong conclusion nearly drawn</strong> (final session). In a 3-column grid thumbnail, the crouched skeleton of Module 15 svg 33 seemed to have no head and no feet. A full-size screenshot and a zoomed crop showed both. The thumbnail was too small to judge. <em>Rule: zoom in before calling a defect.</em></li>
+<li><strong>Missing "before" images for Module 5</strong> (final session). The pilot used an older preview script, so <code>pilot_m05/before/</code> did not exist. The 70 images were rendered from commit <code>2ec6ff0^</code>, the page before the Module 5 redraw; each aria-label was checked against the inventory.</li>
+<li><strong>A regex back-reference destroyed</strong> (final session). A replacement string <code>\1</code> written through a shell here-document became the control character <code>\x01</code>, so every image path in the published page lost its numbers. Found by checking the output; fixed by rewriting the two lines with explicit raw strings.</li>
+</ol>
+
+<h2>7. Verification</h2>
+<ul>
+<li>13 gates on every page: 13/13 exit 0 for most modules; 12/13 where <code>check_provenance.py</code> fails the same way at the committed version.</li>
+<li>Live check per module in Chrome: 0 script errors, 0 MathJax errors; hover figures counted (for example Module 15: 32), sliders moved.</li>
+<li>Every "after" figure looked at in the main session's contact grids.</li>
+<li>the author looked at each module's before/after preview and said yes before its commit.</li>
+<li>Each push verified with <code>git ls-remote origin main</code>.</li>
+</ul>
+<p><strong>Not verified:</strong> each figure's numbers were checked against its own text, but the science of the text itself was not re-derived. The open judgement items in section 8 are the known gaps. The static before/after images are JavaScript-off still frames, so sliders show only their default angle.</p>
+
+<h2>8. Where things stand</h2>
+<p>All 18 modules are redrawn and live. Total page size went from 6,044,959 to 17,238,020 bytes (about 2.85 times). The art is embedded once per page and reused, and hover data is 20 to 25 % of each page.</p>
+<p><strong>Open judgement items</strong> (text left as it is; each later fix gets its own commit). Examples:</p>
+<ul>
+<li>Module 1: a foot length L<sub>f</sub> = 0.12 m in the text against a drawn foot of 0.231 m.</li>
+<li>Module 6: the drawn ACL angle (about 21&deg;) against the anatomical value (about 45&deg;).</li>
+<li>Module 13: "approximately 4350 N" where the sum is 4343 N.</li>
+<li>Module 15: "four to six decades" where the factors are 3.6, 3.6 and 5.9 decades.</li>
+<li>Module 16: "~200-fold" where the ratio is 233; Lab B computes Cauchy stress while three figures plot nominal stress.</li>
+<li>Module 17: a code loop that starts at index 1 erases the 2.9&deg; start lean; starting at 0 changes the 200 ms peak from 63.2&deg; to 48.0&deg;.</li>
+</ul>
+<p>The full list is in the workspace <code>HANDOFF.md</code> and each module's <code>TEXT_FIXES.md</code>.</p>
+
+<h2>9. Things you may not know to ask about</h2>
+<p>These are the questions that a reader of the finished pages does not see, but that change how far to trust them.</p>
+
+<div class="uu"><h3>Is the new art "correct anatomy", or only prettier?</h3>
+<p>The bones and muscles are drawn by medical illustrators, so their shapes are real. But the figures change the art: crops, recolours, and reposes. The whole-body arms come from a front-view skeleton placed on a side-view skeleton, and the thigh and shank are stretched by a few percent to fit Winter's proportions. These are deliberate approximations, stated in each figure's credit line ("split into segments and reposed; arms from the anterior view"). Joint centres and proportions follow published data; fine bone detail in a reposed joint does not claim to be exact.</p></div>
+
+<div class="uu"><h3>Do the licences put any condition on the course?</h3>
+<p>Yes. InjuryMap art is CC BY-SA 4.0. A figure made from it must itself be CC BY-SA 4.0 and carry the credit. That is why those figures say so on the figure. Lynch art (CC BY 2.5) and DBCLS art (CC BY 4.0) need a credit only; NIH BioArt is public domain. All rows are in <code>anatomy_kit/ATTRIBUTIONS.md</code>. If you reuse a figure elsewhere, copy its credit line with it.</p></div>
+
+<div class="uu"><h3>Was any anatomy AI-generated?</h3>
+<p>No. The language model wrote the Python that places, crops and labels real art and computes the plots. It drew no anatomy freehand. This was a fixed rule from the start.</p></div>
+
+<div class="uu"><h3>Can the figures be regenerated, or are they frozen in the HTML?</h3>
+<p>They can be regenerated. Every figure has a Python builder in <code>anatomy_kit/py/mNN/</code>, and the source art is in <code>anatomy_kit/svg_paths/</code>. To change a figure: edit its builder, run <code>apply_figs.py NN</code>, then run the 13 gates.</p></div>
+
+<div class="uu"><h3>Why are the pages almost three times larger, and does it matter?</h3>
+<p>Real art has many more path points than a capsule, and hover read-outs add data. Compressed, a typical page grew from about 60&ndash;80 KB to 150&ndash;250 KB (for example Module 15: 80,500 to 230,187 bytes gzip). On a slow mobile link this is noticeable; on broadband it is not. The art is placed once per page and reused, which kept the growth down.</p></div>
+
+<div class="uu"><h3>Does "all gates pass" mean the figures are right?</h3>
+<p>No. The gates catch syntax, clipping, overlaps and similar mechanical defects. They do not know whether a muscle is on the correct side of a bone or whether a label states the text's number. That is why every figure was looked at by eye, and why the author approved each module. Section 6 lists defects that every gate passed.</p></div>
+
+<div class="uu"><h3>Did redrawing change the science?</h3>
+<p>Only through recorded text fixes (for example 31 in Module 5, 15 in Modules 11 and 12, 14 in Module 15). Each one is listed with its reason in that module's <code>TEXT_FIXES.md</code>. Changes that would rewrite a result were not made; they wait for the author (section 8).</p></div>
+
+<div class="uu"><h3>Are the figures accessible?</h3>
+<p>Each figure has a rewritten <code>aria-label</code> that describes what is drawn, including its key numbers. Motion stops when the reader asks for reduced motion. The house rule is that colour is never the only carrier of meaning: series have legends or direct labels, and the low-contrast orange is always labelled. This rule was checked by eye, not by a tool.</p></div>
+
+<div class="uu"><h3>What exactly is "before" in the contact sheet?</h3>
+<p>"Before" is the page as committed just before that module's redraw, rendered with JavaScript off. For most modules that is the September 2026 state, which already included earlier figure passes. It is not the very first version of the course.</p></div>
+
+<div class="uu"><h3>Who decided, and who did the work?</h3>
+<p>the author made every style and scope decision (16 numbered decisions in the handoff file) and approved each module. Language-model agents (Claude Opus as the main session, Claude Sonnet subagents for figure groups) wrote the generators, ran the checks and drafted the text fixes.</p></div>
+
+<p class="muted">Knowledge stores updated during this work: the workspace <code>HANDOFF.md</code> (state and next task), two memory files (<code>figure-style-decision</code>, <code>figure-agent-fanout-limits</code>), <code>anatomy_kit/ATTRIBUTIONS.md</code>, and this document. The contact sheet is rebuilt by <code>contact_sheet_ba/build.py --publish</code> in the workspace folder (not in this repo).</p>
+</body></html>
